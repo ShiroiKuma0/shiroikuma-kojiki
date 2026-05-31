@@ -59,8 +59,9 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
    | Fork version logic | `forkVersionName` / `forkVersionCode` + `buildFoss` task | `app/build.gradle` |
    | `applicationId = APP_ID`, `namespace = APP_NAMESPACE` | not swapped | `app/build.gradle` |
    | Release signing wired | `signingConfig signingConfigs.config` in `release` build type | `app/build.gradle` |
-   | Feature 1 (receiver) | `receiver/SetAppRuleReceiver.kt` + manifest `<receiver>` + token in `PersistentState` + Misc settings row/dialog | several files |
-   | Feature 3 (Tasker) | token-based `SET_APP_RULE` broadcast still resolvable | (client-side; verify after build) |
+   | Feature 1 (receiver) | `receiver/SetAppRuleReceiver.kt` (main) + main manifest `<receiver>` + token in `PersistentState` + Misc settings row/dialog | several files |
+   | Feature 1b (WG receiver) | `receiver/SetWgStateReceiver.kt` (full) + full manifest `<receiver>` (SET_WG_STATE) | `app/src/full/...` |
+   | Feature 3 (Tasker) | token-based `SET_APP_RULE` / `SET_WG_STATE` broadcasts still resolvable | (client-side; verify after build) |
 
    Sanity check that the build script still evaluates:
    `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew :app:tasks --group=build` (a config-only task).
