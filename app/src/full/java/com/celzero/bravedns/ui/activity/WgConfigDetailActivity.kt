@@ -333,8 +333,11 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
         val config = WireguardManager.getConfigFilesById(id)
         val cid = ID_WG_BASE + id
         if (config?.isActive == true) {
-            val statusPair = VpnController.getProxyStatusById(cid)
+            val rawStatusPair = VpnController.getProxyStatusById(cid)
             val stats = VpnController.getProxyStats(cid)
+            // Fork (白い熊 考直): honest status — never read "Failing" while the tunnel is provably
+            // receiving (rx increasing); a true #2602 zombie keeps rx flat. See UIUtils.
+            val statusPair = Pair(UIUtils.honestWgStatusId(cid, rawStatusPair.first, stats), rawStatusPair.second)
             val ps = UIUtils.ProxyStatus.entries.find { it.id == statusPair.first }
             val dnsStatusId = if (persistentState.splitDns) {
                 VpnController.getDnsStatus(cid)

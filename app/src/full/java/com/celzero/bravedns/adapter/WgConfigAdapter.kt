@@ -251,10 +251,13 @@ class WgConfigAdapter(private val context: Context, private val listener: DnsSta
 
         private suspend fun updateStatus(config: WgConfigFiles) {
             val id = ID_WG_BASE + config.id
-            val statusId = VpnController.getProxyStatusById(id)
+            val rawStatus = VpnController.getProxyStatusById(id)
             val pair = VpnController.getSupportedIpVersion(id)
             val c = WireguardManager.getConfigById(config.id)
             val stats = VpnController.getProxyStats(id)
+            // Fork (白い熊 考直): honest status — TKO ("Failing") -> TOK ("Active") only when rx is
+            // provably increasing across polls (a true #2602 zombie keeps rx flat). See UIUtils.
+            val statusId = Pair(UIUtils.honestWgStatusId(id, rawStatus.first, stats), rawStatus.second)
             val dnsStatusId = if (splitDns) {
                 VpnController.getDnsStatus(id)
             } else {
