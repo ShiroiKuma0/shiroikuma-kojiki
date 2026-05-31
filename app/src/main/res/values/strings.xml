@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name" translatable="false">Rethink</string>
+    <string name="app_name" translatable="false">白い熊 考直</string>
+    <!-- Fork (白い熊 考直): SET_APP_RULE intent token (Settings > Misc) -->
+    <string name="app_rule_token_title" translatable="false">App-rule intent token</string>
+    <string name="app_rule_token_desc" translatable="false">Shared secret for the external SET_APP_RULE broadcast (Tasker / adb)</string>
+    <string name="app_rule_token_dialog_msg" translatable="false">This token guards the external SET_APP_RULE broadcast that lets Tasker or adb change a per-app firewall rule (e.g. toggle EXCLUDE ↔ BYPASS_UNIVERSAL) without pausing the VPN.\n\nToken:\n%1$s\n\nKeep it secret — pass it as the \"token\" extra. Regenerate to revoke existing automations.</string>
+    <string name="app_rule_token_copy" translatable="false">Copy</string>
+    <string name="app_rule_token_regenerate" translatable="false">Regenerate</string>
     <string name="app_name_small_case" translatable="false">rethink</string>
     <string name="app_name_alpha" translatable="false">RETHINK α</string>
     <string name="title_about" translatable="true">About</string>
