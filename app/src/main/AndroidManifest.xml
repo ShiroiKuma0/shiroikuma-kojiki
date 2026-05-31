@@ -82,5 +82,19 @@
                 android:value="true" />
         </service>
 
+        <!-- Fork (白い熊 考直): external automation to set a per-app firewall rule.
+             Exported with NO android:permission so Tasker / adb can target it: a custom or signature
+             <permission> would block Tasker (it can't declare/be granted one). Guarded instead by a
+             `token` shared secret in app prefs (see receiver/SetAppRuleReceiver and Settings > Misc).
+             Android 8+ requires targeting it explicitly (component name), so the implicit action is
+             only a convenience for matching. Trade-off documented in SetAppRuleReceiver. -->
+        <receiver
+            android:name=".receiver.SetAppRuleReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.celzero.bravedns.intent.action.SET_APP_RULE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>

@@ -121,6 +121,36 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
     // launches the app for the very first time (after install or post clear-data)
     var firstTimeLaunch by booleanPref("is_first_time_launch").withDefault<Boolean>(true)
 
+    // --- Fork (白い熊 考直): shared-secret token guarding SetAppRuleReceiver ---
+    // Guards the external SET_APP_RULE broadcast (Tasker / adb). Stored in prefs; viewed and
+    // regenerated from Settings > Misc. See receiver.SetAppRuleReceiver.
+    private var appRuleIntentToken by stringPref("app_rule_intent_token").withDefault<String>("")
+
+    /** Returns the app-rule intent token, generating + persisting one on first use. */
+    @Synchronized
+    fun getOrCreateAppRuleToken(): String {
+        val current = appRuleIntentToken
+        if (current.isNotBlank()) return current
+        val generated = generateAppRuleToken()
+        appRuleIntentToken = generated
+        return generated
+    }
+
+    /** Replaces the app-rule intent token with a fresh random one (revokes old automations). */
+    @Synchronized
+    fun regenerateAppRuleToken(): String {
+        val generated = generateAppRuleToken()
+        appRuleIntentToken = generated
+        return generated
+    }
+
+    private fun generateAppRuleToken(): String {
+        val bytes = ByteArray(16)
+        java.security.SecureRandom().nextBytes(bytes)
+        // hex (shell-safe for `am --es` and Tasker)
+        return bytes.joinToString("") { "%02x".format(it) }
+    }
+
     // One among AppConfig.BraveMode enum; 2's default, which is BraveMode.DNS_FIREWAL
     var braveMode by intPref("brave_mode").withDefault<Int>(AppConfig.BraveMode.DNS_FIREWALL.mode)
 

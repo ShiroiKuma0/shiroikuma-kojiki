@@ -22,6 +22,8 @@ import Logger.updateConfigLevel
 import android.Manifest
 import android.app.LocaleManager
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -564,6 +566,25 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
         }
     }
 
+    // Fork (白い熊 考直): show the SET_APP_RULE shared-secret token, with copy + regenerate.
+    private fun showAppRuleTokenDialog() {
+        val token = persistentState.getOrCreateAppRuleToken()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.app_rule_token_title)
+            .setMessage(getString(R.string.app_rule_token_dialog_msg, token))
+            .setPositiveButton(R.string.app_rule_token_copy) { _, _ ->
+                val cb = ContextCompat.getSystemService(this, ClipboardManager::class.java)
+                cb?.setPrimaryClip(ClipData.newPlainText("app_rule_token", token))
+                Toast.makeText(this, R.string.copied_clipboard, Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton(R.string.app_rule_token_regenerate) { _, _ ->
+                persistentState.regenerateAppRuleToken()
+                showAppRuleTokenDialog()
+            }
+            .setNegativeButton(R.string.lbl_dismiss) { d, _ -> d.dismiss() }
+            .show()
+    }
+
     private fun setupClickListeners() {
         b.settingsActivityEnableLogsRl.setOnClickListener {
             b.settingsActivityEnableLogsSwitch.isChecked =
@@ -598,6 +619,9 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
             enableAfterDelay(TimeUnit.SECONDS.toMillis(1L), b.settingsActivityPcapRl)
             showPcapOptionsDialog()
         }
+
+        // Fork (白い熊 考直): view/regenerate the SET_APP_RULE intent token.
+        b.appRuleTokenRl.setOnClickListener { showAppRuleTokenDialog() }
 
 
         b.settingsActivityThemeRl.setOnClickListener {
