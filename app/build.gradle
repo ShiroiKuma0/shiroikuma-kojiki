@@ -115,14 +115,33 @@ def getVersionCode = {
 
 def appVersionCode = getVersionCode()
 
+// --- Fork versioning (白い熊 考直) ---
+// VERSION_NAME / VERSION_CODE track upstream; BUILD_NUMBER is our fork increment.
+// Fork versionName = "<VERSION_NAME>+<BUILD_NUMBER>"; versionCode = VERSION_CODE*10000 + BUILD_NUMBER.
+// The per-ABI override below turns the arm64-v8a code into 3*10000000 + forkVersionCode (monotonic).
+def forkVersionName = "${project.property('VERSION_NAME')}+${project.property('BUILD_NUMBER')}"
+def forkVersionCode = (project.property('VERSION_CODE') as Integer) * 10000 +
+        (project.property('BUILD_NUMBER') as Integer)
+
 try {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 } catch (Exception ex) {
     logger.info("missing keystore prop: $ex.message")
-    keystoreProperties['keyAlias'] = ''
-    keystoreProperties['keyPassword'] = ''
-    keystoreProperties['storeFile'] = '/dev/null'
-    keystoreProperties['storePassword'] = ''
+    // Fork: fall back to SIGNING_* env vars (CI); else leave unsigned (/dev/null).
+    keystoreProperties['keyAlias'] = System.getenv("SIGNING_KEY_ALIAS") ?: ''
+    keystoreProperties['keyPassword'] = System.getenv("SIGNING_KEY_PASSWORD") ?: ''
+    keystoreProperties['storeFile'] = System.getenv("SIGNING_STORE_FILE") ?: '/dev/null'
+    keystoreProperties['storePassword'] = System.getenv("SIGNING_STORE_PASSWORD") ?: ''
+}
+
+// Fork: true when we have real signing creds (keystore.properties file or SIGNING_* env).
+def hasSigningCreds = keystorePropertiesFile.exists() || System.getenv("SIGNING_STORE_FILE") != null
+
+// ref: developer.android.com/build/jdks#target-compat
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 // ref: developer.android.com/build/jdks#target-compat
@@ -135,10 +154,13 @@ java {
 android {
     compileSdkVersion(37)
     // https://developer.android.com/studio/build/configure-app-module
-    namespace 'com.celzero.bravedns'
+    // Fork: code namespace stays on the upstream package (APP_NAMESPACE=com.celzero.bravedns)
+    // so R/BuildConfig, sources, and intent strings are unchanged; only the installed id differs.
+    namespace project.property('APP_NAMESPACE').toString()
 
     defaultConfig {
-        applicationId "com.celzero.bravedns"
+        // Fork: installed id (APP_ID=shiroikuma.kojiki) so it coexists with upstream Rethink.
+        applicationId project.property('APP_ID').toString()
         minSdkVersion(23)
         targetSdkVersion(37)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -215,6 +237,10 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Fork: upstream signs release in CI; sign locally with the denwa keystore so the APK installs.
+            if (hasSigningCreds) {
+                signingConfig signingConfigs.config
+            }
             ndk {
                 // Use SYMBOL_TABLE to reduce symbol file size significantly
                 debugSymbolLevel 'SYMBOL_TABLE'
@@ -333,11 +359,13 @@ android {
             // getPackageInfo().versionCode not returning the correct value (in prod builds) when
             // value is set in AndroidManifest.xml so setting it here
             // for build type alpha, versionCode is set in env overriding gradle.properties
-            versionCode = getVersionCode()
-            versionName = gitVersion
+            // Fork: use our forkVersionCode/forkVersionName instead of upstream's gitVersion/getVersionCode().
+            // The per-ABI override (arm64-v8a = 3*10000000 + forkVersionCode) keeps codes monotonic.
+            versionCode = forkVersionCode
+            versionName = forkVersionName
             // add base version code to the build config, so that if there is override of
-            // version numbers by some builds (because of split apks)
-            buildConfigField "int", "BASE_VERSION_CODE", String.valueOf(appVersionCode)
+            // version numbers by some builds (because of split apks); fork: base = forkVersionCode
+            buildConfigField "int", "BASE_VERSION_CODE", String.valueOf(forkVersionCode)
             vectorDrawables.useSupportLibrary = true
         }
     }
@@ -541,4 +569,49 @@ dependencies {
     playImplementation platform('com.google.firebase:firebase-bom:34.7.0')
     playImplementation 'com.google.firebase:firebase-crashlytics'
     playImplementation 'com.google.firebase:firebase-crashlytics-ndk'
+}
+
+// --- Fork build helper (白い熊 考直) ---
+// Build the de-Googled FOSS release (fdroidFullRelease), copy the arm64-v8a split APK to ~/tmp
+// renamed to shiroikuma-kojiki_<version>_arm64-v8a.apk, then bump BUILD_NUMBER for the next build.
+// See the build-apk skill. Config cache is enabled, so everything that touches project/layout/System
+// is captured at configuration time; doLast only uses those captured locals + plain file IO.
+tasks.register('buildFoss') {
+    description = 'Build the fdroidFull release APK, copy arm64-v8a to ~/tmp, and bump BUILD_NUMBER.'
+    group = 'build'
+    dependsOn 'assembleFdroidFullRelease'
+
+    def apkName = "shiroikuma-kojiki_${forkVersionName}_arm64-v8a.apk".toString()
+    def outputDir = layout.buildDirectory.dir('outputs/apk/fdroidFull/release').get().asFile
+    def targetDir = new File(System.getProperty('user.home'), 'tmp')
+    def propsFile = rootProject.file('gradle.properties')
+    def currentBuildNumber = project.property('BUILD_NUMBER').toString().toInteger()
+    def fvc = forkVersionCode
+    // arm64-v8a installed code = upstream per-ABI multiplier (3) * 10000000 + forkVersionCode.
+    def arm64Code = 3 * 10000000 + forkVersionCode
+
+    doLast {
+        def srcApk = outputDir.listFiles()?.find {
+            it.name.contains('arm64-v8a') && it.name.endsWith('.apk')
+        }
+        if (srcApk == null) {
+            throw new GradleException("No arm64-v8a APK found in ${outputDir}")
+        }
+        targetDir.mkdirs()
+        def targetFile = new File(targetDir, apkName)
+        java.nio.file.Files.copy(
+            srcApk.toPath(), targetFile.toPath(),
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        )
+        println("[1;36m>>> ${targetFile.absolutePath}[0m")
+        println("[1;36m>>> versionCode ${arm64Code} (arm64-v8a; forkVersionCode ${fvc})[0m")
+
+        // Auto-increment BUILD_NUMBER for the next build.
+        def nextBuildNumber = currentBuildNumber + 1
+        propsFile.text = propsFile.text.replace(
+            "BUILD_NUMBER=${currentBuildNumber}".toString(),
+            "BUILD_NUMBER=${nextBuildNumber}".toString()
+        )
+        println("[1;36m>>> BUILD_NUMBER bumped to ${nextBuildNumber}[0m")
+    }
 }
