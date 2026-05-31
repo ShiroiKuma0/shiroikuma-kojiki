@@ -34,6 +34,7 @@ Keep our changes **additive / in new files** wherever possible, to minimize reba
 | App launcher label | `白い熊 考直` | `app_name` in `app/src/main/res/values/strings.xml` |
 | Signing | reuses the denwa keystore | `keystore.properties` (gitignored) → `~/.android-keystores/shiroikuma-denwa.jks` (alias `denwa`) |
 | Feature 1 | external intent to set a per-app firewall rule | `receiver/SetAppRuleReceiver.kt` (+ manifest, settings token) |
+| Feature 1b | external intent to enable/disable a WireGuard tunnel | `receiver/SetWgStateReceiver.kt` (full source set; same token) |
 
 The app ID is deliberately changed so this fork installs **alongside** upstream Rethink without
 conflict. The namespace is intentionally kept as `com.celzero.bravedns` so `R`/`BuildConfig`, all
