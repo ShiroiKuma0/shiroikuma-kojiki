@@ -210,6 +210,17 @@
                 <action android:name="com.celzero.bravedns.intent.action.VPN_STOP" />
             </intent-filter>
         </receiver>
+        <!-- Fork (白い熊 考直): external automation to enable/disable a single WireGuard tunnel.
+             Per-tunnel on/off/toggle via WireguardManager (does NOT touch the whole VPN). Exported
+             with NO android:permission so Tasker/adb can target it explicitly; guarded by the same
+             `token` shared secret as SetAppRuleReceiver (Settings > Misc). See SetWgStateReceiver. -->
+        <receiver
+            android:name=".receiver.SetWgStateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.celzero.bravedns.intent.action.SET_WG_STATE" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".receiver.NotificationActionReceiver"
             android:exported="false"
