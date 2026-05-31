@@ -198,11 +198,14 @@ class OneWgConfigAdapter(private val context: Context, private val listener: Dns
             }
 
             val id = ProxyManager.ID_WG_BASE + config.id
-            val statusPair = VpnController.getProxyStatusById(id)
+            val rawStatusPair = VpnController.getProxyStatusById(id)
             val pair = VpnController.getSupportedIpVersion(id)
             val c = WireguardManager.getConfigById(config.id)
             val stats = VpnController.getProxyStats(id)
             val addr = VpnController.getProxyAddrById(id)
+            // Fork (白い熊 考直): honest status — TKO ("Failing") -> TOK ("Active") only when rx is
+            // provably increasing across polls (a true #2602 zombie keeps rx flat). See UIUtils.
+            val statusPair = Pair(UIUtils.honestWgStatusId(id, rawStatusPair.first, stats), rawStatusPair.second)
             val dnsStatusId = VpnController.getDnsStatus(ProxyManager.ID_WG_BASE + config.id)
             val isSplitTunnel =
                 if (c?.getPeers()?.isNotEmpty() == true) {

@@ -57,11 +57,13 @@ import com.celzero.bravedns.service.PersistentState
 import com.celzero.firestack.backend.Backend
 import com.celzero.firestack.backend.GoMetrics
 import com.celzero.firestack.backend.NetStat
+import com.celzero.firestack.backend.RouterStats
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.snackbar.Snackbar
 import java.util.Calendar
 import java.util.Date
+import java.util.concurrent.ConcurrentHashMap
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -138,6 +140,34 @@ object UIUtils {
         TNT(Backend.TNT),
         TKO(Backend.TKO),
         END(Backend.END)
+    }
+
+    // --- Fork (白い熊 考直): honest WireGuard status ---
+    // firestack briefly reports TKO ("Failing") around WireGuard's ~2-min rekey / health-probe even
+    // while the tunnel is fine. Report it as TOK ("Active") ONLY when the tunnel is *provably*
+    // receiving traffic — rx increased since the previous poll — with a real handshake (lastOK > 0).
+    // A genuine #2602 "zombie" (handshake OK but packets ignored) keeps rx flat, so it still reads
+    // "Failing" — this never masks a real failure.
+    //
+    // Stateful: call once per refresh poll per proxy [key] (the proxy id, e.g. ID_WG_BASE + cfgId);
+    // it remembers the previous rx to detect a delta across polls (poll interval is DELAY_MS = 1.5s).
+    private data class WgRxSample(val rx: Long, val ts: Long)
+
+    private val wgRxSamples = ConcurrentHashMap<String, WgRxSample>()
+
+    // Ignore a stale prior sample (e.g. first poll after the card was off-screen) so a long-ago rx
+    // can't be mistaken for "increasing now".
+    private const val WG_RX_SAMPLE_STALE_MS = 90_000L
+
+    fun honestWgStatusId(key: String, rawStatusId: Long?, stats: RouterStats?): Long? {
+        if (stats == null) return rawStatusId
+        val now = System.currentTimeMillis()
+        val prev = wgRxSamples.put(key, WgRxSample(stats.rx, now))
+        if (rawStatusId != Backend.TKO) return rawStatusId
+        val handshakeOk = stats.lastOK > 0L
+        val rxIncreasing =
+            prev != null && now - prev.ts <= WG_RX_SAMPLE_STALE_MS && stats.rx > prev.rx
+        return if (handshakeOk && rxIncreasing) Backend.TOK else rawStatusId
     }
 
     fun formatToRelativeTime(context: Context, timestamp: Long): String {
