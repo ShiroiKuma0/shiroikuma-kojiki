@@ -35,6 +35,14 @@
         <item name="chipTextColor">@color/kojikiYellow</item>
         <item name="homeScreenHeaderTextColor">@color/kojikiYellow</item>
 
+        <!-- Kill the "olive" home-screen cards: home_screen_cards_bg fills with a gradient from
+             ?attr/homeScreenBtnGradientStart→End (a dark-green inherited from AppThemeTrueBlack);
+             flatten those + the button background to black. (CustomUi also recolours card content at
+             runtime to the configurable surface colour; these are the static default.) -->
+        <item name="homeScreenBtnGradientStart">@color/kojikiBlack</item>
+        <item name="homeScreenBtnGradientEnd">@color/kojikiBlack</item>
+        <item name="homeScreenBtnBackground">@color/kojikiBlack</item>
+
         <item name="android:windowBackground">@color/kojikiBlack</item>
     </style>
 
