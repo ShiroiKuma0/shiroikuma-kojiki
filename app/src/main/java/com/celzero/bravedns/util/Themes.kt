@@ -29,7 +29,8 @@ enum class Themes(val id: Int) {
     TRUE_BLACK(3),
     LIGHT_PLUS(4),
     DARK_PLUS(5),
-    DARK_FROST(6);
+    DARK_FROST(6),
+    CUSTOM(7); // Fork (白い熊 考直): user-configurable black/yellow theme + global font
 
     companion object {
         fun getThemeCount(): Int {
@@ -49,6 +50,11 @@ enum class Themes(val id: Int) {
             return id == DARK_FROST.id
         }
 
+        // Fork (白い熊 考直): the user-configurable custom theme.
+        fun isCustomTheme(id: Int): Boolean {
+            return id == CUSTOM.id
+        }
+
         fun isThemeAvailable(id: Int): Boolean {
             if (isFrostTheme(id)) {
                 return isAtleastS()
@@ -65,6 +71,7 @@ enum class Themes(val id: Int) {
                 LIGHT_PLUS.id -> R.style.AppThemeWhitePlus
                 DARK_PLUS.id -> R.style.AppThemeTrueBlackPlus
                 DARK_FROST.id -> R.style.AppThemeTrueBlackFrost
+                CUSTOM.id -> R.style.AppThemeKojikiCustom
                 else -> 0
             }
         }
@@ -79,6 +86,7 @@ enum class Themes(val id: Int) {
                 DARK_PLUS.id -> R.style.BottomSheetDialogThemeTrueBlackPlus
                 // for now use same as dark, can be changed later
                 DARK_FROST.id -> R.style.BottomSheetDialogThemeTrueBlack
+                CUSTOM.id -> R.style.BottomSheetDialogThemeKojikiCustom
                 else -> 0
             }
         }
@@ -104,6 +112,8 @@ enum class Themes(val id: Int) {
             } else if (theme == DARK_PLUS.id) {
                 getTheme(theme)
             } else if (theme == DARK_FROST.id) {
+                getTheme(theme)
+            } else if (theme == CUSTOM.id) {
                 getTheme(theme)
             } else {
                 getTheme(TRUE_BLACK.id)
@@ -131,6 +141,8 @@ enum class Themes(val id: Int) {
             } else if (theme == DARK_PLUS.id) {
                 getBottomSheetTheme(theme)
             } else if (theme == DARK_FROST.id) {
+                getBottomSheetTheme(theme)
+            } else if (theme == CUSTOM.id) {
                 getBottomSheetTheme(theme)
             } else {
                 getBottomSheetTheme(TRUE_BLACK.id)
