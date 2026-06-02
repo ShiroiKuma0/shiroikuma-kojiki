@@ -10,10 +10,14 @@
 
     <!-- Page -->
     <string name="kojiki_ui_section_colors" translatable="false">Colours</string>
-    <string name="kojiki_ui_section_font" translatable="false">Font</string>
+    <string name="kojiki_ui_section_font" translatable="false">Font (global)</string>
+    <string name="kojiki_ui_section_fw" translatable="false">Firewall list</string>
+    <string name="kojiki_ui_section_icon" translatable="false">Icons (firewall list)</string>
     <string name="kojiki_ui_color_background" translatable="false">Background</string>
+    <string name="kojiki_ui_color_surface" translatable="false">Surface / cards (front page)</string>
     <string name="kojiki_ui_color_accent" translatable="false">Accent / icons</string>
     <string name="kojiki_ui_color_text" translatable="false">Text</string>
+    <string name="kojiki_ui_switch" translatable="false">Toggle switches</string>
     <string name="kojiki_ui_font_family" translatable="false">Font family</string>
     <string name="kojiki_ui_font_weight" translatable="false">Weight</string>
     <string name="kojiki_ui_font_size" translatable="false">Size</string>
@@ -22,6 +26,33 @@
     <string name="kojiki_ui_font_sample" translatable="false">白い熊 考直 — Sample 0123</string>
     <string name="kojiki_ui_size_default" translatable="false">Default</string>
     <string name="kojiki_ui_size_sp" translatable="false">%1$d sp</string>
+    <string name="kojiki_ui_size_dp" translatable="false">%1$d dp</string>
+    <string name="kojiki_ui_pct" translatable="false">%1$d%%</string>
+    <!-- Firewall per-item -->
+    <string name="kojiki_ui_fw_name" translatable="false">App name</string>
+    <string name="kojiki_ui_fw_name_user" translatable="false">User apps</string>
+    <string name="kojiki_ui_fw_name_system" translatable="false">System apps</string>
+    <string name="kojiki_ui_fw_status" translatable="false">Status (allowed / blocked)</string>
+    <string name="kojiki_ui_fw_traffic" translatable="false">Traffic</string>
+    <string name="kojiki_ui_item_colour" translatable="false">Colour</string>
+    <string name="kojiki_ui_item_size" translatable="false">Size</string>
+    <string name="kojiki_ui_item_font" translatable="false">Font</string>
+    <string name="kojiki_ui_item_weight" translatable="false">Weight</string>
+    <string name="kojiki_ui_item_italic" translatable="false">Italic</string>
+    <string name="kojiki_ui_fw_toggle" translatable="false">Wifi / data toggle icons</string>
+    <string name="kojiki_ui_fw_toggle_allowed" translatable="false">Allowed</string>
+    <string name="kojiki_ui_fw_toggle_denied" translatable="false">Blocked</string>
+    <string name="kojiki_ui_fw_toggle_excluded" translatable="false">Excluded</string>
+    <string name="kojiki_ui_fw_toggle_bypass_dns" translatable="false">Bypass DNS &amp; firewall</string>
+    <string name="kojiki_ui_fw_toggle_bypass_univ" translatable="false">Bypass universal</string>
+    <string name="kojiki_ui_icon_size" translatable="false">Icon size</string>
+    <string name="kojiki_ui_icon_roundness" translatable="false">Icon roundness</string>
+    <string name="kojiki_ui_section_cards" translatable="false">Cards</string>
+    <string name="kojiki_ui_card_border" translatable="false">Border colour</string>
+    <string name="kojiki_ui_card_border_width" translatable="false">Border thickness</string>
+    <string name="kojiki_ui_section_dividers" translatable="false">List dividers</string>
+    <string name="kojiki_ui_divider_color" translatable="false">Line colour</string>
+    <string name="kojiki_ui_divider_thickness" translatable="false">Line thickness</string>
     <string name="kojiki_ui_reset" translatable="false">Reset to black / yellow</string>
     <string name="kojiki_ui_font_invalid" translatable="false">Could not import that font (need .ttf / .otf)</string>
 
