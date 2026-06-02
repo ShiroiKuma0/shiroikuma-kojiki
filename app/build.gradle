@@ -12,7 +12,10 @@ plugins {
 // but they'll only process play/website variants (Firebase deps are scoped to those variants)
 def taskNames = gradle.startParameter.taskNames.join(',').toLowerCase()
 def apkBuild = taskNames.contains("full")
-def fdroidBuild = taskNames.contains("fdroid")
+// Fork (白い熊 考直): our `buildFoss` task assembles the de-Googled fdroidFull release, but its task
+// name is "foss" (not "fdroid…"), so also treat any "foss" task as an fdroid/de-Googled build —
+// otherwise the Google Services plugin is applied and the build fails on the missing google-services.json.
+def fdroidBuild = taskNames.contains("fdroid") || taskNames.contains("foss")
 // for alpha builds generate universal apk only
 def alphaBuild = taskNames.contains("alpha")
 
