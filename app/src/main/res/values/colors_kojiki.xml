@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): default palette for the custom UI theme (black background, yellow text/accent).
+     The actual colours are user-configurable at runtime (see CustomUi / KojikiUiActivity); these are
+     only the seeded defaults used by the AppThemeKojikiCustom style. -->
+<resources>
+    <color name="kojikiBlack">#FF000000</color>
+    <!-- Surfaces are pure black; the Material3 tonal tint that would otherwise turn elevated
+         surfaces olive is neutralised at runtime by CustomUi (forces card/nav/bar backgrounds). -->
+    <color name="kojikiSurface">#FF000000</color>
+    <!-- Neutral dark grey kept only for thin dividers/strokes (never a fill). -->
+    <color name="kojikiSurfaceVariant">#FF1A1A1A</color>
+    <color name="kojikiYellow">#FFFFEB3B</color>
+    <color name="kojikiYellowDim">#B3FFEB3B</color>
+</resources>
