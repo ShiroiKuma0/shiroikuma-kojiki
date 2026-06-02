@@ -44,16 +44,27 @@ source packages, and intent action strings remain unchanged — only the install
 
 We base our version on upstream and add a fork increment (`BUILD_NUMBER`).
 
+**Honesty caveat:** we sync to upstream's `main`, which sits **ahead of the nearest published tag**
+(`v<VERSION_NAME>`). So `VERSION_NAME` alone (`0.5.5u`) would falsely read as the released build —
+right now `main` is **779 commits past `v0.5.5u`**. To keep the name honest we mirror upstream's own
+`git describe --tags` convention via an `UPSTREAM_AHEAD` field.
+
 - `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track upstream** (currently `0.5.5u` / `58`).
+- `UPSTREAM_AHEAD` = commits our base (`main`) sits past tag `v<VERSION_NAME>`
+  (`git rev-list --count v0.5.5u..main` → `779`). **Recomputed at rebase time** by the
+  **upstream-new-version** skill; it does **not** change between builds. It does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
-- Fork `versionName` = `"<VERSION_NAME>+<BUILD_NUMBER>"` (e.g. `0.5.5u+1`).
+- Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"` (e.g. `0.5.5u-779+1`).
+  The `-<UPSTREAM_AHEAD>` is **dropped when it is `0`**, so building exactly on a release reads as the
+  clean `"<VERSION_NAME>+<BUILD_NUMBER>"` (e.g. `0.5.5u+1`).
 - Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `58 * 10000 + 1 = 580001`).
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`
   (e.g. `30580001`), which stays monotonic across builds and upstream bumps.
-- Output APK (copied to `~/tmp` by `buildFoss`) = `shiroikuma-kojiki_<VERSION_NAME>+<BUILD_NUMBER>_arm64-v8a.apk`
-  (e.g. `shiroikuma-kojiki_0.5.5u+1_arm64-v8a.apk`).
+- Output APK (copied to `~/tmp` by `buildFoss`) =
+  `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
+  (e.g. `shiroikuma-kojiki_0.5.5u-779+1_arm64-v8a.apk`).
 
-So the first build is `+1` (`580001` → `30580001`), the next build with changes is `+2`, and so on.
+So the first build is `0.5.5u-779+1` (`580001` → `30580001`), the next build with changes is `+2`, and so on.
 
 ### Building
 
