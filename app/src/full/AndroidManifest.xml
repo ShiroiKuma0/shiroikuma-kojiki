@@ -14,6 +14,10 @@
         <activity
             android:name=".ui.activity.FirewallActivity"
             android:finishOnTaskLaunch="true" />
+        <!-- Fork (白い熊 考直): the 白い熊 考直 UI custom-theming page. -->
+        <activity
+            android:name=".ui.activity.KojikiUiActivity"
+            android:exported="false" />
         <activity android:name=".ui.HomeScreenActivity"
             android:launchMode="singleTask" />
         <activity

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): strings for the custom UI theme + 白い熊 考直 UI settings page. -->
+<resources>
+    <!-- "Custom…" appended to the Appearance theme picker -->
+    <string name="settings_theme_dialog_themes_8" translatable="false">Custom…</string>
+
+    <!-- Customize-section row -->
+    <string name="kojiki_ui_title" translatable="false">白い熊 考直 UI</string>
+    <string name="kojiki_ui_desc" translatable="false">Custom colours &amp; font (black / yellow)</string>
+
+    <!-- Page -->
+    <string name="kojiki_ui_section_colors" translatable="false">Colours</string>
+    <string name="kojiki_ui_section_font" translatable="false">Font</string>
+    <string name="kojiki_ui_color_background" translatable="false">Background</string>
+    <string name="kojiki_ui_color_accent" translatable="false">Accent / icons</string>
+    <string name="kojiki_ui_color_text" translatable="false">Text</string>
+    <string name="kojiki_ui_font_family" translatable="false">Font family</string>
+    <string name="kojiki_ui_font_weight" translatable="false">Weight</string>
+    <string name="kojiki_ui_font_size" translatable="false">Size</string>
+    <string name="kojiki_ui_font_import" translatable="false">Import font…</string>
+    <string name="kojiki_ui_font_system" translatable="false">System default</string>
+    <string name="kojiki_ui_font_sample" translatable="false">白い熊 考直 — Sample 0123</string>
+    <string name="kojiki_ui_size_default" translatable="false">Default</string>
+    <string name="kojiki_ui_size_sp" translatable="false">%1$d sp</string>
+    <string name="kojiki_ui_reset" translatable="false">Reset to black / yellow</string>
+    <string name="kojiki_ui_font_invalid" translatable="false">Could not import that font (need .ttf / .otf)</string>
+
+    <!-- Weight options -->
+    <string name="kojiki_weight_default" translatable="false">Default</string>
+    <string name="kojiki_weight_thin" translatable="false">Thin</string>
+    <string name="kojiki_weight_light" translatable="false">Light</string>
+    <string name="kojiki_weight_regular" translatable="false">Regular</string>
+    <string name="kojiki_weight_medium" translatable="false">Medium</string>
+    <string name="kojiki_weight_semibold" translatable="false">Semibold</string>
+    <string name="kojiki_weight_bold" translatable="false">Bold</string>
+    <string name="kojiki_weight_black" translatable="false">Black</string>
+</resources>

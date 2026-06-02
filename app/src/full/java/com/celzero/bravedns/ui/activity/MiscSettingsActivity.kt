@@ -539,6 +539,14 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
                     )
             }
 
+            Themes.CUSTOM.id -> {
+                b.genSettingsThemeDesc.text =
+                    getString(
+                        R.string.settings_selected_theme,
+                        getString(R.string.settings_theme_dialog_themes_8)
+                    )
+            }
+
             else -> {
                 b.genSettingsThemeDesc.text =
                     getString(
@@ -628,6 +636,9 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
             enableAfterDelay(CLICK_DELAY_SHORT_MS, b.settingsActivityThemeRl)
             showThemeDialog()
         }
+
+        // Fork (白い熊 考直): open the 白い熊 考直 UI page (above Appearance in the Customize section).
+        b.kojikiUiRl.setOnClickListener { startActivity(Intent(this, KojikiUiActivity::class.java)) }
 
         // Ideally this property should be part of VPN category / section.
         // As of now the VPN section will be disabled when the
@@ -1086,65 +1097,39 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     }
 
     private fun showThemeDialog() {
+        // (label, themeId) for each available theme; the dialog position maps to themeId via this
+        // list (rather than assuming position == id), so Frost (S+ only) and the fork's Custom theme
+        // both slot in cleanly. Fork (白い熊 考直): adds the "Custom…" entry.
+        val options = mutableListOf(
+            getString(R.string.settings_theme_dialog_themes_1) to Themes.SYSTEM_DEFAULT.id,
+            getString(R.string.settings_theme_dialog_themes_2) to Themes.LIGHT.id,
+            getString(R.string.settings_theme_dialog_themes_3) to Themes.DARK.id,
+            getString(R.string.settings_theme_dialog_themes_4) to Themes.TRUE_BLACK.id,
+            getString(R.string.settings_theme_dialog_themes_5) to Themes.LIGHT_PLUS.id,
+            getString(R.string.settings_theme_dialog_themes_6) to Themes.DARK_PLUS.id,
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            options.add(getString(R.string.settings_theme_dialog_themes_7) to Themes.DARK_FROST.id)
+        }
+        options.add(getString(R.string.settings_theme_dialog_themes_8) to Themes.CUSTOM.id)
+
+        val labels = options.map { it.first }.toTypedArray()
+        val checkedItem = options.indexOfFirst { it.second == persistentState.theme }.coerceAtLeast(0)
         val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_theme_dialog_title))
-        val items = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            arrayOf(
-                getString(R.string.settings_theme_dialog_themes_1),
-                getString(R.string.settings_theme_dialog_themes_2),
-                getString(R.string.settings_theme_dialog_themes_3),
-                getString(R.string.settings_theme_dialog_themes_4),
-                getString(R.string.settings_theme_dialog_themes_5),
-                getString(R.string.settings_theme_dialog_themes_6),
-                getString(R.string.settings_theme_dialog_themes_7)
-            )
-        } else {
-            arrayOf(
-                getString(R.string.settings_theme_dialog_themes_1),
-                getString(R.string.settings_theme_dialog_themes_2),
-                getString(R.string.settings_theme_dialog_themes_3),
-                getString(R.string.settings_theme_dialog_themes_4),
-                getString(R.string.settings_theme_dialog_themes_5),
-                getString(R.string.settings_theme_dialog_themes_6)
-            )
-        }
-        val checkedItem = persistentState.theme
-        alertBuilder.setSingleChoiceItems(items, checkedItem) { dialog, which ->
+        alertBuilder.setSingleChoiceItems(labels, checkedItem) { dialog, which ->
             dialog.dismiss()
-            if (persistentState.theme == which) {
+            val themeId = options[which].second
+            if (persistentState.theme == themeId) {
                 return@setSingleChoiceItems
             }
-
-            persistentState.theme = which
+            // Fork (白い熊 考直): map dialog position → themeId via the `options` list above and resolve
+            // the style through Themes.getCurrentTheme(), which covers every theme (incl. upstream's
+            // DARK_FROST and the fork's CUSTOM), so each entry slots in without a per-theme when-block.
+            persistentState.theme = themeId
             isThemeChanged = true
-            logEvent("App theme changed, theme id: $theme")
-            when (which) {
-                Themes.SYSTEM_DEFAULT.id -> {
-                    if (isDarkThemeOn()) {
-                        setThemeRecreate(R.style.AppTheme)
-                    } else {
-                        setThemeRecreate(R.style.AppThemeWhite)
-                    }
-                }
-                Themes.LIGHT.id -> {
-                    setThemeRecreate(R.style.AppThemeWhite)
-                }
-                Themes.DARK.id -> {
-                    setThemeRecreate(R.style.AppTheme)
-                }
-                Themes.TRUE_BLACK.id -> {
-                    setThemeRecreate(R.style.AppThemeTrueBlack)
-                }
-                Themes.LIGHT_PLUS.id -> {
-                    setThemeRecreate(R.style.AppThemeWhitePlus)
-                }
-                Themes.DARK_PLUS.id -> {
-                    setThemeRecreate(R.style.AppThemeTrueBlackPlus)
-                }
-                Themes.DARK_FROST.id -> {
-                    setThemeRecreate(R.style.AppThemeTrueBlackFrost)
-                }
-            }
+            logEvent("App theme changed, theme id: $themeId")
+            setThemeRecreate(Themes.getCurrentTheme(isDarkThemeOn(), themeId))
         }
         alertBuilder.create().show()
     }
