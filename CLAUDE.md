@@ -35,6 +35,8 @@ Keep our changes **additive / in new files** wherever possible, to minimize reba
 | Signing | reuses the denwa keystore | `keystore.properties` (gitignored) → `~/.android-keystores/shiroikuma-denwa.jks` (alias `denwa`) |
 | Feature 1 | external intent to set a per-app firewall rule | `receiver/SetAppRuleReceiver.kt` (+ manifest, settings token) |
 | Feature 1b | external intent to enable/disable a WireGuard tunnel | `receiver/SetWgStateReceiver.kt` (full source set; same token) |
+| Feature 2 | honest WireGuard status — don’t read “Failing” while traffic still flows | `util/UIUtils.kt` (`honestWgStatusId`), consumed by `OneWgConfigAdapter` / `WgConfigAdapter` / `WgConfigDetailActivity` (full) |
+| Feature 3 | 白い熊 考直 UI — a “Custom…” app theme with user-configurable colours (full ARGB: background/accent/text) + a global font (family/weight/size), via a new “Customize → 白い熊 考直 UI” settings page | `customui/` (`CustomUiConfig`, `CustomUi`, `ColorPickerDialog`) + `ui/activity/KojikiUiActivity.kt` + `Themes.CUSTOM` + `*_kojiki.xml` (+ `BaseActivity`, `MiscSettingsActivity`, full manifest) |
 
 The app ID is deliberately changed so this fork installs **alongside** upstream Rethink without
 conflict. The namespace is intentionally kept as `com.celzero.bravedns` so `R`/`BuildConfig`, all
@@ -118,7 +120,11 @@ userspace tunnel. The Kotlin app is the control plane / UI; `firestack` (Go) is 
 - **`service/`** — the core. `BraveVPNService` (the `VpnService`), `FirewallManager`
   (`object … : KoinComponent`; per-app firewall status cache + DB), `ProxyManager` / `WireguardManager`
   (WireGuard proxy state), `VpnController`, `PersistentState`, `RethinkDnsApplication`.
-- **`receiver/`** — broadcast receivers, including our `SetAppRuleReceiver` (Feature 1).
+- **`receiver/`** — broadcast receivers, including our `SetAppRuleReceiver` (Feature 1) and
+  `SetWgStateReceiver` (Feature 1b).
+- **`customui/`** (full source set) — our 白い熊 考直 UI (Feature 3): `CustomUiConfig` (a SharedPreferences
+  store), `CustomUi` (the runtime applier + font/typeface system), `ColorPickerDialog` (an ARGB picker).
+  Applied per-activity from `BaseActivity.onResume` when the `Custom` theme is active.
 - **`database/`** — Room DB + DAOs/repositories (e.g. `AppInfo`, connection tracking).
 - **`ui/`** — activities/fragments/adapters; **`util/`** — helpers; **DI** via Koin.
 - Per-app firewall state lives in `FirewallManager` (`FirewallStatus`: `BYPASS_UNIVERSAL(2)`,
