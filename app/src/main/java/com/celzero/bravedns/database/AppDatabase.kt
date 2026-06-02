@@ -186,6 +186,11 @@ abstract class AppDatabase : RoomDatabase() {
                 .addMigrations(MIGRATION_32_33)
                 .addMigrations(MIGRATION_33_34)
                 .addMigrations(MIGRATION_34_35)
+                // Fork (白い熊 考直): if the on-device DB was written by a NEWER schema than this build
+                // (e.g. rolling back from a higher tag), Room has no downgrade path and crashes
+                // ("A migration from N to M was required but not found"). Drop & recreate on DOWNGRADE
+                // only — the forward migrations above are unaffected.
+                .fallbackToDestructiveMigrationOnDowngrade(true)
                 .build()
 
         private val roomCallback: Callback =

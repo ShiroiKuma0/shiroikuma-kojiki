@@ -29,6 +29,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
@@ -37,7 +38,6 @@ import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
-import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.util.Themes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.ext.android.inject
@@ -48,7 +48,7 @@ import org.koin.android.ext.android.inject
  * [CustomUi] when the "Custom" theme is active. Rows are built programmatically (sections + indents)
  * to mirror the sister apps' layout without per-row layout files.
  */
-class KojikiUiActivity : BaseActivity(R.layout.activity_kojiki_ui) {
+class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
 
     private val b by viewBinding(ActivityKojikiUiBinding::bind)
     private val persistentState by inject<PersistentState>()

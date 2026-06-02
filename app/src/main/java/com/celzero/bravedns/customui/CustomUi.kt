@@ -213,7 +213,19 @@ object CustomUi {
                     }
                 }
             }
-            is ImageView -> v.setColorFilter(cfg.accentColor)
+            is ImageView -> {
+                // Tint only icon-sized images with the accent. A large/full-bleed ImageView (an
+                // illustration or banner — e.g. on the Backup & restore screen) given a solid-colour
+                // filter renders as a solid accent rectangle (the "yellow box"), so leave those
+                // untouched. width/height are valid on the post-layout re-walk (OnGlobalLayoutListener);
+                // a not-yet-measured view (0) counts as icon-sized and is corrected on the next pass.
+                val iconMaxPx = 96 * context.resources.displayMetrics.density
+                if (v.width <= iconMaxPx && v.height <= iconMaxPx) {
+                    v.setColorFilter(cfg.accentColor)
+                } else {
+                    v.clearColorFilter()
+                }
+            }
         }
         if (v is ViewGroup) {
             for (i in 0 until v.childCount) applyToTree(context, v.getChildAt(i), cfg, typeface)
