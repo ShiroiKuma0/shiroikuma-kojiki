@@ -17,12 +17,14 @@ package com.celzero.bravedns.ui.activity
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -30,6 +32,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
@@ -78,7 +81,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
     private fun indent(view: View, level: Int) {
-        val start = dp(16) + level * dp(20)
+        // Fork (白い熊 考直): indents tripled (per-level step 20 → 60 dp) for clearer group nesting.
+        val start = dp(16) + level * dp(60)
         view.setPaddingRelative(start, view.paddingTop, view.paddingEnd, view.paddingBottom)
     }
 
@@ -86,30 +90,166 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val holder = b.kojikiUiHolder
         holder.removeAllViews()
 
+        // --- Colours ---
         addSectionHeader(R.string.kojiki_ui_section_colors)
-        addColorRow(R.string.kojiki_ui_color_background, cfg.backgroundColor) {
-            cfg.backgroundColor = it; recreate()
-        }
-        addColorRow(R.string.kojiki_ui_color_accent, cfg.accentColor) {
-            cfg.accentColor = it; recreate()
-        }
-        addColorRow(R.string.kojiki_ui_color_text, cfg.textColor) {
-            cfg.textColor = it; recreate()
-        }
+        addColorRow(R.string.kojiki_ui_color_background, cfg.backgroundColor) { cfg.backgroundColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_color_surface, cfg.surfaceColor) { cfg.surfaceColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_color_accent, cfg.accentColor) { cfg.accentColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_color_text, cfg.textColor) { cfg.textColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_switch, cfg.switchColor) { cfg.switchColor = it; recreate() }
 
+        // --- Global font (family / weight / italic / size; applies to all text not overridden below) ---
         addSectionHeader(R.string.kojiki_ui_section_font)
-        addValueRow(R.string.kojiki_ui_font_family, CustomUi.fontDisplayName(this, cfg.fontFamily)) {
-            showFontPicker()
-        }
-        addValueRow(R.string.kojiki_ui_font_weight, getString(CustomUi.weightLabelRes(cfg.fontWeight))) {
-            showWeightPicker()
-        }
-        addSizeRow()
+        addFontControls(1,
+            { cfg.fontFamily }, { cfg.fontFamily = it },
+            { cfg.fontWeight }, { cfg.fontWeight = it },
+            { cfg.fontItalic }, { cfg.fontItalic = it },
+            { cfg.fontSize }, { cfg.fontSize = it },
+            withImport = true)
         addSampleRow()
 
-        addValueRow(R.string.kojiki_ui_reset, "") {
-            cfg.resetToDefaults(); recreate()
+        // --- Firewall list: per-item colour + full font (family / weight / italic) + size ---
+        addSectionHeader(R.string.kojiki_ui_section_fw)
+        addFontGroup(R.string.kojiki_ui_fw_name_user, CustomUiConfig.P_FW_NAME_USER)
+        addFontGroup(R.string.kojiki_ui_fw_name_system, CustomUiConfig.P_FW_NAME_SYSTEM)
+        addFontGroup(R.string.kojiki_ui_fw_status, CustomUiConfig.P_FW_STATUS)
+        addFontGroup(R.string.kojiki_ui_fw_traffic, CustomUiConfig.P_FW_TRAFFIC)
+        addSubLabel(R.string.kojiki_ui_fw_toggle)
+        addColorRow(R.string.kojiki_ui_fw_toggle_allowed, cfg.fwAllowedColor, indentLevel = 2) { cfg.fwAllowedColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_fw_toggle_denied, cfg.fwDeniedColor, indentLevel = 2) { cfg.fwDeniedColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_fw_toggle_excluded, cfg.fwExcludedColor, indentLevel = 2) { cfg.fwExcludedColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_fw_toggle_bypass_dns, cfg.fwBypassDnsColor, indentLevel = 2) { cfg.fwBypassDnsColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_fw_toggle_bypass_univ, cfg.fwBypassUnivColor, indentLevel = 2) { cfg.fwBypassUnivColor = it; recreate() }
+
+        // --- Icons (firewall app list) — with a live preview ---
+        addIconSection()
+
+        // --- Cards (border applied to every card, app-wide) ---
+        addSectionHeader(R.string.kojiki_ui_section_cards)
+        addColorRow(R.string.kojiki_ui_card_border, cfg.cardBorderColor) { cfg.cardBorderColor = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_card_border_width, cfg.cardBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+            cfg.cardBorderWidth = it; recreate()
         }
+
+        // --- List dividers (lines between firewall rows) ---
+        addSectionHeader(R.string.kojiki_ui_section_dividers)
+        addColorRow(R.string.kojiki_ui_divider_color, cfg.dividerColor) { cfg.dividerColor = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_divider_thickness, cfg.dividerThickness, CustomUiConfig.MAX_DIVIDER_DP, ::dpLabel) {
+            cfg.dividerThickness = it; recreate()
+        }
+
+        addValueRow(R.string.kojiki_ui_reset, "") { cfg.resetToDefaults(); recreate() }
+    }
+
+    // Icon size + roundness with a live preview (the app's own icon) that updates as the sliders move.
+    private fun addIconSection() {
+        addSectionHeader(R.string.kojiki_ui_section_icon)
+
+        val previewDefaultDp = 40
+        var liveSize = cfg.iconSize
+        var liveRound = cfg.iconRoundness
+
+        val preview = AppCompatImageView(this).apply {
+            setImageDrawable(packageManager.getApplicationIcon(applicationInfo))
+        }
+        fun applyPreview() {
+            val sizePx = dp(if (liveSize > 0) liveSize else previewDefaultDp)
+            preview.layoutParams = LinearLayout.LayoutParams(sizePx, sizePx)
+            val pct = liveRound.coerceIn(0, 100) / 100f
+            if (pct > 0f) {
+                preview.outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        val r = minOf(view.width, view.height) / 2f * pct
+                        outline.setRoundRect(0, 0, view.width, view.height, r)
+                    }
+                }
+                preview.clipToOutline = true
+            } else {
+                preview.clipToOutline = false
+            }
+            preview.invalidateOutline()
+        }
+        val previewBox = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+            setPadding(0, dp(12), dp(16), dp(12))
+            addView(preview)
+        }
+        indent(previewBox, 1)
+        b.kojikiUiHolder.addView(previewBox)
+        applyPreview()
+
+        addSliderRow(R.string.kojiki_ui_icon_size, cfg.iconSize, CustomUiConfig.MAX_ICON_SIZE_DP, ::dpLabel,
+            onChange = { liveSize = it; applyPreview() }) { cfg.iconSize = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_icon_roundness, cfg.iconRoundness, 100, ::pctLabel,
+            onChange = { liveRound = it; applyPreview() }) { cfg.iconRoundness = it; recreate() }
+    }
+
+    /** A firewall-list text item: sub-label + colour + full font controls (family / weight / italic / size). */
+    private fun addFontGroup(@StringRes labelRes: Int, prefix: String) {
+        addSubLabel(labelRes)
+        addColorRow(R.string.kojiki_ui_item_colour, cfg.styleColor(prefix, CustomUiConfig.PALETTE_YELLOW), indentLevel = 2) {
+            cfg.setStyleColor(prefix, it); recreate()
+        }
+        addFontControls(2,
+            { cfg.styleFamily(prefix) }, { cfg.setStyleFamily(prefix, it) },
+            { cfg.styleWeight(prefix) }, { cfg.setStyleWeight(prefix, it) },
+            { cfg.styleItalic(prefix) }, { cfg.setStyleItalic(prefix, it) },
+            { cfg.styleSize(prefix) }, { cfg.setStyleSize(prefix, it) },
+            withImport = false)
+    }
+
+    /** Font family + weight slider + italic toggle + size slider (colour is added by the caller). */
+    private fun addFontControls(
+        indentLevel: Int,
+        getFamily: () -> String, setFamily: (String) -> Unit,
+        getWeight: () -> Int, setWeight: (Int) -> Unit,
+        getItalic: () -> Boolean, setItalic: (Boolean) -> Unit,
+        getSize: () -> Int, setSize: (Int) -> Unit,
+        withImport: Boolean
+    ) {
+        addFontRow(R.string.kojiki_ui_item_font, getFamily(), withImport, indentLevel) { setFamily(it); recreate() }
+        addSliderRow(R.string.kojiki_ui_item_weight, getWeight(), CustomUiConfig.MAX_WEIGHT, ::weightLabel, indentLevel) {
+            setWeight(it); recreate()
+        }
+        addToggleRow(R.string.kojiki_ui_item_italic, getItalic(), indentLevel) { setItalic(it); recreate() }
+        addSliderRow(R.string.kojiki_ui_item_size, getSize(), CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel, indentLevel) {
+            setSize(it); recreate()
+        }
+    }
+
+    private fun addToggleRow(@StringRes labelRes: Int, current: Boolean, indentLevel: Int, onChange: (Boolean) -> Unit) {
+        val sw = androidx.appcompat.widget.SwitchCompat(this).apply { isChecked = current }
+        val label = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+            text = getString(labelRes)
+            setTextColor(cfg.textColor)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, dp(14), dp(16), dp(14))
+            addView(label)
+            addView(sw)
+        }
+        sw.setOnCheckedChangeListener { _, c -> onChange(c) }
+        indent(row, indentLevel)
+        b.kojikiUiHolder.addView(row)
+    }
+
+    private fun weightLabel(v: Int): String =
+        if (v > 0) v.toString() else getString(R.string.kojiki_ui_size_default)
+
+    private fun addSubLabel(@StringRes labelRes: Int) {
+        val label = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+            text = getString(labelRes)
+            setTextColor(cfg.accentColor)
+            setPadding(0, dp(12), 0, dp(2))
+        }
+        indent(label, 1)
+        b.kojikiUiHolder.addView(label)
     }
 
     private fun addSectionHeader(@StringRes labelRes: Int) {
@@ -133,7 +273,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         b.kojikiUiHolder.addView(box)
     }
 
-    private fun addColorRow(@StringRes labelRes: Int, color: Int, onPick: (Int) -> Unit) {
+    private fun addColorRow(@StringRes labelRes: Int, color: Int, indentLevel: Int = 1, onPick: (Int) -> Unit) {
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -154,11 +294,11 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
         row.addView(label)
         row.addView(swatch)
-        indent(row, 1)
+        indent(row, indentLevel)
         b.kojikiUiHolder.addView(row)
     }
 
-    private fun addValueRow(@StringRes labelRes: Int, value: String, onClick: () -> Unit) {
+    private fun addValueRow(@StringRes labelRes: Int, value: String, indentLevel: Int = 1, onClick: () -> Unit) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = selectableBackground()
@@ -180,12 +320,15 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                 setPadding(0, dp(3), 0, 0)
             })
         }
-        indent(box, 1)
+        indent(box, indentLevel)
         b.kojikiUiHolder.addView(box)
     }
 
     @Suppress("EmptyFunctionBlock")
-    private fun addSizeRow() {
+    private fun addSliderRow(
+        @StringRes labelRes: Int, current: Int, max: Int, labeler: (Int) -> String,
+        indentLevel: Int = 1, onChange: (Int) -> Unit = {}, onSet: (Int) -> Unit
+    ) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(0, dp(14), dp(16), dp(14))
@@ -193,42 +336,51 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val header = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         val label = AppCompatTextView(this).apply {
             setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
-            text = getString(R.string.kojiki_ui_font_size)
+            text = getString(labelRes)
             setTextColor(cfg.textColor)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         val value = AppCompatTextView(this).apply {
             setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
-            text = sizeLabel(cfg.fontSize)
+            text = labeler(current)
             setTextColor(cfg.textColor)
         }
         header.addView(label)
         header.addView(value)
         val seek = SeekBar(this).apply {
-            max = CustomUiConfig.MAX_FONT_SIZE_SP
-            progress = cfg.fontSize
+            this.max = max
+            progress = current
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(sb: SeekBar, p: Int, fromUser: Boolean) {
-                    value.text = sizeLabel(p)
+                    value.text = labeler(p)
+                    onChange(p)
                 }
                 override fun onStartTrackingTouch(sb: SeekBar) {}
                 override fun onStopTrackingTouch(sb: SeekBar) {
-                    cfg.fontSize = sb.progress
-                    recreate()
+                    onSet(sb.progress)
                 }
             })
         }
         box.addView(header)
         box.addView(seek)
-        indent(box, 1)
+        indent(box, indentLevel)
         b.kojikiUiHolder.addView(box)
+    }
+
+    private fun addFontRow(
+        @StringRes labelRes: Int, current: String, withImport: Boolean, indentLevel: Int = 1,
+        onPicked: (String) -> Unit
+    ) {
+        addValueRow(labelRes, CustomUi.fontDisplayName(this, current), indentLevel) {
+            showFontPicker(current, withImport, onPicked)
+        }
     }
 
     private fun addSampleRow() {
         val sample = AppCompatTextView(this).apply {
             text = getString(R.string.kojiki_ui_font_sample)
             setTextColor(cfg.textColor)
-            typeface = CustomUi.typefaceFor(this@KojikiUiActivity, cfg.fontFamily, cfg.fontWeight)
+            typeface = CustomUi.typefaceFor(this@KojikiUiActivity, cfg.fontFamily, cfg.fontWeight, cfg.fontItalic)
             if (cfg.fontSize > 0) setTextSize(TypedValue.COMPLEX_UNIT_SP, cfg.fontSize.toFloat())
             setPadding(0, dp(6), dp(16), dp(18))
         }
@@ -236,8 +388,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         b.kojikiUiHolder.addView(sample)
     }
 
-    private fun sizeLabel(sp: Int): String =
-        if (sp > 0) getString(R.string.kojiki_ui_size_sp, sp) else getString(R.string.kojiki_ui_size_default)
+    private fun spLabel(v: Int): String =
+        if (v > 0) getString(R.string.kojiki_ui_size_sp, v) else getString(R.string.kojiki_ui_size_default)
+
+    private fun dpLabel(v: Int): String =
+        if (v > 0) getString(R.string.kojiki_ui_size_dp, v) else getString(R.string.kojiki_ui_size_default)
+
+    private fun pctLabel(v: Int): String =
+        if (v > 0) getString(R.string.kojiki_ui_pct, v) else getString(R.string.kojiki_ui_size_default)
 
     private fun selectableBackground(): android.graphics.drawable.Drawable? {
         val tv = TypedValue()
@@ -245,22 +403,24 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         return androidx.core.content.ContextCompat.getDrawable(this, tv.resourceId)
     }
 
-    private fun showFontPicker() {
+    private fun showFontPicker(current: String, withImport: Boolean, onPicked: (String) -> Unit) {
         val fonts = CustomUi.availableFonts(this)
         val names = fonts.map { it.displayName }.toTypedArray()
-        val current = fonts.indexOfFirst { it.value == cfg.fontFamily }.coerceAtLeast(0)
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val sel = fonts.indexOfFirst { it.value == current }.coerceAtLeast(0)
+        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_ui_font_family)
-            .setSingleChoiceItems(names, current) { d, which ->
-                cfg.fontFamily = fonts[which].value
+            .setSingleChoiceItems(names, sel) { d, which ->
+                onPicked(fonts[which].value)
                 d.dismiss()
-                recreate()
-            }
-            .setNeutralButton(R.string.kojiki_ui_font_import) { _, _ ->
-                fontImportLauncher.launch(arrayOf("*/*"))
             }
             .setNegativeButton(android.R.string.cancel, null)
-            .show()
+        // Import adds a font to the shared list (then any item can select it); only the global row offers it.
+        if (withImport) {
+            builder.setNeutralButton(R.string.kojiki_ui_font_import) { _, _ ->
+                fontImportLauncher.launch(arrayOf("*/*"))
+            }
+        }
+        builder.show()
     }
 
     private fun showWeightPicker() {
