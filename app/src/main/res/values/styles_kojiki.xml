@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): custom UI theme — black surfaces + yellow text/accent. Extends
+     AppThemeTrueBlack and overrides only the foundation colours; the per-element colours and the
+     global font the user configures are applied at runtime by CustomUi (a TextView/ImageView pass).
+     The static defaults here give a robust black/yellow baseline app-wide (including dynamically
+     bound list rows that read theme attributes). -->
+<resources>
+    <style name="AppThemeKojikiCustom" parent="AppThemeTrueBlack">
+        <item name="colorPrimary">@color/kojikiYellow</item>
+        <item name="colorOnPrimary">@color/kojikiBlack</item>
+        <item name="android:colorAccent">@color/kojikiYellow</item>
+        <item name="colorAccent">@color/kojikiYellow</item>
+        <item name="accentGood">@color/kojikiYellow</item>
+
+        <item name="colorSurface">@color/kojikiSurface</item>
+        <item name="colorOnSurface">@color/kojikiYellow</item>
+        <item name="colorSurfaceVariant">@color/kojikiSurfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/kojikiYellowDim</item>
+        <item name="colorSurfaceContainer">@color/kojikiSurface</item>
+        <item name="colorSurfaceContainerLow">@color/kojikiBlack</item>
+        <item name="colorSurfaceContainerLowest">@color/kojikiBlack</item>
+        <item name="colorSurfaceContainerHigh">@color/kojikiSurfaceVariant</item>
+        <item name="colorSurfaceContainerHighest">@color/kojikiSurfaceVariant</item>
+        <item name="android:colorBackground">@color/kojikiBlack</item>
+        <item name="colorOnBackground">@color/kojikiYellow</item>
+
+        <!-- Kill the Material3 tonal-elevation overlay: elevated cards otherwise blend the surface
+             tint (= colorPrimary = yellow) over the flat card colour → olive. Keep elevated surfaces
+             flat black instead. -->
+        <item name="elevationOverlayEnabled">false</item>
+
+        <item name="primaryTextColor">@color/kojikiYellow</item>
+        <item name="primaryLightColorText">@color/kojikiYellowDim</item>
+        <item name="secondaryTextColor">@color/kojikiYellow</item>
+        <item name="chipTextColor">@color/kojikiYellow</item>
+        <item name="homeScreenHeaderTextColor">@color/kojikiYellow</item>
+
+        <item name="android:windowBackground">@color/kojikiBlack</item>
+    </style>
+
+    <!-- v1: bottom sheets reuse the true-black sheet theme. -->
+    <style name="BottomSheetDialogThemeKojikiCustom" parent="BottomSheetDialogThemeTrueBlack" />
+</resources>
