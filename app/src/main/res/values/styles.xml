@@ -743,6 +743,11 @@
     <style name="App.Dialog.NoDim" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <!-- Fork (白い熊 考直): dialog background = ?attr/colorSurface, not ?attr/colorPrimary.
+             colorSurface is the correct Material dialog surface (dark on dark themes, light on light);
+             the 白い熊 考直 "Custom" theme repurposes colorPrimary as the yellow accent, so the old
+             ?attr/colorPrimary made every no-dim dialog a yellow box with yellow-on-yellow text. -->
+        <item name="android:background">?attr/colorSurface</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="buttonBarPositiveButtonStyle">@style/App.AlertDialog.PositiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/App.AlertDialog.NegativeButton</item>
