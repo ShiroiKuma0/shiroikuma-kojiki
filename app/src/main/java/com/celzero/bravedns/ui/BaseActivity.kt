@@ -25,6 +25,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.celzero.bravedns.R
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities
@@ -149,6 +150,17 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
         lp.width = target
         lp.gravity = Gravity.CENTER_HORIZONTAL
         child.layoutParams = lp
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Fork (白い熊 考直): when the "Custom" theme is active, apply the configured foundation
+        // colours + global font across this activity's view tree at runtime. BaseActivity is the
+        // app-wide chokepoint on v0.5.5v — it replaces the Application.onActivityResumed hook used
+        // on the v0.5.5u base, which had no BaseActivity.
+        if (Themes.isCustomTheme(persistentState.theme)) {
+            CustomUi.applyTo(this)
+        }
     }
 
     /**
