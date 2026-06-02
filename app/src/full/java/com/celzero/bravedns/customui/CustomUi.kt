@@ -214,17 +214,20 @@ object CustomUi {
                 }
             }
             is ImageView -> {
-                // Tint only icon-sized images with the accent. A large/full-bleed ImageView (an
-                // illustration or banner — e.g. on the Backup & restore screen) given a solid-colour
-                // filter renders as a solid accent rectangle (the "yellow box"), so leave those
-                // untouched. width/height are valid on the post-layout re-walk (OnGlobalLayoutListener);
-                // a not-yet-measured view (0) counts as icon-sized and is corrected on the next pass.
+                // Accent only small VECTOR UI icons. Two things to leave alone:
+                //  - app launcher icons / photos (bitmap or adaptive drawables — e.g. the firewall
+                //    app list) must keep their real colours, not become solid accent squares; so tint
+                //    only drawables whose class name says "Vector".
+                //  - a full-bleed illustration/banner (the Backup & restore "yellow box") — excluded
+                //    by the icon-size bound (width/height are valid on the post-layout re-walk).
+                // clearColorFilter on the else-branch also undoes a stale tint when a RecyclerView row
+                // is recycled from a vector icon to a bitmap app-icon.
+                val d = v.drawable
                 val iconMaxPx = 96 * context.resources.displayMetrics.density
-                if (v.width <= iconMaxPx && v.height <= iconMaxPx) {
-                    v.setColorFilter(cfg.accentColor)
-                } else {
-                    v.clearColorFilter()
-                }
+                val smallVector = d != null &&
+                        d.javaClass.simpleName.contains("Vector", ignoreCase = true) &&
+                        v.width <= iconMaxPx && v.height <= iconMaxPx
+                if (smallVector) v.setColorFilter(cfg.accentColor) else v.clearColorFilter()
             }
         }
         if (v is ViewGroup) {
