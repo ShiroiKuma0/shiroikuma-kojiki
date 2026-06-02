@@ -15,8 +15,13 @@ upstream release, replay our `custom` customizations on top of it, and produce a
 ## Background — how versioning works here
 
 - `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track upstream** (currently `0.5.5u` / `58`).
+- `UPSTREAM_AHEAD` = commits our base (`main`) sits past tag `v<VERSION_NAME>`
+  (`git rev-list --count v<VERSION_NAME>..main`). We sync to upstream's `main`, which is well ahead of
+  the latest tag, so without this the name would falsely read as the released build. **You recompute it
+  here** (step 4); it does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** fork increment. It **resets to `1`** on each new upstream version.
-- Fork `versionName` = `"<VERSION_NAME>+<BUILD_NUMBER>"`; `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER`.
+- Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"` (the `-<UPSTREAM_AHEAD>` is
+  dropped when `0`, i.e. when we track an exact tag); `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER`.
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`.
 
 So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 codes for the new line
@@ -46,7 +51,11 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
      **port** our change to the new structure rather than forcing the old diff.
 
 4. **Update versioning in `gradle.properties`:**
-   - Set `VERSION_NAME` / `VERSION_CODE` to the **new upstream** values.
+   - Set `VERSION_NAME` / `VERSION_CODE` to the **new upstream** values (`VERSION_NAME` = release tag
+     without the leading `v`).
+   - **Recompute `UPSTREAM_AHEAD`** = how far our new base sits past that tag:
+     `git rev-list --count v<VERSION_NAME>..main` (use the matching tag, e.g. `v0.5.5v..main`). If we
+     track an exact tag (base == tag), this is `0` and the suffix drops automatically.
    - **Reset `BUILD_NUMBER` to `1`.**
 
 5. **Verify our customizations are intact** (after resolving the rebase):
@@ -56,7 +65,7 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
    | Installed app ID | `shiroikuma.kojiki` | `gradle.properties` → `APP_ID` |
    | Code namespace | `com.celzero.bravedns` (unchanged) | `gradle.properties` → `APP_NAMESPACE` |
    | App launcher label | `白い熊 考直` | `app_name` in `app/src/main/res/values/strings.xml` |
-   | Fork version logic | `forkVersionName` / `forkVersionCode` + `buildFoss` task | `app/build.gradle` |
+   | Fork version logic | `forkVersionName` (incl. `UPSTREAM_AHEAD` suffix) / `forkVersionCode` + `buildFoss` task | `app/build.gradle` |
    | `applicationId = APP_ID`, `namespace = APP_NAMESPACE` | not swapped | `app/build.gradle` |
    | Release signing wired | `signingConfig signingConfigs.config` in `release` build type | `app/build.gradle` |
    | Feature 1 (receiver) | `receiver/SetAppRuleReceiver.kt` (main) + main manifest `<receiver>` + token in `PersistentState` + Misc settings row/dialog | several files |
@@ -79,4 +88,5 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
   merging, so the customization set stays easy to audit and replay. Keep edits additive / in new files
   (the receiver and skills are new files; the gradle/manifest/strings/settings edits are the only
   in-place touches and are the ones that may conflict).
-- After resetting `BUILD_NUMBER` to `1`, the first `buildFoss` produces `<newVersion>+1` and bumps to `2`.
+- After resetting `BUILD_NUMBER` to `1`, the first `buildFoss` produces
+  `<newVersion>-<UPSTREAM_AHEAD>+1` (or `<newVersion>+1` when `UPSTREAM_AHEAD` is `0`) and bumps to `2`.
