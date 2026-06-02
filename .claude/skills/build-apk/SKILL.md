@@ -37,9 +37,10 @@ description: Build the signed FOSS (fdroidFull) release APK with the buildFoss G
 ## Steps
 
 1. **Note the output filename.** Read the current version and build number:
-   - `grep -E 'VERSION_NAME|VERSION_CODE|BUILD_NUMBER' gradle.properties`
-   - The APK will be `shiroikuma-kojiki_<VERSION_NAME>+<BUILD_NUMBER>_arm64-v8a.apk`, using the
-     `BUILD_NUMBER` value **before** the build (the task bumps it afterward).
+   - `grep -E 'VERSION_NAME|VERSION_CODE|UPSTREAM_AHEAD|BUILD_NUMBER' gradle.properties`
+   - The APK will be `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
+     (the `-<UPSTREAM_AHEAD>` part is dropped when it is `0`), using the `BUILD_NUMBER` value **before**
+     the build (the task bumps it afterward). E.g. `shiroikuma-kojiki_0.5.5u-779+7_arm64-v8a.apk`.
    - The arm64-v8a installed `versionCode` = `3 * 10000000 + (VERSION_CODE * 10000 + BUILD_NUMBER)`
      (e.g. for `58` / `1`: `30580001`). `buildFoss` prints this as `>>> versionCode <n>`.
 
