@@ -40,9 +40,10 @@ description: Build the signed FOSS (fdroidFull) release APK with the buildFoss G
    - `grep -E 'VERSION_NAME|VERSION_CODE|UPSTREAM_AHEAD|BUILD_NUMBER' gradle.properties`
    - The APK will be `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
      (the `-<UPSTREAM_AHEAD>` part is dropped when it is `0`), using the `BUILD_NUMBER` value **before**
-     the build (the task bumps it afterward). E.g. `shiroikuma-kojiki_0.5.5u-779+7_arm64-v8a.apk`.
+     the build (the task bumps it afterward). E.g. `shiroikuma-kojiki_0.5.5u+1_arm64-v8a.apk`
+     (`UPSTREAM_AHEAD=0`, so no `-N`).
    - The arm64-v8a installed `versionCode` = `3 * 10000000 + (VERSION_CODE * 10000 + BUILD_NUMBER)`
-     (e.g. for `58` / `1`: `30580001`). `buildFoss` prints this as `>>> versionCode <n>`.
+     (e.g. for `53` / `1`: `30530001`). `buildFoss` prints this as `>>> versionCode <n>`.
 
 2. **Build** (needs JDK 21 — the default `java` on this machine is too old for the toolchain;
    Gradle's auto-provisioned JDK 17 toolchain at `~/.gradle/jdks/` is used for compilation):
