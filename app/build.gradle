@@ -70,9 +70,17 @@ def appVersionCode = getVersionCode()
 
 // --- Fork versioning (白い熊 考直) ---
 // VERSION_NAME / VERSION_CODE track upstream; BUILD_NUMBER is our fork increment.
-// Fork versionName = "<VERSION_NAME>+<BUILD_NUMBER>"; versionCode = VERSION_CODE*10000 + BUILD_NUMBER.
+// We sync to upstream's main, which sits ahead of the nearest published tag, so VERSION_NAME alone
+// would falsely read as the released build. UPSTREAM_AHEAD = commits between that tag and our base
+// (i.e. `git rev-list --count v<VERSION_NAME>..main`); it makes the name honest and mirrors upstream's
+// own `git describe --tags` convention. It's maintained at rebase time by the upstream-new-version skill.
+//   Fork versionName = "<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"  (the "-N" is dropped when 0,
+//   so building exactly on a release reads as the clean "<VERSION_NAME>+<BUILD_NUMBER>").
+//   Fork versionCode = VERSION_CODE*10000 + BUILD_NUMBER  (UPSTREAM_AHEAD does not affect the code).
 // The per-ABI override below turns the arm64-v8a code into 3*10000000 + forkVersionCode (monotonic).
-def forkVersionName = "${project.property('VERSION_NAME')}+${project.property('BUILD_NUMBER')}"
+def upstreamAhead = (project.property('UPSTREAM_AHEAD') as Integer)
+def aheadSuffix = upstreamAhead > 0 ? "-${upstreamAhead}" : ""
+def forkVersionName = "${project.property('VERSION_NAME')}${aheadSuffix}+${project.property('BUILD_NUMBER')}"
 def forkVersionCode = (project.property('VERSION_CODE') as Integer) * 10000 +
         (project.property('BUILD_NUMBER') as Integer)
 
