@@ -106,5 +106,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_firewall_data_on" />
 
+        <!-- Fork (白い熊 考直): the configurable row divider (CustomUi.applyFirewallRow themes its
+             colour/thickness). Upstream moved this row from a LinearLayout to a card+ConstraintLayout,
+             so the divider is now pinned to the bottom edge instead of being a trailing sibling. -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/firewall_app_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?attr/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
