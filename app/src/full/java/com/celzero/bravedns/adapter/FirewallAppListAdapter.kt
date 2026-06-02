@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -124,6 +125,10 @@ class FirewallAppListAdapter(
                     b.firewallAppToggleOther.text = getFirewallText(appStatus, connStatus)
                     displayIcon(
                         getIcon(context, appInfo.packageName, appInfo.appName), b.firewallAppIconIv)
+                    // Fork (白い熊 考直): apply the Custom-theme row styling here (reliable at bind time —
+                    // the runtime tree-walk races with this async bind) and type-aware (user vs system
+                    // app name colour). No-op unless the Custom theme is active.
+                    CustomUi.applyFirewallRow(context, b, appInfo.isSystemApp)
                     // set the alpha based on internet permission
                     if (appInfo.hasInternetPermission(packageManager)) {
                         b.firewallAppLabelTv.alpha = ALPHA_FULL
@@ -246,6 +251,36 @@ class FirewallAppListAdapter(
                     showMobileDataEnabled()
                 }
             }
+            // Fork (白い熊 考直): colour the toggle icons by state under the Custom theme — recycle-safe
+            // (state is known here) and per-state (allowed / blocked / excluded / bypass-dns / bypass-univ).
+            CustomUi.tintToggle(context, b.firewallAppToggleWifi, wifiToggleState(firewallStatus, connStatus))
+            CustomUi.tintToggle(context, b.firewallAppToggleMobileData, dataToggleState(firewallStatus, connStatus))
+        }
+
+        private fun wifiToggleState(
+            fs: FirewallManager.FirewallStatus, cs: FirewallManager.ConnectionStatus
+        ) = when (fs) {
+            FirewallManager.FirewallStatus.NONE ->
+                if (cs == FirewallManager.ConnectionStatus.UNMETERED || cs == FirewallManager.ConnectionStatus.BOTH)
+                    CustomUi.ToggleState.DENIED else CustomUi.ToggleState.ALLOWED
+            FirewallManager.FirewallStatus.EXCLUDE -> CustomUi.ToggleState.EXCLUDED
+            FirewallManager.FirewallStatus.BYPASS_UNIVERSAL -> CustomUi.ToggleState.BYPASS_UNIV
+            FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL -> CustomUi.ToggleState.BYPASS_DNS
+            FirewallManager.FirewallStatus.ISOLATE -> CustomUi.ToggleState.NEUTRAL
+            else -> CustomUi.ToggleState.ALLOWED
+        }
+
+        private fun dataToggleState(
+            fs: FirewallManager.FirewallStatus, cs: FirewallManager.ConnectionStatus
+        ) = when (fs) {
+            FirewallManager.FirewallStatus.NONE ->
+                if (cs == FirewallManager.ConnectionStatus.METERED || cs == FirewallManager.ConnectionStatus.BOTH)
+                    CustomUi.ToggleState.DENIED else CustomUi.ToggleState.ALLOWED
+            FirewallManager.FirewallStatus.EXCLUDE -> CustomUi.ToggleState.EXCLUDED
+            FirewallManager.FirewallStatus.BYPASS_UNIVERSAL -> CustomUi.ToggleState.BYPASS_UNIV
+            FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL -> CustomUi.ToggleState.BYPASS_DNS
+            FirewallManager.FirewallStatus.ISOLATE -> CustomUi.ToggleState.NEUTRAL
+            else -> CustomUi.ToggleState.ALLOWED
         }
 
         private fun showMobileDataDisabled() {

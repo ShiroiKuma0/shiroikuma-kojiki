@@ -94,11 +94,13 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
 
     override fun onResume() {
         super.onResume()
-        // Fork (白い熊 考直): when the "Custom" theme is active, apply the configured foundation
-        // colours + global font across this activity's view tree at runtime. BaseActivity is the
-        // app-wide chokepoint on v0.5.5v — it replaces the Application.onActivityResumed hook used
-        // on the v0.5.5u base, which had no BaseActivity.
-        if (Themes.isCustomTheme(persistentState.theme)) {
+        // Fork (白い熊 考直): track whether the "Custom" theme is active (adapters read
+        // CustomUi.customThemeActive to colour their own state-dependent views, e.g. firewall toggles)
+        // and apply the runtime CustomUi pass. BaseActivity is the app-wide chokepoint on v0.5.5v —
+        // it replaces the Application.onActivityResumed hook used on the v0.5.5u base.
+        val custom = Themes.isCustomTheme(persistentState.theme)
+        CustomUi.customThemeActive = custom
+        if (custom) {
             CustomUi.applyTo(this)
         }
     }
