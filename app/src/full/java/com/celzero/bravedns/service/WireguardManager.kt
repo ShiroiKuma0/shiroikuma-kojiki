@@ -1328,7 +1328,17 @@ object WireguardManager : KoinComponent {
                 // read the contents of the file and write it to the EncryptedFileManager
                 val bytes = file.readBytes()
                 Logger.i(LOG_TAG_PROXY, "performRestore: read ${bytes.size} bytes from ${file.name}")
-                val encryptFile = File(c.configPath)
+                // Fork (白い熊 考直): a backup may originate from a different app id (e.g. stock
+                // com.celzero.bravedns), whose stored configPath is an ABSOLUTE path into THAT app's
+                // data dir that our sandbox cannot write to (mkdirs silently fails, aborting restore).
+                // Rebase the path onto OUR filesDir (the canonical wg<id>.conf location) and persist
+                // it, so importing another build's config works; upstream's logic below then creates it.
+                val localPath = getConfigFilePath() + getConfigFileName(c.id)
+                if (c.configPath != localPath) {
+                    c.configPath = localPath
+                    db.update(c)
+                }
+                val encryptFile = File(localPath)
                 val parentDir = encryptFile.parentFile
                 if (parentDir == null) {
                     Logger.e(LOG_TAG_PROXY, "performRestore: wg restore failed, invalid path: ${c.configPath}")
