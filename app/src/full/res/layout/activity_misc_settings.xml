@@ -964,18 +964,19 @@
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                            style="@style/TextAppearance.AppCompat.Subhead"
+                            android:textSize="@dimen/large_font_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/kojiki_ui_title" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:textSize="@dimen/default_font_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="3dp"
                             android:text="@string/kojiki_ui_desc"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -1385,7 +1386,7 @@
         <!-- Fork (白い熊 考直): automation / external-intent token -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/settings_heading_automation"
-            style="@style/TextAppearance.Material3.TitleSmall"
+            style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="55dp"
@@ -1427,7 +1428,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                         android:padding="10dp"
-                        android:src="@drawable/ic_firewall_shield" />
+                        android:src="@drawable/ic_dns_firewall" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1438,18 +1439,19 @@
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                            style="@style/TextAppearance.AppCompat.Subhead"
+                            android:textSize="@dimen/large_font_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_rule_token_title" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:textSize="@dimen/default_font_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="3dp"
                             android:text="@string/app_rule_token_desc"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatImageView
