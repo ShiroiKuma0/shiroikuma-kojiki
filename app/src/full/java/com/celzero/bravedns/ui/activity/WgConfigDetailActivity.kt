@@ -27,6 +27,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
@@ -96,6 +98,37 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     private var wgInterface: WgInterface? = null
     private val peers: MutableList<Peer> = mutableListOf()
     private var wgType: WgType = WgType.DEFAULT
+
+    // Fork (白い熊 考直): per-tunnel export. The wg-quick text (incl. PrivateKey) is staged here while the
+    // system file picker is open, then written to the user-chosen Uri on result. Re-importing the file
+    // (existing import flow → TunnelImporter → addConfig) re-creates a fresh, locally-encrypted, valid
+    // tunnel on any install/keystore, which is what makes WG portable across reinstalls.
+    private var pendingExportConf: String? = null
+    private val exportTunnelLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
+            val text = pendingExportConf
+            pendingExportConf = null
+            if (uri == null || text == null) return@registerForActivityResult
+            io {
+                val ok =
+                    try {
+                        contentResolver.openOutputStream(uri)?.use {
+                            it.write(text.toByteArray(Charsets.UTF_8))
+                        }
+                        true
+                    } catch (e: Exception) {
+                        Logger.e(LOG_TAG_PROXY, "wg export write err: ${e.message}", e)
+                        false
+                    }
+                uiCtx {
+                    Utilities.showToastUiCentered(
+                        this,
+                        getString(if (ok) R.string.wg_export_success else R.string.wg_export_failure),
+                        Toast.LENGTH_LONG
+                    )
+                }
+            }
+        }
 
     // SSID permission handling
     private val ssidPermissionCallback = object : SsidPermissionManager.PermissionCallback {
@@ -204,6 +237,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
         }
 
         b.editBtn.text = getString(R.string.rt_edit_dialog_positive).uppercase()
+        b.exportBtn.text = getString(R.string.wg_export_title).uppercase()
         b.deleteBtn.text = getString(R.string.lbl_delete).uppercase()
 
         b.lockdownTitleTv.text =
@@ -540,6 +574,8 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
 
         b.deleteBtn.setOnClickListener { showDeleteInterfaceDialog() }
 
+        b.exportBtn.setOnClickListener { showExportTunnelDialog() }
+
         /*b.newConfLayout.setOnClickListener {
             b.newConfProgressBar.visibility = View.VISIBLE
             io { createConfigOrShowErrorLayout() }
@@ -858,6 +894,37 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
         }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    // Fork (白い熊 考直): export this tunnel as a standard wg-quick .conf (incl. the private key) to a
+    // user-chosen location, after warning about the plaintext key. The file re-imports via the existing
+    // import flow on any install, re-creating a fresh, locally-encrypted, valid tunnel — so WG survives a
+    // reinstall / different keystore without the fragile .rbk re-encrypt dance.
+    private fun showExportTunnelDialog() {
+        val config = WireguardManager.getConfigById(configId)
+        if (config == null) {
+            Logger.e(LOG_TAG_PROXY, "export: config not found for $configId")
+            Utilities.showToastUiCentered(this, getString(R.string.wg_export_failure), Toast.LENGTH_LONG)
+            return
+        }
+        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        builder.setTitle(getString(R.string.wg_export_title))
+        builder.setMessage(getString(R.string.wg_export_warning))
+        builder.setCancelable(true)
+        builder.setPositiveButton(getString(R.string.wg_export_title)) { _, _ ->
+            pendingExportConf = config.toWgQuickString()
+            val base =
+                config.getName().ifEmpty { "wg$configId" }.replace(Regex("[^A-Za-z0-9_-]"), "_")
+            try {
+                exportTunnelLauncher.launch("$base.conf")
+            } catch (e: Exception) {
+                pendingExportConf = null
+                Logger.e(LOG_TAG_PROXY, "export: launch err ${e.message}", e)
+                Utilities.showToastUiCentered(this, getString(R.string.wg_export_failure), Toast.LENGTH_LONG)
+            }
+        }
+        builder.setNegativeButton(getString(R.string.lbl_cancel)) { _, _ -> }
+        builder.create().show()
     }
 
     private fun openAddPeerDialog() {

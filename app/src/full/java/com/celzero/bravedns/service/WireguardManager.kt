@@ -1370,15 +1370,35 @@ object WireguardManager : KoinComponent {
                 }
                 try {
                     EncryptedFileManager.write(applicationContext, bytes, encryptFile)
-                    restoredIds.add(c.id)
-                    Logger.i(LOG_TAG_PROXY, "performRestore: restored wg config: ${c.id}, ${c.name} -> ${encryptFile.absolutePath}")
                 } catch (e: EncryptionException) {
                     Logger.e(
                         LOG_TAG_PROXY,
                         "performRestore: Critical encryption failure restoring wg config: ${c.id}, ${c.name}",
                         e
                     )
+                    db.deleteConfig(c.id)
+                    return@forEach
                 }
+                // Fork (白い熊 考直): verify the just-written config actually decrypts + parses with THIS
+                // install's key. A restore onto a different keystore re-encrypts the plaintext locally, so
+                // this should always succeed; if it doesn't, the file is unreadable and would otherwise
+                // surface much later as ERR_CODE_WG_INVALID when the user tries to enable the tunnel. Catch
+                // it here with a clear log + drop the dead entry, rather than leaving a phantom config.
+                // (v0.5.5x removed EncryptedFileManager.readWireguardConfig, so replicate load()'s path.)
+                val verified = try {
+                    val vbytes = EncryptedFileManager.readByteArray(applicationContext, encryptFile)
+                    Config.parse(ByteArrayInputStream(vbytes)) != null
+                } catch (e: Exception) {
+                    Logger.w(LOG_TAG_PROXY, "performRestore: restore verify error wg: ${c.id}, ${c.name}: ${e.message}")
+                    false
+                }
+                if (!verified) {
+                    Logger.e(LOG_TAG_PROXY, "performRestore: restore verify FAILED (unreadable) wg: ${c.id}, ${c.name}; deleting")
+                    db.deleteConfig(c.id)
+                    return@forEach
+                }
+                restoredIds.add(c.id)
+                Logger.i(LOG_TAG_PROXY, "performRestore: restored + verified wg config: ${c.id}, ${c.name} -> ${encryptFile.absolutePath}")
             }
 
             // identify files that were not matched to any db entry
