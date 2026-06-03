@@ -56,6 +56,13 @@
     <string name="kojiki_ui_reset" translatable="false">Reset to black / yellow</string>
     <string name="kojiki_ui_font_invalid" translatable="false">Could not import that font (need .ttf / .otf)</string>
 
+    <!-- Per-tunnel WireGuard export (portable wg-quick .conf incl. private key; re-imports as a fresh,
+         locally-encrypted, valid tunnel on any install/keystore). -->
+    <string name="wg_export_title" translatable="false">Export</string>
+    <string name="wg_export_warning" translatable="false">This file contains the tunnel private key in plain text. Save it somewhere safe and delete it once you have restored it. It can be re-imported on any install.</string>
+    <string name="wg_export_success" translatable="false">Tunnel exported</string>
+    <string name="wg_export_failure" translatable="false">Export failed</string>
+
     <!-- Weight options -->
     <string name="kojiki_weight_default" translatable="false">Default</string>
     <string name="kojiki_weight_thin" translatable="false">Thin</string>
