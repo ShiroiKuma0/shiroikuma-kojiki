@@ -45,6 +45,7 @@ import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.WireguardManager
 import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.util.QrCodeFromFileScanner
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.TunnelImporter
 import com.celzero.bravedns.util.UIUtils
@@ -249,12 +250,22 @@ class WgMainActivity :
     }
 
     private fun selectToggleBtnUi(b: MaterialButton) {
+        // Fork (白い熊 考直): the Custom theme drives this toggle itself (accent fill + on-accent text),
+        // restyled on every tap so it survives the CustomUi tree-walk, which skips these two buttons.
+        if (Themes.isCustomTheme(persistentState.theme)) {
+            CustomUi.styleToggleButton(b, selected = true)
+            return
+        }
         b.backgroundTintList =
             ColorStateList.valueOf(fetchToggleBtnColors(this, R.color.accentGood))
         b.setTextColor(UIUtils.fetchColor(this, R.attr.homeScreenHeaderTextColor))
     }
 
     private fun unselectToggleBtnUi(b: MaterialButton) {
+        if (Themes.isCustomTheme(persistentState.theme)) {
+            CustomUi.styleToggleButton(b, selected = false)
+            return
+        }
         b.backgroundTintList =
             ColorStateList.valueOf(fetchToggleBtnColors(this, R.color.defaultToggleBtnBg))
         b.setTextColor(UIUtils.fetchColor(this, R.attr.primaryTextColor))

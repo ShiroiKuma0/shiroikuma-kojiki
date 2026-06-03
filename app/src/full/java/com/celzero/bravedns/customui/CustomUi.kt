@@ -20,6 +20,7 @@ import android.content.res.ColorStateList
 import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
@@ -35,10 +36,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import com.celzero.bravedns.R
 import com.celzero.bravedns.databinding.ListItemFirewallAppBinding
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.chip.Chip
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
 import java.io.File
 
@@ -247,15 +253,37 @@ object CustomUi {
             // Material on/off switches (SwitchMaterial ⊂ SwitchCompat ⊂ TextView) — must precede the
             // TextView branch. Their style pins a blue tint, so recolour the thumb/track here.
             is SwitchCompat -> applySwitchTint(v, cfg.switchColor)
+            // Extended FABs (WG create/qr/import speed-dial): invert — background-coloured fill with an
+            // accent ring + accent text/icon, so the accent-on-accent content is readable.
+            is ExtendedFloatingActionButton -> styleAccentFab(context, v, cfg)
+            // Material buttons: a *checkable* one is a segmented toggle (e.g. firewall/log filters) — accent
+            // fill + on-accent text when selected, background fill + accent text/border when not. Ordinary
+            // (non-checkable) buttons fall through to the normal text styling. The WG SIMPLE/ADVANCED toggle
+            // is *not* driven by the group's checked-state (WgMainActivity manually select/unselects it on
+            // each tap), so it can't be state-list styled here — the activity restyles it via
+            // CustomUi.styleToggleButton instead. Skip those two ids so the walk doesn't clobber it.
+            is MaterialButton ->
+                if (v.id == R.id.one_wg_toggle_btn || v.id == R.id.wg_general_toggle_btn) Unit
+                else styleMaterialButton(context, v, cfg, global)
+            // Filter chips: selected = accent fill + on-accent text; unselected = background fill + accent
+            // text + accent border (state-keyed, so it tracks selection without a re-walk).
+            is Chip -> styleChip(context, v, cfg, global)
             is TextView -> when (v.id) {
                 // Firewall app-list rows (name / status / traffic) are styled by FirewallAppListAdapter
                 // at bind time — reliable + type-aware (user vs system). The tree-walk races with their
                 // async bind, so skip them here.
                 R.id.firewall_app_label_tv, R.id.firewall_app_toggle_other, R.id.firewall_app_data_usage ->
                     Unit
+                // The home VPN button: a flat background-coloured fill + accent border + accent text and
+                // play/pause + chevron icons, kept identical across the start/stop states (its background
+                // drawable is swapped at runtime, but a background tint + a foreground border both survive
+                // setBackgroundResource).
+                R.id.fhs_dns_on_off_btn -> styleHomeButton(context, v, cfg, global)
                 else ->
                     styleText(context, v, global, global)
             }
+            // Main "+" FAB: background-coloured fill + accent ring (foreground) + accent "+".
+            is FloatingActionButton -> styleAccentFab(context, v, cfg)
             is ImageView -> when (v.id) {
                 // Firewall row icon + wifi/data toggles are styled by FirewallAppListAdapter at bind time.
                 R.id.firewall_app_icon_iv, R.id.firewall_app_toggle_wifi, R.id.firewall_app_toggle_mobile_data ->
@@ -303,6 +331,127 @@ object CustomUi {
             val px = sp * context.resources.displayMetrics.scaledDensity
             if (kotlin.math.abs(v.textSize - px) > 0.5f) v.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
         }
+    }
+
+    // Luminance-based readable foreground for a filled accent: black on a light accent, white on a dark one.
+    private fun onColorFor(bg: Int): Int {
+        val r = (bg shr 16) and 0xFF
+        val g = (bg shr 8) and 0xFF
+        val b = bg and 0xFF
+        val lum = 0.299 * r + 0.587 * g + 0.114 * b
+        return if (lum > 140) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
+    }
+
+    // A *checkable* MaterialButton is a segmented toggle (e.g. SIMPLE/ADVANCED): checked = accent fill +
+    // on-accent text/icon; unchecked = background fill + accent text/icon + accent border. State-keyed so
+    // it tracks selection without a re-walk. Non-checkable buttons keep the ordinary text styling.
+    private fun styleMaterialButton(
+        context: Context, v: MaterialButton, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
+    ) {
+        if (!v.isCheckable) { styleText(context, v, global, global); return }
+        val acc = cfg.accentColor
+        val onAcc = onColorFor(acc)
+        val st = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+        v.backgroundTintList = ColorStateList(st, intArrayOf(acc, cfg.backgroundColor))
+        v.setTextColor(ColorStateList(st, intArrayOf(onAcc, acc)))
+        v.iconTint = ColorStateList(st, intArrayOf(onAcc, acc))
+        v.strokeColor = ColorStateList.valueOf(acc)
+        val sp = (1 * context.resources.displayMetrics.density).toInt()
+        if (v.strokeWidth != sp) v.strokeWidth = sp
+        val tf = typefaceFor(context, global.family, global.weight, global.italic)
+        if (v.typeface !== tf) v.typeface = tf
+    }
+
+    // Filter Chip: checked = accent fill + on-accent text/check; unchecked = background fill + accent text
+    // + accent border. State-keyed colour lists, so selecting/deselecting flips the colours with no re-walk.
+    private fun styleChip(
+        context: Context, v: Chip, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
+    ) {
+        val acc = cfg.accentColor
+        val onAcc = onColorFor(acc)
+        val st = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+        v.chipBackgroundColor = ColorStateList(st, intArrayOf(acc, cfg.backgroundColor))
+        v.setTextColor(ColorStateList(st, intArrayOf(onAcc, acc)))
+        v.chipStrokeColor = ColorStateList.valueOf(acc)
+        val sw = 1 * context.resources.displayMetrics.density
+        if (v.chipStrokeWidth != sw) v.chipStrokeWidth = sw
+        v.checkedIconTint = ColorStateList.valueOf(onAcc)
+        val tf = typefaceFor(context, global.family, global.weight, global.italic)
+        if (v.typeface !== tf) v.typeface = tf
+    }
+
+    // FAB ("+" and the extended speed-dial FABs): background-coloured fill + an accent ring + accent
+    // content, so the accent-on-accent "+"/label is readable. A plain FAB has no stroke API, so its ring
+    // is a foreground oval; the extended FAB uses its native stroke.
+    private fun styleAccentFab(context: Context, v: View, cfg: CustomUiConfig) {
+        val acc = cfg.accentColor
+        val bg = cfg.backgroundColor
+        val ringPx = (2 * context.resources.displayMetrics.density).toInt()
+        when (v) {
+            is ExtendedFloatingActionButton -> {
+                v.backgroundTintList = ColorStateList.valueOf(bg)
+                v.setTextColor(acc)
+                v.iconTint = ColorStateList.valueOf(acc)
+                v.strokeColor = ColorStateList.valueOf(acc)
+                if (v.strokeWidth != ringPx) v.strokeWidth = ringPx
+            }
+            is FloatingActionButton -> {
+                v.backgroundTintList = ColorStateList.valueOf(bg)
+                v.setColorFilter(acc)
+                if (v.foreground !is GradientDrawable) {
+                    v.foreground = GradientDrawable().apply {
+                        shape = GradientDrawable.OVAL
+                        setColor(0x00000000)
+                        setStroke(ringPx, acc)
+                    }
+                } else {
+                    (v.foreground as GradientDrawable).setStroke(ringPx, acc)
+                }
+            }
+        }
+    }
+
+    // The home VPN button: a flat background-coloured fill + accent border + accent text and compound
+    // icons (play/pause + chevron), kept the same in both the start and stop states. The button's
+    // background drawable is swapped at runtime (home_screen_button_start_bg ↔ _stop_bg), so we tint the
+    // background (the tint re-applies to whatever drawable is set) and draw the border as a foreground
+    // overlay — both survive setBackgroundResource. Corner radius matches the drawables' 16dp.
+    private fun styleHomeButton(
+        context: Context, v: TextView, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
+    ) {
+        val acc = cfg.accentColor
+        val d = context.resources.displayMetrics.density
+        val tf = typefaceFor(context, global.family, global.weight, global.italic)
+        if (v.typeface !== tf) v.typeface = tf
+        if (v.currentTextColor != acc) v.setTextColor(acc)
+        TextViewCompat.setCompoundDrawableTintList(v, ColorStateList.valueOf(acc))
+        v.backgroundTintList = ColorStateList.valueOf(cfg.backgroundColor)
+        if (v.foreground !is GradientDrawable) {
+            v.foreground = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16 * d
+                setColor(0x00000000)
+                setStroke((1.5f * d).toInt(), acc)
+            }
+        } else {
+            (v.foreground as GradientDrawable).setStroke((1.5f * d).toInt(), acc)
+        }
+    }
+
+    // WG SIMPLE/ADVANCED toggle (WgMainActivity drives selection itself, restyling on every tap): selected
+    // = accent fill + on-accent text; unselected = background fill + accent text + accent border. Called
+    // from the activity's select/unselect helpers when the Custom theme is active, so it survives taps
+    // (the tree-walk skips these two buttons). Public so the activity can reach it.
+    fun styleToggleButton(button: MaterialButton, selected: Boolean) {
+        val cfg = CustomUiConfig(button.context)
+        val acc = cfg.accentColor
+        val d = button.context.resources.displayMetrics.density
+        button.backgroundTintList =
+            ColorStateList.valueOf(if (selected) acc else cfg.backgroundColor)
+        button.setTextColor(if (selected) onColorFor(acc) else acc)
+        button.iconTint = ColorStateList.valueOf(if (selected) onColorFor(acc) else acc)
+        button.strokeColor = ColorStateList.valueOf(acc)
+        button.strokeWidth = (1 * d).toInt()
     }
 
     // Firewall app icon: optional fixed size (dp) + corner roundness (0..100 = % of half the icon,
