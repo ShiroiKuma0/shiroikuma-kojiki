@@ -311,7 +311,7 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="1"
+                        android:weightSum="3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/row_client_info">
 
@@ -321,12 +321,29 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginEnd="5dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="1"
                             android:background="@drawable/rectangle_border_background"
                             android:foreground="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:padding="10dp"
                             android:text="@string/rt_edit_dialog_positive"
+                            android:textColor="?attr/primaryLightColorText"
+                            android:textSize="@dimen/heading_font_text_view" />
+
+                        <!-- Fork (白い熊 考直): export this tunnel as a portable wg-quick .conf (incl. key). -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/export_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_border_background"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="@string/wg_export_title"
                             android:textColor="?attr/primaryLightColorText"
                             android:textSize="@dimen/heading_font_text_view" />
 
@@ -336,7 +353,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="5dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="1"
                             android:background="@drawable/rectangle_border_background"
                             android:foreground="?attr/selectableItemBackground"
                             android:gravity="center"
