@@ -122,7 +122,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addColorRow(R.string.kojiki_ui_fw_toggle_bypass_univ, cfg.fwBypassUnivColor, indentLevel = 2) { cfg.fwBypassUnivColor = it; recreate() }
 
         // --- Icons (firewall app list) — with a live preview ---
-        addIconSection()
+        addIconSection(R.string.kojiki_ui_section_icon,
+            { cfg.iconSize }, { cfg.iconSize = it },
+            { cfg.iconRoundness }, { cfg.iconRoundness = it })
+
+        // --- Snooping panel app icon — with a live preview ---
+        addIconSection(R.string.kojiki_ui_section_snoop_icon,
+            { cfg.snoopIconSize }, { cfg.snoopIconSize = it },
+            { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
 
         // --- Cards (border applied to every card, app-wide) ---
         addSectionHeader(R.string.kojiki_ui_section_cards)
@@ -142,12 +149,17 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     }
 
     // Icon size + roundness with a live preview (the app's own icon) that updates as the sliders move.
-    private fun addIconSection() {
-        addSectionHeader(R.string.kojiki_ui_section_icon)
+    // Shared by the firewall-list icon and the snooping-panel icon — each passes its own config + header.
+    private fun addIconSection(
+        @StringRes headerRes: Int,
+        getSize: () -> Int, setSize: (Int) -> Unit,
+        getRound: () -> Int, setRound: (Int) -> Unit
+    ) {
+        addSectionHeader(headerRes)
 
         val previewDefaultDp = 40
-        var liveSize = cfg.iconSize
-        var liveRound = cfg.iconRoundness
+        var liveSize = getSize()
+        var liveRound = getRound()
 
         val preview = AppCompatImageView(this).apply {
             setImageDrawable(packageManager.getApplicationIcon(applicationInfo))
@@ -179,10 +191,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         b.kojikiUiHolder.addView(previewBox)
         applyPreview()
 
-        addSliderRow(R.string.kojiki_ui_icon_size, cfg.iconSize, CustomUiConfig.MAX_ICON_SIZE_DP, ::dpLabel,
-            onChange = { liveSize = it; applyPreview() }) { cfg.iconSize = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_icon_roundness, cfg.iconRoundness, 100, ::pctLabel,
-            onChange = { liveRound = it; applyPreview() }) { cfg.iconRoundness = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_icon_size, getSize(), CustomUiConfig.MAX_ICON_SIZE_DP, ::dpLabel,
+            onChange = { liveSize = it; applyPreview() }) { setSize(it); recreate() }
+        addSliderRow(R.string.kojiki_ui_icon_roundness, getRound(), 100, ::pctLabel,
+            onChange = { liveRound = it; applyPreview() }) { setRound(it); recreate() }
     }
 
     /** A firewall-list text item: sub-label + colour + full font controls (family / weight / italic / size). */

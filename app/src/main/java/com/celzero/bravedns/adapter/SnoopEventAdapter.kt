@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.database.CustomDomain
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventRepository
 import com.celzero.bravedns.databinding.ListItemSnoopBinding
@@ -110,7 +111,12 @@ class SnoopEventAdapter(
             displayIcon(event)
             displaySeverity(event)
             displayState(event)
+            // Tap the row → action menu; tap the app icon → open the app's page directly
+            // (falls back to the menu when there's no openable app for this uid).
             b.snoopRow.setOnClickListener { showActions(it, event) }
+            b.snoopAppIcon.setOnClickListener {
+                if (canOpenApp(event.uid)) openApp(event.uid) else showActions(b.snoopRow, event)
+            }
         }
 
         private fun metaText(event: SnoopEvent): String {
@@ -134,6 +140,8 @@ class SnoopEventAdapter(
                     getIcon(activity, event.packageName, event.appName)
                 }
             Glide.with(activity).load(drawable).error(getDefaultIcon(activity)).into(b.snoopAppIcon)
+            // 白い熊 考直 UI: apply the configured snoop-icon size + roundness (no-op off the Custom theme).
+            CustomUi.applySnoopIcon(activity, b.snoopAppIcon)
         }
 
         private fun displaySeverity(event: SnoopEvent) {

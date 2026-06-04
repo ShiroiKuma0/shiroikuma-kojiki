@@ -47,6 +47,7 @@
     <string name="kojiki_ui_fw_toggle_bypass_univ" translatable="false">Bypass universal</string>
     <string name="kojiki_ui_icon_size" translatable="false">Icon size</string>
     <string name="kojiki_ui_icon_roundness" translatable="false">Icon roundness</string>
+    <string name="kojiki_ui_section_snoop_icon" translatable="false">Snooping panel icon</string>
     <string name="kojiki_ui_section_cards" translatable="false">Cards</string>
     <string name="kojiki_ui_card_border" translatable="false">Border colour</string>
     <string name="kojiki_ui_card_border_width" translatable="false">Border thickness</string>
