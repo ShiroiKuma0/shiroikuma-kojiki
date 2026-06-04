@@ -47,7 +47,22 @@
     <string name="kojiki_ui_fw_toggle_bypass_univ" translatable="false">Bypass universal</string>
     <string name="kojiki_ui_icon_size" translatable="false">Icon size</string>
     <string name="kojiki_ui_icon_roundness" translatable="false">Icon roundness</string>
-    <string name="kojiki_ui_section_snoop_icon" translatable="false">Snooping panel icon</string>
+    <string name="kojiki_ui_section_snoop_icon" translatable="false">Snooping panel</string>
+    <string name="kojiki_ui_snoop_pill" translatable="false">Severity pill</string>
+    <string name="kojiki_ui_snoop_pill_color" translatable="false">Text colour</string>
+    <string name="kojiki_ui_snoop_pill_width" translatable="false">Width</string>
+    <string name="kojiki_ui_snoop_pill_roundness" translatable="false">Roundness</string>
+    <string name="kojiki_ui_snoop_pill_border" translatable="false">Border colour</string>
+    <string name="kojiki_ui_snoop_pill_border_width" translatable="false">Border width</string>
+    <string name="kojiki_ui_snoop_pill_size" translatable="false">Severity pill size</string>
+    <string name="kojiki_ui_snoop_row_padding" translatable="false">Inter-item spacing</string>
+    <string name="kojiki_ui_snoop_state" translatable="false">Status text (blocked / allowed)</string>
+    <string name="kojiki_ui_snoop_state_blocked" translatable="false">Status colour (blocked)</string>
+    <string name="kojiki_ui_snoop_state_allowed" translatable="false">Status colour (allowed)</string>
+    <string name="kojiki_ui_section_menu" translatable="false">Popup menus</string>
+    <string name="kojiki_ui_menu_border" translatable="false">Border colour</string>
+    <string name="kojiki_ui_menu_border_width" translatable="false">Border thickness</string>
+    <string name="kojiki_ui_menu_item" translatable="false">Menu item</string>
     <string name="kojiki_ui_section_cards" translatable="false">Cards</string>
     <string name="kojiki_ui_card_border" translatable="false">Border colour</string>
     <string name="kojiki_ui_card_border_width" translatable="false">Border thickness</string>

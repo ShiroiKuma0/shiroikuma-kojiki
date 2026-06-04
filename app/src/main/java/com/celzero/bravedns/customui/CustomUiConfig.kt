@@ -120,6 +120,41 @@ class CustomUiConfig(context: Context) {
     var snoopIconRoundness: Int
         get() = int(KEY_SNOOP_ICON_ROUND, 0); set(v) = putInt(KEY_SNOOP_ICON_ROUND, v)
 
+    // --- Snooping panel severity pill (HIGH/MED/LOW badge) ---
+    /** sp; 0 = leave the badge's own size. The badge keeps its severity background + white text;
+     *  only the text size is overridden. */
+    var snoopPillSize: Int
+        get() = int(KEY_SNOOP_PILL_SIZE, 0); set(v) = putInt(KEY_SNOOP_PILL_SIZE, v)
+    /** dp min width; 0 = natural (wrap text). Lets the pill be wider / more uniform. */
+    var snoopPillWidth: Int
+        get() = int(KEY_SNOOP_PILL_WIDTH, 0); set(v) = putInt(KEY_SNOOP_PILL_WIDTH, v)
+    /** dp corner radius of the pill (default 6; raise for a rounder/capsule pill). */
+    var snoopPillRadius: Int
+        get() = int(KEY_SNOOP_PILL_RADIUS, 6); set(v) = putInt(KEY_SNOOP_PILL_RADIUS, v)
+    /** dp; 0 = no border. */
+    var snoopPillBorderWidth: Int
+        get() = int(KEY_SNOOP_PILL_BORDER_W, 0); set(v) = putInt(KEY_SNOOP_PILL_BORDER_W, v)
+    var snoopPillBorderColor: Int
+        get() = int(KEY_SNOOP_PILL_BORDER_C, PALETTE_YELLOW); set(v) = putInt(KEY_SNOOP_PILL_BORDER_C, v)
+
+    // --- Snooping panel status text (blocked/allowed), colour per state; font via P_SNOOP_STATE ---
+    var snoopStateBlockedColor: Int
+        get() = int(KEY_SNOOP_STATE_BLOCKED, SNOOP_GREEN); set(v) = putInt(KEY_SNOOP_STATE_BLOCKED, v)
+    var snoopStateAllowedColor: Int
+        get() = int(KEY_SNOOP_STATE_ALLOWED, SNOOP_AMBER); set(v) = putInt(KEY_SNOOP_STATE_ALLOWED, v)
+
+    // --- Snooping panel inter-item (row) vertical padding ---
+    /** dp added top & bottom of each row; 0 = rows as tight as the icon (icons nearly touch). */
+    var snoopRowPadding: Int
+        get() = int(KEY_SNOOP_ROW_PADDING, 0); set(v) = putInt(KEY_SNOOP_ROW_PADDING, v)
+
+    // --- Popup menus (snoop row actions / sort / filter) ---
+    var menuBorderColor: Int
+        get() = int(KEY_MENU_BORDER_COLOR, PALETTE_YELLOW); set(v) = putInt(KEY_MENU_BORDER_COLOR, v)
+    /** dp; 0 = no border. Defaults to a thin accent border. */
+    var menuBorderWidth: Int
+        get() = int(KEY_MENU_BORDER_WIDTH, 1); set(v) = putInt(KEY_MENU_BORDER_WIDTH, v)
+
     // --- Card border (applied to every MaterialCardView) ---
     var cardBorderColor: Int
         get() = int(KEY_BORDER_COLOR, PALETTE_YELLOW); set(v) = putInt(KEY_BORDER_COLOR, v)
@@ -159,6 +194,16 @@ class CustomUiConfig(context: Context) {
         private const val KEY_ICON_ROUND = "kojiki_icon_round"
         private const val KEY_SNOOP_ICON_SIZE = "kojiki_snoop_icon_size"
         private const val KEY_SNOOP_ICON_ROUND = "kojiki_snoop_icon_round"
+        private const val KEY_SNOOP_PILL_SIZE = "kojiki_snoop_pill_size"
+        private const val KEY_SNOOP_PILL_WIDTH = "kojiki_snoop_pill_width"
+        private const val KEY_SNOOP_PILL_RADIUS = "kojiki_snoop_pill_radius"
+        private const val KEY_SNOOP_PILL_BORDER_W = "kojiki_snoop_pill_border_w"
+        private const val KEY_SNOOP_PILL_BORDER_C = "kojiki_snoop_pill_border_c"
+        private const val KEY_SNOOP_STATE_BLOCKED = "kojiki_snoop_state_blocked_color"
+        private const val KEY_SNOOP_STATE_ALLOWED = "kojiki_snoop_state_allowed_color"
+        private const val KEY_SNOOP_ROW_PADDING = "kojiki_snoop_row_padding"
+        private const val KEY_MENU_BORDER_COLOR = "kojiki_menu_border_color"
+        private const val KEY_MENU_BORDER_WIDTH = "kojiki_menu_border_width"
         private const val KEY_BORDER_COLOR = "kojiki_card_border_color"
         private const val KEY_BORDER_WIDTH = "kojiki_card_border_width"
         private const val KEY_DIVIDER_COLOR = "kojiki_divider_color"
@@ -169,13 +214,25 @@ class CustomUiConfig(context: Context) {
         const val P_FW_NAME_SYSTEM = "kojiki_fw_name_system"
         const val P_FW_STATUS = "kojiki_fw_status"
         const val P_FW_TRAFFIC = "kojiki_fw_traffic"
+        // Snooping panel severity pill (HIGH/MED/LOW) text — colour + font (size via snoopPillSize).
+        const val P_SNOOP_PILL = "kojiki_snoop_pill"
+        // Snooping panel status text (blocked/allowed) — font; colour per state (blocked/allowed).
+        const val P_SNOOP_STATE = "kojiki_snoop_state"
+        // Popup-menu item text — colour + font.
+        const val P_SNOOP_MENU = "kojiki_menu_item"
 
         const val PALETTE_BLACK = 0xFF000000.toInt()
         const val PALETTE_YELLOW = 0xFFFFEB3B.toInt()
+        const val SNOOP_GREEN = 0xFF2B8E18.toInt()
+        const val SNOOP_AMBER = 0xFFFFA000.toInt()
+        const val SNOOP_WHITE = 0xFFFFFFFF.toInt()
         const val MAX_FONT_SIZE_SP = 40
         const val MAX_WEIGHT = 900
         const val MAX_ICON_SIZE_DP = 120
         const val MAX_BORDER_DP = 12
         const val MAX_DIVIDER_DP = 8
+        const val MAX_ROW_PADDING_DP = 24
+        const val MAX_PILL_WIDTH_DP = 160
+        const val MAX_PILL_RADIUS_DP = 30
     }
 }

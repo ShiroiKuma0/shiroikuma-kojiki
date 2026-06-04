@@ -14,8 +14,8 @@
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
 
         <!-- severity-highlight bar -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -30,7 +30,10 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:alpha="0.9"
             android:contentDescription="@string/apps_icon_content_desc"
             android:src="@drawable/default_app_icon" />
@@ -96,6 +99,10 @@
                 android:background="@drawable/bg_snoop_badge"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/mini_font_text_view"

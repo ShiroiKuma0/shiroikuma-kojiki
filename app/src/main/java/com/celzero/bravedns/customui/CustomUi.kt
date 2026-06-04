@@ -29,7 +29,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.view.ViewTreeObserver
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ListPopupWindow
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +42,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import com.celzero.bravedns.R
 import com.celzero.bravedns.databinding.ListItemFirewallAppBinding
+import com.celzero.bravedns.databinding.ListItemSnoopBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -63,6 +67,10 @@ object CustomUi {
     /** Set by RethinkDnsApplication on every activity resume: is the "Custom" theme active right now?
      *  Lets adapters (e.g. FirewallAppListAdapter) apply fork colours only under the Custom theme. */
     @JvmField var customThemeActive: Boolean = false
+
+    /** A view carrying this as its tag (and its subtree) is left untouched by the runtime tree-walk —
+     *  for widgets that set their own size/colour, e.g. the 白い熊 考直 UI preview pill/status text. */
+    const val NO_RESTYLE_TAG = "kojiki_no_restyle"
 
     const val FONT_SYSTEM = ""
     const val FONT_MONOSPACE = "@monospace"
@@ -218,6 +226,9 @@ object CustomUi {
     }
 
     private fun applyToTree(context: Context, v: View, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle, themeBg: Int) {
+        // Opt-out: leave this view (and its subtree) exactly as set by its owner — e.g. the
+        // 白い熊 考直 UI preview widgets, which drive their own pill/status size.
+        if (v.tag == NO_RESTYLE_TAG) return
         when (v) {
             // Material containers carry the tonal "surface tint" (= colorPrimary = yellow) that turns
             // elevated surfaces olive. Force their fill to the background colour and zero their
@@ -272,7 +283,12 @@ object CustomUi {
                 // Firewall app-list rows (name / status / traffic) are styled by FirewallAppListAdapter
                 // at bind time — reliable + type-aware (user vs system). The tree-walk races with their
                 // async bind, so skip them here.
-                R.id.firewall_app_label_tv, R.id.firewall_app_toggle_other, R.id.firewall_app_data_usage ->
+                R.id.firewall_app_label_tv, R.id.firewall_app_toggle_other, R.id.firewall_app_data_usage,
+                // Snooping-panel rows are styled by SnoopEventAdapter at bind time (race-free); the
+                // severity badge/bar and blocked/allowed state keep their semantic colours, so skip
+                // them all here.
+                R.id.snoop_domain, R.id.snoop_app_name, R.id.snoop_meta, R.id.snoop_state,
+                R.id.snoop_severity_badge, R.id.snoop_severity_bar ->
                     Unit
                 // The home VPN button: a flat background-coloured fill + accent border + accent text and
                 // play/pause + chevron icons, kept identical across the start/stop states (its background
@@ -542,6 +558,148 @@ object CustomUi {
             val lp = b.firewallAppDivider.layoutParams
             if (lp != null && lp.height != h) { lp.height = h; b.firewallAppDivider.layoutParams = lp }
         }
+    }
+
+    /** Style a Snooping-panel row from the adapter — race-free (bind time), like applyFirewallRow.
+     *  Domain / app / meta follow the global text style; the severity badge, highlight bar, and the
+     *  blocked/allowed state keep the adapter's semantic colours. No-op off the Custom theme (the row
+     *  already shows the stock-theme look, which is what other themes want). */
+    fun applySnoopRow(context: Context, b: ListItemSnoopBinding) {
+        if (!customThemeActive) return
+        val cfg = CustomUiConfig(context)
+        val g = cfg.globalStyle()
+        b.root.setBackgroundColor(cfg.backgroundColor)
+        styleText(context, b.snoopDomain, g, g)
+        styleText(context, b.snoopAppName, g, g)
+        styleText(context, b.snoopMeta, g, g)
+        // severity pill text: typeface + colour (P_SNOOP_PILL) + size (snoopPillSize). The badge's
+        // background stays the severity colour (set by the adapter); default text colour is white.
+        val pill = cfg.styleOf(CustomUiConfig.P_SNOOP_PILL, CustomUiConfig.SNOOP_WHITE)
+        val pillFamily = pill.family.ifEmpty { g.family }
+        val pillWeight = if (pill.weight > 0) pill.weight else g.weight
+        b.snoopSeverityBadge.typeface = typefaceFor(context, pillFamily, pillWeight, pill.italic)
+        b.snoopSeverityBadge.setTextColor(pill.color)
+        if (cfg.snoopPillSize > 0) {
+            b.snoopSeverityBadge.setTextSize(TypedValue.COMPLEX_UNIT_SP, cfg.snoopPillSize.toFloat())
+        }
+        // status text (blocked/allowed): size + font; colour is set per-state by the adapter
+        styleFontOnly(context, b.snoopState, cfg.styleOf(CustomUiConfig.P_SNOOP_STATE, 0), g)
+        // inter-item spacing: the row's own vertical padding (0 dp = icons nearly touch)
+        val rowPad = (cfg.snoopRowPadding * context.resources.displayMetrics.density).toInt()
+        b.snoopRow.setPadding(b.snoopRow.paddingLeft, rowPad, b.snoopRow.paddingRight, rowPad)
+    }
+
+    /** Build the severity-pill background: a rounded rect filled with the severity colour, with a
+     *  configurable corner radius + optional border. Replaces the static bg_snoop_badge so radius/
+     *  border/width can be driven from the 白い熊 考直 UI (and the preview can mirror it). */
+    fun snoopPillBackground(
+        context: Context, fill: Int, radiusDp: Int, borderWidthDp: Int, borderColor: Int
+    ): GradientDrawable {
+        val d = context.resources.displayMetrics.density
+        return GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            setColor(fill)
+            cornerRadius = radiusDp * d
+            if (borderWidthDp > 0) setStroke((borderWidthDp * d).toInt(), borderColor)
+        }
+    }
+
+    // Like styleText but never touches the colour or the view's own size (size 0 = leave it) — for text
+    // whose colour carries meaning (e.g. the blocked/allowed state, coloured by the adapter).
+    private fun styleFontOnly(
+        context: Context, v: TextView, style: CustomUiConfig.TextStyle, global: CustomUiConfig.TextStyle
+    ) {
+        val family = style.family.ifEmpty { global.family }
+        val weight = if (style.weight > 0) style.weight else global.weight
+        val tf = typefaceFor(context, family, weight, style.italic)
+        if (v.typeface !== tf) v.typeface = tf
+        if (style.size > 0) {
+            val px = style.size * context.resources.displayMetrics.scaledDensity
+            if (kotlin.math.abs(v.textSize - px) > 0.5f) {
+                v.setTextSize(TypedValue.COMPLEX_UNIT_SP, style.size.toFloat())
+            }
+        }
+    }
+
+    /** A themed dropdown menu item. id is returned to the caller on selection. */
+    data class MenuItem(val id: Int, val title: String, val checked: Boolean = false)
+
+    /** Show a popup menu themed by the 白い熊 考直 UI: configurable accent border (colour + thickness),
+     *  surface fill, and item text colour + font. Off the Custom theme it falls back to the activity
+     *  theme's colours and no border. Replaces android.widget.PopupMenu so the border/colour/font can be
+     *  driven dynamically from config (a static menu style can't). */
+    fun showMenu(anchor: View, items: List<MenuItem>, onSelect: (Int) -> Unit) {
+        val ctx = anchor.context
+        val cfg = CustomUiConfig(ctx)
+        val active = customThemeActive
+        val density = ctx.resources.displayMetrics.density
+        val global = cfg.globalStyle()
+        val menuStyle = cfg.styleOf(CustomUiConfig.P_SNOOP_MENU, CustomUiConfig.PALETTE_YELLOW)
+        val textColor =
+            if (active) menuStyle.color else resolveThemeColor(ctx, android.R.attr.textColorPrimary)
+        val bgColor =
+            if (active) cfg.surfaceColor else resolveThemeColor(ctx, android.R.attr.colorBackground)
+
+        val bg = GradientDrawable().apply {
+            cornerRadius = 10f * density
+            setColor(bgColor)
+            if (active && cfg.menuBorderWidth > 0) {
+                setStroke((cfg.menuBorderWidth * density).toInt(), cfg.menuBorderColor)
+            }
+        }
+
+        val adapter = object : ArrayAdapter<MenuItem>(ctx, 0, items) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val tv = (convertView as? TextView) ?: TextView(ctx).apply {
+                    // LayoutParams are required: setText() reuses the view across the measure pass and
+                    // calls checkForRelayout(), which dereferences layoutParams.width (NPE if null).
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    val ph = (16 * density).toInt()
+                    val pv = (12 * density).toInt()
+                    setPadding(ph, pv, ph, pv)
+                }
+                val item = items[position]
+                tv.text = if (item.checked) "✓  ${item.title}" else " ${item.title}"
+                tv.setTextColor(textColor)
+                if (active) {
+                    val family = menuStyle.family.ifEmpty { global.family }
+                    val weight = if (menuStyle.weight > 0) menuStyle.weight else global.weight
+                    tv.typeface = typefaceFor(ctx, family, weight, menuStyle.italic)
+                    val sp = if (menuStyle.size > 0) menuStyle.size else global.size
+                    if (sp > 0) tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
+                }
+                return tv
+            }
+        }
+
+        val lpw = ListPopupWindow(ctx)
+        lpw.anchorView = anchor
+        lpw.setBackgroundDrawable(bg)
+        lpw.isModal = true
+        lpw.setAdapter(adapter)
+        lpw.width = measureMenuWidth(ctx, adapter, density)
+        lpw.setOnItemClickListener { _, _, pos, _ ->
+            lpw.dismiss()
+            onSelect(items[pos].id)
+        }
+        lpw.show()
+    }
+
+    private fun measureMenuWidth(context: Context, adapter: ArrayAdapter<MenuItem>, density: Float): Int {
+        var max = (160 * density).toInt()
+        val parent = FrameLayout(context)
+        val spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        var convert: View? = null
+        for (i in 0 until adapter.count) {
+            convert = adapter.getView(i, convert, parent)
+            convert.measure(spec, spec)
+            if (convert.measuredWidth > max) max = convert.measuredWidth
+        }
+        val cap = (context.resources.displayMetrics.widthPixels * 0.9f).toInt()
+        return minOf(max + (24 * density).toInt(), cap)
     }
 
     // Tint a Material on/off switch: checked = the configured switch colour, unchecked = grey.

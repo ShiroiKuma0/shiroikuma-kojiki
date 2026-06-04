@@ -18,12 +18,10 @@ package com.celzero.bravedns.adapter
 import Logger
 import Logger.LOG_TAG_UI
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingDataAdapter
@@ -33,6 +31,7 @@ import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.database.CustomDomain
 import com.celzero.bravedns.customui.CustomUi
+import com.celzero.bravedns.customui.CustomUiConfig
 import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventRepository
 import com.celzero.bravedns.databinding.ListItemSnoopBinding
@@ -64,6 +63,11 @@ class SnoopEventAdapter(
         private const val COLOR_LOW = 0xFF9E9E9E.toInt()
         private const val COLOR_BLOCKED = 0xFF2B8E18.toInt()
         private const val COLOR_ALLOWED = 0xFFFFA000.toInt()
+
+        // severity-pill defaults (off Custom theme): matches the old bg_snoop_badge
+        private const val DEFAULT_PILL_RADIUS_DP = 6
+        private const val PILL_PAD_H_DP = 6
+        private const val PILL_PAD_V_DP = 2
 
         // popup menu item ids
         private const val MI_BLOCK_APP = 1
@@ -111,6 +115,9 @@ class SnoopEventAdapter(
             displayIcon(event)
             displaySeverity(event)
             displayState(event)
+            // 白い熊 考直 UI: style the row at bind time so every row is consistent (the global
+            // runtime tree-walk races with async paging — see CustomUi.applySnoopRow).
+            CustomUi.applySnoopRow(activity, b)
             // Tap the row → action menu; tap the app icon → open the app's page directly
             // (falls back to the menu when there's no openable app for this uid).
             b.snoopRow.setOnClickListener { showActions(it, event) }
@@ -154,44 +161,64 @@ class SnoopEventAdapter(
                     else -> activity.getString(R.string.snoop_sev_low) to COLOR_LOW
                 }
             b.snoopSeverityBadge.text = label
-            b.snoopSeverityBadge.backgroundTintList = ColorStateList.valueOf(color)
             b.snoopSeverityBar.setBackgroundColor(color)
+            // pill background: severity-coloured fill + configurable radius / border / min-width
+            val density = activity.resources.displayMetrics.density
+            val cfg = if (CustomUi.customThemeActive) CustomUiConfig(activity) else null
+            b.snoopSeverityBadge.background =
+                CustomUi.snoopPillBackground(
+                    activity,
+                    color,
+                    cfg?.snoopPillRadius ?: DEFAULT_PILL_RADIUS_DP,
+                    cfg?.snoopPillBorderWidth ?: 0,
+                    cfg?.snoopPillBorderColor ?: 0
+                )
+            val padH = (PILL_PAD_H_DP * density).toInt()
+            val padV = (PILL_PAD_V_DP * density).toInt()
+            b.snoopSeverityBadge.setPadding(padH, padV, padH, padV)
+            b.snoopSeverityBadge.minimumWidth = ((cfg?.snoopPillWidth ?: 0) * density).toInt()
         }
 
         private fun displayState(event: SnoopEvent) {
-            if (event.lastBlocked) {
-                b.snoopState.text = activity.getString(R.string.snoop_state_blocked)
-                b.snoopState.setTextColor(COLOR_BLOCKED)
-            } else {
-                b.snoopState.text = activity.getString(R.string.snoop_state_allowed)
-                b.snoopState.setTextColor(COLOR_ALLOWED)
-            }
+            val blocked = event.lastBlocked
+            b.snoopState.text =
+                activity.getString(
+                    if (blocked) R.string.snoop_state_blocked else R.string.snoop_state_allowed
+                )
+            // Under the Custom theme the colour comes from the 白い熊 考直 UI (per state); otherwise
+            // the built-in green/amber.
+            val color =
+                if (CustomUi.customThemeActive) {
+                    val cfg = CustomUiConfig(activity)
+                    if (blocked) cfg.snoopStateBlockedColor else cfg.snoopStateAllowedColor
+                } else {
+                    if (blocked) COLOR_BLOCKED else COLOR_ALLOWED
+                }
+            b.snoopState.setTextColor(color)
         }
 
         private fun showActions(anchor: View, event: SnoopEvent) {
-            val popup = PopupMenu(activity, anchor)
-            val m = popup.menu
-            m.add(0, MI_BLOCK_APP, 0, activity.getString(R.string.snoop_action_block_app))
-            m.add(0, MI_BLOCK_ALL, 1, activity.getString(R.string.snoop_action_block_all))
-            m.add(0, MI_TRUST_APP, 2, activity.getString(R.string.snoop_action_trust_app))
-            m.add(0, MI_ADVANCED, 3, activity.getString(R.string.snoop_action_advanced))
-            m.add(0, MI_DISMISS, 4, activity.getString(R.string.snoop_action_dismiss))
+            val items =
+                mutableListOf(
+                    CustomUi.MenuItem(MI_BLOCK_APP, activity.getString(R.string.snoop_action_block_app)),
+                    CustomUi.MenuItem(MI_BLOCK_ALL, activity.getString(R.string.snoop_action_block_all)),
+                    CustomUi.MenuItem(MI_TRUST_APP, activity.getString(R.string.snoop_action_trust_app)),
+                    CustomUi.MenuItem(MI_ADVANCED, activity.getString(R.string.snoop_action_advanced)),
+                    CustomUi.MenuItem(MI_DISMISS, activity.getString(R.string.snoop_action_dismiss))
+                )
             if (canOpenApp(event.uid)) {
-                m.add(0, MI_OPEN_APP, 5, activity.getString(R.string.snoop_action_open_app))
+                items.add(CustomUi.MenuItem(MI_OPEN_APP, activity.getString(R.string.snoop_action_open_app)))
             }
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
+            CustomUi.showMenu(anchor, items) { id ->
+                when (id) {
                     MI_BLOCK_APP -> blockDomain(event, event.uid)
                     MI_BLOCK_ALL -> blockDomain(event, UID_EVERYBODY)
                     MI_TRUST_APP -> trustDomain(event)
                     MI_ADVANCED -> openAdvanced(event)
                     MI_DISMISS -> dismiss(event)
                     MI_OPEN_APP -> openApp(event.uid)
-                    else -> return@setOnMenuItemClickListener false
                 }
-                true
             }
-            popup.show()
         }
 
         private fun canOpenApp(uid: Int): Boolean {
