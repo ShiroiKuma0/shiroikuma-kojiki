@@ -112,6 +112,14 @@ class CustomUiConfig(context: Context) {
     var iconRoundness: Int
         get() = int(KEY_ICON_ROUND, 0); set(v) = putInt(KEY_ICON_ROUND, v)
 
+    // --- Snooping panel app icon ---
+    /** dp; 0 = leave the layout's own size. */
+    var snoopIconSize: Int
+        get() = int(KEY_SNOOP_ICON_SIZE, 0); set(v) = putInt(KEY_SNOOP_ICON_SIZE, v)
+    /** 0..100, percentage of half the icon (0 = square, 100 = circle). */
+    var snoopIconRoundness: Int
+        get() = int(KEY_SNOOP_ICON_ROUND, 0); set(v) = putInt(KEY_SNOOP_ICON_ROUND, v)
+
     // --- Card border (applied to every MaterialCardView) ---
     var cardBorderColor: Int
         get() = int(KEY_BORDER_COLOR, PALETTE_YELLOW); set(v) = putInt(KEY_BORDER_COLOR, v)
@@ -149,6 +157,8 @@ class CustomUiConfig(context: Context) {
         private const val KEY_FW_BYPASS_UNIV_COLOR = "kojiki_fw_bypass_univ_color"
         private const val KEY_ICON_SIZE = "kojiki_icon_size"
         private const val KEY_ICON_ROUND = "kojiki_icon_round"
+        private const val KEY_SNOOP_ICON_SIZE = "kojiki_snoop_icon_size"
+        private const val KEY_SNOOP_ICON_ROUND = "kojiki_snoop_icon_round"
         private const val KEY_BORDER_COLOR = "kojiki_card_border_color"
         private const val KEY_BORDER_WIDTH = "kojiki_card_border_width"
         private const val KEY_DIVIDER_COLOR = "kojiki_divider_color"

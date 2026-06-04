@@ -457,8 +457,14 @@ object CustomUi {
     // Firewall app icon: optional fixed size (dp) + corner roundness (0..100 = % of half the icon,
     // so 0 = square, 100 = circle). Size sets are guarded so the requestLayout settles after one pass.
     private fun applyIconStyle(context: Context, v: ImageView, cfg: CustomUiConfig) {
-        if (cfg.iconSize > 0) {
-            val px = (cfg.iconSize * context.resources.displayMetrics.density).toInt()
+        applyIconSizeRoundness(context, v, cfg.iconSize, cfg.iconRoundness)
+    }
+
+    // Shared icon size + roundness applier (firewall + snooping rows). sizeDp 0 = leave layout size;
+    // roundness 0..100 = % of half the icon (0 = square, 100 = circle).
+    private fun applyIconSizeRoundness(context: Context, v: ImageView, sizeDp: Int, roundness: Int) {
+        if (sizeDp > 0) {
+            val px = (sizeDp * context.resources.displayMetrics.density).toInt()
             val lp = v.layoutParams
             if (lp != null && (lp.width != px || lp.height != px)) {
                 lp.width = px
@@ -466,8 +472,8 @@ object CustomUi {
                 v.layoutParams = lp
             }
         }
-        if (cfg.iconRoundness > 0) {
-            val pct = cfg.iconRoundness.coerceIn(0, 100) / 100f
+        if (roundness > 0) {
+            val pct = roundness.coerceIn(0, 100) / 100f
             v.outlineProvider = object : ViewOutlineProvider() {
                 override fun getOutline(view: View, outline: Outline) {
                     val r = minOf(view.width, view.height) / 2f * pct
@@ -479,6 +485,21 @@ object CustomUi {
             v.clipToOutline = false
             v.outlineProvider = ViewOutlineProvider.BACKGROUND
         }
+    }
+
+    /** Apply the Snooping-panel icon size + roundness (set in the 白い熊 考直 UI) to a snoop row icon.
+     *  Called from SnoopEventAdapter at bind time. No-op (and clears any clip, for recycle-safety) when
+     *  the Custom theme is off, so other themes keep the row layout's own 34dp square icon. */
+    fun applySnoopIcon(context: Context, v: ImageView) {
+        if (!customThemeActive) {
+            if (v.clipToOutline) {
+                v.clipToOutline = false
+                v.outlineProvider = ViewOutlineProvider.BACKGROUND
+            }
+            return
+        }
+        val cfg = CustomUiConfig(context)
+        applyIconSizeRoundness(context, v, cfg.snoopIconSize, cfg.snoopIconRoundness)
     }
 
     /** Colour a firewall wifi/data toggle from the adapter (state-accurate + recycle-safe). denied=true
