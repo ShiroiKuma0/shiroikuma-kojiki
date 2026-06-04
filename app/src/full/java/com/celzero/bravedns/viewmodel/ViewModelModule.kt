@@ -53,6 +53,8 @@ object ViewModelModule {
         viewModel { ManagePurchaseViewModel() }
         viewModel { ServerOrderHistoryViewModel(get()) }
         viewModel { ServerSelectionViewModel() }
+        // Fork (白い熊 考直): Snooping panel.
+        viewModel { SnoopViewModel(get()) }
     }
 
     val modules = listOf(modelModules)

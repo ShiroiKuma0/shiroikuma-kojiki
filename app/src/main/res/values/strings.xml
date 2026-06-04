@@ -2532,5 +2532,35 @@
     <string name="console_log_include_file_trace" translatable="false">Include file trace in logs</string>
 
     <string name="rethink_block_error_desc" translatable="false">Rethink may be blocked by firewall rules ⚠</string>
+    <!-- Fork (白い熊 考直): Snooping panel. -->
+    <string name="snoop_title" translatable="false">Snooping</string>
+    <string name="snoop_card_title" translatable="false">Snooping</string>
+    <string name="snoop_card_desc" translatable="false">Suspected telemetry by app — tap to review</string>
+    <string name="snoop_search_hint" translatable="false">Search domain or app</string>
+    <string name="snoop_group_by_app" translatable="false">By app</string>
+    <string name="snoop_group_by_domain" translatable="false">By domain</string>
+    <string name="snoop_clear_all" translatable="false">Clear all</string>
+    <string name="snoop_empty" translatable="false">No snooping detected yet. Keep on-device blocklists (privacy and tracker categories) enabled for the best results.</string>
+    <string name="snoop_sev_high" translatable="false">HIGH</string>
+    <string name="snoop_sev_medium" translatable="false">MED</string>
+    <string name="snoop_sev_low" translatable="false">LOW</string>
+    <string name="snoop_state_blocked" translatable="false">blocked</string>
+    <string name="snoop_state_allowed" translatable="false">allowed</string>
+    <string name="snoop_meta" translatable="false">%1$s · seen %2$d× · %3$s</string>
+    <string name="snoop_action_block_app" translatable="false">Block for this app</string>
+    <string name="snoop_action_block_all" translatable="false">Block for all apps</string>
+    <string name="snoop_action_trust_app" translatable="false">Trust for this app</string>
+    <string name="snoop_action_advanced" translatable="false">Advanced rules…</string>
+    <string name="snoop_action_dismiss" translatable="false">Dismiss</string>
+    <string name="snoop_action_open_app" translatable="false">Open app</string>
+    <string name="snoop_toast_blocked" translatable="false">Blocking %1$s</string>
+    <string name="snoop_toast_trusted" translatable="false">Trusting %1$s</string>
+    <string name="snoop_toast_dismissed" translatable="false">Dismissed %1$s</string>
+    <string name="snoop_clear_confirm_title" translatable="false">Clear all snoop events?</string>
+    <string name="snoop_clear_confirm_msg" translatable="false">This clears all recorded snoop history. Domain rules you have set are not affected.</string>
+    <string name="snoop_notif_channel" translatable="false">Snooping alerts</string>
+    <string name="snoop_notif_channel_desc" translatable="false">Daily summary of newly detected high-severity snooping</string>
+    <string name="snoop_notif_title" translatable="false">Snooping detected</string>
+    <string name="snoop_notif_text" translatable="false">%1$d new high-severity snooping events. Tap to review.</string>
 
 </resources>
