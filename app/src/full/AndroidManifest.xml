@@ -18,6 +18,11 @@
         <activity
             android:name=".ui.activity.KojikiUiActivity"
             android:exported="false" />
+        <!-- Fork (白い熊 考直): the Snooping panel. -->
+        <activity
+            android:name=".ui.activity.SnoopActivity"
+            android:exported="false"
+            android:finishOnTaskLaunch="true" />
         <activity android:name=".ui.HomeScreenActivity"
             android:launchMode="singleTask" />
         <activity

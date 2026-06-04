@@ -85,6 +85,7 @@ import com.celzero.bravedns.ui.activity.FragmentHostActivity
 import com.celzero.bravedns.ui.activity.NetworkLogsActivity
 import com.celzero.bravedns.ui.activity.PauseActivity
 import com.celzero.bravedns.ui.activity.ProxySettingsActivity
+import com.celzero.bravedns.ui.activity.SnoopActivity
 import com.celzero.bravedns.ui.activity.WgMainActivity
 import com.celzero.bravedns.ui.bottomsheet.HomeScreenSettingBottomSheet
 import com.celzero.bravedns.ui.tour.GuidedTourManager
@@ -393,6 +394,13 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                 "HomeScreen: Proxy card clicked",
                 "Navigating to wg: ${appConfig.isWireGuardEnabled()}  from HomeScreenFragment"
             )
+        }
+
+        // Fork (白い熊 考直): Snooping panel entry point. The card lives only in the default
+        // (phone) home layout, not the sw600dp variant — hence the nullable-safe call.
+        b.fhsCardSnoopLl?.setOnClickListener {
+            Logger.v(LOG_TAG_UI, "$TAG: click event on snoop card")
+            startActivity(Intent(requireContext(), SnoopActivity::class.java))
         }
 
         b.fhsSponsor.setOnClickListener {

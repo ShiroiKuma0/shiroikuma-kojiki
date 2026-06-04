@@ -57,6 +57,8 @@ object ViewModelModule {
         viewModel { ServerSelectionViewModel() }
         viewModel { EntitlementDetailViewModel() }
         viewModel { SponsorViewModel(androidApplication(), get(), get()) }
+        // Fork (白い熊 考直): Snooping panel.
+        viewModel { SnoopViewModel(get()) }
     }
 
     val modules = listOf(modelModules)

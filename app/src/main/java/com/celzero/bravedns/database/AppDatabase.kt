@@ -55,9 +55,12 @@ import com.celzero.bravedns.util.Constants
         SubscriptionStatus::class,
         SubscriptionStateHistory::class,
         CountryConfig::class,
-        SponsorEntity::class
+        SponsorEntity::class,
+        // Fork (白い熊 考直): Snooping panel — persistent suspected-snoop records.
+        SnoopEvent::class
     ],
-    version = 31,
+    // Fork (白い熊 考直): 31 upstream + 1 for the SnoopEvent table (MIGRATION_31_32).
+    version = 32,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -154,6 +157,8 @@ abstract class AppDatabase : RoomDatabase() {
                 .addMigrations(MIGRATION_28_29)
                 .addMigrations(MIGRATION_29_30)
                 .addMigrations(MIGRATION_30_31)
+                // Fork (白い熊 考直): the Snooping panel's SnoopEvent table.
+                .addMigrations(MIGRATION_31_32)
                 // Fork (白い熊 考直): if the on-device DB was written by a NEWER schema than this build
                 // (e.g. rolling back from a higher tag), Room has no downgrade path and crashes
                 // ("A migration from N to M was required but not found"). Drop & recreate on DOWNGRADE
@@ -1308,6 +1313,44 @@ abstract class AppDatabase : RoomDatabase() {
                 }
             }
 
+        // Fork (白い熊 考直): Snooping panel — create the persistent SnoopEvent table.
+        // Column types / NOT NULL / index names must match Room's generated schema for the
+        // SnoopEvent entity exactly, else Room's runtime schema verification throws on open.
+        // Renumbered 30→31 ⇒ 31→32 on the v0.5.6 base (upstream now owns 30→31 for Sponsor).
+        private val MIGRATION_31_32: Migration =
+            object : Migration(31, 32) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL(
+                        """
+                        CREATE TABLE IF NOT EXISTS `SnoopEvent` (
+                            `uid` INTEGER NOT NULL,
+                            `appName` TEXT NOT NULL,
+                            `packageName` TEXT NOT NULL,
+                            `domain` TEXT NOT NULL,
+                            `firstSeen` INTEGER NOT NULL,
+                            `lastSeen` INTEGER NOT NULL,
+                            `count` INTEGER NOT NULL,
+                            `severity` INTEGER NOT NULL,
+                            `category` TEXT NOT NULL,
+                            `lastBlocked` INTEGER NOT NULL,
+                            `dismissed` INTEGER NOT NULL,
+                            PRIMARY KEY(`uid`, `domain`)
+                        )
+                        """.trimIndent()
+                    )
+                    db.execSQL(
+                        "CREATE INDEX IF NOT EXISTS `index_SnoopEvent_severity` ON `SnoopEvent` (`severity`)"
+                    )
+                    db.execSQL(
+                        "CREATE INDEX IF NOT EXISTS `index_SnoopEvent_lastSeen` ON `SnoopEvent` (`lastSeen`)"
+                    )
+                    db.execSQL(
+                        "CREATE INDEX IF NOT EXISTS `index_SnoopEvent_dismissed` ON `SnoopEvent` (`dismissed`)"
+                    )
+                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: created SnoopEvent table")
+                }
+            }
+
         // ref: stackoverflow.com/a/57204285
         private fun doesColumnExistInTable(
             db: SupportSQLiteDatabase,
@@ -1380,6 +1423,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun sponsorDao(): SponsorDao
 
     abstract fun countryConfigDAO(): CountryConfigDAO
+    // Fork (白い熊 考直): Snooping panel.
+    abstract fun snoopEventDAO(): SnoopEventDAO
 
     fun appInfoRepository() = AppInfoRepository(appInfoDAO())
 
@@ -1427,5 +1472,8 @@ abstract class AppDatabase : RoomDatabase() {
     fun wgHopMapRepository() = WgHopMapRepository(wgHopMapDao())
 
     fun subscriptionStatusRepository() = SubscriptionStatusRepository(subscriptionStatusDao())
+
+    // Fork (白い熊 考直): Snooping panel.
+    fun snoopEventRepository() = SnoopEventRepository(snoopEventDAO())
 
 }
