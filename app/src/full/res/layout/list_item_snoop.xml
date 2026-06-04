@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直) — Snooping panel row. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/snoop_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <!-- severity-highlight bar -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/snoop_severity_bar"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:background="@color/colorRed_A400" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/snoop_app_icon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="6dp"
+            android:alpha="0.9"
+            android:contentDescription="@string/apps_icon_content_desc"
+            android:src="@drawable/default_app_icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="4dp"
+            android:paddingEnd="6dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/snoop_domain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="@dimen/large_font_text_view"
+                android:typeface="monospace"
+                tools:text="app-measurement.com" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/snoop_app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textColor="?attr/primaryLightColorText"
+                android:textSize="@dimen/default_font_text_view"
+                tools:text="Some App" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/snoop_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="?attr/primaryLightColorText"
+                android:textSize="@dimen/mini_font_text_view"
+                tools:text="2m ago · seen 5× · telemetry" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="end|center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="12dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/snoop_severity_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/bg_snoop_badge"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/mini_font_text_view"
+                tools:text="HIGH" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/snoop_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:singleLine="true"
+                android:textSize="@dimen/mini_font_text_view"
+                tools:text="blocked" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/divider" />
+</LinearLayout>

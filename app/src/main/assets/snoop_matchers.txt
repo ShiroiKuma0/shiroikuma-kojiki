@@ -1,0 +1,28 @@
+# Fork (白い熊 考直) — Snooping panel matcher list.
+# One glob per line. '*' matches any run of characters. Lines beginning with '#'
+# and blank lines are ignored. A plain domain (no '*') also matches its subdomains.
+
+# Huawei / OEM telemetry
+metrics*.hicloud.com
+logbak*.hicloud.com
+logservice*.hicloud.com
+grs*.huawei.com
+*.dbankcloud.*
+*.hwcloudtest.cn
+# Generic mobile analytics / crash / attribution SDKs
+app-measurement.com
+*.crashlytics.com
+*.google-analytics.com
+*.googletagmanager.com
+*.appsflyer.com
+*.adjust.com
+*.branch.io
+*.sentry.io
+*.bugsnag.com
+*.mixpanel.com
+api.segment.io
+*.amplitude.com
+*.umeng.com
+*.flurry.com
+*.sensorsdata.*
+graph.facebook.com
