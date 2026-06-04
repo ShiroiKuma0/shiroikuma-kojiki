@@ -264,6 +264,9 @@ internal constructor(
         @Suppress("UNCHECKED_CAST")
         val dnsLogs = (logs as? List<DnsLog>) ?: return
         dnsLogRepository.insertBatch(dnsLogs)
+        // Fork (白い熊 考直): Snooping panel — classify each freshly-inserted log and,
+        // on a positive, upsert a persistent SnoopEvent. Per-insert, never a table scan.
+        dnsLogs.forEach { SnoopClassifier.record(context, it) }
     }
 
     fun updateVpnConnectionState(transaction: Transaction?) {

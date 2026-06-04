@@ -49,6 +49,8 @@ object DatabaseModule {
         single { get<AppDatabase>().subscriptionStatusDao() }
         single { get<AppDatabase>().subscriptionStateHistoryDao()}
         single { get<AppDatabase>().countryConfigDAO() }
+        // Fork (白い熊 考直): Snooping panel.
+        single { get<AppDatabase>().snoopEventDAO() }
 
         single { get<LogDatabase>().connectionTrackerDAO() }
         single { get<LogDatabase>().dnsLogDAO() }
@@ -85,6 +87,8 @@ object DatabaseModule {
         single { get<AppDatabase>().subscriptionStatusRepository() }
         single { get<AppDatabase>().subscriptionStateHistoryDao() }
         single { get<AppDatabase>().countryConfigRepository() }
+        // Fork (白い熊 考直): Snooping panel.
+        single { get<AppDatabase>().snoopEventRepository() }
 
         single { get<LogDatabase>().rethinkConnectionLogRepository() }
         single { get<LogDatabase>().connectionTrackerRepository() }
