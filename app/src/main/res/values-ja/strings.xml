@@ -635,4 +635,47 @@
     <string name="status_protected_with_wg" translatable="true">WireGuard で保護されています</string>
     <string name="lbl_dismiss" translatable="true">却下する</string>
     <string name="lbl_cache" translatable="true">キャッシュ</string>
+
+    <!-- Fork (白い熊 考直): Snooping panel (監視追跡). -->
+    <string name="snoop_title">監視追跡</string>
+    <string name="snoop_card_title">監視追跡</string>
+    <string name="snoop_card_desc">アプリ別の疑わしいテレメトリ — タップして確認</string>
+    <string name="snoop_search_hint">ドメインまたはアプリを検索</string>
+    <string name="snoop_sort_newest">新しい順</string>
+    <string name="snoop_sort_oldest">古い順</string>
+    <string name="snoop_sort_most_seen">回数が多い順</string>
+    <string name="snoop_sort_severity">重要度順</string>
+    <string name="snoop_sort_app">アプリ名順</string>
+    <string name="snoop_sort_domain">ドメイン順</string>
+    <string name="snoop_filter_cd">フィルター</string>
+    <string name="snoop_filter_sev_all">重要度 ・ すべて</string>
+    <string name="snoop_filter_sev_high">重要度 ・ 高</string>
+    <string name="snoop_filter_sev_medium">重要度 ・ 中</string>
+    <string name="snoop_filter_sev_low">重要度 ・ 低</string>
+    <string name="snoop_filter_state_all">状態 ・ すべて</string>
+    <string name="snoop_filter_state_blocked">状態 ・ ブロック済み</string>
+    <string name="snoop_filter_state_allowed">状態 ・ 許可</string>
+    <string name="snoop_clear_all">すべて消去</string>
+    <string name="snoop_empty">まだ監視・追跡は検出されていません。端末内ブロックリスト（プライバシー／トラッカー）を有効にすると精度が上がります。</string>
+    <string name="snoop_sev_high">高</string>
+    <string name="snoop_sev_medium">中</string>
+    <string name="snoop_sev_low">低</string>
+    <string name="snoop_state_blocked">ブロック済み</string>
+    <string name="snoop_state_allowed">許可</string>
+    <string name="snoop_meta">%1$s ・ %2$d回 ・ %3$s</string>
+    <string name="snoop_action_block_app">このアプリをブロック</string>
+    <string name="snoop_action_block_all">すべてのアプリでブロック</string>
+    <string name="snoop_action_trust_app">このアプリで信頼</string>
+    <string name="snoop_action_advanced">詳細ルール…</string>
+    <string name="snoop_action_dismiss">非表示にする</string>
+    <string name="snoop_action_open_app">アプリを開く</string>
+    <string name="snoop_toast_blocked">%1$s をブロックしています</string>
+    <string name="snoop_toast_trusted">%1$s を信頼しています</string>
+    <string name="snoop_toast_dismissed">%1$s を非表示にしました</string>
+    <string name="snoop_clear_confirm_title">監視・追跡の記録をすべて消去しますか？</string>
+    <string name="snoop_clear_confirm_msg">記録された監視・追跡履歴をすべて消去します。設定済みのドメインルールには影響しません。</string>
+    <string name="snoop_notif_channel">監視・追跡の通知</string>
+    <string name="snoop_notif_channel_desc">新たに検出された重要度の高い監視・追跡の日次サマリー</string>
+    <string name="snoop_notif_title">監視・追跡を検出</string>
+    <string name="snoop_notif_text">重要度の高い監視・追跡が %1$d 件あります。タップして確認。</string>
 </resources>

@@ -1,28 +1,253 @@
 # Fork (白い熊 考直) — Snooping panel matcher list.
 # One glob per line. '*' matches any run of characters. Lines beginning with '#'
 # and blank lines are ignored. A plain domain (no '*') also matches its subdomains.
+#
+# Aggressive set: high-confidence telemetry / ad / tracking / attribution / crash /
+# session-replay / OEM domains. A match flags the lookup as a suspected snoop in the
+# panel (it does NOT block — blocking stays a user action / blocklist job), so erring
+# broad here only surfaces more for review. TLD-blanket entries that would shadow core
+# services (e.g. *.facebook.com, *.googleapis.com, *.icloud.com) are deliberately avoided.
 
-# Huawei / OEM telemetry
+# ---------------------------------------------------------------------------
+# OEM / device telemetry
+# ---------------------------------------------------------------------------
+# Huawei
 metrics*.hicloud.com
 logbak*.hicloud.com
 logservice*.hicloud.com
+metrics*.cloud.huawei.com
+logservice*.cloud.huawei.com
 grs*.huawei.com
+grs*.platform.hicloud.com
 *.dbankcloud.*
+*.dbankcdn.com
 *.hwcloudtest.cn
-# Generic mobile analytics / crash / attribution SDKs
+# Xiaomi / MIUI
+*.mistat.xiaomi.com
+*.mistat.intl.xiaomi.com
+tracking.miui.com
+tracking.intl.miui.com
+*.sec.miui.com
+*.sec.intl.miui.com
+data.mistat.xiaomi.com
+# Samsung
+*.samsungacr.com
+*.samsung-ads.com
+*.adlog.samsung.com
+nmetrics.samsung.com
+# OPPO / Realme / OnePlus (ColorOS / Heytap)
+*.heytapmobi.com
+*.adx.heytapmobi.com
+*.ads.heytapmobi.com
+iot.heytapmobi.com
+# Windows / Microsoft telemetry (cross-platform apps)
+*.events.data.microsoft.com
+*.vortex.data.microsoft.com
+*.watson.telemetry.microsoft.com
+*.scorecardresearch.com
+
+# ---------------------------------------------------------------------------
+# Mobile analytics / crash / attribution SDKs
+# ---------------------------------------------------------------------------
 app-measurement.com
+*.app-analytics-services.com
 *.crashlytics.com
+firebaselogging-pa.googleapis.com
+firebaselogging.googleapis.com
 *.google-analytics.com
 *.googletagmanager.com
+*.googletagservices.com
 *.appsflyer.com
 *.adjust.com
+*.adjust.io
+*.adjust.world
+*.kochava.com
+*.singular.net
+*.apsalar.com
+*.tenjin.com
+*.tenjin.io
 *.branch.io
+app.link
+*.app.link
+*.tune.com
+*.mobileapptracking.com
 *.sentry.io
 *.bugsnag.com
 *.mixpanel.com
 api.segment.io
+*.segment.io
+*.segment.com
 *.amplitude.com
-*.umeng.com
 *.flurry.com
-*.sensorsdata.*
+*.localytics.com
+*.kissmetrics.com
+*.kissmetrics.io
+*.mparticle.com
+*.heap.io
+*.heapanalytics.com
+*.countly.*
+*.appcenter.ms
+*.instabug.com
+*.embrace.io
+*.bugfender.com
+*.raygun.io
+*.raygun.com
+*.rollbar.com
+*.honeybadger.io
+*.newrelic.com
+*.nr-data.net
+mobile-collector.newrelic.com
+*.datadoghq.com
+*.statsig.com
+*.split.io
+*.optimizely.com
+
+# ---------------------------------------------------------------------------
+# Session replay / heatmap / RUM / product analytics
+# ---------------------------------------------------------------------------
+*.fullstory.com
+*.hotjar.com
+*.hotjar.io
+*.mouseflow.com
+*.crazyegg.com
+*.clicktale.net
+*.quantummetric.com
+*.contentsquare.net
+*.smartlook.com
+*.logrocket.com
+*.logrocket.io
+*.lr-ingest.io
+*.posthog.com
+*.woopra.com
+*.parse.ly
+*.chartbeat.com
+*.chartbeat.net
+*.go-mpulse.net
+*.imrworldwide.com
+*.exelator.com
+
+# ---------------------------------------------------------------------------
+# Ad networks / exchanges / RTB / mediation
+# ---------------------------------------------------------------------------
+*.doubleclick.net
+*.googlesyndication.com
+*.googleadservices.com
+adservice.google.*
+pagead2.googlesyndication.com
+*.adnxs.com
+*.adsrvr.org
+*.rubiconproject.com
+*.pubmatic.com
+*.openx.net
+*.criteo.com
+*.criteo.net
+*.casalemedia.com
+*.smartadserver.com
+*.taboola.com
+*.outbrain.com
+*.quantserve.com
+*.quantcount.com
+*.moatads.com
+*.adsafeprotected.com
+*.serving-sys.com
+*.advertising.com
+*.mathtag.com
+*.bidswitch.net
+*.adform.net
+*.yieldmo.com
+*.gumgum.com
+*.sharethrough.com
+*.3lift.com
+*.contextweb.com
+*.spotxchange.com
+*.spotx.tv
+*.teads.tv
+*.smaato.net
+*.inmobi.com
+*.applovin.com
+*.applvn.com
+*.unityads.unity3d.com
+*.vungle.com
+*.chartboost.com
+*.adcolony.com
+*.tapjoy.com
+*.ironsrc.com
+*.supersonicads.com
+*.mopub.com
+*.startappservice.com
+*.startapp.com
+*.fyber.com
+*.inner-active.mobi
+*.atdmt.com
+*.flashtalking.com
+*.tradedoubler.com
+*.247realmedia.com
+
+# ---------------------------------------------------------------------------
+# DMPs / data brokers / Adobe
+# ---------------------------------------------------------------------------
+*.demdex.net
+*.omtrdc.net
+*.2o7.net
+*.everesttech.net
+*.adobedtm.com
+*.rlcdn.com
+*.crwdcntrl.net
+*.bluekai.com
+*.agkn.com
+
+# ---------------------------------------------------------------------------
+# Engagement / push-bundled analytics
+# ---------------------------------------------------------------------------
+*.onesignal.com
+*.urbanairship.com
+*.asnapieu.com
+*.braze.com
+*.appboy.com
+*.leanplum.com
+*.clevertap.com
+*.swrve.com
+
+# ---------------------------------------------------------------------------
+# Meta / Facebook (SDK + pixel; not the whole domain)
+# ---------------------------------------------------------------------------
 graph.facebook.com
+*.facebook.net
+
+# ---------------------------------------------------------------------------
+# Chinese trackers / analytics / push
+# ---------------------------------------------------------------------------
+*.umeng.com
+*.umengcloud.com
+*.cnzz.com
+*.talkingdata.com
+*.talkingdata.net
+*.tendcloud.com
+*.getui.com
+*.igexin.com
+*.jpush.cn
+*.jiguang.cn
+*.mob.com
+hm.baidu.com
+*.tongji.baidu.com
+*.miaozhen.com
+*.irs01.com
+*.irs01.net
+*.growingio.com
+*.sensorsdata.*
+*.mmstat.com
+*.alimama.com
+*.tanx.com
+*.bugly.qq.com
+*.beacon.qq.com
+*.pingfore.qq.com
+*.mta.qq.com
+
+# ---------------------------------------------------------------------------
+# Russian trackers / analytics
+# ---------------------------------------------------------------------------
+*.appmetrica.yandex.net
+*.appmetrica.yandex.com
+mc.yandex.ru
+*.top.mail.ru
+*.tracker.mail.ru

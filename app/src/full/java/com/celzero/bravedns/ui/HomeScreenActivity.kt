@@ -68,6 +68,7 @@ import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.RethinkBlocklistManager
 import com.celzero.bravedns.service.VpnController
 import com.celzero.bravedns.service.WireguardManager
+import com.celzero.bravedns.ui.activity.KojikiUiActivity
 import com.celzero.bravedns.ui.activity.MiscSettingsActivity
 import com.celzero.bravedns.ui.activity.PauseActivity
 import com.celzero.bravedns.ui.activity.WelcomeActivity
@@ -870,6 +871,12 @@ class HomeScreenActivity : BaseActivity(R.layout.activity_home_screen) {
 
         // Tapping an already-selected tab is a no-op (don't re-navigate or recreate).
         btmNavView.setOnItemReselectedListener { /* intentional no-op */ }
+        // Fork (白い熊 考直): long-press the "Configure" (cog) bottom-nav tab → open the
+        // 白い熊 考直 UI customization page directly (a normal tap still navigates to Configure).
+        btmNavView.findViewById<View>(R.id.configureFragment)?.setOnLongClickListener {
+            startActivity(Intent(this, KojikiUiActivity::class.java))
+            true
+        }
     }
 
     private fun io(f: suspend () -> Unit) {
