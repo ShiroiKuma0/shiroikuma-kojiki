@@ -37,24 +37,35 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/snoop_group_toggle"
+                android:layout_toStartOf="@id/snoop_sort"
                 android:fontFamily="sans-serif"
                 app:iconifiedByDefault="false"
                 app:queryHint="@string/snoop_search_hint" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/snoop_group_toggle"
+                android:id="@+id/snoop_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/snoop_filter_icon"
+                android:background="?android:attr/selectableItemBackground"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/snoop_sort_newest"
+                android:textColor="?attr/accentGood"
+                android:textSize="@dimen/default_font_text_view" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/snoop_filter_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/snoop_delete_icon"
                 android:background="?android:attr/selectableItemBackground"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/snoop_group_by_app"
-                android:textColor="?attr/accentGood"
-                android:textSize="@dimen/default_font_text_view" />
+                android:contentDescription="@string/snoop_filter_cd"
+                android:padding="9dp"
+                android:src="@drawable/ic_filter" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/snoop_delete_icon"
@@ -62,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/snoop_clear_all"
                 android:padding="9dp"
                 android:src="@drawable/ic_delete" />
