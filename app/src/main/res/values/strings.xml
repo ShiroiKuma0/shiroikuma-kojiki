@@ -2512,8 +2512,20 @@
     <string name="snoop_card_title" translatable="false">Snooping</string>
     <string name="snoop_card_desc" translatable="false">Suspected telemetry by app — tap to review</string>
     <string name="snoop_search_hint" translatable="false">Search domain or app</string>
-    <string name="snoop_group_by_app" translatable="false">By app</string>
-    <string name="snoop_group_by_domain" translatable="false">By domain</string>
+    <string name="snoop_sort_newest" translatable="false">Newest first</string>
+    <string name="snoop_sort_oldest" translatable="false">Oldest first</string>
+    <string name="snoop_sort_most_seen" translatable="false">Most seen</string>
+    <string name="snoop_sort_severity" translatable="false">Severity</string>
+    <string name="snoop_sort_app" translatable="false">App name</string>
+    <string name="snoop_sort_domain" translatable="false">Domain</string>
+    <string name="snoop_filter_cd" translatable="false">Filter</string>
+    <string name="snoop_filter_sev_all" translatable="false">Severity · All</string>
+    <string name="snoop_filter_sev_high" translatable="false">Severity · High</string>
+    <string name="snoop_filter_sev_medium" translatable="false">Severity · Medium</string>
+    <string name="snoop_filter_sev_low" translatable="false">Severity · Low</string>
+    <string name="snoop_filter_state_all" translatable="false">State · All</string>
+    <string name="snoop_filter_state_blocked" translatable="false">State · Blocked</string>
+    <string name="snoop_filter_state_allowed" translatable="false">State · Allowed</string>
     <string name="snoop_clear_all" translatable="false">Clear all</string>
     <string name="snoop_empty" translatable="false">No snooping detected yet. Keep on-device blocklists (privacy and tracker categories) enabled for the best results.</string>
     <string name="snoop_sev_high" translatable="false">HIGH</string>
