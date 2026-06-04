@@ -59,6 +59,8 @@ object ViewModelModule {
         viewModel { EntitlementDetailViewModel() }
         viewModel { RethinkBlocklistViewModel(get(), get()) }
         viewModel { SponsorViewModel(androidApplication(), get(), get()) }
+        // Fork (白い熊 考直): Snooping panel.
+        viewModel { SnoopViewModel(get()) }
     }
 
     val modules = listOf(modelModules)
