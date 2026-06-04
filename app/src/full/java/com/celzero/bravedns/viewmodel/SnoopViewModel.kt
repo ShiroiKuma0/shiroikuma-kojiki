@@ -25,20 +25,45 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.liveData
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventDAO
+import com.celzero.bravedns.service.SnoopClassifier
 import com.celzero.bravedns.util.Constants.Companion.LIVEDATA_PAGE_SIZE
+import com.celzero.bravedns.util.Constants.Companion.MAX_LOGS
 
 // Fork (白い熊 考直) — Snooping panel feature.
 class SnoopViewModel(private val dao: SnoopEventDAO) : ViewModel() {
 
-    enum class GroupBy {
+    enum class Sort {
+        NEWEST,
+        OLDEST,
+        MOST_SEEN,
+        SEVERITY,
         APP,
         DOMAIN
     }
 
-    private val filter: MutableLiveData<String> = MutableLiveData()
-    private var groupBy = GroupBy.APP
+    enum class SeverityFilter {
+        ALL,
+        HIGH,
+        MEDIUM,
+        LOW
+    }
+
+    enum class StateFilter {
+        ALL,
+        BLOCKED,
+        ALLOWED
+    }
+
+    private val trigger: MutableLiveData<Unit> = MutableLiveData()
+    private var sort = Sort.NEWEST
+    private var severity = SeverityFilter.ALL
+    private var state = StateFilter.ALL
+    private var search = ""
+
     private val pagingConfig =
         PagingConfig(
             enablePlaceholders = true,
@@ -50,34 +75,85 @@ class SnoopViewModel(private val dao: SnoopEventDAO) : ViewModel() {
         )
 
     init {
-        filter.value = ""
+        trigger.value = Unit
     }
 
-    val events: LiveData<PagingData<SnoopEvent>> = filter.switchMap { fetch(it) }
+    val events: LiveData<PagingData<SnoopEvent>> = trigger.switchMap { fetch() }
 
-    private fun fetch(search: String): LiveData<PagingData<SnoopEvent>> {
-        return Pager(pagingConfig) {
-                if (search.isEmpty()) {
-                    if (groupBy == GroupBy.APP) dao.byApp() else dao.byDomain()
-                } else {
-                    val q = "%$search%"
-                    if (groupBy == GroupBy.APP) dao.byAppFiltered(q) else dao.byDomainFiltered(q)
-                }
-            }
+    private fun fetch(): LiveData<PagingData<SnoopEvent>> {
+        return Pager(pagingConfig) { dao.rawEvents(buildQuery()) }
             .liveData
             .cachedIn(viewModelScope)
     }
 
-    fun setFilter(search: String) {
-        filter.value = if (search.isBlank()) "" else search
+    // Builds "SELECT * FROM SnoopEvent WHERE … ORDER BY … LIMIT …". The search term is a bound arg;
+    // every other fragment is chosen from a fixed allowlist (enum-driven), so this is injection-safe.
+    private fun buildQuery(): SupportSQLiteQuery {
+        val where = StringBuilder("dismissed = 0")
+        val args = mutableListOf<Any>()
+
+        when (severity) {
+            SeverityFilter.HIGH -> { where.append(" AND severity = ?"); args.add(SnoopClassifier.SEV_HIGH) }
+            SeverityFilter.MEDIUM -> { where.append(" AND severity = ?"); args.add(SnoopClassifier.SEV_MEDIUM) }
+            SeverityFilter.LOW -> { where.append(" AND severity = ?"); args.add(SnoopClassifier.SEV_LOW) }
+            SeverityFilter.ALL -> {}
+        }
+
+        when (state) {
+            StateFilter.BLOCKED -> where.append(" AND lastBlocked = 1")
+            StateFilter.ALLOWED -> where.append(" AND lastBlocked = 0")
+            StateFilter.ALL -> {}
+        }
+
+        if (search.isNotBlank()) {
+            where.append(" AND (domain LIKE ? OR appName LIKE ?)")
+            val like = "%${search.trim()}%"
+            args.add(like)
+            args.add(like)
+        }
+
+        val order =
+            when (sort) {
+                Sort.NEWEST -> "lastSeen DESC"
+                Sort.OLDEST -> "lastSeen ASC"
+                Sort.MOST_SEEN -> "count DESC, lastSeen DESC"
+                Sort.SEVERITY -> "severity DESC, lastSeen DESC"
+                Sort.APP -> "appName COLLATE NOCASE ASC, lastSeen DESC"
+                Sort.DOMAIN -> "domain COLLATE NOCASE ASC, lastSeen DESC"
+            }
+
+        val sql = "SELECT * FROM SnoopEvent WHERE $where ORDER BY $order LIMIT $MAX_LOGS"
+        return SimpleSQLiteQuery(sql, args.toTypedArray())
     }
 
-    fun setGroupBy(group: GroupBy) {
-        if (groupBy == group) return
-        groupBy = group
-        // re-trigger the switchMap with the current search term
-        filter.value = filter.value
+    fun setSort(s: Sort) {
+        if (sort == s) return
+        sort = s
+        trigger.value = Unit
     }
 
-    fun currentGroupBy(): GroupBy = groupBy
+    fun setSeverity(f: SeverityFilter) {
+        if (severity == f) return
+        severity = f
+        trigger.value = Unit
+    }
+
+    fun setState(f: StateFilter) {
+        if (state == f) return
+        state = f
+        trigger.value = Unit
+    }
+
+    fun setSearch(q: String) {
+        val n = if (q.isBlank()) "" else q
+        if (n == search) return
+        search = n
+        trigger.value = Unit
+    }
+
+    fun currentSort() = sort
+
+    fun currentSeverity() = severity
+
+    fun currentState() = state
 }

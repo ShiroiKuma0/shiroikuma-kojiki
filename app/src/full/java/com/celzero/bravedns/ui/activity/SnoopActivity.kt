@@ -18,10 +18,13 @@ package com.celzero.bravedns.ui.activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
@@ -50,6 +53,37 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
     private val viewModel by viewModel<SnoopViewModel>()
 
     private lateinit var adapter: SnoopEventAdapter
+
+    companion object {
+        private const val GRP_SORT = 1
+        private const val GRP_SEV = 2
+        private const val GRP_STATE = 3
+        // filter-menu item-id ranges so one popup can host two independent radio groups
+        private const val STATE_ID_BASE = 100
+
+        private val SORTS =
+            listOf(
+                SnoopViewModel.Sort.NEWEST to R.string.snoop_sort_newest,
+                SnoopViewModel.Sort.OLDEST to R.string.snoop_sort_oldest,
+                SnoopViewModel.Sort.MOST_SEEN to R.string.snoop_sort_most_seen,
+                SnoopViewModel.Sort.SEVERITY to R.string.snoop_sort_severity,
+                SnoopViewModel.Sort.APP to R.string.snoop_sort_app,
+                SnoopViewModel.Sort.DOMAIN to R.string.snoop_sort_domain
+            )
+        private val SEVERITIES =
+            listOf(
+                SnoopViewModel.SeverityFilter.ALL to R.string.snoop_filter_sev_all,
+                SnoopViewModel.SeverityFilter.HIGH to R.string.snoop_filter_sev_high,
+                SnoopViewModel.SeverityFilter.MEDIUM to R.string.snoop_filter_sev_medium,
+                SnoopViewModel.SeverityFilter.LOW to R.string.snoop_filter_sev_low
+            )
+        private val STATES =
+            listOf(
+                SnoopViewModel.StateFilter.ALL to R.string.snoop_filter_state_all,
+                SnoopViewModel.StateFilter.BLOCKED to R.string.snoop_filter_state_blocked,
+                SnoopViewModel.StateFilter.ALLOWED to R.string.snoop_filter_state_allowed
+            )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         theme.applyStyle(getCurrentTheme(isDarkThemeOn(), persistentState.theme), true)
@@ -81,48 +115,77 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
         adapter = SnoopEventAdapter(this, repository)
         b.snoopRecycler.layoutManager = LinearLayoutManager(this)
         b.snoopRecycler.adapter = adapter
+        // empty state reflects the *current* filter/search, not just the table total
+        adapter.addLoadStateListener { states ->
+            val empty = states.refresh is LoadState.NotLoading && adapter.itemCount == 0
+            b.snoopEmpty.visibility = if (empty) View.VISIBLE else View.GONE
+        }
     }
 
     private fun initObservers() {
         viewModel.events.observe(this) { adapter.submitData(lifecycle, it) }
-        repository.liveCount().observe(this) { count ->
-            val empty = (count ?: 0L) <= 0L
-            b.snoopEmpty.visibility = if (empty) android.view.View.VISIBLE else android.view.View.GONE
-        }
     }
 
     private fun initClickListeners() {
-        val search = b.snoopSearch
-        search.setOnQueryTextListener(
+        b.snoopSort.text = getString(sortLabel(viewModel.currentSort()))
+
+        b.snoopSearch.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    viewModel.setFilter(query ?: "")
+                    viewModel.setSearch(query ?: "")
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.setFilter(newText ?: "")
+                    viewModel.setSearch(newText ?: "")
                     return true
                 }
             }
         )
 
-        b.snoopGroupToggle.setOnClickListener {
-            val next =
-                if (viewModel.currentGroupBy() == SnoopViewModel.GroupBy.APP) {
-                    SnoopViewModel.GroupBy.DOMAIN
-                } else {
-                    SnoopViewModel.GroupBy.APP
-                }
-            viewModel.setGroupBy(next)
-            b.snoopGroupToggle.text =
-                getString(
-                    if (next == SnoopViewModel.GroupBy.APP) R.string.snoop_group_by_app
-                    else R.string.snoop_group_by_domain
-                )
-        }
-
+        b.snoopSort.setOnClickListener { showSortMenu(it) }
+        b.snoopFilterIcon.setOnClickListener { showFilterMenu(it) }
         b.snoopDeleteIcon.setOnClickListener { confirmClearAll() }
+    }
+
+    private fun sortLabel(s: SnoopViewModel.Sort): Int =
+        SORTS.first { it.first == s }.second
+
+    private fun showSortMenu(anchor: View) {
+        val popup = PopupMenu(this, anchor)
+        SORTS.forEachIndexed { i, (_, res) -> popup.menu.add(GRP_SORT, i, i, getString(res)) }
+        popup.menu.setGroupCheckable(GRP_SORT, true, true)
+        popup.menu.getItem(SORTS.indexOfFirst { it.first == viewModel.currentSort() }).isChecked = true
+        popup.setOnMenuItemClickListener { item ->
+            val s = SORTS[item.itemId].first
+            viewModel.setSort(s)
+            b.snoopSort.text = getString(sortLabel(s))
+            true
+        }
+        popup.show()
+    }
+
+    private fun showFilterMenu(anchor: View) {
+        val popup = PopupMenu(this, anchor)
+        val m = popup.menu
+        SEVERITIES.forEachIndexed { i, (_, res) -> m.add(GRP_SEV, i, i, getString(res)) }
+        m.setGroupCheckable(GRP_SEV, true, true)
+        m.getItem(SEVERITIES.indexOfFirst { it.first == viewModel.currentSeverity() }).isChecked = true
+        STATES.forEachIndexed { i, (_, res) ->
+            m.add(GRP_STATE, STATE_ID_BASE + i, STATE_ID_BASE + i, getString(res))
+        }
+        m.setGroupCheckable(GRP_STATE, true, true)
+        // index within the STATE group = id - base; getItem is over the whole menu, so offset past severities
+        m.getItem(SEVERITIES.size + STATES.indexOfFirst { it.first == viewModel.currentState() }).isChecked = true
+        popup.setOnMenuItemClickListener { item ->
+            if (item.itemId >= STATE_ID_BASE) {
+                viewModel.setState(STATES[item.itemId - STATE_ID_BASE].first)
+            } else {
+                viewModel.setSeverity(SEVERITIES[item.itemId].first)
+            }
+            true
+        }
+        popup.show()
     }
 
     private fun confirmClearAll() {
