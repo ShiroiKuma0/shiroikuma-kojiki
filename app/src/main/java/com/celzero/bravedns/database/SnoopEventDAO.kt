@@ -21,6 +21,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 
 // Fork (白い熊 考直) — Snooping panel feature.
 @Dao
@@ -55,29 +57,12 @@ interface SnoopEventDAO {
         packageName: String
     ): Int
 
-    // ---- panel queries (PagingSource), dismissed rows hidden ----
-
-    // grouped by app: rows cluster by app name, then strongest/most-recent first
-    @Query(
-        "SELECT * FROM SnoopEvent WHERE dismissed = 0 ORDER BY appName COLLATE NOCASE ASC, severity DESC, lastSeen DESC"
-    )
-    fun byApp(): PagingSource<Int, SnoopEvent>
-
-    @Query(
-        "SELECT * FROM SnoopEvent WHERE dismissed = 0 AND (domain LIKE :q OR appName LIKE :q) ORDER BY appName COLLATE NOCASE ASC, severity DESC, lastSeen DESC"
-    )
-    fun byAppFiltered(q: String): PagingSource<Int, SnoopEvent>
-
-    // grouped by domain: most-recent / strongest first across all apps
-    @Query(
-        "SELECT * FROM SnoopEvent WHERE dismissed = 0 ORDER BY severity DESC, lastSeen DESC"
-    )
-    fun byDomain(): PagingSource<Int, SnoopEvent>
-
-    @Query(
-        "SELECT * FROM SnoopEvent WHERE dismissed = 0 AND (domain LIKE :q OR appName LIKE :q) ORDER BY severity DESC, lastSeen DESC"
-    )
-    fun byDomainFiltered(q: String): PagingSource<Int, SnoopEvent>
+    // ---- panel query (PagingSource) ----
+    // The WHERE (dismissed always excluded) + sort + filters are composed by SnoopViewModel into a
+    // SimpleSQLiteQuery (search term bound; sort/filter fragments come from a fixed allowlist, so no
+    // injection). observedEntities lets Room invalidate the PagingSource on any SnoopEvent change.
+    @RawQuery(observedEntities = [SnoopEvent::class])
+    fun rawEvents(query: SupportSQLiteQuery): PagingSource<Int, SnoopEvent>
 
     // ---- mutations from the panel ----
 
