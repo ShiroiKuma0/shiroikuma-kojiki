@@ -60,6 +60,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private val fontImportLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> onFontImported(uri) }
 
+    private companion object {
+        const val KEY_SCROLL_Y = "kojiki_ui_scroll_y"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         theme.applyStyle(Themes.getCurrentTheme(isDarkThemeOn(), persistentState.theme), true)
         super.onCreate(savedInstanceState)
@@ -67,6 +71,17 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         cfg = CustomUiConfig(this)
         buildRows()
+        // Every control commits via recreate(); without this the page snaps back to the top on each
+        // change. Restore the prior scroll position after the rows are laid out.
+        val savedScroll = savedInstanceState?.getInt(KEY_SCROLL_Y, 0) ?: 0
+        if (savedScroll > 0) {
+            b.kojikiUiScroll.post { b.kojikiUiScroll.scrollTo(0, savedScroll) }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_SCROLL_Y, b.kojikiUiScroll.scrollY)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -126,10 +141,19 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             { cfg.iconSize }, { cfg.iconSize = it },
             { cfg.iconRoundness }, { cfg.iconRoundness = it })
 
-        // --- Snooping panel app icon — with a live preview ---
+        // --- Snooping panel: icon (preview) + severity pill + status text (live preview) ---
         addIconSection(R.string.kojiki_ui_section_snoop_icon,
             { cfg.snoopIconSize }, { cfg.snoopIconSize = it },
             { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
+        addSnoopPillControls()
+
+        // --- Popup menus (snoop row actions / sort / filter): border + item text ---
+        addSectionHeader(R.string.kojiki_ui_section_menu)
+        addColorRow(R.string.kojiki_ui_menu_border, cfg.menuBorderColor) { cfg.menuBorderColor = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_menu_border_width, cfg.menuBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+            cfg.menuBorderWidth = it; recreate()
+        }
+        addFontGroup(R.string.kojiki_ui_menu_item, CustomUiConfig.P_SNOOP_MENU)
 
         // --- Cards (border applied to every card, app-wide) ---
         addSectionHeader(R.string.kojiki_ui_section_cards)
@@ -195,6 +219,124 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             onChange = { liveSize = it; applyPreview() }) { setSize(it); recreate() }
         addSliderRow(R.string.kojiki_ui_icon_roundness, getRound(), 100, ::pctLabel,
             onChange = { liveRound = it; applyPreview() }) { setRound(it); recreate() }
+    }
+
+    // Live preview of a snooping-row's right column — the severity pill + the status text under it —
+    // updating as the pill-size / status-font sliders move (mirrors the icon preview). Uses sample
+    // HIGH / blocked content (localised) with the panel's own severity/state colours.
+    private fun addSnoopPillControls() {
+        var livePill = cfg.snoopPillSize
+        var livePillWeight = cfg.styleWeight(CustomUiConfig.P_SNOOP_PILL)
+        var livePillWidth = cfg.snoopPillWidth
+        var livePillRadius = cfg.snoopPillRadius
+        var livePillBorderWidth = cfg.snoopPillBorderWidth
+        var liveStateWeight = cfg.styleWeight(CustomUiConfig.P_SNOOP_STATE)
+        var liveStateSize = cfg.styleSize(CustomUiConfig.P_SNOOP_STATE)
+
+        val previewBadge = AppCompatTextView(this).apply {
+            // opt out of the runtime tree-walk so it doesn't override our pill size/white-on-red with
+            // the global font/accent (that's exactly what was nullifying the slider).
+            tag = CustomUi.NO_RESTYLE_TAG
+            text = getString(R.string.snoop_sev_high)
+            setTextColor(0xFFFFFFFF.toInt())
+            gravity = Gravity.CENTER
+            setPadding(dp(6), dp(2), dp(6), dp(2))
+        }
+        val previewState = AppCompatTextView(this).apply {
+            tag = CustomUi.NO_RESTYLE_TAG
+            text = getString(R.string.snoop_state_blocked)
+            setTextColor(0xFF2B8E18.toInt())
+            gravity = Gravity.CENTER
+            setPadding(0, dp(4), 0, 0)
+        }
+        fun applyPreview() {
+            // Match the real list pill exactly: keep the bg drawable's own padding, let text size
+            // drive the pill size. (The page now preserves scroll across recreate(), so this live
+            // update is visible — earlier it was masked by the jump-to-top on slider release.)
+            val pillFamily = cfg.styleFamily(CustomUiConfig.P_SNOOP_PILL).ifEmpty { cfg.fontFamily }
+            val pillWeight = if (livePillWeight > 0) livePillWeight else cfg.fontWeight
+            previewBadge.typeface =
+                CustomUi.typefaceFor(this@KojikiUiActivity, pillFamily, pillWeight, cfg.styleItalic(CustomUiConfig.P_SNOOP_PILL))
+            previewBadge.setTextColor(cfg.styleColor(CustomUiConfig.P_SNOOP_PILL, CustomUiConfig.SNOOP_WHITE))
+            previewBadge.setTextSize(TypedValue.COMPLEX_UNIT_SP, (if (livePill > 0) livePill else 11).toFloat())
+            previewBadge.background =
+                CustomUi.snoopPillBackground(
+                    this@KojikiUiActivity, 0xFFFF1744.toInt(), livePillRadius, livePillBorderWidth, cfg.snoopPillBorderColor
+                )
+            previewBadge.setPadding(dp(6), dp(2), dp(6), dp(2))
+            previewBadge.minimumWidth = dp(livePillWidth)
+            val family = cfg.styleFamily(CustomUiConfig.P_SNOOP_STATE).ifEmpty { cfg.fontFamily }
+            val weight = if (liveStateWeight > 0) liveStateWeight else cfg.fontWeight
+            previewState.typeface =
+                CustomUi.typefaceFor(this@KojikiUiActivity, family, weight, cfg.styleItalic(CustomUiConfig.P_SNOOP_STATE))
+            previewState.setTextSize(TypedValue.COMPLEX_UNIT_SP, (if (liveStateSize > 0) liveStateSize else 11).toFloat())
+            previewState.setTextColor(cfg.snoopStateBlockedColor)
+            previewBadge.requestLayout()
+            previewState.requestLayout()
+        }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(0, dp(12), dp(16), dp(12))
+        }
+        // WRAP_CONTENT (centred) so the pill renders at its true width, not stretched full-width
+        // (a vertical LinearLayout defaults children to MATCH_PARENT).
+        fun centeredWrap() =
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { gravity = Gravity.CENTER_HORIZONTAL }
+        box.addView(previewBadge, centeredWrap())
+        box.addView(previewState, centeredWrap())
+        indent(box, 1)
+        b.kojikiUiHolder.addView(box)
+        applyPreview()
+
+        addSubLabel(R.string.kojiki_ui_snoop_pill)
+        addSliderRow(R.string.kojiki_ui_snoop_pill_size, cfg.snoopPillSize, CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel, 2,
+            onChange = { livePill = it; applyPreview() }) { cfg.snoopPillSize = it; recreate() }
+        addColorRow(R.string.kojiki_ui_snoop_pill_color, cfg.styleColor(CustomUiConfig.P_SNOOP_PILL, CustomUiConfig.SNOOP_WHITE), indentLevel = 2) {
+            cfg.setStyleColor(CustomUiConfig.P_SNOOP_PILL, it); recreate()
+        }
+        addFontRow(R.string.kojiki_ui_item_font, cfg.styleFamily(CustomUiConfig.P_SNOOP_PILL), false, 2) {
+            cfg.setStyleFamily(CustomUiConfig.P_SNOOP_PILL, it); recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_item_weight, cfg.styleWeight(CustomUiConfig.P_SNOOP_PILL), CustomUiConfig.MAX_WEIGHT, ::weightLabel, 2,
+            onChange = { livePillWeight = it; applyPreview() }) { cfg.setStyleWeight(CustomUiConfig.P_SNOOP_PILL, it); recreate() }
+        addToggleRow(R.string.kojiki_ui_item_italic, cfg.styleItalic(CustomUiConfig.P_SNOOP_PILL), 2) {
+            cfg.setStyleItalic(CustomUiConfig.P_SNOOP_PILL, it); recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_snoop_pill_width, cfg.snoopPillWidth, CustomUiConfig.MAX_PILL_WIDTH_DP, ::dpLabel, 2,
+            onChange = { livePillWidth = it; applyPreview() }) { cfg.snoopPillWidth = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_snoop_pill_roundness, cfg.snoopPillRadius, CustomUiConfig.MAX_PILL_RADIUS_DP, ::dpLabel, 2,
+            onChange = { livePillRadius = it; applyPreview() }) { cfg.snoopPillRadius = it; recreate() }
+        addColorRow(R.string.kojiki_ui_snoop_pill_border, cfg.snoopPillBorderColor, indentLevel = 2) {
+            cfg.snoopPillBorderColor = it; recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_snoop_pill_border_width, cfg.snoopPillBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel, 2,
+            onChange = { livePillBorderWidth = it; applyPreview() }) { cfg.snoopPillBorderWidth = it; recreate() }
+
+        addSubLabel(R.string.kojiki_ui_snoop_state)
+        addColorRow(R.string.kojiki_ui_snoop_state_blocked, cfg.snoopStateBlockedColor, indentLevel = 2) {
+            cfg.snoopStateBlockedColor = it; recreate()
+        }
+        addColorRow(R.string.kojiki_ui_snoop_state_allowed, cfg.snoopStateAllowedColor, indentLevel = 2) {
+            cfg.snoopStateAllowedColor = it; recreate()
+        }
+        addFontRow(R.string.kojiki_ui_item_font, cfg.styleFamily(CustomUiConfig.P_SNOOP_STATE), false, 2) {
+            cfg.setStyleFamily(CustomUiConfig.P_SNOOP_STATE, it); recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_item_weight, cfg.styleWeight(CustomUiConfig.P_SNOOP_STATE), CustomUiConfig.MAX_WEIGHT, ::weightLabel, 2,
+            onChange = { liveStateWeight = it; applyPreview() }) { cfg.setStyleWeight(CustomUiConfig.P_SNOOP_STATE, it); recreate() }
+        addToggleRow(R.string.kojiki_ui_item_italic, cfg.styleItalic(CustomUiConfig.P_SNOOP_STATE), 2) {
+            cfg.setStyleItalic(CustomUiConfig.P_SNOOP_STATE, it); recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_item_size, cfg.styleSize(CustomUiConfig.P_SNOOP_STATE), CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel, 2,
+            onChange = { liveStateSize = it; applyPreview() }) { cfg.setStyleSize(CustomUiConfig.P_SNOOP_STATE, it); recreate() }
+
+        addSliderRow(R.string.kojiki_ui_snoop_row_padding, cfg.snoopRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpLabel) {
+            cfg.snoopRowPadding = it; recreate()
+        }
     }
 
     /** A firewall-list text item: sub-label + colour + full font controls (family / weight / italic / size). */
