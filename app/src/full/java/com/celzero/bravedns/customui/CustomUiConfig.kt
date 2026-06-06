@@ -143,6 +143,15 @@ class CustomUiConfig(context: Context) {
     var snoopStateAllowedColor: Int
         get() = int(KEY_SNOOP_STATE_ALLOWED, SNOOP_AMBER); set(v) = putInt(KEY_SNOOP_STATE_ALLOWED, v)
 
+    // --- Snooping-panel tag chips: default outline style (a tag's own colour overrides text+border) ---
+    var snoopTagTextColor: Int
+        get() = int(KEY_SNOOP_TAG_TEXT, PALETTE_YELLOW); set(v) = putInt(KEY_SNOOP_TAG_TEXT, v)
+    var snoopTagBorderColor: Int
+        get() = int(KEY_SNOOP_TAG_BORDER, PALETTE_YELLOW); set(v) = putInt(KEY_SNOOP_TAG_BORDER, v)
+    /** dp; 0 = text-only chip (no border). */
+    var snoopTagBorderWidth: Int
+        get() = int(KEY_SNOOP_TAG_BORDER_W, 1); set(v) = putInt(KEY_SNOOP_TAG_BORDER_W, v)
+
     // --- Snooping panel inter-item (row) vertical padding ---
     /** dp added top & bottom of each row; 0 = rows as tight as the icon (icons nearly touch). */
     var snoopRowPadding: Int
@@ -267,6 +276,9 @@ class CustomUiConfig(context: Context) {
         private const val KEY_SNOOP_STATE_BLOCKED = "kojiki_snoop_state_blocked_color"
         private const val KEY_SNOOP_STATE_ALLOWED = "kojiki_snoop_state_allowed_color"
         private const val KEY_SNOOP_ROW_PADDING = "kojiki_snoop_row_padding"
+        private const val KEY_SNOOP_TAG_TEXT = "kojiki_snoop_tag_text"
+        private const val KEY_SNOOP_TAG_BORDER = "kojiki_snoop_tag_border"
+        private const val KEY_SNOOP_TAG_BORDER_W = "kojiki_snoop_tag_border_w"
         private const val KEY_CONN_LOG_ICON_SIZE = "kojiki_conn_log_icon_size"
         private const val KEY_CONN_LOG_ICON_ROUND = "kojiki_conn_log_icon_round"
         private const val KEY_CONN_LOG_ROW_PADDING = "kojiki_conn_log_row_padding"
