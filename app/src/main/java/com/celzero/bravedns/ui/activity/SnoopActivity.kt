@@ -29,6 +29,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.SnoopEventAdapter
 import com.celzero.bravedns.customui.CustomUi
+import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventRepository
 import com.celzero.bravedns.databinding.ActivitySnoopBinding
 import com.celzero.bravedns.scheduler.SnoopAlertWorker
@@ -53,6 +54,10 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
     private val viewModel by viewModel<SnoopViewModel>()
 
     private lateinit var adapter: SnoopEventAdapter
+
+    // true while we set the search box text to the app-filter indicator, so its own
+    // text-changed callback doesn't turn that label into a free-text search.
+    private var suppressSearchListener = false
 
     companion object {
         // filter-menu item-id ranges so one popup can host two independent radio groups
@@ -116,7 +121,7 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
     }
 
     private fun initRecycler() {
-        adapter = SnoopEventAdapter(this, repository)
+        adapter = SnoopEventAdapter(this, repository) { event -> filterByApp(event) }
         b.snoopRecycler.layoutManager = LinearLayoutManager(this)
         b.snoopRecycler.adapter = adapter
         // empty state reflects the *current* filter/search, not just the table total
@@ -136,11 +141,16 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
         b.snoopSearch.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (suppressSearchListener) return true
+                    viewModel.clearAppFilter()
                     viewModel.setSearch(query ?: "")
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    if (suppressSearchListener) return true
+                    // user edited/cleared the box → drop any app filter and search normally
+                    viewModel.clearAppFilter()
                     viewModel.setSearch(newText ?: "")
                     return true
                 }
@@ -150,6 +160,17 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
         b.snoopSort.setOnClickListener { showSortMenu(it) }
         b.snoopFilterIcon.setOnClickListener { showFilterMenu(it) }
         b.snoopDeleteIcon.setOnClickListener { confirmClearAll() }
+    }
+
+    // Tap an app's icon → show every snoop entry for that app's uid, clearing any active
+    // search and severity/state filters. The app's name fills the search box as the active
+    // filter indicator; clearing the box (×) drops the app filter and shows everything again.
+    private fun filterByApp(event: SnoopEvent) {
+        viewModel.filterByApp(event.uid)
+        val name = event.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) }
+        suppressSearchListener = true
+        b.snoopSearch.setQuery(name, false)
+        suppressSearchListener = false
     }
 
     private fun sortLabel(s: SnoopViewModel.Sort): Int =

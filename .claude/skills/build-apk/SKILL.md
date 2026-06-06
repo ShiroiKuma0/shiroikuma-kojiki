@@ -1,16 +1,18 @@
 ---
 name: build-apk
-description: Build the signed FOSS (fdroidFull) release APK with the buildFoss Gradle task, then always ask whether to push it to the connected phone via adb. Always build first without asking for permission to build — the ONLY question you ever ask is the adb-push question afterward. Use whenever the user asks to build the app, build the APK, make a release build, or build and push to the phone.
+description: Build the signed FOSS (fdroidFull) release APK with the buildFoss Gradle task, then always ask whether to push it to the connected phone via adb. ALWAYS build automatically after making code changes that are ready to test — and whenever the user asks to build — without asking permission to build first; the ONLY question you ever ask is the adb-push question afterward. Use after completing any code change in this repo, or whenever the user asks to build the app, build the APK, make a release build, or build and push to the phone.
 ---
 
 # Build the FOSS release APK and optionally push to phone
 
-> **Never ask whether to build — just build.** When this skill applies (the user
-> asked to build, or you've made changes that are ready to test), run the build
-> immediately. Do **not** ask "shall I build?" / "want me to run buildFoss?" — that
-> question is wrong. The **only** question in this whole flow is the `AskUserQuestion`
-> about the `adb push`, asked **after** a successful build. So: always build, *then*
-> ask about the push.
+> **Never ask whether to build — just build.** This skill applies **automatically the
+> moment you finish any code change in this repo** (as well as whenever the user explicitly
+> asks to build). As soon as a change is complete and ready to test, run the build right
+> away — do not wait to be told. Do **not** ask "shall I build?" / "want me to run
+> buildFoss?" / "want me to build the APK so you can test?" — every such question is wrong.
+> The **only** question in this whole flow is the `AskUserQuestion` about the `adb push`,
+> asked **after** a successful build. So: finish the change → always build → *then* ask
+> about the push.
 
 > **The push destination is ALWAYS `/sdcard/tmp/`.** Every `adb push` of the APK
 > goes to `/sdcard/tmp/<apk name>` — **never** `/sdcard/Download/` or anywhere
