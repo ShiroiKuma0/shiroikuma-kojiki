@@ -52,7 +52,9 @@ import kotlinx.coroutines.withContext
 // Fork (白い熊 考直) — Snooping panel feature.
 class SnoopEventAdapter(
     private val activity: FragmentActivity,
-    private val repository: SnoopEventRepository
+    private val repository: SnoopEventRepository,
+    // tap an app's icon → host filters the list to this app (search box + viewmodel live there)
+    private val onFilterApp: (SnoopEvent) -> Unit
 ) : PagingDataAdapter<SnoopEvent, SnoopEventAdapter.SnoopViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -118,11 +120,20 @@ class SnoopEventAdapter(
             // 白い熊 考直 UI: style the row at bind time so every row is consistent (the global
             // runtime tree-walk races with async paging — see CustomUi.applySnoopRow).
             CustomUi.applySnoopRow(activity, b)
-            // Tap the row → action menu; tap the app icon → open the app's page directly
-            // (falls back to the menu when there's no openable app for this uid).
+            // Tap the row → action menu. Tap the app icon → filter the list to this app;
+            // long-press the icon → open the app's page. Both icon gestures fall back to the
+            // menu / no-op when there's no real app for this uid.
             b.snoopRow.setOnClickListener { showActions(it, event) }
             b.snoopAppIcon.setOnClickListener {
-                if (canOpenApp(event.uid)) openApp(event.uid) else showActions(b.snoopRow, event)
+                if (canOpenApp(event.uid)) onFilterApp(event) else showActions(b.snoopRow, event)
+            }
+            b.snoopAppIcon.setOnLongClickListener {
+                if (canOpenApp(event.uid)) {
+                    openApp(event.uid)
+                    true
+                } else {
+                    false
+                }
             }
         }
 

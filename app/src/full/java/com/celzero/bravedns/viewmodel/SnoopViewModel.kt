@@ -30,6 +30,7 @@ import androidx.sqlite.db.SupportSQLiteQuery
 import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventDAO
 import com.celzero.bravedns.service.SnoopClassifier
+import com.celzero.bravedns.util.Constants.Companion.INVALID_UID
 import com.celzero.bravedns.util.Constants.Companion.LIVEDATA_PAGE_SIZE
 import com.celzero.bravedns.util.Constants.Companion.MAX_LOGS
 
@@ -63,6 +64,8 @@ class SnoopViewModel(private val dao: SnoopEventDAO) : ViewModel() {
     private var severity = SeverityFilter.ALL
     private var state = StateFilter.ALL
     private var search = ""
+    // tap-an-app-icon filter: restrict the list to a single app's uid (INVALID_UID = no filter)
+    private var appUid = INVALID_UID
 
     private val pagingConfig =
         PagingConfig(
@@ -112,6 +115,11 @@ class SnoopViewModel(private val dao: SnoopEventDAO) : ViewModel() {
             args.add(like)
         }
 
+        if (appUid != INVALID_UID) {
+            where.append(" AND uid = ?")
+            args.add(appUid)
+        }
+
         val order =
             when (sort) {
                 Sort.NEWEST -> "lastSeen DESC"
@@ -148,6 +156,22 @@ class SnoopViewModel(private val dao: SnoopEventDAO) : ViewModel() {
         val n = if (q.isBlank()) "" else q
         if (n == search) return
         search = n
+        trigger.value = Unit
+    }
+
+    // Tap an app's icon: drop any active search + severity/state filters and show every
+    // (non-dismissed) snoop entry for this one app's uid. Always re-triggers.
+    fun filterByApp(uid: Int) {
+        appUid = uid
+        severity = SeverityFilter.ALL
+        state = StateFilter.ALL
+        search = ""
+        trigger.value = Unit
+    }
+
+    fun clearAppFilter() {
+        if (appUid == INVALID_UID) return
+        appUid = INVALID_UID
         trigger.value = Unit
     }
 
