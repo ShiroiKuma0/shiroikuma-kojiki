@@ -155,9 +155,9 @@ class CustomUiConfig(context: Context) {
     /** 0..100, percentage of half the icon (0 = square, 100 = circle). */
     var connLogIconRoundness: Int
         get() = int(KEY_CONN_LOG_ICON_ROUND, 0); set(v) = putInt(KEY_CONN_LOG_ICON_ROUND, v)
-    /** dp added top & bottom of each row; 0 = the row's own spacing. */
+    /** Inter-item spacing: -1 = "Default" (keep the as-shipped paddings); >= 0 = explicit dp (0 = tight). */
     var connLogRowPadding: Int
-        get() = int(KEY_CONN_LOG_ROW_PADDING, 0); set(v) = putInt(KEY_CONN_LOG_ROW_PADDING, v)
+        get() = int(KEY_CONN_LOG_ROW_PADDING, -1); set(v) = putInt(KEY_CONN_LOG_ROW_PADDING, v)
 
     // --- DNS log app icon + row spacing ---
     /** dp; 0 = leave the layout's own size. */
@@ -166,9 +166,52 @@ class CustomUiConfig(context: Context) {
     /** 0..100, percentage of half the icon (0 = square, 100 = circle). */
     var dnsLogIconRoundness: Int
         get() = int(KEY_DNS_LOG_ICON_ROUND, 0); set(v) = putInt(KEY_DNS_LOG_ICON_ROUND, v)
-    /** dp added top & bottom of each row; 0 = the row's own spacing. */
+    /** Inter-item spacing: -1 = "Default" (keep the as-shipped paddings); >= 0 = explicit dp (0 = tight). */
     var dnsLogRowPadding: Int
-        get() = int(KEY_DNS_LOG_ROW_PADDING, 0); set(v) = putInt(KEY_DNS_LOG_ROW_PADDING, v)
+        get() = int(KEY_DNS_LOG_ROW_PADDING, -1); set(v) = putInt(KEY_DNS_LOG_ROW_PADDING, v)
+
+    // --- Per-log row text size (sp; 0 = follow the global font size) ---
+    var connLogTextSize: Int
+        get() = int(KEY_CONN_LOG_TEXT, 0); set(v) = putInt(KEY_CONN_LOG_TEXT, v)
+    var dnsLogTextSize: Int
+        get() = int(KEY_DNS_LOG_TEXT, 0); set(v) = putInt(KEY_DNS_LOG_TEXT, v)
+
+    // --- Per-log line spacing (gap between the text lines within a row). -1 = "Default" (as-shipped,
+    // with the large country flag + roomy badges); >= 0 = explicit dp + compact flag/badge so the
+    // lines pack tight (0 = lines touch). ---
+    var connLogLineSpacing: Int
+        get() = int(KEY_CONN_LOG_LINE, -1); set(v) = putInt(KEY_CONN_LOG_LINE, v)
+    var dnsLogLineSpacing: Int
+        get() = int(KEY_DNS_LOG_LINE, -1); set(v) = putInt(KEY_DNS_LOG_LINE, v)
+
+    // --- Per-log divider line between items. width: -1 = "Default" (the as-shipped 1dp theme line);
+    // >= 0 = explicit dp (0 = no line) painted in the divider colour. ---
+    var connLogDividerWidth: Int
+        get() = int(KEY_CONN_LOG_DIV_W, -1); set(v) = putInt(KEY_CONN_LOG_DIV_W, v)
+    var connLogDividerColor: Int
+        get() = int(KEY_CONN_LOG_DIV_C, PALETTE_YELLOW); set(v) = putInt(KEY_CONN_LOG_DIV_C, v)
+    var dnsLogDividerWidth: Int
+        get() = int(KEY_DNS_LOG_DIV_W, -1); set(v) = putInt(KEY_DNS_LOG_DIV_W, v)
+    var dnsLogDividerColor: Int
+        get() = int(KEY_DNS_LOG_DIV_C, PALETTE_YELLOW); set(v) = putInt(KEY_DNS_LOG_DIV_C, v)
+
+    // --- Log status indicator (the blocked/allowed bar + optional text tag), shared by both logs ---
+    /** dp width of the left status bar; 0 = the layout's own ~1.5dp. */
+    var logStatusBarWidth: Int
+        get() = int(KEY_LOG_STATUS_W, 0); set(v) = putInt(KEY_LOG_STATUS_W, v)
+    var logStatusBlockedColor: Int
+        get() = int(KEY_LOG_STATUS_BLOCKED, LOG_RED); set(v) = putInt(KEY_LOG_STATUS_BLOCKED, v)
+    var logStatusMaybeColor: Int
+        get() = int(KEY_LOG_STATUS_MAYBE, SNOOP_AMBER); set(v) = putInt(KEY_LOG_STATUS_MAYBE, v)
+    /** 0 = allowed rows show no bar (the default look). */
+    var logStatusAllowedColor: Int
+        get() = int(KEY_LOG_STATUS_ALLOWED, 0); set(v) = putInt(KEY_LOG_STATUS_ALLOWED, v)
+    /** show a BLOCKED / MAYBE / ALLOWED text tag on each log row. */
+    var logTagShow: Boolean
+        get() = bool(KEY_LOG_TAG_SHOW, false); set(v) = putBool(KEY_LOG_TAG_SHOW, v)
+    /** sp; 0 = a small default. */
+    var logTagSize: Int
+        get() = int(KEY_LOG_TAG_SIZE, 0); set(v) = putInt(KEY_LOG_TAG_SIZE, v)
 
     // --- Popup menus (snoop row actions / sort / filter) ---
     var menuBorderColor: Int
@@ -230,6 +273,20 @@ class CustomUiConfig(context: Context) {
         private const val KEY_DNS_LOG_ICON_SIZE = "kojiki_dns_log_icon_size"
         private const val KEY_DNS_LOG_ICON_ROUND = "kojiki_dns_log_icon_round"
         private const val KEY_DNS_LOG_ROW_PADDING = "kojiki_dns_log_row_padding"
+        private const val KEY_CONN_LOG_TEXT = "kojiki_conn_log_text_size"
+        private const val KEY_DNS_LOG_TEXT = "kojiki_dns_log_text_size"
+        private const val KEY_CONN_LOG_LINE = "kojiki_conn_log_line_spacing"
+        private const val KEY_DNS_LOG_LINE = "kojiki_dns_log_line_spacing"
+        private const val KEY_CONN_LOG_DIV_W = "kojiki_conn_log_div_w"
+        private const val KEY_CONN_LOG_DIV_C = "kojiki_conn_log_div_c"
+        private const val KEY_DNS_LOG_DIV_W = "kojiki_dns_log_div_w"
+        private const val KEY_DNS_LOG_DIV_C = "kojiki_dns_log_div_c"
+        private const val KEY_LOG_STATUS_W = "kojiki_log_status_w"
+        private const val KEY_LOG_STATUS_BLOCKED = "kojiki_log_status_blocked"
+        private const val KEY_LOG_STATUS_MAYBE = "kojiki_log_status_maybe"
+        private const val KEY_LOG_STATUS_ALLOWED = "kojiki_log_status_allowed"
+        private const val KEY_LOG_TAG_SHOW = "kojiki_log_tag_show"
+        private const val KEY_LOG_TAG_SIZE = "kojiki_log_tag_size"
         private const val KEY_MENU_BORDER_COLOR = "kojiki_menu_border_color"
         private const val KEY_MENU_BORDER_WIDTH = "kojiki_menu_border_width"
         private const val KEY_BORDER_COLOR = "kojiki_card_border_color"
@@ -253,6 +310,7 @@ class CustomUiConfig(context: Context) {
         const val PALETTE_YELLOW = 0xFFFFEB3B.toInt()
         const val SNOOP_GREEN = 0xFF2B8E18.toInt()
         const val SNOOP_AMBER = 0xFFFFA000.toInt()
+        const val LOG_RED = 0xFFFF1744.toInt()
         const val SNOOP_WHITE = 0xFFFFFFFF.toInt()
         const val MAX_FONT_SIZE_SP = 40
         const val MAX_WEIGHT = 900

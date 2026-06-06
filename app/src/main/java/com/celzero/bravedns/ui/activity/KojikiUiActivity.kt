@@ -147,20 +147,51 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
         addSnoopPillControls()
 
-        // --- Network (connection) log: app icon (preview) + row spacing ---
+        // --- Network (connection) log: app icon (preview) + row spacing + text size ---
         addIconSection(R.string.kojiki_ui_section_conn_log_icon,
             { cfg.connLogIconSize }, { cfg.connLogIconSize = it },
             { cfg.connLogIconRoundness }, { cfg.connLogIconRoundness = it })
-        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.connLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpLabel) {
+        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.connLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
             cfg.connLogRowPadding = it; recreate()
         }
+        addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.connLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+            cfg.connLogLineSpacing = it; recreate()
+        }
+        addTextSizePreview(R.string.kojiki_ui_log_text_size,
+            { cfg.connLogTextSize }, { cfg.connLogTextSize = it })
+        addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.connLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
+            cfg.connLogDividerWidth = it; recreate()
+        }
+        addColorRow(R.string.kojiki_ui_log_divider_color, cfg.connLogDividerColor) { cfg.connLogDividerColor = it; recreate() }
 
-        // --- DNS log: app icon (preview) + row spacing ---
+        // --- DNS log: app icon (preview) + row spacing + text size ---
         addIconSection(R.string.kojiki_ui_section_dns_log_icon,
             { cfg.dnsLogIconSize }, { cfg.dnsLogIconSize = it },
             { cfg.dnsLogIconRoundness }, { cfg.dnsLogIconRoundness = it })
-        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.dnsLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpLabel) {
+        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.dnsLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
             cfg.dnsLogRowPadding = it; recreate()
+        }
+        addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.dnsLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+            cfg.dnsLogLineSpacing = it; recreate()
+        }
+        addTextSizePreview(R.string.kojiki_ui_log_text_size,
+            { cfg.dnsLogTextSize }, { cfg.dnsLogTextSize = it })
+        addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.dnsLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
+            cfg.dnsLogDividerWidth = it; recreate()
+        }
+        addColorRow(R.string.kojiki_ui_log_divider_color, cfg.dnsLogDividerColor) { cfg.dnsLogDividerColor = it; recreate() }
+
+        // --- Log status indicator (blocked/allowed bar + text tag), shared by both log tabs ---
+        addSectionHeader(R.string.kojiki_ui_section_log_status)
+        addSliderRow(R.string.kojiki_ui_log_status_width, cfg.logStatusBarWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+            cfg.logStatusBarWidth = it; recreate()
+        }
+        addColorRow(R.string.kojiki_ui_log_status_blocked, cfg.logStatusBlockedColor) { cfg.logStatusBlockedColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_log_status_maybe, cfg.logStatusMaybeColor) { cfg.logStatusMaybeColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_log_status_allowed, cfg.logStatusAllowedColor) { cfg.logStatusAllowedColor = it; recreate() }
+        addToggleRow(R.string.kojiki_ui_log_tag_show, cfg.logTagShow, 1) { cfg.logTagShow = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_log_tag_size, cfg.logTagSize, CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel) {
+            cfg.logTagSize = it; recreate()
         }
 
         // --- Popup menus (snoop row actions / sort / filter): border + item text ---
@@ -235,6 +266,37 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             onChange = { liveSize = it; applyPreview() }) { setSize(it); recreate() }
         addSliderRow(R.string.kojiki_ui_icon_roundness, getRound(), 100, ::pctLabel,
             onChange = { liveRound = it; applyPreview() }) { setRound(it); recreate() }
+    }
+
+    // A text-size slider with a live preview line that re-renders at the chosen size, in the global
+    // font + text colour (which is what the log rows use), so you can see the row text size as you
+    // drag. 0 sp = follow the global font size, and the preview then mirrors that.
+    private fun addTextSizePreview(
+        @StringRes labelRes: Int, getSize: () -> Int, setSize: (Int) -> Unit
+    ) {
+        var liveSize = getSize()
+        val preview = AppCompatTextView(this).apply {
+            // opt out of the runtime tree-walk so it doesn't reset the preview to the global size.
+            tag = CustomUi.NO_RESTYLE_TAG
+            text = getString(R.string.kojiki_ui_log_text_sample)
+            setTextColor(cfg.textColor)
+            typeface = CustomUi.typefaceFor(this@KojikiUiActivity, cfg.fontFamily, cfg.fontWeight, cfg.fontItalic)
+        }
+        fun applyPreview() {
+            val sp = if (liveSize > 0) liveSize else if (cfg.fontSize > 0) cfg.fontSize else 14
+            preview.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
+        }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, dp(12), dp(16), dp(12))
+            addView(preview)
+        }
+        indent(box, 1)
+        b.kojikiUiHolder.addView(box)
+        applyPreview()
+        addSliderRow(labelRes, getSize(), CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel,
+            onChange = { liveSize = it; applyPreview() }) { setSize(it); recreate() }
     }
 
     // Live preview of a snooping-row's right column — the severity pill + the status text under it —
@@ -497,8 +559,11 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     @Suppress("EmptyFunctionBlock")
     private fun addSliderRow(
         @StringRes labelRes: Int, current: Int, max: Int, labeler: (Int) -> String,
-        indentLevel: Int = 1, onChange: (Int) -> Unit = {}, onSet: (Int) -> Unit
+        indentLevel: Int = 1, defaultable: Boolean = false, onChange: (Int) -> Unit = {}, onSet: (Int) -> Unit
     ) {
+        // defaultable: add one slot to the left so the track reads "Default, 0, 1, …" — i.e. progress 0
+        // maps to value -1 ("Default"), progress 1 to an explicit 0, and so on. labeler gets the value.
+        val offset = if (defaultable) 1 else 0
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(0, dp(14), dp(16), dp(14))
@@ -518,16 +583,17 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         header.addView(label)
         header.addView(value)
         val seek = SeekBar(this).apply {
-            this.max = max
-            progress = current
+            this.max = max + offset
+            progress = (current + offset).coerceIn(0, max + offset)
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(sb: SeekBar, p: Int, fromUser: Boolean) {
-                    value.text = labeler(p)
-                    onChange(p)
+                    val v = p - offset
+                    value.text = labeler(v)
+                    onChange(v)
                 }
                 override fun onStartTrackingTouch(sb: SeekBar) {}
                 override fun onStopTrackingTouch(sb: SeekBar) {
-                    onSet(sb.progress)
+                    onSet(sb.progress - offset)
                 }
             })
         }
@@ -563,6 +629,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
 
     private fun dpLabel(v: Int): String =
         if (v > 0) getString(R.string.kojiki_ui_size_dp, v) else getString(R.string.kojiki_ui_size_default)
+
+    // Like dpLabel but with an explicit, selectable 0: -1 = "Default", 0 = "0 dp", n = "n dp".
+    private fun dpDefaultLabel(v: Int): String =
+        if (v < 0) getString(R.string.kojiki_ui_size_default) else getString(R.string.kojiki_ui_size_dp, v)
 
     private fun pctLabel(v: Int): String =
         if (v > 0) getString(R.string.kojiki_ui_pct, v) else getString(R.string.kojiki_ui_size_default)
