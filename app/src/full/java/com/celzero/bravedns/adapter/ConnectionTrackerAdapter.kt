@@ -151,7 +151,9 @@ class ConnectionTrackerAdapter(
             displaySummaryDetails(blocked, connTracker)
 
             // 白い熊 考直 UI: style the row at bind time (race-free, like firewall/snoop rows).
-            CustomUi.applyConnLogRow(context, b)
+            val status =
+                if (blocked) CustomUi.LogStatus.BLOCKED else CustomUi.LogStatus.ALLOWED
+            CustomUi.applyConnLogRow(context, b, status)
 
             // Tap the row → connection details. Tap the app icon → filter the log to this app;
             // long-press the icon → open the app's page. Both icon gestures fall back to the details

@@ -131,7 +131,12 @@ class DnsLogAdapter(
             displayUnicodeIfNeeded(log)
             displayDnsType(log)
             // 白い熊 考直 UI: style the row at bind time (race-free, like firewall/snoop rows).
-            CustomUi.applyDnsLogRow(context, b)
+            val status = when {
+                log.isBlocked -> CustomUi.LogStatus.BLOCKED
+                log.upstreamBlock || log.blockLists.isNotEmpty() -> CustomUi.LogStatus.MAYBE_BLOCKED
+                else -> CustomUi.LogStatus.ALLOWED
+            }
+            CustomUi.applyDnsLogRow(context, b, status)
             // Tap the row → DNS details. Tap the app icon → filter the log to this app; long-press the
             // icon → open the app's page. Both icon gestures fall back to the details sheet / no-op when
             // there's no real app for this uid.
