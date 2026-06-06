@@ -39,8 +39,10 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.ColorPickerDialog
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
+import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.util.Themes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.ext.android.inject
@@ -146,6 +148,22 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             { cfg.snoopIconSize }, { cfg.snoopIconSize = it },
             { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
         addSnoopPillControls()
+
+        // --- Snooping tags: default chip style + manage created tags ---
+        addSectionHeader(R.string.kojiki_ui_section_snoop_tags)
+        addColorRow(R.string.kojiki_ui_snoop_tag_text, cfg.snoopTagTextColor) { cfg.snoopTagTextColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_snoop_tag_border, cfg.snoopTagBorderColor) { cfg.snoopTagBorderColor = it; recreate() }
+        addSliderRow(R.string.kojiki_ui_snoop_tag_border_width, cfg.snoopTagBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+            cfg.snoopTagBorderWidth = it; recreate()
+        }
+        addSubLabel(R.string.kojiki_ui_snoop_tag_list)
+        val snoopTags = SnoopTagStore.tags(this)
+        if (snoopTags.isEmpty()) {
+            addValueRow(R.string.kojiki_ui_snoop_tag_none, "", indentLevel = 2) {}
+        } else {
+            snoopTags.forEach { addTagManageRow(it) }
+        }
+        addValueRow(R.string.snoop_tag_new, "", indentLevel = 2) { SnoopTagUi.showNew(this) { recreate() } }
 
         // --- Network (connection) log: app icon (preview) + row spacing + text size ---
         addIconSection(R.string.kojiki_ui_section_conn_log_icon,
@@ -527,6 +545,32 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         row.addView(label)
         row.addView(swatch)
         indent(row, indentLevel)
+        b.kojikiUiHolder.addView(row)
+    }
+
+    // A manage-able Snoop tag row: name + effective-colour swatch; tap → rename / recolour / delete.
+    private fun addTagManageRow(tag: SnoopTagStore.Tag) {
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            background = selectableBackground()
+            setPadding(0, dp(14), dp(16), dp(14))
+            isClickable = true
+            setOnClickListener { SnoopTagUi.showEdit(this@KojikiUiActivity, tag) { recreate() } }
+        }
+        val label = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+            text = tag.name
+            setTextColor(cfg.textColor)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        val swatch = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(dp(28), dp(28))
+            setBackgroundColor(tag.color ?: cfg.snoopTagBorderColor)
+        }
+        row.addView(label)
+        row.addView(swatch)
+        indent(row, 2)
         b.kojikiUiHolder.addView(row)
     }
 
