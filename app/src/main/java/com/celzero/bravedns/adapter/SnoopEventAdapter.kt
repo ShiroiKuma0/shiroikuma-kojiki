@@ -19,9 +19,12 @@ import Logger
 import Logger.LOG_TAG_UI
 import android.content.Intent
 import android.text.format.DateUtils
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingDataAdapter
@@ -32,13 +35,16 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.database.CustomDomain
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.database.SnoopEvent
 import com.celzero.bravedns.database.SnoopEventRepository
 import com.celzero.bravedns.databinding.ListItemSnoopBinding
 import com.celzero.bravedns.service.DomainRulesManager
 import com.celzero.bravedns.service.SnoopClassifier
+import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.ui.activity.AppInfoActivity
 import com.celzero.bravedns.ui.bottomsheet.CustomDomainRulesBtmSheet
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.celzero.bravedns.util.Constants
 import com.celzero.bravedns.util.Constants.Companion.INVALID_UID
 import com.celzero.bravedns.util.Constants.Companion.UID_EVERYBODY
@@ -78,6 +84,13 @@ class SnoopEventAdapter(
         private const val MI_ADVANCED = 4
         private const val MI_DISMISS = 5
         private const val MI_OPEN_APP = 6
+        private const val MI_TAGS = 7
+
+        // tag-chip long-press menu item ids
+        private const val MI_TAG_EDIT = 1
+        private const val MI_TAG_REMOVE_HERE = 2
+
+        private const val TAG_CHIP_RADIUS_DP = 8
 
         private val DIFF_CALLBACK =
             object : DiffUtil.ItemCallback<SnoopEvent>() {
@@ -117,6 +130,7 @@ class SnoopEventAdapter(
             displayIcon(event)
             displaySeverity(event)
             displayState(event)
+            displayTags(event)
             // 白い熊 考直 UI: style the row at bind time so every row is consistent (the global
             // runtime tree-walk races with async paging — see CustomUi.applySnoopRow).
             CustomUi.applySnoopRow(activity, b)
@@ -215,6 +229,7 @@ class SnoopEventAdapter(
                     CustomUi.MenuItem(MI_BLOCK_ALL, activity.getString(R.string.snoop_action_block_all)),
                     CustomUi.MenuItem(MI_TRUST_APP, activity.getString(R.string.snoop_action_trust_app)),
                     CustomUi.MenuItem(MI_ADVANCED, activity.getString(R.string.snoop_action_advanced)),
+                    CustomUi.MenuItem(MI_TAGS, activity.getString(R.string.snoop_action_tags)),
                     CustomUi.MenuItem(MI_DISMISS, activity.getString(R.string.snoop_action_dismiss))
                 )
             if (canOpenApp(event.uid)) {
@@ -226,9 +241,106 @@ class SnoopEventAdapter(
                     MI_BLOCK_ALL -> blockDomain(event, UID_EVERYBODY)
                     MI_TRUST_APP -> trustDomain(event)
                     MI_ADVANCED -> openAdvanced(event)
+                    MI_TAGS -> showTagDialog(event)
                     MI_DISMISS -> dismiss(event)
                     MI_OPEN_APP -> openApp(event.uid)
                 }
+            }
+        }
+
+        // --- Fork (白い熊 考直): user tags / categories for a domain ---
+
+        // Render the domain's tag chips (outline pills: border + text in the tag's colour, or the
+        // configured default yellow when the tag has no colour) into the row's tag row; hide when none.
+        private fun displayTags(event: SnoopEvent) {
+            val container = b.snoopTags
+            container.removeAllViews()
+            val tags = SnoopTagStore.tagsFor(activity, event.domain)
+            if (tags.isEmpty()) {
+                container.visibility = View.GONE
+                return
+            }
+            container.visibility = View.VISIBLE
+            val cfg = CustomUiConfig(activity)
+            val density = activity.resources.displayMetrics.density
+            val ph = (8 * density).toInt()
+            val pv = (2 * density).toInt()
+            val gap = (4 * density).toInt()
+            for (t in tags) {
+                val border = t.color ?: cfg.snoopTagBorderColor
+                val textColor = t.color ?: cfg.snoopTagTextColor
+                val chip =
+                    AppCompatTextView(activity).apply {
+                        text = t.name
+                        setTextColor(textColor)
+                        background =
+                            CustomUi.snoopPillBackground(
+                                activity, 0x00000000, TAG_CHIP_RADIUS_DP, cfg.snoopTagBorderWidth, border
+                            )
+                        setPadding(ph, pv, ph, pv)
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
+                        setOnLongClickListener { showTagChipMenu(this, event, t); true }
+                    }
+                val lp =
+                    LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply { marginEnd = gap }
+                container.addView(chip, lp)
+            }
+        }
+
+        // Long-press a chip → edit the tag (rename / recolour / delete) or remove it from this domain.
+        private fun showTagChipMenu(anchor: View, event: SnoopEvent, tag: SnoopTagStore.Tag) {
+            val items =
+                listOf(
+                    CustomUi.MenuItem(MI_TAG_EDIT, activity.getString(R.string.snoop_tag_edit)),
+                    CustomUi.MenuItem(MI_TAG_REMOVE_HERE, activity.getString(R.string.snoop_tag_remove_here))
+                )
+            CustomUi.showMenu(anchor, items) { id ->
+                when (id) {
+                    MI_TAG_EDIT -> SnoopTagUi.showEdit(activity, tag) { refresh() }
+                    MI_TAG_REMOVE_HERE -> {
+                        val cur = SnoopTagStore.tagNamesFor(activity, event.domain).toMutableSet()
+                        cur.removeAll { it.equals(tag.name, ignoreCase = true) }
+                        SnoopTagStore.setDomainTags(activity, event.domain, cur)
+                        refresh()
+                    }
+                }
+            }
+        }
+
+        // Multi-select existing tags for this domain (or create a new one, which auto-assigns here).
+        private fun showTagDialog(event: SnoopEvent) {
+            val all = SnoopTagStore.tags(activity)
+            if (all.isEmpty()) {
+                createTagFor(event)
+                return
+            }
+            val assigned = SnoopTagStore.tagNamesFor(activity, event.domain).map { it.lowercase() }.toSet()
+            val names = all.map { it.name }.toTypedArray()
+            val checked = BooleanArray(all.size) { assigned.contains(all[it].name.lowercase()) }
+            MaterialAlertDialogBuilder(activity, R.style.App_Dialog_NoDim)
+                .setTitle(event.domain)
+                .setMultiChoiceItems(names, checked) { _, which, isChecked -> checked[which] = isChecked }
+                .setNeutralButton(R.string.snoop_tag_new) { _, _ -> createTagFor(event) }
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    val sel = all.filterIndexed { i, _ -> checked[i] }.map { it.name }
+                    SnoopTagStore.setDomainTags(activity, event.domain, sel)
+                    refresh()
+                }
+                .setNegativeButton(R.string.lbl_cancel, null)
+                .show()
+        }
+
+        // Create a new tag (shared dialog), auto-assign it to this domain, then reopen the picker.
+        private fun createTagFor(event: SnoopEvent) {
+            SnoopTagUi.showNew(activity) { name ->
+                val cur = SnoopTagStore.tagNamesFor(activity, event.domain).toMutableSet()
+                cur.add(name)
+                SnoopTagStore.setDomainTags(activity, event.domain, cur)
+                refresh()
+                showTagDialog(event)
             }
         }
 
