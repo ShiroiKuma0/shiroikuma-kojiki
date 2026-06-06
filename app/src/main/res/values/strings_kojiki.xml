@@ -59,6 +59,18 @@
     <string name="kojiki_ui_section_conn_log_icon" translatable="false">Network log</string>
     <string name="kojiki_ui_section_dns_log_icon" translatable="false">DNS log</string>
     <string name="kojiki_ui_log_row_padding" translatable="false">Inter-item spacing</string>
+    <string name="kojiki_ui_log_line_spacing" translatable="false">Line spacing</string>
+    <string name="kojiki_ui_log_divider_width" translatable="false">Divider thickness</string>
+    <string name="kojiki_ui_log_divider_color" translatable="false">Divider colour</string>
+    <string name="kojiki_ui_log_text_size" translatable="false">Text size</string>
+    <string name="kojiki_ui_log_text_sample" translatable="false">example.com · App</string>
+    <string name="kojiki_ui_section_log_status" translatable="false">Log status indicator</string>
+    <string name="kojiki_ui_log_status_width" translatable="false">Status bar thickness</string>
+    <string name="kojiki_ui_log_status_blocked" translatable="false">Blocked colour</string>
+    <string name="kojiki_ui_log_status_maybe" translatable="false">Maybe-blocked colour</string>
+    <string name="kojiki_ui_log_status_allowed" translatable="false">Allowed colour</string>
+    <string name="kojiki_ui_log_tag_show" translatable="false">Show BLOCKED / ALLOWED tag</string>
+    <string name="kojiki_ui_log_tag_size" translatable="false">Tag text size</string>
     <string name="kojiki_ui_snoop_state" translatable="false">Status text (blocked / allowed)</string>
     <string name="kojiki_ui_snoop_state_blocked" translatable="false">Status colour (blocked)</string>
     <string name="kojiki_ui_snoop_state_allowed" translatable="false">Status colour (allowed)</string>

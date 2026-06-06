@@ -41,7 +41,21 @@
             android:paddingTop="5dp"
             android:weightSum="1">
 
+            <!-- Fork (白い熊 考直): BLOCKED / ALLOWED tag, shown only when enabled in the 白い熊 考直 UI. -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/connection_block_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:singleLine="true"
+                android:textSize="@dimen/mini_font_text_view"
+                android:visibility="gone"
+                tools:text="BLOCKED" />
+
             <LinearLayout
+                android:id="@+id/connection_name_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
@@ -124,6 +138,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/connection_info_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
@@ -291,6 +306,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/connection_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/divider" />
