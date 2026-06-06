@@ -148,6 +148,28 @@ class CustomUiConfig(context: Context) {
     var snoopRowPadding: Int
         get() = int(KEY_SNOOP_ROW_PADDING, 0); set(v) = putInt(KEY_SNOOP_ROW_PADDING, v)
 
+    // --- Network (connection) log app icon + row spacing ---
+    /** dp; 0 = leave the layout's own size. */
+    var connLogIconSize: Int
+        get() = int(KEY_CONN_LOG_ICON_SIZE, 0); set(v) = putInt(KEY_CONN_LOG_ICON_SIZE, v)
+    /** 0..100, percentage of half the icon (0 = square, 100 = circle). */
+    var connLogIconRoundness: Int
+        get() = int(KEY_CONN_LOG_ICON_ROUND, 0); set(v) = putInt(KEY_CONN_LOG_ICON_ROUND, v)
+    /** dp added top & bottom of each row; 0 = the row's own spacing. */
+    var connLogRowPadding: Int
+        get() = int(KEY_CONN_LOG_ROW_PADDING, 0); set(v) = putInt(KEY_CONN_LOG_ROW_PADDING, v)
+
+    // --- DNS log app icon + row spacing ---
+    /** dp; 0 = leave the layout's own size. */
+    var dnsLogIconSize: Int
+        get() = int(KEY_DNS_LOG_ICON_SIZE, 0); set(v) = putInt(KEY_DNS_LOG_ICON_SIZE, v)
+    /** 0..100, percentage of half the icon (0 = square, 100 = circle). */
+    var dnsLogIconRoundness: Int
+        get() = int(KEY_DNS_LOG_ICON_ROUND, 0); set(v) = putInt(KEY_DNS_LOG_ICON_ROUND, v)
+    /** dp added top & bottom of each row; 0 = the row's own spacing. */
+    var dnsLogRowPadding: Int
+        get() = int(KEY_DNS_LOG_ROW_PADDING, 0); set(v) = putInt(KEY_DNS_LOG_ROW_PADDING, v)
+
     // --- Popup menus (snoop row actions / sort / filter) ---
     var menuBorderColor: Int
         get() = int(KEY_MENU_BORDER_COLOR, PALETTE_YELLOW); set(v) = putInt(KEY_MENU_BORDER_COLOR, v)
@@ -202,6 +224,12 @@ class CustomUiConfig(context: Context) {
         private const val KEY_SNOOP_STATE_BLOCKED = "kojiki_snoop_state_blocked_color"
         private const val KEY_SNOOP_STATE_ALLOWED = "kojiki_snoop_state_allowed_color"
         private const val KEY_SNOOP_ROW_PADDING = "kojiki_snoop_row_padding"
+        private const val KEY_CONN_LOG_ICON_SIZE = "kojiki_conn_log_icon_size"
+        private const val KEY_CONN_LOG_ICON_ROUND = "kojiki_conn_log_icon_round"
+        private const val KEY_CONN_LOG_ROW_PADDING = "kojiki_conn_log_row_padding"
+        private const val KEY_DNS_LOG_ICON_SIZE = "kojiki_dns_log_icon_size"
+        private const val KEY_DNS_LOG_ICON_ROUND = "kojiki_dns_log_icon_round"
+        private const val KEY_DNS_LOG_ROW_PADDING = "kojiki_dns_log_row_padding"
         private const val KEY_MENU_BORDER_COLOR = "kojiki_menu_border_color"
         private const val KEY_MENU_BORDER_WIDTH = "kojiki_menu_border_width"
         private const val KEY_BORDER_COLOR = "kojiki_card_border_color"

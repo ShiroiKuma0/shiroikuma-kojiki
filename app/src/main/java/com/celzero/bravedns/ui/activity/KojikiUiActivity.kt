@@ -147,6 +147,22 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
         addSnoopPillControls()
 
+        // --- Network (connection) log: app icon (preview) + row spacing ---
+        addIconSection(R.string.kojiki_ui_section_conn_log_icon,
+            { cfg.connLogIconSize }, { cfg.connLogIconSize = it },
+            { cfg.connLogIconRoundness }, { cfg.connLogIconRoundness = it })
+        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.connLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpLabel) {
+            cfg.connLogRowPadding = it; recreate()
+        }
+
+        // --- DNS log: app icon (preview) + row spacing ---
+        addIconSection(R.string.kojiki_ui_section_dns_log_icon,
+            { cfg.dnsLogIconSize }, { cfg.dnsLogIconSize = it },
+            { cfg.dnsLogIconRoundness }, { cfg.dnsLogIconRoundness = it })
+        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.dnsLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpLabel) {
+            cfg.dnsLogRowPadding = it; recreate()
+        }
+
         // --- Popup menus (snoop row actions / sort / filter): border + item text ---
         addSectionHeader(R.string.kojiki_ui_section_menu)
         addColorRow(R.string.kojiki_ui_menu_border, cfg.menuBorderColor) { cfg.menuBorderColor = it; recreate() }
