@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.DnsLogAdapter
 import com.celzero.bravedns.data.AppConfig
+import com.celzero.bravedns.database.DnsLog
 import com.celzero.bravedns.database.DnsLogRepository
 import com.celzero.bravedns.databinding.FragmentDnsLogsBinding
 import com.celzero.bravedns.service.PersistentState
@@ -65,6 +66,12 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
 
     private var fromWireGuardScreen: Boolean = false
     private var fromRpnScreen: Boolean = false
+
+    // Fork (白い熊 考直): tap an app's icon → filter to that app's uid. While that filter is active,
+    // the app name shows in the search box; editing/clearing the box drops the filter. suppressSearch
+    // stops the indicator text from being treated as a search query.
+    private var appFilterActive = false
+    private var suppressSearch = false
 
     private val dnsLogRepository by inject<DnsLogRepository>()
     private val persistentState by inject<PersistentState>()
@@ -147,7 +154,8 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
         imm.restartInput(b.queryListSearch)
         b.topRl.requestFocus()
 
-        viewModel.setFilter(filterValue, filterType)
+        // keep an active tap-an-app-icon filter across resume; otherwise re-apply the normal filter
+        if (!appFilterActive) viewModel.setFilter(filterValue, filterType)
     }
 
     private fun setupClickListeners() {
@@ -174,7 +182,8 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
 
         val favIcon = persistentState.fetchFavIcon
         val isRethinkDns = appConfig.isRethinkDnsConnected()
-        val recyclerAdapter = DnsLogAdapter(requireContext(), favIcon, isRethinkDns)
+        val recyclerAdapter =
+            DnsLogAdapter(requireContext(), favIcon, isRethinkDns) { log -> filterByApp(log) }
         recyclerAdapter.stateRestorationPolicy =
                     RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         b.recyclerQuery.adapter = recyclerAdapter
@@ -332,8 +341,37 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
+        if (suppressSearch) return true
+        clearAppFilterIfActive(query)
         searchQuery.value = query
         return true
+    }
+
+    // Fork (白い熊 考直): tap an app's icon → drop any search/filter and show every DNS query for that
+    // app's uid. The app name fills the search box as the active-app indicator; editing/clearing the
+    // box (×) drops the app filter and shows everything again.
+    private fun filterByApp(log: DnsLog) {
+        appFilterActive = true
+        filterValue = ""
+        filterType = DnsLogFilter.ALL
+        remakeFilterChipsUi() // reflect "All" (chip listeners attach after isChecked, so no callback)
+        hideChipsUi()
+        viewModel.setUidFilter(log.uid)
+        val name = log.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) }
+        suppressSearch = true
+        b.queryListSearch.setQuery(name, false)
+        suppressSearch = false
+        b.queryListSearch.clearFocus()
+    }
+
+    // When the user edits/clears the search box while an app filter is active, drop the app filter and
+    // re-fetch with the (possibly empty) query — done directly so it works even when the box goes
+    // empty→empty (which the debounced+distinct search flow would otherwise swallow).
+    private fun clearAppFilterIfActive(query: String) {
+        if (!appFilterActive) return
+        appFilterActive = false
+        filterValue = query
+        viewModel.setFilter(query, filterType)
     }
 
     @OptIn(FlowPreview::class)
@@ -351,6 +389,8 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
 
     val searchQuery = MutableStateFlow("")
     override fun onQueryTextChange(query: String): Boolean {
+        if (suppressSearch) return true
+        clearAppFilterIfActive(query)
         searchQuery.value = query
         return true
     }

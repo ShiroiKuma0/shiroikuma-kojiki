@@ -34,6 +34,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.ConnectionLogAdapter
 import com.celzero.bravedns.adapter.ConnectionTrackerAdapter
+import com.celzero.bravedns.database.ConnectionTracker
 import com.celzero.bravedns.database.ConnectionTrackerRepository
 import com.celzero.bravedns.database.RethinkLogRepository
 import com.celzero.bravedns.databinding.FragmentConnectionTrackerBinding
@@ -76,6 +77,12 @@ class ConnectionTrackerFragment :
     private var fromWireGuardScreen: Boolean = false
     private var fromRpnScreen: Boolean = false
     private var fromUniversalFirewallScreen: Boolean = false
+
+    // Fork (白い熊 考直): tap an app's icon → filter to that app's uid. While that filter is active,
+    // the app name shows in the search box; editing/clearing the box drops the filter. suppressSearch
+    // stops the indicator text from being treated as a search query.
+    private var appFilterActive = false
+    private var suppressSearch = false
 
     companion object {
         private const val TAG = "ConnTrackFrag"
@@ -184,7 +191,7 @@ class ConnectionTrackerFragment :
     }
 
     private fun setupConnectionTrackerRecyclerView() {
-        val recyclerAdapter = ConnectionTrackerAdapter(requireContext())
+        val recyclerAdapter = ConnectionTrackerAdapter(requireContext()) { ct -> filterByApp(ct) }
         recyclerAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -459,13 +466,45 @@ class ConnectionTrackerFragment :
     val searchQuery = MutableStateFlow("")
 
     override fun onQueryTextSubmit(query: String): Boolean {
+        if (suppressSearch) return true
+        clearAppFilterIfActive(query)
         searchQuery.value = query
         return true
     }
 
     override fun onQueryTextChange(query: String): Boolean {
+        if (suppressSearch) return true
+        clearAppFilterIfActive(query)
         searchQuery.value = query
         return true
+    }
+
+    // Fork (白い熊 考直): tap an app's icon → drop any search + rule/state filter and show every
+    // connection for that app's uid. The app name fills the search box as the active-app indicator;
+    // editing/clearing the box (×) drops the app filter and shows everything again.
+    private fun filterByApp(ct: ConnectionTracker) {
+        appFilterActive = true
+        filterQuery = ""
+        filterCategories.clear()
+        filterType = TopLevelFilter.ALL
+        remakeParentFilterChipsUi() // reflect "All" (chip listeners attach after isChecked, so no callback)
+        hideChildChipsUi()
+        viewModel.setUidFilter(ct.uid)
+        val name = ct.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) }
+        suppressSearch = true
+        b.connectionSearch.setQuery(name, false)
+        suppressSearch = false
+        b.connectionSearch.clearFocus()
+    }
+
+    // When the user edits/clears the search box while an app filter is active, drop the app filter and
+    // re-fetch with the (possibly empty) query — done directly so it works even when the box goes
+    // empty→empty (which the debounced+distinct search flow would otherwise swallow).
+    private fun clearAppFilterIfActive(query: String) {
+        if (!appFilterActive) return
+        appFilterActive = false
+        filterQuery = query
+        viewModel.setFilter(query, filterCategories, filterType)
     }
 
     private fun showDeleteDialog() {

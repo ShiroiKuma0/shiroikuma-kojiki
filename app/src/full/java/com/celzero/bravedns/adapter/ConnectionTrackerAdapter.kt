@@ -19,6 +19,7 @@ package com.celzero.bravedns.adapter
 import com.celzero.bravedns.util.Logger
 import com.celzero.bravedns.util.Logger.LOG_TAG_UI
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,16 +36,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.RethinkDnsApplication.Companion.DEBUG
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.database.ConnectionTracker
 import com.celzero.bravedns.databinding.ListItemConnTrackBinding
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.FirewallRuleset
 import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.VpnController
+import com.celzero.bravedns.ui.activity.AppInfoActivity
 import com.celzero.bravedns.ui.bottomsheet.ConnTrackerBottomSheet
 import com.celzero.bravedns.util.Constants.Companion.EMPTY_PACKAGE_NAME
+import com.celzero.bravedns.util.Constants.Companion.INVALID_UID
 import com.celzero.bravedns.util.Constants.Companion.TIME_FORMAT_1
 import com.celzero.bravedns.util.Constants.Companion.TIME_FORMAT_5
+import com.celzero.bravedns.util.Constants.Companion.UID_EVERYBODY
 import com.celzero.bravedns.util.KnownPorts
 import com.celzero.bravedns.util.Protocol
 import com.celzero.bravedns.util.UIUtils
@@ -58,7 +63,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-class ConnectionTrackerAdapter(private val context: Context) :
+class ConnectionTrackerAdapter(
+    private val context: Context,
+    // Fork (白い熊 考直): tap an app's icon → host filters the network log to this app.
+    private val onFilterApp: (ConnectionTracker) -> Unit = {}
+) :
     PagingDataAdapter<ConnectionTracker, ConnectionTrackerAdapter.ConnectionTrackerViewHolder>(
         DIFF_CALLBACK
     ) {
@@ -141,7 +150,34 @@ class ConnectionTrackerAdapter(private val context: Context) :
             displayFirewallRulesetHint(blocked, rule)
             displaySummaryDetails(blocked, connTracker)
 
+            // 白い熊 考直 UI: style the row at bind time (race-free, like firewall/snoop rows).
+            CustomUi.applyConnLogRow(context, b)
+
+            // Tap the row → connection details. Tap the app icon → filter the log to this app;
+            // long-press the icon → open the app's page. Both icon gestures fall back to the details
+            // sheet / no-op when there's no real app for this uid.
             b.connectionParentLayout.setOnClickListener { openBottomSheet(connTracker) }
+            b.connectionAppIcon.setOnClickListener {
+                if (canOpenApp(connTracker.uid)) onFilterApp(connTracker) else openBottomSheet(connTracker)
+            }
+            b.connectionAppIcon.setOnLongClickListener {
+                if (canOpenApp(connTracker.uid)) {
+                    openApp(connTracker.uid)
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+
+        private fun canOpenApp(uid: Int): Boolean {
+            return uid > 0 && uid != UID_EVERYBODY && uid != INVALID_UID
+        }
+
+        private fun openApp(uid: Int) {
+            val intent = Intent(context, AppInfoActivity::class.java)
+            intent.putExtra(AppInfoActivity.INTENT_UID, uid)
+            context.startActivity(intent)
         }
 
         fun setTag(connTracker: ConnectionTracker) {

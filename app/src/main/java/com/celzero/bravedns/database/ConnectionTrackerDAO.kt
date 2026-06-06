@@ -86,6 +86,12 @@ interface ConnectionTrackerDAO {
     )
     fun getConnectionTrackerByName(query: String): PagingSource<Int, ConnectionTracker>
 
+    // Fork (白い熊 考直): tap an app's icon in the network log → show every connection for that uid.
+    // No LIMIT: upstream now bounds the table by age (PurgeConnectionLogs), so the sibling queries
+    // dropped their MAX_LOGS cap too — match them.
+    @Query("select * from ConnectionTracker where uid = :uid order by id desc")
+    fun getConnectionsByUid(uid: Int): PagingSource<Int, ConnectionTracker>
+
     @Query("select * from ConnectionTracker where isBlocked = 1 order by id desc")
     fun getBlockedConnections(): PagingSource<Int, ConnectionTracker>
 
