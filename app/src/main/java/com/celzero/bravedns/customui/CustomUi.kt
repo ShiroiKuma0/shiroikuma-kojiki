@@ -367,7 +367,7 @@ object CustomUi {
     }
 
     // Luminance-based readable foreground for a filled accent: black on a light accent, white on a dark one.
-    private fun onColorFor(bg: Int): Int {
+    fun onColorFor(bg: Int): Int {
         val r = (bg shr 16) and 0xFF
         val g = (bg shr 8) and 0xFF
         val b = bg and 0xFF

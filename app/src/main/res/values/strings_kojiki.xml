@@ -62,6 +62,22 @@
     <string name="kojiki_ui_log_line_spacing" translatable="false">Line spacing</string>
     <string name="kojiki_ui_log_divider_width" translatable="false">Divider thickness</string>
     <string name="kojiki_ui_log_divider_color" translatable="false">Divider colour</string>
+    <!-- Snooping-panel domain tags / categories -->
+    <string name="snoop_action_tags" translatable="false">Tags…</string>
+    <string name="snoop_tag_new" translatable="false">New tag…</string>
+    <string name="snoop_tag_edit" translatable="false">Edit tag…</string>
+    <string name="snoop_tag_name_hint" translatable="false">Tag name</string>
+    <string name="snoop_tag_color" translatable="false">Colour</string>
+    <string name="snoop_tag_clear_color" translatable="false">No colour</string>
+    <string name="snoop_tag_remove_here" translatable="false">Remove from this domain</string>
+    <string name="snoop_tag_delete" translatable="false">Delete tag everywhere</string>
+    <!-- 白い熊 考直 UI: Snooping tags management section -->
+    <string name="kojiki_ui_section_snoop_tags" translatable="false">Snooping tags</string>
+    <string name="kojiki_ui_snoop_tag_text" translatable="false">Default text colour</string>
+    <string name="kojiki_ui_snoop_tag_border" translatable="false">Default border colour</string>
+    <string name="kojiki_ui_snoop_tag_border_width" translatable="false">Default border thickness</string>
+    <string name="kojiki_ui_snoop_tag_list" translatable="false">Tags</string>
+    <string name="kojiki_ui_snoop_tag_none" translatable="false">No tags yet</string>
     <string name="kojiki_ui_log_text_size" translatable="false">Text size</string>
     <string name="kojiki_ui_log_text_sample" translatable="false">example.com · App</string>
     <string name="kojiki_ui_section_log_status" translatable="false">Log status indicator</string>

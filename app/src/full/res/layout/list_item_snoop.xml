@@ -81,6 +81,17 @@
                 android:textColor="?attr/primaryLightColorText"
                 android:textSize="@dimen/mini_font_text_view"
                 tools:text="2m ago · seen 5× · telemetry" />
+
+            <!-- Fork (白い熊 考直): user tag/category chips for this domain. Populated at bind (gone when
+                 none). Tagged no-restyle so the runtime tree-walk leaves the chip colours alone. -->
+            <LinearLayout
+                android:id="@+id/snoop_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="3dp"
+                android:tag="kojiki_no_restyle"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
