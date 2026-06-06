@@ -49,6 +49,10 @@ interface DnsLogDAO {
     @Query("select * from DNSLogs where proxyId like :rpnDnsId order by id desc LIMIT $MAX_LOGS")
     fun getDnsLogsForRpn(rpnDnsId: String): PagingSource<Int, DnsLog>
 
+    // Fork (白い熊 考直): tap an app's icon in the DNS log → show every query for that uid.
+    @Query("select * from DNSLogs where uid = :uid order by id desc LIMIT $MAX_LOGS")
+    fun getDnsLogsByUid(uid: Int): PagingSource<Int, DnsLog>
+
     @Query(
         "select * from DNSLogs where isBlocked = 0 and blockLists = '' order by id desc LIMIT $MAX_LOGS"
     )

@@ -41,6 +41,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import com.celzero.bravedns.R
+import com.celzero.bravedns.databinding.ListItemConnTrackBinding
+import com.celzero.bravedns.databinding.ListItemDnsLogBinding
 import com.celzero.bravedns.databinding.ListItemFirewallAppBinding
 import com.celzero.bravedns.databinding.ListItemSnoopBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -288,7 +290,18 @@ object CustomUi {
                 // severity badge/bar and blocked/allowed state keep their semantic colours, so skip
                 // them all here.
                 R.id.snoop_domain, R.id.snoop_app_name, R.id.snoop_meta, R.id.snoop_state,
-                R.id.snoop_severity_badge, R.id.snoop_severity_bar ->
+                R.id.snoop_severity_badge, R.id.snoop_severity_bar,
+                // Network-log rows are styled by ConnectionTrackerAdapter at bind time (race-free);
+                // the flag/protocol-badge/status-bar keep their own glyphs/colours, so skip them too.
+                R.id.connection_app_name, R.id.connection_ip_address, R.id.connection_domain,
+                R.id.connection_response_time, R.id.connection_data_usage, R.id.connection_duration,
+                R.id.connection_delay, R.id.conn_latency_txt, R.id.connection_flag,
+                R.id.connection_status_indicator,
+                // DNS-log rows are styled by DnsLogAdapter at bind time; the flag/type-badge/unicode
+                // hints/status-bar keep their own glyphs/colours.
+                R.id.dns_query, R.id.dns_app_name, R.id.dns_query_type, R.id.dns_wall_time,
+                R.id.dns_ips, R.id.dns_latency, R.id.dns_type_name, R.id.dns_flag,
+                R.id.dns_unicode_hint, R.id.dns_status_indicator ->
                     Unit
                 // The home VPN button: a flat background-coloured fill + accent border + accent text and
                 // play/pause + chevron icons, kept identical across the start/stop states (its background
@@ -302,7 +315,9 @@ object CustomUi {
             is FloatingActionButton -> styleAccentFab(context, v, cfg)
             is ImageView -> when (v.id) {
                 // Firewall row icon + wifi/data toggles are styled by FirewallAppListAdapter at bind time.
-                R.id.firewall_app_icon_iv, R.id.firewall_app_toggle_wifi, R.id.firewall_app_toggle_mobile_data ->
+                // The network/DNS-log app icons get their size/roundness from their adapters at bind time.
+                R.id.firewall_app_icon_iv, R.id.firewall_app_toggle_wifi, R.id.firewall_app_toggle_mobile_data,
+                R.id.connection_app_icon, R.id.dns_app_icon ->
                     Unit
                 else -> {
                     // Accent only small VECTOR UI icons. App launcher icons / photos are bitmap or
@@ -588,6 +603,60 @@ object CustomUi {
         val rowPad = (cfg.snoopRowPadding * context.resources.displayMetrics.density).toInt()
         b.snoopRow.setPadding(b.snoopRow.paddingLeft, rowPad, b.snoopRow.paddingRight, rowPad)
     }
+
+    /** Style a network-log (connection tracker) row from the adapter — race-free (bind time), like
+     *  applySnoopRow. The app name / ip / domain / time / data-usage follow the global text style; the
+     *  app icon gets the configured size + roundness; the protocol badge keeps its colour but takes the
+     *  global font. No-op off the Custom theme. */
+    fun applyConnLogRow(context: Context, b: ListItemConnTrackBinding) {
+        if (!customThemeActive) return
+        val cfg = CustomUiConfig(context)
+        val g = cfg.globalStyle()
+        b.root.setBackgroundColor(cfg.backgroundColor)
+        styleText(context, b.connectionAppName, g, g)
+        styleText(context, b.connectionIpAddress, g, g)
+        styleText(context, b.connectionDomain, g, g)
+        styleText(context, b.connectionResponseTime, g, g)
+        styleText(context, b.connectionDataUsage, g, g)
+        styleText(context, b.connectionDuration, g, g)
+        styleText(context, b.connectionDelay, g, g)
+        // protocol badge keeps its purple bg + own size/colour; only the font follows the global.
+        styleFontOnly(context, b.connLatencyTxt, fontOnlyStyle(g), g)
+        applyIconSizeRoundness(context, b.connectionAppIcon, cfg.connLogIconSize, cfg.connLogIconRoundness)
+        val pad = (cfg.connLogRowPadding * context.resources.displayMetrics.density).toInt()
+        b.connectionParentLayout.setPadding(
+            b.connectionParentLayout.paddingLeft, pad, b.connectionParentLayout.paddingRight, pad
+        )
+    }
+
+    /** Style a DNS-log row from the adapter — race-free (bind time), like applySnoopRow. The query /
+     *  app name / time / ips / latency follow the global text style; the app icon gets the configured
+     *  size + roundness; the DNS-type badge keeps its colour but takes the global font. No-op off the
+     *  Custom theme. */
+    fun applyDnsLogRow(context: Context, b: ListItemDnsLogBinding) {
+        if (!customThemeActive) return
+        val cfg = CustomUiConfig(context)
+        val g = cfg.globalStyle()
+        b.root.setBackgroundColor(cfg.backgroundColor)
+        styleText(context, b.dnsQuery, g, g)
+        styleText(context, b.dnsAppName, g, g)
+        styleText(context, b.dnsQueryType, g, g)
+        styleText(context, b.dnsWallTime, g, g)
+        styleText(context, b.dnsIps, g, g)
+        styleText(context, b.dnsLatency, g, g)
+        // DNS-type badge keeps its purple bg + own size/colour; only the font follows the global.
+        styleFontOnly(context, b.dnsTypeName, fontOnlyStyle(g), g)
+        applyIconSizeRoundness(context, b.dnsAppIcon, cfg.dnsLogIconSize, cfg.dnsLogIconRoundness)
+        val pad = (cfg.dnsLogRowPadding * context.resources.displayMetrics.density).toInt()
+        b.dnsParentLayout.setPadding(
+            b.dnsParentLayout.paddingLeft, pad, b.dnsParentLayout.paddingRight, pad
+        )
+    }
+
+    // A copy of the global style with size 0, so styleFontOnly applies only the family/weight/italic
+    // (the view keeps its own size + colour) — for coloured badges that should still take the font.
+    private fun fontOnlyStyle(g: CustomUiConfig.TextStyle) =
+        CustomUiConfig.TextStyle(0, 0, g.family, g.weight, g.italic)
 
     /** Build the severity-pill background: a rounded rect filled with the severity colour, with a
      *  configurable corner radius + optional border. Replaces the static bg_snoop_badge so radius/

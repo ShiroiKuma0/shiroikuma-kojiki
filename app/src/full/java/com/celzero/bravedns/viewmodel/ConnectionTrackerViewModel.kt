@@ -28,6 +28,7 @@ import androidx.paging.liveData
 import com.celzero.bravedns.database.ConnectionTracker
 import com.celzero.bravedns.database.ConnectionTrackerDAO
 import com.celzero.bravedns.ui.fragment.ConnectionTrackerFragment
+import com.celzero.bravedns.util.Constants.Companion.INVALID_UID
 import com.celzero.bravedns.util.Constants.Companion.LIVEDATA_PAGE_SIZE
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,6 +41,8 @@ class ConnectionTrackerViewModel(private val connectionTrackerDAO: ConnectionTra
     private val filterString: LiveData<String> = _filterString
     private val filterRules: MutableSet<String> = mutableSetOf()
     private var filterType: TopLevelFilter = TopLevelFilter.ALL
+    // Fork (白い熊 考直): tap-an-app-icon filter — restrict to one uid (INVALID_UID = off).
+    private var filterUid: Int = INVALID_UID
 
     enum class TopLevelFilter(val id: Int) {
         ALL(0),
@@ -80,6 +83,8 @@ class ConnectionTrackerViewModel(private val connectionTrackerDAO: ConnectionTra
     }
 
     fun setFilter(searchString: String, filter: Set<String>, type: TopLevelFilter) {
+        // any manual search / rule / type change cancels the tap-an-app-icon filter
+        filterUid = INVALID_UID
         filterRules.clear()
 
         filterRules.addAll(filter)
@@ -88,7 +93,23 @@ class ConnectionTrackerViewModel(private val connectionTrackerDAO: ConnectionTra
         setFilterWithDebounce(searchString)
     }
 
+    /** Fork (白い熊 考直): tap an app's icon → show every connection for that uid, dropping any
+     *  active search / rule / state filter. Triggers immediately (no debounce). */
+    fun setUidFilter(uid: Int) {
+        filterUid = uid
+        filterRules.clear()
+        filterType = TopLevelFilter.ALL
+        debounceJob?.cancel()
+        _filterString.value = "" // re-run the query (content ignored while a uid filter is set)
+    }
+
     private fun fetchNetworkLogs(input: String): LiveData<PagingData<ConnectionTracker>> {
+        // app-icon filter active → everything for this uid, regardless of search/rules/type
+        if (filterUid != INVALID_UID) {
+            return Pager(pagingConfig) { connectionTrackerDAO.getConnectionsByUid(filterUid) }
+                .liveData
+                .cachedIn(viewModelScope)
+        }
         // spl case: treat input with P:UDP, P:TCP, P:ICMP as protocol filter
         val protocolPrefix = ConnectionTrackerFragment.PROTOCOL_FILTER_PREFIX.lowercase()
         val s = input.trim().lowercase()
