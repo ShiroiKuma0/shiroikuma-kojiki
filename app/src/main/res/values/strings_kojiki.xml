@@ -56,6 +56,9 @@
     <string name="kojiki_ui_snoop_pill_border_width" translatable="false">Border width</string>
     <string name="kojiki_ui_snoop_pill_size" translatable="false">Severity pill size</string>
     <string name="kojiki_ui_snoop_row_padding" translatable="false">Inter-item spacing</string>
+    <string name="kojiki_ui_section_conn_log_icon" translatable="false">Network log</string>
+    <string name="kojiki_ui_section_dns_log_icon" translatable="false">DNS log</string>
+    <string name="kojiki_ui_log_row_padding" translatable="false">Inter-item spacing</string>
     <string name="kojiki_ui_snoop_state" translatable="false">Status text (blocked / allowed)</string>
     <string name="kojiki_ui_snoop_state_blocked" translatable="false">Status colour (blocked)</string>
     <string name="kojiki_ui_snoop_state_allowed" translatable="false">Status colour (allowed)</string>

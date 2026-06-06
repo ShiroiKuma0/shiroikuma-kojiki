@@ -91,6 +91,10 @@ interface ConnectionTrackerDAO {
     )
     fun getConnectionTrackerByName(query: String): PagingSource<Int, ConnectionTracker>
 
+    // Fork (白い熊 考直): tap an app's icon in the network log → show every connection for that uid.
+    @Query("select * from ConnectionTracker where uid = :uid order by id desc LIMIT $MAX_LOGS")
+    fun getConnectionsByUid(uid: Int): PagingSource<Int, ConnectionTracker>
+
     @Query("select * from ConnectionTracker where isBlocked = 1 order by id desc LIMIT $MAX_LOGS")
     fun getBlockedConnections(): PagingSource<Int, ConnectionTracker>
 
