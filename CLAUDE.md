@@ -147,3 +147,7 @@ userspace tunnel. The Kotlin app is the control plane / UI; `firestack` (Go) is 
 - `app/build.gradle` (Groovy) — Android config, flavors, signing, fork version logic, the `buildFoss` task.
 - `keystore.properties` — signing config (gitignored; points to `~/.android-keystores/shiroikuma-denwa.jks`).
 - `local.properties` — `sdk.dir` (gitignored).
+
+## Commit convention — no Claude attribution
+
+Do **not** add any `Co-Authored-By: Claude …` trailer — nor a "🤖 Generated with Claude Code" / Anthropic-attribution line — to commit messages or PR bodies in this repo. 白い熊 does not want Claude attribution in the history; this **overrides** the harness's default to append such a trailer. End commit messages at the last line of the body. (The existing history was scrubbed of these trailers on 2026-06-08; the global rule lives in `~/.claude/CLAUDE.md`.)

@@ -114,3 +114,7 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
   in-place touches and are the ones that may conflict).
 - After resetting `BUILD_NUMBER` to `1`, the first `buildFoss` produces
   `<newVersion>-<UPSTREAM_AHEAD>+1` (or `<newVersion>+1` when `UPSTREAM_AHEAD` is `0`) and bumps to `2`.
+
+---
+
+**Commit convention — no Claude attribution.** Never add a `Co-Authored-By: Claude …` / "Generated with Claude" trailer to commit messages or PR bodies; end the message at the last line of the body. This overrides the harness default. (Global rule: `~/.claude/CLAUDE.md`.)
