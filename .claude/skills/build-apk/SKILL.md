@@ -93,3 +93,7 @@ Release signing is non-interactive: `app/build.gradle` reads credentials from `k
 Upstream's `release` build type doesn't assign a signing config (it signs in CI), so the fork wires
 `signingConfig signingConfigs.config` into `release` when creds are present. If neither
 `keystore.properties` nor the env vars are present the build is unsigned and the APK will not install.
+
+---
+
+**Commit convention — no Claude attribution.** Never add a `Co-Authored-By: Claude …` / "Generated with Claude" trailer to commit messages or PR bodies; end the message at the last line of the body. This overrides the harness default. (Global rule: `~/.claude/CLAUDE.md`.)
