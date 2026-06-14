@@ -103,6 +103,24 @@
     <string name="kojiki_ui_reset" translatable="false">Reset to black / yellow</string>
     <string name="kojiki_ui_font_invalid" translatable="false">Could not import that font (need .ttf / .otf)</string>
 
+    <!-- Granular export/import of the 白い熊 考直 settings (theme/font + imported fonts + Snoop tags),
+         separate from RethinkDNS's own system backup/restore (hence "export/import", to avoid confusion);
+         saved into a user-chosen, persisted folder so the kojiki customisations survive a clean reinstall. -->
+    <string name="kojiki_ui_section_eximport" translatable="false">Export / import (白い熊 考直)</string>
+    <string name="kojiki_ui_eximport_dir" translatable="false">Folder</string>
+    <string name="kojiki_ui_eximport_dir_unset" translatable="false">(not set — tap to choose)</string>
+    <string name="kojiki_ui_eximport_last" translatable="false">Last exported: %1$s</string>
+    <string name="kojiki_ui_eximport_warn_none" translatable="false">⚠ Never exported here — your 白い熊 考直 customisations are NOT backed up</string>
+    <string name="kojiki_ui_eximport_warn_nodir" translatable="false">⚠ No folder set — choose one so your customisations get backed up</string>
+    <string name="kojiki_ui_export" translatable="false">Export 白い熊 考直 settings</string>
+    <string name="kojiki_ui_export_desc" translatable="false">Save colours, font, fonts &amp; Snoop tags to the folder</string>
+    <string name="kojiki_ui_import" translatable="false">Import 白い熊 考直 settings</string>
+    <string name="kojiki_ui_import_desc" translatable="false">Restore from a previously exported file</string>
+    <string name="kojiki_ui_export_ok" translatable="false">Exported %1$s</string>
+    <string name="kojiki_ui_export_fail" translatable="false">Export failed: %1$s</string>
+    <string name="kojiki_ui_import_ok" translatable="false">Imported %1$s</string>
+    <string name="kojiki_ui_import_fail" translatable="false">Import failed: %1$s</string>
+
     <!-- Per-tunnel WireGuard export (portable wg-quick .conf incl. private key; re-imports as a fresh,
          locally-encrypted, valid tunnel on any install/keystore). -->
     <string name="wg_export_title" translatable="false">Export</string>

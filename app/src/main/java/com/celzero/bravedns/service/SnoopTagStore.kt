@@ -153,4 +153,11 @@ object SnoopTagStore {
         assignCache = a
         prefs(c).edit().putString(KEY_ASSIGN, gson.toJson(a)).apply()
     }
+
+    /** Drop caches after the backing prefs are replaced wholesale (e.g. a settings import). */
+    @Synchronized
+    fun invalidateCache() {
+        tagsCache = null
+        assignCache = null
+    }
 }
