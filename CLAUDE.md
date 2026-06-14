@@ -42,6 +42,10 @@ The app ID is deliberately changed so this fork installs **alongside** upstream 
 conflict. The namespace is intentionally kept as `com.celzero.bravedns` so `R`/`BuildConfig`, all
 source packages, and intent action strings remain unchanged — only the installed package id differs.
 
+The 白い熊 考直 UI defaults are black `#000000` + **pure yellow `#FFFF00`** (`PALETTE_BLACK` /
+`PALETTE_YELLOW` in `CustomUiConfig`, mirrored by `colors_kojiki.xml` and the launcher-icon
+foreground). Never material yellow `#FFEB3B`.
+
 ### Versioning & APK naming
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
@@ -140,6 +144,42 @@ userspace tunnel. The Kotlin app is the control plane / UI; `firestack` (Go) is 
   `ConnectionStatus`: `BOTH(0)`, `UNMETERED(1)`, `METERED(2)`, `ALLOW(3)`).
   `suspend fun updateFirewallStatus(uid, firewallStatus, connectionStatus)` applies a rule;
   `getAppInfoByPackage(pkg)` / `getAppInfoByUid` / `getPackageNameByUid` resolve apps.
+
+## Troubleshooting / known gotchas
+
+### Restoring an old Rethink backup (`.rbk`) kills ALL DNS — the `connectionStatus=0` trap
+
+**Symptom:** after restoring a pre-existing RethinkDNS backup, *every* tunnelled app (browser, shell,
+Termux) gets `unknown host`; netd logs `res_nsend: ipv4_invalid_type:1`; firestack may not even dial
+the DoH resolver. Apps set to `EXCLUDE` (e.g. Jami) keep working because they bypass the tunnel.
+
+**Root cause** (diagnosed 2026-06-14 via a 13-variant `.rbk` bisection): the old backup's `AppInfo`
+rows carry per-app **`connectionStatus = 0`** (`ConnectionStatus.BOTH`) on hundreds of apps —
+**including the system `com.android.networkstack…`, uid 1000**. On this build `FirewallManager`
+firewalls any app whose `connectionStatus != ConnectionStatus.ALLOW` (`BOTH` renders as
+`R.string.block` = "block on both wifi+data"). Blocking the system networkstack kills the device
+resolver → DNS dies for everything. It is a **cross-version artifact**: `conn=0` was harmless under
+the older config the backup was made on, but means "block" here (a fresh install defaults every app
+to `ALLOW(3)`).
+
+**Fix:** normalize `AppInfo.connectionStatus 0 → 3 (ALLOW)`. This restores DNS while **preserving
+every intentional rule** in `firewallStatus` (BYPASS_UNIVERSAL/EXCLUDE/ISOLATE/BYPASS_DNS_FIREWALL).
+**Any per-app-firewall import/restore path we build MUST apply this `0 → ALLOW` mapping.**
+
+**Exonerated — do NOT re-chase these:** prefs (`dns_alg`, `disallow_dns_bypass`, `use_max_mtu`,
+`block_*` flags), CustomIp/CustomDomain rules, custom DoH/DoT endpoints, the WG row + its proxy
+mappings (firestack falls back to Base when a bound WG is inactive).
+
+### Diagnosing DNS / connectivity on the phone (don't waste hours on the wrong metric)
+
+- **`ping` is useless when `dns_alg` is on.** Names resolve to synthetic `100.64.0.0/10` ALG IPs that
+  never answer ICMP, so `ping` shows resolution but 100% packet loss *even when all is well*. **Test
+  with `curl` by-name HTTP code:** `curl -sS -m12 -o /dev/null -w "%{http_code}\n" https://example.com/`.
+  (`curl https://<literal-IP>` fails by design — it trips `block_unknown_connections`, not a fault.)
+- **Reading/editing a `.rbk`'s `bravedns.db` needs `PRAGMA wal_checkpoint(TRUNCATE)` first** — the
+  backup ships an uncheckpointed WAL, so opening the `.db` alone shows a *stale pre-WAL* state (this
+  invalidated three diagnosis rounds). Restore variants must also bundle 0-byte `*.db-wal`/`-shm` to
+  overwrite the device's leftover WAL.
 
 ## Key Configuration Files
 
