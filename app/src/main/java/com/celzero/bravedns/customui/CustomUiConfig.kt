@@ -37,6 +37,10 @@ class CustomUiConfig(context: Context) {
     private val prefs: SharedPreferences =
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
+    init {
+        migratePureYellow()
+    }
+
     private fun int(key: String, def: Int) = prefs.getInt(key, def)
     private fun putInt(key: String, v: Int) = prefs.edit().putInt(key, v).apply()
     private fun str(key: String) = prefs.getString(key, "") ?: ""
@@ -244,6 +248,28 @@ class CustomUiConfig(context: Context) {
     var dividerThickness: Int
         get() = int(KEY_DIVIDER_WIDTH, 0); set(v) = putInt(KEY_DIVIDER_WIDTH, v)
 
+    /**
+     * One-time migration: [PALETTE_YELLOW] changed from material yellow (#FFEB3B) to pure yellow
+     * (#FFFF00). Rewrite every persisted colour whose RGB part is the old yellow to the new one,
+     * preserving the alpha byte (colours are full ARGB). Unset slots have no persisted entry and
+     * the 0 = inherit sentinels never match, so both are left alone. Guarded by a persisted flag
+     * so it runs once per install.
+     */
+    private fun migratePureYellow() {
+        if (bool(KEY_PURE_YELLOW_MIGRATED, false)) return
+        val e = prefs.edit()
+        for ((key, v) in prefs.all) {
+            if (v !is Int || !isColorKey(key)) continue
+            if (v and 0xFFFFFF == OLD_YELLOW_RGB) {
+                e.putInt(key, (v and 0xFF000000.toInt()) or (PALETTE_YELLOW and 0xFFFFFF))
+            }
+        }
+        e.putBoolean(KEY_PURE_YELLOW_MIGRATED, true).apply()
+    }
+
+    /** True for persisted colour keys: the "*_color" ones plus those without the suffix. */
+    private fun isColorKey(key: String) = key.endsWith("_color") || key in NON_SUFFIX_COLOR_KEYS
+
     fun resetToDefaults() {
         prefs.edit().clear().apply()
     }
@@ -305,6 +331,16 @@ class CustomUiConfig(context: Context) {
         private const val KEY_BORDER_WIDTH = "kojiki_card_border_width"
         private const val KEY_DIVIDER_COLOR = "kojiki_divider_color"
         private const val KEY_DIVIDER_WIDTH = "kojiki_divider_width"
+        // One-shot [migratePureYellow] flag: old material-yellow prefs rewritten to pure yellow.
+        private const val KEY_PURE_YELLOW_MIGRATED = "pure_yellow_migrated"
+        /** RGB of the pre-pure-yellow PALETTE_YELLOW (material yellow), matched alpha-agnostically. */
+        private const val OLD_YELLOW_RGB = 0xFFEB3B
+        /** Persisted colour keys whose names don't end in "_color" (see [isColorKey]). */
+        private val NON_SUFFIX_COLOR_KEYS = setOf(
+            KEY_SNOOP_PILL_BORDER_C, KEY_SNOOP_TAG_TEXT, KEY_SNOOP_TAG_BORDER,
+            KEY_CONN_LOG_DIV_C, KEY_DNS_LOG_DIV_C,
+            KEY_LOG_STATUS_BLOCKED, KEY_LOG_STATUS_MAYBE, KEY_LOG_STATUS_ALLOWED
+        )
 
         // Text-style prefixes (each gets _color/_size/_font/_weight/_italic keys).
         const val P_FW_NAME_USER = "kojiki_fw_name_user"
@@ -319,7 +355,7 @@ class CustomUiConfig(context: Context) {
         const val P_SNOOP_MENU = "kojiki_menu_item"
 
         const val PALETTE_BLACK = 0xFF000000.toInt()
-        const val PALETTE_YELLOW = 0xFFFFEB3B.toInt()
+        const val PALETTE_YELLOW = 0xFFFFFF00.toInt()
         const val SNOOP_GREEN = 0xFF2B8E18.toInt()
         const val SNOOP_AMBER = 0xFFFFA000.toInt()
         const val LOG_RED = 0xFFFF1744.toInt()
