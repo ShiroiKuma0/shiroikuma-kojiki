@@ -9,6 +9,6 @@
     <color name="kojikiSurface">#FF000000</color>
     <!-- Neutral dark grey kept only for thin dividers/strokes (never a fill). -->
     <color name="kojikiSurfaceVariant">#FF1A1A1A</color>
-    <color name="kojikiYellow">#FFFFEB3B</color>
-    <color name="kojikiYellowDim">#B3FFEB3B</color>
+    <color name="kojikiYellow">#FFFFFF00</color>
+    <color name="kojikiYellowDim">#B3FFFF00</color>
 </resources>
