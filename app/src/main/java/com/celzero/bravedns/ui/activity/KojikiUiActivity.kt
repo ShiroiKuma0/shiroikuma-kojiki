@@ -16,6 +16,7 @@
 package com.celzero.bravedns.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Outline
 import android.net.Uri
@@ -34,11 +35,14 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.documentfile.provider.DocumentFile
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.celzero.bravedns.BuildConfig
 import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.ColorPickerDialog
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.KojikiBackup
 import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
@@ -46,6 +50,9 @@ import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.util.Themes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.ext.android.inject
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Fork (白い熊 考直): the 白い熊 考直 UI page — configure the foundation colours (background,
@@ -62,8 +69,23 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private val fontImportLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> onFontImported(uri) }
 
+    // Granular export/import of the 白い熊 考直 settings (theme/font + Snoop tags + fonts).
+    private val settingsExportLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+            onSettingsExport(uri)
+        }
+    private val settingsImportLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> onSettingsImport(uri) }
+    private val eximportDirLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri -> onEximportDirPicked(uri) }
+
     private companion object {
         const val KEY_SCROLL_Y = "kojiki_ui_scroll_y"
+        // Device-local store for the persisted export/import folder (kept OUT of the export bundle).
+        const val EXIMPORT_PREFS = "kojiki_eximport"
+        const val KEY_DIR_URI = "dir_uri"
+        const val EXPORT_PREFIX = "shiroikuma-kojiki-"
+        const val WARN_COLOR = 0xFFFF5252.toInt()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -235,6 +257,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
 
         addValueRow(R.string.kojiki_ui_reset, "") { cfg.resetToDefaults(); recreate() }
+
+        // --- Export / import (kojiki-only: colours, font, fonts files, Snoop tags) ---
+        addSectionHeader(R.string.kojiki_ui_section_eximport)
+        addValueRow(R.string.kojiki_ui_eximport_dir, dirLabel()) { eximportDirLauncher.launch(dirUri()) }
+        val (status, warn) = lastExportStatus()
+        addInfoLine(status, warn)
+        addValueRow(R.string.kojiki_ui_export, getString(R.string.kojiki_ui_export_desc)) { onExportClicked() }
+        addValueRow(R.string.kojiki_ui_import, getString(R.string.kojiki_ui_import_desc)) { onImportClicked() }
     }
 
     // Icon size + roundness with a live preview (the app's own icon) that updates as the sliders move.
@@ -730,5 +760,115 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
         cfg.fontFamily = fileName
         recreate()
+    }
+
+    // --- Export / import folder (persisted SAF tree) + status helpers ---
+
+    private fun eximportPrefs() = getSharedPreferences(EXIMPORT_PREFS, Context.MODE_PRIVATE)
+
+    private fun dirUri(): Uri? =
+        eximportPrefs().getString(KEY_DIR_URI, null)?.let { runCatching { Uri.parse(it) }.getOrNull() }
+
+    private fun exportDir(): DocumentFile? =
+        dirUri()?.let { runCatching { DocumentFile.fromTreeUri(this, it) }.getOrNull() }
+            ?.takeIf { it.isDirectory }
+
+    private fun dirLabel(): String =
+        exportDir()?.name ?: dirUri()?.lastPathSegment ?: getString(R.string.kojiki_ui_eximport_dir_unset)
+
+    /** (message, isWarning) for the "Last exported …" line shown under the folder. */
+    private fun lastExportStatus(): Pair<String, Boolean> {
+        val dir = exportDir() ?: return getString(R.string.kojiki_ui_eximport_warn_nodir) to true
+        val newest = runCatching {
+            dir.listFiles().filter {
+                it.isFile && it.name?.startsWith(EXPORT_PREFIX) == true && it.name?.endsWith(".json") == true
+            }.maxByOrNull { it.lastModified() }
+        }.getOrNull()
+        return if (newest == null) getString(R.string.kojiki_ui_eximport_warn_none) to true
+        else getString(R.string.kojiki_ui_eximport_last, fmtTs(newest.lastModified())) to false
+    }
+
+    private fun fmtTs(t: Long) = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT).format(Date(t))
+
+    private fun exportFileName(): String =
+        EXPORT_PREFIX + BuildConfig.VERSION_NAME + "-export_" +
+            SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ROOT).format(Date()) + ".json"
+
+    private fun addInfoLine(text: String, warn: Boolean) {
+        val tv = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            this.text = text
+            setTextColor(if (warn) WARN_COLOR else cfg.textColor)
+            if (!warn) alpha = 0.7f
+            setPadding(0, dp(2), dp(16), dp(10))
+        }
+        indent(tv, 1)
+        b.kojikiUiHolder.addView(tv)
+    }
+
+    private fun onEximportDirPicked(uri: Uri?) {
+        if (uri == null) return
+        runCatching {
+            contentResolver.takePersistableUriPermission(
+                uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        }
+        eximportPrefs().edit().putString(KEY_DIR_URI, uri.toString()).apply()
+        recreate()
+    }
+
+    private fun onExportClicked() {
+        val dir = exportDir()
+        if (dir == null) {
+            // No folder chosen yet — fall back to the system "save as" picker (still names the file properly).
+            settingsExportLauncher.launch(exportFileName())
+            return
+        }
+        exportToDir(dir)
+    }
+
+    private fun onImportClicked() = settingsImportLauncher.launch(arrayOf("application/json", "*/*"))
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun exportToDir(dir: DocumentFile) {
+        try {
+            val name = exportFileName()
+            val file = dir.createFile("application/json", name) ?: error("could not create file in folder")
+            contentResolver.openOutputStream(file.uri)?.use { it.write(KojikiBackup.export(this).toByteArray()) }
+                ?: error("no output stream")
+            Toast.makeText(this, getString(R.string.kojiki_ui_export_ok, name), Toast.LENGTH_LONG).show()
+            recreate() // refresh the "Last exported" line
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.kojiki_ui_export_fail, e.message ?: ""), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // Fallback (no folder set): write to the URI the system create-document picker returned.
+    @Suppress("TooGenericExceptionCaught")
+    private fun onSettingsExport(uri: Uri?) {
+        if (uri == null) return
+        try {
+            contentResolver.openOutputStream(uri)?.use { it.write(KojikiBackup.export(this).toByteArray()) }
+                ?: error("no output stream")
+            val name = runCatching { DocumentFile.fromSingleUri(this, uri)?.name }.getOrNull()
+                ?: uri.lastPathSegment ?: "file"
+            Toast.makeText(this, getString(R.string.kojiki_ui_export_ok, name), Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.kojiki_ui_export_fail, e.message ?: ""), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun onSettingsImport(uri: Uri?) {
+        if (uri == null) return
+        try {
+            val json = contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() }
+                ?: error("no input stream")
+            val summary = KojikiBackup.import(this, json)
+            Toast.makeText(this, getString(R.string.kojiki_ui_import_ok, summary), Toast.LENGTH_LONG).show()
+            recreate()
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.kojiki_ui_import_fail, e.message ?: ""), Toast.LENGTH_LONG).show()
+        }
     }
 }

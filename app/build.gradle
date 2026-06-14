@@ -541,6 +541,8 @@ dependencies {
     fullImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.21'
     fullImplementation 'androidx.appcompat:appcompat:1.8.0'
     fullImplementation 'androidx.core:core-ktx:1.19.0'
+    // Fork (白い熊 考直): SAF tree access for the 白い熊 考直 settings export/import folder.
+    fullImplementation 'androidx.documentfile:documentfile:1.1.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     fullImplementation 'androidx.constraintlayout:constraintlayout:2.2.2'
     fullImplementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
