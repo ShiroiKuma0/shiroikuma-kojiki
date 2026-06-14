@@ -109,8 +109,14 @@ object CustomUi {
     fun weightLabelRes(value: Int): Int =
         (weightOptions.firstOrNull { it.value == value } ?: weightOptions.first()).labelRes
 
-    private fun fontsDir(context: Context): File =
+    fun fontsDir(context: Context): File =
         File(context.applicationContext.filesDir, "kojiki_fonts").apply { mkdirs() }
+
+    /** Drop in-memory typeface/style caches so freshly-imported fonts/settings re-load. */
+    fun invalidateCaches() {
+        typefaceCache.clear()
+        styledCache.clear()
+    }
 
     /** Built-in families + every .ttf/.otf the user has imported. */
     fun availableFonts(context: Context): List<FontOption> {
