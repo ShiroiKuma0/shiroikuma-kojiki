@@ -22,8 +22,15 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceManager
 import com.celzero.bravedns.R
+import com.celzero.bravedns.database.AppDatabase
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.AppInfoRepository
+import com.celzero.bravedns.database.DnsCryptEndpoint
+import com.celzero.bravedns.database.DnsProxyEndpoint
+import com.celzero.bravedns.database.DoHEndpoint
+import com.celzero.bravedns.database.DoTEndpoint
+import com.celzero.bravedns.database.ODoHEndpoint
+import com.celzero.bravedns.database.ProxyEndpoint
 import com.celzero.bravedns.database.CustomDomain
 import com.celzero.bravedns.database.CustomDomainRepository
 import com.celzero.bravedns.database.CustomIp
@@ -84,6 +91,7 @@ object KojikiExport : KoinComponent {
     private val remoteTagRepo: RethinkRemoteFileTagRepository by inject()
     private val dohRepo: DoHEndpointRepository by inject()
     private val appConfig: AppConfig by inject()
+    private val db: AppDatabase by inject() // DNS/proxy DAOs lack getAll on their repos
     private val gson = Gson()
 
     // Filled by importWireGuard, surfaced in the import dialog (lockdown + bound-app count are otherwise
@@ -99,7 +107,9 @@ object KojikiExport : KoinComponent {
         FIREWALL_DOMAINS("firewall_domains", R.string.kojiki_eim_cat_fw_domains),
         FIREWALL_IPS("firewall_ips", R.string.kojiki_eim_cat_fw_ips),
         WIREGUARD("wireguard", R.string.kojiki_eim_cat_wireguard),
-        BLOCKLISTS("blocklists", R.string.kojiki_eim_cat_blocklists);
+        BLOCKLISTS("blocklists", R.string.kojiki_eim_cat_blocklists),
+        DNS("dns", R.string.kojiki_eim_cat_dns),
+        PROXIES("proxies", R.string.kojiki_eim_cat_proxies);
 
         companion object {
             fun byId(id: String): Cat? = entries.firstOrNull { it.id == id }
@@ -154,6 +164,8 @@ object KojikiExport : KoinComponent {
                     Cat.FIREWALL_IPS -> gson.toJson(customIpRepo.getIpRules())
                     Cat.WIREGUARD -> exportWireGuard(context)
                     Cat.BLOCKLISTS -> exportBlocklists()
+                    Cat.DNS -> exportDns()
+                    Cat.PROXIES -> exportProxies()
                 }
                 writeEntry(zip, "${cat.id}.json", json)
                 if (cat == Cat.APPEARANCE) exportFonts(context, zip)
@@ -289,6 +301,8 @@ object KojikiExport : KoinComponent {
                     Cat.FIREWALL_IPS -> importIps(json)
                     Cat.WIREGUARD -> importWireGuard(json)
                     Cat.BLOCKLISTS -> importBlocklists(json)
+                    Cat.DNS -> importDns(json)
+                    Cat.PROXIES -> importProxies(json)
                 }
             } catch (e: Exception) {
                 Logger.w(LOG_TAG_BACKUP_RESTORE, "kojiki import ${cat.id} failed: ${e.message}", e)
@@ -502,6 +516,59 @@ object KojikiExport : KoinComponent {
                 // skip a bad font; the rest of the import still applies
             }
         }
+    }
+
+    // --- DNS custom endpoints + proxies (Stage 2) ---
+    // The endpoint repos don't expose getAll, so go via the DAOs (AppDatabase). Only CUSTOM (user-added)
+    // endpoints are exported — built-ins are re-seeded by the app. DnsCrypt relays + Rethink+ endpoints
+    // are skipped (niche, no clean getAll). Import dedupes by name and resets the autoincrement id so
+    // each becomes a fresh row (no id collisions, no re-import duplicates).
+
+    private fun exportDns(): String {
+        val o = JSONObject()
+        o.put("doh", JSONArray(gson.toJson(db.dohEndpointsDAO().getAll().filter { it.isCustom })))
+        o.put("dot", JSONArray(gson.toJson(db.dotEndpointDao().getAll().filter { it.isCustom })))
+        o.put("dnscrypt", JSONArray(gson.toJson(db.dnsCryptEndpointDAO().getAll().filter { it.isCustom })))
+        o.put("dnsproxy", JSONArray(gson.toJson(db.dnsProxyEndpointDAO().getAll().filter { it.isCustom })))
+        o.put("odoh", JSONArray(gson.toJson(db.odohEndpointDao().getAll().filter { it.isCustom })))
+        return o.toString(2)
+    }
+
+    private fun importDns(json: String): Int {
+        val o = JSONObject(json)
+        var n = 0
+        gson.fromJson(o.optJSONArray("doh")?.toString() ?: "[]", Array<DoHEndpoint>::class.java)?.let { arr ->
+            val have = db.dohEndpointsDAO().getAll().filter { it.isCustom }.map { it.dohName }.toHashSet()
+            for (e in arr) { if (e.dohName in have) continue; e.id = 0; db.dohEndpointsDAO().insertReplace(e); n++ }
+        }
+        gson.fromJson(o.optJSONArray("dot")?.toString() ?: "[]", Array<DoTEndpoint>::class.java)?.let { arr ->
+            val have = db.dotEndpointDao().getAll().filter { it.isCustom }.map { it.name }.toHashSet()
+            for (e in arr) { if (e.name in have) continue; e.id = 0; db.dotEndpointDao().insertReplace(e); n++ }
+        }
+        gson.fromJson(o.optJSONArray("dnscrypt")?.toString() ?: "[]", Array<DnsCryptEndpoint>::class.java)?.let { arr ->
+            val have = db.dnsCryptEndpointDAO().getAll().filter { it.isCustom }.map { it.dnsCryptName }.toHashSet()
+            for (e in arr) { if (e.dnsCryptName in have) continue; e.id = 0; db.dnsCryptEndpointDAO().insert(e); n++ }
+        }
+        gson.fromJson(o.optJSONArray("dnsproxy")?.toString() ?: "[]", Array<DnsProxyEndpoint>::class.java)?.let { arr ->
+            val have = db.dnsProxyEndpointDAO().getAll().filter { it.isCustom }.map { it.proxyName }.toHashSet()
+            for (e in arr) { if (e.proxyName in have) continue; e.id = 0; db.dnsProxyEndpointDAO().insertWithReplace(e); n++ }
+        }
+        gson.fromJson(o.optJSONArray("odoh")?.toString() ?: "[]", Array<ODoHEndpoint>::class.java)?.let { arr ->
+            val have = db.odohEndpointDao().getAll().filter { it.isCustom }.map { it.name }.toHashSet()
+            for (e in arr) { if (e.name in have) continue; e.id = 0; db.odohEndpointDao().insertReplace(e); n++ }
+        }
+        return n
+    }
+
+    private fun exportProxies(): String =
+        JSONArray(gson.toJson(db.proxyEndpointDAO().getAll().filter { it.isCustom })).toString(2)
+
+    private fun importProxies(json: String): Int {
+        val arr = gson.fromJson(json, Array<ProxyEndpoint>::class.java) ?: return 0
+        val have = db.proxyEndpointDAO().getAll().filter { it.isCustom }.map { it.proxyName }.toHashSet()
+        var n = 0
+        for (e in arr) { if (e.proxyName in have) continue; e.id = 0; db.proxyEndpointDAO().insert(e); n++ }
+        return n
     }
 
     /** Read every ZIP entry into memory keyed by entry name. */
