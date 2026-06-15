@@ -44,9 +44,11 @@ import com.celzero.bravedns.data.AppConfig
 import com.celzero.bravedns.service.EncryptedFileManager
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.KojikiPendingFw
+import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.service.WireguardManager
+import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.wireguard.Config
 import com.google.gson.Gson
 import org.json.JSONArray
@@ -65,8 +67,10 @@ import java.util.zip.ZipOutputStream
  * own (faulty, all-or-nothing) backup/restore.
  *
  * The export is a ZIP of **plain JSON files** — one per category — plus any imported font files as
- * real files under `fonts/`. No binary blobs, no serialized objects, no `.db` files. A `manifest.json`
- * lists the format, version and the categories present.
+ * real files under `fonts/`. No binary blobs, no serialized objects, no `.db` files. The blocklists
+ * category carries only the *selection* (per-list names + the portable stamp), never the multi-MB
+ * blocklist data — that is re-downloaded on the target device. A `manifest.json` lists the format,
+ * version and the categories present.
  *
  * **Future-proof by construction:** every category is an independent file; import iterates the
  * *selected* categories, skips any whose file is absent, and tolerates missing/extra keys & rows —
@@ -80,7 +84,7 @@ import java.util.zip.ZipOutputStream
 object KojikiExport : KoinComponent {
 
     const val FORMAT = "kojiki-export"
-    const val VERSION = 1
+    const val VERSION = 2 // v2: blocklists carry per-list names + portable stamp/prefs (no data files)
 
     private val appInfoRepo: AppInfoRepository by inject()
     private val customDomainRepo: CustomDomainRepository by inject()
@@ -91,6 +95,7 @@ object KojikiExport : KoinComponent {
     private val remoteTagRepo: RethinkRemoteFileTagRepository by inject()
     private val dohRepo: DoHEndpointRepository by inject()
     private val appConfig: AppConfig by inject()
+    private val persistentState: PersistentState by inject()
     private val db: AppDatabase by inject() // DNS/proxy DAOs lack getAll on their repos
     private val gson = Gson()
 
@@ -245,11 +250,32 @@ object KojikiExport : KoinComponent {
         return arr.toString(2)
     }
 
-    private suspend fun exportBlocklists(): String =
-        JSONObject()
-            .put("local", JSONArray(localTagRepo.getSelectedTags()))
+    // Export the on-device blocklist SELECTION only — never the multi-MB data files (those re-download
+    // on the target device). Each selected LOCAL list is carried as {value, vname, group, subg} so it
+    // is both human-readable ("which lists did I have?") and re-selectable. The local `stamp` is what
+    // firestack actually enforces and is PORTABLE across blocklist versions (it encodes stable per-list
+    // value-flags), so it round-trips the exact blocking without the files. Remote blocklists are
+    // enforced server-side (RethinkDNS+ URL), so only their selected ids are carried.
+    private suspend fun exportBlocklists(): String {
+        val localArr = JSONArray()
+        for (t in localTagRepo.fileTags()) {
+            if (!t.isSelected) continue
+            localArr.put(
+                JSONObject()
+                    .put("value", t.value)
+                    .put("vname", t.vname)
+                    .put("group", t.group)
+                    .put("subg", t.subg)
+            )
+        }
+        return JSONObject()
+            .put("local", localArr)
             .put("remote", JSONArray(remoteTagRepo.getSelectedTags()))
+            .put("localStamp", persistentState.localBlocklistStamp)
+            .put("localCount", persistentState.numberOfLocalBlocklists)
+            .put("localEnabled", persistentState.blocklistEnabled)
             .toString(2)
+    }
 
     private fun exportFonts(context: Context, zip: ZipOutputStream) {
         CustomUi.fontsDir(context).listFiles()?.forEach { f ->
@@ -277,6 +303,24 @@ object KojikiExport : KoinComponent {
         return Cat.entries.filter { files.containsKey("${it.id}.json") }.toSet()
     }
 
+    /**
+     * True if the on-device (local) blocklist is downloaded on THIS device — i.e. an imported blocklist
+     * selection can actually be applied/enforced. (The export carries only the selection + stamp; the
+     * multi-MB data must already be present.)
+     */
+    fun localBlocklistsReady(context: Context): Boolean {
+        val ts = persistentState.localBlocklistTimestamp
+        return ts > 0 && Utilities.hasLocalBlocklists(context, ts)
+    }
+
+    /** True if [zip]'s blocklists category carries a non-empty LOCAL blocklist selection. */
+    fun hasLocalBlocklistSelection(zip: ByteArray): Boolean {
+        val data = readZip(zip)["${Cat.BLOCKLISTS.id}.json"] ?: return false
+        return runCatching {
+            (JSONObject(data.decodeToString()).optJSONArray("local")?.length() ?: 0) > 0
+        }.getOrDefault(false)
+    }
+
     /** Apply the selected categories from a ZIP. Missing files are skipped. Returns a human summary. */
     suspend fun import(context: Context, zip: ByteArray, cats: Set<Cat>): String {
         val files = readZip(zip)
@@ -300,7 +344,7 @@ object KojikiExport : KoinComponent {
                     Cat.FIREWALL_DOMAINS -> importDomains(json)
                     Cat.FIREWALL_IPS -> importIps(json)
                     Cat.WIREGUARD -> importWireGuard(json)
-                    Cat.BLOCKLISTS -> importBlocklists(json)
+                    Cat.BLOCKLISTS -> importBlocklists(context, json)
                     Cat.DNS -> importDns(json)
                     Cat.PROXIES -> importProxies(json)
                 }
@@ -489,15 +533,44 @@ object KojikiExport : KoinComponent {
         return "selected ${doh.dohName}"
     }
 
-    private suspend fun importBlocklists(json: String): Int {
+    private suspend fun importBlocklists(context: Context, json: String): Int {
         val o = JSONObject(json)
         var n = 0
+
+        // --- local selection ---
+        // Accept both v2 ({value, vname, group, subg}) and v1 (bare int) array elements.
+        val localValues = mutableSetOf<Int>()
         o.optJSONArray("local")?.let { a ->
-            val set = (0 until a.length()).map { a.optInt(it) }.filter { it != 0 }.toSet()
-            if (set.isNotEmpty()) { localTagRepo.updateTags(set, 1); n += set.size }
+            for (i in 0 until a.length()) {
+                val v = a.optJSONObject(i)?.optInt("value", 0) ?: a.optInt(i, 0)
+                if (v != 0) localValues.add(v)
+            }
         }
+        if (localValues.isNotEmpty()) {
+            // Mark the rows selected (for the settings UI). No-op if the catalog isn't downloaded yet;
+            // the stamp below still enforces the exact selection.
+            localTagRepo.updateTags(localValues, 1)
+            n += localValues.size
+        }
+        // The stamp is what firestack enforces and is PORTABLE across blocklist versions (stable
+        // per-list value-flags), so restore it directly — no catalog download required for enforcement.
+        val stamp = o.optString("localStamp")
+        if (stamp.isNotBlank()) persistentState.localBlocklistStamp = stamp
+        if (o.has("localCount")) persistentState.numberOfLocalBlocklists = o.optInt("localCount")
+        // Enable on-device blocking only if the device ALREADY has the blocklist data downloaded — never
+        // enable something we can't enforce (setRDNSLocal would just fail + reset). If absent, the stamp
+        // + selection are saved and it activates once the user downloads the on-device blocklist.
+        val enabled = o.optBoolean("localEnabled", false)
+        val ts = persistentState.localBlocklistTimestamp
+        if (enabled && ts > 0 && Utilities.hasLocalBlocklists(context, ts)) {
+            persistentState.blocklistEnabled = true
+        }
+
+        // --- remote selection (enforced server-side via the RethinkDNS+ URL; ids only) ---
         o.optJSONArray("remote")?.let { a ->
-            val set = (0 until a.length()).map { a.optInt(it) }.filter { it != 0 }.toSet()
+            val set = (0 until a.length())
+                .map { a.optJSONObject(it)?.optInt("value", 0) ?: a.optInt(it, 0) }
+                .filter { it != 0 }.toSet()
             if (set.isNotEmpty()) { remoteTagRepo.updateTags(set, 1); n += set.size }
         }
         return n

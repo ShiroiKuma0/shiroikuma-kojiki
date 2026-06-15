@@ -348,12 +348,34 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
     private fun doImport(uri: Uri) {
         val ctx = requireContext().applicationContext
         val cats = selected()
+        lifecycleScope.launch {
+            val bytes = withContext(Dispatchers.IO) {
+                runCatching { ctx.contentResolver.openInputStream(uri)?.use { it.readBytes() } }.getOrNull()
+            }
+            if (bytes == null || bytes.isEmpty()) {
+                toast(getString(R.string.kojiki_eim_import_fail, "no input stream"), long = true)
+                return@launch
+            }
+            // Pre-restore guard: if the backup carries a blocklist selection but this device hasn't
+            // downloaded the on-device blocklist, the selection can't be applied — warn first so the
+            // user can download the blocklist and restore again.
+            val warnBlocklists = KojikiExport.Cat.BLOCKLISTS in cats &&
+                withContext(Dispatchers.IO) {
+                    KojikiExport.hasLocalBlocklistSelection(bytes) && !KojikiExport.localBlocklistsReady(ctx)
+                }
+            if (warnBlocklists) {
+                showBlocklistNotDownloadedWarning(onProceed = { runImport(ctx, bytes, cats) })
+            } else {
+                runImport(ctx, bytes, cats)
+            }
+        }
+    }
+
+    private fun runImport(ctx: Context, bytes: ByteArray, cats: Set<KojikiExport.Cat>) {
         toast(getString(R.string.kojiki_eim_importing)) // immediate "started" flash; result dialog follows
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val bytes = ctx.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-                        ?: error("no input stream")
                     require(KojikiExport.categoriesIn(bytes).isNotEmpty()) {
                         getString(R.string.kojiki_eim_import_none)
                     }
@@ -369,6 +391,49 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
                 toast(getString(R.string.kojiki_eim_import_fail, e.message ?: ""), long = true)
             }
         }
+    }
+
+    private fun showBlocklistNotDownloadedWarning(onProceed: () -> Unit) {
+        val ctx = requireContext()
+        val cfg = CustomUiConfig(ctx)
+        val d = resources.displayMetrics.density
+        fun dp(v: Int) = (v * d).toInt()
+        val box = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(22), dp(20), dp(22), dp(16))
+            background = GradientDrawable().apply {
+                cornerRadius = 16 * d
+                setColor(cfg.backgroundColor)
+                setStroke((2f * d).toInt(), cfg.accentColor)
+            }
+        }
+        box.addView(text(ctx, getString(R.string.kojiki_eim_bl_warn_title), 19f, cfg.accentColor, bold = true))
+        box.addView(text(ctx, getString(R.string.kojiki_eim_bl_warn_body), 14f, cfg.accentColor).apply {
+            setPadding(0, dp(10), 0, 0)
+        })
+        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+            .setView(NestedScrollView(ctx).apply { addView(box) })
+            .setCancelable(true)
+            .create()
+        val btns = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.END
+            setPadding(0, dp(16), 0, 0)
+        }
+        btns.addView(outlineButton(ctx, getString(R.string.kojiki_eim_bl_warn_download_first), cfg).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).also { it.marginEnd = dp(10) }
+            setPadding(dp(18), dp(8), dp(18), dp(8))
+            setOnClickListener { dialog.dismiss() } // cancel: user goes to download the blocklist first
+        })
+        btns.addView(outlineButton(ctx, getString(R.string.kojiki_eim_bl_warn_restore_anyway), cfg).apply {
+            setPadding(dp(18), dp(8), dp(18), dp(8))
+            setOnClickListener { dialog.dismiss(); onProceed() }
+        })
+        box.addView(btns)
+        dialog.show()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     private fun showImportResult(summary: String) {
