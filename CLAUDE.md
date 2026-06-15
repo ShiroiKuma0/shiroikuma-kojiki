@@ -35,8 +35,8 @@ Keep our changes **additive / in new files** wherever possible, to minimize reba
 | Signing | reuses the denwa keystore | `keystore.properties` (gitignored) → `~/.android-keystores/shiroikuma-denwa.jks` (alias `denwa`) |
 | Feature 1 | external intent to set a per-app firewall rule | `receiver/SetAppRuleReceiver.kt` (+ manifest, settings token) |
 | Feature 1b | external intent to enable/disable a WireGuard tunnel | `receiver/SetWgStateReceiver.kt` (full source set; same token) |
-| Feature 2 | honest WireGuard status — don’t read “Failing” while traffic still flows | `util/UIUtils.kt` (`honestWgStatusId`), consumed by `OneWgConfigAdapter` / `WgConfigAdapter` / `WgConfigDetailActivity` (full) |
-| Feature 3 | 白い熊 考直 UI — a “Custom…” app theme with user-configurable colours (full ARGB: background/accent/text) + a global font (family/weight/size), via a new “Customize → 白い熊 考直 UI” settings page | `customui/` (`CustomUiConfig`, `CustomUi`, `ColorPickerDialog`) + `ui/activity/KojikiUiActivity.kt` + `Themes.CUSTOM` + `*_kojiki.xml` (+ the runtime hook in `RethinkDnsApplication.onActivityResumed`, `MiscSettingsActivity`, full manifest) |
+| Feature 2 | honest WireGuard status — don’t read “Failing” while traffic still flows | `util/UIUtils.kt` (`honestWgStatusId`), consumed by `OneWgConfigAdapter` / `WgConfigAdapter` / `WgConfigDetailActivity` **and the home Proxy card** (`HomeScreenFragment.getProxyStatus`, keyed `home:`) (full) |
+| Feature 3 | 白い熊 考直 UI — a **default** “Custom…” app theme with user-configurable colours (full ARGB: background/accent/text) + a global font (family/weight/size), via a new “Customize → 白い熊 考直 UI” settings page; 白い熊's exported look is seeded as the defaults; dialogs/bottom-sheets/toasts/start-button are themed too | `customui/` (`CustomUiConfig`, `CustomUi`, `ColorPickerDialog`) + `ui/activity/KojikiUiActivity.kt` + `Themes.CUSTOM` (default in `PersistentState.theme`) + `*_kojiki.xml` + `kojiki_toast*` (+ the runtime hook in `BaseActivity.onResume`, `MiscSettingsActivity`, full manifest) |
 
 The app ID is deliberately changed so this fork installs **alongside** upstream Rethink without
 conflict. The namespace is intentionally kept as `com.celzero.bravedns` so `R`/`BuildConfig`, all
@@ -50,29 +50,30 @@ foreground). Never material yellow `#FFEB3B`.
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
 
-**We track a released tag, not `main`.** As of 2026-06-02 the base is the **`v0.5.5u` tag** (`VERSION_CODE 53`),
-which ships a **proven firestack** (`61187f88c1`). We deliberately do **not** sync to `upstream/main`: its
-bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) reset the first SSH flow after the
-WireGuard double-hop relay idled. The `UPSTREAM_AHEAD` field still exists to keep the name honest *if* we
-ever track `main` past a tag; tracking the tag exactly makes it `0` and the suffix drops.
+**We track a released tag, not `main`.** As of 2026-06-15 the base is the **`v0.5.5v` tag** (`VERSION_CODE 59`),
+which ships firestack **`22cfc49978`** (the tag's pinned engine). We deliberately do **not** sync to
+`upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the first
+SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine. The
+`UPSTREAM_AHEAD` field still exists to keep the name honest *if* we ever track `main` past a tag; tracking the
+tag exactly makes it `0` and the suffix drops.
 
-- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5u` / `53`).
-- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5u..main`).
+- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5v` / `59`).
+- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5v..main`).
   Tracking the tag exactly → **`0`**. **Recomputed at rebase time** by the **upstream-new-version** skill; it
   does **not** change between builds, and does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
 - Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"`. The `-<UPSTREAM_AHEAD>` is
   **dropped when it is `0`**, so on the tag it reads as the clean `"<VERSION_NAME>+<BUILD_NUMBER>"`
-  (currently `0.5.5u+1`).
-- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `53 * 10000 + 1 = 530001`).
+  (e.g. `0.5.5v+1`).
+- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `59 * 10000 + 1 = 590001`).
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`
-  (e.g. `30530001`). **Note:** this is **lower** than the previous `main`-based builds (`3058xxxx`), so the
-  new build installs as a **downgrade** — uninstall the existing kojiki app first.
+  (e.g. `30590001`). This is **higher** than the previous `v0.5.5u` line (`3053xxxx`), so it installs as a
+  normal **upgrade** — no uninstall needed.
 - Output APK (copied to `~/tmp` by `buildFoss`) =
   `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
-  (e.g. `shiroikuma-kojiki_0.5.5u+1_arm64-v8a.apk`).
+  (e.g. `shiroikuma-kojiki_0.5.5v+1_arm64-v8a.apk`).
 
-So the first build on this base is `0.5.5u+1` (`530001` → `30530001`), the next build with changes is `+2`, and so on.
+So the first build on this base is `0.5.5v+1` (`590001` → `30590001`), the next build with changes is `+2`, and so on.
 
 ### Building
 
@@ -91,16 +92,18 @@ See the **build-apk** skill for the full build-and-push procedure.
 3. **auto-increments `BUILD_NUMBER`** in `gradle.properties` for the next build.
 
 **Flavors:** dimension `releaseChannel` = {`play`, `fdroid`, `website`}, dimension `releaseType` = {`full`}.
-We ship **`fdroidFull`** (de-Googled). The v0.5.5u gate is `isFdroidBuild = taskNames.contains("fdroid")`,
+We ship **`fdroidFull`** (de-Googled). The upstream gate is `isFdroidBuild = taskNames.contains("fdroid")`,
 which misses our `buildFoss` task — so the fork extends it to `… || taskNames.contains("foss")`, skipping the
 Firebase plugins. (A dangling unused `import com.google.firebase.Firebase` in `service/BraveVPNService.kt` is
 also removed, else the de-Googled compile fails with `Unresolved reference 'firebase'`.) The FOSS release
 variant/task is `fdroidFullRelease` / `assembleFdroidFullRelease`.
 
 **firestack:** consumed as a prebuilt AAR. `gradle.properties` pins `firestackRepo=ossrh` +
-`firestackCommit=61187f88c1` (the **`v0.5.5u` tag's proven engine**), resolved as
-`com.celzero:firestack:61187f88c1@aar` from Maven Central (no GitHub token needed). **Do not bump this to a
-`main` firestack** (e.g. `379ac52ace`) — that broke WG-relay SSH (see the versioning section).
+`firestackCommit=22cfc49978` (the **`v0.5.5v` tag's engine**), resolved as
+`com.celzero:firestack:22cfc49978@aar` from Maven Central (no GitHub token needed). **Do not bump this to a
+`main` firestack** (e.g. `379ac52ace`) — that broke WG-relay SSH (see the versioning section). On this engine
+the WG double-hop must run **full-tunnel with Lockdown ON** (per-app split wedges the resolver); the hub
+supplies internet via NAT. See memory `[[wg-hub-and-dns-architecture]]`.
 
 ### Rebasing onto a new upstream release
 
@@ -133,10 +136,12 @@ userspace tunnel. The Kotlin app is the control plane / UI; `firestack` (Go) is 
 - **`receiver/`** — broadcast receivers, including our `SetAppRuleReceiver` (Feature 1) and
   `SetWgStateReceiver` (Feature 1b).
 - **`customui/`** (full source set) — our 白い熊 考直 UI (Feature 3): `CustomUiConfig` (a SharedPreferences
-  store), `CustomUi` (the runtime applier + font/typeface system), `ColorPickerDialog` (an ARGB picker).
-  The runtime pass runs from `RethinkDnsApplication.onActivityResumed` (a single `ActivityLifecycleCallbacks`
-  hook) when the `Custom` theme is active — v0.5.5u has no `BaseActivity` chokepoint, so we register it on the
-  Application instead of per-activity.
+  store; seeds 白い熊's exported look as the defaults), `CustomUi` (the runtime applier + font/typeface system
+  + dialog/bottom-sheet/toast theming), `ColorPickerDialog` (an ARGB picker). The runtime pass runs from
+  **`BaseActivity.onResume`** when the `Custom` theme is active (v0.5.5v *does* have a `BaseActivity`
+  chokepoint, so the hook lives there, not on the Application as it did on v0.5.5u). `Themes.customThemeActive`
+  mirrors `CustomUi.customThemeActive` into `main` so main-only helpers (toasts) can theme too. The Custom
+  theme is the **default** (`PersistentState.theme` defaults to `Themes.CUSTOM.id`).
 - **`database/`** — Room DB + DAOs/repositories (e.g. `AppInfo`, connection tracking).
 - **`ui/`** — activities/fragments/adapters; **`util/`** — helpers; **DI** via Koin.
 - Per-app firewall state lives in `FirewallManager` (`FirewallStatus`: `BYPASS_UNIVERSAL(2)`,
