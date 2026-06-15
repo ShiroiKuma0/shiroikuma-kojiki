@@ -45,6 +45,9 @@ interface ProxyEndpointDAO {
 
     @Query("select count(*) from ProxyEndpoint") fun getCount(): Int
 
+    // Fork (白い熊 考直): read every proxy endpoint (used by the 白い熊 考直 Export/Import).
+    @Query("select * from ProxyEndpoint") fun getAll(): List<ProxyEndpoint>
+
     @Query("select * from ProxyEndpoint where isSelected = 1")
     fun getConnectedProxyLiveData(): LiveData<ProxyEndpoint?>
 
