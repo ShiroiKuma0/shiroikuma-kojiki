@@ -161,6 +161,8 @@
     <string name="kojiki_eim_cat_fw_ips">Firewall — IP rules</string>
     <string name="kojiki_eim_cat_wireguard">WireGuard tunnels</string>
     <string name="kojiki_eim_cat_blocklists">Blocklists (selection)</string>
+    <string name="kojiki_eim_cat_dns">DNS — custom endpoints</string>
+    <string name="kojiki_eim_cat_proxies">Proxies (SOCKS5 / HTTP)</string>
     <string name="kojiki_eim_dir">Export directory (tap to choose)</string>
     <string name="kojiki_eim_dir_unset">Not set — tap to choose a directory</string>
     <string name="kojiki_eim_warn_nodir">No directory set yet — pick one to enable one-tap export.</string>
