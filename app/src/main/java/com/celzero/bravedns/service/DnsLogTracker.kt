@@ -241,9 +241,13 @@ internal constructor(
         @Suppress("UNCHECKED_CAST")
         val dnsLogs = (logs as? List<DnsLog>) ?: return
         dnsLogRepository.insertBatch(dnsLogs)
-        // Fork (白い熊 考直): Snooping panel — classify each freshly-inserted log and,
-        // on a positive, upsert a persistent SnoopEvent. Per-insert, never a table scan.
-        dnsLogs.forEach { SnoopClassifier.record(context, it) }
+    }
+
+    // Fork (白い熊 考直): Snooping panel — classify a single DNS log and, on a positive, upsert a
+    // persistent SnoopEvent. Called once per response from NetLogTracker.processDnsLog, decoupled from
+    // DNS logging (logsEnabled) — so snoop detection works even when the DNS log tabs are turned off.
+    fun classifySnoop(dnsLog: DnsLog) {
+        SnoopClassifier.record(context, dnsLog)
     }
 
     private fun io(f: suspend () -> Unit) {
