@@ -384,7 +384,7 @@ class SnoopEventAdapter(
                         ?: DomainRulesManager.makeCustomDomain(event.uid, event.domain)
                 uiCtx {
                     try {
-                        CustomDomainRulesBtmSheet(cd)
+                        CustomDomainRulesBtmSheet.newInstance(cd)
                             .show(activity.supportFragmentManager, TAG)
                     } catch (e: Exception) {
                         Logger.w(LOG_TAG_UI, "$TAG err showing rules sheet: ${e.message}")
