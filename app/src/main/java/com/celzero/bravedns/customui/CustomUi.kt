@@ -20,7 +20,10 @@ import android.content.res.ColorStateList
 import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.InsetDrawable
+import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
@@ -52,6 +55,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.shape.MaterialShapeDrawable
 import java.io.File
 
 /**
@@ -209,6 +213,10 @@ object CustomUi {
         val cfg = CustomUiConfig(activity)
         val global = cfg.globalStyle()
         activity.window.setBackgroundDrawable(ColorDrawable(cfg.backgroundColor))
+        // Paint the system status + navigation bars the configured background (black by default), so
+        // they don't inherit the parent true-black theme's tinted (brown/olive) bar colour.
+        activity.window.statusBarColor = cfg.backgroundColor
+        activity.window.navigationBarColor = cfg.backgroundColor
 
         val content = activity.findViewById<View>(android.R.id.content) ?: return
         // The theme's ?attr/background colour — views painted with it (firewall rows, the home root,
@@ -283,6 +291,10 @@ object CustomUi {
             // CustomUi.styleToggleButton instead. Skip those two ids so the walk doesn't clobber it.
             is MaterialButton ->
                 if (v.id == R.id.one_wg_toggle_btn || v.id == R.id.wg_general_toggle_btn) Unit
+                // The home VPN start/stop button is a MaterialButton on v0.5.5v (its style pins a
+                // solid-yellow background drawable). Route it to the outline treatment so it reads as a
+                // flat background-colour fill + accent border + accent text, never a solid yellow slab.
+                else if (v.id == R.id.fhs_dns_on_off_btn) styleHomeButton(context, v, cfg, global)
                 else styleMaterialButton(context, v, cfg, global)
             // Filter chips: selected = accent fill + on-accent text; unselected = background fill + accent
             // text + accent border (state-keyed, so it tracks selection without a re-walk).
@@ -985,5 +997,89 @@ object CustomUi {
     // Set a flat background colour only when it isn't already that colour (avoids relayout churn).
     private fun setSolidBg(v: View, color: Int) {
         if ((v.background as? ColorDrawable)?.color != color) v.setBackgroundColor(color)
+    }
+
+    // --- Fork (白い熊 考直): borders for dialog / bottom-sheet surfaces. Material draws these as
+    // MaterialShapeDrawables that the activity tree-walk never reaches and a static android:background
+    // doesn't reliably replace; so add an accent stroke + force the configured fill onto the existing
+    // shape at runtime (keeping the correct corners/insets). Call after the dialog/sheet is shown. ---
+
+    /** Unwrap the surface MaterialShapeDrawable from a window/view background (it's often nested in an
+     *  InsetDrawable or LayerDrawable). */
+    private fun unwrapShape(d: Drawable?): MaterialShapeDrawable? = when (d) {
+        is MaterialShapeDrawable -> d
+        is InsetDrawable -> unwrapShape(d.drawable)
+        is LayerDrawable ->
+            (0 until d.numberOfLayers).asSequence().mapNotNull { unwrapShape(d.getDrawable(it)) }.firstOrNull()
+        else -> null
+    }
+
+    private fun strokeShape(shape: MaterialShapeDrawable, cfg: CustomUiConfig, strokePx: Float) {
+        shape.setStroke(strokePx, cfg.cardBorderColor)
+        shape.fillColor = ColorStateList.valueOf(cfg.backgroundColor)
+    }
+
+    /** Give an AlertDialog the custom look: an accent border + black fill on its surface. Call after
+     *  dialog.show(). No-op off the Custom theme. */
+    fun themeAlertDialog(dialog: android.app.Dialog) {
+        if (!customThemeActive) return
+        // Run now and again after layout — the Material surface drawable can attach a frame later.
+        applyDialogBorder(dialog)
+        dialog.window?.decorView?.post { applyDialogBorder(dialog) }
+    }
+
+    private fun applyDialogBorder(dialog: android.app.Dialog) {
+        val window = dialog.window ?: return
+        val cfg = CustomUiConfig(dialog.context)
+        val d = dialog.context.resources.displayMetrics.density
+        val strokePx = maxOf(2f, 2 * d)
+        // Material puts the dialog surface (a MaterialShapeDrawable) on a content view INSIDE the
+        // dialog, not on the window background — so scan the window bg first, then the decor tree.
+        val shape = unwrapShape(window.decorView.background) ?: firstShapeInTree(window.decorView)
+        if (shape != null) {
+            strokeShape(shape, cfg, strokePx)
+            window.decorView.invalidate()
+        } else {
+            // Fallback: a bordered, inset window background (matches the typical dialog margin).
+            val inset = (16 * d).toInt()
+            val bg = GradientDrawable().apply {
+                cornerRadius = 16 * d
+                setColor(cfg.backgroundColor)
+                setStroke(strokePx.toInt(), cfg.cardBorderColor)
+            }
+            window.setBackgroundDrawable(InsetDrawable(bg, inset, inset, inset, inset))
+        }
+    }
+
+    /** First (outermost, top-down) MaterialShapeDrawable-backed surface in a view tree. */
+    private fun firstShapeInTree(v: View): MaterialShapeDrawable? {
+        unwrapShape(v.background)?.let { return it }
+        if (v is ViewGroup) {
+            for (i in 0 until v.childCount) firstShapeInTree(v.getChildAt(i))?.let { return it }
+        }
+        return null
+    }
+
+    /** Give a BottomSheetDialog's panel the custom look: an accent border + black fill, top-rounded.
+     *  Call from the sheet's onStart (after the panel exists). No-op off the Custom theme. */
+    fun themeBottomSheet(dialog: android.app.Dialog) {
+        if (!customThemeActive) return
+        val sheet =
+            dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) ?: return
+        val cfg = CustomUiConfig(dialog.context)
+        val d = dialog.context.resources.displayMetrics.density
+        val strokePx = maxOf(2f, 2 * d)
+        val shape = unwrapShape(sheet.background)
+        if (shape != null) {
+            strokeShape(shape, cfg, strokePx)
+        } else {
+            val r = 16 * d
+            sheet.background = GradientDrawable().apply {
+                cornerRadii = floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f)
+                setColor(cfg.backgroundColor)
+                setStroke(strokePx.toInt(), cfg.cardBorderColor)
+            }
+        }
+        sheet.invalidate()
     }
 }

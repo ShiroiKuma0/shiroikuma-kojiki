@@ -54,6 +54,7 @@ import com.celzero.bravedns.backup.BackupHelper.Companion.INTENT_RESTART_APP
 import com.celzero.bravedns.backup.BackupHelper.Companion.INTENT_TYPE_OCTET
 import com.celzero.bravedns.backup.BackupHelper.Companion.INTENT_TYPE_XZIP
 import com.celzero.bravedns.backup.RestoreAgent
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.databinding.ActivityBackupRestoreBinding
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.util.Themes
@@ -97,6 +98,13 @@ class BackupRestoreBottomSheet : BaseBottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.useTransparentNoDimBackground()
+        // Fork (白い熊 考直): accent border + black fill on the sheet panel under the Custom theme.
+        dialog?.let { CustomUi.themeBottomSheet(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -428,7 +436,10 @@ class BackupRestoreBottomSheet : BaseBottomSheetDialogFragment() {
         }
 
         builder.setCancelable(true)
-        builder.create().show()
+        val alertDialog = builder.create()
+        alertDialog.show()
+        // Fork (白い熊 考直): accent border + black fill on the dialog surface under the Custom theme.
+        CustomUi.themeAlertDialog(alertDialog)
     }
 
     private fun showBackupSuccessUi() {
@@ -478,7 +489,10 @@ class BackupRestoreBottomSheet : BaseBottomSheetDialogFragment() {
         }
 
         builder.setCancelable(true)
-        builder.create().show()
+        val alertDialog = builder.create()
+        alertDialog.show()
+        // Fork (白い熊 考直): accent border + black fill on the dialog surface under the Custom theme.
+        CustomUi.themeAlertDialog(alertDialog)
     }
 
     private fun showRestoreDialog() {
@@ -494,7 +508,10 @@ class BackupRestoreBottomSheet : BaseBottomSheetDialogFragment() {
         }
 
         builder.setCancelable(true)
-        builder.create().show()
+        val alertDialog = builder.create()
+        alertDialog.show()
+        // Fork (白い熊 考直): accent border + black fill on the dialog surface under the Custom theme.
+        CustomUi.themeAlertDialog(alertDialog)
     }
 
     private fun showBackupDialog() {
@@ -510,6 +527,9 @@ class BackupRestoreBottomSheet : BaseBottomSheetDialogFragment() {
         }
 
         builder.setCancelable(true)
-        builder.create().show()
+        val alertDialog = builder.create()
+        alertDialog.show()
+        // Fork (白い熊 考直): accent border + black fill on the dialog surface under the Custom theme.
+        CustomUi.themeAlertDialog(alertDialog)
     }
 }
