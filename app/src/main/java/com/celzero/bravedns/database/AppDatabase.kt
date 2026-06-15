@@ -1320,6 +1320,19 @@ abstract class AppDatabase : RoomDatabase() {
         private val MIGRATION_31_32: Migration =
             object : Migration(31, 32) {
                 override fun migrate(db: SupportSQLiteDatabase) {
+                    // Fork (白い熊 考直): reconcile WgConfigFiles for DBs created by an EARLIER fork
+                    // build. On the v0.5.5u base our SnoopEvent migration was numbered 26→27, which
+                    // collides with upstream's own 26→27 (it rebuilt WgConfigFiles + added modifiedTs).
+                    // Such a DB is stamped "27" so Room skips upstream's 26→27, leaving WgConfigFiles
+                    // without modifiedTs → "Migration didn't properly handle: WgConfigFiles" on open.
+                    // Add the column idempotently here; on the normal upstream lineage it already exists
+                    // and the ALTER simply throws and is ignored.
+                    try {
+                        db.execSQL("ALTER TABLE WgConfigFiles ADD COLUMN modifiedTs INTEGER NOT NULL DEFAULT 0")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_30_31: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
+                    } catch (e: Exception) {
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_30_31: WgConfigFiles.modifiedTs already present, ignore")
+                    }
                     db.execSQL(
                         """
                         CREATE TABLE IF NOT EXISTS `SnoopEvent` (
