@@ -343,22 +343,45 @@ object Utilities {
         }
     }
 
+    // Fork (白い熊 考直): under the Custom theme, render toasts/flashes ("backup finished" etc.) as a
+    // black, yellow-bordered bubble with yellow text — a plain system toast can't be themed on modern
+    // Android. Falls back to a plain toast on other themes, or if inflation fails / the system replaces
+    // a background custom-view toast (API 31+).
+    @Suppress("DEPRECATION")
+    private fun makeToast(context: Context, message: String, toastLength: Int): Toast {
+        if (Themes.customThemeActive) {
+            try {
+                val view = android.view.LayoutInflater.from(context)
+                    .inflate(R.layout.kojiki_toast, null)
+                view.findViewById<android.widget.TextView>(R.id.kojiki_toast_text).text = message
+                return Toast(context).apply {
+                    duration = toastLength
+                    setView(view)
+                    setGravity(android.view.Gravity.CENTER, 0, 0)
+                }
+            } catch (e: Exception) {
+                Logger.w(LOG_TAG_VPN, "kojiki toast err: ${e.message}")
+            }
+        }
+        return Toast.makeText(context, message, toastLength)
+    }
+
     private fun showToastForActivity(activity: android.app.Activity, message: String, toastLength: Int, isMainThread: Boolean) {
         if (isMainThread) {
-            Toast.makeText(activity, message, toastLength).show()
+            makeToast(activity, message, toastLength).show()
         } else {
             activity.runOnUiThread {
-                Toast.makeText(activity, message, toastLength).show()
+                makeToast(activity, message, toastLength).show()
             }
         }
     }
 
     private fun showToastForApplication(context: android.app.Application, message: String, toastLength: Int, isMainThread: Boolean) {
         if (isMainThread) {
-            Toast.makeText(context, message, toastLength).show()
+            makeToast(context, message, toastLength).show()
         } else {
             android.os.Handler(Looper.getMainLooper()).post {
-                Toast.makeText(context, message, toastLength).show()
+                makeToast(context, message, toastLength).show()
             }
         }
     }

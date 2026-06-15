@@ -38,6 +38,7 @@ class CustomUiConfig(context: Context) {
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     init {
+        seedDefaults()
         migratePureYellow()
     }
 
@@ -249,6 +250,62 @@ class CustomUiConfig(context: Context) {
         get() = int(KEY_DIVIDER_WIDTH, 0); set(v) = putInt(KEY_DIVIDER_WIDTH, v)
 
     /**
+     * Fork (白い熊 考直): seed 白い熊's exported look as the out-of-the-box defaults, so a fresh install
+     * (or a "reset to defaults") comes up already tuned — black + pure-yellow, the firewall/snoop/log
+     * sizes & colours 白い熊 settled on. Only runs when the kojiki prefs are empty (a truly fresh
+     * install / post-reset), so it never clobbers an existing customisation. Values mirror the
+     * `kojiki-settings` JSON export; sets `pure_yellow_migrated` so [migratePureYellow] is a no-op
+     * (the seeded colours are already pure yellow).
+     */
+    private fun seedDefaults() {
+        // Gate on the background key (a core setting) rather than "any pref", so a prefs file holding
+        // only the one-shot migrate flag (custom theme previewed once, never tuned) still gets seeded,
+        // while a real customisation (which always sets the background) is preserved.
+        if (prefs.contains(KEY_BG)) return
+        val e = prefs.edit()
+        val ints = mapOf(
+            KEY_FONT_SIZE to 16,
+            KEY_ACCENT to PALETTE_YELLOW,
+            KEY_BG to PALETTE_BLACK,
+            KEY_TEXT to PALETTE_YELLOW,
+            KEY_FONT_WEIGHT to 0,
+            KEY_ICON_SIZE to 82,
+            KEY_SNOOP_ICON_SIZE to 74,
+            KEY_SNOOP_PILL_SIZE to 23,
+            KEY_SNOOP_PILL_WIDTH to 153,
+            KEY_SNOOP_PILL_RADIUS to 14,
+            KEY_SNOOP_PILL_BORDER_W to 0,
+            "${P_SNOOP_STATE}_size" to 19,
+            KEY_SNOOP_STATE_ALLOWED to PALETTE_YELLOW,
+            KEY_SNOOP_STATE_BLOCKED to 0xFFFF0000.toInt(),
+            "kojiki_snoop_pill_color" to PALETTE_YELLOW,
+            KEY_CONN_LOG_ICON_SIZE to 70,
+            KEY_CONN_LOG_TEXT to 16,
+            KEY_CONN_LOG_ROW_PADDING to 0,
+            KEY_CONN_LOG_LINE to 0,
+            KEY_CONN_LOG_DIV_W to 1,
+            KEY_DNS_LOG_ICON_SIZE to 70,
+            KEY_DNS_LOG_TEXT to 15,
+            KEY_DNS_LOG_ROW_PADDING to 0,
+            KEY_DNS_LOG_LINE to 0,
+            KEY_DNS_LOG_DIV_W to 1,
+            KEY_LOG_STATUS_W to 6,
+            KEY_DIVIDER_WIDTH to 1,
+            KEY_DIVIDER_COLOR to PALETTE_YELLOW,
+            KEY_BORDER_WIDTH to 1,
+            "${P_FW_NAME_SYSTEM}_color" to 0xFFFF0000.toInt(),
+            "${P_FW_STATUS}_color" to 0xFFFFFFFF.toInt(),
+            KEY_FW_DENIED_COLOR to 0xFFFF003B.toInt(),
+        )
+        for ((k, v) in ints) e.putInt(k, v)
+        e.putString(KEY_FONT_FAMILY, "")
+        e.putBoolean(KEY_LOG_TAG_SHOW, true)
+        e.putBoolean("${P_FW_NAME_SYSTEM}_italic", true)
+        e.putBoolean(KEY_PURE_YELLOW_MIGRATED, true)
+        e.apply()
+    }
+
+    /**
      * One-time migration: [PALETTE_YELLOW] changed from material yellow (#FFEB3B) to pure yellow
      * (#FFFF00). Rewrite every persisted colour whose RGB part is the old yellow to the new one,
      * preserving the alpha byte (colours are full ARGB). Unset slots have no persisted entry and
@@ -272,6 +329,8 @@ class CustomUiConfig(context: Context) {
 
     fun resetToDefaults() {
         prefs.edit().clear().apply()
+        // Re-seed 白い熊's tuned look (the configured default), not the bare PALETTE baseline.
+        seedDefaults()
     }
 
     companion object {

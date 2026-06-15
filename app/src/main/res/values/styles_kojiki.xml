@@ -44,8 +44,16 @@
         <item name="homeScreenBtnBackground">@color/kojikiBlack</item>
 
         <item name="android:windowBackground">@color/kojikiBlack</item>
+
+        <!-- Keep the system status + navigation bars flat black, not the parent true-black theme's
+             tinted (brown/olive) bar colour. CustomUi also sets these at runtime to the configurable
+             background colour; these are the static default. -->
+        <item name="android:statusBarColor">@color/kojikiBlack</item>
+        <item name="android:navigationBarColor">@color/kojikiBlack</item>
     </style>
 
-    <!-- v1: bottom sheets reuse the true-black sheet theme. -->
+    <!-- Bottom sheets: true-black base. The yellow border + black fill are applied at runtime by
+         CustomUi.themeBottomSheet — Material draws the panel as a MaterialShapeDrawable, which a static
+         android:background override doesn't reliably replace (it stayed grey + borderless). -->
     <style name="BottomSheetDialogThemeKojikiCustom" parent="BottomSheetDialogThemeTrueBlack" />
 </resources>
