@@ -138,6 +138,16 @@ object SnoopTagStore {
     fun tagNamesFor(c: Context, domain: String): List<String> =
         assignments(c)[domain]?.toList() ?: emptyList()
 
+    /** Domains assigned to each tag name (inverse of the assignment map) — for listing / verifying
+     *  tags independently of the live Snooping panel. */
+    fun domainsByTag(c: Context): Map<String, List<String>> {
+        val out = LinkedHashMap<String, MutableList<String>>()
+        for ((domain, names) in assignments(c)) {
+            for (name in names) out.getOrPut(name) { mutableListOf() }.add(domain)
+        }
+        return out
+    }
+
     /** Resolved tags for a domain (only those that still exist), in assignment order. */
     fun tagsFor(c: Context, domain: String): List<Tag> {
         val names = tagNamesFor(c, domain)
