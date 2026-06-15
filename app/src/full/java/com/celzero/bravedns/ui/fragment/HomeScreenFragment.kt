@@ -919,7 +919,14 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
         val stats = VpnController.getProxyStats(proxyId)
         val statusPair = VpnController.getProxyStatusById(proxyId)
 
-        val status = UIUtils.ProxyStatus.entries.find { s -> s.id == statusPair.first }
+        // Fork (白い熊 考直): rescue firestack's transient TKO ("Failing") during WireGuard's
+        // ~2-min rekey / health-probe — honestWgStatusId upgrades it to TOK only when the tunnel is
+        // provably receiving traffic (rx increasing + a real handshake). Keyed "home:" so the home
+        // poll's rx-delta samples never collide with the WG config screens' (which use the bare id).
+        val honestStatusId =
+            if (isRpn) statusPair.first
+            else UIUtils.honestWgStatusId("home:$proxyId", statusPair.first, stats)
+        val status = UIUtils.ProxyStatus.entries.find { s -> s.id == honestStatusId }
 
         val dnsStats = if (!isRpn && isSplitDns()) {
             VpnController.getDnsStatus(proxyId)
