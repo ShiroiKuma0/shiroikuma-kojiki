@@ -33,6 +33,11 @@ enum class Themes(val id: Int) {
     CUSTOM(7); // Fork (白い熊 考直): user-configurable black/yellow theme + global font
 
     companion object {
+        // Fork (白い熊 考直): mirror of CustomUi.customThemeActive, set by BaseActivity on every resume.
+        // Lives here (main) so main-only helpers (e.g. Utilities' toasts) can theme themselves without
+        // depending on the `full` source set.
+        @JvmField var customThemeActive: Boolean = false
+
         fun getThemeCount(): Int {
             return entries.count()
         }

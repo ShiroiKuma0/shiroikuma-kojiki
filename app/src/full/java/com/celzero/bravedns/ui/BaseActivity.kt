@@ -100,6 +100,8 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
         // it replaces the Application.onActivityResumed hook used on the v0.5.5u base.
         val custom = Themes.isCustomTheme(persistentState.theme)
         CustomUi.customThemeActive = custom
+        // Mirror onto the main-source flag so main-only helpers (Utilities' toasts) can theme too.
+        Themes.customThemeActive = custom
         if (custom) {
             CustomUi.applyTo(this)
         }
