@@ -42,6 +42,7 @@ import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.FirewallManager.NOTIF_CHANNEL_ID_FIREWALL_ALERTS
 import com.celzero.bravedns.service.FirewallManager.TOMBSTONE_EXPIRY_TIME_MS
 import com.celzero.bravedns.service.FirewallManager.deletePackage
+import com.celzero.bravedns.service.KojikiPendingFw
 import com.celzero.bravedns.service.IpRulesManager
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.ProxyManager
@@ -657,6 +658,10 @@ internal constructor(
         }
 
         entry.appCategory = determineAppCategory(ai)
+
+        // Fork (白い熊 考直): if the 白い熊 考直 export parked a per-app firewall rule for this package
+        // (imported before the app was installed), apply it now so the rule survives by package name.
+        KojikiPendingFw.applyTo(ctx, entry)
 
         Logger.i(LOG_TAG_APP_DB, "insert app: $ai")
         FirewallManager.persistAppInfo(entry)
