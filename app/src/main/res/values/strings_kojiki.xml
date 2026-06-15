@@ -137,4 +137,41 @@
     <string name="kojiki_weight_semibold" translatable="false">Semibold</string>
     <string name="kojiki_weight_bold" translatable="false">Bold</string>
     <string name="kojiki_weight_black" translatable="false">Black</string>
+
+    <!-- 白い熊 考直: unified export / import (replaces backup/restore) -->
+    <string name="kojiki_eim_title" translatable="false">Export / Import — 白い熊 考直</string>
+    <string name="kojiki_eim_desc">Save or load every setting — colours, tags, firewall, WireGuard — as selectable categories.</string>
+    <string name="kojiki_eim_export">Export</string>
+    <string name="kojiki_eim_export_desc">Save the selected categories to a .zip file.</string>
+    <string name="kojiki_eim_import">Import</string>
+    <string name="kojiki_eim_import_desc">Load categories from a previously exported .zip file.</string>
+    <string name="kojiki_eim_select_all">Select all</string>
+    <string name="kojiki_eim_pick">Pick a .zip to import</string>
+    <string name="kojiki_eim_export_ok">Exported: %1$s</string>
+    <string name="kojiki_eim_export_fail">Export failed: %1$s</string>
+    <string name="kojiki_eim_import_ok">Imported —\n%1$s</string>
+    <string name="kojiki_eim_import_fail">Import failed: %1$s</string>
+    <string name="kojiki_eim_import_none">No 白い熊 考直 export found in that file.</string>
+    <string name="kojiki_eim_none_selected">Select at least one category.</string>
+    <string name="kojiki_eim_cat_settings">App settings</string>
+    <string name="kojiki_eim_cat_appearance">Appearance (colours · fonts)</string>
+    <string name="kojiki_eim_cat_tags">Snoop tags</string>
+    <string name="kojiki_eim_cat_fw_apps">Firewall — per-app rules</string>
+    <string name="kojiki_eim_cat_fw_domains">Firewall — domain rules</string>
+    <string name="kojiki_eim_cat_fw_ips">Firewall — IP rules</string>
+    <string name="kojiki_eim_cat_wireguard">WireGuard tunnels</string>
+    <string name="kojiki_eim_cat_blocklists">Blocklists (selection)</string>
+    <string name="kojiki_eim_dir">Export directory (tap to choose)</string>
+    <string name="kojiki_eim_dir_unset">Not set — tap to choose a directory</string>
+    <string name="kojiki_eim_warn_nodir">No directory set yet — pick one to enable one-tap export.</string>
+    <string name="kojiki_eim_warn_none">No export in this directory yet.</string>
+    <string name="kojiki_eim_last">Last export: %1$s</string>
+    <string name="kojiki_eim_import_done_title" translatable="false">✓ Import — 100% success</string>
+    <string name="kojiki_eim_importing">Importing…</string>
+    <string name="kojiki_eim_exporting">Exporting…</string>
+    <string name="kojiki_eim_import_done_body">Restored:\n\n%1$s\n\nRestart to apply everything.</string>
+    <string name="kojiki_eim_restart_now">Restart now</string>
+    <string name="kojiki_eim_restart_later">Later</string>
+    <string name="kojiki_ui_snoop_tag_unassigned">no domains assigned</string>
+    <string name="kojiki_ui_snoop_tag_assigned">%1$d domain(s): %2$s</string>
 </resources>

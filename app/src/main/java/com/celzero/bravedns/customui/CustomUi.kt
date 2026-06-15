@@ -1068,17 +1068,13 @@ object CustomUi {
             dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) ?: return
         val cfg = CustomUiConfig(dialog.context)
         val d = dialog.context.resources.displayMetrics.density
-        val strokePx = maxOf(2f, 2 * d)
-        val shape = unwrapShape(sheet.background)
-        if (shape != null) {
-            strokeShape(shape, cfg, strokePx)
-        } else {
-            val r = 16 * d
-            sheet.background = GradientDrawable().apply {
-                cornerRadii = floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f)
-                setColor(cfg.backgroundColor)
-                setStroke(strokePx.toInt(), cfg.cardBorderColor)
-            }
+        val r = 16 * d
+        // Plain black, top-rounded panel — NO stroke here. A full-width panel's side strokes land at the
+        // screen edge (clipped/invisible), so the caller draws the visible border on an INSET content box
+        // instead (see ExportImportBottomSheet). This just kills the Material grey/elevation behind it.
+        sheet.background = GradientDrawable().apply {
+            cornerRadii = floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f)
+            setColor(cfg.backgroundColor)
         }
         sheet.invalidate()
     }
