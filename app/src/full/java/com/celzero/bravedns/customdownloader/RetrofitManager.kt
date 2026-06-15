@@ -52,6 +52,11 @@ class RetrofitManager {
         private const val READ_TIMEOUT_MINUTES = 20L
         private const val WRITE_TIMEOUT_MINUTES = 5L
 
+        // Cap how much of a response body we ever pull into memory to look for a "ray"
+        // field. Large/binary downloads (e.g. the on-device blocklist, tens of MB) must
+        // never be buffered whole — that OOMs. 256 KiB is ample for any JSON API reply.
+        private const val MAX_PEEK_BYTES = 256L * 1024
+
         enum class OkHttpDnsType {
             DEFAULT,
             CLOUDFLARE,
@@ -81,12 +86,42 @@ class RetrofitManager {
             val respTime = System.currentTimeMillis()
 
             try {
+                // cf-ray lives in a header — never needs the body.
                 val cfRay = response.header("cf-ray")
+
+                // Only peek into the body for SMALL, textual (JSON) responses to find a
+                // "ray" field. Large/binary downloads (e.g. the on-device blocklist) must
+                // stream straight through. peekBody caps the read at MAX_PEEK_BYTES and
+                // leaves the original body intact, so we never consume or rebuild the
+                // response (the previous responseBody.string() buffered the whole payload
+                // into memory and OOM-crashed on multi-MB blocklist downloads).
+                val contentType = response.body?.contentType()
+                val isTextual =
+                    contentType?.let { it.type == "text" || it.subtype.contains("json") } ?: false
+                val rayId =
+                    if (isTextual) {
+                        try {
+                            val peeked = response.peekBody(MAX_PEEK_BYTES).string()
+                            Regex("\"ray\"\\s*:\\s*\"([^\"]+)\"")
+                                .find(peeked)?.groupValues?.get(1)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    } else {
+                        null
+                    }
 
                 logScope.launch {
                     val ts = Utilities.convertLongToTime(respTime, Constants.TIME_FORMAT_4)
                     val prefix = "$ts <-- ${response.code} ${request.method} ${request.url}"
-                    val msg = if (cfRay != null) "$prefix | cf-ray: $cfRay" else "$prefix | no-ray"
+                    val suffix =
+                        when {
+                            cfRay != null && rayId != null -> "cf-ray: $cfRay | ray: $rayId"
+                            cfRay != null -> "cf-ray: $cfRay"
+                            rayId != null -> "ray: $rayId"
+                            else -> "no-ray"
+                        }
+                    val msg = "$prefix | $suffix"
                     Logger.d(LOG_OKHTTP, msg)
                     Logger.wireLog(msg)
                 }
