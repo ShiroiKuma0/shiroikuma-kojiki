@@ -196,11 +196,15 @@ internal constructor(
 
         transaction.responseCalendar = Calendar.getInstance()
 
-        if (!persistentState.logsEnabled) return
-
+        // Fork (白い熊 考直): the Snooping panel must keep working when DNS logging is OFF, so snoop
+        // classification is decoupled from logsEnabled — build the log object and classify it on EVERY
+        // response; only batch it to the DNS log tabs when logging is enabled. (scope/dnsBatcher are
+        // created on tunnel start, not on logsEnabled, so the serializer is always live here.)
+        val logsOn = persistentState.logsEnabled
         serializer("writeDnsLog", looper) {
             val dnsLog = dnsdb.makeDnsLogObj(transaction)
-            dnsBatcher?.add(dnsLog)
+            dnsdb.classifySnoop(dnsLog)
+            if (logsOn) dnsBatcher?.add(dnsLog)
         }
     }
 
