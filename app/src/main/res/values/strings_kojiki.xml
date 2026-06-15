@@ -174,6 +174,10 @@
     <string name="kojiki_eim_import_done_body">Restored:\n\n%1$s\n\nRestart to apply everything.</string>
     <string name="kojiki_eim_restart_now">Restart now</string>
     <string name="kojiki_eim_restart_later">Later</string>
+    <string name="kojiki_eim_bl_warn_title">Blocklists not downloaded</string>
+    <string name="kojiki_eim_bl_warn_body">This backup has an on-device blocklist selection, but no on-device blocklist is downloaded on this device — so the blocklist selection will NOT be applied.\n\nDownload the on-device blocklist first (Configure → DNS → on-device blocklist), then restore again. The rest of the backup will still import if you continue.</string>
+    <string name="kojiki_eim_bl_warn_download_first">Download first</string>
+    <string name="kojiki_eim_bl_warn_restore_anyway">Restore anyway</string>
     <string name="kojiki_ui_snoop_tag_unassigned">no domains assigned</string>
     <string name="kojiki_ui_snoop_tag_assigned">%1$d domain(s): %2$s</string>
 </resources>
