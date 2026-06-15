@@ -624,8 +624,8 @@
     <string name="settings_custom_downloader_heading" translatable="true">Use in-app downloader</string>
     <string name="settings_custom_downloader_desc" translatable="true">If disabled, Android\'s built-in <i>Download Manager</i> is used</string>
 
-    <string name="settings_import_export_heading" translatable="true">Backup &amp; Restore</string>
-    <string name="settings_import_export_desc" translatable="true">Manually back up or restore app data and settings.</string>
+    <string name="settings_import_export_heading" translatable="true">Export / Import</string>
+    <string name="settings_import_export_desc" translatable="true">Export or import every setting — colours, tags, firewall, WireGuard — by category.</string>
 
     <string name="settings_app_notification_a13_heading" translatable="true">App Notification</string>
     <string name="settings_app_notification_a13_desc" translatable="true">Enable notification permission for the app</string>

@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.database.ProxyApplicationMapping
 import com.celzero.bravedns.databinding.ListItemWgIncludeAppsBinding
 import com.celzero.bravedns.service.FirewallManager
@@ -307,6 +308,8 @@ class WgIncludeAppsAdapter(
             val alertDialog: AlertDialog = builderSingle.show()
             alertDialog.listView.setOnItemClickListener { _, _, _, _ -> }
             alertDialog.setCancelable(false)
+            // Fork (白い熊 考直): pure-black surface + accent border under the Custom theme.
+            CustomUi.themeAlertDialog(alertDialog)
         }
     }
 

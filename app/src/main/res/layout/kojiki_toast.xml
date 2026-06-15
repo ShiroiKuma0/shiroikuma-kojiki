@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Fork (白い熊 考直): custom toast / flash — black background, yellow text + border. -->
+<!-- Fork (白い熊 考直): custom toast / flash — black background, yellow text + border. Sized generously
+     (≈3× the default) with a minimum width so short words like "Importing…" are never clipped. -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/kojiki_toast_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:minWidth="260dp"
+    android:minHeight="120dp"
     android:background="@drawable/kojiki_toast_bg"
     android:gravity="center"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="12dp"
+    android:maxLines="2"
+    android:paddingHorizontal="56dp"
+    android:paddingVertical="36dp"
     android:textColor="@color/kojikiYellow"
-    android:textSize="14sp" />
+    android:textSize="18sp" />
