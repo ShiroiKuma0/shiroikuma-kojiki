@@ -234,8 +234,10 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
         stringPref("connected_dns_name")
             .withDefault<String>(context.getString(R.string.default_dns_name))
 
-    // the current light/dark theme; 0's the default which is "Set by System"
-    var theme by intPref("app_theme").withDefault<Int>(0)
+    // the current light/dark theme; upstream default is 0 ("Set by System").
+    // Fork (白い熊 考直): default to the Custom theme (Themes.CUSTOM.id = 7) so a fresh install
+    // comes up in the black/yellow 白い熊 考直 UI out of the box.
+    var theme by intPref("app_theme").withDefault<Int>(7)
 
     // user selected notification action type, ref: Constants#NOTIFICATION_ACTION_STOP
     var notificationActionType by intPref("notification_action").withDefault<Int>(0)
