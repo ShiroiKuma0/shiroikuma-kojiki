@@ -51,30 +51,30 @@ foreground). Never material yellow `#FFEB3B`.
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
 
-**We track a released tag, not `main`.** As of 2026-06-15 the base is the **`v0.5.5v` tag** (`VERSION_CODE 59`),
-which ships firestack **`22cfc49978`** (the tag's pinned engine). We deliberately do **not** sync to
-`upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the first
-SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine. The
+**We track a released tag, not `main`.** As of 2026-06-19 the base is the **`v0.5.5x` tag** (`VERSION_CODE 61`),
+which ships firestack **`fd3dbcd769`** (the tag's pinned engine; v0.5.5w/x share it). We deliberately do **not**
+sync to `upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the
+first SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine. The
 `UPSTREAM_AHEAD` field still exists to keep the name honest *if* we ever track `main` past a tag; tracking the
 tag exactly makes it `0` and the suffix drops.
 
-- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5v` / `59`).
-- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5v..main`).
+- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5x` / `61`).
+- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5x..main`).
   Tracking the tag exactly → **`0`**. **Recomputed at rebase time** by the **upstream-new-version** skill; it
   does **not** change between builds, and does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
 - Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"`. The `-<UPSTREAM_AHEAD>` is
   **dropped when it is `0`**, so on the tag it reads as the clean `"<VERSION_NAME>+<BUILD_NUMBER>"`
-  (e.g. `0.5.5v+1`).
-- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `59 * 10000 + 1 = 590001`).
+  (e.g. `0.5.5x+1`).
+- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `61 * 10000 + 1 = 610001`).
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`
-  (e.g. `30590001`). This is **higher** than the previous `v0.5.5u` line (`3053xxxx`), so it installs as a
+  (e.g. `30610001`). This is **higher** than the previous `v0.5.5v` line (`3059xxxx`), so it installs as a
   normal **upgrade** — no uninstall needed.
 - Output APK (copied to `~/tmp` by `buildFoss`) =
   `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
-  (e.g. `shiroikuma-kojiki_0.5.5v+1_arm64-v8a.apk`).
+  (e.g. `shiroikuma-kojiki_0.5.5x+1_arm64-v8a.apk`).
 
-So the first build on this base is `0.5.5v+1` (`590001` → `30590001`), the next build with changes is `+2`, and so on.
+So the first build on this base is `0.5.5x+1` (`610001` → `30610001`), the next build with changes is `+2`, and so on.
 
 ### Building
 
@@ -100,8 +100,8 @@ also removed, else the de-Googled compile fails with `Unresolved reference 'fire
 variant/task is `fdroidFullRelease` / `assembleFdroidFullRelease`.
 
 **firestack:** consumed as a prebuilt AAR. `gradle.properties` pins `firestackRepo=ossrh` +
-`firestackCommit=22cfc49978` (the **`v0.5.5v` tag's engine**), resolved as
-`com.celzero:firestack:22cfc49978@aar` from Maven Central (no GitHub token needed). **Do not bump this to a
+`firestackCommit=fd3dbcd769` (the **`v0.5.5x` tag's engine**; v0.5.5w/x share it), resolved as
+`com.celzero:firestack:fd3dbcd769@aar` from Maven Central (no GitHub token needed). **Do not bump this to a
 `main` firestack** (e.g. `379ac52ace`) — that broke WG-relay SSH (see the versioning section). On this engine
 the WG double-hop must run **full-tunnel with Lockdown ON** (per-app split wedges the resolver); the hub
 supplies internet via NAT. See memory `[[wg-hub-and-dns-architecture]]`.
