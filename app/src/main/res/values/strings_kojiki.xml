@@ -180,4 +180,7 @@
     <string name="kojiki_eim_bl_warn_restore_anyway">Restore anyway</string>
     <string name="kojiki_ui_snoop_tag_unassigned">no domains assigned</string>
     <string name="kojiki_ui_snoop_tag_assigned">%1$d domain(s): %2$s</string>
+    <!-- About page: fork attribution shown above the Rethink sponsor message. -->
+    <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
+    <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>
 </resources>
