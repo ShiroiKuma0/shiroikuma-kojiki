@@ -55,6 +55,47 @@
                     android:orientation="vertical"
                     android:padding="5dp">
 
+                    <!-- Fork (白い熊 考直): name + repo, then attribution, above the Rethink sponsor message. -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/app_name"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/large_font_text_view" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/about_kojiki_github"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/kojiki_about_github_link"
+                        android:textSize="@dimen/large_font_text_view" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/kojiki_about_based_on"
+                        android:textSize="@dimen/large_font_text_view" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.AppCompat.Subhead"
                         android:layout_width="match_parent"
