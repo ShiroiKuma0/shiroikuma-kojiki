@@ -100,8 +100,8 @@ So when upstream's `VERSION_CODE` climbs (e.g. 58 → 59), our fork's arm64 code
    `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew :app:tasks --group=build` (a config-only task).
 
 6. **Build the new `+1`** via the **build-apk** skill
-   (`JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew buildFoss < /dev/null`), then **ask** before
-   any `adb push`. This is the first build of the new upstream line (`<newVersion>+1`).
+   (`JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew buildFoss < /dev/null`), then deliver it via
+   the global **/after-build** skill (no transfer prompt). This is the first build of the new upstream line (`<newVersion>+1`).
 
 7. **Stop.** Let the user test. Commit/push only on their explicit **"Push"**: `custom` was rebased so
    it needs `git push --force-with-lease origin custom`; `main` is a fast-forward (`git push origin main`).
