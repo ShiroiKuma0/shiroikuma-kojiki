@@ -73,6 +73,10 @@ class ProxyAppMappingRepository(
         }
     }
 
+    suspend fun getMappingsForPackage(packageName: String): List<ProxyApplicationMapping> {
+        return proxyApplicationMappingDAO.getMappingsForPackage(packageName)
+    }
+
     suspend fun tombstoneApp(oldUid: Int, newUid: Int) {
         try {
             proxyApplicationMappingDAO.tombstoneApp(oldUid, newUid)
