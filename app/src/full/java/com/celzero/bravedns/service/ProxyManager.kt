@@ -201,26 +201,31 @@ object ProxyManager : KoinComponent {
     }
 
     suspend fun updateApp(uid: Int, packageName: String) {
-        val m = pamSet.filter { it.packageName == packageName }.toSet()
-        if (m.isEmpty()) {
+        // Fork (白い熊 考直): work off the actual db rows, not pamSet — the cache can be out of
+        // sync with the table (observed as a startup crash loop pre-v0.5.5y). Upstream's DAO
+        // updateUidForApp now deletes conflicting rows transactionally, so no manual dedupe here.
+        val rows = db.getMappingsForPackage(packageName)
+        if (rows.isEmpty()) {
             Logger.e(LOG_TAG_PROXY, "updateApp: map not found for $packageName")
             return
         }
 
-        if (m.all { it.uid == uid }) return
+        // check if all entries already have the correct uid
+        if (rows.all { it.uid == uid }) return
 
-        val oldUid = m.first().uid
-
-        m.forEach { entry ->
-            if (pamSet.any { it.uid == uid && it.packageName == packageName && it.proxyId == entry.proxyId && it != entry }) {
-                db.deleteMapping(uid, packageName, entry.proxyId)
-            }
+        val oldUid = rows.first { it.uid != uid }.uid
+        try {
+            db.updateUidForApp(oldUid, uid, packageName)
+        } catch (e: Exception) {
+            // never let a mapping conflict crash the refresh loop
+            Logger.e(LOG_TAG_PROXY, "updateApp: err for uid=$uid pkg=$packageName", e)
+            return
         }
 
-        db.updateUidForApp(oldUid, uid, packageName)
-
-        val newTuples = m.map { ProxyAppMapTuple(uid, packageName, it.proxyId) }.toSet()
-        pamSet.removeAll(m)
+        // Sync the in-memory cache: replace all tuples of this package with new-uid tuples.
+        val old = pamSet.filter { it.packageName == packageName }.toSet()
+        val newTuples = rows.map { ProxyAppMapTuple(uid, packageName, it.proxyId) }.toSet()
+        pamSet.removeAll(old)
         pamSet.addAll(newTuples)
 
         Logger.i(LOG_TAG_PROXY, "updateApp: uid=$uid pkg=$packageName")
