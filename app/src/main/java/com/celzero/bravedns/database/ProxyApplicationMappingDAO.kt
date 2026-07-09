@@ -96,6 +96,9 @@ interface ProxyApplicationMappingDAO {
     @Query("delete from ProxyApplicationMapping where uid = :newUid and exists (select 1 from ProxyApplicationMapping as pam2 where pam2.uid = :oldUid and pam2.packageName = ProxyApplicationMapping.packageName and pam2.proxyId = ProxyApplicationMapping.proxyId)")
     fun deleteConflictingMappingsForTombstone(newUid: Int, oldUid: Int)
 
+    @Query("select * from ProxyApplicationMapping where packageName = :packageName")
+    fun getMappingsForPackage(packageName: String): List<ProxyApplicationMapping>
+
     @Query("update ProxyApplicationMapping set uid = :newUid where uid = :oldUid")
     fun tombstoneAppInternal(oldUid: Int, newUid: Int)
 
