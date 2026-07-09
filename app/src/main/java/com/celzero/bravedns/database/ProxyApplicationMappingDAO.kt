@@ -96,6 +96,9 @@ interface ProxyApplicationMappingDAO {
     @Query("update ProxyApplicationMapping set uid = :uid where packageName = :packageName")
     fun updateUidForApp(uid: Int, packageName: String)
 
+    @Query("select * from ProxyApplicationMapping where packageName = :packageName")
+    fun getMappingsForPackage(packageName: String): List<ProxyApplicationMapping>
+
     @Query("update ProxyApplicationMapping set uid = :newUid where uid = :oldUid")
     fun tombstoneApp(oldUid: Int, newUid: Int)
 

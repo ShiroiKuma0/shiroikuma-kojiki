@@ -201,21 +201,37 @@ object ProxyManager : KoinComponent {
     }
 
     suspend fun updateApp(uid: Int, packageName: String) {
-        // update the uid for the app in the database and the cache
-        val m = pamSet.filter { it.packageName == packageName }.toSet()
-        if (m.isEmpty()) {
+        // update the uid for the app in the database and the cache; work off the actual
+        // db rows, not pamSet, as the cache can be out of sync with the table
+        val rows = db.getMappingsForPackage(packageName)
+        if (rows.isEmpty()) {
             Logger.e(LOG_TAG_PROXY, "updateApp: map not found for $packageName")
             return
         }
 
         // check if all entries already have the correct uid
-        if (m.all { it.uid == uid }) return
+        if (rows.all { it.uid == uid }) return
 
-        db.updateUidForApp(uid, packageName)
+        try {
+            // a stale old-uid row and a current-uid row can coexist for the same proxyId
+            // (app reinstall / uid change); the blind uid update would then violate the
+            // (uid, packageName, proxyId) primary key. drop the duplicates first, keeping
+            // the row that already carries the new uid
+            val seen = mutableSetOf<String>()
+            rows.sortedByDescending { it.uid == uid }.forEach {
+                if (!seen.add(it.proxyId)) db.deleteMapping(it.uid, it.packageName, it.proxyId)
+            }
+            db.updateUidForApp(uid, packageName)
+        } catch (e: Exception) {
+            // never let a mapping conflict crash the refresh loop
+            Logger.e(LOG_TAG_PROXY, "updateApp: err for uid=$uid pkg=$packageName", e)
+            return
+        }
 
-        // Sync the in-memory cache: replace all old-uid tuples with new-uid tuples.
-        val newTuples = m.map { ProxyAppMapTuple(uid, packageName, it.proxyId) }.toSet()
-        pamSet.removeAll(m)
+        // Sync the in-memory cache: replace all tuples of this package with new-uid tuples.
+        val old = pamSet.filter { it.packageName == packageName }.toSet()
+        val newTuples = rows.map { ProxyAppMapTuple(uid, packageName, it.proxyId) }.toSet()
+        pamSet.removeAll(old)
         pamSet.addAll(newTuples)
 
         Logger.i(LOG_TAG_PROXY, "updateApp: uid=$uid pkg=$packageName")
