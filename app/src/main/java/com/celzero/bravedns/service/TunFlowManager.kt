@@ -830,27 +830,32 @@ object TunFlowManager : KoinComponent {
                 }
             }
         } else {
+            // Fork (白い熊 考直): the real fallback resolver counts as a "vpn dns" too, so IN-TUNNEL
+            // queries to it are trapped (trapVpnDns) and answered via firestack's DoH instead of
+            // leaking straight out to the real resolver. See BraveVPNService.FORK_FALLBACK_DNS4.
+            val fb4 = BraveVPNService.FORK_FALLBACK_DNS4
+            val fb6 = BraveVPNService.FORK_FALLBACK_DNS6
             val fakeDnsIpv4: String = LanIp.DNS.make(IPV4_TEMPLATE)
             val fakeDnsIpv6: String = LanIp.DNS.make(IPV6_TEMPLATE)
             return when (persistentState.internetProtocolType) {
                 InternetProtocol.IPv4.id -> {
-                    ip == fakeDnsIpv4
+                    ip == fakeDnsIpv4 || ip == fb4
                 }
 
                 InternetProtocol.IPv6.id -> {
-                    ip == fakeDnsIpv6
+                    ip == fakeDnsIpv6 || ip == fb6
                 }
 
                 InternetProtocol.IPv46.id -> {
-                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6
+                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6 || ip == fb4 || ip == fb6
                 }
 
                 InternetProtocol.ALWAYSv46.id -> {
-                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6
+                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6 || ip == fb4 || ip == fb6
                 }
 
                 else -> {
-                    ip == fakeDnsIpv4
+                    ip == fakeDnsIpv4 || ip == fb4
                 }
             }
         }
