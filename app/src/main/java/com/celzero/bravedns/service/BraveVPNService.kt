@@ -1941,6 +1941,16 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             Logger.i(LOG_TAG_VPN, "stop vpn adapter")
         }
 
+    // Fork (白い熊 考直): the DNS watchdog needs a FULL Go-tunnel recycle — a plain link update
+    // keeps the engine's wedged DoH transports and dead ICMP netstack endpoints alive. This flag
+    // makes the next restart take the restartTunnel path regardless of policy/lockdown.
+    private val kojikiRecycleFlag = AtomicBoolean(false)
+
+    fun kojikiForceEngineRestart(reason: String) {
+        kojikiRecycleFlag.set(true)
+        vpnRestartTrigger.value = reason
+    }
+
     private suspend fun restartVpnWithNewAppConfig(reason: String) {
         val ctx = this
         val bridge = this
@@ -2244,6 +2254,16 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                     return@withContext ok
                 } else {
                     Logger.i(LOG_TAG_VPN, "vpn-adapter exists, fd: $fd, policy: ${restartPolicy.name}, lockdown: $lockdown, protos: $protos, mtu: $mtu, nwMtu: $nwMtu")
+                    // Fork (白い熊 考直): DNS-watchdog recycle — see kojikiForceEngineRestart
+                    if (kojikiRecycleFlag.getAndSet(false)) {
+                        Logger.i(LOG_TAG_VPN, "kojiki-recycle: recreate vpn-adapter (dns watchdog)")
+                        if (vpnAdapter?.restartTunnel(fd, mtu, nwMtu, protos) == false) {
+                            Logger.e(LOG_TAG_VPN, "kojiki-recycle: err recreate vpn-adapter")
+                            return@withContext noTun
+                        }
+                        vpnAdapter?.setLinkMtu(nwMtu)
+                        return@withContext ok
+                    }
                     when (restartPolicy) {
                         VpnBuilderPolicy.GoVpnAdapterBehaviour.NEVER_RESTART -> {
                             // In vpn lockdown mode, unlink the adapter to close the previous file descriptor (fd)
