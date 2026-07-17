@@ -196,6 +196,11 @@ internal constructor(
 
         transaction.responseCalendar = Calendar.getInstance()
 
+        // Fork (白い熊 考直): feed the DNS watchdog every upstream result — it detects the
+        // engine's wedged-DoH failure loops and recycles the tunnel (see KojikiDnsWatchdog)
+        KojikiDnsWatchdog.onDnsTransaction(transaction)
+
+
         // Fork (白い熊 考直): the Snooping panel must keep working when DNS logging is OFF, so snoop
         // classification is decoupled from logsEnabled — build the log object and classify it on EVERY
         // response; only batch it to the DNS log tabs when logging is enabled. (scope/dnsBatcher are
