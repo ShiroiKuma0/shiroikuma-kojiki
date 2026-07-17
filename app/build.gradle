@@ -155,13 +155,6 @@ java {
     }
 }
 
-// ref: developer.android.com/build/jdks#target-compat
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 android {
     compileSdkVersion(37)
     // https://developer.android.com/studio/build/configure-app-module
