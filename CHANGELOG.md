@@ -1,6 +1,25 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5x`** upstream tag with its pinned firestack engine (`fd3dbcd769`).
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5x`** upstream tag with its pinned firestack engine (`fd3dbcd769`) plus the fork’s DoH idle-pool patch.
+
+## 0.5.5x+14
+
+### Self-healing DNS — root cause, engine patch, watchdog
+
+**The problem (diagnosed 2026-07-17, mechanism-proven):** stock firestack pools DoH connections for 3 minutes (`IdleConnTimeout`) with no HTTP/2 keep-alive health-check, while resolvers close idle DoH connections far sooner — measured from the same network: **Quad9 ≤ 30 s, Mullvad ≤ 90 s, Cloudflare > 240 s**. Every DNS lull beyond the resolver’s window left only dead connections in the pool; the next queries were written into them, hung ~10 s, and died as `unexpected EOF` / `http-status: 502` bursts — every few minutes, all day. Downstream, ALG mappings expired (killing established flows of *allowed* apps) and the OS’s own connectivity probes failed through the tunnel, flapping Android’s network validation device-wide — even VPN-*excluded* apps lost connectivity.
+
+**Patched engine** (firestack branch `kojiki-doh-idle` on the `fd3dbcd769` pin):
+- `IdleConnTimeout` 3 m → **10 s** — pooled connections never outlive any resolver’s idle window, so the corpse-pool state is structurally impossible on every resolver.
+- `http2.ConfigureTransports` with `ReadIdleTimeout = 10 s` / `PingTimeout = 5 s` — half-dead HTTP/2 connections are detected by PING and evicted instead of eating a query.
+- Wired via `firestackRepo=local` in `gradle.properties` (flatDir `app/libs/tun2socks.aar`, gitignored); one property flips back to the stock Maven engine.
+
+**DNS watchdog** (`KojikiDnsWatchdog`, fed every DNS transaction):
+- Rate-based detection: ≥ 8 upstream failures within a 3-minute sliding window (no consecutive-streak and no cached-flag gating — the wedge is bursty/partial, and the engine’s cacher stamps `cached=true` even on failures).
+- First trigger: a **full Go-tunnel recycle** (a real `restartTunnel` with seamless fd hand-off — a plain link update keeps wedged Go transports and dead ICMP netstack endpoints alive), clearing wedged DoH transports and the `endpoint is in invalid state` ICMP wedge.
+- Re-trigger within 15 minutes of a restart (with recent successes on record): **automatic failover to Google DoH** plus another recycle. 5-minute action cooldown; every action posts a notification.
+- Watchdog telemetry bypasses the level-gated in-app logger (raw logcat lines, tag `KojikiDnsWatchdog`).
+
+**Validation** (on-device, 33 min of worst-case idle-then-burst traffic on Quad9 — the resolver that wedged constantly on stock): **zero** corpse-pool failures; 50 server-side idle kills absorbed by the health-check before any query rode them; one rare HTTP/2 stream-reset incident self-healed by the watchdog in under a second. Quad9 is viable again as a privacy-first primary.
 
 ## 0.5.5x+5
 

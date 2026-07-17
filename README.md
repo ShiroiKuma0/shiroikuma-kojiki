@@ -6,13 +6,18 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: an on-device Snooping panel, a fully configurable UI theme + global font, portable category-based Export/Import, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, a fully configurable UI theme + global font, portable category-based Export/Import, honest WireGuard status, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5x+5`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.5x+14`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
+
+---
+
+## 🩺 Self-healing DNS
+Stock RethinkDNS could lose DNS for the whole device every few minutes: its engine pools DoH connections for 3 minutes while resolvers like Quad9 close idle ones after ≤30 seconds — so every quiet spell filled the pool with dead connections that queries then hung and died on. The fork fixes the engine (a 10-second pool + HTTP/2 PING health-checks, so dead connections are evicted before a query ever rides one) **and** adds a DNS watchdog beneath it: on a burst of upstream failures it recycles the full Go tunnel automatically; if the wedge returns right after, it fails DNS over to a spare resolver — each action announced by a notification. Validated on-device: zero wedge failures in worst-case traffic on the same resolver that previously failed all day.
 
 ---
 
@@ -42,7 +47,7 @@ Two broadcast receivers let external tools (Tasker, adb, companion apps) drive t
 ---
 
 ## Built on RethinkDNS
-A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.5x`) with the tag’s pinned engine. The code remains under Apache-2.0.
+A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.5x`), shipping the tag’s pinned engine with a small fork patch for the DoH idle-pool wedge (offered upstream). The code remains under Apache-2.0.
 
 ## Building
 ```bash
