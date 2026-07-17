@@ -2,6 +2,16 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+2
+
+**Real fallback DNS so OS-excluded apps resolve on Huawei/EMUI.**
+
+On Huawei/EMUI, an app set to **Exclude** (Android's OS-level VPN bypass) has its DNS misrouted by the platform to the VPN's advertised DNS servers. The fork only advertised the fake in-tunnel DNS IP (`10.111.222.3`), which an excluded app can't reach (it bypasses the tunnel) — so every lookup failed. Symptom: an excluded app (e.g. Jami) intermittently "not sending", with Huawei's per-app DNS-failure counter climbing live and the OEM's dns-cure/wifipro remediation then strangling connectivity. (Keeping the app in-tunnel via *Bypass Universal* fixed DNS but made firestack's DNS-ALG churn on the app's raw-IPv6 P2P traffic — ~82% CPU — so Exclude + this fix is the right answer for a P2P app.)
+
+The fork now advertises a **real fallback resolver** (Quad9 `9.9.9.9` / `2620:fe::fe`, matching the usual DoH) as a secondary VPN DNS alongside the fake IP. It's trapped identically to the fake IP at every site (`addDnsServer4/6`, `addDnsRoute4/6`, `isVpnDns`, `getFakeDns`), so **in-tunnel apps' queries to it are still captured and answered via the DoH — no leak** — while an excluded app reaches the real resolver directly and resolves.
+
+Validated on-device (Jami back on Exclude): kojiki dropped from 82% to idle with zero engine churn for the app; Jami's Huawei DNS-failure counter froze and Jami works; and no DNS leak — every in-tunnel domain resolved to a synthetic `100.64.0.0/10` ALG IP (the DoH path) with zero `9.9.9.9:53` egress.
+
 ## 0.5.5y+1
 
 Rebased the entire fork onto the upstream **`v0.5.5y`** release tag (`VERSION_CODE 63`; 135 commits past `v0.5.5x`). All fork features carried over; the DoH idle-pool self-healing (watchdog + patched engine, see `0.5.5x+14`) is preserved on the new engine.

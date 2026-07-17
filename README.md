@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5y+1`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.5y+2`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -18,6 +18,11 @@ Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
 ## 🩺 Self-healing DNS
 Stock RethinkDNS could lose DNS for the whole device every few minutes: its engine pools DoH connections for 3 minutes while resolvers like Quad9 close idle ones after ≤30 seconds — so every quiet spell filled the pool with dead connections that queries then hung and died on. The fork fixes the engine (a 10-second pool + HTTP/2 PING health-checks, so dead connections are evicted before a query ever rides one) **and** adds a DNS watchdog beneath it: on a burst of upstream failures it recycles the full Go tunnel automatically; if the wedge returns right after, it fails DNS over to a spare resolver — each action announced by a notification. Validated on-device: zero wedge failures in worst-case traffic on the same resolver that previously failed all day.
+
+---
+
+## 🧭 Excluded apps that still resolve
+On some phones (notably Huawei/EMUI), an app you fully *exclude* from the VPN has its DNS misrouted by the OS to the VPN's DNS server — which an excluded app can't reach — so it silently loses name resolution and its connectivity gets throttled. The fork advertises a real fallback resolver alongside the in-tunnel one: in-tunnel apps stay on the DoH (no leak), while an excluded app reaches the real resolver directly and resolves normally. Exclude an app and it stays excluded — without breaking its DNS.
 
 ---
 
