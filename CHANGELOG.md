@@ -1,6 +1,17 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5x`** upstream tag with its pinned firestack engine (`fd3dbcd769`) plus the fork’s DoH idle-pool patch.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
+
+## 0.5.5y+1
+
+Rebased the entire fork onto the upstream **`v0.5.5y`** release tag (`VERSION_CODE 63`; 135 commits past `v0.5.5x`). All fork features carried over; the DoH idle-pool self-healing (watchdog + patched engine, see `0.5.5x+14`) is preserved on the new engine.
+
+### Rebase adaptations
+- **Patched engine on the new pin:** the DoH idle-pool fix (`IdleConnTimeout` 3m→10s + HTTP/2 PING health-checks) was cherry-picked onto firestack `310d7bc603` (the v0.5.5y pin) and rebuilt from source; wired via `firestackRepo=local`. The engine still exhibited the stock idle-pool bug, so the patch remains necessary.
+- **Honest WireGuard status:** migrated to firestack’s Int proxy-status ids (upstream changed them from Long in v0.5.5y).
+- **WireGuard restore-verify:** ported to v0.5.5y’s plaintext-config storage (reads back + parses each restored tunnel, dropping unreadable phantoms).
+- **Startup crash-loop fix (uid collisions):** upstream now dedupes conflicting proxy-app-mapping rows transactionally, so the fork workaround was reduced to its two surviving improvements — read live DB rows (not the stale cache) and never let a mapping error crash the refresh loop.
+- Retired `BackupRestoreBottomSheet` stays removed; upstream’s new `BASE_VERSION_CODE` build field is fed the fork version code.
 
 ## 0.5.5x+14
 

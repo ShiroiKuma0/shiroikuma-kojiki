@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5x+14`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.5y+1`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -47,7 +47,7 @@ Two broadcast receivers let external tools (Tasker, adb, companion apps) drive t
 ---
 
 ## Built on RethinkDNS
-A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.5x`), shipping the tag’s pinned engine with a small fork patch for the DoH idle-pool wedge (offered upstream). The code remains under Apache-2.0.
+A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.5y`), shipping the tag’s pinned engine with a small fork patch for the DoH idle-pool wedge (offered upstream). The code remains under Apache-2.0.
 
 ## Building
 ```bash
