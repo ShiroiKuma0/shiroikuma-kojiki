@@ -250,6 +250,17 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
         private const val IPV4_TEMPLATE: String = "10.111.222.%d"
         private const val IPV4_PREFIX_LENGTH: Int = 24
 
+        // Fork (白い熊 考直): a REAL public resolver (Quad9, matching the usual DoH choice)
+        // advertised as a SECONDARY VPN DNS alongside the fake LanIp.DNS. Reason: on Huawei/EMUI,
+        // an OS-EXCLUDED app's DNS is misrouted to the VPN's DNS servers, but the fake in-tunnel IP
+        // (10.111.222.3) is unreachable for an excluded app (it bypasses the tun), so every lookup
+        // fails and the app's connectivity gets strangled (observed: Jami). This real secondary is
+        // reachable directly by an excluded app, so its misrouted queries resolve. It is trapped
+        // identically to the fake IP everywhere (isVpnDns / addDnsRoute / getFakeDns), so IN-TUNNEL
+        // apps' queries to it are still captured and answered via firestack's DoH — no DNS leak.
+        private const val FORK_FALLBACK_DNS4: String = "9.9.9.9"
+        private const val FORK_FALLBACK_DNS6: String = "2620:fe::fe"
+
         // IPv6 vpn constants
         // Randomly generated unique local IPv6 unicast subnet prefix, as defined by RFC 4193
         // changing the below ip should require a changes in ConnectionTracer, RethinkLogAdapter
@@ -1095,27 +1106,30 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
                 }
             }
         } else {
+            // Fork (白い熊 考直): the real fallback resolver counts as a "vpn dns" too, so IN-TUNNEL
+            // queries to it are trapped (trapVpnDns) and answered via firestack's DoH instead of
+            // leaking straight out to the real resolver. See FORK_FALLBACK_DNS4.
             val fakeDnsIpv4: String = LanIp.DNS.make(IPV4_TEMPLATE)
             val fakeDnsIpv6: String = LanIp.DNS.make(IPV6_TEMPLATE)
             return when (persistentState.internetProtocolType) {
                 InternetProtocol.IPv4.id -> {
-                    ip == fakeDnsIpv4
+                    ip == fakeDnsIpv4 || ip == FORK_FALLBACK_DNS4
                 }
 
                 InternetProtocol.IPv6.id -> {
-                    ip == fakeDnsIpv6
+                    ip == fakeDnsIpv6 || ip == FORK_FALLBACK_DNS6
                 }
 
                 InternetProtocol.IPv46.id -> {
-                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6
+                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6 || ip == FORK_FALLBACK_DNS4 || ip == FORK_FALLBACK_DNS6
                 }
 
                 InternetProtocol.ALWAYSv46.id -> {
-                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6
+                    ip == fakeDnsIpv4 || ip == fakeDnsIpv6 || ip == FORK_FALLBACK_DNS4 || ip == FORK_FALLBACK_DNS6
                 }
 
                 else -> {
-                    ip == fakeDnsIpv4
+                    ip == fakeDnsIpv4 || ip == FORK_FALLBACK_DNS4
                 }
             }
         }
@@ -3999,6 +4013,9 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
             b.addDnsServer(dns)
         } else {
             b.addDnsServer(LanIp.DNS.make(IPV4_TEMPLATE))
+            // Fork (白い熊 考直): real fallback so Huawei-misrouted excluded-app DNS resolves; see
+            // FORK_FALLBACK_DNS4. Trapped for in-tunnel apps (isVpnDns/route/getFakeDns), no leak.
+            b.addDnsServer(FORK_FALLBACK_DNS4)
         }
         return b
     }
@@ -4013,6 +4030,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
             b.addDnsServer(dns)
         } else {
             b.addDnsServer(LanIp.DNS.make(IPV6_TEMPLATE))
+            b.addDnsServer(FORK_FALLBACK_DNS6) // fork: real fallback, see FORK_FALLBACK_DNS4
         }
         return b
     }
@@ -4027,6 +4045,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
             b.addRoute(ip, ipParts[1].toIntOrNull() ?: 32)
         } else {
             b.addRoute(LanIp.DNS.make(IPV4_TEMPLATE), 32)
+            // Fork (白い熊 考直): route the real fallback into the tun too, so IN-TUNNEL queries to
+            // it are captured by firestack (-> DoH). Excluded apps bypass the tun regardless of
+            // this route, so they still reach the real resolver directly. See FORK_FALLBACK_DNS4.
+            b.addRoute(FORK_FALLBACK_DNS4, 32)
         }
         return b
     }
@@ -4042,6 +4064,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
             b.addRoute(ip, ipParts[1].toIntOrNull() ?: 128)
         } else {
             b.addRoute(LanIp.DNS.make(IPV6_TEMPLATE), 128)
+            b.addRoute(FORK_FALLBACK_DNS6, 128) // fork: route real fallback, see addDnsRoute4
         }
         return b
     }
@@ -4067,9 +4090,14 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Bridge,
         } else {
             val ipv4 = LanIp.DNS.make(IPV4_TEMPLATE, KnownPorts.DNS_PORT)
             val ipv6 = LanIp.DNS.make(IPV6_TEMPLATE, KnownPorts.DNS_PORT)
+            // Fork (白い熊 考直): tell firestack to also intercept the real fallback resolver as a
+            // fake-dns target, so in-tunnel queries to it are resolved via the DoH (no leak). The
+            // fallback exists for Huawei-misrouted OS-excluded apps — see FORK_FALLBACK_DNS4.
+            val fb4 = HostName(IPAddressString(FORK_FALLBACK_DNS4).address, KnownPorts.DNS_PORT).toString()
+            val fb6 = HostName(IPAddressString(FORK_FALLBACK_DNS6).address, KnownPorts.DNS_PORT).toString()
             // now fakedns will be only set during first time vpn is started, so set both ipv4 and ipv6
             // addresses, so that if the network changes doesn't affect
-            return "$ipv4,$ipv6"
+            return "$ipv4,$ipv6,$fb4,$fb6"
         }
     }
 
