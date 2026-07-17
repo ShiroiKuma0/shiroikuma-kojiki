@@ -160,7 +160,8 @@ object UIUtils {
     // can't be mistaken for "increasing now".
     private const val WG_RX_SAMPLE_STALE_MS = 90_000L
 
-    fun honestWgStatusId(key: String, rawStatusId: Long?, stats: RouterStats?): Long? {
+    // (v0.5.5y: firestack proxy status ids became Int — see upstream d238191dc)
+    fun honestWgStatusId(key: String, rawStatusId: Int?, stats: RouterStats?): Int? {
         if (stats == null) return rawStatusId
         val now = System.currentTimeMillis()
         val prev = wgRxSamples.put(key, WgRxSample(stats.rx, now))
