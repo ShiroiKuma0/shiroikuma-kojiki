@@ -355,6 +355,10 @@ def firestackDependency = { ->
             return "com.github.celzero:firestack:$firestackCommit@aar"
         case "ossrh":
             return "com.celzero:firestack:$firestackCommit@aar"
+        case "local":
+            // fork (白い熊 考直): self-built patched engine (firestack branch kojiki-doh-idle
+            // on the v0.5.5x pin), resolved from app/libs via the root flatDir repo
+            return [name: "tun2socks", ext: "aar"]
         default:
             throw new GradleException("Unknown firestackRepo: $firestackRepo")
     }

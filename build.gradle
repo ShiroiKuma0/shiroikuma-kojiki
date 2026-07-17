@@ -55,6 +55,10 @@ allprojects {
                     password = project.findProperty("gpr.key") ?: System.getenv("TOKEN_GITHUB")
                 }
             }
+        } else if (firestackRepo == "local") {
+            // fork (白い熊 考直): self-built patched engine AAR (make intra in ~/git/firestack,
+            // branch kojiki-doh-idle), copied to app/libs/tun2socks.aar
+            flatDir { dirs "${rootProject.projectDir}/app/libs" }
         } else {
             // ossrh: https://central.sonatype.com/artifact/com.celzero/firestack/
             // no-op; mavenCentral is already included
