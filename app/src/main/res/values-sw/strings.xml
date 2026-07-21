@@ -5,7 +5,7 @@
     <string name="pause_title_desc" translatable="true">Kupumzika</string>
     <string name="about_title_desc" translatable="true">Gundua na zuia tishio kwa usalama mtandaoni</string>
     <string name="txt_home" translatable="true">Nyumbani</string>
-    <string name="accessibility_service_description" translatable="true">Rethink hutumia huduma inayofikika (accessibility service) ili kugundua na kuzuia programu zinazofanya kazi kwa nyuma (background applications). Rethink haikusanyi wala kuuza taarifa yoyote.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 hutumia huduma inayofikika (accessibility service) ili kugundua na kuzuia programu zinazofanya kazi kwa nyuma (background applications). 白い熊 考直 haikusanyi wala kuuza taarifa yoyote.</string>
     <string name="next" translatable="true">Inayofuta</string>
     <string name="skip" translatable="true">Potezea</string>
     <string name="finish" translatable="true">Maliza</string>
