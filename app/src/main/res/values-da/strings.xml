@@ -7,7 +7,7 @@
     <string name="settings_title_desc" translatable="true">En yderst brugerdefinerbar DNS og Firewall</string>
     <string name="about_title_desc" translatable="true">Opdag og blokér netværkssikkerhedstrusler</string>
     <string name="txt_home" translatable="true">Hjem</string>
-    <string name="accessibility_service_description" translatable="true">Rethink bruger tilgængelighedstjenester til at opdage baggrundsapplikationer og sætte en firewall op. Rethink indsamler eller sælger ingen oplysninger.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 bruger tilgængelighedstjenester til at opdage baggrundsapplikationer og sætte en firewall op. 白い熊 考直 indsamler eller sælger ingen oplysninger.</string>
     <string name="next" translatable="true">Næste</string>
     <string name="skip" translatable="true">Spring over</string>
     <string name="finish" translatable="true">Fuldfør</string>
@@ -89,11 +89,11 @@
     <string name="lbl_action" translatable="true">Handling</string>
     <string name="lbl_connect" translatable="true">Tilslut</string>
     <string name="lbl_criteria" translatable="true">Kriterier</string>
-    <string name="memory_notification_text">Rethink oplever lav hukommelse. Systemhandlinger kan være begrænsede.</string>
+    <string name="memory_notification_text">白い熊 考直 oplever lav hukommelse. Systemhandlinger kan være begrænsede.</string>
     <string name="slide_2_title" translatable="true">Velkommen</string>
-    <string name="slide_2_desc" translatable="true">Rethink er den nemmeste måde at overvåge netværksaktivitet, omgå internetcensur og beskyt apps med en firewall på din Android-enhed.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 er den nemmeste måde at overvåge netværksaktivitet, omgå internetcensur og beskyt apps med en firewall på din Android-enhed.</string>
     <string name="slide_1_title" translatable="true">Gratis og open source</string>
-    <string name="slide_1_desc" translatable="true">Rethink er open source-software understøttet af Mozilla Builders MVP-program, FOSS United Foundation.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 er open source-software understøttet af Mozilla Builders MVP-program, FOSS United Foundation.</string>
     <string name="wireguard_title" translatable="true">Sikkert internet med WireGuard</string>
     <string name="wireguard_desc" translatable="true">Kryptér din internettrafik med WireGuard. Vælg forskellige ruter for forskellige apps.</string>
     <string name="firewall_title" translatable="true">Beskyt din Android-enhed med firewall</string>
@@ -107,14 +107,14 @@
     <string name="isolate" translatable="true">isolér</string>
     <string name="untracked" translatable="true">ikke tracket</string>
     <string name="bypass_dns_firewall" translatable="true">omgå dns &amp; firewall</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Advarsel: Rethink er blevet deaktiveret</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Advarsel: 白い熊 考直 er blevet deaktiveret</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">Tryk for at ændre beskyttelsesindstilling</string>
     <string name="dns_mode_notification_title" translatable="true">Beskyttet! Tilsluttet hurtig og sikker DNS.</string>
     <string name="firewall_mode_notification_title" translatable="true">Beskyttet! Tilsluttet firewall.</string>
     <string name="hybrid_mode_notification_title" translatable="true">Beskyttet! Tilsluttet DNS + firewall.</string>
     <string name="hybrid_mode_with_proxy_notification_title" translatable="true">Beskyttet! Tilsluttet DNS + firewall + proxy.</string>
     <string name="pause_mode_notification_title" translatable="true">Sat på pause! Blokerede apps vil forsat være beskyttet af firewall.</string>
-    <string name="status_waiting" description="This text appears during the connection process if Rethink needs user permission or the phone is offline." translatable="true">venter</string>
+    <string name="status_waiting" description="This text appears during the connection process if 白い熊 考直 needs user permission or the phone is offline." translatable="true">venter</string>
     <string name="status_failing" description="This text appears if the connection is currently not working correctly. [CHAR_LIMIT=NONE]" translatable="true">fejlet</string>
     <string name="status_protected" description="This is a large message in a reassuring color. It indicates that DNS queries can't be surveilled or modified in transit." translatable="true">beskyttet</string>
     <string name="status_dns_error" translatable="true">dns-fejl</string>
@@ -132,11 +132,11 @@
     <string name="status_protected_with_proxy" translatable="true">beskyttet med proxy</string>
     <string name="status_protected_with_wg" translatable="true">beskyttet med wireguard</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">beskyttet med wireguard &amp; privat dns</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">privat dns er aktiveret</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">privat dns er aktiveret</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">ikke beskyttet</string>
-    <string name="dns_explanation_dns_connected" translatable="true">Tilsluttet RethinkDNS</string>
+    <string name="dns_explanation_dns_connected" translatable="true">Tilsluttet 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected" translatable="true">Tilsluttet firewall</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Tilsluttet RethinkDNS og firewall</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Tilsluttet 白い熊 考直 og firewall</string>
     <string name="universal_firewall_explanation" translatable="true">Anvend firewall-regler på alle programmer baseret på enhedshændelser, f.eks. firewall når enheden er låst, eller når en bestemt app ikke er i brug.</string>
     <string name="notification_action_resume_vpn" translatable="true">FORTSÆT</string>
     <string name="notification_action_pause_vpn" translatable="true">SÆT PÅ PAUSE</string>
@@ -152,8 +152,8 @@
     <string name="dns_mode_info_explanation_new" translatable="true">Overvåg, blokér og kryptér DNS-anmodninger.</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">Alle ovenstående + omgå internetcensur.</string>
     <string name="alert_permission_accessibility" translatable="true">Tilladelse - tilgængelighed</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink bruger tilgængelighedstjenester til at spore, hvilke apps der er i brug (i forgrunden) mod dem, der ikke er i brug (i baggrunden).\n\nRethink indsamler ikke oplysninger eller spionerer på dig på nogen som helst måde.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Rethink tilgængelighedstjeneste er stoppet eller brudt sammen. <i><b>Gå til indstillinger og gennemtving et stop</b></i> Rethink og opstart igen for at bruge <i>Blokér alle apps, der ikke er i brug</i>-funktionen.\n\nRethink bruger tilgængelighedstjenester til at spore, hvilke apps der er i brug (i forgrunden) mod dem, der ikke er i brug (i baggrunden).</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 bruger tilgængelighedstjenester til at spore, hvilke apps der er i brug (i forgrunden) mod dem, der ikke er i brug (i baggrunden).\n\n白い熊 考直 indsamler ikke oplysninger eller spionerer på dig på nogen som helst måde.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 tilgængelighedstjeneste er stoppet eller brudt sammen. <i><b>Gå til indstillinger og gennemtving et stop</b></i> 白い熊 考直 og opstart igen for at bruge <i>Blokér alle apps, der ikke er i brug</i>-funktionen.\n\n白い熊 考直 bruger tilgængelighedstjenester til at spore, hvilke apps der er i brug (i forgrunden) mod dem, der ikke er i brug (i baggrunden).</string>
     <string name="alert_firewall_accessibility_exception" translatable="true">Kunne ikke åbne tilgængelighedsindstillinger. Prøv igen senere!</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">Vælg tilstand.</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">Vælg tilstand.</string>
@@ -175,6 +175,6 @@
     <string name="bsct_conn_desc_blocked" translatable="true">blokeret på %1$s%2$s</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: Blokerer en app fra at forbinde til internettet.\n&lt;u&gt;#2&lt;/u&gt;: Blokerer enhver app fra tilslutning til en bestemt IP.\n&lt;u&gt;#3&lt;/u&gt;: Blokerer alle forbindelser, når enheden er låst (Universel firewall).\n&lt;u&gt;#4&lt;/u&gt;: Blokerer enhver app, der ikke er i brug (Universel firewall).\n&lt;u&gt;#5&lt;/u&gt;: Blokerer forbindelser, når kildeapp\'en er ukendt (Universel firewall).\n&lt;u&gt;#6&lt;/u&gt;: Blokerer al UDP-trafik undtagen DNS (Universel firewall).\n&lt;u&gt;#7&lt;/u&gt;: Blokér forbindelser, når DNS omgås (Universel firewall).</string>
     <string name="always_on_dialog_heading" translatable="true">Deaktivér \"Altid på-VPN\"</string>
-    <string name="always_on_dialog" translatable="true">\"Altid på-VPN\" er aktiveret på denne enhed. For at starte Rethink skal du gå til indstillinger og deaktivere \"Altid på-VPN\".</string>
+    <string name="always_on_dialog" translatable="true">\"Altid på-VPN\" er aktiveret på denne enhed. For at starte 白い熊 考直 skal du gå til indstillinger og deaktivere \"Altid på-VPN\".</string>
     <string name="always_on_dialog_positive_btn" translatable="true">Gå til indstillinger</string>
 </resources>
