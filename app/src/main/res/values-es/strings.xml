@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RethinkDNS</string>
-    <string name="app_name_small_case">rethink</string>
     <string name="fapps_unmetered_block_dialog_message">¿Bloquear las conexiones en la red sin límites (WiFi) para las aplicaciones en la <i>lista</i>\?</string>
     <string name="unicode_question_sign">❔</string>
     <string name="network_log_app_name_unnamed">Sin nombre (%1$s)</string>
@@ -36,14 +34,14 @@
     <string name="dns_proxy_dialog_header_dns">Añadir proxy DNS</string>
     <string name="cd_toast_added">Dominio añadido con éxito</string>
     <string name="whats_new_version_update">&lt;b&gt;Que no cunda el pánico 2&lt;/b&gt;&lt;br/&gt;&lt;br/&gt; 1. Nuevo: Captura de errores del motor de red en los informes de errores de los usuarios.&lt;br/&gt; 2. Nuevo: use el DNS del sistema para nombres de dominio no delegados si la opción Evitar fugas de DNS está activada.&lt;br/&gt; 3. Mejora: Conectividad WireGuard de doble pila (IPv4 + IPv6).&lt;br/&gt; 4. Mejora: Evite bloquear los elementos de la interfaz de usuario cuando el motor de red no responde.&lt;br/&gt; 5. Corrección: Tiempos de espera de conexión con el filtrado de DNS avanzado activado.&lt;br/&gt; 6. Corrección: Los terminales de pares de WireGuard con nombres de dominio se bloquean en los cambios de red.&lt;br/&gt;&lt;br/&gt; &lt;a href=https://svc.rethinkdns.com/r/translate&gt;Help traducir esta aplicación&lt;/a&gt;</string>
-    <string name="dc_dns_leaks_desc">Cuando está activado, Rethink captura todos los paquetes en el puerto 53 y los reenvía a un punto de acceso DNS establecido por el usuario</string>
+    <string name="dc_dns_leaks_desc">Cuando está activado, 白い熊 考直 captura todos los paquetes en el puerto 53 y los reenvía a un punto de acceso DNS establecido por el usuario</string>
     <string name="about_settings_app_info">Información de la aplicación</string>
     <string name="settings_orbot_disabled_error">Desactive el proxy HTTP(S) y/o SOCKS5 para continuar con la configuración de Tor-como-un-proxy.</string>
     <string name="about_settings_vpn_profile">Perfil de la VPN</string>
     <string name="about_translate_link">https://svc.rethinkdns.com/r/translate</string>
     <string name="always_on_dialog_heading">Desactivar la VPN siempre activa</string>
     <string name="always_on_dialog_stop_heading">VPN siempre activa</string>
-    <string name="always_on_dialog_lockdown_stop_message">Rethink está ejecutando la VPN en modo <i>Bloqueo</i>. Detenerlo provocaría la pérdida de conectividad a Internet en este perfil de usuario. ¿Desea continuar de todas formas?</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直 está ejecutando la VPN en modo <i>Bloqueo</i>. Detenerlo provocaría la pérdida de conectividad a Internet en este perfil de usuario. ¿Desea continuar de todas formas?</string>
     <string name="firewall_act_universal_tab">universal</string>
     <string name="always_on_dialog_neutral">Ajustes</string>
     <string name="univ_firewall_dialog_title">¿Borrar la regla IP\?</string>
@@ -88,7 +86,7 @@
     <string name="settings_notification_desc2">DNS / DNS + Cortafuegos</string>
     <string name="settings_selected_ip_desc">%1$s</string>
     <string name="settings_notification_heading">Elija la acción de notificación</string>
-    <string name="settings_notification_desc">Botones de acción para mostrar con la notificación de Rethink: %1$s</string>
+    <string name="settings_notification_desc">Botones de acción para mostrar con la notificación de 白い熊 考直: %1$s</string>
     <string name="firewall_status_whitelisted">omite las reglas universales del cortafuegos</string>
     <string name="firewall_status_isolate">aislada</string>
     <string name="settings_protocol_translation_dns_inactive">Cambie al modo DNS/DNS+Cortafuegos para activar esta configuración</string>
@@ -99,9 +97,9 @@
     <string name="firewall_status_block_metered">bloqueado en redes con límites (móvil)</string>
     <string name="firewall_status_unknown">desconocido</string>
     <string name="ct_bs_app_info_error">Información de la aplicación no encontrada</string>
-    <string name="hsf_vpn_dialog_message">Rethink necesita permiso para configurar una VPN local para cifrar las solicitudes de DNS del dispositivo, implementar un monitor de red y aplicar las reglas del cortafuegos.
+    <string name="hsf_vpn_dialog_message">白い熊 考直 necesita permiso para configurar una VPN local para cifrar las solicitudes de DNS del dispositivo, implementar un monitor de red y aplicar las reglas del cortafuegos.
 \n
-\nRethink no recoge ninguna información ni le espía de ninguna manera.</string>
+\n白い熊 考直 no recoge ninguna información ni le espía de ninguna manera.</string>
     <string name="dc_local_block_heading">Listas de bloqueo en el dispositivo</string>
     <string name="dc_local_block_desc_1">Elija entre más de 195 listas de bloqueo. Pulse aquí para descargar o configurar las listas de bloqueo.</string>
     <string name="dc_custom_block_heading">Reglas de dominio</string>
@@ -114,9 +112,9 @@
     <string name="about_privacy_policy">Normativa de privacidad</string>
     <string name="about_connect">contacto</string>
     <string name="contributors_dialog_title">Autores</string>
-    <string name="accessibility_service_description">Rethink utiliza el servicio de accesibilidad para detectar y bloquear aplicaciones en segundo plano. Rethink no recopila ni vende ninguna información.</string>
+    <string name="accessibility_service_description">白い熊 考直 utiliza el servicio de accesibilidad para detectar y bloquear aplicaciones en segundo plano. 白い熊 考直 no recopila ni vende ninguna información.</string>
     <string name="finish">Finalizar</string>
-    <string name="slide_2_desc">Rethink es la forma más fácil de supervisar la actividad de la red, evitar la censura de Internet y controlar las aplicaciones de su dispositivo Android.</string>
+    <string name="slide_2_desc">白い熊 考直 es la forma más fácil de supervisar la actividad de la red, evitar la censura de Internet y controlar las aplicaciones de su dispositivo Android.</string>
     <string name="slide_1_title">Código libre y abierto</string>
     <string name="rdns_plus">RDNS Plus</string>
     <string name="allow">permitir</string>
@@ -139,10 +137,10 @@
     <string name="status_protected_with_socks5">protegido con proxy socks</string>
     <string name="status_protected_with_http">protegido con proxy http</string>
     <string name="status_protected_with_proxy">protegido con proxy</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">el dns privado está activado</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">el dns privado está activado</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit.">no protegido</string>
-    <string name="dns_explanation_dns_connected">Conectado a RethinkDNS</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Conectado a RethinkDNS y al cortafuegos</string>
+    <string name="dns_explanation_dns_connected">Conectado a 白い熊 考直</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Conectado a 白い熊 考直 y al cortafuegos</string>
     <string name="dns_explanation_firewall_connected">Conectado al cortafuegos</string>
     <string name="universal_firewall_explanation">Aplique reglas de cortafuegos en todas las aplicaciones en función de los eventos del dispositivo, p.ej., bloqueándolas cuando el dispositivo está bloqueado o cuando una determinada aplicación no está en uso.</string>
     <string name="notification_action_resume_vpn">REANUDAR</string>
@@ -260,8 +258,8 @@
     <string name="update_complete_action_snack">REINICIAR</string>
     <string name="settings_local_blocklist_in_use">%1$s listas de bloqueo en uso</string>
     <string name="settings_local_blocklist_dialog_positive">Descargar</string>
-    <string name="accessibility_notification_content">El servicio de accesibilidad de Rethink se ha detenido o ha fallado. Ya no bloquea las aplicaciones en segundo plano. Pulse para volver a activarlo.</string>
-    <string name="accessibility_failure_toast">El servicio de accesibilidad de Rethink se ha detenido o ha fallado. Ya no se bloquean las aplicaciones en segundo plano.</string>
+    <string name="accessibility_notification_content">El servicio de accesibilidad de 白い熊 考直 se ha detenido o ha fallado. Ya no bloquea las aplicaciones en segundo plano. Pulse para volver a activarlo.</string>
+    <string name="accessibility_failure_toast">El servicio de accesibilidad de 白い熊 考直 se ha detenido o ha fallado. Ya no se bloquean las aplicaciones en segundo plano.</string>
     <string name="coming_soon_toast">próximamente</string>
     <string name="pause_text">pausado</string>
     <string name="pause_desc">Nota: %1$s de las aplicaciones bloqueadas seguirán siendo supervisadas por el cortafuegos.</string>
@@ -292,13 +290,13 @@
     <string name="firewall_rule_block_ip_desc"><![CDATA[Una regla del cortafuegos activada por el usuario ha bloqueado la <i>IP destino</i> .<br/><br/> Para cambiarla vaya a la pantalla <i>Cortafuegos específico de la aplicación</i>.]]></string>
     <string name="firewall_rule_foreground_desc"><![CDATA[Esta conexión estaba bloqueada porque la aplicación de origen <i>no esta en primer plano</i>.<br/><br/> Para cambiar este comportamiento vaya a la pestaña <i>Universal</i>.]]></string>
     <string name="firewall_rule_unknown_desc"><![CDATA[Esta conexión fue bloqueada porque no se pudo determinar la <i>aplicación de origen</i>.<br/><br/> Para cambiar este comportamiento, vaya a la pestaña <i>Universal</i>.]]></string>
-    <string name="new_app_bulk_notification_content">Rethink bloqueó %1$s nuevas aplicaciones. Pulse para ver o modificar.</string>
-    <string name="new_app_notification_content">Rethink bloqueó la aplicación recientemente instalada, %1$s.</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 bloqueó %1$s nuevas aplicaciones. Pulse para ver o modificar.</string>
+    <string name="new_app_notification_content">白い熊 考直 bloqueó la aplicación recientemente instalada, %1$s.</string>
     <string name="notif_channel_vpn_failure">VPN inactiva</string>
     <string name="notif_channel_vpn_notification">VPN activa</string>
     <string name="new_app_notification_action_toast_deny">Conexión de red denegada para la aplicación</string>
-    <string name="notif_channel_desc_vpn_failure">Informar cuando Rethink es detenido por Android o por otra aplicación VPN</string>
-    <string name="notif_channel_desc_vpn_notification">Informar cuando Rethink está activo y funcionando en segundo plano</string>
+    <string name="notif_channel_desc_vpn_failure">Informar cuando 白い熊 考直 es detenido por Android o por otra aplicación VPN</string>
+    <string name="notif_channel_desc_vpn_notification">Informar cuando 白い熊 考直 está activo y funcionando en segundo plano</string>
     <string name="notif_channed_desc_download">Alerta sobre el progreso de la descarga para las listas de bloqueo en el dispositivo</string>
     <string name="category_name_sys_components">Componentes del sistema</string>
     <string name="notif_channel_desc_firewall_alerts">Alerta sobre errores y anomalías del cortafuegos</string>
@@ -388,9 +386,9 @@
     <string name="dns_crypt_relay_remove_success">Repetidor DNSCrypt borrado.</string>
     <string name="always_on_dialog_positive_btn">Ir a los ajustes</string>
     <string name="private_dns_dialog_heading">Desactivar DNS privado</string>
-    <string name="private_dns_dialog_desc">La configuración DNS de Rethink es anulada por el DNS Privado de Android.
+    <string name="private_dns_dialog_desc">La configuración DNS de 白い熊 考直 es anulada por el DNS Privado de Android.
 \n
-\nPara usar el DNS de Rethink, ve a Ajustes de Android y desactiva \"DNS Privado\".</string>
+\nPara usar el DNS de 白い熊 考直, ve a Ajustes de Android y desactiva \"DNS Privado\".</string>
     <string name="private_dns_dialog_positive">Ir a los ajustes</string>
     <string name="doh_custom_url_remove_dialog_message">Borra el punto de acceso de DNS sobre Https de la configuración guardada.</string>
     <string name="dns_proxy_remove_dialog_title">¿Borrar el proxy DNS\?</string>
@@ -435,7 +433,7 @@
     <string name="settings_theme_dialog_themes_3">Oscuro</string>
     <string name="settings_notification_desc3">Ninguno</string>
     <string name="settings_notification_dialog_title">Elija la acción de notificación</string>
-    <string name="settings_notification_dialog_option_1">\nPausa / Parar (por defecto):\nMuestra dos botones, para pausar y detener rápidamente Rethink.</string>
+    <string name="settings_notification_dialog_option_1">\nPausa / Parar (por defecto):\nMuestra dos botones, para pausar y detener rápidamente 白い熊 考直.</string>
     <string name="settings_notification_dialog_option_3">\nNinguno:\nNo muestra ningún botón.\n</string>
     <string name="firewall_card_status_active">%1$s aplicaciones</string>
     <string name="dns_card_latency_active">%1$sms</string>
@@ -458,12 +456,12 @@
     <string name="hsf_whats_new_remove_text">Cerrando…</string>
     <string name="hsf_blocklist_updating_text">Activando…</string>
     <string name="hsf_chip_appearance">Tema: %1$s</string>
-    <string name="hsf_pause_vpn_failure">No se puede pausar: Rethink no está activo</string>
+    <string name="hsf_pause_vpn_failure">No se puede pausar: 白い熊 考直 no está activo</string>
     <string name="dc_other_dns_heading">tipo</string>
     <string name="dc_custom_dns_radio">Otros DNS</string>
     <string name="hsf_exclude_error">La exclusión no es posible en el modo bloqueo de VPN</string>
     <string name="dc_dns_website_heading">Mostrar el icono del sitio web en los registros de DNS (en pruebas)</string>
-    <string name="dc_rethink_dns_radio">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直 DNS</string>
     <string name="dc_entries">%1$s entradas »</string>
     <string name="dc_dns_leaks_heading">Evitar las fugas de DNS</string>
     <string name="dc_check_update_desc">Comprueba las actualizaciones de la lista de bloqueo una vez cada <i>tres</i> días</string>
@@ -582,7 +580,7 @@
     <string name="rethink_max_desc">Más de 50 ubicaciones; más privadas; resolución recursiva que funciona en fly.io</string>
     <string name="rethink_sky_desc">Más de 280 ubicaciones; mayor tiempo de actividad; resolución local que se ejecuta en cloudflare.com</string>
     <string name="bsrf_sub_group_heading">Subgrupo</string>
-    <string name="dc_rethink_dns">Rethink DNS</string>
+    <string name="dc_rethink_dns">白い熊 考直 DNS</string>
     <string name="brbs_title">Respaldo y restauración</string>
     <string name="brbs_restore_dialog_positive">Restaurar</string>
     <string name="brbs_restore_dialog_failure_title">La restauración ha fallado</string>
@@ -629,14 +627,14 @@
     <string name="orbot_app_issue">No se puede lanzar Orbot. ¿Está instalado\?</string>
     <string name="orbot_stop_dialog_negative">Detener Orbot</string>
     <string name="status_failing" description="This text appears if the connection is currently not working correctly. [CHAR_LIMIT=NONE]">fallando</string>
-    <string name="orbot_stop_dialog_dns_message">Rethink está configurado para reenviar las consultas DNS a Orbot. Cámbielo según sea necesario.</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 está configurado para reenviar las consultas DNS a Orbot. Cámbielo según sea necesario.</string>
     <string name="orbot_install_dialog_title">¿Instalar Orbot\?</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Advertencia: Rethink ha sido desactivado</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Advertencia: 白い熊 考直 ha sido desactivado</string>
     <string name="hybrid_mode_notification_title">¡Protegido! Conectado mediante DNS + Cortafuegos.</string>
     <string name="settings_ptrans_desc">Traduce el tráfico IPv6 saliente a IPv4 en el dispositivo. Habilite esta opción si está conectado a una red de sólo IPv4.</string>
     <string name="orbot_bs_status_1">Reenviando las conexiones de %1$s a Orbot.</string>
     <string name="orbot_bs_status_2">Proxy HTTP activado.</string>
-    <string name="settings_socks5_vpn_disabled_error">Inicie Rethink para continuar.</string>
+    <string name="settings_socks5_vpn_disabled_error">Inicie 白い熊 考直 para continuar.</string>
     <string name="pause_title_desc">esperando…</string>
     <string name="settings_network_all_networks">Utilizar todas las redes disponibles (en pruebas)</string>
     <string name="settings_https_heading">Configurar proxy de CONEXIÓN HTTP(S)</string>
@@ -648,7 +646,7 @@
     <string name="settings_ip_network_heading">Elija la versión de IP</string>
     <string name="orbot_install_dialog_message">Orbot lleva las características y funcionalidades de Tor a Android.</string>
     <string name="orbot_install_dialog_neutral">sitio web</string>
-    <string name="settings_autostart_bootup_desc">Al encender el dispositivo, se iniciará Rethink si se estaba ejecutando antes de apagarlo.</string>
+    <string name="settings_autostart_bootup_desc">Al encender el dispositivo, se iniciará 白い熊 考直 si se estaba ejecutando antes de apagarlo.</string>
     <string name="settings_check_update_desc">Comprueba automáticamente las actualizaciones de la aplicación una vez a la semana.</string>
     <string name="settings_https_desc">Reenvía las conexiones al punto final de la CONEXIÓN HTTP(S).</string>
     <string name="status_dns_error">error de dns</string>
@@ -659,11 +657,11 @@
     <string name="orbot_http">Proxy HTTP</string>
     <string name="orbot_status_arg_2">TCP</string>
     <string name="orbot_title">Orbot y Proxies</string>
-    <string name="settings_allow_bypass_desc">Permite a las aplicaciones solicitantes acceder a todas las redes disponibles. Estas aplicaciones pueden eludir el túnel VPN bajo demanda de Rethink. Algunas aplicaciones de audio/vídeo conferencia como Zoom y Meet pueden requerir esto para funcionar correctamente.</string>
+    <string name="settings_allow_bypass_desc">Permite a las aplicaciones solicitantes acceder a todas las redes disponibles. Estas aplicaciones pueden eludir el túnel VPN bajo demanda de 白い熊 考直. Algunas aplicaciones de audio/vídeo conferencia como Zoom y Meet pueden requerir esto para funcionar correctamente.</string>
     <string name="settings_lock_down_mode_desc">Ciertas opciones están desactivadas cuando la VPN está en modo bloqueo. <u>Ver los ajustes de la VPN</u>.</string>
     <string name="settings_ip_network_desc">Elija entre las versiones del Protocolo de Internet.</string>
     <string name="orbot_none">Ninguna (por defecto)</string>
-    <string name="orbot_stop_dialog_message">Rethink ha dejado de reenviar conexiones a Orbot, pero Orbot podría estar funcionando en segundo plano.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 ha dejado de reenviar conexiones a Orbot, pero Orbot podría estar funcionando en segundo plano.</string>
     <string name="settings_orbot_desc">Orbot en modo no-vpn con HTTPS/SOCKS5.</string>
     <string name="settings_orbot_install_desc">Pulse aquí para instalar Orbot</string>
     <string name="orbot_stop_dialog_message_combo">%1$s
@@ -680,7 +678,7 @@
     <string name="settings_general_header">general</string>
     <string name="settings_ptrans_heading">Forzar la salida de IPv4</string>
     <string name="orbot_bs_status_4">Configuración de Tor-como-un-Proxy (Orbot) con un solo clic.</string>
-    <string name="settings_network_all_networks_desc">Cuando está activado, Rethink utiliza todas las redes disponibles para conectarse a Internet. Si no, utiliza la red que Android considere <i>activa</i>.</string>
+    <string name="settings_network_all_networks_desc">Cuando está activado, 白い熊 考直 utiliza todas las redes disponibles para conectarse a Internet. Si no, utiliza la red que Android considere <i>activa</i>.</string>
     <string name="settings_custom_downloader_desc">Si se desactiva, se utilizará el <i>Administrador de descargas</i> integrado en Android</string>
     <string name="orbot_both">Proxy HTTP + TCP</string>
     <string name="orbot_both_desc">Todas las anteriores.</string>
@@ -696,16 +694,16 @@
     <string name="about_version_install_source">v%1$s (%2$s)</string>
     <string name="about_telegram_link">https://telegram.me/rethinkdns</string>
     <string name="about_github_link">https://github.com/celzero/rethink-app</string>
-    <string name="slide_1_desc">Rethink es un programa de código abierto respaldado por el programa MVP de Mozilla Builders, FOSS United Foundation.</string>
+    <string name="slide_1_desc">白い熊 考直 es un programa de código abierto respaldado por el programa MVP de Mozilla Builders, FOSS United Foundation.</string>
     <string name="firewall_mode_notification_title">¡Protegido! Conectado al Cortafuegos.</string>
     <string name="status_protected" description="This is a large message in a reassuring color.  It indicates that DNS queries can't be surveilled or modified in transit.">protegido</string>
     <string name="status_protected_with_tor">protegido con tor</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink utiliza el servicio de accesibilidad para rastrear qué aplicaciones están en uso (primer plano) frente a las que no están en uso (segundo plano).
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 utiliza el servicio de accesibilidad para rastrear qué aplicaciones están en uso (primer plano) frente a las que no están en uso (segundo plano).
 \n
-\nRethink no recopila ninguna información ni le espía de ninguna manera.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">El servicio de accesibilidad de Rethink se ha detenido o ha fallado. <i><b>Vaya a Ajustes y fuerce la detención de</b></i> Rethink e inicielo de nuevo para usar la función <i>Bloquear cualquier aplicación que no esté en uso</i>.
+\n白い熊 考直 no recopila ninguna información ni le espía de ninguna manera.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">El servicio de accesibilidad de 白い熊 考直 se ha detenido o ha fallado. <i><b>Vaya a Ajustes y fuerce la detención de</b></i> 白い熊 考直 e inicielo de nuevo para usar la función <i>Bloquear cualquier aplicación que no esté en uso</i>.
 \n
-\nRethink utiliza el servicio de accesibilidad para rastrear las aplicaciones que están en uso (en primer plano) frente a las que no están en uso (en segundo plano).</string>
+\n白い熊 考直 utiliza el servicio de accesibilidad para rastrear las aplicaciones que están en uso (en primer plano) frente a las que no están en uso (en segundo plano).</string>
     <string name="alert_firewall_accessibility_exception">Fallo al abrir los Ajustes de accesibilidad. ¡Vuelva a intentarlo de nuevo!</string>
     <string name="bsct_block">Bloquear, omitir, excluir, aislar <u>esta aplicación</u></string>
     <string name="bsct_conn_block_desc">bloqueado %1$s por %2$s</string>
@@ -714,8 +712,8 @@
     <string name="bsct_conn_rule_explanation"><u>#1</u>: Bloquea una aplicación para que no se conecte a Internet. \n <u>#2</u>: Bloquea cualquier aplicación para que no se conecte a una IP concreta.\n <u>#3</u>: Bloquea todas las conexiones cuando el dispositivo está bloqueado (Cortafuegos Universal).\n <u>#4</u>: Bloquea cualquier aplicación que no esté en uso (Cortafuegos Universal).\n <u>#5</u>: Bloquea las conexiones cuando la aplicación de origen es desconocida (Cortafuegos Universal).\n <u>#6</u>: Bloquea todo el tráfico UDP excepto DNS (Cortafuegos Universal).\n <u>#7</u>: Bloquea las conexiones cuando se omite el DNS (Cortafuegos Universal).</string>
     <string name="bsct_conn_desc_allowed">permitido en %1$s %2$s</string>
     <string name="bsct_conn_desc_blocked">bloqueado en %1$s %2$s</string>
-    <string name="always_on_dialog">La \"VPN siempre activa\" está activada en este dispositivo. Para iniciar Rethink, dirígete a los Ajustes de la aplicación y desactiva \"VPN siempre activa\".</string>
-    <string name="always_on_dialog_stop_message">La VPN siempre activa está activada para Rethink. ¿Está seguro que quiere detener Rethink de todos modos\?</string>
+    <string name="always_on_dialog">La \"VPN siempre activa\" está activada en este dispositivo. Para iniciar 白い熊 考直, dirígete a los Ajustes de la aplicación y desactiva \"VPN siempre activa\".</string>
+    <string name="always_on_dialog_stop_message">La VPN siempre activa está activada para 白い熊 考直. ¿Está seguro que quiere detener 白い熊 考直 de todos modos\?</string>
     <string name="univ_firewall_dialog_message">Eliminar esta regla permitiría a cualquier aplicación conectarse a esta IP. ¿Desea continuar\?</string>
     <string name="firewall_act_network_monitor_tab">Red</string>
     <string name="always_on_dialog_positive">Detener</string>
@@ -823,12 +821,12 @@
     <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">aplicaciones más bloqueadas</string>
     <string name="ssv_most_contacted_domain_heading" description="This label will appear on the stats screen as a header for most visited domains" translatable="true">dominios más contactados</string>
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">IPs más contactadas</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app">Iniciar Rethink para continuar</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app">Iniciar 白い熊 考直 para continuar</string>
     <string name="ssv_see_more">Mostrar todo</string>
     <string name="settings_locale_dialog_neutral">Ayude a traducir esta aplicación</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">IPs más bloqueadas</string>
-    <string name="hs_biometeric_title">Desbloquear Rethink</string>
-    <string name="hs_biometeric_desc">Utilice la autenticación biométrica para desbloquear Rethink</string>
+    <string name="hs_biometeric_title">Desbloquear 白い熊 考直</string>
+    <string name="hs_biometeric_desc">Utilice la autenticación biométrica para desbloquear 白い熊 考直</string>
     <string name="fapps_unblock_dialog_title">Permitir aplicaciones</string>
     <string name="fapps_exclude_block_dialog_title">Excluir aplicaciones</string>
     <string name="ssv_most_blocked_domain_heading" description="This label will appear on the stats screen as a header for most blocked domains" translatable="true">dominios más bloqueados</string>
@@ -898,9 +896,9 @@
     <string name="settings_lock_down_proxy_desc" translatable="true">No se pueden configurar proxies cuando la VPN se ejecuta en modo sólo DNS.</string>
     <string name="brbs_backup_restore_desc" translatable="true">No funciona en todas las versiones de la aplicación</string>
     <string name="settings_allow_lan_heading" translatable="true">No enrutar IPs privadas (experimental)</string>
-    <string name="settings_allow_lan_desc" translatable="true">Excluye las rutas LAN, loopback, multicast, enlace-local del túnel VPN de Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Excluye las rutas LAN, loopback, multicast, enlace-local del túnel VPN de 白い熊 考直.</string>
     <string name="lbl_network" translatable="true">red</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s funciona sólo con el DNS de Rethink</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s funciona sólo con el DNS de 白い熊 考直</string>
     <string name="lbl_maybe_blocked" translatable="true">Posiblemente bloqueado</string>
     <string name="lbl_very" translatable="true">muy</string>
     <string name="lbl_app_wise" translatable="true">por aplicación</string>
@@ -942,7 +940,7 @@
     <string name="status_protected_with_wg" translatable="true">protegido con wireguard</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">protegido con wireguard y dns privado</string>
     <string name="public_key_copy_toast_msg" translatable="true">Clave pública copiada.</string>
-    <string name="orbot_explanation" translatable="true">Orbot es una aplicación proxy gratuita que permite a otras aplicaciones utilizar Internet de forma más <u>segura</u>.\nOrbot utiliza <u>Tor</u> para cifrar su tráfico de Internet, lo que le ayuda a <u>evitar la censura</u> y a defenderse de formas de <u>vigilancia en la red</u> que amenazan la libertad personal y la privacidad. \n<u>Proxy TCP</u>: Rethink reenvía a Orbot solo las conexiones TCP de las aplicaciones <i>incluidas</i>.\n<u>Proxy HTTP</u>: Rethink <i>establece</i> un túnel HTTP CONNECT hacia Orbot y reenvía solo las conexiones TCP de las aplicaciones <i>incluidas</i>.</string>
+    <string name="orbot_explanation" translatable="true">Orbot es una aplicación proxy gratuita que permite a otras aplicaciones utilizar Internet de forma más <u>segura</u>.\nOrbot utiliza <u>Tor</u> para cifrar su tráfico de Internet, lo que le ayuda a <u>evitar la censura</u> y a defenderse de formas de <u>vigilancia en la red</u> que amenazan la libertad personal y la privacidad. \n<u>Proxy TCP</u>: 白い熊 考直 reenvía a Orbot solo las conexiones TCP de las aplicaciones <i>incluidas</i>.\n<u>Proxy HTTP</u>: 白い熊 考直 <i>establece</i> un túnel HTTP CONNECT hacia Orbot y reenvía solo las conexiones TCP de las aplicaciones <i>incluidas</i>.</string>
     <string name="lbl_listen_port" translatable="true">Escuchar el puerto</string>
     <string name="logs_disclaimer" translatable="true">Mostrar los primeros 20.000 caracteres</string>
     <string name="cd_doh_dialog_checkbox_desc" translatable="true">No validar los certificados TLS del servidor (habilitar sólo si sabes lo que está haciendo)</string>
@@ -1030,14 +1028,14 @@
     <string name="dot_custom_url_remove_dialog_message" translatable="true">Elimina el punto final de la DNS sobre TLS de la configuración guardada.</string>
     <string name="orbot_no_app_toast" translatable="true">Añadir al menos una aplicación para habilitar Orbot</string>
     <string name="settings_rinr_heading" translatable="true">Bucle invertido \"Loopback\" (experimental)</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Enrutar el propio tráfico de Rethink a través del túnel. A menos que sepas lo que haces, desactívalo.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">Enrutar el propio tráfico de 白い熊 考直 a través del túnel. A menos que sepas lo que haces, desactívalo.</string>
     <string name="cd_dialog_edit_title" translatable="true">Editar la regla del dominio</string>
     <string name="cd_toast_edit" translatable="true">Editado</string>
     <string name="one_wg_dialog_desc" translatable="true">Todas las conexiones de todas las aplicaciones, incluyendo DNS, serán enrutadas a una única VPN WireGuard activa. Las demás VPN de WireGuard activas, si las hay, se detendrán.</string>
     <string name="catch_all_wg_dialog_desc" translatable="true">Todas las conexiones y aplicaciones no enrutadas por otras VPN de WireGuard serán enrutadas por esta.</string>
     <string name="one_wg_error_toast" translatable="true">Para cambiar a Avanzado, detenga WireGuard en modo Simple</string>
     <string name="wireguard_disable_message" translatable="true">¿Detener todas las VPN activas de WireGuard?</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Enruta el tráfico propio de Rethink, como descargas de listas de bloqueo, comprobaciones de conectividad, conexiones DNS, de vuelta al túnel.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Enruta el tráfico propio de 白い熊 考直, como descargas de listas de bloqueo, comprobaciones de conectividad, conexiones DNS, de vuelta al túnel.</string>
     <string name="lbl_remove" translatable="true">Quitar</string>
     <string name="lbl_last" translatable="true">Última</string>
     <string name="lbl_overall" translatable="true">En general</string>
@@ -1071,15 +1069,15 @@
     <string name="settings_connectivity_checks" translatable="true">Realizar comprobaciones de conectividad</string>
     <string name="settings_connectivity_checks_desc" translatable="true">Se envían comprobaciones de conectividad para determinar la accesibilidad.</string>
     <string name="lbl_unselected" translatable="true">No seleccionado</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> puede provocar la pérdida de conectividad. Cambia la configuración para permitir que Rethink utilice datos y otros recursos cuando esté en segundo plano.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> puede provocar la pérdida de conectividad. Cambia la configuración para permitir que 白い熊 考直 utilice datos y otros recursos cuando esté en segundo plano.</string>
     <string name="lbl_battery_optimization" translatable="true">Optimización de la batería</string>
     <string name="battery_optimization_dialog_heading" translatable="true">Desactivar %1$s</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Aplicaciones reenviadoras de proxy en loopback</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Si se desactiva, excluye las aplicaciones reenviadoras de proxy (SOCKS5, HTTP, DNS) del túnel VPN de Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Si se desactiva, excluye las aplicaciones reenviadoras de proxy (SOCKS5, HTTP, DNS) del túnel VPN de 白い熊 考直.</string>
     <string name="exclude_apps_from_proxy">Excluir la aplicación de todos los proxies</string>
     <string name="exclude_apps_from_proxy_failure_toast">Esta aplicación evita los servidores proxy</string>
     <string name="lbl_notification" translatable="true">notification</string>
-    <string name="memory_notification_text">Rethink tiene poca memoria. Las acciones del sistema pueden estar limitadas.</string>
+    <string name="memory_notification_text">白い熊 考直 tiene poca memoria. Las acciones del sistema pueden estar limitadas.</string>
     <string name="lbl_test" translatable="true">prueba</string>
     <string name="lbl_experimental" translatable="true">(experimental)</string>
     <string name="lbl_service_providers" translatable="true">Provedores de servicio</string>
@@ -1116,7 +1114,7 @@
     <string name="most_blocked_asn" translatable="true">proveedores más bloqueados</string>
     <string name="download_ip_info_title" translatable="true">Mostrar información del proveedor</string>
     <string name="adv_taster_title" translatable="true">Automatización</string>
-    <string name="adv_taster_desc" translatable="true">Configurar aplicaciones que pueden iniciar o detener Rethink.</string>
+    <string name="adv_taster_desc" translatable="true">Configurar aplicaciones que pueden iniciar o detener 白い熊 考直.</string>
     <string name="close_conns_dialog_title" translatable="true">Cerrar Conexiones</string>
     <string name="close_conns_dialog_desc" translatable="true">¿Cerrar todas las conexiones para %1$s?</string>
     <string name="about_license" translatable="true">Licencia bajo Apache-2.0</string>
@@ -1130,7 +1128,7 @@
     <string name="settings_biometric_dialog_option_0" translatable="true">Ninguna</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">Usar el DNS del sistema para dominios no delegados</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">Instrucciones:\n Al enviar el broadcast es requerido:\n • Key: sender\n • Value: Nombre del paquete de la app\n\n Ejemplo: key:sender value:com.termux\n\n Acciones disponibles:\n • Iniciar VPN – com.celzero.bravedns.intent.action.VPN_START\n • Detener VPN – com.celzero.bravedns.intent.action.VPN_STOP</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Introduce los nombres de paquete (separado por comas) se les permite iniciar o detener Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">Introduce los nombres de paquete (separado por comas) se les permite iniciar o detener 白い熊 考直.</string>
     <string name="no_stats_available" translatable="true">Sin estadísticas</string>
     <string name="adv_set_dial_timeout_title" translatable="true">Tiempo de espera inactivo</string>
     <string name="lbl_protos" translatable="true">protos</string>
@@ -1143,7 +1141,7 @@
     <string name="settings_theme_dialog_themes_5" translatable="true">Claro Plus</string>
     <string name="settings_theme_dialog_themes_6" translatable="true">Oscuro Plus</string>
     <string name="settings_theme_dialog_themes_7" translatable="true">Escarcha</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Has estado usando Rethink durante <b>%1$s días</b>, lo que equivale a un coste de uso de <b>$%2$s</b>. ¿Considerarías hacer una aportación para ayudar a mantener su desarrollo?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Has estado usando 白い熊 考直 durante <b>%1$s días</b>, lo que equivale a un coste de uso de <b>$%2$s</b>. ¿Considerarías hacer una aportación para ayudar a mantener su desarrollo?</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true">Usar el DNS del sistema para dominios no delegados como <i>.lan</i>, <i>.internal</i>, etc.</string>
     <string name="cd_split_dns_heading" translatable="true">DNS dividido (experimental)</string>
     <string name="cd_split_dns_desc" translatable="true">Reenviar las consultas DNS de las aplicaciones proxificadas a los servidores DNS del proxy.</string>
@@ -1188,14 +1186,14 @@
     <string name="wg_setting_use_on_mobile" translatable="true">Solo móvil</string>
     <string name="wg_setting_use_on_mobile_desc" translatable="true">Usar esta VPN WireGuard sobre datos móviles.</string>
     <string name="hop_add_remove_title" translatable="true">Añadir / eliminar retransmisión</string>
-    <string name="bypasses_network_restrictions" translatable="true">Las comprobaciones de alcance omiten todas las restricciones de red. En modo <i>Auto</i>, Rethink usa aleatoriamente IPs y nombres de host conectados previamente.</string>
+    <string name="bypasses_network_restrictions" translatable="true">Las comprobaciones de alcance omiten todas las restricciones de red. En modo <i>Auto</i>, 白い熊 考直 usa aleatoriamente IPs y nombres de host conectados previamente.</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">Introduzca el nombre del paquete (ejemplo: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_desc" translatable="true">Obtiene detalles del proveedor de servicios para sitios web desde <i>rethinkdns.com</i>, con tecnología de<i>%1$s</i></string>
     <string name="top_active_conns" translatable="true">principales conexiones activas</string>
     <string name="load_more" translatable="true">Cargar todo</string>
     <string name="local_blocklist_delete_desc" translatable="true">¿Eliminar las listas de bloqueo en el dispositivo?</string>
     <string name="fail_open_network_title" translatable="true">Detenerse ante pérdida de red</string>
-    <string name="fail_open_network_desc" translatable="true">Cuando está activado, Rethink detiene todos los datos cuando no hay conectividad, como en el <i>modo avión</i>.</string>
+    <string name="fail_open_network_desc" translatable="true">Cuando está activado, 白い熊 考直 detiene todos los datos cuando no hay conectividad, como en el <i>modo avión</i>.</string>
     <string name="close_all" translatable="true">Cerrar todo</string>
     <string name="processing_dialog_desc" translatable="true">Espere mientras procesamos su solicitud.</string>
     <string name="smart_dns_desc" translatable="true"><i>Smart DNS </i> usa aleatoriamente cualquiera de estos resolutores DNS:</string>
@@ -1212,7 +1210,7 @@
     <string name="title_database_dump" translatable="true">Base de datos</string>
     <string name="wg_setting_ssid_title" translatable="true">Solo Wi‑Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Activar esta VPN WireGuard solo cuando esté conectado a Wi‑Fi o a los identificadores Wi‑Fi especificados (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink necesita permiso de ubicación para acceder a los identificadores Wi‑Fi (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直 necesita permiso de ubicación para acceder a los identificadores Wi‑Fi (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">Para acceder a los identificadores Wi‑Fi (%1$s), active el servicio de ubicación.</string>
     <string name="ssid_location_error" translatable="true">Active el servicio de ubicación</string>
     <string name="ssid_permission_error_action" translatable="true">Conceder permiso</string>
@@ -1231,11 +1229,11 @@
     <string name="settings_locale_dialog_default" translatable="true">Predeterminado del sistema</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">Cuando está activado, permite conexiones entrantes iniciadas por pares de WireGuard.</string>
-    <string name="lockdown_download_message" translatable="true">El <i>Gestor de descargas</i> integrado de Android puede fallar porque la VPN está en modo<i>Bloqueo</i>. ¿Activar en su lugar el descargador de Rethink?</string>
+    <string name="lockdown_download_message" translatable="true">El <i>Gestor de descargas</i> integrado de Android puede fallar porque la VPN está en modo<i>Bloqueo</i>. ¿Activar en su lugar el descargador de 白い熊 考直?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">Activar descargador</string>
     <string name="settings_jumbo_packets" translatable="true">Impulsor de ancho de banda</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Usa <i>paquetes jumbo</i> dentro del túnel VPN de Rethink.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">Usa <i>paquetes jumbo</i> dentro del túnel VPN de 白い熊 考直.</string>
     <string name="settings_tunnel_metered" translatable="true">Siempre medido</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Marcar el túnel VPN de Rethink como medido para indicar a las aplicaciones que consuman menos datos. Precaución: esto puede hacer que algunas aplicaciones pausen cargas y descargas grandes, como copias de seguridad.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Marcar el túnel VPN de 白い熊 考直 como medido para indicar a las aplicaciones que consuman menos datos. Precaución: esto puede hacer que algunas aplicaciones pausen cargas y descargas grandes, como copias de seguridad.</string>
     <string name="stability_program_toast" translatable="true">Inscrito en el <i>programa de estabilidad</i> para<i>funciones experimentales</i>.</string>
 </resources>

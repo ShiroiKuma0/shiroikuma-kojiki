@@ -5,7 +5,7 @@
     <string name="pause_title_desc" translatable="true">într-o mică pauză…</string>
     <string name="about_title_desc" translatable="true">Detectează și blochează riscurile de securitate în rețea</string>
     <string name="txt_home" translatable="true">Acasă</string>
-    <string name="accessibility_service_description" translatable="true">Rethink utilizează serviciul de accesibilitate pentru a detecta și proteja aplicațiile care rulează în fundal. Rethink nu colectează și nu vinde nici o informație.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 utilizează serviciul de accesibilitate pentru a detecta și proteja aplicațiile care rulează în fundal. 白い熊 考直 nu colectează și nu vinde nici o informație.</string>
     <string name="next" translatable="true">Următorul</string>
     <string name="skip" translatable="true">Sari peste</string>
     <string name="finish" translatable="true">Termină</string>
@@ -75,7 +75,7 @@
     <string name="lbl_anonymous" translatable="true">anonim</string>
     <string name="untracked" translatable="true">neurmărit</string>
     <string name="bypass_dns_firewall" translatable="true">ocolește dns și firewall</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Atentie: Rethink a fost dezactivat</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Atentie: 白い熊 考直 a fost dezactivat</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">Apasă aici pentru a schimba setările protecției</string>
     <string name="dns_mode_notification_title" translatable="true">Protejat! Conectat la un DNS rapid și securizat.</string>
     <string name="firewall_mode_notification_title" translatable="true">Protejat! Conectat la Firewall.</string>
@@ -110,18 +110,18 @@
     <string name="lbl_on_device" translatable="true">pe dispozitiv</string>
     <string name="lbl_unselected" translatable="true">Neselectat</string>
     <string name="lbl_notification" translatable="true">notificare</string>
-    <string name="memory_notification_text">Rethink nu dispune de suficientă memorie. Operațiunile sistemului ar putea fi limitate.</string>
+    <string name="memory_notification_text">白い熊 考直 nu dispune de suficientă memorie. Operațiunile sistemului ar putea fi limitate.</string>
     <string name="slide_2_title" translatable="true">Bun venit</string>
-    <string name="slide_2_desc" translatable="true">Rethink e cea mai ușoară cale pentru monitorizarea activității din rețea, ocolirea cenzurii pe internet și protejarea aplicațiilor pe dispozitivul tău Android.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 e cea mai ușoară cale pentru monitorizarea activității din rețea, ocolirea cenzurii pe internet și protejarea aplicațiilor pe dispozitivul tău Android.</string>
     <string name="slide_1_title" translatable="true">Gratuit și Open-Source</string>
-    <string name="slide_1_desc" translatable="true">Rethink e un software open-source, susținut prin programul Mozilla Builders MVP, FOSS United Foundation.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 e un software open-source, susținut prin programul Mozilla Builders MVP, FOSS United Foundation.</string>
     <string name="allow" translatable="true">permite</string>
     <string name="block" translatable="true">blochează</string>
     <string name="bypass_universal" translatable="true">ocolire universală</string>
     <string name="exclude" translatable="true">exclude</string>
     <string name="isolate" translatable="true">izolează</string>
     <string name="pause_mode_notification_title" translatable="true">În repaus! Aplicațiile blocate vor fi protejate în continuare.</string>
-    <string name="status_waiting" description="This text appears during the connection process if Rethink needs user permission or the phone is offline." translatable="true">în așteptare</string>
+    <string name="status_waiting" description="This text appears during the connection process if 白い熊 考直 needs user permission or the phone is offline." translatable="true">în așteptare</string>
     <string name="status_protected" description="This is a large message in a reassuring color. It indicates that DNS queries can't be surveilled or modified in transit." translatable="true">protejat</string>
     <string name="wireguard_disclaimer" translatable="true">DNS retrimis la %1$s.</string>
     <string name="wireguard_no_config_msg" translatable="true">Nu există VPN AdGuard. Adaugă unul pentru a începe.</string>
@@ -198,11 +198,11 @@
     <string name="status_protected_with_proxy" translatable="true">protejat cu proxy</string>
     <string name="status_protected_with_wg" translatable="true">protejat cu WireGuard</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">protejat cu WireGuard și DNS privat</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">DNS-ul privat este activat</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">DNS-ul privat este activat</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">neprotejat</string>
-    <string name="dns_explanation_dns_connected" translatable="true">Conectat la RethinkDNS</string>
+    <string name="dns_explanation_dns_connected" translatable="true">Conectat la 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected" translatable="true">Conectat la Firewall</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Conectat la RethinkDNS și Firewall</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Conectat la 白い熊 考直 și Firewall</string>
     <string name="universal_firewall_explanation" translatable="true">Aplică regulile Firewall-ului la toate aplicațiile în funcție de evenimentele de pe dispozitiv; de exemplu, protejează când dispozitivul este blocat sau când o anumită aplicație nu rulează.</string>
     <string name="notification_action_resume_vpn" translatable="true">CONTINUĂ</string>
     <string name="notification_action_pause_vpn" translatable="true">PAUZĂ</string>
@@ -214,8 +214,8 @@
     <string name="dns_mode_info_explanation_new" translatable="true">Monitorizează, blochează și criptează toate cererile DNS.</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">Toate de mai sus + ocolește cenzura pe internet.</string>
     <string name="alert_permission_accessibility" translatable="true">Permisiuni - Accesibilitate</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Serviciul de accesibilitate al Rethink s-a oprit sau s-a blocat. <i><b>Mergeți la Setări și Oprire Forțată</b></i> apoi reporniți Rethink pentru <i>Blocare aplicații care rulează în fundal</i>.\n\nRethink utilizează serviciul de accesibilitate pentru a diferenția aplicațiile care rulează la vedere față de cele care rulează în fundal.</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink utilizează serviciul de accesibilitate pentru a diferenția aplicațiile care rulează la vedere față de cele care rulează în fundal.\n\nRethink nu colectează nici o informație și nu vă spionează în nici un fel.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Serviciul de accesibilitate al 白い熊 考直 s-a oprit sau s-a blocat. <i><b>Mergeți la Setări și Oprire Forțată</b></i> apoi reporniți 白い熊 考直 pentru <i>Blocare aplicații care rulează în fundal</i>.\n\n白い熊 考直 utilizează serviciul de accesibilitate pentru a diferenția aplicațiile care rulează la vedere față de cele care rulează în fundal.</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 utilizează serviciul de accesibilitate pentru a diferenția aplicațiile care rulează la vedere față de cele care rulează în fundal.\n\n白い熊 考直 nu colectează nici o informație și nu vă spionează în nici un fel.</string>
     <string name="alert_firewall_accessibility_exception" translatable="true">Nu s-a putut deschide Setări- Accesibilitate. Încearcă din nou mai târziu!</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">Alege modul.</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">Alege modul.</string>
@@ -232,7 +232,7 @@
     <string name="bsct_conn_desc_allowed" translatable="true">permise în %1$s %2$s</string>
     <string name="bsct_conn_desc_blocked" translatable="true">blocate în %1$s %2$s</string>
     <string name="always_on_dialog_heading" translatable="true">Dezactivează VPN Permanent</string>
-    <string name="always_on_dialog" translatable="true">\"VPN Permanent\" este activat pe acest dispozitiv. Pentru a porni Rethink, mergi la setările aplicației și dezactivează \"VPN Permanent\".</string>
+    <string name="always_on_dialog" translatable="true">\"VPN Permanent\" este activat pe acest dispozitiv. Pentru a porni 白い熊 考直, mergi la setările aplicației și dezactivează \"VPN Permanent\".</string>
     <string name="always_on_dialog_stop_heading" translatable="true">VPN Permanent</string>
     <string name="firewall_act_universal_tab" translatable="true">universal</string>
     <string name="download_update_dialog_trylater_message" translatable="true">Nu se poate actualiza acum, încearcă din nou mai târziu.</string>
@@ -255,10 +255,10 @@
     <string name="settings_enable_logs" translatable="true">Activează jurnalele pe dispozitiv</string>
     <string name="app_mode_choose" translatable="true">Alege modul</string>
     <string name="bsct_conn_rule_explanation" translatable="true"><u>#1</u>: Blochează conectarea unei aplicații la internet.\n <u>#2</u>: Blochează conectarea tuturor aplicațiilor la un anumit IP.\n <u>#3</u>: Blochează toate conexiunile când dispozitivul este blocat (Universal Firewall).\n <u>#4</u>: Blochează toate aplicațiile care rulează în fundal (Universal Firewall).\n <u>#5</u>: Blochează conexiunile aplicațiilor din sursă necunoscută (Universal Firewall).\n <u>#6</u>: Blochează tot traficul UDP cu excepția DNS (Universal Firewall).\n <u>#7</u>: Blochează conexiunile când DNS este ocolit (Universal Firewall).</string>
-    <string name="private_dns_dialog_desc" translatable="true">Setările DNS-ului Rethink sunt suprascrise de DNS-ul privat din Android.\n\nPentru a utiliza DNS-ul Rethink, mergi la Setări și oprește \"DNS privat\".</string>
+    <string name="private_dns_dialog_desc" translatable="true">Setările DNS-ului 白い熊 考直 sunt suprascrise de DNS-ul privat din Android.\n\nPentru a utiliza DNS-ul 白い熊 考直, mergi la Setări și oprește \"DNS privat\".</string>
     <string name="univ_firewall_dialog_message" translatable="true">Eliminarea acestei reguli va permite oricărei aplicații să se conecteze la acest IP. Vrei să continui?</string>
     <string name="doh_custom_url_remove_dialog_title" translatable="true">Elimini endpoint-ul DoH?</string>
-    <string name="always_on_dialog_stop_message" translatable="true">VPN Permanent este activ. Sigur vrei să oprești Rethink?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">VPN Permanent este activ. Sigur vrei să oprești 白い熊 考直?</string>
     <string name="private_dns_dialog_heading" translatable="true">Oprește DNS privat</string>
     <string name="univ_firewall_dialog_title" translatable="true">Elimini regula IP?</string>
     <string name="doh_custom_url_remove_dialog_message" translatable="true">Elimină endpoint-ul DNS over HTTPS din configurația salvată.</string>
@@ -298,10 +298,10 @@
     <string name="settings_connectivity_checks" translatable="true">Execută verificări de conectivitate</string>
     <string name="settings_connectivity_checks_desc" translatable="true">Sunt trimise verificări de conectivitate pentru a determina disponibilitatea.</string>
     <string name="settings_allow_lan_heading" translatable="true">Nu direcționa IP-urile private (experimental)</string>
-    <string name="settings_allow_lan_desc" translatable="true">Exclude direcționările LAN, loopback, multicast și link-local din tunelul VPN al Rethink.</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Când este dezactivat, exclude aplicațiile proxy (SOCKS5, HTTP, DNS) din tunelul VPN al Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Exclude direcționările LAN, loopback, multicast și link-local din tunelul VPN al 白い熊 考直.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Când este dezactivat, exclude aplicațiile proxy (SOCKS5, HTTP, DNS) din tunelul VPN al 白い熊 考直.</string>
     <string name="settings_allow_bypass_heading" translatable="true">Activează vizibilitatea rețelei</string>
-    <string name="settings_allow_bypass_desc" translatable="true">Permite aplicațiilor să acceseze toate rețelele disponibile. La nevoie, aceste aplicații pot ocoli tunelul VPN Rethink. Unele aplicații de audio/video conferință precum Zoom și Meet au nevoie de asta pentru a funcționa corespunzător.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">Permite aplicațiilor să acceseze toate rețelele disponibile. La nevoie, aceste aplicații pot ocoli tunelul VPN 白い熊 考直. Unele aplicații de audio/video conferință precum Zoom și Meet au nevoie de asta pentru a funcționa corespunzător.</string>
     <string name="settings_lock_down_mode_desc" translatable="true">Anumite opțiuni sunt dezactivate când VPN e în modul lockdown. <u>Vezi setările VPN</u>.</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">Nu pot fi setate proxy-uri când VPN rulează în modul DNS-only.</string>
     <string name="settings_socks5_heading" translatable="true">Setări Proxy SOCKS5</string>
@@ -322,22 +322,22 @@
     <string name="orbot_app_issue" translatable="true">Orbot nu poate fi deschis. Este instalat?</string>
     <string name="orbot_bs_status_trying_connect" translatable="true">Orbot se instalează…</string>
     <string name="orbot_stop_dialog_title" translatable="true">E nevoie de intervenție manuală</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink este setat să transmită cererile DNS la Orbot. Modifică dacă e necesar.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 este setat să transmită cererile DNS la Orbot. Modifică dacă e necesar.</string>
     <string name="local_blocklist_download_desc" translatable="true">Descarc listele de blocat (în jur de 60Mb) pentru a utiliza această opțiune?</string>
     <string name="dns_proxy_remove_dialog_title" translatable="true">Elimini DNS Proxy?</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink rulează VPN în modul <i>Lockdown</i>. Oprirea acestuia va duce la pierderea conexiunii internet pe acest profil de utilizator. Vrei să continui?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 rulează VPN în modul <i>Lockdown</i>. Oprirea acestuia va duce la pierderea conexiunii internet pe acest profil de utilizator. Vrei să continui?</string>
     <string name="refresh_complete" translatable="true"><!-- use dc_refresh_toast -->Lista aplicațiilor reactualizată.</string>
     <string name="show_logs_disabled_network_message" translatable="true">Înregistrarea conexiunilor a fost dezactivată. Pentru reactivare, mergi la <i>Setări</i> și selectează <i>Activează jurnalele pe dispozitiv</i></string>
     <string name="configure_dns_connected_dns_crypt_status" translatable="true">DNSCrypt</string>
     <string name="orbot_bs_status_4" translatable="true">Setare Tor-ca-Proxy (Orbot) dintr-un singur click.</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink a oprit transmiterea conexiunilor prin Orbot, dar e posibil ca Orbot să ruleze încă în fundal.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 a oprit transmiterea conexiunilor prin Orbot, dar e posibil ca Orbot să ruleze încă în fundal.</string>
     <string name="orbot_no_app_toast" translatable="true">Pentru activarea Orbot adăugă cel puțin o aplicație</string>
     <string name="settings_orbot_heading" translatable="true">Instalare Orbot</string>
     <string name="settings_orbot_header" translatable="true">Orbot\t❯</string>
     <string name="settings_orbot_desc" translatable="true">Orbot în modul non-VPN cu HTTPS/SOCKS5.</string>
     <string name="settings_orbot_install_desc" translatable="true">Tap aici pentru a instala Orbot</string>
     <string name="settings_socks5_disabled_error" translatable="true">Conectat la %1$s. Închide pentru a continua.</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">Pornește Rethink pentru a continua.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">Pornește 白い熊 考直 pentru a continua.</string>
     <string name="status_failing" description="This text appears if the connection is currently not working correctly. [CHAR_LIMIT=NONE]" translatable="true">nu reușește</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Aplicații proxy cu loopback</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Oprește Orbot</string>
@@ -349,10 +349,10 @@
     <string name="settings_orbot_disabled_error" translatable="true">Inchide proxy-ul HTTP(S) și/sau SOCKS5 pentru a continua instalarea Tor-ca-proxy.</string>
     <string name="settings_orbot_notification_action" translatable="true">Deschide Orbot</string>
     <string name="settings_autostart_bootup_heading" translatable="true">Auto-start la pornirea dispozitivului (experimental)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">La pornirea dispozitivului, startează Rethink dacă rula înainte de închidere.</string>
-    <string name="orbot_explanation" translatable="true">Orbot este o aplicație proxy gratuită care permite altor aplicații să folosească internetul mult mai <u>sigur</u>.\nOrbot folosește <u>Tor</u> pentru a cripta traficul tău de internet și astfel te ajută să <u>ocolești cenzura</u> și să eviți diferitele forme de <u>supraveghere în rețea</u> care pun în pericol libertatea și intimitatea personală\n<u>TCP Proxy</u>: Rethink direcționează numai conexiunile TCP ale aplicațiilor <i>adăugate</i> la Orbot.\n<u>HTTP Proxy</u>: Rethink <i>instalează</i> tunelul HTTP CONNECT la Orbot și direcționează numai conexiunile TCP ale aplicațiilor <i>adăugate</i>.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">La pornirea dispozitivului, startează 白い熊 考直 dacă rula înainte de închidere.</string>
+    <string name="orbot_explanation" translatable="true">Orbot este o aplicație proxy gratuită care permite altor aplicații să folosească internetul mult mai <u>sigur</u>.\nOrbot folosește <u>Tor</u> pentru a cripta traficul tău de internet și astfel te ajută să <u>ocolești cenzura</u> și să eviți diferitele forme de <u>supraveghere în rețea</u> care pun în pericol libertatea și intimitatea personală\n<u>TCP Proxy</u>: 白い熊 考直 direcționează numai conexiunile TCP ale aplicațiilor <i>adăugate</i> la Orbot.\n<u>HTTP Proxy</u>: 白い熊 考直 <i>instalează</i> tunelul HTTP CONNECT la Orbot și direcționează numai conexiunile TCP ale aplicațiilor <i>adăugate</i>.</string>
     <string name="settings_network_all_networks" translatable="true">Folosește toate rețelele disponibile (experimental)</string>
-    <string name="settings_network_all_networks_desc" translatable="true">Când este activat, Rethink folosește toate rețelele disponibile pentru conectarea la internet. Dacă nu, folosește orice rețea indicată ca <i>activă</i> de Android.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">Când este activat, 白い熊 考直 folosește toate rețelele disponibile pentru conectarea la internet. Dacă nu, folosește orice rețea indicată ca <i>activă</i> de Android.</string>
     <string name="settings_check_update_desc" translatable="true">Verifică automat pentru actualizări săptămânal.</string>
     <string name="settings_custom_downloader_heading" translatable="true">Folosește downloader-ul aplicației</string>
     <string name="settings_custom_downloader_desc" translatable="true">Dacă e dezactivat, se folosește <i>Download Manager</i> al Android</string>
@@ -371,8 +371,8 @@
     <string name="settings_notification_desc1" translatable="true">Pauză / Stop (prestabilit)</string>
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + Firewall</string>
     <string name="settings_notification_dialog_title" translatable="true">Alege acțiunea la notificare</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\nPauză / Stop (prestabilit):\nArată 2 butoane, pentru a porni/opri Rethink rapid.</string>
-    <string name="settings_notification_desc" translatable="true">Butoane pentru acțiuni de ales la notificarea Rethink: %1$s</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\nPauză / Stop (prestabilit):\nArată 2 butoane, pentru a porni/opri 白い熊 考直 rapid.</string>
+    <string name="settings_notification_desc" translatable="true">Butoane pentru acțiuni de ales la notificarea 白い熊 考直: %1$s</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\nNimic:\nNici un buton.\n</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nDNS / DNS + Firewall:\nArată 2 butoane pentru a schimba rapid între modul DNS cu economie de baterie și modul DNS + Firewall obișnuit.</string>
     <string name="settings_locale_desc" translatable="true">Alege limba preferată</string>
@@ -401,14 +401,14 @@
     <string name="settings_pcap_dialog_option_2" translatable="true">Ieșire la Logcat</string>
     <string name="firewall_status_block_metered" translatable="true">blocate în rețelele contorizate (mobile)</string>
     <string name="ct_bs_app_info_error" translatable="true">Nu găsesc informații despre aplicație</string>
-    <string name="hs_biometeric_title" translatable="true">Deblochează Rethink</string>
-    <string name="hs_biometeric_desc" translatable="true">Folosește autentificarea biometrică pentru a debloca Rethink</string>
+    <string name="hs_biometeric_title" translatable="true">Deblochează 白い熊 考直</string>
+    <string name="hs_biometeric_desc" translatable="true">Folosește autentificarea biometrică pentru a debloca 白い熊 考直</string>
     <string name="settings_theme_desc" translatable="true">Temă întunecată/luminoasă</string>
     <string name="settings_go_log_desc" translatable="true">În scop de depanare</string>
     <string name="settings_rinr_heading" translatable="true">Loopback (experimental)</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Direcționează traficul propriu al Rethink prin tunel. Dacă nu te pricepi, lasă-l \"Închis\".</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">Direcționează traficul propriu al 白い熊 考直 prin tunel. Dacă nu te pricepi, lasă-l \"Închis\".</string>
     <string name="settings_app_notification_persistent_desc" translatable="true">Faceți notificarea permanentă</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Direcționează traficul propriu al Rethink (descărcarea listelor de blocat, verificările de conectivitate, conexiunile DNS) înapoi în tunel.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Direcționează traficul propriu al 白い熊 考直 (descărcarea listelor de blocat, verificările de conectivitate, conexiunile DNS) înapoi în tunel.</string>
     <string name="settings_http_proxy_desc" translatable="true">Trimitere la %1$s</string>
     <string name="settings_http_proxy_error_text1" translatable="true">Porturile trebuie să fie în intervalul 1024–65535</string>
     <string name="settings_http_proxy_error_text3" translatable="true">Numele gazdei nu e completat</string>
@@ -453,10 +453,10 @@
     <string name="dc_block_heading" translatable="true">reguli</string>
     <string name="dc_other_dns_heading" translatable="true">tip</string>
     <string name="dc_custom_dns_radio" translatable="true">Alte DNS</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="dc_entries" translatable="true">%1$s intrări »</string>
     <string name="dc_local_block_heading" translatable="true">Liste de blocat de pe dispozitiv</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">Rethink nu poate fi pus în pauză deoarece e inactiv</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">白い熊 考直 nu poate fi pus în pauză deoarece e inactiv</string>
     <string name="dc_custom_block_heading" translatable="true">Reguli domeniu</string>
     <string name="dc_dns_website_heading" translatable="true">Arată icon-urile website-urilor în jurnalul DNS (experimental)</string>
     <string name="dc_dns_website_desc" translatable="true">Colectează icon-uri de website de la <i>nextdns.io</i> și <i>duckduckgo.com</i>. Consumă până la 350Mb spațiu memorie</string>
@@ -508,11 +508,11 @@
     <string name="cd_custom_doh_dialog_title" translatable="true">Server URL personalizat</string>
     <string name="cd_custom_dns_proxy_title" translatable="true">Proxy DNS personalizat</string>
     <string name="hsf_vpn_dialog_header" translatable="true">Atenție!</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink cere permisiunea de a stabili o VPN locală pentru a cripta cererile DNS ale dispozitivului, a implementa monitorizarea rețelei și a impune regulile Firewall-ului.\n\nRethink nu colectează informații și nu vă spionează în nici un fel.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 cere permisiunea de a stabili o VPN locală pentru a cripta cererile DNS ale dispozitivului, a implementa monitorizarea rețelei și a impune regulile Firewall-ului.\n\n白い熊 考直 nu colectează informații și nu vă spionează în nici un fel.</string>
     <string name="hsf_proxy_chip_removed_toast" translatable="true">Proxy eliminat</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> poate duce la pierderea conexiunii. Modifică setarea pentru a permite Rethink să folosească datele și alte resurse când rulează în background.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> poate duce la pierderea conexiunii. Modifică setarea pentru a permite 白い熊 考直 să folosească datele și alte resurse când rulează în background.</string>
     <string name="dc_local_block_desc_1" translatable="true">Alege din peste 195 liste de blocat. Click aici pentru descărcarea sau configurarea lor.</string>
-    <string name="dc_dns_leaks_desc" translatable="true">Când este activat, Rethink capturează toate pachetele la portul 53 și le înaintează la un endpoint setat de utilizator</string>
+    <string name="dc_dns_leaks_desc" translatable="true">Când este activat, 白い熊 考直 capturează toate pachetele la portul 53 și le înaintează la un endpoint setat de utilizator</string>
     <string name="about_bravedns_explantion" translatable="true">Rethink este cea mai ușoară cale pentru monitorizarea activității aplicațiilor, ocolirea cenzurii pe internet și protejarea aplicațiilor pe dispozitivul tău Android.</string>
     <string name="about_bug_report" translatable="true">Raportare bug</string>
     <string name="about_bravedns_toreport_text" translatable="true">ajutor și feedback</string>
@@ -698,7 +698,7 @@
     <string name="rules_load_failure_heading" translatable="true">Notă</string>
     <string name="network_log_app_name_unknown" translatable="true">Necunoscut</string>
     <string name="dns_proxy_connection_failure_lockdown" translatable="true">Excluderea %1$s din %2$s în modul lockdown poate cauza probleme de conectare la internet.</string>
-    <string name="accessibility_notification_content" translatable="true">Serviciul de accesibilitate Rethink s-a oprit sau blocat. Ca urmare, aplicațiile în fundal nu mai sunt blocate. Tap pentru a reactiva.</string>
+    <string name="accessibility_notification_content" translatable="true">Serviciul de accesibilitate 白い熊 考直 s-a oprit sau blocat. Ca urmare, aplicațiile în fundal nu mai sunt blocate. Tap pentru a reactiva.</string>
     <string name="other_dns_list_tab2" translatable="true">Dnscrypt</string>
     <string name="other_dns_list_tab3" translatable="true">Proxy Dns</string>
     <string name="firewall_rule_block_app_exception" translatable="true">Eroare</string>
@@ -741,7 +741,7 @@
     <string name="settings_local_blocklist_in_use" translatable="true">Se utilizează lista de blocat %1$s</string>
     <string name="settings_local_blocklist_dialog_positive" translatable="true">Descărcare</string>
     <string name="settings_local_blocklist_version" translatable="true">Versiune: v%1$s</string>
-    <string name="accessibility_failure_toast" translatable="true">Serviciul de accesibilitate Rethink s-a oprit sau blocat. Ca urmare, aplicațiile în fundal nu mai sunt blocate.</string>
+    <string name="accessibility_failure_toast" translatable="true">Serviciul de accesibilitate 白い熊 考直 s-a oprit sau blocat. Ca urmare, aplicațiile în fundal nu mai sunt blocate.</string>
     <string name="coming_soon_toast" translatable="true">în curând</string>
     <string name="toast_allow_bypass_disabled" translatable="true">%1$s este deactivat dacă proxy-urile sunt active</string>
     <string name="pause_text" translatable="true">în pauză</string>
@@ -800,16 +800,16 @@
     <string name="firewall_rule_dns_blocked_desc" translatable="true"><![CDATA[Această conexiune a fost blocată pentru că <i>domeniul</i> este blocat de DNS-ul preferat de utilizator.<br/><br/> Pentru modificare, mergi la tab-ul <i>Configurare DNS</i>.]]></string>
     <string name="firewall_rule_domain_blocked_univ_desc" translatable="true"><![CDATA[Această conexiune a fost blocată pentru că <i>domeniul</i> este blocat de regulile Universale de domeniu.<br/><br/> Pentru modificare, mergi la tab-ul <i>Configurare DNS</i>.]]></string>
     <string name="firewall_rule_proxied_desc" translatable="true"><![CDATA[Această conexiune a fost înaintată la Proxy-ul preferat de utilizator.<br/><br/> Pentru modificare, mergi la <i>Proxy</i> în ecranul <i>Configurare</i>.]]></string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink a blocat %1$s aplicații noi. Tap pentru a vizualiza și modifica.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink a blocat aplicația instalată recent, %1$s.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 a blocat %1$s aplicații noi. Tap pentru a vizualiza și modifica.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 a blocat aplicația instalată recent, %1$s.</string>
     <string name="new_app_notification_action_deny" translatable="true">Continuă blocarea</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">Conexiune de rețea permisă pentru aplicație</string>
     <string name="notif_dialog_pause_dialog_title" translatable="true">Aplicație în pauză!</string>
     <string name="notif_dialog_pause_dialog_message" translatable="true">Aplicație în pauză, CONTINUĂ pentru repornire</string>
     <string name="notif_dialog_pause_dialog_positive" translatable="true">Continuă</string>
     <string name="notif_channel_vpn_notification" translatable="true">VPN activă</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">Notificare când Rethink este activ și rulează în fundal</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">Notificare când Rethink este oprit de Android sau de alte aplicații VPN</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">Notificare când 白い熊 考直 este activ și rulează în fundal</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">Notificare când 白い熊 考直 este oprit de Android sau de alte aplicații VPN</string>
     <string name="notif_channed_desc_download" translatable="true">Notificare cu progresul descărcării pentru listele de blocat pe dispozitiv</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">Notificare la erori și anomalii ale Proxy-ului</string>
     <string name="notif_channel_download" translatable="true">Descarcă Alerte</string>
@@ -901,7 +901,7 @@
     <string name="ada_app_dns_settings" translatable="true">Setări DNS</string>
     <string name="ada_delete_logs_dialog_title" description="Appears as dialog title to clear the logs in app specific screen" translatable="true">Șterge jurnalele</string>
     <string name="ada_delete_logs_dialog_desc" description="Appears as dialog description to clear the logs in app specific screen" translatable="true">Șterge toate jurnalele pentru această aplicație.</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s funcționează doar cu DNS-ul Rethink</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s funcționează doar cu DNS-ul 白い熊 考直</string>
     <string name="exclude_apps_from_proxy">Exclude aplicația la toate proxy-urile</string>
     <string name="exclude_apps_from_proxy_failure_toast">Această aplicație ocolește proxy-urile</string>
     <string name="bsac_title_desc" translatable="true">Regulile se aplică numai pentru această aplicație.</string>
@@ -973,7 +973,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">cele mai contactate IP-uri</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">cele mai blocate IP-uri</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">cele mai blocate tari</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Pornește Rethink pentru a începe</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">Pornește 白い熊 考直 pentru a începe</string>
     <string name="bad_config_reason_invalid_value" translatable="true">Valoarea nu e validă</string>
     <string name="bad_config_reason_invalid_number" translatable="true">Numărul nu e valid</string>
     <string name="bad_config_reason_invalid_key" translatable="true">Cheia nu e validă</string>
@@ -1052,7 +1052,7 @@
     <string name="settings_biometric_dialog_option_1" translatable="true">Imediat</string>
     <string name="settings_biometric_dialog_option_2" translatable="true">După 5 minute</string>
     <string name="settings_biometric_dialog_option_3" translatable="true">După 15 minute</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Ai utilizat Rethink de <b>%1$s days</b>, care înseamnă un cost de utilizare de <b>$%2$s</b>. Consideri oportună o sponsorizare pentru susținerea dezvoltării sale?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Ai utilizat 白い熊 考直 de <b>%1$s days</b>, care înseamnă un cost de utilizare de <b>$%2$s</b>. Consideri oportună o sponsorizare pentru susținerea dezvoltării sale?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">Utilizează DNS de sistem pentru domenii nedelegate</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true">Utilizează DNS de sistem pentru domenii nedelegate precum <i>.lan</i>, <i>.internal</i>, etc.</string>
     <string name="dc_filtering_heading" translatable="true">filtrare</string>
@@ -1113,23 +1113,23 @@
     <string name="wg_setting_use_on_mobile_desc" translatable="true">Utilizează acest VPN WireGuard cu date mobile.</string>
     <string name="hop_add_remove_title" translatable="true">Adaugă / Elimină releu</string>
     <string name="about_terms_of_service" translatable="true">Termeni serviciu</string>
-    <string name="bypasses_network_restrictions" translatable="true">Verificările de accesibilitate ocolesc toate restricțiile de rețea. În modul <i>Auto</i>, Rethink utilizează la întâmplare IP-uri și nume-gazdă conectate anterior.</string>
+    <string name="bypasses_network_restrictions" translatable="true">Verificările de accesibilitate ocolesc toate restricțiile de rețea. În modul <i>Auto</i>, 白い熊 考直 utilizează la întâmplare IP-uri și nume-gazdă conectate anterior.</string>
     <string name="most_contacted_asn" translatable="true">cei mai contactați ISP</string>
     <string name="most_blocked_asn" translatable="true">cei mai blocați ISP</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Introdu numele pachetelor (separate prin virgulă) admise să pornească sau să oprească Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">Introdu numele pachetelor (separate prin virgulă) admise să pornească sau să oprească 白い熊 考直.</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">Instructiuni:\n Extras cerute la transmitere:\n • Key: expeditor\n • Value: Numele de pachet al aplicației solicitante\n\n Exemplu: key:expeditor value:com.termux\n\n Acțiuni suportate:\n • Start VPN – com.celzero.bravedns.intent.action.VPN_START\n • Stop VPN – com.celzero.bravedns.intent.action.VPN_STOP</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">Introdu numele de pachet (example: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_title" translatable="true">Arată informații despre ISP</string>
     <string name="download_ip_info_desc" translatable="true">Oferă detalii ISP-ului pentru website-uri de la <i>rethinkdns.com</i>, cu sprijinul <i>%1$s</i></string>
     <string name="adv_taster_title" translatable="true">Automatizare</string>
-    <string name="adv_taster_desc" translatable="true">Configurează aplicațiile care pot porni sau opri Rethink.</string>
+    <string name="adv_taster_desc" translatable="true">Configurează aplicațiile care pot porni sau opri 白い熊 考直.</string>
     <string name="top_active_conns" translatable="true">top conexiuni active</string>
     <string name="load_more" translatable="true">Încarcă tot</string>
     <string name="close_conns_dialog_title" translatable="true">Închide conexiunile</string>
     <string name="close_conns_dialog_desc" translatable="true">Închizi toate conexiunile pentru %1$s?</string>
     <string name="local_blocklist_delete_desc" translatable="true">Ștergi listele de blocat de pe dispozitiv?</string>
     <string name="fail_open_network_title" translatable="true">Blocaj la pierderea rețelei</string>
-    <string name="fail_open_network_desc" translatable="true">Când este activat, Rethink blochează toate datele când conectivitatea este întreruptă, ca în <i>Modul Avion</i>.</string>
+    <string name="fail_open_network_desc" translatable="true">Când este activat, 白い熊 考直 blochează toate datele când conectivitatea este întreruptă, ca în <i>Modul Avion</i>.</string>
     <string name="about_license" translatable="true">Licențiat sub Apache-2.0</string>
     <string name="close_all" translatable="true">Închide tot</string>
     <string name="smart_dns" translatable="true">Smart DNS</string>
@@ -1158,7 +1158,7 @@
     <string name="vpn_policy_fixed_desc" translatable="true">Reacționează minim la schimbările rețelei.</string>
     <string name="wg_setting_ssid_title" translatable="true">Numai Wi-Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Activează acest VPN Wireguard numai la conexiunile Wi-Fi sau anumiți identificatori Wi-Fi (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink are nevoie de permisiune pentru locație pentru a accesa identificatori Wi-Fi (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直 are nevoie de permisiune pentru locație pentru a accesa identificatori Wi-Fi (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">Pentru accesarea identificatorilor Wi-Fi (%1$s), pornește serviciul Locație.</string>
     <string name="ssid_location_error" translatable="true">Activare serviciul Locație</string>
     <string name="ssid_permission_error_action" translatable="true">Acordă permisiune</string>
@@ -1177,12 +1177,12 @@
     <string name="settings_locale_dialog_default" translatable="true">Prestabilit de sistem</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">Odată activate, permite intrarea conexiunile inițiate de perechile Wireguard.</string>
-    <string name="lockdown_download_message" translatable="true">E posibil ca <i>Download Manager-ul</i> din Android să nu poată funcționa când VPN este în modul <i>Lockdown</i>. Activezi downloader-ul Rethink\'s în loc?</string>
+    <string name="lockdown_download_message" translatable="true">E posibil ca <i>Download Manager-ul</i> din Android să nu poată funcționa când VPN este în modul <i>Lockdown</i>. Activezi downloader-ul 白い熊 考直\'s în loc?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">Activează Downloader-ul</string>
     <string name="settings_jumbo_packets" translatable="true">Extindere lățime de bandă</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Folosește <i>pachete jumbo</i> în tunelul VPN al Rethink.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">Folosește <i>pachete jumbo</i> în tunelul VPN al 白い熊 考直.</string>
     <string name="settings_tunnel_metered" translatable="true">Contorizat întotdeauna</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Marchează tunelul VPN al Rethink ca și contorizat pentru ca aplicațiile să folosească mai puține date mobile. Atenție: Asta poate determina aplicațiile să oprească descărcările și încărcările masive, cum ar fi copiile de rezervă.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Marchează tunelul VPN al 白い熊 考直 ca și contorizat pentru ca aplicațiile să folosească mai puține date mobile. Atenție: Asta poate determina aplicațiile să oprească descărcările și încărcările masive, cum ar fi copiile de rezervă.</string>
     <string name="stability_program_toast" translatable="true">Înscris în <i>programul de stabilitate</i> pentru <i>caracteristici experimentale</i>.</string>
     <string name="dns_record_types_auto_mode_status" translatable="true">Auto (toate tipurile)</string>
 </resources>

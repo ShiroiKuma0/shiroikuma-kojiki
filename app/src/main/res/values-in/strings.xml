@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="next">Selanjutnya</string>
-    <string name="always_on_dialog">\"VPN Selalu-Menyala\" telah dinyalakan di perangkat ini. Untuk menjalankan Rethink, silakan masuk ke Pengaturan dan matikan \"VPN Selalu-Menyala\".</string>
+    <string name="always_on_dialog">\"VPN Selalu-Menyala\" telah dinyalakan di perangkat ini. Untuk menjalankan 白い熊 考直, silakan masuk ke Pengaturan dan matikan \"VPN Selalu-Menyala\".</string>
     <string name="always_on_dialog_neutral">Pengaturan</string>
     <string name="blocklist_update_check_failure">Terjadi kesalahan. Coba beberapa saat lagi!</string>
     <string name="configure_dns_connected_dns_crypt_status">DNSCrypt</string>
@@ -16,14 +16,14 @@
     <string name="settings_vpn_heading">vpn</string>
     <string name="orbot_stop_dialog_negative">Hentikan Orbot</string>
     <string name="settings_orbot_header">Orbot\t❯</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">dns pribadi telah aktif</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">dns pribadi telah aktif</string>
     <string name="orbot_status_arg_3">DNS dan TCP</string>
     <string name="orbot_bs_status_trying_connect">Menyiapkan Orbot…</string>
     <string name="orbot_stop_dialog_neutral">Ubah DNS</string>
     <string name="skip">Lewati</string>
     <string name="finish">Selesai</string>
     <string name="app_mode_dns">DNS</string>
-    <string name="orbot_stop_dialog_message">Rethink telah berhenti meneruskan koneksi ke Orbot, tapi mungkin Orbot masih berjalan di latar belakang.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 telah berhenti meneruskan koneksi ke Orbot, tapi mungkin Orbot masih berjalan di latar belakang.</string>
     <string name="settings_orbot_install_desc">Ketuk di sini untuk memasang Orbot</string>
     <string name="download_update_dialog_trylater_title">Tidak dapat memperbaharui saat ini</string>
     <string name="settings_ip_network_heading">Pilih versi IP</string>
@@ -36,7 +36,6 @@
     <string name="always_on_dialog_stop_heading">VPN Selalu-Menyala</string>
     <string name="univ_firewall_dialog_title">Hapus aturan IP\?</string>
     <string name="connection_http3">HTTP3</string>
-    <string name="app_name_small_case">rethink</string>
     <string name="rdns_plus">RDNS Plus</string>
     <string name="always_on_dialog_positive_btn">Masuk ke Pengaturan</string>
     <string name="settings_enable_logs">Aktifkan pencatatan riwayat di perangkat</string>
@@ -57,12 +56,12 @@
     <string name="orbot_install_dialog_positive">Pasang</string>
     <string name="settings_socks5_disabled_error">Terhubung ke %1$s. Silahkan tutup dulu.</string>
     <string name="download_update_dialog_failure_title">Terjadi kesalahan!</string>
-    <string name="always_on_dialog_stop_message">Rethink diatur sebagai VPN Selalu-Menyala. Apakah Anda yakin untuk menghentikan Rethink\?</string>
+    <string name="always_on_dialog_stop_message">白い熊 考直 diatur sebagai VPN Selalu-Menyala. Apakah Anda yakin untuk menghentikan 白い熊 考直\?</string>
     <string name="univ_firewall_dialog_message">Menghapus aturan ini akan memungkinkan aplikasi apa pun terhubung ke alamat IP ini. Apakah Anda ingin melanjutkan\?</string>
     <string name="download_update_dialog_message">Versi baru tersedia untuk diunduh dari situs web. Apakah Anda ingin melanjutkan\?</string>
     <string name="search_universal_ips"><font size="12">Cari IP</font></string>
     <string name="settings_ip_network_desc">Pilih versi Protokol Jaringan.</string>
-    <string name="orbot_stop_dialog_dns_message">Rethink disiapkan untuk meneruskan permintaan DNS ke Orbot. Silahkan ubah sesuai kebutuhan.</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 disiapkan untuk meneruskan permintaan DNS ke Orbot. Silahkan ubah sesuai kebutuhan.</string>
     <string name="orbot_bs_status_1">Meneruskan koneksi %1$s ke Orbot.</string>
     <string name="orbot_website_link">https://guardianproject.info/apps/org.torproject.android/</string>
     <string name="orbot_install_dialog_neutral">laman</string>
@@ -87,7 +86,7 @@
     <string name="allow">izinkan</string>
     <string name="dns_mode_notification_title">Terlindungi! Terhubung dengan DNS Cepat dan Aman.</string>
     <string name="firewall_mode_notification_title">Terlindungi! Terhubung dengan Firewall.</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Peringatan: Rethink telah dihentikan</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Peringatan: 白い熊 考直 telah dihentikan</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Sentuh untuk merubah pengaturan keamanan</string>
     <string name="status_no_internet">tidak ada jaringan</string>
     <string name="dns_mode_info_explanation_new">Mengawasi, memblokir, dan mengenkripsi permintaan DNS.</string>
@@ -159,7 +158,7 @@
     <string name="network_log_app_name_unknown">Tidak diketahui</string>
     <string name="coming_soon_toast">segera</string>
     <string name="category_name_non_app_sys">Layanan Sistem</string>
-    <string name="dc_rethink_dns_radio">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直 DNS</string>
     <string name="about_bug_report_dialog_positive_btn">Kirim email</string>
     <string name="about_settings_notification">Pengaturan Notifikasi</string>
     <string name="settings_notification_dialog_title">Pilih tindakan atas notifikasi</string>
@@ -173,7 +172,6 @@
     <string name="new_app_notification_action_deny">Tetap memblok</string>
     <string name="about_web">tautan</string>
     <string name="about_whats_new">Yang baru di versi %1$s</string>
-    <string name="app_name">RethinkDNS</string>
     <string name="unicode_question_sign">❔</string>
     <string name="fav_icon">ikon_fav</string>
     <string name="firewall_rule_unknown">Sumber Tidak Diketahui</string>
@@ -205,13 +203,13 @@
     <string name="about_website_link">https://www.rethinkdns.com/</string>
     <string name="settings_protocol_translation_dns_inactive">Beralih ke mode DNS/DNS+Firewall untuk mengaktifkan pengaturan ini</string>
     <string name="about_docs_link">https://docs.rethinkdns.com/</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Terhubung dengan RethinkDNS dan Firewall</string>
-    <string name="dns_explanation_dns_connected">Terhubung dengan RethinkDNS</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Terhubung dengan 白い熊 考直 dan Firewall</string>
+    <string name="dns_explanation_dns_connected">Terhubung dengan 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected">Terhubung dengan Firewall</string>
-    <string name="new_app_bulk_notification_content">Rethink memblokir %1$s aplikasi baru. Ketuk untuk melihat atau mengubah.</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 memblokir %1$s aplikasi baru. Ketuk untuk melihat atau mengubah.</string>
     <string name="ci_dialog_desc">Izinkan (pintas/bypass) atau blokir alamat IP, subnet IP (dalam rentang tertentu), Port. Contoh: 10.10.10.10, 10.1.1.*, 10.2.2/24, ffff::/104, [::]:80, [10.1.0.0/16]:80, *.*:80</string>
     <string name="firewall_rule_block_app_desc"><![CDATA[Aturan firewall yang ditetapkan pengguna memblokir <i>aplikasi</i> ini.<br/><br/> Untuk mengubah, buka tab <i>Semua Aplikasi</i>.]]></string>
-    <string name="dc_dns_leaks_desc">Saat diaktifkan, Rethink menangkap semua paket pada port 53 dan meneruskannya ke titik akhir DNS yang ditetapkan pengguna</string>
+    <string name="dc_dns_leaks_desc">Saat diaktifkan, 白い熊 考直 menangkap semua paket pada port 53 dan meneruskannya ke titik akhir DNS yang ditetapkan pengguna</string>
     <string name="firewall_rule_block_ip_univ_desc"><![CDATA[Aturan firewall yang ditetapkan pengguna telah memblokir <i>IP / Port tujuan</i>.<br/><br/> Untuk mengubahnya, buka tab <i>Universal</i>.]]></string>
     <string name="dns_btm_sheet_dialog_message"><Data><![CDATA[ <h3><u><font size="8">%1$s</font></u>: %2$s daftar blokir</h3>%3$s.<br/><br/>]]></Data></string>
     <string name="dns_info_neutral">Salin</string>
@@ -291,7 +289,7 @@
     <string name="dns_btm_sheet_dialog_ips"><Data><![CDATA[ %1$s %2$s <br/>]]></Data></string>
     <string name="app_info_error">Tidak dapat membuka informasi Aplikasi.</string>
     <string name="ctbs_block_other_apps">Aturan yang diterapkan ke %1$s juga akan diterapkan ke %2$s aplikasi lainnya</string>
-    <string name="settings_notification_desc">Tombol tindakan untuk ditampilkan dengan pemberitahuan Rethink: %1$s</string>
+    <string name="settings_notification_desc">Tombol tindakan untuk ditampilkan dengan pemberitahuan 白い熊 考直: %1$s</string>
     <string name="cd_toast_added">Domain berhasil ditambahkan</string>
     <string name="settings_network_all_networks">Gunakan semua jaringan yang tersedia (eksperimental)</string>
     <string name="settings_socks_forwarding_default_desc">Meneruskan koneksi ke titik akhir SOCKS5.</string>
@@ -318,7 +316,7 @@
     <string name="system_dns_connection_failure">Tidak dapat menentukan server DNS saat ini</string>
     <string name="lbbs_search">Cari domain di dalam daftar blokir</string>
     <string name="notif_download_content_title">Mengunduh Daftar Blokir Lokal</string>
-    <string name="slide_2_desc">Rethink adalah cara termudah untuk memantau aktivitas jaringan, melewati penyensoran jaringan, dan mem-firewall aplikasi di perangkat Anda.</string>
+    <string name="slide_2_desc">白い熊 考直 adalah cara termudah untuk memantau aktivitas jaringan, melewati penyensoran jaringan, dan mem-firewall aplikasi di perangkat Anda.</string>
     <string name="settings_dns_proxy_dialog_username">Nama pengguna</string>
     <string name="settings_ip_text_ipv46">Otomatis</string>
     <string name="dns_btm_sheet_chip_no_answer">Tidak Ada Jawaban</string>
@@ -345,9 +343,9 @@
     <string name="apps_card_ips_count">%1$s aturan IP &amp; Port</string>
     <string name="dns_connected_rethink_plus">Terhubung. %1$s daftar blokir yang digunakan</string>
     <string name="fapps_firewall_filter_desc_category"><![CDATA[Menampilkan <u>%1$s</u> %2$s aplikasi dalam kategori: %3$s]]></string>
-    <string name="alert_firewall_accessibility_regrant_explanation">Layanan aksesibilitas Rethink terhenti atau mengalami kegagalan. <i><b>Masuk ke Pengaturan dan Hentikan Paksa</b></i> dan mulai ulang untuk menggunakan fitur<i>Blokir aplikasi apapun yang tidak digunakan</i>.
+    <string name="alert_firewall_accessibility_regrant_explanation">Layanan aksesibilitas 白い熊 考直 terhenti atau mengalami kegagalan. <i><b>Masuk ke Pengaturan dan Hentikan Paksa</b></i> dan mulai ulang untuk menggunakan fitur<i>Blokir aplikasi apapun yang tidak digunakan</i>.
 \n
-\nRethink menggunakan layanan aksesibilitas untuk mengawasi aplikasi yang sedang digunakan (latar depan) dan aplikasi yang tidak digunakan (latar belakang).</string>
+\n白い熊 考直 menggunakan layanan aksesibilitas untuk mengawasi aplikasi yang sedang digunakan (latar depan) dan aplikasi yang tidak digunakan (latar belakang).</string>
     <string name="firewall_act_universal_tab">universal</string>
     <string name="cd_dialog_error_invalid_domain">URL atau nama domain tidak valid</string>
     <string name="settings_socks5_dialog_hint_username">Nama pengguna (tidak wajib)</string>
@@ -395,13 +393,13 @@
 \nNomor port: %2$s</string>
     <string name="dc_block_heading">aturan-aturan</string>
     <string name="settings_http_proxy_error_text4">Koneksi ke host gagal. Coba lagi.</string>
-    <string name="new_app_notification_content">Rethink memblokir aplikasi yang baru dipasang, %1$s.</string>
+    <string name="new_app_notification_content">白い熊 考直 memblokir aplikasi yang baru dipasang, %1$s.</string>
     <string name="firewall_status_whitelisted">Aturan firewall universal dilewati (di-bypass)</string>
     <string name="vpn_profile_error">Tidak dapat membuka konfigurasi profil VPN.</string>
     <string name="settings_socks_forwarding_desc">Meneruskan ke %1$s:%2$s, %3$s</string>
     <string name="refresh_complete"><!-- use dc_refresh_toast -->Sinkronisasi ulang daftar aplikasi selesai.</string>
     <string name="app_mode_dns_firewall">DNS dan Firewall (bawaan)</string>
-    <string name="settings_socks5_vpn_disabled_error">Mulai Rethink untuk melanjutkan.</string>
+    <string name="settings_socks5_vpn_disabled_error">Mulai 白い熊 考直 untuk melanjutkan.</string>
     <string name="settings_http_proxy_desc">Meneruskan ke %1$s</string>
     <string name="about_connect">kontak</string>
     <string name="cd_dns_proxy_mode_internal">Dalam</string>
@@ -415,7 +413,7 @@
     <string name="ada_noapp_dialog_title">Tidak ada aplikasi yang dimaksud</string>
     <string name="ci_dialog_title">Menambah Aturan IP / Port</string>
     <string name="local_blocklist_redownload_desc">Daftar blokir di perangkat sudah dalam versi terbaru v%1$s.</string>
-    <string name="accessibility_service_description">Rethink menggunakan layanan aksesibilitas untuk mendeteksi dan melakukan firewall pada aplikasi latar belakang. Rethink tidak mengumpulkan atau menjual informasi apapun.</string>
+    <string name="accessibility_service_description">白い熊 考直 menggunakan layanan aksesibilitas untuk mendeteksi dan melakukan firewall pada aplikasi latar belakang. 白い熊 考直 tidak mengumpulkan atau menjual informasi apapun.</string>
     <string name="orbot_socks5">Proksi Khusus TCP</string>
     <string name="settings_theme_dialog_themes_1">Diatur Sistem</string>
     <string name="settings_notification_heading">Pilih notifikasi</string>
@@ -445,13 +443,13 @@
     <string name="orbot_bs_status_2">Proksi HTTP telah diatur.</string>
     <string name="status_protected_with_proxy_private_dns">terproteksi dengan proksi &amp; dns pribadi</string>
     <string name="fapps_filter_clear_btn">Kosongkan</string>
-    <string name="dc_rethink_dns">DNS Rethink</string>
+    <string name="dc_rethink_dns">DNS 白い熊 考直</string>
     <string name="brbs_backup_dialog_failure_message">Tidak dapat mencadangkan. Coba lagi\?</string>
     <string name="rt_re_download">Unduh ulang daftar-daftar blokir</string>
     <string name="download_update_dialog_message_success">Daftar blokir berhasil terunduh.</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink menggunakan layanan aksesibilitas untuk mengawasi aplikasi yang sedang digunakan (latar depan) dan aplikasi yang tidak digunakan (latar belakang)
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 menggunakan layanan aksesibilitas untuk mengawasi aplikasi yang sedang digunakan (latar depan) dan aplikasi yang tidak digunakan (latar belakang)
 \n
-\nRethink tidak mengumpulkan data apa pun dan tidak memata-matai Anda dengan cara apa pun.</string>
+\n白い熊 考直 tidak mengumpulkan data apa pun dan tidak memata-matai Anda dengan cara apa pun.</string>
     <string name="doh_custom_url_remove_success">Titik-akhir telah terhapus.</string>
     <string name="settings_orbot_notification_action">Buka Orbot</string>
     <string name="settings_socks5_dialog_hint_password">Kata sandi (tidak wajib)</string>
@@ -489,7 +487,7 @@
     <string name="settings_orbot_disabled_error">Matikan proksi HTTP(S) dan/atau proksi SOCKS5 untuk melanjutkan penyetelan Tor-sebagai-proksi.</string>
     <string name="dns_btm_latency_ms">%1$sdetik</string>
     <string name="orbot_install_dialog_message">Orbot membawa fitur-fitur dan fungsionalitas Tor ke Android.</string>
-    <string name="notif_channel_desc_vpn_notification">Informasikan ketika Rethink sedang aktif dan bekerja di latar belakang</string>
+    <string name="notif_channel_desc_vpn_notification">Informasikan ketika 白い熊 考直 sedang aktif dan bekerja di latar belakang</string>
     <string name="settings_orbot_notification_content">Gagal menjalankan Tor-sebagai-Proksi. Buka aplikasi Orbot untuk menjalankannya secara manual.</string>
     <string name="ada_noapp_dialog_message">Informasi aplikasi tidak ada. Mungkin, aplikasi sudah di hapus \'uninstall\' \?</string>
     <string name="ci_no_rules_text">Tidak ada aturan IP atau Port.</string>
@@ -529,7 +527,7 @@
     <string name="firewall_rule_univ_block_metered">Terukur (Universal)</string>
     <string name="fapps_unmetered_block_dialog_title">Blokir jaringan yang tidak terukur</string>
     <string name="firewall_rule_block_metered">Terukur (Data Selular)</string>
-    <string name="settings_notification_dialog_option_1">\nJeda / Hentikan (bawaan):\nMenampilkan dua tombol, untuk menjeda dan menghentikan Rethink dengan cepat.</string>
+    <string name="settings_notification_dialog_option_1">\nJeda / Hentikan (bawaan):\nMenampilkan dua tombol, untuk menjeda dan menghentikan 白い熊 考直 dengan cepat.</string>
     <string name="hsf_proxy_chip_removed_toast">Proksi dihapus</string>
     <string name="firewall_rule_global_lockdown">Penguncian penuh</string>
     <string name="cd_dns_crypt_dialog_title">Tambahkan Penyelesai (Resolver) atau Jembatan-Penghubung (Relay) DNSCrypt</string>
@@ -555,7 +553,7 @@
     <string name="firewall_rule_block_app_univ_mobile_desc"><![CDATA[Aturan firewall universal yang ditetapkan pengguna telah memblokir <i>app</i> ini saat mencoba terhubung ke jaringan <i>Metered</i> (Mobile).<br/><br/> Untuk mengubahnya, buka tab <i>Universal</i>.]]></string>
     <string name="hsf_exclude_error">Tidak dapat dikecualikan dalam mode penguncian penuh VPN</string>
     <string name="firewall_rule_block_app_mobile_desc"><![CDATA[Aturan firewall yang ditetapkan pengguna telah memblokir <i>aplikasi</i> ini saat mencoba terhubung ke jaringan <i>Metered</i>.<br/><br/> Untuk mengubahnya, buka tab <i>Semua Aplikasi</i>.]]></string>
-    <string name="slide_1_desc">Rethink adalah perangkat lunak sumber terbuka yang didukung oleh program Mozilla Builders MVP, FOSS United Foundation.</string>
+    <string name="slide_1_desc">白い熊 考直 adalah perangkat lunak sumber terbuka yang didukung oleh program Mozilla Builders MVP, FOSS United Foundation.</string>
     <string name="bsct_block">Blokir, pintaskan, kecualikan, isolasi <u>aplikasi ini</u></string>
     <string name="fapps_info_dialog_message">Blokir aplikasi agar tidak terhubung ke internet. Membatasi akses ke internet membantu menghindari penggunaan data yang tidak perlu dan juga membantu menghemat baterai.</string>
     <string name="firewall_rule_block_app_unmetered_desc"><![CDATA[Aturan firewall yang ditetapkan pengguna memblokir <i>aplikasi</i> ini saat mencoba terhubung pada jaringan <i>Tidak Terukur</i>.<br/><br/> Untuk mengubahnya, buka tab <i>Semua Aplikasi</i>.]]></string>
@@ -584,15 +582,15 @@
     <string name="brbs_restore_dialog_positive">Pulihkan</string>
     <string name="brbs_restore_dialog_title">Pulihkan cadangan</string>
     <string name="brbs_restore_dialog_failure_title">Pemulihan gagal</string>
-    <string name="private_dns_dialog_desc">Pengaturan DNS Rethink ditimpa oleh DNS Pribadi Android.
+    <string name="private_dns_dialog_desc">Pengaturan DNS 白い熊 考直 ditimpa oleh DNS Pribadi Android.
 \n
-\nUntuk menggunakan DNS Rethink, buka Pengaturan Android dan matikan \"DNS Pribadi\".</string>
+\nUntuk menggunakan DNS 白い熊 考直, buka Pengaturan Android dan matikan \"DNS Pribadi\".</string>
     <string name="untracked">tidak terlacak</string>
     <string name="private_dns_dialog_heading">Matikan DNS Pribadi</string>
     <string name="private_dns_dialog_positive">Masuk ke Pengaturan</string>
     <string name="universal_firewall_explanation">Terapkan aturan firewall berdasarkan aktivitas perangkat, seperti pemblokiran saat perangkat terkunci atau aplikasi tertentu yang tidak digunakan.</string>
     <string name="notification_action_resume_vpn">LANJUTKAN</string>
-    <string name="always_on_dialog_lockdown_stop_message">Rethink menjalankan VPN pada mode <i>Penguncian penuh</i>. Menghentikannya akan mengakibatkan hilangnya konektivitas Internet pada profil pengguna ini. Apakah anda masih ingin melanjutkan\?</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直 menjalankan VPN pada mode <i>Penguncian penuh</i>. Menghentikannya akan mengakibatkan hilangnya konektivitas Internet pada profil pengguna ini. Apakah anda masih ingin melanjutkan\?</string>
     <string name="bsct_conn_rule_explanation"><u>#1</u>: Memblokir aplikasi agar tidak terhubung ke Internet. \n <u>#2</u>: Memblokir aplikasi apa pun agar tidak terhubung ke IP tertentu. \n <u>#3</u>: Memblokir semua sambungan ketika perangkat terkunci (Universal Firewall). \n <u>#4</u>: Memblokir aplikasi apa pun yang tidak digunakan (Universal Firewall). \n <u>#5</u>: Memblokir sambungan ketika sumber aplikasi tidak diketahui (Universal Firewall). \n <u>#6</u>: Memblokir semua lalu lintas UDP kecuali DNS (Universal Firewall). \n <u>#7</u>: Memblokir sambungan ketika DNS dilewati (Universal Firewall).</string>
     <string name="dns_query_clear_logs_message">Ini menghapus log DNS di perangkat. Operasi ini tidak dapat dibatalkan. Apakah anda ingin melanjutkan\?</string>
     <string name="about_app_translate">Terjemahkan</string>
@@ -622,7 +620,7 @@
     <string name="update_complete_action_snack">MULAI ULANG</string>
     <string name="dns_proxy_connection_failure">Gagal terhubung ke server Proksi DNS.</string>
     <string name="notif_channel_desc_proxy_failure">Peringatan error dan anomali pada Proksi</string>
-    <string name="notif_channel_desc_vpn_failure">Beritahu saat Rethink dihentikan oleh Android atau aplikasi VPN lain</string>
+    <string name="notif_channel_desc_vpn_failure">Beritahu saat 白い熊 考直 dihentikan oleh Android atau aplikasi VPN lain</string>
     <string name="notif_channel_desc_firewall_alerts">Peringatan error dan anomali pada Firewall</string>
     <string name="notif_channed_desc_download">Peringatan pada proses unduh untuk daftar blokir perangkat</string>
     <string name="rt_filter_parent_selected">Dipilih</string>
@@ -643,22 +641,22 @@
     <string name="settings_lock_down_mode_desc">Opsi tertentu dinonaktifkan saat VPN dalam mode kuncian. <u>Lihat setelan VPN</u>.</string>
     <string name="orbot_bs_status_4">Menyetel Tor-sebagai-Proksi (Orbot) sekali klik.</string>
     <string name="settings_http_proxy_dialog_title">URL Server Khusus</string>
-    <string name="settings_network_all_networks_desc">Bila diaktifkan, Rethink menggunakan semua jaringan yang tersedia untuk terhubung ke Internet. Jika tidak, aplikasi RethinkDNS akan menggunakan jaringan mana pun yang dianggap <i>aktif</i> oleh Android.</string>
-    <string name="hsf_vpn_dialog_message">Rethink memerlukan izin untuk menyiapkan VPN lokal guna mengenkripsi permintaan DNS perangkat, mengimplementasikan monitor jaringan, dan menegakkan aturan firewall.
+    <string name="settings_network_all_networks_desc">Bila diaktifkan, 白い熊 考直 menggunakan semua jaringan yang tersedia untuk terhubung ke Internet. Jika tidak, aplikasi 白い熊 考直 akan menggunakan jaringan mana pun yang dianggap <i>aktif</i> oleh Android.</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直 memerlukan izin untuk menyiapkan VPN lokal guna mengenkripsi permintaan DNS perangkat, mengimplementasikan monitor jaringan, dan menegakkan aturan firewall.
 \n
-\nRethink tidak mengumpulkan informasi apa pun atau memata-matai Anda dengan cara apa pun.</string>
+\n白い熊 考直 tidak mengumpulkan informasi apa pun atau memata-matai Anda dengan cara apa pun.</string>
     <string name="about_mail_bugreport_subject">[Rethink]: Laporan bug</string>
     <string name="settings_ptrans_heading">Paksa keluar IPv4</string>
     <string name="fapps_info_dialog_positive_btn">Oke</string>
-    <string name="orbot_explanation">Orbot adalah aplikasi proksi gratis yang memungkinkan sambungan internet pada aplikasi menjadi tempat yang<u>lebih aman</u>. \nOrbot menggunakan<u>Tor</u> untuk mengenkripsi lalu lintas internet anda, juga membantu <u>melewati penyensoran</u>dan sebagai bentuk pertahanan diri dari berbagai macam<u>pengawasan jaringan</u> yang bisa membahayakan kebebasan pribadi dan privasi. \n<u>Proksi TCP</u>: Rethink hanya meneruskan koneksi TCP untuk aplikasi <i>yang ada</i> menuju Orbot. \n<u>Proksi HTTP</u>: Rethink<i>membangun</i> terowongan HTTP CONNECT ke Orbot dan hanya meneruskan sambungan TCP untuk aplikasi <i>yang ada</i>.</string>
+    <string name="orbot_explanation">Orbot adalah aplikasi proksi gratis yang memungkinkan sambungan internet pada aplikasi menjadi tempat yang<u>lebih aman</u>. \nOrbot menggunakan<u>Tor</u> untuk mengenkripsi lalu lintas internet anda, juga membantu <u>melewati penyensoran</u>dan sebagai bentuk pertahanan diri dari berbagai macam<u>pengawasan jaringan</u> yang bisa membahayakan kebebasan pribadi dan privasi. \n<u>Proksi TCP</u>: 白い熊 考直 hanya meneruskan koneksi TCP untuk aplikasi <i>yang ada</i> menuju Orbot. \n<u>Proksi HTTP</u>: 白い熊 考直<i>membangun</i> terowongan HTTP CONNECT ke Orbot dan hanya meneruskan sambungan TCP untuk aplikasi <i>yang ada</i>.</string>
     <string name="settings_autostart_bootup_heading">Mulai otomatis saat device dinyalakan (eksperimental)</string>
     <string name="settings_app_list_default_app">Tidak ada</string>
-    <string name="settings_autostart_bootup_desc">Pada saat perangkat dihidupkan, Rethink akan memulai sendiri jika aplikasi ini sebelumnya tidak dimatikan.</string>
+    <string name="settings_autostart_bootup_desc">Pada saat perangkat dihidupkan, 白い熊 考直 akan memulai sendiri jika aplikasi ini sebelumnya tidak dimatikan.</string>
     <string name="rbl_parental_control" description="The text appears as part of the blocklist setup screen as categories or headlines">Kontrol Orang Tua</string>
     <string name="hsf_vpn_prepare_failure">Antara perizinan VPN menghilang, atau aplikasi lain berjalan pada mode VPN yang Selalu-Menyala.</string>
     <string name="settings_notification_dialog_option_2">\nDNS / DNS + Firewall:\nMenampilkan dua tombol untuk beralih secara cepat antara mode DNS hemat baterai dan mode DNS + Firewall biasa.</string>
     <string name="ada_noapp_dialog_positive">Oke</string>
-    <string name="settings_allow_bypass_desc">Izinkan aplikasi yang meminta untuk mengakses semua jaringan yang tersedia. Aplikasi ini dapat mem-bypass terowongan VPN Rethink sesuai permintaan. Beberapa aplikasi konferensi audio/video seperti Zoom dan Meet mungkin memerlukan ini agar berfungsi dengan baik.</string>
+    <string name="settings_allow_bypass_desc">Izinkan aplikasi yang meminta untuk mengakses semua jaringan yang tersedia. Aplikasi ini dapat mem-bypass terowongan VPN 白い熊 考直 sesuai permintaan. Beberapa aplikasi konferensi audio/video seperti Zoom dan Meet mungkin memerlukan ini agar berfungsi dengan baik.</string>
     <string name="settings_https_desc">Meneruskan koneksi ke titik akhir KONEKSI HTTP(S) .</string>
     <string name="orbot_none_desc">Tidak satu pun dari yang di atas.</string>
     <string name="show_logs_disabled_dns_message">Pencatatan permintaan DNS telah dinonaktifkan. Untuk mengaktifkan kembali, pergi ke<i>Pengaturan</i> dan nyalakan <i>Aktifkan logging di perangkat.</i></string>
@@ -686,7 +684,7 @@
     <string name="about_bug_no_log_dialog_title">Laporan bug</string>
     <string name="about_bravedns_whoarewe">Rethink adalah proyek sumber terbuka dan gratis, dipimpin oleh mantan insinyur dari Amazon, IBM, dan Permainan Ilmiah.</string>
     <string name="fapps_firewall_filter_hint">Menampilkan semua aplikasi</string>
-    <string name="accessibility_notification_content">layanan aksesibilitas Rethink telah berhenti atau macet. Tidak lagi memblokir aplikasi latar belakang. Ketuk untuk mengaktifkan kembali.</string>
+    <string name="accessibility_notification_content">layanan aksesibilitas 白い熊 考直 telah berhenti atau macet. Tidak lagi memblokir aplikasi latar belakang. Ketuk untuk mengaktifkan kembali.</string>
     <string name="firewall_rule_block_dns_bypass_desc"><![CDATA[Koneksi ini diblokir karena <i>source app</i> melewati DNS yang dipilih pengguna.<br/><br/> Untuk mengubah perilaku ini, buka tab Universal.]]></string>
     <string name="cd_dialog_desc">URL khusus atau sebuah nama domain dengan opsi wildcard. Misalnya, *.test.com, test.com/test</string>
     <string name="cd_dialog_edittext_hint">Memasukkan %1$s</string>
@@ -726,7 +724,7 @@
     <string name="firewall_rule_foreground">Aplikasi yang tidak digunakan</string>
     <string name="firewall_rule_exempt_app_bypass_univ_desc"><![CDATA[Koneksi ini diizinkan karena <i>aplikasi sumber</i> telah diatur untuk aturan firewall <i>bypass universal</i>.<br/><br/> Untuk mengubah pengaturan, buka layar <i>Firewall Khusus Aplikasi</i>.]]></string>
     <string name="firewall_rule_global_lockdown_desc"><![CDATA[Koneksi ini diblokir karena penguncian universal telah diaktifkan.<br/><br/> Untuk mengubahnya, buka tab <i>Universal</i>.]]></string>
-    <string name="accessibility_failure_toast">Layanan aksesibilitas Rethink telah berhenti atau crash. Tidak lagi memblokir aplikasi di latar belakang.</string>
+    <string name="accessibility_failure_toast">Layanan aksesibilitas 白い熊 考直 telah berhenti atau crash. Tidak lagi memblokir aplikasi di latar belakang.</string>
     <string name="firewall_rule_foreground_desc"><![CDATA[Koneksi ini diblokir oleh firewall karena aplikasi sumber <i>tidak berada di latar depan</i>.<br/><br/> Untuk mengubah perilaku ini, buka tab <i>Universal</i>.]]></string>
     <string name="firewall_rule_exempt_dns_proxied_desc"><![CDATA[Koneksi DNS ini telah diproksi dan diteruskan ke titik akhir DNS yang dipilih pengguna.<br/><br/> Untuk mengubah atau menonaktifkan <i>Mencegah kebocoran DNS</i> dari layar <i>Konfigurasi</i> DNS.]]></string>
     <string name="firewall_rule_exempt_orbot_setup_desc"><![CDATA[Koneksi ini diizinkan karena pengaturan <i>one-click Tor-as-a-proxy</i> melalui Orbot sedang berlangsung.]]></string>
@@ -803,7 +801,7 @@
     <string name="settings_biometeric_heading">Aktifkan penguncian aplikasi</string>
     <string name="hs_biometeric_failed">Otentikasi biometrik gagal</string>
     <string name="hs_biometeric_error">Kesalahan otentikasi biometrik</string>
-    <string name="hs_biometeric_title">Buka Rethink</string>
+    <string name="hs_biometeric_title">Buka 白い熊 考直</string>
     <string name="fapps_info_unmetered_msg">Izinkan / Blokir pada jaringan yang tidak terukur (WiFi).</string>
     <string name="fapps_isolate_block_dialog_title">Mengisolasi aplikasi</string>
     <string name="ci_trust_initial">T</string>
@@ -818,7 +816,7 @@
     <string name="settings_locale_dialog_title">Pilih bahasa pilihan Anda</string>
     <string name="settings_locale_dialog_neutral">Bantu kami terjemahkan aplikasi ini</string>
     <string name="hs_biometeric_feature_not_supported">Otentikasi biometrik tidak didukung atau dinonaktifkan pada perangkat ini</string>
-    <string name="hs_biometeric_desc">Gunakan otentikasi biometrik untuk membuka kunci Rethink</string>
+    <string name="hs_biometeric_desc">Gunakan otentikasi biometrik untuk membuka kunci 白い熊 考直</string>
     <string name="fapps_info_metered_msg">Izinkan / Blokir pada jaringan terukur (Data Seluler).</string>
     <string name="fapps_bypass_block_dialog_message">Lewati (Bypass) aturan firewall universal untuk aplikasi yang <i>terdaftar</i> \?</string>
     <string name="fapps_info_exclude_msg">Kecualikan dari keduanya, DNS + Firewall.</string>
@@ -831,7 +829,7 @@
     <string name="fapps_unblock_dialog_message">Izinkan koneksi untuk aplikasi yang <i>terdaftar</i>\?</string>
     <string name="fapps_exclude_block_dialog_message">Kecualikan <i>aplikasi</i> yang terdaftar dari DNS dan Firewall\?</string>
     <string name="fapps_isolate_block_dialog_message">Mengisolasi <i>aplikasi</i> yang terdaftar\?</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app">Mulai Rethink untuk melanjutkan</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app">Mulai 白い熊 考直 untuk melanjutkan</string>
     <string name="ssv_see_more">Tampilkan Semua</string>
     <string name="fapps_exclude_block_dialog_title">Aplikasi yang dikecualikan</string>
     <string name="fapps_bypass_block_dialog_title">Lewati aplikasi</string>
@@ -895,9 +893,9 @@
     <string name="lbl_maybe_blocked" translatable="true">Mungkin Diblokir</string>
     <string name="lbl_network" translatable="true">jaringan</string>
     <string name="settings_allow_lan_heading" translatable="true">Jangan merutekan IP Pribadi (eksperimental)</string>
-    <string name="settings_allow_lan_desc" translatable="true">Kecualikan rute LAN, loopback, multicast, dan link-lokal dari terowongan VPN Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Kecualikan rute LAN, loopback, multicast, dan link-lokal dari terowongan VPN 白い熊 考直.</string>
     <string name="fapps_bypass_dns_firewall_dialog_message" translatable="true">Abaikan DNS &amp; aturan firewall untuk aplikasi <i>tercantum</i>\?</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s bekerja dengan DNS Rethink saja</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s bekerja dengan DNS 白い熊 考直 saja</string>
     <string name="firewall_rule_bypass_dns_firewall_desc" translatable="true"><![CDATA[Koneksi ini diizinkan karena <i>source app</i> telah diatur untuk <i>melewati DNS dan firewall</i>.<br/><br/> Untuk mengubah pengaturan, buka layar <i>App-specific Firewall</i>.]]></string>
     <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[Koneksi ini diizinkan karena <i>domain</i> ditetapkan sebagai tepercaya dalam aturan domain Universal.<br/><br/> Untuk mengubah perilaku ini, buka tab <i>Konfigurasi DNS</i>.]]></string>
     <string name="firewall_rule_domain_blocked_univ_desc" translatable="true"><![CDATA[Koneksi ini diblokir karena <i>domain</i> ditetapkan sebagai diblokir dalam aturan domain Universal.<br/><br/> Untuk mengubah perilaku ini, buka tab <i>Konfigurasi DNS</i>.]]></string>
@@ -1036,7 +1034,7 @@
     <string name="failed_using_default" translatable="true">Gagal: menggunakan DNS cadangan</string>
     <string name="orbot_no_app_toast" translatable="true">Tambahkan setidaknya satu aplikasi untuk mengaktifkan Orbot</string>
     <string name="settings_rinr_heading" translatable="true">Putar Balik (eksperimental)</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Rutekan Lalu lintas Rethink sendiri, seperti unduhan daftar blokir, pemeriksaan konektivitas, koneksi DNS, kembali ke tunnel.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Rutekan Lalu lintas 白い熊 考直 sendiri, seperti unduhan daftar blokir, pemeriksaan konektivitas, koneksi DNS, kembali ke tunnel.</string>
     <string name="cd_dialog_edit_title" translatable="true">Edit aturan domain</string>
     <string name="cd_toast_edit" translatable="true">Disunting</string>
     <string name="settings_rinr_desc_enabled" translatable="true">Rutekan lalu lintas mandiri dari rethink melalui terowongan. Kecuali Anda tahu apa yang Anda lakukan, matikan.</string>
@@ -1071,13 +1069,13 @@
     <string name="battery_optimization_dialog_heading" translatable="true">Matikan %1$s</string>
     <string name="lbl_unselected" translatable="true">Tidak dipilih</string>
     <string name="lbl_battery_optimization" translatable="true">Optimalisasi baterai</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> dapat mengakibatkan hilangnya sambungan. Ubah pengaturan untuk membiarkan Rethink menggunakan data dan sumber daya lain saat berada di latar belakang.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> dapat mengakibatkan hilangnya sambungan. Ubah pengaturan untuk membiarkan 白い熊 考直 menggunakan data dan sumber daya lain saat berada di latar belakang.</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Aplikasi penerus putar-balik proksi</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Ketika dimatikan, kecualikan aplikasi penerus proksi (SOCKS5, HTTP, DNS) dari terowongan VPN Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Ketika dimatikan, kecualikan aplikasi penerus proksi (SOCKS5, HTTP, DNS) dari terowongan VPN 白い熊 考直.</string>
     <string name="exclude_apps_from_proxy">Lewati aplikasi dari semua proksi</string>
     <string name="exclude_apps_from_proxy_failure_toast">Aplikasi ini melewati proksi</string>
     <string name="lbl_notification" translatable="true">pemberitahuan</string>
-    <string name="memory_notification_text">Rethink mengalami memori rendah. Tindakan sistem mungkin terbatas.</string>
+    <string name="memory_notification_text">白い熊 考直 mengalami memori rendah. Tindakan sistem mungkin terbatas.</string>
     <string name="lbl_test" translatable="true">uji coba</string>
     <string name="lbl_protos" translatable="true">proto</string>
     <string name="lbl_experimental" translatable="true">(pengujian)</string>
@@ -1100,7 +1098,7 @@
     <string name="settings_biometric_dialog_option_1" translatable="true">Segera</string>
     <string name="settings_biometric_dialog_option_2" translatable="true">Setelah 5 menit</string>
     <string name="settings_biometric_dialog_option_3" translatable="true">Setelah 15 menit</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Anda telah menggunakan Rethink selama <b>%1$s hari</b>, yang berarti Anda harus mengeluarkan biaya penggunaan sebesar <b>$%2$s</b>. Apakah Anda akan mempertimbangkan untuk mensponsori untuk mempertahankan pengembangannya?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Anda telah menggunakan 白い熊 考直 selama <b>%1$s hari</b>, yang berarti Anda harus mengeluarkan biaya penggunaan sebesar <b>$%2$s</b>. Apakah Anda akan mempertimbangkan untuk mensponsori untuk mempertahankan pengembangannya?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">Gunakan DNS Sistem untuk domain yang tidak didelegasikan</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true">Gunakan DNS Sistem untuk domain yang tidak didelegasikan seperti <i>.lan</i>, <i>.internal</i>, dll.</string>
     <string name="dc_filtering_heading" translatable="true">penyaringan</string>
@@ -1143,18 +1141,18 @@
     <string name="blocklist_not_available_toast" translatable="true">Untuk memperbarui daftar blokir, unduh versi aplikasi terbaru.</string>
     <string name="adv_set_dial_timeout_desc" translatable="true">Tutup soket TCP dan UDP yang tidak aktif setelah durasi ini.</string>
     <string name="about_terms_of_service" translatable="true">Ketentuan Layanan</string>
-    <string name="bypasses_network_restrictions" translatable="true">Pemeriksaan jangkauan melewati semua batasan jaringan. Dalam mode <i>Otomatis</i>, Rethink secara acak menggunakan IP dan nama host yang terhubung sebelumnya.</string>
+    <string name="bypasses_network_restrictions" translatable="true">Pemeriksaan jangkauan melewati semua batasan jaringan. Dalam mode <i>Otomatis</i>, 白い熊 考直 secara acak menggunakan IP dan nama host yang terhubung sebelumnya.</string>
     <string name="most_contacted_asn" translatable="true">penyedia yang paling banyak dihubungi</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Masukkan nama paket (dipisahkan koma) yang diizinkan untuk memulai atau menghentikan Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">Masukkan nama paket (dipisahkan koma) yang diizinkan untuk memulai atau menghentikan 白い熊 考直.</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">Instruksi:\nTambahan yang diperlukan dalam siaran:\n• Kunci: pengirim\n• Nilai: Nama paket aplikasi pemanggil\n\nContoh: kunci:pengirim nilai:com.termux\n\nTindakan yang didukung:\n• Mulai VPN – com.celzero.bravedns.intent.action.VPN_START\n• Hentikan VPN – com.celzero.bravedns.intent.action.VPN_STOP</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">Masukkan nama paket (contoh: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_desc" translatable="true">Mengambil detail penyedia layanan untuk situs web dari <i>rethinkdns.com</i>, didukung oleh <i>%1$s</i></string>
     <string name="adv_taster_title" translatable="true">Otomatisasi</string>
-    <string name="adv_taster_desc" translatable="true">Konfigurasikan aplikasi yang dapat memulai atau menghentikan Rethink.</string>
+    <string name="adv_taster_desc" translatable="true">Konfigurasikan aplikasi yang dapat memulai atau menghentikan 白い熊 考直.</string>
     <string name="load_more" translatable="true">Muat semua</string>
     <string name="close_conns_dialog_desc" translatable="true">Tutup semua koneksi untuk %1$s?</string>
     <string name="local_blocklist_delete_desc" translatable="true">Hapus daftar blokir pada perangkat?</string>
-    <string name="fail_open_network_desc" translatable="true">Ketika diaktifkan, Rethink akan menghentikan semua data saat tidak ada konektivitas yang tersedia, seperti pada <i>Mode Pesawat</i>.</string>
+    <string name="fail_open_network_desc" translatable="true">Ketika diaktifkan, 白い熊 考直 akan menghentikan semua data saat tidak ada konektivitas yang tersedia, seperti pada <i>Mode Pesawat</i>.</string>
     <string name="close_all" translatable="true">Tutup semua</string>
     <string name="smart_dns" translatable="true">DNS Pintar</string>
     <string name="processing_dialog_title" translatable="true">Memproses</string>
@@ -1209,7 +1207,7 @@
     <string name="vpn_policy_fixed_desc" translatable="true">Menanggapi perubahan jaringan dengan minimal.</string>
     <string name="wg_setting_ssid_title" translatable="true">Hanya Wi-Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Aktifkan VPN WireGuard ini hanya saat terhubung ke Wi-Fi atau identifikasi Wi-Fi yang ditentukan (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink memerlukan izin lokasi untuk mengakses identifikasi Wi-Fi (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直 memerlukan izin lokasi untuk mengakses identifikasi Wi-Fi (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">Untuk mengakses identifikasi Wi-Fi (%1$s), aktifkan Layanan Lokasi.</string>
     <string name="ssid_location_error" translatable="true">Aktifkan Layanan Lokasi</string>
     <string name="ssid_permission_error_action" translatable="true">Berikan izin</string>
@@ -1228,12 +1226,12 @@
     <string name="settings_locale_dialog_default" translatable="true">Default sistem</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">Saat diaktifkan, izinkan koneksi masuk yang diinisialisasi oleh mitra WireGuard.</string>
-    <string name="lockdown_download_message" translatable="true"><i>&gt;Manajer Unduhan</i> bawaan Android mungkin gagal karena VPN berada dalam mode <i>Lockdown</i>. Apakah Anda ingin mengaktifkan pengunduh Rethink sebagai gantinya?</string>
+    <string name="lockdown_download_message" translatable="true"><i>&gt;Manajer Unduhan</i> bawaan Android mungkin gagal karena VPN berada dalam mode <i>Lockdown</i>. Apakah Anda ingin mengaktifkan pengunduh 白い熊 考直 sebagai gantinya?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">Aktifkan Pengunduh</string>
     <string name="settings_jumbo_packets" translatable="true">Peningkat bandwidth</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Menggunakan <i>paket jumbo</i> dalam terowongan VPN Rethink.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">Menggunakan <i>paket jumbo</i> dalam terowongan VPN 白い熊 考直.</string>
     <string name="settings_tunnel_metered" translatable="true">Selalu diukur</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Atur tunnel VPN Mark Rethink sebagai tunnel bermeteran untuk menginstruksikan aplikasi agar menggunakan data lebih sedikit. Perhatian: Hal ini dapat menyebabkan aplikasi menghentikan sementara unggahan dan unduhan besar, seperti cadangan data.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Atur tunnel VPN Mark 白い熊 考直 sebagai tunnel bermeteran untuk menginstruksikan aplikasi agar menggunakan data lebih sedikit. Perhatian: Hal ini dapat menyebabkan aplikasi menghentikan sementara unggahan dan unduhan besar, seperti cadangan data.</string>
     <string name="stability_program_toast" translatable="true">Daftar ke <i>program stabilitas</i> untuk <i>fitur eksperimental</i>.</string>
     <string name="search_event_logs" translatable="true"><font size="12">Cari acara, pesan</font></string>
     <string name="bug_report_files_desc" translatable="true">Pilih file yang ingin Anda sertakan dalam email laporan bug</string>

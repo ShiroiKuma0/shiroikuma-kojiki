@@ -3,7 +3,6 @@
     <string name="txt_home">Hjem</string>
     <string name="block">blokker</string>
     <string name="slide_2_title">Velkommen</string>
-    <string name="app_name">RethinkDNS</string>
     <string name="title_settings">Innstillinger</string>
     <string name="title_about">Om</string>
     <string name="pause_title_desc">tar en lur …</string>
@@ -26,17 +25,17 @@
     <string name="notification_action_dns_mode">DNS</string>
     <string name="notification_action_resume_vpn">Fortsett</string>
     <string name="dns_firewall_mode_info_explanation_new">Omgå Internett-sensur også</string>
-    <string name="accessibility_service_description">Rethink bruker tilgjengelighetstjenesten for å oppdage og legge til brannmur for bakgrunnsprogrammer. Rethink hverken samler inn eller selger info.</string>
+    <string name="accessibility_service_description">白い熊 考直 bruker tilgjengelighetstjenesten for å oppdage og legge til brannmur for bakgrunnsprogrammer. 白い熊 考直 hverken samler inn eller selger info.</string>
     <string name="always_on_dialog_neutral">Innstillinger</string>
     <string name="orbot_status_arg_3">DNS og TCP</string>
     <string name="about_title_desc">Oppdag og blokker nettverkssikkerhetstrusler</string>
-    <string name="slide_2_desc">Rethink lar deg holde øye med din nettverksaktivitet, omgå sensur på Internett, og legge til brannmur for programmer.</string>
+    <string name="slide_2_desc">白い熊 考直 lar deg holde øye med din nettverksaktivitet, omgå sensur på Internett, og legge til brannmur for programmer.</string>
     <string name="slide_1_title">Fri programvare</string>
-    <string name="slide_1_desc">Rethink er fri programvare sponset av Mozilla Builders MVP.</string>
+    <string name="slide_1_desc">白い熊 考直 er fri programvare sponset av Mozilla Builders MVP.</string>
     <string name="rdns_plus">RDNS Plus</string>
-    <string name="dns_explanation_dns_connected">Tilkoblet til Rethink</string>
+    <string name="dns_explanation_dns_connected">Tilkoblet til 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected">Tilkoblet til brannmur</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Tilkoblet til Rethink og brannmur</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Tilkoblet til 白い熊 考直 og brannmur</string>
     <string name="notification_action_stop_vpn">Stopp</string>
     <string name="notification_action_dns_firewall_mode">DNS og brannmur</string>
     <string name="dns_mode_info_title">DNS</string>
@@ -85,7 +84,7 @@
     <string name="orbot_install_activity_error">Noe gikk galt. Prøv igjen senere.</string>
     <string name="settings_orbot_heading">Sett opp Orbot</string>
     <string name="settings_orbot_install_desc">Trykk her for å installere Orbot</string>
-    <string name="settings_socks5_vpn_disabled_error">Start Rethink for å fortsette.</string>
+    <string name="settings_socks5_vpn_disabled_error">Start 白い熊 考直 for å fortsette.</string>
     <string name="settings_orbot_notification_action">Åpne Orbot</string>
     <string name="settings_general_header">Generelt</string>
     <string name="settings_theme_heading">Utseende</string>
@@ -127,7 +126,7 @@
     <string name="hsf_blocklist_updating_text">Skrur på …</string>
     <string name="hsf_chip_appearance">Drakt: %1$s</string>
     <string name="dc_custom_dns_radio">Annen DNS</string>
-    <string name="dc_rethink_dns_radio">Rethink</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直</string>
     <string name="dc_entries">%1$s oppføringer 🔗</string>
     <string name="dc_dns_leaks_heading">Forhindre DNS-lekkasjer</string>
     <string name="about_join_telegram">Telegram</string>
@@ -253,7 +252,7 @@
     <string name="other_dns_list_tab3">DNS-mellomtjener</string>
     <string name="cd_remove_dialog_title">Slett domene\?</string>
     <string name="status_protected_with_private_dns">Beskyttet med privat DNS</string>
-    <string name="hsf_blocklist_chip_text_no_data">Skru på Rethink+</string>
+    <string name="hsf_blocklist_chip_text_no_data">Skru på 白い熊 考直+</string>
     <string name="dc_dns_website_heading">Vis nettsideikon i DNS-loggføring (eksperimentelt)</string>
     <string name="about_settings">System</string>
     <string name="settings_notification_dialog_title">Velg merknadshandling</string>
@@ -320,14 +319,14 @@
     <string name="build__flavor_website">website</string>
     <string name="orbot_socks5_desc">Videresender alle TCP-tilkoblinger til Orbot.</string>
     <string name="vpn_profile_error">Kunne ikke igangsette VPN-profil.</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Advarsel: Rethink har blitt avslått</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Advarsel: 白い熊 考直 har blitt avslått</string>
     <string name="dc_custom_block_heading">Tillat eller nekt individuelle domener</string>
     <string name="fapps_firewall_filter_desc_category">Viser <u>%1$s</u> %2$s programmer i kategorier: %3$s</string>
     <string name="orbot_toast_parameter">Tor-som-mellomtjener</string>
     <string name="cd_toast_deleted">Domene fjernet fra egendefinert liste</string>
     <string name="status_protected_with_tor_private_dns">Beskyttet med Tor og privat DNS</string>
     <string name="status_protected_with_proxy_private_dns">Beskyttet med mellomtjener og privat DNS</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">Privat DNS er påskrudd</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">Privat DNS er påskrudd</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Trykk for å endre beskyttelsesinstilling</string>
     <string name="status_no_internet">Ikke tilknyttet Internett</string>
     <string name="dns_crypt_url_remove_dialog_message">Slett DNSCrypt-utlederen fra lagret oppsett.</string>
@@ -396,7 +395,7 @@
     <string name="dc_local_block_enabled">Påskrudd</string>
     <string name="brbs_restore_dialog_failure_title">Gjenoppretting mislyktes</string>
     <string name="ada_app_unmetered">Fri bruk</string>
-    <string name="orbot_stop_dialog_dns_message">Rethink er satt opp til å videresende DNS-spørringer til Orbot. Endre som du vil.</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 er satt opp til å videresende DNS-spørringer til Orbot. Endre som du vil.</string>
     <string name="dns_query_clear_logs_message">Slett DNS-loggføring på enheten for godt\?</string>
     <string name="univ_firewall_rule_9">Blokker på kvotebasert (mobil-) nettverk</string>
     <string name="univ_accessibility_dialog_negative">Nekt</string>
@@ -412,15 +411,14 @@
     <string name="dns_btm_resolved_crypt">utledet <u>anonymt</u> %1$s av %2$s</string>
     <string name="radio_max_btn">🪂 Maks</string>
     <string name="brbs_restore_complete_toast">Gjenoppretting fullført. Starter programmet igjen …</string>
-    <string name="always_on_dialog">«Alltid påslått VPN» er påskrudd på enheten. Start Rethink ved å skru av «Alltid påslått VPN» i innstillingene.</string>
+    <string name="always_on_dialog">«Alltid påslått VPN» er påskrudd på enheten. Start 白い熊 考直 ved å skru av «Alltid påslått VPN» i innstillingene.</string>
     <string name="settings_allow_bypass_heading">Tillat omgåelse</string>
-    <string name="orbot_stop_dialog_message">Rethink har sluttet å videresende tilkoblinger til Orbot, men kanskje Orbot kjører i bakgrunnen.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 har sluttet å videresende tilkoblinger til Orbot, men kanskje Orbot kjører i bakgrunnen.</string>
     <string name="dns_btm_sheet_dialog_ips"> <Data> %1$s %2$s &lt;br/&gt;</Data> </string>
     <string name="fapps_unmetered_unblock_dialog_title">Tillat for fri bruk</string>
     <string name="rt_download_start">Laster ned svartelister …</string>
     <string name="brbs_backup_dialog_failure_message">Kunne ikke sikkerhetskopiere. Prøv igjen\?</string>
-    <string name="app_name_small_case">rethink</string>
-    <string name="always_on_dialog_stop_message">«Alltid påslått VPN» er påslått for Rethink. Vil du stoppe Rethink likevel\?</string>
+    <string name="always_on_dialog_stop_message">«Alltid påslått VPN» er påslått for 白い熊 考直. Vil du stoppe 白い熊 考直 likevel\?</string>
     <string name="settings_ip_network_desc">Velg mellom Internett-protokollversjoner.</string>
     <string name="settings_http_proxy_error_text4">Kunne ikke koble til vert. Prøv igjen.</string>
     <string name="fapps_firewall_filter_bypass_universal">Omgått</string>
@@ -478,14 +476,14 @@
     <string name="orbot_socks5">Kun-TCP-mellomtjener</string>
     <string name="dc_local_block_desc_1">Velg mellom 185+ svartelister. Klikk her for å laste ned eller sette opp svartelister.</string>
     <string name="firewall_rule_block_unmetered">Ikke kvotebasert (Wi-Fi)</string>
-    <string name="new_app_notification_content">Rethink blokkerte et nylig installert program, %1$s,</string>
+    <string name="new_app_notification_content">白い熊 考直 blokkerte et nylig installert program, %1$s,</string>
     <string name="cd_custom_dns_proxy_name">Proxy %1$s</string>
     <string name="alert_firewall_accessibility_exception">Klarte ikke å åpne tilgjengelighetsinnstillingene. Prøv igjen senere.</string>
     <string name="refresh_complete">Programliste resynkronisert.</string>
     <string name="network_dns">System-DNS</string>
     <string name="alert_permission_accessibility">Tilgang</string>
     <string name="about_bug_report_desc">Send krasjlogg på e-post</string>
-    <string name="new_app_bulk_notification_content">Rethink blokkerte %1$s nye programmer. Trykk for å vise eller endre.</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 blokkerte %1$s nye programmer. Trykk for å vise eller endre.</string>
     <string name="ctbs_app_other_apps">%1$s og %2$s program(mer) til</string>
     <string name="configure_dns_crypt">DNSCrypt: %1$s utledere</string>
     <string name="download_update_dialog_message_ok">Du har allerede nyeste versjon.</string>
