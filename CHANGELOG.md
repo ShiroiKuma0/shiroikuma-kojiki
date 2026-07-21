@@ -2,6 +2,19 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+3
+
+**Complete 白い熊 考直 rebrand across all user-visible text.**
+
+Every user-visible "Rethink" / "RethinkDNS" mention now reads **白い熊 考直** — triggered by the new-app-installed notification still announcing "Rethink blocked recently installed app".
+
+- **All locales, all strings** (42 `values*/strings.xml` files, 1794 replacements): new-app single + bulk notifications, low-memory and accessibility notifications, the biometric "Unlock" prompt, VPN / always-on / lockdown dialogs, onboarding slides, settings descriptions, and notification-channel descriptions. Replacements are case-sensitive, so URLs (`rethinkdns.com`, `rethink-app`) and resource ids stay untouched.
+- **49 locale `app_name` overrides dropped** — some locales still forced "rethink" or a translated app name; the untranslatable 白い熊 考直 defaults now apply everywhere.
+- **66 transliterated brand names replaced** in locale prose (Hindi रीथिंक, Urdu ریتھینک, Tamil மறுபரிசீலனை, Arabic إعادة التفكير, …).
+- A hardcoded brand string in `activity_checkout_proxy.xml` rebranded.
+
+Deliberately kept: the About screen's upstream credit (under "白い熊 考直 is based on Rethink."), the contributors list, resolver/service names that name the external resolver (RDNS, RDNS Plus, "RethinkDNS Basic"), and all internal identifiers (intent keys, DB tables, log tags, the pcap folder).
+
 ## 0.5.5y+2
 
 **Real fallback DNS so OS-excluded apps resolve on Huawei/EMUI.**
