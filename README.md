@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5y+3`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.5y+7`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -37,7 +37,7 @@ A **default “Custom” theme** with every colour user-configurable via full-AR
 ---
 
 ## 📦 Export / Import
-A category-based, all-JSON-in-a-ZIP Export/Import that **replaces** the stock backup/restore — ten independent categories (app settings, appearance + fonts, snoop tags, firewall apps/domains/IPs, WireGuard, blocklist selection, DNS endpoints, proxies). Portable by construction: per-app rules key on **package name**, not uid, so an export survives reinstalls and fresh devices; rules for not-yet-installed apps park and apply automatically on install.
+A category-based, all-JSON-in-a-ZIP Export/Import that **replaces** the stock backup/restore — ten independent categories (app settings, appearance + fonts, snoop tags, firewall apps/domains/IPs, WireGuard, blocklist selection, DNS endpoints, proxies). Portable by construction: per-app rules key on **package name**, not uid, so an export survives reinstalls and fresh devices; rules for not-yet-installed apps park and apply automatically on install. Lives at the top of the 白い熊 考直 UI page.
 
 ---
 
