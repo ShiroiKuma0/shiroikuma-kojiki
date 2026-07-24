@@ -103,10 +103,13 @@
                     android:layout_marginStart="56dp"
                     android:layout_marginEnd="16dp" />
 
+                <!-- Fork (白い熊 考直): Export/Import moved to the top of the 白い熊 考直 UI page;
+                     row kept (hidden) so the view ids/binding survive rebases. -->
                 <RelativeLayout
                     android:id="@+id/settings_activity_import_export_rl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:background="?android:attr/selectableItemBackground"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp">
@@ -158,9 +161,12 @@
                         android:src="@drawable/ic_arrow_down_small" />
                 </RelativeLayout>
 
+                <!-- Fork (白い熊 考直): the Export/Import row's divider, hidden with the row —
+                     else the card leads with a stray divider (fdroid) or doubles one (play). -->
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="56dp"

@@ -202,18 +202,24 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
 
         root.addView(divider(ctx, cfg, dp(1)).apply { (layoutParams as LinearLayout.LayoutParams).topMargin = dp(8) })
 
+        // ArcaneChat-style dialog button row: round pills, Cancel alone on the left, the
+        // Import / Export actions grouped on the right.
         val buttons = LinearLayout(ctx).apply {
             orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
             setPadding(0, dp(14), 0, 0)
         }
+        buttons.addView(outlineButton(ctx, getString(R.string.lbl_cancel), cfg).apply {
+            setOnClickListener { dismiss() }
+        })
+        buttons.addView(View(ctx), LinearLayout.LayoutParams(0, 0, 1f))
         buttons.addView(outlineButton(ctx, getString(R.string.kojiki_eim_import), cfg).apply {
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                .also { it.marginEnd = dp(6) }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).also { it.marginEnd = dp(8) }
             setOnClickListener { onImportClicked() }
         })
         buttons.addView(outlineButton(ctx, getString(R.string.kojiki_eim_export), cfg).apply {
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                .also { it.marginStart = dp(6) }
             setOnClickListener { onExportClicked() }
         })
         root.addView(buttons)
@@ -517,10 +523,12 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
             alpha = 0.4f
         }
 
+    // A round-pill outline button (ArcaneChat-style dialog action): fully rounded ends,
+    // wrap-content width with side padding.
     private fun outlineButton(ctx: Context, label: String, cfg: CustomUiConfig): Button {
         val dd = resources.displayMetrics.density
         val bg = GradientDrawable().apply {
-            cornerRadius = 10 * dd
+            cornerRadius = 100 * dd // > half the height → a pill
             setColor(cfg.backgroundColor)
             setStroke((1.5f * dd).toInt(), cfg.accentColor)
         }
@@ -530,7 +538,9 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
             setTextColor(cfg.accentColor)
             background = bg
             stateListAnimator = null
-            setPadding(0, (10 * dd).toInt(), 0, (10 * dd).toInt())
+            minWidth = 0
+            minimumWidth = 0
+            setPadding((20 * dd).toInt(), (10 * dd).toInt(), (20 * dd).toInt(), (10 * dd).toInt())
         }
     }
 

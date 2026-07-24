@@ -70,7 +70,6 @@ import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.ui.LauncherSwitcher
 import com.celzero.bravedns.ui.activity.AppLockActivity.Companion.APP_LOCK_ALIAS
 import com.celzero.bravedns.ui.activity.AppLockActivity.Companion.HOME_ALIAS
-import com.celzero.bravedns.ui.bottomsheet.ExportImportBottomSheet
 import com.celzero.bravedns.util.BubbleHelper
 import com.celzero.bravedns.util.Constants
 import com.celzero.bravedns.util.FirebaseErrorReporting
@@ -659,8 +658,6 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
             logEvent("Persistent notification set to $b")
         }
 
-        b.settingsActivityImportExportRl.setOnClickListener { invokeImportExport() }
-
         b.settingsActivityAppNotificationSwitch.setOnClickListener {
             b.settingsActivityAppNotificationSwitch.isChecked =
                 !b.settingsActivityAppNotificationSwitch.isChecked
@@ -1013,16 +1010,6 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
               }
           }
           return map
-      }
-
-      private fun invokeImportExport() {
-          if (this.isFinishing || this.isDestroyed) {
-              Logger.w(LOG_TAG_UI, "err opening bkup btmsheet, activity is destroyed")
-              return
-          }
-
-          val bottomSheetFragment = ExportImportBottomSheet()
-          bottomSheetFragment.show(this.supportFragmentManager, bottomSheetFragment.tag)
       }
 
       private fun openConsoleLogActivity() {

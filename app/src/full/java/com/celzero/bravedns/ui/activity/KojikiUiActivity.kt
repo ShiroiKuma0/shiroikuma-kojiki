@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Outline
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
@@ -46,6 +47,7 @@ import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.SnoopTagStore
+import com.celzero.bravedns.ui.bottomsheet.ExportImportBottomSheet
 import com.celzero.bravedns.util.Themes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.ext.android.inject
@@ -112,6 +114,15 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private fun buildRows() {
         val holder = b.kojikiUiHolder
         holder.removeAllViews()
+
+        // --- Export / Import (moved here from Settings) — kxkb-style: heading + a name/description
+        // row beneath it that opens the category bottom sheet ---
+        addSectionHeader(R.string.settings_import_export_heading)
+        addValueRow(
+            R.string.settings_import_export_heading,
+            getString(R.string.settings_import_export_desc),
+            indentLevel = 1
+        ) { openExportImport() }
 
         // --- Colours ---
         addSectionHeader(R.string.kojiki_ui_section_colors)
@@ -498,32 +509,74 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private fun weightLabel(v: Int): String =
         if (v > 0) v.toString() else getString(R.string.kojiki_ui_size_default)
 
+    // kxkb-style subgroup header: 16 sp medium accent title with a SHORT underline matching the
+    // text width, controls one indent level deeper — mirrors KxkbSubgroup in the futokxkb
+    // Keyboard UI page.
     private fun addSubLabel(@StringRes labelRes: Int) {
         val label = AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
             text = getString(labelRes)
             setTextColor(cfg.accentColor)
-            setPadding(0, dp(12), 0, dp(2))
-        }
-        indent(label, 1)
-        b.kojikiUiHolder.addView(label)
-    }
-
-    private fun addSectionHeader(@StringRes labelRes: Int) {
-        val label = AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleSmall)
-            text = getString(labelRes)
-            setTextColor(cfg.accentColor)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            maxLines = 1
         }
         val underline = View(this).apply {
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(2)).also {
+            layoutParams = LinearLayout.LayoutParams(textWidth(label),
+                (1.5f * resources.displayMetrics.density).toInt()).also {
+                it.topMargin = dp(2)
+            }
+            setBackgroundColor(cfg.accentColor)
+        }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, dp(16), 0, dp(2))
+            addView(label)
+            addView(underline)
+        }
+        indent(box, 1)
+        b.kojikiUiHolder.addView(box)
+    }
+
+    // Thin neutral full-width hairline separating one section from the next (kxkb-style page
+    // rhythm) — edge to edge, subdued so it stays subordinate to the accent underlines.
+    private fun addSectionSpacer() {
+        val dark = androidx.core.graphics.ColorUtils.calculateLuminance(cfg.backgroundColor) < 0.5
+        val line = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(1)).also {
+                it.topMargin = dp(20)
+            }
+            setBackgroundColor(if (dark) 0x59FFFFFF else 0x59000000)
+        }
+        b.kojikiUiHolder.addView(line)
+    }
+
+    // The exact width of a label's text, so an underline can be sized to the TEXT and not stretch
+    // the box to full width (a MATCH_PARENT sibling would).
+    private fun textWidth(label: AppCompatTextView): Int {
+        label.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        return label.measuredWidth
+    }
+
+    // kxkb-style section header: 20 sp bold accent title with a 2 dp underline matching the text
+    // width; sections separated by thin spacers.
+    private fun addSectionHeader(@StringRes labelRes: Int) {
+        if (b.kojikiUiHolder.childCount > 0) addSectionSpacer()
+        val label = AppCompatTextView(this).apply {
+            text = getString(labelRes)
+            setTextColor(cfg.accentColor)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            maxLines = 1
+        }
+        val underline = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(textWidth(label), dp(2)).also {
                 it.topMargin = dp(4)
             }
             setBackgroundColor(cfg.accentColor)
         }
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(16), dp(16), dp(16), dp(6))
+            setPadding(dp(16), dp(16), dp(16), dp(4))
             addView(label)
             addView(underline)
         }
@@ -738,6 +791,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+    }
+
+    // Fork (白い熊 考直): the category Export/Import lives here at the top of the UI page
+    // (moved from Settings → the old Backup & Restore row).
+    private fun openExportImport() {
+        if (isFinishing || isDestroyed) return
+        val sheet = ExportImportBottomSheet()
+        sheet.show(supportFragmentManager, sheet.tag)
     }
 
     private fun onFontImported(uri: Uri?) {
