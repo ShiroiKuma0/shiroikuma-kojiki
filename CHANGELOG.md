@@ -2,6 +2,14 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+7
+
+**Export/Import moved onto the UI page; the UI page restyled after the kxkb Keyboard UI; ArcaneChat-style dialog buttons.**
+
+- **Export/Import relocated** from Settings (the old Backup & Restore position) to the **top of the 白い熊 考直 UI page**, as its own section: a bold underlined heading with a name + description row beneath it that opens the category sheet. The Settings row and its divider are gone.
+- **kxkb-style page look** for the whole 白い熊 考直 UI page, matching the 白い熊 kxkb fork's Keyboard UI: section headers are 20 sp bold accent with a 2 dp underline exactly as wide as the title text; subgroup labels are 16 sp medium with a short 1.5 dp text-wide underline; sections are separated by thin neutral edge-to-edge hairlines. (Previously every underline stretched the full page width — a `MATCH_PARENT` rule inflating its wrap-content box — and headers were lighter-weight.)
+- **Export/Import sheet action row** restyled ArcaneChat-style: fully-rounded **pill** outline buttons sized to their text, a new **Cancel** pill alone on the left (the sheet previously had no cancel button), and **Import + Export** grouped on the right (previously two half-width rectangles).
+
 ## 0.5.5y+3
 
 **Complete 白い熊 考直 rebrand across all user-visible text.**
