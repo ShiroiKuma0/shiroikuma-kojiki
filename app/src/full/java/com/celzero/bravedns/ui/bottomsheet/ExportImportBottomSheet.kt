@@ -84,9 +84,6 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
     private lateinit var dirPickerLauncher: ActivityResultLauncher<Uri?>
 
     private companion object {
-        const val EXIMPORT_PREFS = "kojiki_eximport" // device-local; never exported
-        const val KEY_DIR_URI = "dir_uri"
-        const val EXPORT_PREFIX = "shiroikuma-kojiki-"
         const val WARN_COLOR = 0xFFFF5252.toInt()
     }
 
@@ -241,14 +238,11 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
 
     // ---- folder + status ----
 
-    private fun eximportPrefs() = requireContext().getSharedPreferences(EXIMPORT_PREFS, Context.MODE_PRIVATE)
+    // The directory + file naming live in KojikiExport, so the automation receiver writes to exactly
+    // the same place, with exactly the same name, as this panel.
+    private fun dirUri(): Uri? = KojikiExport.exportDirUri(requireContext())
 
-    private fun dirUri(): Uri? =
-        eximportPrefs().getString(KEY_DIR_URI, null)?.let { runCatching { Uri.parse(it) }.getOrNull() }
-
-    private fun exportDir(): DocumentFile? =
-        dirUri()?.let { runCatching { DocumentFile.fromTreeUri(requireContext(), it) }.getOrNull() }
-            ?.takeIf { it.isDirectory }
+    private fun exportDir(): DocumentFile? = KojikiExport.exportDir(requireContext())
 
     private fun onDirPicked(uri: Uri) {
         runCatching {
@@ -256,7 +250,7 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
                 uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             )
         }
-        eximportPrefs().edit().putString(KEY_DIR_URI, uri.toString()).apply()
+        KojikiExport.setExportDirUri(requireContext(), uri)
         refreshStatus()
     }
 
@@ -275,9 +269,8 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
     private fun lastExportStatus(): Pair<String, Boolean> {
         val dir = exportDir() ?: return getString(R.string.kojiki_eim_warn_nodir) to true
         val newest = runCatching {
-            dir.listFiles().filter {
-                it.isFile && it.name?.startsWith(EXPORT_PREFIX) == true && it.name?.endsWith(".zip") == true
-            }.maxByOrNull { it.lastModified() }
+            dir.listFiles().filter { it.isFile && KojikiExport.isExportFileName(it.name) }
+                .maxByOrNull { it.lastModified() }
         }.getOrNull()
         return if (newest == null) getString(R.string.kojiki_eim_warn_none) to true
         else getString(R.string.kojiki_eim_last, fmtTs(newest.lastModified())) to false
@@ -285,9 +278,7 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
 
     private fun fmtTs(t: Long) = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT).format(Date(t))
 
-    private fun exportFileName(): String =
-        EXPORT_PREFIX + com.celzero.bravedns.BuildConfig.VERSION_NAME + "-export_" +
-            SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ROOT).format(Date()) + ".zip"
+    private fun exportFileName(): String = KojikiExport.exportFileName()
 
     // ---- export ----
 

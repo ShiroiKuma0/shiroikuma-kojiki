@@ -19,7 +19,9 @@ import Logger
 import Logger.LOG_TAG_BACKUP_RESTORE
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.celzero.bravedns.R
 import com.celzero.bravedns.database.AppDatabase
@@ -58,6 +60,9 @@ import org.koin.core.component.inject
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -85,6 +90,45 @@ object KojikiExport : KoinComponent {
 
     const val FORMAT = "kojiki-export"
     const val VERSION = 2 // v2: blocklists carry per-list names + portable stamp/prefs (no data files)
+
+    // --- backup file naming — the 白い熊 family convention (2026-07-25) ---
+    // `<english-dash-separated-app-name>_<yyyy-MM-dd_HH-mm-ss>.zip`, no version / no `-export` infix,
+    // so every sister app's backups sort and read uniformly in one shared directory. ONE zip per
+    // export, always. LEGACY_PREFIX keeps previously written backups recognised by the "last export"
+    // line (they were `shiroikuma-kojiki-<version>-export_<ts>.zip`).
+    const val EXPORT_PREFIX = "shiroikuma-kojiki_"
+    private const val LEGACY_EXPORT_PREFIX = "shiroikuma-kojiki-"
+
+    /** The name of the ZIP to write now — identical for the UI panel and the automation receiver. */
+    fun exportFileName(): String =
+        EXPORT_PREFIX + SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ROOT).format(Date()) + ".zip"
+
+    /** True if [name] is one of this app's backups (current or legacy naming). */
+    fun isExportFileName(name: String?): Boolean =
+        name != null && name.endsWith(".zip") &&
+            (name.startsWith(EXPORT_PREFIX) || name.startsWith(LEGACY_EXPORT_PREFIX))
+
+    // --- the configured export directory (a persisted SAF tree) ---
+    // Device-local by design: this prefs file is NOT part of any category, so the directory (and the
+    // automation token) never travel in a backup ZIP.
+    const val EXIMPORT_PREFS = "kojiki_eximport"
+    private const val KEY_DIR_URI = "dir_uri"
+
+    fun exportDirUri(context: Context): Uri? =
+        context.getSharedPreferences(EXIMPORT_PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_DIR_URI, null)
+            ?.let { runCatching { Uri.parse(it) }.getOrNull() }
+
+    fun setExportDirUri(context: Context, uri: Uri) {
+        context.getSharedPreferences(EXIMPORT_PREFS, Context.MODE_PRIVATE)
+            .edit().putString(KEY_DIR_URI, uri.toString()).apply()
+    }
+
+    /** The configured export directory, or null when unset / no longer reachable. */
+    fun exportDir(context: Context): DocumentFile? =
+        exportDirUri(context)
+            ?.let { runCatching { DocumentFile.fromTreeUri(context, it) }.getOrNull() }
+            ?.takeIf { it.isDirectory }
 
     private val appInfoRepo: AppInfoRepository by inject()
     private val customDomainRepo: CustomDomainRepository by inject()
@@ -129,7 +173,8 @@ object KojikiExport : KoinComponent {
     // Ephemeral / device-local keys never worth exporting from the main app prefs: runtime state,
     // version codes, one-time/onboarding flags, download/blocklist timestamps, auth tokens.
     private val APP_SETTINGS_EXCLUDE = setOf(
-        "enabled", "is_first_time_launch", "app_rule_intent_token", "app_version",
+        "enabled", "is_first_time_launch", "app_rule_intent_token", "automation_export_enabled",
+        "app_version",
         "app_update_last_check", "remote_block_list_count", "local_block_list_count",
         "remote_block_list_downloaded_time", "local_block_list_downloaded_time",
         "local_blocklist_update_ts", "remote_blocklist_update_ts", "prev_trace_timestamp",
@@ -144,19 +189,34 @@ object KojikiExport : KoinComponent {
     // EXPORT
     // ---------------------------------------------------------------------------------------------
 
-    /** Write a ZIP of the selected categories to [out]. Returns a short human summary. */
-    suspend fun export(context: Context, cats: Set<Cat>, out: OutputStream): String {
+    /**
+     * Write a ZIP of the selected categories to [out]. Returns a short human summary.
+     *
+     * The headless export core: the Export/Import panel and the automation receiver
+     * ([com.celzero.bravedns.receiver.StateExportReceiver]) are two thin callers of this — no export
+     * logic is duplicated anywhere. [onProgress] is called as `(done, total, categoryLabel)` after
+     * each category is written, so a caller can report real counts (never a percentage).
+     */
+    suspend fun export(
+        context: Context,
+        cats: Set<Cat>,
+        out: OutputStream,
+        onProgress: ((Int, Int, String) -> Unit)? = null
+    ): String {
         var count = 0
+        // Deterministic order (declaration order), so progress reads the same on every run.
+        val ordered = cats.sortedBy { it.ordinal }
+        val total = ordered.size
         ZipOutputStream(out).use { zip ->
             val manifest = JSONObject()
                 .put("format", FORMAT)
                 .put("version", VERSION)
                 .put("app", context.packageName)
                 .put("createdTs", System.currentTimeMillis())
-                .put("categories", JSONArray(cats.map { it.id }))
+                .put("categories", JSONArray(ordered.map { it.id }))
             writeEntry(zip, "manifest.json", manifest.toString(2))
 
-            for (cat in cats) {
+            for (cat in ordered) {
                 val json = when (cat) {
                     Cat.APP_SETTINGS ->
                         exportPrefs(PreferenceManager.getDefaultSharedPreferences(context), APP_SETTINGS_EXCLUDE)
@@ -175,6 +235,7 @@ object KojikiExport : KoinComponent {
                 writeEntry(zip, "${cat.id}.json", json)
                 if (cat == Cat.APPEARANCE) exportFonts(context, zip)
                 count++
+                onProgress?.invoke(count, total, context.getString(cat.labelRes))
             }
         }
         return "$count categor${if (count == 1) "y" else "ies"}"

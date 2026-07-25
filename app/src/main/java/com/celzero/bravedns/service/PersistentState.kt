@@ -126,10 +126,18 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
     // launches the app for the very first time (after install or post clear-data)
     var firstTimeLaunch by booleanPref("is_first_time_launch").withDefault<Boolean>(true)
 
-    // --- Fork (白い熊 考直): shared-secret token guarding SetAppRuleReceiver ---
-    // Guards the external SET_APP_RULE broadcast (Tasker / adb). Stored in prefs; viewed and
-    // regenerated from Settings > Misc. See receiver.SetAppRuleReceiver.
+    // --- Fork (白い熊 考直): shared-secret token guarding the automation receivers ---
+    // The app's ONE automation token (the sister-app family convention: never a second one). Guards
+    // the external SET_APP_RULE / SET_WG_STATE broadcasts (Tasker / adb) AND the 保存復元 state-export
+    // contract (EXPORT_STATE / LIST_CATEGORIES). Viewed + regenerated from the 白い熊 考直 UI page
+    // (Export / Import) and from Settings > Misc. See receiver.SetAppRuleReceiver /
+    // receiver.StateExportReceiver.
     private var appRuleIntentToken by stringPref("app_rule_intent_token").withDefault<String>("")
+
+    // Master switch for the state-export automation contract (EXPORT_STATE / LIST_CATEGORIES).
+    // DEFAULT OFF — nothing is reachable until 白い熊 turns it on. Device-local: excluded from the
+    // export (KojikiExport.APP_SETTINGS_EXCLUDE), like the token itself.
+    var automationExportEnabled by booleanPref("automation_export_enabled").withDefault<Boolean>(false)
 
     /** Returns the app-rule intent token, generating + persisting one on first use. */
     @Synchronized
@@ -149,8 +157,19 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
         return generated
     }
 
+    /**
+     * Constant-time token check (the family convention — never `==` on a secret). Blank/absent
+     * candidates always fail. Callers report "automation disabled" and "bad token" separately.
+     */
+    fun isAppRuleTokenValid(candidate: String?): Boolean {
+        if (candidate.isNullOrEmpty()) return false
+        return java.security.MessageDigest.isEqual(
+            candidate.toByteArray(), getOrCreateAppRuleToken().toByteArray()
+        )
+    }
+
     private fun generateAppRuleToken(): String {
-        val bytes = ByteArray(16)
+        val bytes = ByteArray(24) // 24 random bytes, hex-encoded (sister-app convention)
         java.security.SecureRandom().nextBytes(bytes)
         // hex (shell-safe for `am --es` and Tasker)
         return bytes.joinToString("") { "%02x".format(it) }

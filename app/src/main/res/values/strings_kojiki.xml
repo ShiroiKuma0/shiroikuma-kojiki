@@ -178,6 +178,20 @@
     <string name="kojiki_eim_bl_warn_body">This backup has an on-device blocklist selection, but no on-device blocklist is downloaded on this device — so the blocklist selection will NOT be applied.\n\nDownload the on-device blocklist first (Configure → DNS → on-device blocklist), then restore again. The rest of the backup will still import if you continue.</string>
     <string name="kojiki_eim_bl_warn_download_first">Download first</string>
     <string name="kojiki_eim_bl_warn_restore_anyway">Restore anyway</string>
+    <!-- 白い熊 考直: 保存復元 automation (the sister-app state-export contract), inside Export / Import -->
+    <string name="kojiki_auto_switch">Automation export</string>
+    <string name="kojiki_auto_switch_desc">Let sister-app tasks (自由作業盤 → 保存復元) run this app\'s export headlessly, using the token below.</string>
+    <string name="kojiki_auto_no_storage">All-files access is off — backups can only go to the export directory above. Tap this row to grant it.</string>
+    <string name="kojiki_auto_token">Automation token</string>
+    <string name="kojiki_auto_token_copied">Automation token copied</string>
+    <string name="kojiki_auto_token_regen_title">Regenerate the token?</string>
+    <string name="kojiki_auto_token_regen_msg">A fresh secret replaces the current one. Every automation that carries the old token stops working until you paste the new one into it (自由作業盤 → 保存復元の設定).</string>
+    <string name="kojiki_auto_token_regenerated">New token generated — update your pasted copies.</string>
+    <string name="kojiki_auto_storage_title">Allow all-files access?</string>
+    <string name="kojiki_auto_storage_msg">The backup run tells this app which folder to write to — the one shared by every sister app. Writing there needs Android\'s “All files access”.\n\nWithout it, automated exports fall back to the export directory set above.</string>
+    <string name="kojiki_auto_storage_open">Open settings</string>
+    <string name="kojiki_auto_storage_skip">Not now</string>
+
     <string name="kojiki_ui_snoop_tag_unassigned">no domains assigned</string>
     <string name="kojiki_ui_snoop_tag_assigned">%1$d domain(s): %2$s</string>
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
