@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5y+7`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.5y+8`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -47,7 +47,7 @@ Stock Rethink reads a tunnel as “Failing” even while traffic flows through i
 ---
 
 ## 🤖 Automation intents
-Two broadcast receivers let external tools (Tasker, adb, companion apps) drive the firewall: set a **per-app firewall rule** or **enable/disable a WireGuard tunnel** by intent, gated by a settings token.
+Three broadcast receivers let external tools (Tasker, adb, companion apps) drive the app by intent, all gated by one shared token: set a **per-app firewall rule**, **enable/disable a WireGuard tunnel**, or run a **headless backup** — the last one exports the chosen categories to a caller-supplied folder with no UI at all, reporting live progress in real counts and replying with the written path and byte size. That makes 考直 one target in a fleet-wide backup run: a single automation task can back up every app on the phone, this one included, and get a per-app ✓/✗ summary back.
 
 ---
 
