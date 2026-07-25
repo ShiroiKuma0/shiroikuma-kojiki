@@ -94,8 +94,7 @@ class SetWgStateReceiver : BroadcastReceiver(), KoinComponent {
     private suspend fun handle(context: Context, intent: Intent) {
         // 1) token guard (shared secret in prefs; same token as SetAppRuleReceiver)
         val provided = intent.getStringExtra(EXTRA_TOKEN)
-        val expected = persistentState.getOrCreateAppRuleToken()
-        if (provided.isNullOrEmpty() || provided != expected) {
+        if (!persistentState.isAppRuleTokenValid(provided)) { // constant-time
             Logger.w(LOG_TAG_PROXY, "$TAG: token missing/mismatch; rejecting")
             return
         }

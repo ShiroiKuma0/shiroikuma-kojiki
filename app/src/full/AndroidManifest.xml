@@ -4,6 +4,14 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- Fork (白い熊 考直): All-Files-Access, needed ONLY so the 保存復元 automation contract can write
+         its backup ZIP to the caller-supplied absolute directory (自由作業盤 keeps every sister app's
+         backups in one folder). Without it the receiver falls back to the configured SAF export
+         directory, or replies ERROR:no-storage-access. Granted by hand in system settings. -->
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
     <application
         android:name=".RethinkDnsApplication"
         android:theme="@style/AppThemeInitial">
@@ -228,6 +236,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.celzero.bravedns.intent.action.SET_WG_STATE" />
+            </intent-filter>
+        </receiver>
+        <!-- Fork (白い熊 考直): the 保存復元 state-export automation contract — headless category-ZIP
+             export + category listing for 自由作業盤's all-app backup run. Exported with NO
+             android:permission (the caller cannot hold one); gated by the master switch + the app's
+             automation token, both under 白い熊 考直 UI → Export / Import. See StateExportReceiver. -->
+        <receiver
+            android:name=".receiver.StateExportReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.action.EXPORT_STATE" />
+                <action android:name="${applicationId}.action.LIST_CATEGORIES" />
             </intent-filter>
         </receiver>
         <receiver
