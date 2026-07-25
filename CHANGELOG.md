@@ -2,6 +2,44 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+8
+
+**Headless backup automation — 考直 joins the fleet-wide 保存復元 backup run.**
+
+The app now implements the sister-app **state-export automation contract**, so one external automation task can back up every app on the phone in a single run, this one included, and collect a per-app ✓/✗ summary with individual sizes.
+
+### The wire contract
+- **Two new exported actions**, `shiroikuma.kojiki.action.EXPORT_STATE` and `…LIST_CATEGORIES`, handled by a new `StateExportReceiver`. `EXPORT_STATE` runs the existing category-ZIP export **headlessly** — no Activity, no interaction; `LIST_CATEGORIES` returns the exportable categories so a caller can render its own picker. Both action strings derive from `BuildConfig.APPLICATION_ID`, so they can never drift from the manifest's `${applicationId}` intent filters.
+- **Extras** (all String, per the family contract): `token`, optional `path` (an absolute directory that overrides the app's own configured export directory), optional `items` (comma-separated category ids; absent = everything), optional `progress_action`, plus the reply trio `reply_action` / `reply_package` / `reply_id`.
+- **Replies are a fresh broadcast** to the caller's package with `reply_id` echoed verbatim and `result` = `OK:<path>|<bytes>|<human size>|<n> categories`, `OK:` + the `id⇥label` lines, or `ERROR:<reason>` — exactly one terminal reply, guarded so an async success and a synchronous error can never both fire. No `ResultReceiver` / `PendingIntent` / `Messenger` and no reliance on the ordered-broadcast result: EMUI severs both between third-party apps, and `FLAG_INCLUDE_STOPPED_PACKAGES` is what lets a backgrounded caller hear the answer at all.
+- **Distinct failures**, because they debug differently: `ERROR:automation disabled`, `ERROR:bad token`, `ERROR:no-directory`, `ERROR:no-storage-access`, `ERROR:unknown category in items: …`.
+- **Progress in real counts, never a percentage** — while exporting, plain broadcasts carry a numbers-first display line (`区分 3/10 — Snoop tags`) plus structured `current` / `total` / `unit`, throttled to at most one per 500 ms with the final one always sent.
+
+### Storage
+`path` → the configured SAF export directory → `ERROR:no-directory`. Writing to a caller-supplied absolute directory needs Android's **All-Files-Access**, so the app now declares `MANAGE_EXTERNAL_STORAGE` and asks for it with a dialog the first time the automation switch is turned on. Without the grant nothing breaks: the export falls back to the configured export directory, or replies `ERROR:no-storage-access` when there is none.
+
+### Token & switch
+- **Reuses the app's existing automation token** (the same secret `SET_APP_RULE` / `SET_WG_STATE` already use) rather than adding a second one. Newly generated tokens are 24 `SecureRandom` bytes, hex-encoded.
+- **Constant-time comparison** (`MessageDigest.isEqual`) now guards *all three* automation receivers, replacing the plain `!=` check.
+- **A new master switch, default OFF** — nothing is reachable until it is turned on. Both the switch and the token are excluded from the export, so neither ever travels inside a backup ZIP.
+
+### UI
+Two rows inside the existing **Export / Import** section of the 白い熊 考直 UI page, directly below the Export / Import entry — deliberately not a section of its own, because a backup feature belongs where backup lives, in the same place in every sister app:
+1. the **master switch**, with a one-line description (and, while All-Files-Access is missing, a tappable warning row that opens the system grant screen);
+2. the **token row**, showing the secret abbreviated, copying it in full on tap, with **Regenerate** on the right behind a warning that pasted copies stop working.
+
+### Backup file naming (breaking, deliberate)
+Every backup this app writes — from the automation path **and** from the Export/Import panel — is now named:
+
+```
+shiroikuma-kojiki_<yyyy-MM-dd_HH-mm-ss>.zip
+```
+
+No version, no `-export` infix, no suffixes. 白い熊 keeps every app's backups in one folder, so they must sort and read uniformly across apps. The previous prefix is still recognised by the panel's "last export" line, so older backups stay visible; and it remains **one ZIP per export, always** — every category is an entry inside the single archive.
+
+### Internals
+`KojikiExport.export()` gained an `onProgress` callback and now writes categories in declaration order (so progress reads identically every run), and the export-directory helpers moved into `KojikiExport`. The panel and the receiver are therefore two thin callers of one export core, sharing one directory and one naming rule — no export logic is duplicated, and a headlessly-produced ZIP is a perfectly ordinary backup the panel can import.
+
 ## 0.5.5y+7
 
 **Export/Import moved onto the UI page; the UI page restyled after the kxkb Keyboard UI; ArcaneChat-style dialog buttons.**
