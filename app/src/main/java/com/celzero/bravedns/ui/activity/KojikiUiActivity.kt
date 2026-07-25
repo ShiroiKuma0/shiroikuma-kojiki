@@ -15,13 +15,18 @@
  */
 package com.celzero.bravedns.ui.activity
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Outline
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -36,6 +41,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.BuildConfig
@@ -70,8 +76,13 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private val fontImportLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> onFontImported(uri) }
 
+    // All-Files-Access state the automation switch row was last drawn with; the grant happens in
+    // system settings, so re-check on resume and repaint if it changed.
+    private var renderedAllFilesAccess = false
+
     private companion object {
         const val KEY_SCROLL_Y = "kojiki_ui_scroll_y"
+        const val WARN_COLOR = 0xFFFF5252.toInt()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +97,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val savedScroll = savedInstanceState?.getInt(KEY_SCROLL_Y, 0) ?: 0
         if (savedScroll > 0) {
             b.kojikiUiScroll.post { b.kojikiUiScroll.scrollTo(0, savedScroll) }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Returning from the system's All-files-access screen: repaint so the warning clears.
+        if (persistentState.automationExportEnabled && hasAllFilesAccess() != renderedAllFilesAccess) {
+            buildRows()
         }
     }
 
@@ -123,6 +142,9 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             getString(R.string.settings_import_export_desc),
             indentLevel = 1
         ) { openExportImport() }
+        // The 保存復元 automation contract lives HERE, under the existing export rows — a backup
+        // feature belongs where backup lives, and every sister app puts it in the same place.
+        addAutomationRows()
 
         // --- Colours ---
         addSectionHeader(R.string.kojiki_ui_section_colors)
@@ -486,20 +508,44 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
     }
 
-    private fun addToggleRow(@StringRes labelRes: Int, current: Boolean, indentLevel: Int, onChange: (Boolean) -> Unit) {
+    private fun addToggleRow(
+        @StringRes labelRes: Int, current: Boolean, indentLevel: Int,
+        desc: String? = null, descColor: Int? = null, onRowClick: (() -> Unit)? = null,
+        onChange: (Boolean) -> Unit
+    ) {
         val sw = androidx.appcompat.widget.SwitchCompat(this).apply { isChecked = current }
         val label = AppCompatTextView(this).apply {
             setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
             text = getString(labelRes)
             setTextColor(cfg.textColor)
+        }
+        // Label alone, or label + a one-line description stacked under it (weighted, so the switch
+        // keeps its natural width on the right).
+        val labelBox = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            addView(label)
+            if (!desc.isNullOrEmpty()) {
+                addView(AppCompatTextView(this@KojikiUiActivity).apply {
+                    setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+                    text = desc
+                    setTextColor(descColor ?: cfg.textColor)
+                    if (descColor == null) alpha = 0.7f
+                    setPadding(0, dp(3), dp(8), 0)
+                })
+            }
         }
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setPadding(0, dp(14), dp(16), dp(14))
-            addView(label)
+            addView(labelBox)
             addView(sw)
+            if (onRowClick != null) {
+                background = selectableBackground()
+                isClickable = true
+                setOnClickListener { onRowClick() }
+            }
         }
         sw.setOnCheckedChangeListener { _, c -> onChange(c) }
         indent(row, indentLevel)
@@ -791,6 +837,122 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // 保存復元 automation (the sister-app state-export contract) — two rows under Export / Import
+    // -------------------------------------------------------------------------------------------
+
+    /**
+     * The master switch + the token row, appended directly below the Export / Import entry. Never a
+     * section of its own: this is a backup feature, so it lives where backup lives — the same place
+     * in every sister app. See [com.celzero.bravedns.receiver.StateExportReceiver].
+     */
+    private fun addAutomationRows() {
+        val on = persistentState.automationExportEnabled
+        renderedAllFilesAccess = hasAllFilesAccess()
+        val warn = on && !renderedAllFilesAccess
+        addToggleRow(
+            R.string.kojiki_auto_switch, on, 1,
+            desc = getString(if (warn) R.string.kojiki_auto_no_storage else R.string.kojiki_auto_switch_desc),
+            descColor = if (warn) WARN_COLOR else null,
+            onRowClick = if (warn) ({ openAllFilesAccess() }) else null
+        ) { checked ->
+            persistentState.automationExportEnabled = checked
+            if (checked && !hasAllFilesAccess()) askAllFilesAccess() else buildRows()
+        }
+        addTokenRow()
+    }
+
+    /** Tap = copy the full token; "Regenerate" on the right = a fresh secret (revokes pasted copies). */
+    private fun addTokenRow() {
+        val token = persistentState.getOrCreateAppRuleToken()
+        val short =
+            if (token.length > 20) "${token.take(8)}…${token.takeLast(8)}" else token
+        val labelBox = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        labelBox.addView(AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+            text = getString(R.string.kojiki_auto_token)
+            setTextColor(cfg.textColor)
+        })
+        labelBox.addView(AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            text = short
+            typeface = Typeface.MONOSPACE
+            setTextColor(cfg.textColor)
+            alpha = 0.7f
+            setPadding(0, dp(3), dp(8), 0)
+        })
+        val regenerate = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
+            text = getString(R.string.app_rule_token_regenerate)
+            setTextColor(cfg.accentColor)
+            background = selectableBackground()
+            isClickable = true
+            setPadding(dp(12), dp(8), dp(4), dp(8))
+            setOnClickListener { confirmRegenerateToken() }
+        }
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            background = selectableBackground()
+            isClickable = true
+            setPadding(0, dp(14), dp(16), dp(14))
+            addView(labelBox)
+            addView(regenerate)
+            setOnClickListener { copyToken() }
+        }
+        indent(row, 1)
+        b.kojikiUiHolder.addView(row)
+    }
+
+    private fun copyToken() {
+        val token = persistentState.getOrCreateAppRuleToken()
+        val cb = ContextCompat.getSystemService(this, ClipboardManager::class.java)
+        cb?.setPrimaryClip(ClipData.newPlainText("automation_token", token))
+        Toast.makeText(this, R.string.kojiki_auto_token_copied, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun confirmRegenerateToken() {
+        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+            .setTitle(R.string.kojiki_auto_token_regen_title)
+            .setMessage(R.string.kojiki_auto_token_regen_msg)
+            .setPositiveButton(R.string.app_rule_token_regenerate) { _, _ ->
+                persistentState.regenerateAppRuleToken()
+                buildRows()
+                Toast.makeText(this, R.string.kojiki_auto_token_regenerated, Toast.LENGTH_LONG).show()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    /** All-Files-Access: needed only to write a caller-supplied absolute backup directory. */
+    private fun hasAllFilesAccess(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.R || Environment.isExternalStorageManager()
+
+    private fun askAllFilesAccess() {
+        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+            .setTitle(R.string.kojiki_auto_storage_title)
+            .setMessage(R.string.kojiki_auto_storage_msg)
+            .setPositiveButton(R.string.kojiki_auto_storage_open) { _, _ -> openAllFilesAccess() }
+            .setNegativeButton(R.string.kojiki_auto_storage_skip, null)
+            .setOnDismissListener { buildRows() } // repaint the switch row either way
+            .show()
+    }
+
+    private fun openAllFilesAccess() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
+        val direct = Intent(
+            Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
+        runCatching { startActivity(direct) }.onFailure {
+            // Some OEM builds refuse the per-app deep link; fall back to the full list.
+            runCatching { startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)) }
+        }
     }
 
     // Fork (白い熊 考直): the category Export/Import lives here at the top of the UI page

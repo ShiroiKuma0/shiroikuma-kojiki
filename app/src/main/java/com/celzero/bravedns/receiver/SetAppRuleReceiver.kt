@@ -102,8 +102,7 @@ class SetAppRuleReceiver : BroadcastReceiver(), KoinComponent {
         // 1) token guard (shared secret in prefs). getOrCreate so the very first call never matches
         //    a blank stored token; the user must view the real token in Settings > Misc first.
         val provided = intent.getStringExtra(EXTRA_TOKEN)
-        val expected = persistentState.getOrCreateAppRuleToken()
-        if (provided.isNullOrEmpty() || provided != expected) {
+        if (!persistentState.isAppRuleTokenValid(provided)) { // constant-time
             Logger.w(LOG_TAG_FIREWALL, "$TAG: token missing/mismatch; rejecting")
             return
         }
