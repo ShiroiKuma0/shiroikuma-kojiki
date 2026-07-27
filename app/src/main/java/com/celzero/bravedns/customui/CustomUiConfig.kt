@@ -406,6 +406,9 @@ class CustomUiConfig(context: Context) {
         const val P_FW_NAME_SYSTEM = "kojiki_fw_name_system"
         const val P_FW_STATUS = "kojiki_fw_status"
         const val P_FW_TRAFFIC = "kojiki_fw_traffic"
+        // Package id printed after the app name on a firewall row. Unset colour = a dimmed copy of
+        // the app-name colour; unset size = the app name's size scaled down (see CustomUi).
+        const val P_FW_APP_ID = "kojiki_fw_app_id"
         // Snooping panel severity pill (HIGH/MED/LOW) text — colour + font (size via snoopPillSize).
         const val P_SNOOP_PILL = "kojiki_snoop_pill"
         // Snooping panel status text (blocked/allowed) — font; colour per state (blocked/allowed).

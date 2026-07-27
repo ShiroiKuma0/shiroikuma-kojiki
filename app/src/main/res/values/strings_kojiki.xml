@@ -32,6 +32,7 @@
     <string name="kojiki_ui_fw_name" translatable="false">App name</string>
     <string name="kojiki_ui_fw_name_user" translatable="false">User apps</string>
     <string name="kojiki_ui_fw_name_system" translatable="false">System apps</string>
+    <string name="kojiki_ui_fw_app_id" translatable="false">App id (package name)</string>
     <string name="kojiki_ui_fw_status" translatable="false">Status (allowed / blocked)</string>
     <string name="kojiki_ui_fw_traffic" translatable="false">Traffic</string>
     <string name="kojiki_ui_item_colour" translatable="false">Colour</string>
