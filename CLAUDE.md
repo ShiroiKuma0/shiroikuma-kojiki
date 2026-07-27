@@ -51,30 +51,37 @@ foreground). Never material yellow `#FFEB3B`.
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
 
-**We track a released tag, not `main`.** As of 2026-06-19 the base is the **`v0.5.5x` tag** (`VERSION_CODE 61`),
-which ships firestack **`fd3dbcd769`** (the tag's pinned engine; v0.5.5w/x share it). We deliberately do **not**
-sync to `upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the
-first SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine. The
-`UPSTREAM_AHEAD` field still exists to keep the name honest *if* we ever track `main` past a tag; tracking the
-tag exactly makes it `0` and the suffix drops.
+**We track a released tag, not `main`.** As of 2026-07-27 the base is the **`v0.5.5y` tag** (`VERSION_CODE 63`,
+commit `553062454`, 2026-07-07), whose pinned engine is firestack **`310d7bc603`** — though we do not actually
+ship that engine; see the firestack note below. We deliberately do **not** sync to `upstream/main`: a
+bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the first SSH flow after the
+WireGuard double-hop relay idled, so we stay on the released tag's engine. The `UPSTREAM_AHEAD` field still
+exists to keep the name honest *if* we ever track `main` past a tag; tracking the tag exactly makes it `0` and
+the suffix drops.
 
-- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5x` / `61`).
-- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5x..main`).
+> **Next upstream release is brewing.** As of 2026-07-27 `upstream/main` is ~69 commits past `v0.5.5y` and
+> already carries `v055z: bump version code for v055z` (`VERSION_CODE=65`, firestack `b802d068a1`), but
+> **v0.5.5z is not tagged yet**. Wait for the tag. When it lands, the firestack bump is the risky part: check
+> whether our DoH idle-pool fix (below) is in `b802d068a1`, and if not, rebuild the patched AAR on it.
+
+- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5y` / `63`).
+- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5y..main`).
   Tracking the tag exactly → **`0`**. **Recomputed at rebase time** by the **upstream-new-version** skill; it
   does **not** change between builds, and does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
 - Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"`. The `-<UPSTREAM_AHEAD>` is
   **dropped when it is `0`**, so on the tag it reads as the clean `"<VERSION_NAME>+<BUILD_NUMBER>"`
-  (e.g. `0.5.5x+1`).
-- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `61 * 10000 + 1 = 610001`).
+  (e.g. `0.5.5y+1`).
+- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `63 * 10000 + 1 = 630001`).
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`
-  (e.g. `30610001`). This is **higher** than the previous `v0.5.5v` line (`3059xxxx`), so it installs as a
+  (e.g. `30630001`). This is **higher** than the previous `v0.5.5x` line (`3061xxxx`), so it installs as a
   normal **upgrade** — no uninstall needed.
 - Output APK (copied to `~/tmp` by `buildFoss`) =
   `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
-  (e.g. `shiroikuma-kojiki_0.5.5x+1_arm64-v8a.apk`).
+  (e.g. `shiroikuma-kojiki_0.5.5y+1_arm64-v8a.apk`).
 
-So the first build on this base is `0.5.5x+1` (`610001` → `30610001`), the next build with changes is `+2`, and so on.
+So the first build on this base was `0.5.5y+1` (`630001` → `30630001`), the next build with changes is `+2`,
+and so on. As of 2026-07-27 the last build was **`0.5.5y+11`** and `BUILD_NUMBER` stands at `12`.
 
 ### Building
 
@@ -99,12 +106,26 @@ Firebase plugins. (A dangling unused `import com.google.firebase.Firebase` in `s
 also removed, else the de-Googled compile fails with `Unresolved reference 'firebase'`.) The FOSS release
 variant/task is `fdroidFullRelease` / `assembleFdroidFullRelease`.
 
-**firestack:** consumed as a prebuilt AAR. `gradle.properties` pins `firestackRepo=ossrh` +
-`firestackCommit=fd3dbcd769` (the **`v0.5.5x` tag's engine**; v0.5.5w/x share it), resolved as
-`com.celzero:firestack:fd3dbcd769@aar` from Maven Central (no GitHub token needed). **Do not bump this to a
-`main` firestack** (e.g. `379ac52ace`) — that broke WG-relay SSH (see the versioning section). On this engine
-the WG double-hop must run **full-tunnel with Lockdown ON** (per-app split wedges the resolver); the hub
-supplies internet via NAT. See memory `[[wg-hub-and-dns-architecture]]`.
+**firestack:** normally consumed as a prebuilt AAR from Maven Central — but **we currently ship a self-built
+patched engine**, so `gradle.properties` sets `firestackRepo=local` (not `ossrh`), which makes Gradle read
+`app/libs/tun2socks.aar` (gitignored, ~28 MB) instead of resolving `com.celzero:firestack:<commit>@aar`.
+`firestackCommit=310d7bc603` is left at the `v0.5.5y` tag's value but is **inert** while `firestackRepo=local`
+— it does not describe what is in the AAR. What is actually built:
+
+- Repo `~/git/firestack`, branch **`kojiki-doh-idle`** (pushed to `fork` = `ShiroiKuma0/firestack`).
+- Base = celzero's **`origin/n2`** (firestack's default branch) at `d534669a`, **42 commits past** the
+  `v0.5.5y` pin `310d7bc603` — so the engine is newer than the tag's, not equal to it.
+- Plus our one patch **`8288fb0d`** — *"doh: keep pooled conns shorter-lived than server idle-timeouts;
+  h2 PING health-checks"*, the DoH idle-pool fix filed upstream as **celzero/firestack#241**. Without it the
+  DoH pool (3 min, no h2 ping) outlives resolver idle-kills (Quad9 ≤30 s) and DNS wedges all day. See memory
+  `[[kojiki-dns-wedge-and-watchdog]]`; the Kotlin-side companion is `service/KojikiDnsWatchdog.kt`.
+- Rebuild recipe: memory `[[firestack-from-source-build]]` (Go + gomobile + NDK → `make intra`).
+
+To fall back to the **stock** `v0.5.5y` engine, set `firestackRepo=ossrh` — you then lose the DoH fix and the
+wedge returns. **Do not bump `firestackCommit` to a `main`-lineage firestack** (e.g. `379ac52ace`) — that broke
+WG-relay SSH (see the versioning section). On this engine the WG double-hop must run **full-tunnel with
+Lockdown ON** (per-app split wedges the resolver); the hub supplies internet via NAT. See memory
+`[[wg-hub-and-dns-architecture]]`.
 
 ### Rebasing onto a new upstream release
 
@@ -139,8 +160,9 @@ userspace tunnel. The Kotlin app is the control plane / UI; `firestack` (Go) is 
 - **`customui/`** (full source set) — our 白い熊 考直 UI (Feature 3): `CustomUiConfig` (a SharedPreferences
   store; seeds 白い熊's exported look as the defaults), `CustomUi` (the runtime applier + font/typeface system
   + dialog/bottom-sheet/toast theming), `ColorPickerDialog` (an ARGB picker). The runtime pass runs from
-  **`BaseActivity.onResume`** when the `Custom` theme is active (v0.5.5v *does* have a `BaseActivity`
-  chokepoint, so the hook lives there, not on the Application as it did on v0.5.5u). `Themes.customThemeActive`
+  **`BaseActivity.onResume`** when the `Custom` theme is active (`app/src/full/.../ui/BaseActivity.kt` — this
+  chokepoint exists from v0.5.5v onward, so the hook lives there, not on the Application as it did on
+  v0.5.5u; re-check it survives each rebase). `Themes.customThemeActive`
   mirrors `CustomUi.customThemeActive` into `main` so main-only helpers (toasts) can theme too. The Custom
   theme is the **default** (`PersistentState.theme` defaults to `Themes.CUSTOM.id`).
 - **`database/`** — Room DB + DAOs/repositories (e.g. `AppInfo`, connection tracking).
