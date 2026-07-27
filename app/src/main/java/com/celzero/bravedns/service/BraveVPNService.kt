@@ -2262,6 +2262,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                     GoVpnAdapter.setLogLevel(persistentState.goLoggerLevel.toInt(), includeFileTrace = persistentState.includeFileTrace)
                     vpnAdapter = GoVpnAdapter(ctx, vpnScope, fd, ifaceAddresses, mtu, nwMtu, opts) // may throw
                     Logger.d(LOG_TAG_VPN, "vpn-adapter created with ifaddr: $ifaceAddresses, protos: $protos")
+                    // Fork (白い熊 考直): a brand-new tunnel always sees a burst of DNS failures while
+                    // it dials its first upstream — restart the watchdog's warm-up so that burst
+                    // isn't reported as a wedge.
+                    KojikiDnsWatchdog.onTunnelUp()
                     io("tunInit") { vpnAdapter?.initResolverProxiesPcap(opts) }
                     io("rpnCheck") { checkForPlusSubscription() }
                     return@withContext ok
@@ -2275,6 +2279,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                             return@withContext noTun
                         }
                         vpnAdapter?.setLinkMtu(nwMtu)
+                        KojikiDnsWatchdog.onTunnelUp()
                         return@withContext ok
                     }
                     when (restartPolicy) {

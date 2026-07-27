@@ -115,7 +115,6 @@ class FirewallAppListAdapter(
                 val appStatus = FirewallManager.appStatus(appInfo.uid)
                 val connStatus = FirewallManager.connectionStatus(appInfo.uid)
                 uiCtx {
-                    b.firewallAppLabelTv.text = appInfo.appName
                     // setting the appname with different color for system and user apps
                     // causes conflict with the firewall status like blocked and isolated
                     // so removing the color change for now
@@ -131,6 +130,9 @@ class FirewallAppListAdapter(
                     // the runtime tree-walk races with this async bind) and type-aware (user vs system
                     // app name colour). No-op unless the Custom theme is active.
                     CustomUi.applyFirewallRow(context, b, appInfo.isSystemApp)
+                    // Fork (白い熊 考直): the label line is composed *after* the theme pass, since it
+                    // derives the package id's colour from the label's final (themed) colour.
+                    displayLabel(appInfo)
                     // set the alpha based on internet permission
                     if (appInfo.hasInternetPermission(packageManager)) {
                         b.firewallAppLabelTv.alpha = ALPHA_FULL
@@ -160,7 +162,6 @@ class FirewallAppListAdapter(
                         displayConnectionStatus(appStatus, connStatus)
                     }
                     displayDataUsage(appInfo)
-                    maybeDisplayProxyStatus(appInfo)
                 }
             }
         }
@@ -174,17 +175,27 @@ class FirewallAppListAdapter(
                 context.getString(R.string.two_argument, uploadBytes, downloadBytes)
         }
 
-        private fun maybeDisplayProxyStatus(appInfo: AppInfo) {
-            if (appInfo.isProxyExcluded) {
-                return
-            }
+        /**
+         * Fork (白い熊 考直): the label line = app name + the proxy key + the package id. Composed by
+         * [CustomUi.applyFirewallLabel], which owns the id's style (settable on the 白い熊 考直 UI
+         * page). Must run after [CustomUi.applyFirewallRow] — the id's size and colour fall back to
+         * the label's own.
+         */
+        private fun displayLabel(appInfo: AppInfo) {
+            val key = if (isProxied(appInfo)) context.getString(R.string.symbol_key) else ""
+            // synthetic "no_package_<uid>" rows carry no real id — nothing worth printing there
+            val id =
+                if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
+            CustomUi.applyFirewallLabel(
+                context, b.firewallAppLabelTv, appInfo.appName, key, id, appInfo.isSystemApp)
+        }
 
-            // show key icon in drawable right of b.firewallAppDataUsage
+        /** Whether the app is routed through a proxy — drives the key symbol on the label. */
+        private fun isProxied(appInfo: AppInfo): Boolean {
+            if (appInfo.isProxyExcluded) return false
+
             val proxy = ProxyManager.getProxyIdForApp(appInfo.uid)
-            if (proxy.isEmpty() || (proxy.size == 1 && proxy[0] == ID_NONE)) {
-                return
-            }
-            b.firewallAppLabelTv.append(context.getString(R.string.symbol_key))
+            return proxy.isNotEmpty() && !(proxy.size == 1 && proxy[0] == ID_NONE)
         }
 
         private fun getFirewallText(

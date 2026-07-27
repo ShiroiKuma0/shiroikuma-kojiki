@@ -56,6 +56,16 @@ object KojikiDnsWatchdog : KoinComponent {
     // at most one action per cooldown window, so a dead network can't cause a restart storm
     private const val ACTION_COOLDOWN_MS = 5 * 60_000L
 
+    // Startup is NOT a wedge. Every fresh tunnel — app update, reboot, or the watchdog's own
+    // recycle — begins with a burst of DNS failures: the VpnService was torn down, every app on
+    // the device retries at once, and the engine is still dialling its first DoH connection. That
+    // burst clears FAIL_THRESHOLD easily and used to fire a "DNS wedged" notification seconds
+    // after opening the app (reported 2026-07-27). So the watchdog stays disarmed until the
+    // tunnel has settled for WARMUP_MS *and* has resolved at least one name upstream — a wedge is
+    // by definition "DNS worked, then it stopped", so with no success yet there is nothing to
+    // diagnose as wedged (and nothing a recycle would cure).
+    private const val WARMUP_MS = 2 * 60_000L
+
     // a re-trigger this soon after a restart means the restart didn't cure it -> fail over
     private const val FAILOVER_WINDOW_MS = 15 * 60_000L
 
@@ -82,6 +92,25 @@ object KojikiDnsWatchdog : KoinComponent {
     private var lastActionAt = 0L
     private var lastRestartAt = 0L
 
+    // when the current tunnel came up, and whether it has resolved anything upstream since — the
+    // two halves of the warm-up gate (see WARMUP_MS)
+    private var armedAt = 0L
+    private var resolvedSinceArm = false
+
+    /**
+     * Called when a tunnel is created or recycled ([BraveVPNService.makeOrUpdateVpnAdapter]) — it
+     * restarts the warm-up, so the startup failure burst that follows every tunnel bring-up is not
+     * mistaken for a wedge.
+     */
+    fun onTunnelUp() {
+        synchronized(this) {
+            armedAt = SystemClock.elapsedRealtime()
+            resolvedSinceArm = false
+            failTimes.clear()
+            okTimes.clear()
+        }
+    }
+
     // called from NetLogTracker.processDnsLog for every DNS response; must stay cheap
     fun onDnsTransaction(t: Transaction) {
         // failure diagnostics via android.util.Log directly: the app's Logger is gated by the
@@ -98,11 +127,15 @@ object KojikiDnsWatchdog : KoinComponent {
         // never-before-seen names (observed live 2026-07-17 16:35). Only cached SUCCESSES are
         // meaningless for upstream health; failures count regardless of the flag.
         val now = SystemClock.elapsedRealtime()
+        // fallback arming: if the tunnel hook never fired (a path we don't know about), arm off the
+        // first transaction this process sees, so the watchdog can never be silent forever
+        synchronized(this) { if (armedAt == 0L) armedAt = now }
         when (t.status) {
             Transaction.Status.COMPLETE ->
                 if (!t.isCached) synchronized(this) {
                     okTimes.addLast(now)
                     lastSuccessAt = now
+                    resolvedSinceArm = true
                     prune(now)
                 }
             Transaction.Status.SEND_FAIL,
@@ -128,6 +161,9 @@ object KojikiDnsWatchdog : KoinComponent {
     private fun onUpstreamFailure(now: Long) {
         val failover: Boolean
         synchronized(this) {
+            // still warming up, or DNS has not worked once since this tunnel came up: startup
+            // noise, not a wedge. Drop the event outright so it can't count later either.
+            if (now - armedAt < WARMUP_MS || !resolvedSinceArm) return
             failTimes.addLast(now)
             prune(now)
             val fails = failTimes.size
