@@ -2,6 +2,29 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+11
+
+**The app id on every firewall row — visible, searchable, and sizable; and no more false “DNS wedged” alert after an update.**
+
+### Firewall → Apps: the package id on the row
+- **Every row's label line now reads `App Name  package.id`** — the name bolded, the package id trailing it. The app list's search box *already* matched the package name (the query is `appName like … or uid like … or packageName like …`), so the id was a searchable key that was never shown; printing it also tells apart the several apps that ship under an identical display name (two “32 secs”, and so on). The search hint now reads “Search apps by uid, name, id” to say so.
+- Synthetic `no_package_<uid>` rows — uids with no real package behind them — print no id.
+
+### …and it is fully stylable
+- **A new “App id (package name)” group** on the 白い熊 考直 UI page, sitting with the app-name groups under *Firewall list*: colour, font family, weight, italic, and **size** — the same five controls every other row element has.
+- **Unset, the id tracks the app name**: its size is a fraction of the name's, and its colour is a dimmed copy of the name's — so it follows the per-type user/system name colours by itself, without a second setting to keep in sync. Set any field and your value wins outright.
+- **The app name got its lead back.** Stock's layout gives the name `extra_large` 16 sp against the row's 12 sp status and traffic lines; the Custom theme had been flattening it to the plain global font size. An unset name size now falls back to the global size scaled up, so the name reads as the row's headline again — and both name and id came out larger than before as a result.
+- **The name's bold is a default, not an override.** Configure a weight for the app name (per-element or global) and that weight is used verbatim; otherwise the name is bolded so it separates from the id. Without this the new weight slider would have been dead for that element.
+- Composition lives in one place, `CustomUi.applyFirewallLabel`, and runs after the row's theme pass, since the fallbacks read the label's *final* size and colour. The proxy-key marker folded into it — setting the label text would otherwise have wiped the appended key.
+
+### DNS watchdog: startup is not a wedge
+Opening the app right after an update reliably raised a **“DNS wedged — tunnel restarted”** notification, with nothing wedged at all. Every tunnel bring-up opens with a burst of DNS failures — the `VpnService` was just torn down, every app on the device retries at once, and the engine is still dialling its first DoH connection — and that burst cleared the failure threshold on its own. Two gates now stand in front of a diagnosis:
+
+- **A warm-up window** after a tunnel comes up, during which failures are dropped outright, so they cannot count later either. It is armed from both bring-up paths — a freshly created adapter and the watchdog's own recycle.
+- **At least one upstream resolution since that tunnel came up.** A wedge is by definition “DNS worked, then it stopped”; with nothing ever resolved, the cause is a dead network or a bad config, which a tunnel recycle would not cure anyway.
+
+If the arming hook somehow never fires, the watchdog arms itself off the first DNS transaction it sees — it can never go permanently silent. Genuine wedges still trigger exactly as before, just not during a tunnel's first minutes.
+
 ## 0.5.5y+8
 
 **Headless backup automation — 考直 joins the fleet-wide 保存復元 backup run.**
