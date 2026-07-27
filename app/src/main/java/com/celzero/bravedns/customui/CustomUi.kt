@@ -27,6 +27,13 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.MetricAffectingSpan
+import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +89,17 @@ object CustomUi {
     const val FONT_MONOSPACE = "@monospace"
     const val FONT_SERIF = "@serif"
     const val FONT_SANS = "@sans"
+
+    // Firewall-row app name, when it declares no size of its own: the global font size scaled up,
+    // so the name keeps the prominence the stock layout gives it (extra_large 16sp against the
+    // row's 12sp status/traffic lines) instead of flattening to the global size.
+    private const val FW_NAME_SIZE_SCALE = 1.15f
+
+    // Firewall-row package id, when it declares no size / colour of its own: a fraction of the app
+    // name's (already scaled) size, and the name's colour at a fraction of its opacity.
+    private const val ID_SIZE_SCALE = 0.9f
+    private const val ID_DIM_ALPHA = 0.65f
+    private const val ID_GAP = "  "
 
     private val FONT_EXTENSIONS = setOf("ttf", "otf")
     private const val SEMIBOLD_WEIGHT = 600
@@ -583,7 +601,11 @@ object CustomUi {
         val y = CustomUiConfig.PALETTE_YELLOW
         b.root.setBackgroundColor(cfg.backgroundColor)
         val namePrefix = if (isSystemApp) CustomUiConfig.P_FW_NAME_SYSTEM else CustomUiConfig.P_FW_NAME_USER
-        styleText(context, b.firewallAppLabelTv, cfg.styleOf(namePrefix, y), g)
+        // the app name leads the row, so an unset size falls back to the global size scaled up
+        // rather than to the global size itself; an explicit per-element size still wins outright
+        val nameGlobal =
+            if (g.size > 0) g.copy(size = Math.round(g.size * FW_NAME_SIZE_SCALE)) else g
+        styleText(context, b.firewallAppLabelTv, cfg.styleOf(namePrefix, y), nameGlobal)
         styleText(context, b.firewallAppToggleOther, cfg.styleOf(CustomUiConfig.P_FW_STATUS, y), g)
         styleText(context, b.firewallAppDataUsage, cfg.styleOf(CustomUiConfig.P_FW_TRAFFIC, y), g)
         applyIconStyle(context, b.firewallAppIconIv, cfg)
@@ -592,6 +614,81 @@ object CustomUi {
             val h = (cfg.dividerThickness * context.resources.displayMetrics.density).toInt()
             val lp = b.firewallAppDivider.layoutParams
             if (lp != null && lp.height != h) { lp.height = h; b.firewallAppDivider.layoutParams = lp }
+        }
+    }
+
+    /**
+     * Fork (白い熊 考直): compose a firewall row's label line — the app name, the proxy key, then the
+     * package id. The id is what the app-list search matches too (`packageName like :search`), so
+     * printing it makes the searchable key visible and tells apart same-named apps.
+     *
+     * The id carries its own element style ([CustomUiConfig.P_FW_APP_ID]) — colour, font family /
+     * weight / italic and size are each settable on the 白い熊 考直 UI page. Unset size tracks the
+     * app name's size at [ID_SIZE_SCALE]; unset colour is a dimmed copy of the name's colour (so it
+     * follows the per-type user/system colours by itself). The name is bolded so the two read
+     * apart, unless a weight was explicitly configured for it — an explicit choice wins.
+     *
+     * Call AFTER [applyFirewallRow]: the fallbacks read the label's final size and colour. Works on
+     * every theme; off the Custom theme both fallbacks apply and nothing is configurable.
+     */
+    fun applyFirewallLabel(
+        context: Context,
+        tv: TextView,
+        name: String,
+        key: String,
+        id: String,
+        isSystemApp: Boolean
+    ) {
+        val cfg = if (customThemeActive) CustomUiConfig(context) else null
+        val namePrefix =
+            if (isSystemApp) CustomUiConfig.P_FW_NAME_SYSTEM else CustomUiConfig.P_FW_NAME_USER
+        val sb = SpannableStringBuilder(name)
+        val nameWeighted = cfg != null && (cfg.styleWeight(namePrefix) > 0 || cfg.fontWeight > 0)
+        if (sb.isNotEmpty() && !nameWeighted) {
+            sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        if (key.isNotEmpty()) sb.append(key)
+        if (id.isNotEmpty()) {
+            val start = sb.length
+            sb.append(ID_GAP).append(id)
+            val end = sb.length
+            val st = cfg?.styleOf(CustomUiConfig.P_FW_APP_ID, 0)
+            val px =
+                if (st != null && st.size > 0) st.size * context.resources.displayMetrics.scaledDensity
+                else tv.textSize * ID_SIZE_SCALE
+            sb.setSpan(AbsoluteSizeSpan(px.toInt()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val color = if (st != null && st.color != 0) st.color else dimmed(tv.currentTextColor)
+            sb.setSpan(ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            // only span a typeface when the id declares one — otherwise it inherits the label's
+            if (cfg != null && st != null &&
+                (st.family.isNotEmpty() || st.weight > 0 || st.italic)) {
+                val g = cfg.globalStyle()
+                val tf =
+                    typefaceFor(
+                        context,
+                        st.family.ifEmpty { g.family },
+                        if (st.weight > 0) st.weight else g.weight,
+                        st.italic)
+                sb.setSpan(TypefaceSpanCompat(tf), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        }
+        tv.text = sb
+    }
+
+    /** The same colour at [ID_DIM_ALPHA] of its opacity — the app id's default shade. */
+    fun dimmed(color: Int): Int {
+        val a = ((color ushr 24) * ID_DIM_ALPHA).toInt().coerceIn(0, 255)
+        return (a shl 24) or (color and 0xFFFFFF)
+    }
+
+    /** A [Typeface] span that also works below API 28, where `TypefaceSpan(Typeface)` doesn't exist. */
+    private class TypefaceSpanCompat(private val tf: Typeface) : MetricAffectingSpan() {
+        override fun updateDrawState(ds: TextPaint) {
+            ds.typeface = tf
+        }
+
+        override fun updateMeasureState(p: TextPaint) {
+            p.typeface = tf
         }
     }
 

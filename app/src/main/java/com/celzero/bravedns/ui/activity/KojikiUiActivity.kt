@@ -168,6 +168,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addSectionHeader(R.string.kojiki_ui_section_fw)
         addFontGroup(R.string.kojiki_ui_fw_name_user, CustomUiConfig.P_FW_NAME_USER)
         addFontGroup(R.string.kojiki_ui_fw_name_system, CustomUiConfig.P_FW_NAME_SYSTEM)
+        // The package id that trails the app name. Unset, it tracks the app name (dimmed, a touch
+        // smaller) — so the swatch previews the dimmed user-app colour rather than plain yellow.
+        addFontGroup(R.string.kojiki_ui_fw_app_id, CustomUiConfig.P_FW_APP_ID,
+            CustomUi.dimmed(cfg.styleColor(CustomUiConfig.P_FW_NAME_USER, CustomUiConfig.PALETTE_YELLOW)))
         addFontGroup(R.string.kojiki_ui_fw_status, CustomUiConfig.P_FW_STATUS)
         addFontGroup(R.string.kojiki_ui_fw_traffic, CustomUiConfig.P_FW_TRAFFIC)
         addSubLabel(R.string.kojiki_ui_fw_toggle)
@@ -476,9 +480,11 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     }
 
     /** A firewall-list text item: sub-label + colour + full font controls (family / weight / italic / size). */
-    private fun addFontGroup(@StringRes labelRes: Int, prefix: String) {
+    private fun addFontGroup(
+        @StringRes labelRes: Int, prefix: String, defColor: Int = CustomUiConfig.PALETTE_YELLOW
+    ) {
         addSubLabel(labelRes)
-        addColorRow(R.string.kojiki_ui_item_colour, cfg.styleColor(prefix, CustomUiConfig.PALETTE_YELLOW), indentLevel = 2) {
+        addColorRow(R.string.kojiki_ui_item_colour, cfg.styleColor(prefix, defColor), indentLevel = 2) {
             cfg.setStyleColor(prefix, it); recreate()
         }
         addFontControls(2,
