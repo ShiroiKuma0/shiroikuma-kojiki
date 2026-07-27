@@ -450,7 +450,7 @@
 
     <string name="search_firewall_network_log" translatable="true"><font size="12">Search apps, IPs, domains</font></string>
     <string name="search_event_logs" translatable="false"><font size="12">Search events, messages</font></string>
-    <string name="search_firewall_all_apps" translatable="true"><font size="12">Search apps by uid, name</font></string>
+    <string name="search_firewall_all_apps" translatable="true"><font size="12">Search apps by uid, name, id</font></string>
     <string name="search_dns_logs" translatable="true"><font size="12">Search domain names or IPs</font></string>
     <string name="search_universal_ips" translatable="true"><font size="12">Search IPs</font></string>
     <string name="search_custom_domains" translatable="true"><font size="12">Search domain names</font></string>
