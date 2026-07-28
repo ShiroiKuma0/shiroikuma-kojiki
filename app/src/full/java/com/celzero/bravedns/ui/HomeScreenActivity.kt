@@ -56,6 +56,7 @@ import com.celzero.bravedns.backup.BackupHelper.Companion.BACKUP_FILE_EXTN
 import com.celzero.bravedns.backup.BackupHelper.Companion.INTENT_RESTART_APP
 import com.celzero.bravedns.backup.BackupHelper.Companion.INTENT_SCHEME
 import com.celzero.bravedns.backup.RestoreAgent
+import com.celzero.bravedns.customui.KojikiLastScreen
 import com.celzero.bravedns.data.AppConfig
 import com.celzero.bravedns.database.RefreshDatabase
 import com.celzero.bravedns.service.AppUpdater
@@ -164,6 +165,33 @@ class HomeScreenActivity : BaseActivity(R.layout.activity_home_screen) {
         NewSettingsManager.handleNewSettings()
 
         regenerateFirebaseTokenIfNeeded()
+
+        maybeRestoreLastScreen(savedInstanceState)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        // Fork (白い熊 考直): on a launcher tap the app-lock gate reaches the home screen with
+        // CLEAR_TOP, which can recycle a live instance instead of creating one — onCreate never
+        // runs then, so the restore has to be attempted here as well (it is one-shot either way).
+        maybeRestoreLastScreen(null)
+    }
+
+    /**
+     * Fork (白い熊 考直): re-open the screen the user left when the app is launched afresh from the
+     * launcher. The launcher entry is `singleTask`, so the task is always cleared down to its root
+     * before we get here — see [KojikiLastScreen].
+     */
+    private fun maybeRestoreLastScreen(savedInstanceState: Bundle?) {
+        // the system is restoring the task itself; leave its stack alone
+        if (savedInstanceState != null) return
+        val i = intent ?: return
+        val fromLauncher =
+            i.getBooleanExtra(KojikiLastScreen.EXTRA_RESTORE_LAST, false) ||
+                    i.hasCategory(Intent.CATEGORY_LAUNCHER)
+        if (!fromLauncher) return
+        KojikiLastScreen.restoreIfAny(this)
     }
 
     override fun onResume() {

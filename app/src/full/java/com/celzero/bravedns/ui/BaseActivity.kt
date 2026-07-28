@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.CustomUi
+import com.celzero.bravedns.customui.KojikiLastScreen
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities
@@ -105,6 +106,9 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
         if (custom) {
             CustomUi.applyTo(this)
         }
+        // Fork (白い熊 考直): remember this screen so re-opening the app from the launcher lands
+        // back on it instead of on the home screen (see KojikiLastScreen for the why).
+        KojikiLastScreen.record(this)
     }
 
     /**
