@@ -2,6 +2,28 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+13
+
+**The backup contract grows a “starts ticked” answer and a real cancel — a stopped export now stops, and leaves nothing behind.**
+
+### `LIST_CATEGORIES` states its own defaults
+The 保存復元 contract gained an optional **fourth field** on each category line, saying whether that item **starts ticked** in the caller's picker — the app's decision to state, not the picker's to guess. Every line now reads `id⇥label⇥⇥on|off`: an **empty parent field** (this app's categories are flat) followed by the flag, which is positional and optional, so nothing already written breaks.
+
+- **Nothing is marked `off`.** The rule is for things that are large, derived *and* re-creatable — downloaded tiles, a regenerable thumbnail cache — and this app exports none of that: rules, keys, endpoints and tags are all small and irreplaceable. Every line goes out as `on`, which is still worth sending: it is the app stating a default rather than the picker assuming one, and any category added later inherits a field that is already there.
+- An **absent `items` extra** now resolves through a new `Cat.defaults()` — the `on` set — instead of “everything”. Identical today, and correct by construction the day a category ships `off`.
+- **The in-app Export/Import sheet seeds from the same flag**, checkboxes and select-all alike, so the panel you use by hand and the automation picker start from one statement of intent.
+
+### `CANCEL_EXPORT` — stopping a backup actually stops it
+Added to the contract after a cancelled export elsewhere in the fleet ran to completion anyway and delivered a backup that had been called off. 自由作業盤's 中止 button used to only stop *listening*; it now fires a real cancel at the app, declared as a third action on the same exported receiver.
+
+- **Fire-and-forget.** The cancel never replies — not `OK:`, not an error, not even on a bad token — and it is a **silent no-op** when nothing is running, or when its optional `reply_id` names a run that already ended. Safe to send at any time.
+- **It unwinds at a category boundary**, never mid-`write()`, never by interrupting a thread or killing the process: the export core polls the caller's cancel signal between zip entries only.
+- **The half-written archive is deleted**, on both the absolute-path and SAF branches, in the same `finally` that now covers *every* failure — so a crashed export no longer leaves a short ZIP behind either. A cancelled export leaves the backup directory exactly as it found it, with nothing that could be mistaken for a finished backup.
+- **`ERROR:cancelled` goes out as the original request's terminal reply**, through the same one-shot guard that carries a success, so the two can never both fire. It is sent even if nobody is still listening — it is what proves the run ended rather than continuing unseen.
+- **A second concurrent export is refused** (`ERROR:export already running`), which is what makes a cancel with no `reply_id` unambiguous. The run state is static — every broadcast gets a fresh receiver instance, so the cancel arrives on a different one than the export it stops — and lock-guarded, so a cancel racing a run's own teardown cannot leave a stale flag armed for the next export.
+
+Nothing else moved: no new categories, no renamed ids, no change to `EXPORT_STATE`, the token, or the reply machinery. This app's export path has no foreground service or wakelock to unwind — the broadcast is held open with `goAsync()` and released on every path already.
+
 ## 0.5.5y+12
 
 **The “Apps” card opens from its own title, and re-opening the app lands you back on the screen you left.**
