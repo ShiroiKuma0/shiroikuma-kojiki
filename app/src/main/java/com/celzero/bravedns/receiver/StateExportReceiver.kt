@@ -46,7 +46,16 @@ import java.util.concurrent.atomic.AtomicBoolean
  *   comma list of [KojikiExport.Cat] ids; absent/empty = everything), `progress_action` (optional —
  *   see below), plus the reply trio `reply_action` / `reply_package` / `reply_id`.
  * - [ACTION_LIST_CATEGORIES]: token-gated, instant category enumeration for the caller's picker.
- *   Our categories are flat (no sub-options), so each line is just `id<TAB>label`.
+ *   Our categories are flat (no sub-options), so each line is `id<TAB>label<TAB><TAB>on|off` — an
+ *   empty parent field, then the app's own answer to "does this item start ticked?"
+ *   ([KojikiExport.Cat.onByDefault]), which is a decision for this app to state rather than for the
+ *   picker to guess.
+ * - [ACTION_CANCEL_EXPORT]: stop the export that is running. Extras: `token` (required) and an
+ *   optional `reply_id` (absent = the running export, unambiguous because two at once are refused).
+ *   Fire-and-forget — it never replies, not even on a bad token, and it is a silent no-op when
+ *   nothing is running or the run already ended. The cancelled run itself unwinds at the next
+ *   category boundary, deletes its half-written ZIP, and sends `ERROR:cancelled` as its own
+ *   terminal reply.
  *
  * **ONE ZIP per request, always** — every category is an entry inside the single archive, named
  * `shiroikuma-kojiki_<yyyy-MM-dd_HH-mm-ss>.zip` (identical to what the Export/Import panel writes,
@@ -83,13 +92,17 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
         val pathOverride = intent.getStringExtra(EXTRA_PATH)?.trim().orEmpty()
         val items = intent.getStringExtra(EXTRA_ITEMS)?.trim().orEmpty()
 
+        // CANCEL_EXPORT answers nothing, ever — not OK:, not ERROR:, not a gate failure. The run it
+        // stops sends the only reply (ERROR:cancelled), through its own request's channel.
+        val silent = action == ACTION_CANCEL_EXPORT
+
         val replied = AtomicBoolean(false)
         fun reply(result: String) {
             if (!replied.compareAndSet(false, true)) return
             // Log either way — the reply is invisible on this side, and this is what 白い熊 reads
             // back with `adb logcat` during acceptance testing.
             Logger.w(LOG_TAG_BACKUP_RESTORE, "$TAG: $action [$replyId] -> ${result.take(160)}")
-            if (replyAction.isEmpty() || replyPackage.isEmpty()) return
+            if (silent || replyAction.isEmpty() || replyPackage.isEmpty()) return
             app.sendBroadcast(Intent(replyAction).apply {
                 setPackage(replyPackage)
                 addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
@@ -110,14 +123,27 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
 
         when (action) {
             ACTION_LIST_CATEGORIES -> {
+                // id ⇥ label ⇥ parent ⇥ on|off — the parent field is empty (our categories are
+                // flat) but still present, because the default flag is positional.
                 reply("OK:" + KojikiExport.Cat.entries.joinToString("\n") {
-                    "${it.id}\t${app.getString(it.labelRes)}"
+                    "${it.id}\t${app.getString(it.labelRes)}\t\t${if (it.onByDefault) "on" else "off"}"
                 })
+            }
+
+            ACTION_CANCEL_EXPORT -> {
+                // Safe to send at any time: nothing running, or an id naming a run that already
+                // ended, is a silent no-op — no reply, no error, no crash.
+                val hit = cancelRun(replyId)
+                Logger.w(
+                    LOG_TAG_BACKUP_RESTORE,
+                    "$TAG: cancel [$replyId] -> ${if (hit) "signalled" else "nothing to cancel"}"
+                )
             }
 
             ACTION_EXPORT_STATE -> {
                 val cats: Set<KojikiExport.Cat> = if (items.isEmpty()) {
-                    KojikiExport.Cat.all()
+                    // absent `items` = our default set, which is exactly the `on` categories
+                    KojikiExport.Cat.defaults()
                 } else {
                     val ids = items.split(",").map { it.trim() }.filter { it.isNotEmpty() }
                     val resolved = ids.mapNotNull { KojikiExport.Cat.byId(it) }
@@ -149,9 +175,20 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
                     })
                 }
 
+                // One export at a time — the contract forbids two, and it is what makes a cancel
+                // with no reply_id unambiguous.
+                if (!beginRun(replyId)) {
+                    reply("ERROR:export already running")
+                    return
+                }
+
                 // The export walks Room + writes ZIP entries — hold the broadcast open and work on IO.
                 val pending = goAsync()
                 CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+                    // the half-written archive, so a cancel (or any failure) can remove it
+                    var absFile: File? = null
+                    var safDoc: DocumentFile? = null
+                    var completed = false
                     try {
                         // Directory precedence: `path` extra -> configured export directory -> error.
                         // Writing an arbitrary absolute path needs All-Files-Access; without it we may
@@ -169,8 +206,9 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
                             dir.mkdirs()
                             if (!dir.isDirectory) error("not a directory: $pathOverride")
                             val file = File(dir, fileName)
+                            absFile = file
                             file.outputStream().use { out ->
-                                KojikiExport.export(app, cats, out, ::progress)
+                                KojikiExport.export(app, cats, out, ::progress) { isCancelled() }
                             }
                             bytes = file.length()
                             shownPath = file.absolutePath
@@ -179,17 +217,32 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
                                 ?: error("no-directory") // no path extra and no configured directory
                             val doc = dir.createFile("application/zip", fileName)
                                 ?: error("cannot create $fileName in the export directory")
+                            safDoc = doc
                             app.contentResolver.openOutputStream(doc.uri)?.use { out ->
-                                KojikiExport.export(app, cats, out, ::progress)
+                                KojikiExport.export(app, cats, out, ::progress) { isCancelled() }
                             } ?: error("cannot open $fileName for writing")
                             bytes = doc.length()
                             shownPath = absolutePathOf(dir, doc) ?: "${dir.name}/${doc.name ?: fileName}"
                         }
+                        completed = true
                         reply("OK:$shownPath|$bytes|${humanSize(bytes)}|${cats.size} categories")
+                    } catch (c: KojikiExport.ExportCancelled) {
+                        // The terminal reply for the ORIGINAL request — sent even though the caller
+                        // may have stopped listening: it is what proves the run ended rather than
+                        // carrying on unseen.
+                        Logger.w(LOG_TAG_BACKUP_RESTORE, "$TAG: export cancelled [$replyId]")
+                        reply("ERROR:cancelled")
                     } catch (e: Exception) {
                         Logger.w(LOG_TAG_BACKUP_RESTORE, "$TAG: export failed: ${e.message}", e)
                         reply("ERROR:${e.message ?: e.javaClass.simpleName}")
                     } finally {
+                        // A cancelled (or failed) export leaves the backup directory exactly as it
+                        // found it — no short archive to mistake for a finished backup.
+                        if (!completed) {
+                            runCatching { absFile?.takeIf { it.exists() }?.delete() }
+                            runCatching { safDoc?.delete() }
+                        }
+                        endRun()
                         pending.finish()
                     }
                 }
@@ -226,6 +279,45 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
         // BuildConfig so these can never drift from the manifest's `${applicationId}` filters.
         val ACTION_EXPORT_STATE = "${BuildConfig.APPLICATION_ID}.action.EXPORT_STATE"
         val ACTION_LIST_CATEGORIES = "${BuildConfig.APPLICATION_ID}.action.LIST_CATEGORIES"
+        val ACTION_CANCEL_EXPORT = "${BuildConfig.APPLICATION_ID}.action.CANCEL_EXPORT"
+
+        // The running export, if any. Static because every broadcast gets a fresh receiver
+        // instance, and the cancel arrives on a different one than the export it stops. Guarded by
+        // [runLock] so a cancel racing the run's own teardown cannot leave the flag set for the
+        // next export.
+        private val runLock = Any()
+        private var runningReplyId: String? = null
+        @Volatile private var cancelRequested = false
+
+        /** Registers this run. False when another export is already going (the contract forbids two). */
+        private fun beginRun(replyId: String): Boolean {
+            synchronized(runLock) {
+                if (runningReplyId != null) return false
+                runningReplyId = replyId
+                cancelRequested = false
+                return true
+            }
+        }
+
+        /** Signals the running export to unwind. False = nothing to cancel (a silent no-op). */
+        private fun cancelRun(replyId: String): Boolean {
+            synchronized(runLock) {
+                val running = runningReplyId ?: return false
+                // an id naming some other (already finished) run must not stop this one
+                if (replyId.isNotEmpty() && replyId != running) return false
+                cancelRequested = true
+                return true
+            }
+        }
+
+        private fun endRun() {
+            synchronized(runLock) {
+                runningReplyId = null
+                cancelRequested = false
+            }
+        }
+
+        private fun isCancelled(): Boolean = cancelRequested
 
         private const val TAG = "StateExportReceiver"
         private const val PROGRESS_MIN_INTERVAL_MS = 500L

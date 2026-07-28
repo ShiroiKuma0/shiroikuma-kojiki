@@ -147,8 +147,16 @@ object KojikiExport : KoinComponent {
     // invisible until the user digs into the WG screen).
     private var wgImportDetail = ""
 
-    /** A selectable export/import category. `id` is the JSON file name (`<id>.json`) inside the ZIP. */
-    enum class Cat(val id: String, @StringRes val labelRes: Int) {
+    /**
+     * A selectable export/import category. `id` is the JSON file name (`<id>.json`) inside the ZIP.
+     *
+     * [onByDefault] is the app's own answer to "does this item start ticked?" — stated, never
+     * guessed by whoever draws the picker. It seeds both the in-app Export/Import sheet and the
+     * fourth field of the 保存復元 `LIST_CATEGORIES` reply. Everything this app exports is small and
+     * irreplaceable (rules, keys, endpoints, tags), so nothing is `off`: the flag exists so a
+     * category added later inherits a field that is already there.
+     */
+    enum class Cat(val id: String, @StringRes val labelRes: Int, val onByDefault: Boolean = true) {
         APP_SETTINGS("app_settings", R.string.kojiki_eim_cat_settings),
         APPEARANCE("appearance", R.string.kojiki_eim_cat_appearance),
         SNOOP_TAGS("snoop_tags", R.string.kojiki_eim_cat_tags),
@@ -163,8 +171,17 @@ object KojikiExport : KoinComponent {
         companion object {
             fun byId(id: String): Cat? = entries.firstOrNull { it.id == id }
             fun all(): Set<Cat> = entries.toSet()
+
+            /** The default set: exactly the [onByDefault] categories — what an absent `items` means. */
+            fun defaults(): Set<Cat> = entries.filter { it.onByDefault }.toSet()
         }
     }
+
+    /**
+     * Thrown out of [export] when the caller's `isCancelled` signal goes up. The caller must delete
+     * the partial output — a cancelled export leaves the backup directory exactly as it found it.
+     */
+    class ExportCancelled : Exception("cancelled")
 
     // Fork-private prefs stores (must match CustomUiConfig.PREFS / SnoopTagStore.PREFS).
     private const val PREFS_KOJIKI_UI = "kojiki_ui"
@@ -196,12 +213,17 @@ object KojikiExport : KoinComponent {
      * ([com.celzero.bravedns.receiver.StateExportReceiver]) are two thin callers of this — no export
      * logic is duplicated anywhere. [onProgress] is called as `(done, total, categoryLabel)` after
      * each category is written, so a caller can report real counts (never a percentage).
+     *
+     * [isCancelled] is polled at every entry boundary — never mid-write — and unwinds the run with
+     * [ExportCancelled]. The caller owns the signal (and the partial file it must then delete);
+     * callers that cannot be cancelled simply pass nothing.
      */
     suspend fun export(
         context: Context,
         cats: Set<Cat>,
         out: OutputStream,
-        onProgress: ((Int, Int, String) -> Unit)? = null
+        onProgress: ((Int, Int, String) -> Unit)? = null,
+        isCancelled: (() -> Boolean)? = null
     ): String {
         var count = 0
         // Deterministic order (declaration order), so progress reads the same on every run.
@@ -217,6 +239,9 @@ object KojikiExport : KoinComponent {
             writeEntry(zip, "manifest.json", manifest.toString(2))
 
             for (cat in ordered) {
+                // A cancel unwinds here, at an entry boundary: never mid-write(), never by killing
+                // a thread or the process (contract §CANCEL_EXPORT).
+                if (isCancelled?.invoke() == true) throw ExportCancelled()
                 val json = when (cat) {
                     Cat.APP_SETTINGS ->
                         exportPrefs(PreferenceManager.getDefaultSharedPreferences(context), APP_SETTINGS_EXCLUDE)
