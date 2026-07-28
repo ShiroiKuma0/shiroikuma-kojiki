@@ -440,8 +440,18 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
             )
         }
 
+        // Fork (白い熊 考直): the "Apps" title spans the whole first row of the card and sits on top
+        // of the card's own click listener, so upstream's title tap swallowed the click and did
+        // nothing whenever rethink cannot block itself. Open the apps list from the title too — the
+        // whole card now behaves as one target.
         b.fhsCardAppsTv.setOnClickListener {
-            openRethinkAppInfoIfNeeded()
+            Logger.v(LOG_TAG_UI, "$TAG: click event on apps card title")
+            startAppsActivity()
+            logEvent(
+                EventType.UI_NAVIGATION,
+                "HomeScreen: Apps card title clicked",
+                "Navigating to AppListActivity from HomeScreenFragment"
+            )
         }
 
         b.fhsProtectionLevelTxt.setOnClickListener {
