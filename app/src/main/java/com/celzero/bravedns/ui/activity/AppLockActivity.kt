@@ -31,6 +31,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.celzero.bravedns.R
+import com.celzero.bravedns.customui.KojikiLastScreen
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.ui.HomeScreenActivity
@@ -162,9 +163,13 @@ class AppLockActivity : BaseActivity(R.layout.activity_app_lock) {
 
     private fun startHomeActivity() {
         Logger.v(LOG_TAG_UI, "$TAG starting home activity")
+        // Fork (白い熊 考直): a plain launcher tap (ACTION_MAIN) should hand the home screen the
+        // "go back to the screen the user left" flag — .rbk/VIEW and QS-tile starts must not.
+        val fromLauncher = getIntent()?.action == Intent.ACTION_MAIN
         val intent = Intent(this, HomeScreenActivity::class.java).apply {
-            putExtras(intent)
+            putExtras(this@AppLockActivity.intent)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            if (fromLauncher) putExtra(KojikiLastScreen.EXTRA_RESTORE_LAST, true)
         }
         startActivity(intent)
         finish()
