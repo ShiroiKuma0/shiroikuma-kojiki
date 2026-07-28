@@ -184,12 +184,14 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
 
         root.addView(divider(ctx, cfg, dp(1)))
 
+        // Each row starts from the category's own default (KojikiExport.Cat.onByDefault), the same
+        // answer the 保存復元 automation picker is seeded from — one statement of intent, two pickers.
         val selectAll = checkbox(ctx, getString(R.string.kojiki_eim_select_all), cfg, bold = true).apply {
-            isChecked = true
+            isChecked = KojikiExport.Cat.entries.all { it.onByDefault }
         }
         root.addView(selectAll)
         for (cat in KojikiExport.Cat.entries) {
-            val cb = checkbox(ctx, getString(cat.labelRes), cfg).apply { isChecked = true }
+            val cb = checkbox(ctx, getString(cat.labelRes), cfg).apply { isChecked = cat.onByDefault }
             checks[cat] = cb
             root.addView(cb)
         }
