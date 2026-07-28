@@ -2,6 +2,23 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.5y+12
+
+**The “Apps” card opens from its own title, and re-opening the app lands you back on the screen you left.**
+
+### The Apps card is one target again
+The Apps card's title is a full-width `TextView` layered over the card, and it carried its own click listener into a handler whose else-branch does nothing — so tapping the word **Apps**, its icon, or anywhere on that line silently swallowed the tap, and only the stats area below it opened the app list. The title now opens the app list too; the whole card behaves as a single target.
+
+### Re-opening from the launcher returns to where you were
+Leaving the app from, say, the Apps list and tapping the icon again always dropped you back on the home screen. The launcher entry — the app-lock gate, or the home screen itself when the app-lock alias is off — is `launchMode="singleTask"`, so a launcher tap runs `performClearTop` and finishes every activity above the task root; stock reinforces that with `android:finishOnTaskLaunch="true"` on nearly every sub-activity.
+
+Relaxing the launch mode would have fixed it and also let re-entry **skip the biometric app-lock gate**, so the fork keeps the gate and rebuilds the destination behind it instead:
+
+- **The screen you are on is recorded** as you use it, from `BaseActivity.onResume` — the fork's app-wide chokepoint — and re-launched on top of the home screen once the home screen is reached from a plain launcher tap (`ACTION_MAIN` through the lock gate, or `CATEGORY_LAUNCHER` directly). Both `onCreate` and `onNewIntent` attempt it, because the gate's `CLEAR_TOP` hand-off can recycle a live home screen instead of creating one. The lock still runs first — you authenticate, *then* land where you left.
+- **Entry points are never restored** — home, app-lock, welcome, pause, the notification handler, bubbles, checkout — and landing on one clears the memory: sitting on the home screen *is* “nothing to restore”. Only this app's own activities are ever re-opened.
+- **The record is one-shot**, consumed on restore and re-recorded when the restored screen resumes, so a restore that fails can never trap you in a loop. Back from the restored screen returns to the home screen as usual.
+- Restores carry `FLAG_ACTIVITY_NO_ANIMATION` so the hand-off doesn't flicker, and only primitive/String extras survive the intent round-trip — data URIs are dropped deliberately, since the read permission behind them would not survive it either.
+
 ## 0.5.5y+11
 
 **The app id on every firewall row — visible, searchable, and sizable; and no more false “DNS wedged” alert after an update.**
