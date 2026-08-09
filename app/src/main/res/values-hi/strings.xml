@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">रीथिंकडीएनएस</string>
-    <string name="app_name_small_case" translatable="false">रीथिंक</string>
-    <string name="title_about">हमारे बारे में</string>
+            <string name="title_about">हमारे बारे में</string>
     <string name="title_settings">सेटिंग्स</string>
     <string name="pause_title_desc">एक झपकी लेते हुए…</string>
     <string name="settings_title_desc">एक उच्च अनुकूलनीय डीएनएस और फ़ायरवॉल</string>
     <string name="about_title_desc">नेटवर्क सुरक्षा खतरों का पता लगाएं और उन्हें ब्लॉक करें</string>
     <string name="txt_home">घर</string>
-    <string name="accessibility_service_description">रीथिंक बैकग्राउंड एप्लीकेशन का पता लगाने और फ़ायरवॉल करने के लिए एक्सेसिबिलिटी सेवा का उपयोग करता है। रीथिंक कोई भी जानकारी एकत्र या बेचता नहीं है।</string>
+    <string name="accessibility_service_description">白い熊 考直 बैकग्राउंड एप्लीकेशन का पता लगाने और फ़ायरवॉल करने के लिए एक्सेसिबिलिटी सेवा का उपयोग करता है। 白い熊 考直 कोई भी जानकारी एकत्र या बेचता नहीं है।</string>
     <string name="next">अगला</string>
     <string name="skip">छोड़ें</string>
     <string name="finish">सम्पन्न</string>
     <string name="slide_2_title">स्वागतम्</string>
-    <string name="slide_2_desc">रीथिंक नेटवर्क गतिविधि की निगरानी करने, इंटरनेट सेंसरशिप को बायपास करने, और आपके एंड्रॉइड डिवाइस पर ऐप्स फ़ायरवॉल करने का सबसे आसान तरीका है।</string>
+    <string name="slide_2_desc">白い熊 考直 नेटवर्क गतिविधि की निगरानी करने, इंटरनेट सेंसरशिप को बायपास करने, और आपके एंड्रॉइड डिवाइस पर ऐप्स फ़ायरवॉल करने का सबसे आसान तरीका है।</string>
     <string name="slide_1_title">नि: शुल्क और ओपन सोर्स</string>
-    <string name="slide_1_desc">रीथिंक एक ओपन सोर्स सॉफ्टवेयर है जो मोज़िला बिल्डर्स एमवीपी प्रोग्राम द्वारा समर्थित है।</string>
+    <string name="slide_1_desc">白い熊 考直 एक ओपन सोर्स सॉफ्टवेयर है जो मोज़िला बिल्डर्स एमवीपी प्रोग्राम द्वारा समर्थित है।</string>
     <string name="rdns_plus" translatable="false">आरडीएनएस प्लस</string>
     <string name="allow">अनुमति दें</string>
     <string name="block">ब्लॉक करें</string>
     <string name="bypass_universal">यूनवर्सल बायपास</string>
     <string name="isolate">अलग रखे</string>
     <string name="untracked">ट्रैक न किए गए</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">चेतावनी: रीथिंक निष्क्रिय कर दिया गया</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">चेतावनी: 白い熊 考直 निष्क्रिय कर दिया गया</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">सुरक्षा सेटिंग बदलने के लिए टैप करें</string>
     <string name="dns_mode_notification_title">सुरक्षित! तेज और सुरक्षित डीएनएस से जुड़ा है।</string>
     <string name="firewall_mode_notification_title">सुरक्षित! फ़ायरवॉल से जुड़ा हुआ है।</string>
@@ -39,7 +37,7 @@
     <string name="status_protected_with_private_dns">निजी डीएनएस के साथ सुरक्षित</string>
     <string name="status_protected_with_tor_private_dns" translatable="true">टॉर और निजी डीएनएस के साथ सुरक्षित</string>
     <string name="status_protected_with_proxy_private_dns" translatable="true">प्रॉक्सी और निजी डीएनएस के साथ सुरक्षित</string>
-    <string name="dns_explanation_dns_connected" translatable="true">रीथिंकडीएनएस से जुड़ा</string>
+    <string name="dns_explanation_dns_connected" translatable="true">白い熊 考直डीएनएस से जुड़ा</string>
     <string name="notification_action_dns_mode" translatable="true">डीएनएस</string>
     <string name="notification_action_dns_firewall_mode" translatable="true">डीएनएस + फ़ायरवॉल</string>
     <string name="dns_mode_info_title" translatable="true">डीएनएस</string>
@@ -80,9 +78,9 @@
     <string name="bsct_conn_desc_allowed" translatable="true">%1$s %2$s पर अनुमति है</string>
     <string name="bsct_conn_desc_blocked" translatable="true">%1$s %2$s पर अवरुद्ध</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: किसी ऐप को इंटरनेट से जुड़ने से रोकता है। \n&lt;u&gt;#2&lt;/u&gt;: किसी भी ऐप को किसी खास आईपी से जुड़ने से रोकता है। \n&lt;u&gt;#3&lt;/u&gt;: डिवाइस लॉक होने पर सभी कनेक्शन ब्लॉक कर देता है (यूनिवर्सल फ़ायरवॉल)। \n&lt;u&gt;#4&lt;/u&gt;: उपयोग में नहीं आने वाले किसी भी ऐप को ब्लॉक कर देता है (यूनिवर्सल फ़ायरवॉल)। \n&lt;u&gt;#5&lt;/u&gt;: जब स्रोत ऐप अज्ञात हो तो कनेक्शन को ब्लॉक कर देता है (यूनिवर्सल फ़ायरवॉल)। \n&lt;u&gt;#6&lt;/u&gt;: डीएनएस को छोड़कर सभी यूडीपी ट्रैफ़िक को ब्लॉक करता है (यूनिवर्सल फ़ायरवॉल)I \n&lt;u&gt;#7&lt;/u&gt;: डीएनएस को बायपास करने पर कनेक्शन ब्लॉक करें (यूनिवर्सल फ़ायरवॉल)।</string>
-    <string name="always_on_dialog" translatable="true">इस डिवाइस पर \"ऑलवेज-ऑन वीपीएन\" सक्षम है। रीथिंक शुरू करने के लिए, कृपया सेटिंग ऐप पर जाएं और \"ऑलवेज-ऑन वीपीएन\" को अक्षम करें।</string>
-    <string name="always_on_dialog_stop_message" translatable="true">रीथिंक के लिए हमेशा ऑन-वीपीएन सक्षम है। क्या आप वाकई रीथिंक को फिर भी रोकना चाहते हैं?</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">रीथिंक <i>लॉकडाउन</i> मोड में वीपीएन चला रहा है। इसे रोकने से इस उपयोगकर्ता प्रोफ़ाइल पर इंटरनेट बंद हो जाएगा। क्या आप फिर भी जारी रखना चाहते हैं?</string>
+    <string name="always_on_dialog" translatable="true">इस डिवाइस पर \"ऑलवेज-ऑन वीपीएन\" सक्षम है। 白い熊 考直 शुरू करने के लिए, कृपया सेटिंग ऐप पर जाएं और \"ऑलवेज-ऑन वीपीएन\" को अक्षम करें।</string>
+    <string name="always_on_dialog_stop_message" translatable="true">白い熊 考直 के लिए हमेशा ऑन-वीपीएन सक्षम है। क्या आप वाकई 白い熊 考直 को फिर भी रोकना चाहते हैं?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 <i>लॉकडाउन</i> मोड में वीपीएन चला रहा है। इसे रोकने से इस उपयोगकर्ता प्रोफ़ाइल पर इंटरनेट बंद हो जाएगा। क्या आप फिर भी जारी रखना चाहते हैं?</string>
     <string name="dns_act_configure_tab" translatable="true">कॉन्फ़िगर</string>
     <string name="dns_proxy_remove_dialog_message" translatable="true">सहेजे गए कॉन्फ़िगरेशन से डीएनएस प्रॉक्सी हटाएं।</string>
     <string name="show_logs_disabled_dns_message" translatable="true">डीएनएस अनुरोध लॉगिंग अक्षम कर दी गई है। पुनः सक्षम करने के लिए, <i>सेटिंग्स</i> पर जाएं और चालू करें <i>ऑन-डिवाइस लॉगिंग।</i></string>
@@ -90,7 +88,7 @@
     <string name="lbl_allowed" translatable="true">अनुमति प्राप्त</string>
     <string name="status_protected_with_http_private_dns" translatable="true">एचटीटीपी प्रॉक्सी और निजी डीएनएस के साथ सुरक्षित</string>
     <string name="status_protected_with_socks5" translatable="true">सॉक्स प्रॉक्सी के साथ सुरक्षित</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">रीथिंक सुलभता सेवा ठप या क्रेश हो गई है। रीथिंक को <i><b>सेटिंग में जाकर फोर्स स्टॉप करे</b></i> और उसे वापस चालू करे <i>इस्तेमाल ना हो रहे किसी ऐप को ब्लॉक करें</i> फीचर का इस्तेमाल करने के लिए। \n \nरीथिंक सुलभता सेवा का इस्तेमाल करता है ये देखने के लिए की कौन सा ऐप इस्तेमाल किया जा रहा है और कौन सा नही।</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 सुलभता सेवा ठप या क्रेश हो गई है। 白い熊 考直 को <i><b>सेटिंग में जाकर फोर्स स्टॉप करे</b></i> और उसे वापस चालू करे <i>इस्तेमाल ना हो रहे किसी ऐप को ब्लॉक करें</i> फीचर का इस्तेमाल करने के लिए। \n \n白い熊 考直 सुलभता सेवा का इस्तेमाल करता है ये देखने के लिए की कौन सा ऐप इस्तेमाल किया जा रहा है और कौन सा नही।</string>
     <string name="lbl_apply" translatable="true">लागू करे</string>
     <string name="lbl_dismiss" translatable="true">हटाये</string>
     <string name="lbl_all" translatable="true">सभी</string>
@@ -104,9 +102,9 @@
     <string name="lbl_blocked" translatable="true">अवरोधित</string>
     <string name="status_protected_with_socks5_private_dns" translatable="true">सॉक्स5 और निजी डीएनएस के साथ सुरक्षित</string>
     <string name="status_protected_with_http" translatable="true">एचटीटीपी प्रॉक्सी के साथ सुरक्षित</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">निजी डीएनएस सक्षम है</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">निजी डीएनएस सक्षम है</string>
     <string name="dns_explanation_firewall_connected" translatable="true">फ़ायरवॉल से जुड़ा</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">रीथिंकडीएनएस और फ़ायरवॉल से जुड़ा</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">白い熊 考直डीएनएस और फ़ायरवॉल से जुड़ा</string>
     <string name="universal_firewall_explanation" translatable="true">डिवाइस घटनाओं के आधार पर फायरवॉल नियम लागू करे जैसे जब, उदाहरण के लिए, डिवाइस लॉक हो या कोई विशेष ऐप उपयोग में न हो।</string>
     <string name="notification_action_pause_vpn" translatable="true">रोके</string>
     <string name="notification_action_stop_vpn" translatable="true">बंद करे</string>
@@ -115,7 +113,7 @@
     <string name="dns_mode_info_explanation_new" translatable="true">डीएनएस अनुरोधों को मॉनिटर, ब्लॉक और एन्क्रिप्ट करें।</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">उपरोक्त सभी + इंटरनेट सेंसरशिप को बायपास करें।</string>
     <string name="alert_permission_accessibility" translatable="true">अनुमति - सुलभता</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">रीथिंक सुलभता सेवा का इस्तेमाल करता है ये देखने के लिए की कौन सा ऐप इस्तेमाल किया जा रहा है और कौन सा नही। \n \nरीथिंक कोई जानकारी इकट्ठा नही करता और ना आपकी जासूसी करता है।</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 सुलभता सेवा का इस्तेमाल करता है ये देखने के लिए की कौन सा ऐप इस्तेमाल किया जा रहा है और कौन सा नही। \n \n白い熊 考直 कोई जानकारी इकट्ठा नही करता और ना आपकी जासूसी करता है।</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">मोड चुनें।</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">मोड चुनें।</string>
     <string name="default_dns_name" translatable="true">आरडीएनएस डिफ़ॉल्ट</string>
@@ -131,7 +129,7 @@
     <string name="bsct_conn_block_desc_device" translatable="true">डिवाइस पर %1$s ब्लॉक किया गया</string>
     <string name="always_on_dialog_heading" translatable="true">हमेशा-ऑन वीपीएन अक्षम करे</string>
     <string name="always_on_dialog_positive_btn" translatable="true">सेटिंग्स में जाए</string>
-    <string name="private_dns_dialog_desc" translatable="true">रीथिंक की डीएनएस सेटिंग्स एंड्रॉइड के प्राइवेट डीएनएस द्वारा ओवरराइड की गई हैं। \n \nरीथिंक के डीएनएस का उपयोग करने के लिए एंड्रॉइड सेटिंग्स पर जाएं और \"निजी डीएनएस\" को बंद करें।</string>
+    <string name="private_dns_dialog_desc" translatable="true">白い熊 考直 की डीएनएस सेटिंग्स एंड्रॉइड के प्राइवेट डीएनएस द्वारा ओवरराइड की गई हैं। \n \n白い熊 考直 के डीएनएस का उपयोग करने के लिए एंड्रॉइड सेटिंग्स पर जाएं और \"निजी डीएनएस\" को बंद करें।</string>
     <string name="private_dns_dialog_positive" translatable="true">सेटिंग्स में जाए</string>
     <string name="firewall_act_network_monitor_tab" translatable="true">नेटवर्क</string>
     <string name="univ_firewall_dialog_message" translatable="true">इस नियम को हटाने से कोई भी ऐप इस आईपी से जुड़ सकेगा। क्या आप आगे बढ़ना चाहते हैं?</string>
@@ -162,7 +160,7 @@
     <string name="orbot_status_arg_2" translatable="true">टीसीपी</string>
     <string name="orbot_stop_dialog_message_combo" translatable="false">%1$s \n \n%2$s</string>
     <string name="orbot_stop_dialog_title" translatable="true">मैन्युअल हस्तक्षेप की आवश्यकता</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">रीथिंक डीएनएस सवालों को ऑर्बोट को फॉरवर्ड करने के लिए सेटअप है। ज़रुरत के हिसाब से बदलें।</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 डीएनएस सवालों को ऑर्बोट को फॉरवर्ड करने के लिए सेटअप है। ज़रुरत के हिसाब से बदलें।</string>
     <string name="orbot_title" translatable="true">ऑर्बोट और प्रॉक्सी</string>
     <string name="orbot_install_dialog_title" translatable="true">ऑर्बोट इंस्टॉल करे?</string>
     <string name="orbot_install_dialog_neutral" translatable="true">वेबसाइट</string>
@@ -170,7 +168,7 @@
     <string name="settings_orbot_install_desc" translatable="true">ऑर्बोट इंस्टॉल करने के लिए यहां टैप करें</string>
     <string name="settings_orbot_disabled_error" translatable="true">टॉर-एक-प्रॉक्सी-के-रूप-में सेटअप के साथ जारी रखने के लिए एचटीटीपी(एस) और/या सॉक्स5 प्रॉक्सी को बंद करें।</string>
     <string name="settings_https_disabled_error" translatable="true">%1$s से जुड़ा है। जारी रखने के लिए इसे बंद करें।</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">आगे बढ़ने के लिए रीथिंक शुरू करें।</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">आगे बढ़ने के लिए 白い熊 考直 शुरू करें।</string>
     <string name="settings_orbot_notification_action" translatable="true">ऑर्बोट खोले</string>
     <string name="settings_check_update_heading" translatable="true">ऐप अपडेट के लिए जाँच करें</string>
     <string name="settings_theme_desc" translatable="true">डार्क/लाइट थीम</string>
@@ -214,7 +212,7 @@
     <string name="firewall_status_block_metered" translatable="true">मीटर्ड (मोबाइल) नेटवर्क पर ब्लॉक किया गया</string>
     <string name="firewall_card_status_active" translatable="true">%1$s ऐप्स</string>
     <string name="firewall_card_text_active" translatable="true">%1$s अवरुद्ध\n%2$s बायपास किये गए\n%3$s निकाले गए\n %4$s अलग रखे ग‌ए</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">रीथिंक डिवाइस के डीएनएस अनुरोधों को एन्क्रिप्ट करने, नेटवर्क मॉनिटर को लागू करने, और फ़ायरवॉल नियमों को लागू करने के लिए एक स्थानीय वीपीएन सेट करने की अनुमति की आवश्यकता होती है। \n \nरीथिंक किसी भी तरह से आपकी कोई जानकारी इकट्ठा या जासूसी नहीं करता है।</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 डिवाइस के डीएनएस अनुरोधों को एन्क्रिप्ट करने, नेटवर्क मॉनिटर को लागू करने, और फ़ायरवॉल नियमों को लागू करने के लिए एक स्थानीय वीपीएन सेट करने की अनुमति की आवश्यकता होती है। \n \n白い熊 考直 किसी भी तरह से आपकी कोई जानकारी इकट्ठा या जासूसी नहीं करता है।</string>
     <string name="hsf_start_dialog_message" translatable="true">आप एक सुरक्षित एंड्रॉइड से एक कदम दूर हैं: तुरंत नेटवर्क गतिविधि देखें और वेबसाइट, आईपी, और खराब व्यवहार करने वाले ऐप्स को बलाॅक करे।</string>
     <string name="hsf_exclude_error" translatable="true">वीपीएन लॉकडाउन मोड में निकालना संभव नहीं है</string>
     <string name="hsf_proxy_chip_removed_toast" translatable="true">प्रॉक्सी हटा दिया गया</string>
@@ -222,10 +220,10 @@
     <string name="hsf_whats_new_remove_text" translatable="true">समापन…</string>
     <string name="hsf_blocklist_updating_text" translatable="true">सक्षम किया जा रहा है…</string>
     <string name="hsf_chip_appearance" translatable="true">थीम: %1$s</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">रोक नहीं सकते: रीथिंक सक्रिय नहीं है</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">रोक नहीं सकते: 白い熊 考直 सक्रिय नहीं है</string>
     <string name="dc_custom_dns_radio" translatable="true">अन्य डीएनएस</string>
     <string name="dc_entries" translatable="true">%1$s एंट्री</string>
-    <string name="dc_rethink_dns_radio" translatable="true">रीथिंक डीएनएस</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 डीएनएस</string>
     <string name="dc_custom_block_heading" translatable="true">डोमेन नियम</string>
     <string name="dc_dns_leaks_heading" translatable="true">डीएनएस लीक को रोकें</string>
     <string name="dc_check_update_desc" translatable="true">प्रत्येक <i>तीन</i> दिन में एक बार ब्लॉकलिस्ट अपडेट की जांच करें</string>
@@ -289,7 +287,7 @@
     <string name="update_complete_snack_message" translatable="true">नया संस्करण डाउनलोड किया गया।</string>
     <string name="system_dns_connection_failure" translatable="true">वर्तमान डीएनएस सर्वर का पता नहीं कर सका</string>
     <string name="update_complete_action_snack" translatable="true">पुनर्प्रारंभ करें</string>
-    <string name="accessibility_failure_toast" translatable="true">रीथिंक सुलभता सेवा बंद या क्रैश हो गई है। अब बैकग्राउंड वाले ऐप्स को ब्लॉक नहीं किया जा रहा है।</string>
+    <string name="accessibility_failure_toast" translatable="true">白い熊 考直 सुलभता सेवा बंद या क्रैश हो गई है। अब बैकग्राउंड वाले ऐप्स को ब्लॉक नहीं किया जा रहा है।</string>
     <string name="firewall_rule_univ_block_metered" translatable="true">मीटर (यूनीवर्सल)</string>
     <string name="firewall_rule_block_app_new_install" translatable="true">नया ऐप</string>
     <string name="firewall_rule_block_metered" translatable="true">मीटर (मोबाइल)</string>
@@ -298,7 +296,7 @@
     <string name="firewall_rule_exempt_dns_proxied" translatable="true">डीएनएस प्रॉक्सीड</string>
     <string name="firewall_rule_exempt_orbot_setup" translatable="true">ऑर्बोट सेटअप</string>
     <string name="firewall_rule_global_lockdown" translatable="true">लॉकडाउन</string>
-    <string name="new_app_bulk_notification_content" translatable="true">रीथिंक ने %1$s नए ऐप्स को ब्लॉक कर दिया। देखने या संशोधित करने के लिए टैप करें।</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 ने %1$s नए ऐप्स को ब्लॉक कर दिया। देखने या संशोधित करने के लिए टैप करें।</string>
     <string name="new_app_notification_action_deny" translatable="true">अवरुद्ध रखें</string>
     <string name="notif_dialog_pause_dialog_negative" translatable="true">रद्द करें</string>
     <string name="notif_dialog_pause_dialog_neutral" translatable="true">दिखाए</string>
@@ -389,13 +387,13 @@
     <string name="firewall_status_blocked" translatable="true">अवरोधित</string>
     <string name="firewall_status_unknown" translatable="true">अज्ञात स्थिति</string>
     <string name="ct_bs_app_info_error" translatable="true">ऐप जानकारी नहीं मिली</string>
-    <string name="hs_biometeric_title" translatable="true">रीथिंक अनलॉक करें</string>
-    <string name="hs_biometeric_desc" translatable="true">रीथिंक अनलॉक करने के लिए बायोमेट्रिक सत्यापन इस्तेमाल करें</string>
+    <string name="hs_biometeric_title" translatable="true">白い熊 考直 अनलॉक करें</string>
+    <string name="hs_biometeric_desc" translatable="true">白い熊 考直 अनलॉक करने के लिए बायोमेट्रिक सत्यापन इस्तेमाल करें</string>
     <string name="hs_biometeric_failed" translatable="true">बायोमेट्रिक प्रमाणीकरण विफल</string>
     <string name="hs_biometeric_error" translatable="true">बायोमेट्रिक प्रमाणीकरण त्रुटि</string>
     <string name="hsf_uptime" translatable="false">(सक्रिय: %1$s; प्रोटोस्: %2$s; टाइप: %3$s)</string>
     <string name="dc_dns_website_desc" translatable="true"><i>duckduckgo.com</i> और <i>nextdns.io</i> से वेबसाइट आइकन प्राप्त करता है। डिस्क स्थान में 350 एमबी तक की खपत करता है</string>
-    <string name="dc_dns_leaks_desc" translatable="true">सक्षम होने पर, रीथिंक पोर्ट 53 पर सभी पैकेटों को पकड़ता है और इसे उपयोगकर्ता-सेट डीएनएस एंडपॉइंट पर फोरवर्ड करता है</string>
+    <string name="dc_dns_leaks_desc" translatable="true">सक्षम होने पर, 白い熊 考直 पोर्ट 53 पर सभी पैकेटों को पकड़ता है और इसे उपयोगकर्ता-सेट डीएनएस एंडपॉइंट पर फोरवर्ड करता है</string>
     <string name="dc_check_update_heading" translatable="true">ब्लॉकलिस्ट अपडेट पर संकेत दे</string>
     <string name="about_mail_to" translatable="true">hello@celzero.com</string>
     <string name="about_mail_to_string" translatable="true">मेलटो:</string>
@@ -449,7 +447,7 @@
     <string name="firewall_rule_trusted_ip" translatable="true">विश्वसनीय आईपी</string>
     <string name="firewall_rule_trusted_ip_desc" translatable="true"><![CDATA[इस कनेक्शन की अनुमति दी गई थी क्योंकि <i>गंतव्य आईपी</i> विश्वसनीय आईपी के रूप में सेट है।<br/><br/> बदलने के लिए <i>ऐप-विशिष्ट फ़ायरवॉल</i> स्क्रीन पर जाएं।]]></string>
     <string name="firewall_rule_block_ip_univ_desc" translatable="true"><![CDATA[एक उपयोगकर्ता-सेट फ़ायरवॉल नियम ने <i>गंतव्य आईपी / पोर्ट</i> को अवरुद्ध कर दिया। <br/> <br/> बदलने के लिए <i>यूनीवर्सल</i> टैब पर जाएं।]]></string>
-    <string name="new_app_notification_content" translatable="true">रीथिंक ने हाल ही में इंस्टॉल किए गए ऐप %1$s को ब्लॉक कर दिया है।</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 ने हाल ही में इंस्टॉल किए गए ऐप %1$s को ब्लॉक कर दिया है।</string>
     <string name="notif_dialog_pause_dialog_positive" translatable="true">दुबारा आरंभ करना</string>
     <string name="build__flavor_website" translatable="true">वेबसाइट</string>
     <string name="build__flavor_play_store" translatable="true">चलाए</string>
@@ -497,9 +495,9 @@
     <string name="orbot_bs_status_2" translatable="true">HTTP प्रॉक्सी सेट है।</string>
     <string name="orbot_app_issue" translatable="true">ऑर्बोट को लॉन्च नहीं किया जा सकाI क्या वह स्थापित है?</string>
     <string name="orbot_bs_status_3" translatable="true">%1$s को ऑर्बोट पे फोरवर्ड कर रहे है, एचटीटीपी प्रॉक्सी भी सेट है।</string>
-    <string name="orbot_stop_dialog_message" translatable="true">रीथिंक ने ऑर्बोट को कनेक्शन फॉरवर्ड करना बंद कर दिया है, लेकिन ऑर्बोट शायद बैकग्राउंड में चल रहा है।</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 ने ऑर्बोट को कनेक्शन फॉरवर्ड करना बंद कर दिया है, लेकिन ऑर्बोट शायद बैकग्राउंड में चल रहा है।</string>
     <string name="orbot_stop_dialog_negative" translatable="true">ऑर्बोट बंद करे</string>
-    <string name="orbot_explanation" translatable="true">Orbot एक निःशुल्क प्रॉक्सी ऐप है जो अन्य ऐप्स को इंटरनेट का अधिक &lt;u&gt;सुरक्षित&lt;/u&gt; उपयोग करने में सक्षम बनाता है।\nOrbot आपके इंटरनेट ट्रैफ़िक को एन्क्रिप्ट करने के लिए &lt;u&gt;Tor&lt;/u&gt; का उपयोग करता है जो आपको &lt;u&gt;सेंसरशिप को बायपास&lt;/u&gt; करने और &lt;u&gt;नेटवर्क निगरानी&lt;/u&gt; के उन रूपों से बचाव करने में मदद करता है जो व्यक्तिगत स्वतंत्रता और गोपनीयता को ख़तरे में डालते हैं।\n&lt;u&gt;TCP प्रॉक्सी&lt;/u&gt;: Rethink Orbot को केवल &lt;i&gt;शामिल&lt;/i&gt; ऐप्स के TCP कनेक्शन को अग्रेषित करता है।\n&lt;u&gt;HTTP प्रॉक्सी&lt;/u&gt;: Rethink Orbot को HTTP CONNECT सुरंग &lt;i&gt;स्थापित&lt;/i&gt; करता है और &lt;i&gt;शामिल&lt;/i&gt; ऐप्स के केवल TCP कनेक्शन को अग्रेषित करता है।</string>
+    <string name="orbot_explanation" translatable="true">Orbot एक निःशुल्क प्रॉक्सी ऐप है जो अन्य ऐप्स को इंटरनेट का अधिक &lt;u&gt;सुरक्षित&lt;/u&gt; उपयोग करने में सक्षम बनाता है।\nOrbot आपके इंटरनेट ट्रैफ़िक को एन्क्रिप्ट करने के लिए &lt;u&gt;Tor&lt;/u&gt; का उपयोग करता है जो आपको &lt;u&gt;सेंसरशिप को बायपास&lt;/u&gt; करने और &lt;u&gt;नेटवर्क निगरानी&lt;/u&gt; के उन रूपों से बचाव करने में मदद करता है जो व्यक्तिगत स्वतंत्रता और गोपनीयता को ख़तरे में डालते हैं।\n&lt;u&gt;TCP प्रॉक्सी&lt;/u&gt;: 白い熊 考直 Orbot को केवल &lt;i&gt;शामिल&lt;/i&gt; ऐप्स के TCP कनेक्शन को अग्रेषित करता है।\n&lt;u&gt;HTTP प्रॉक्सी&lt;/u&gt;: 白い熊 考直 Orbot को HTTP CONNECT सुरंग &lt;i&gt;स्थापित&lt;/i&gt; करता है और &lt;i&gt;शामिल&lt;/i&gt; ऐप्स के केवल TCP कनेक्शन को अग्रेषित करता है।</string>
     <string name="settings_orbot_heading" translatable="true">ऑर्बोट सेटअप करे</string>
     <string name="orbot_install_dialog_positive" translatable="true">स्थापित करें</string>
     <string name="settings_app_notification_a13_desc" translatable="true">ऐप के लिए अधिसूचना अनुमति सक्षम करें</string>
@@ -517,9 +515,9 @@
     <string name="new_app_bulk_notification_title" translatable="true">सावधान</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">प्रॉक्सी त्रुटियों और विसंगतियों पर अलर्ट</string>
     <string name="ci_blocked_initial" translatable="true">बी</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">सूचित करें कि रीथिंक कब सक्रिय है और बैकग्राउंड में चल रहा है</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">सूचित करें कि 白い熊 考直 कब सक्रिय है और बैकग्राउंड में चल रहा है</string>
     <string name="ada_app_status_whitelist" translatable="true">यूनिवर्सल फ़ायरवॉल नियमों को बायपास करेगा</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">जब एंड्रॉइड या किसी अन्य वीपीएन ऐप द्वारा रीथिंक को बंद कर दिया जाए तो सूचित करें</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">जब एंड्रॉइड या किसी अन्य वीपीएन ऐप द्वारा 白い熊 考直 को बंद कर दिया जाए तो सूचित करें</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">फ़ायरवॉल त्रुटियों और विसंगतियों पर अलर्ट</string>
     <string name="ada_app_unmetered" translatable="true">बिना मीटर</string>
     <string name="ada_delete_logs_dialog_title" description="Appears as dialog title to clear the logs in app specific screen" translatable="true">लॉग साफ़ करें</string>
@@ -531,7 +529,7 @@
     <string name="settings_ip_network_desc" translatable="true">इंटरनेट प्रोटोकॉल संस्करणों में से चुनें।</string>
     <string name="settings_ptrans_heading" translatable="true">बल आईपीवी4 निकास</string>
     <string name="settings_allow_bypass_heading" translatable="true">नेटवर्क देखना चालू करें</string>
-    <string name="settings_allow_bypass_desc" translatable="true">अनुरोध करने वाले ऐप्स को सारे मौजूद नेटवर्क लेने दे। ये ऐप ऑन-डिमांड रीथिंक वीपीएन टनल को बायपास कर सकते है। कुछ ऑडियो/वीडियो कॉन्फ़्रेंस ऐप्स जैसे ज़ूम और मीट को ठीक से काम करने के लिए इसकी ज़रूरत हो सकती है।</string>
+    <string name="settings_allow_bypass_desc" translatable="true">अनुरोध करने वाले ऐप्स को सारे मौजूद नेटवर्क लेने दे। ये ऐप ऑन-डिमांड 白い熊 考直 वीपीएन टनल को बायपास कर सकते है। कुछ ऑडियो/वीडियो कॉन्फ़्रेंस ऐप्स जैसे ज़ूम और मीट को ठीक से काम करने के लिए इसकी ज़रूरत हो सकती है।</string>
     <string name="settings_proxy_header" translatable="true">प्राक्सी</string>
     <string name="settings_socks5_heading" translatable="true">सॉक्स5 प्रॉक्सी सेटअप करें</string>
     <string name="settings_https_heading" translatable="true">HTTP(S) CONNECT प्रॉक्सी सेटअप करें</string>
@@ -552,9 +550,9 @@
     <string name="settings_orbot_notification_content" translatable="true">टॉर-एक-प्रॉक्सी-के-रूप-में प्रारंभ करने में विफलता। इसे मैन्युअल रूप से प्रारंभ करने के लिए ऑर्बोट ऐप खोलें।</string>
     <string name="settings_general_header" translatable="true">आम</string>
     <string name="settings_autostart_bootup_heading" translatable="true">पावर-अप पर ऑटो-स्टार्ट (प्रयोगात्मक)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">डिवाइस पावर-अप पर, रीथिंक शुरू करें अगर वो शटडाउन से पहले चल रहा था।</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">डिवाइस पावर-अप पर, 白い熊 考直 शुरू करें अगर वो शटडाउन से पहले चल रहा था।</string>
     <string name="settings_network_all_networks" translatable="true">सभी उपलब्ध नेटवर्क का उपयोग करें (प्रयोगात्मक)</string>
-    <string name="settings_network_all_networks_desc" translatable="true">सक्षम होने पर, रीथिंक इंटरनेट से जुड़ने के लिए सभी मौजूद नेटवर्क का इस्तेमाल करता है। अगर नहीं, तो ये एंड्रॉइड द्वारा <i>सक्रिय</i> समझे जाने वाले नेटवर्क का इस्तेमाल करता है।</string>
+    <string name="settings_network_all_networks_desc" translatable="true">सक्षम होने पर, 白い熊 考直 इंटरनेट से जुड़ने के लिए सभी मौजूद नेटवर्क का इस्तेमाल करता है। अगर नहीं, तो ये एंड्रॉइड द्वारा <i>सक्रिय</i> समझे जाने वाले नेटवर्क का इस्तेमाल करता है।</string>
     <string name="settings_check_update_desc" translatable="true">सप्ताह में एक बार ऐप अपडेट के लिए स्वचालित रूप से जांचें।</string>
     <string name="settings_custom_downloader_heading" translatable="true">इन-ऐप डाउनलोडर का उपयोग करें</string>
     <string name="settings_custom_downloader_desc" translatable="true">अक्षम होने पर, एंड्रॉइड के अंतर्निर्मित <i>डाउनलोड प्रबंधक</i> का उपयोग किया जाता है</string>
@@ -683,13 +681,13 @@
     <string name="rethink_sky_desc" translatable="true">280+ स्थान; उच्च अपटाइम; cloudflare.com पर चल रहा स्टब रिज़ॉल्वर</string>
     <string name="rethink_max_desc" translatable="true">50+ स्थान; अधिक निजी; रिकर्सिव रिज़ॉल्वर Fly.io पर चल रहा है</string>
     <string name="dc_local_block_enabled" translatable="true">सक्षम है</string>
-    <string name="dc_rethink_dns" translatable="false">रीथिंक डीएनएस</string>
+    <string name="dc_rethink_dns" translatable="false">白い熊 考直 डीएनएस</string>
     <string name="brbs_restore_no_uri_toast" translatable="true">पुनर्स्थापना विफल; पुनः प्रयास करें</string>
     <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">सबसे ज्यादा ब्लॉक किए गए ऐप्स</string>
     <string name="ssv_most_contacted_domain_heading" description="This label will appear on the stats screen as a header for most visited domains" translatable="true">सबसे अधिक संपर्क किए गए डोमेन</string>
     <string name="ssv_see_more" translatable="true">सब दिखाएं</string>
-    <string name="settings_notification_desc" translatable="true">रीथिंक सूचना के साथ दिखाने के लिए एक्शन बटन: %1$s</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\nरोकें / बंद करे (डिफ़ॉल्ट):\nरीथिंक तुरंत रोकने और बंद करने के लिए दो बटन दिखाता है।</string>
+    <string name="settings_notification_desc" translatable="true">白い熊 考直 सूचना के साथ दिखाने के लिए एक्शन बटन: %1$s</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\nरोकें / बंद करे (डिफ़ॉल्ट):\n白い熊 考直 तुरंत रोकने और बंद करने के लिए दो बटन दिखाता है।</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nडीएनएस / डीएनएस + फ़ायरवॉल:\nबैटरी-सेवर डीएनएस मोड और नियमित डीएनएस + फ़ायरवॉल मोड के बीच शीघ्रता से स्विच करने के लिए दो बटन दिखाता है।</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">बायोमेट्रिक प्रमाणीकरण इस डिवाइस पर समर्थित नहीं या अक्षम है</string>
     <string name="dns_card_latency_active" translatable="true">%1$sms</string>
@@ -703,7 +701,7 @@
     <string name="fapps_info_metered_msg" translatable="true">मीटर्ड (मोबाइल) नेटवर्क पर अनुमति दें / ब्लॉक करें।</string>
     <string name="fapps_bypass_block_dialog_message" translatable="true"><i>सूचीबद्ध</i> ऐप्स के लिए यूनीवर्सल फ़ायरवॉल नियमों को बायपास करें?</string>
     <string name="settings_local_blocklist_version" translatable="true">संस्करण: %1$s</string>
-    <string name="accessibility_notification_content" translatable="true">रीथिंक सुलभता सेवा बंद या क्रैश हो गई है। अब बैकग्राउंड वाले ऐप्स को ब्लॉक नहीं किया जा रहा है। पुन: सक्षम करने के लिए टैप करें।</string>
+    <string name="accessibility_notification_content" translatable="true">白い熊 考直 सुलभता सेवा बंद या क्रैश हो गई है। अब बैकग्राउंड वाले ऐप्स को ब्लॉक नहीं किया जा रहा है। पुन: सक्षम करने के लिए टैप करें।</string>
     <string name="hs_btm_sheet_lock_down" translatable="true">वीपीएन के <i>लॉकडाउन</i> होने पर मोड नहीं बदल सकते। <u>वीपीएन सेटिंग संपादित करने</u> के लिए टैप करें।</string>
     <string name="firewall_rule_device_lock_desc" translatable="true"><![CDATA[इस कनेक्शन को फ़ायरवॉल किया गया था क्योंकि <i>डिवाइस लॉक था</i> उस समय।<br/><br/> इस व्यवहार को बदलने के लिए <i>यूनीवर्सल</i> टैब पर जाएं।]]></string>
     <string name="firewall_rule_foreground_desc" translatable="true"><![CDATA[यह कनेक्शन फ़ायरवॉल किया गया था क्योंकि स्रोत ऐप <i>फोरग्राउंड में नहीं था</i>। <br/> <br/> इस व्यवहार को बदलने के लिए <i>यूनीवर्सल</i> टैब पर जाएं।]]></string>
@@ -736,7 +734,7 @@
     <string name="radio_sky_btn" translatable="true">⛅ स्काई</string>
     <string name="rt_re_download" translatable="true">ब्लॉकलिस्ट फिर से डाउनलोड करें</string>
     <string name="rt_filter_desc_subgroups" translatable="true"><![CDATA[समूह: %2$s और उपसमूह: %3$s में <u>%1$s</u> ब्लॉकलिस्ट दिखा रहा है]]></string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">आगे बढ़ने के लिए रीथिंक प्रारंभ करें</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">आगे बढ़ने के लिए 白い熊 考直 प्रारंभ करें</string>
     <string name="brbs_title" translatable="true">बैकअप और रीस्टोर</string>
     <string name="brbs_backup_dialog_failure_message" translatable="true">बैकअप नहीं हो सका। पुनः प्रयास करें?</string>
     <string name="lbbs_download" translatable="true">ब्लॉकलिस्ट अपडेट करें</string>
@@ -792,9 +790,9 @@
     <string name="brbs_backup_restore_desc" translatable="true">सभी ऐप संस्करणों पर काम नहीं करता</string>
     <string name="lbl_maybe_blocked" translatable="true">शायद ब्लॉक किया</string>
     <string name="settings_allow_lan_heading" translatable="true">निजी आइपी रूट ना करे (प्रयोग)</string>
-    <string name="settings_allow_lan_desc" translatable="true">रीथिंक के VPN टनल से LAN, लूपबैक, मल्टीकास्ट, लिंक-लोकल रूट को बाहर रखें।</string>
+    <string name="settings_allow_lan_desc" translatable="true">白い熊 考直 के VPN टनल से LAN, लूपबैक, मल्टीकास्ट, लिंक-लोकल रूट को बाहर रखें।</string>
     <string name="lbl_network" translatable="true">नेटवर्क</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s सिर्फ रीथिंक के डीएनएस के साथ काम करता है</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s सिर्फ 白い熊 考直 के डीएनएस के साथ काम करता है</string>
     <string name="lbl_import" translatable="true">आयात (इंपोर्ट) करें</string>
     <string name="lbl_allowed_ips" translatable="true">अलाउड आईपी</string>
     <string name="lbl_socks5" translatable="true">सॉक्स5</string>
@@ -864,16 +862,16 @@
     <string name="hybrid_mode_with_proxy_notification_title" translatable="true">सुरक्षित! DNS + फ़ायरवॉल + प्रॉक्सी से कनेक्टेड।</string>
     <string name="logs_card_duration" translatable="true">%1$s से</string>
     <string name="lbl_battery_optimization" translatable="true">बैटरी अनुकूलन</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> के कारण कनेक्टिविटी में कमी आ सकती है। सेटिंग बदलें ताकि बैकग्राउंड में होने पर Rethink डेटा और अन्य संसाधनों का उपयोग कर सके।</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> के कारण कनेक्टिविटी में कमी आ सकती है। सेटिंग बदलें ताकि बैकग्राउंड में होने पर 白い熊 考直 डेटा और अन्य संसाधनों का उपयोग कर सके।</string>
     <string name="bad_config_reason_invalid_value" translatable="true">अमान्य मान</string>
     <string name="crypt_quad9_security_desc" translatable="true">क्वाड9 (एनीकास्ट) dnssec/no–log/filter 9.9.9.9 – 149.112.112.9 – 149.112.112.112</string>
     <string name="lbl_notification" translatable="true">अधिसूचना</string>
-    <string name="memory_notification_text">Rethink में मेमोरी कम हो रही है। सिस्टम क्रियाएँ सीमित हो सकती हैं।</string>
+    <string name="memory_notification_text">白い熊 考直 में मेमोरी कम हो रही है। सिस्टम क्रियाएँ सीमित हो सकती हैं।</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">लूपबैक प्रॉक्सी फ़ॉरवर्डर ऐप्स</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">अक्षम होने पर, यह प्रॉक्सी (SOCKS5, HTTP, DNS) फॉरवर्डर ऐप्स को Rethink के VPN टनल से बाहर कर देता है।</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">अक्षम होने पर, यह प्रॉक्सी (SOCKS5, HTTP, DNS) फॉरवर्डर ऐप्स को 白い熊 考直 के VPN टनल से बाहर कर देता है।</string>
     <string name="orbot_no_app_toast" translatable="true">Orbot को सक्षम करने के लिए कम से कम एक ऐप जोड़ें</string>
     <string name="settings_rinr_heading" translatable="true">लूपबैक (प्रायोगिक)</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">रीथिंक के अपने ट्रैफ़िक को, जैसे ब्लॉकलिस्ट डाउनलोड, कनेक्टिविटी जांच, डीएनएस कनेक्शन, वापस सुरंग में रूट करें।</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">白い熊 考直 के अपने ट्रैफ़िक को, जैसे ब्लॉकलिस्ट डाउनलोड, कनेक्टिविटी जांच, डीएनएस कनेक्शन, वापस सुरंग में रूट करें।</string>
     <string name="battery_optimization_dialog_heading" translatable="true">%1$sबंद करें</string>
     <string name="dc_proxy_dns_heading" translatable="true">कभी भी DNS प्रॉक्सी न करें</string>
     <string name="cd_doh_dialog_checkbox_desc" translatable="true">सर्वर TLS प्रमाणपत्रों को मान्य न करें (केवल तभी सक्षम करें जब आपको पता हो कि आप क्या कर रहे हैं)</string>
@@ -931,7 +929,7 @@
     <string name="key_length_explanation_binary" translatable="true">वायरगार्ड कुंजी 32 बाइट्स होना चाहिए</string>
     <string name="settings_go_log_desc" translatable="true">डीबगिंग प्रयोजनों के लिए</string>
     <string name="settings_app_notification_persistent_desc" translatable="true">अधिसूचना को स्थायी बनाएं</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">सुरंग के माध्यम से रीथिंक के अपने ट्रैफ़िक को रूट करना। जब तक आपको पता न हो कि आप क्या कर रहे हैं, इसे बंद कर दें।</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">सुरंग के माध्यम से 白い熊 考直 के अपने ट्रैफ़िक को रूट करना। जब तक आपको पता न हो कि आप क्या कर रहे हैं, इसे बंद कर दें।</string>
     <string name="bad_config_explanation_pka" translatable="true">: सकारात्मक होना चाहिए और 65535 से अधिक नहीं होना चाहिए</string>
     <string name="include_all_app_wg_dialog_desc" translatable="true">क्या आप सभी ऐप्स के लिए WireGuard VPN का उपयोग करते हैं?</string>
     <string name="new_warp_error_toast" translatable="true">WARP कॉन्फ़िगरेशन प्राप्त करने में असमर्थ</string>

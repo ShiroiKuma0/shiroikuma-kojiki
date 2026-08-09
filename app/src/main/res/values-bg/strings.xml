@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="settings_title_desc">DNS и Firewall с много възможности за персонализиране</string>
-    <string name="accessibility_service_description">Rethink използва услуга за достъпност, за да открива и защитава фонови приложения. Rethink не събира и не продава никаква информация.</string>
-    <string name="slide_2_desc">Rethink е най-лесният начин да наблюдавате мрежовата активност, да заобикаляте интернет цензурата и приложенията за защитна стена на вашето устройство с Android.</string>
-    <string name="slide_1_desc">Rethink е софтуер с отворен код, подкрепен от програмата Mozilla Builders MVP, FOSS United Foundation.</string>
+        <string name="settings_title_desc">DNS и Firewall с много възможности за персонализиране</string>
+    <string name="accessibility_service_description">白い熊 考直 използва услуга за достъпност, за да открива и защитава фонови приложения. 白い熊 考直 не събира и не продава никаква информация.</string>
+    <string name="slide_2_desc">白い熊 考直 е най-лесният начин да наблюдавате мрежовата активност, да заобикаляте интернет цензурата и приложенията за защитна стена на вашето устройство с Android.</string>
+    <string name="slide_1_desc">白い熊 考直 е софтуер с отворен код, подкрепен от програмата Mozilla Builders MVP, FOSS United Foundation.</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Натисни за промяна на настройките за защита</string>
     <string name="pause_mode_notification_title">На пауза! Блокираните приложения ще продължат да бъдат защитени със защитна стена.</string>
     <string name="dns_mode_notification_title">Защитен! Свързан към Бърз и Сигурен DNS.</string>
@@ -12,7 +11,7 @@
     <string name="status_no_internet">няма интернет</string>
     <string name="status_protected_with_http_private_dns">защитен с http proxy и частен dns</string>
     <string name="status_protected_with_socks5_private_dns">защитен със socks5 и частен dns</string>
-    <string name="dns_explanation_dns_connected">Свързан с RethinkDNS</string>
+    <string name="dns_explanation_dns_connected">Свързан с 白い熊 考直</string>
     <string name="status_protected_with_proxy">защитен с прокси</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit.">не е защитен</string>
     <string name="dns_explanation_firewall_connected">Свързан към защитната стена</string>
@@ -21,9 +20,8 @@
     <string name="firewall_mode_info_title">Защитна стена</string>
     <string name="firewall_mode_info_explanation_new">Наблюдавайте мрежовата активност и защитната стена за всяко приложение или IP адрес.</string>
     <string name="hybrid_mode_info_title">DNS + защитна стена</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink използва услуга за достъпност, за да проследява кои приложения се използват (на преден план) спрямо тези, които не се използват (на заден план). \n \nRethink не събира никаква информация и не ви шпионира по никакъв начин.</string>
-    <string name="app_name_small_case" translatable="false">rethink</string>
-    <string name="title_about">За Rethink</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 използва услуга за достъпност, за да проследява кои приложения се използват (на преден план) спрямо тези, които не се използват (на заден план). \n \n白い熊 考直 не събира никаква информация и не ви шпионира по никакъв начин.</string>
+        <string name="title_about">За 白い熊 考直</string>
     <string name="title_settings">Настройки</string>
     <string name="title_statistics">Статистики</string>
     <string name="pause_title_desc">на пауза…</string>
@@ -41,7 +39,7 @@
     <string name="exclude">изключение</string>
     <string name="isolate">изолирай</string>
     <string name="untracked">без следи</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Внимание: Rethink бе деактивиран</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Внимание: 白い熊 考直 бе деактивиран</string>
     <string name="firewall_mode_notification_title">Защитен! Свързан към Firewall.</string>
     <string name="hybrid_mode_notification_title">Защитен! Свързан към DNS + Firewall.</string>
     <string name="status_waiting" description="This text appears during the connection process if Intra needs user permission or the phone is offline.">чакане</string>
@@ -55,8 +53,8 @@
     <string name="status_protected_with_proxy_private_dns">защитен с прокси и частен dns</string>
     <string name="status_protected_with_socks5">защитен със socks прокси</string>
     <string name="status_protected_with_http">защитен с http прокси</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">частният dns е разрешен</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Свързан към RethinkDNS и защитна стена</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">частният dns е разрешен</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Свързан към 白い熊 考直 и защитна стена</string>
     <string name="notification_action_resume_vpn">ПРОДЪЛЖИ</string>
     <string name="notification_action_pause_vpn">ПАУЗА</string>
     <string name="notification_action_dns_mode">DNS</string>
@@ -82,9 +80,9 @@
     <string name="brave_dns_connect_mode_change_dns" translatable="true">Изберете режим.</string>
     <string name="bsct_block_domain" translatable="true">Блокирайте, доверете се на &lt;u&gt;домейн(и)&lt;/u&gt; за &lt;u&gt;това приложение&lt;/u&gt;</string>
     <string name="always_on_dialog_heading" translatable="true">Деактивиране на винаги включената VPN услуга</string>
-    <string name="always_on_dialog" translatable="true">\"Always-On VPN\" е активирана на това устройство. За да стартирате Rethink, моля, отидете в приложението \"Настройки\" и деактивирайте \"Always-on VPN\".</string>
+    <string name="always_on_dialog" translatable="true">\"Always-On VPN\" е активирана на това устройство. За да стартирате 白い熊 考直, моля, отидете в приложението \"Настройки\" и деактивирайте \"Always-on VPN\".</string>
     <string name="always_on_dialog_positive_btn" translatable="true">Отидете в настройките</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Винаги включената VPN услуга е активирана за Rethink. Сигурни ли сте, че все пак искате да спрете Rethink?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">Винаги включената VPN услуга е активирана за 白い熊 考直. Сигурни ли сте, че все пак искате да спрете 白い熊 考直?</string>
     <string name="private_dns_dialog_heading" translatable="true">Изключване на Private DNS</string>
     <string name="firewall_act_universal_tab" translatable="true">Универсален</string>
     <string name="firewall_act_network_monitor_tab" translatable="true">Мрежови дневници</string>
@@ -173,13 +171,13 @@
     <string name="dns_query_clear_logs_message" translatable="true">По този начин се изтриват DNS дневниците на устройството. Тази операция не може да бъде върната. Искате ли да продължите?</string>
     <string name="bsct_conn_desc_allowed" translatable="true">разрешено на %1$s %2$s</string>
     <string name="bsct_conn_desc_blocked" translatable="true">блокирани на %1$s %2$s</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">RethinkDNS работи с VPN в режим <i>Lockdown</i>. Спирането му ще доведе до загуба на интернет свързаност на този потребителски профил. Искате ли все пак да продължите?</string>
-    <string name="private_dns_dialog_desc" translatable="true">DNS настройките на Rethink са заменени от Private DNS на Android. \n \nЗа да използвате DNS на Rethink, отидете в Настройки на Android и изключете \"Private DNS\".</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 работи с VPN в режим <i>Lockdown</i>. Спирането му ще доведе до загуба на интернет свързаност на този потребителски профил. Искате ли все пак да продължите?</string>
+    <string name="private_dns_dialog_desc" translatable="true">DNS настройките на 白い熊 考直 са заменени от Private DNS на Android. \n \nЗа да използвате DNS на 白い熊 考直, отидете в Настройки на Android и изключете \"Private DNS\".</string>
     <string name="doh_custom_url_remove_success" translatable="true">Крайната точка е изтрита.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Услугата за достъпност RethinkDNS е спряна или се е сринала. <i><b>Влезте в Настройки и Насилствено спрете</b></i> RethinkDNS и го стартирайте отново, за да използвате <i>Блокирайте всяко приложение, което не се използва</i> функция. \n \nRethinkDNS използва услугата за достъпност, за да следи кои приложения се използват (на преден план) спрямо тези, които не се използват (на заден план).</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Услугата за достъпност 白い熊 考直 е спряна или се е сринала. <i><b>Влезте в Настройки и Насилствено спрете</b></i> 白い熊 考直 и го стартирайте отново, за да използвате <i>Блокирайте всяко приложение, което не се използва</i> функция. \n \n白い熊 考直 използва услугата за достъпност, за да следи кои приложения се използват (на преден план) спрямо тези, които не се използват (на заден план).</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: Блокира свързването на приложение с интернет. \n &lt;u&gt;#2&lt;/u&gt;: Блокира всяко приложение да се свързва с определен IP адрес. \n &lt;u&gt;#3&lt;/u&gt;: Блокира всички връзки, когато устройството е заключено (Universal Firewall). \n &lt;u&gt;#4&lt;/u&gt;: Блокира всяко приложение, което не се използва (Universal Firewall). \n &lt;u&gt;#5&lt;/u&gt;: Блокира връзките, когато изходното приложение е неизвестно (Universal Firewall). \n &lt;u&gt;#6&lt;/u&gt;: Блокира целия UDP трафик с изключение на DNS (Universal Firewall). \n &lt;u&gt;#7&lt;/u&gt;: Блокиране на връзки, когато DNS е заобиколен (Universal Firewall).</string>
     <string name="connection_http3" translatable="true">HTTP3</string>
-    <string name="settings_allow_bypass_desc" translatable="true">Позволете на заявяващите приложения да заобикалят защитната стена на RethinkDNS при поискване. Някои приложения за аудио/видеоконференции, като Zoom и WhatsApp, може да изискват заобикаляне при поискване, за да функционират правилно.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">Позволете на заявяващите приложения да заобикалят защитната стена на 白い熊 考直 при поискване. Някои приложения за аудио/видеоконференции, като Zoom и WhatsApp, може да изискват заобикаляне при поискване, за да функционират правилно.</string>
     <string name="info_dialog_copy_toast_msg" translatable="true">Копиран IP адрес.</string>
     <string name="orbot_http_desc" translatable="true">Установява HTTP CONNECT тунел към Orbot.</string>
     <string name="configure_dns_connection_name" translatable="true">Свързан с %1$s</string>
@@ -194,7 +192,7 @@
     <string name="app_mode_firewall" translatable="true">Защитна стена</string>
     <string name="app_mode_dns_firewall" translatable="true">DNS и защитна стена (по подразбиране)</string>
     <string name="app_mode_wireguard" translatable="true">VPN</string>
-    <string name="settings_allow_lan_desc" translatable="true">Изключете маршрутите LAN, loopback и link-local от VPN тунела на Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Изключете маршрутите LAN, loopback и link-local от VPN тунела на 白い熊 考直.</string>
     <string name="info_dialog_url_copy_toast_msg" translatable="true">Копиран URL адрес</string>
     <string name="settings_ptrans_desc" translatable="true">Преобразувайте изходящия IPv6 трафик в IPv4 на устройството. Разрешете, ако сте свързани към мрежа, която използва само IPv4.</string>
     <string name="orbot_status_arg_3" translatable="true">DNS и TCP</string>
@@ -242,7 +240,7 @@
     <string name="blocklist_update_check_failure" translatable="true">Нещо се е объркало. Опитайте отново по-късно!</string>
     <string name="relative_time_yesterday" translatable="true">Вчера</string>
     <string name="settings_allow_lan_heading" translatable="true">Не маршрутизирайте частни IP адреси (експериментално)</string>
-    <string name="orbot_stop_dialog_message" translatable="true">RethinkDNS е спрял да препраща връзки към Orbot, но Orbot може да работи във фонов режим.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 е спрял да препраща връзки към Orbot, но Orbot може да работи във фонов режим.</string>
     <string name="refresh_complete" translatable="true"><!-- use dc_refresh_toast --> Повторното синхронизиране на списъка с приложения е завършено.</string>
     <string name="configure_dns_connected_doh_status" translatable="true">DNS през HTTPS</string>
     <string name="download_update_dialog_message" translatable="true">Новата версия на приложението е достъпна за изтегляне от уебсайта. Искате ли да продължите?</string>
@@ -259,12 +257,12 @@
     <string name="app_mode_choose" translatable="true">Изберете режим</string>
     <string name="orbot_none" translatable="true">Няма (по подразбиране)</string>
     <string name="orbot_none_desc" translatable="true">Нито едно от изброените.</string>
-    <string name="memory_notification_text">Rethink има недостатъчна памет. Системните действия може да са ограничени.</string>
+    <string name="memory_notification_text">白い熊 考直 има недостатъчна памет. Системните действия може да са ограничени.</string>
     <string name="dns_proxy_remove_dialog_title" translatable="true">Изтриване на DNS прокси?</string>
     <string name="search_firewall_network_log" translatable="true"><font size="12">Търсене на приложения, IP адреси, домейни</font></string>
     <string name="search_custom_domains" translatable="true"><font size="12">Търсене на имена на домейни</font></string>
     <string name="settings_enable_logs_desc" translatable="true">Съхранявайте логовете на DNS и защитната стена локално в устройството.</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Когато е деактивирано, изключва прокси (SOCKS5, HTTP, DNS) пренасочващи приложения от VPN тунела на Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Когато е деактивирано, изключва прокси (SOCKS5, HTTP, DNS) пренасочващи приложения от VPN тунела на 白い熊 考直.</string>
     <string name="settings_proxy_header" translatable="true">прокси</string>
     <string name="settings_socks5_heading" translatable="true">Настройка на прокси сървър SOCKS5</string>
     <string name="settings_socks5_desc" translatable="true">Препращане на връзки към крайна точка SOCKS5.</string>
@@ -272,7 +270,7 @@
     <string name="settings_https_desc" translatable="true">Препращайте връзките към крайната точка HTTP(S) CONNECT.</string>
     <string name="orbot_socks5" translatable="true">Прокси само за TCP</string>
     <string name="orbot_bs_status_3" translatable="true">Пренасочване %1$s към Orbot, зададено е и HTTP Proxy.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">RethinkDNS е настроена да препраща DNS заявки към Orbot. Променете го, както е необходимо.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 е настроена да препраща DNS заявки към Orbot. Променете го, както е необходимо.</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Спиране на Orbot</string>
     <string name="lbl_unselected" translatable="true">Неизбрано</string>
     <string name="lbl_on_device" translatable="true">на устройството</string>

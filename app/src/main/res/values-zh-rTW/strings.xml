@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="app_name_small_case" translatable="false">rethink</string>
-    <string name="title_about">關於</string>
+            <string name="title_about">關於</string>
     <string name="title_settings">設定</string>
     <string name="pause_title_desc">小憩一下…</string>
     <string name="settings_title_desc">一款可高度自訂的 DNS 與防火牆軟體</string>
@@ -13,8 +11,8 @@
     <string name="slide_2_title">歡迎</string>
     <string name="slide_1_title">自由且開放原始碼</string>
     <string name="about_title_desc">偵測並攔截網路威脅，保護您的安全</string>
-    <string name="slide_2_desc">Rethink 是現 Android 裝置上最易使用的監測網路活動、繞過網路審查與攔截應用程式的防火牆軟體。</string>
-    <string name="accessibility_service_description">請授權 Rethink 使用無障礙服務，以偵測並攔截背景應用程式。 Rethink 並不會竊取或販賣您的任何資訊。</string>
+    <string name="slide_2_desc">白い熊 考直 是現 Android 裝置上最易使用的監測網路活動、繞過網路審查與攔截應用程式的防火牆軟體。</string>
+    <string name="accessibility_service_description">請授權 白い熊 考直 使用無障礙服務，以偵測並攔截背景應用程式。 白い熊 考直 並不會竊取或販賣您的任何資訊。</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="bypass_universal">無條件放行</string>
     <string name="exclude">排除</string>
@@ -59,8 +57,8 @@
     <string name="bsct_conn_desc_blocked">%2$s 攔截 %1$s</string>
     <string name="always_on_dialog_heading">停用永久連線的 VPN</string>
     <string name="always_on_dialog_positive_btn">前往設定</string>
-    <string name="always_on_dialog_stop_message">永久連線的 VPN 已對 Rethink 啟用。您是否仍想要停止 Rethink ？</string>
-    <string name="always_on_dialog_lockdown_stop_message">Rethink 正以<i>閉關</i>模式執行 VPN 。將其停止會致本使用者失去網路連線。您是否仍要繼續？</string>
+    <string name="always_on_dialog_stop_message">永久連線的 VPN 已對 白い熊 考直 啟用。您是否仍想要停止 白い熊 考直 ？</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直 正以<i>閉關</i>模式執行 VPN 。將其停止會致本使用者失去網路連線。您是否仍要繼續？</string>
     <string name="always_on_dialog_positive">停止</string>
     <string name="always_on_dialog_neutral">設定</string>
     <string name="firewall_act_universal_tab">通用</string>
@@ -128,36 +126,36 @@
     <string name="orbot_app_issue">無法開啟 Orbot 。您是否已經安裝了它呢？</string>
     <string name="orbot_stop_dialog_title">需手動干預</string>
     <string name="orbot_stop_dialog_message_combo" translatable="false">%1$s \n \n%2$s</string>
-    <string name="orbot_stop_dialog_message">Rethink 已停止向 Orbot 轉送連線，但 Orbot 可能仍於背景執行。</string>
-    <string name="orbot_stop_dialog_dns_message">Rethink 已設定為將 DNS 請求轉送至 Orbot 。請按需更改。</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 已停止向 Orbot 轉送連線，但 Orbot 可能仍於背景執行。</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 已設定為將 DNS 請求轉送至 Orbot 。請按需更改。</string>
     <string name="orbot_stop_dialog_negative">停止 Orbot</string>
     <string name="orbot_install_dialog_title">是否安裝 Orbot ？</string>
     <string name="settings_orbot_heading">設定 Orbot</string>
     <string name="settings_orbot_install_desc">輕觸此處以安裝 Orbot</string>
     <string name="settings_socks5_disabled_error">已連線至 %1$s 。請先將其關閉。</string>
-    <string name="settings_socks5_vpn_disabled_error">啟動 Rethink 以繼續。</string>
+    <string name="settings_socks5_vpn_disabled_error">啟動 白い熊 考直 以繼續。</string>
     <string name="settings_orbot_disabled_error">關閉 HTTP(S) 與/或 SOCKS5 代理以繼續設定 Tor 代理。</string>
     <string name="settings_https_disabled_error">已連線至 %1$s 。請先將其關閉。</string>
     <string name="settings_orbot_notification_content">啟動 Tor 代理失敗。請手動開啟 Orbot 應用程式。</string>
     <string name="settings_orbot_notification_action">打開 Orbot</string>
     <string name="settings_general_header">一般設定</string>
     <string name="settings_autostart_bootup_heading">裝置啟動時自啟（實驗性）</string>
-    <string name="settings_autostart_bootup_desc">Rethink 若在關機前執行，開機時則自動啟動。</string>
-    <string name="settings_network_all_networks_desc">啟用時， Rethink 將使用所有可用的網路來連線至網路。若未啟用，則將使用 Android 認為<i>活躍</i>的網路。</string>
+    <string name="settings_autostart_bootup_desc">白い熊 考直 若在關機前執行，開機時則自動啟動。</string>
+    <string name="settings_network_all_networks_desc">啟用時， 白い熊 考直 將使用所有可用的網路來連線至網路。若未啟用，則將使用 Android 認為<i>活躍</i>的網路。</string>
     <string name="allow">放行</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">輕觸以更改防護設定</string>
-    <string name="slide_1_desc">Rethink 為一款受 Mozilla Builders MVP 計劃和 FOSS United 基金會資助與支援的開放原始碼軟體。</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">警告： Rethink 已被停用</string>
+    <string name="slide_1_desc">白い熊 考直 為一款受 Mozilla Builders MVP 計劃和 FOSS United 基金會資助與支援的開放原始碼軟體。</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">警告： 白い熊 考直 已被停用</string>
     <string name="block">攔截</string>
     <string name="alert_permission_accessibility">權限 - 無障礙設定</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">已連線至 RethinkDNS 與防火牆</string>
-    <string name="dns_explanation_dns_connected">已連線至 RethinkDNS</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">已連線至 白い熊 考直 與防火牆</string>
+    <string name="dns_explanation_dns_connected">已連線至 白い熊 考直</string>
     <string name="status_protected_with_http_private_dns">已由 HTTP 代理與私人 DNS 保護</string>
     <string name="status_protected_with_socks5">已由 SOCKS5 代理保護</string>
     <string name="status_protected_with_http">已由 HTTP 代理保護</string>
     <string name="status_protected_with_socks5_private_dns">已由 SOCKS5 與私人 DNS 保護</string>
     <string name="status_protected_with_proxy">已由代理保護</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">私人 DNS 已啟用</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">私人 DNS 已啟用</string>
     <string name="firewall_mode_info_explanation_new">監測網路活動與攔截任意應用程式或 IP 位址。</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit.">未保護</string>
     <string name="dns_explanation_firewall_connected">已連線至防火牆</string>
@@ -166,12 +164,12 @@
     <string name="hybrid_mode_info_title">DNS + 防火牆</string>
     <string name="dns_firewall_mode_info_explanation_new">上述所有功能及繞過網路審查。</string>
     <string name="dns_mode_notification_title">已保護！已連線至快速且安全的 DNS 。</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink 使用無障礙服務來追蹤正在使用的應用程式（前景）與未使用的應用程式（背景）。 \n \nRethink 並不會收集任何資料，且不會以任何方式監視您。</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 使用無障礙服務來追蹤正在使用的應用程式（前景）與未使用的應用程式（背景）。 \n \n白い熊 考直 並不會收集任何資料，且不會以任何方式監視您。</string>
     <string name="brave_dns_connect_mode_change_dns">選擇模式。</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">Rethink 的無障礙服務已停止或崩潰。<i><b>請至系統設定強制停止</b></i>並再次啟動 Rethink ，以繼續使用<i>攔截未使用應用程式</i>的功能。\n\nRethink 使用無障礙服務來追蹤正在使用的應用程式（前景）與未使用的應用程式（背景）。</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">白い熊 考直 的無障礙服務已停止或崩潰。<i><b>請至系統設定強制停止</b></i>並再次啟動 白い熊 考直 ，以繼續使用<i>攔截未使用應用程式</i>的功能。\n\n白い熊 考直 使用無障礙服務來追蹤正在使用的應用程式（前景）與未使用的應用程式（背景）。</string>
     <string name="bsct_conn_block_desc">由 %2$s 攔截 %1$s</string>
     <string name="bsct_conn_rule_explanation">&lt;u&gt;#1&lt;/u&gt;：阻止某應用程式連線至互聯網。 \n &lt;u&gt;#2&lt;/u&gt;：阻止任意應用程式連線至某特定 IP 。 \n &lt;u&gt;#3&lt;/u&gt;：在裝置鎖定時阻止所有連線（通用攔截規則）。 \n &lt;u&gt;#4&lt;/u&gt;：阻止任意未使用的應用程式連線（通用攔截規則）。 \n &lt;u&gt;#5&lt;/u&gt;：阻止未知應用程式的連線（通用攔截規則）。 \n &lt;u&gt;#6&lt;/u&gt;：攔截除 DNS 外的所有 UDP 流量（通用攔截規則）。 \n &lt;u&gt;#7&lt;/u&gt;：攔截繞過 DNS 的流量（通用攔截規則）。</string>
-    <string name="always_on_dialog">「永久連線的 VPN 」已在此裝置上啟用。為啟動 Rethink ，請移步系統設定並停用「永久連線的 VPN 」。</string>
+    <string name="always_on_dialog">「永久連線的 VPN 」已在此裝置上啟用。為啟動 白い熊 考直 ，請移步系統設定並停用「永久連線的 VPN 」。</string>
     <string name="always_on_dialog_stop_heading">永久連線的 VPN</string>
     <string name="univ_firewall_dialog_message">刪除此條規則將允許任何應用程式連線至此 IP 位址。您是否想要繼續？</string>
     <string name="configure_dns_connected_doh_status">DNS over HTTPS</string>
@@ -185,7 +183,7 @@
     <string name="app_mode_choose">選擇模式</string>
     <string name="connection_http3">HTTP3</string>
     <string name="settings_ip_network_heading">選擇 IP 版本</string>
-    <string name="settings_allow_bypass_desc">允許應用程式請求訪問所有可用網路。這些應用程式可能按需繞過 RethinkDNS 的 VPN 隧道。一些如 Zoom 和 Meet 的音訊/視訊會議應用程式可能會需要此功能以正常執行。</string>
+    <string name="settings_allow_bypass_desc">允許應用程式請求訪問所有可用網路。這些應用程式可能按需繞過 白い熊 考直 的 VPN 隧道。一些如 Zoom 和 Meet 的音訊/視訊會議應用程式可能會需要此功能以正常執行。</string>
     <string name="settings_proxy_header">代理</string>
     <string name="settings_socks5_heading">設定 SOCKS5 代理</string>
     <string name="settings_lock_down_mode_desc">某些選項在 VPN 處於閉關模式時不可用。<u>請移步 VPN 設定</u>。</string>
@@ -203,7 +201,7 @@
     <string name="orbot_bs_status_trying_connect">正在設定 Orbot ……</string>
     <string name="orbot_status_arg_3">DNS 與 TCP</string>
     <string name="orbot_stop_dialog_neutral">更改 DNS</string>
-    <string name="orbot_explanation">Orbot 是一款能讓其他程式更&lt;u&gt;安全&lt;/u&gt;地連線到互聯網的免費代理應用程式。 \nOrbot 使用 &lt;u&gt;Tor&lt;/u&gt; 來加密您的網路流量，助您&lt;u&gt;突破網路審查&lt;/u&gt;，並抵禦威脅個人自由及隱私的&lt;u&gt;網路監視&lt;/u&gt;。 \n&lt;u&gt;TCP 代理&lt;/u&gt;： Rethink 只將&lt;i&gt;已包含&lt;/i&gt;應用程式的 TCP 連線轉送至 Orbot 。 \n&lt;u&gt;HTTP 代理&lt;/u&gt;： Rethink 向 Orbot &lt;i&gt;建立&lt;/i&gt; HTTP CONNECT 隧道，並僅轉送&lt;i&gt;包含的&lt;/i&gt;應用程式的 TCP 連線。</string>
+    <string name="orbot_explanation">Orbot 是一款能讓其他程式更&lt;u&gt;安全&lt;/u&gt;地連線到互聯網的免費代理應用程式。 \nOrbot 使用 &lt;u&gt;Tor&lt;/u&gt; 來加密您的網路流量，助您&lt;u&gt;突破網路審查&lt;/u&gt;，並抵禦威脅個人自由及隱私的&lt;u&gt;網路監視&lt;/u&gt;。 \n&lt;u&gt;TCP 代理&lt;/u&gt;： 白い熊 考直 只將&lt;i&gt;已包含&lt;/i&gt;應用程式的 TCP 連線轉送至 Orbot 。 \n&lt;u&gt;HTTP 代理&lt;/u&gt;： 白い熊 考直 向 Orbot &lt;i&gt;建立&lt;/i&gt; HTTP CONNECT 隧道，並僅轉送&lt;i&gt;包含的&lt;/i&gt;應用程式的 TCP 連線。</string>
     <string name="orbot_install_dialog_message">Orbot 將 Tor 的特性與功能帶入 Android 。</string>
     <string name="orbot_install_dialog_positive">安裝</string>
     <string name="orbot_install_activity_error" translatable="false">似乎出了一些問題，請稍後再試</string>
@@ -216,7 +214,7 @@
     <string name="hs_download_positive_website">瀏覽網站</string>
     <string name="hsf_proxy_chip_text">已啟用代理</string>
     <string name="dns_btm_latency_ms">%1$s 秒</string>
-    <string name="dc_rethink_dns_radio">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直 DNS</string>
     <string name="firewall_rule_unknown_desc"><![CDATA[此連線因無法得知<i>來源應用程式</i>而被攔截。<br/><br/>若需更改，請至<i>全局</i>選項卡。]]></string>
     <string name="new_app_bulk_notification_title">注意</string>
     <string name="cd_no_rule_initial">無</string>
@@ -272,7 +270,7 @@
     <string name="lbbs_heading">設定逾 195 個攔截清單</string>
     <string name="firewall_rule_block_udp_ntp_desc"><![CDATA[一項用戶定義的防火牆規則攔截了此 <i>UDP</i> 連線。<br/><br/>若需更改，請移步<i>全局</i>選項卡。]]></string>
     <string name="firewall_rule_exempt_app_bypass_univ_desc"><![CDATA[此連線因<i>來源應用程式</i>被設為<i>無條件放行</i>而放行。<br/><br/>若需更改，請移步<i>分應用程式防火牆</i>區。]]></string>
-    <string name="new_app_bulk_notification_content">Rethink 攔截了 %1$s 款新應用程式。輕觸以查看或更改。</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 攔截了 %1$s 款新應用程式。輕觸以查看或更改。</string>
     <string name="new_app_notification_action_toast_allow">放行應用程式網路連線</string>
     <string name="notif_dialog_pause_dialog_message">應用程式已被暫停，為繼續請先復原</string>
     <string name="notif_channel_desc_firewall_alerts">在防火牆錯誤與異常時提醒我</string>
@@ -295,12 +293,12 @@
     <string name="rethink_max_desc">逾 50 處地點；更私密；於 fly.io 執行的遞迴解析服務</string>
     <string name="settings_ip_dialog_ipv46">自動（實驗性）</string>
     <string name="firewall_status_allow">已放行</string>
-    <string name="new_app_notification_content">Rethink 攔截了新安裝的應用程式， %1$s 。</string>
+    <string name="new_app_notification_content">白い熊 考直 攔截了新安裝的應用程式， %1$s 。</string>
     <string name="category_name_sys_apps">系統應用程式</string>
     <string name="category_name_others">其他</string>
     <string name="ci_dialog_title">新增 IP / 埠規則</string>
     <string name="ada_network_log_title">此應用程式的網路日誌</string>
-    <string name="dc_rethink_dns" translatable="false">Rethink DNS</string>
+    <string name="dc_rethink_dns" translatable="false">白い熊 考直 DNS</string>
     <string name="dc_dns_crypt" translatable="false">DNSCrypt</string>
     <string name="brbs_restore_dialog_failure_positive">重試復原</string>
     <string name="brbs_restore_complete_toast">復原完畢，正在重啟應用程式……</string>
@@ -349,7 +347,7 @@
     <string name="firewall_rule_trusted_ip_desc"><![CDATA[此連線因此<i>目標 IP</i> 被設定為已信任 IP 而被放行。<br/><br/>若需更改，請移步<i>分應用程式防火牆</i>區。]]></string>
     <string name="firewall_rule_bypass_universal_ip_desc"><![CDATA[此連線因此<i>目標 IP</i> 被設定為繞過所有全局規則而被放行。<br/><br/>若需更改，請移步<i>全局</i>選項卡。]]></string>
     <string name="notif_channel_proxy_failure">代理警報</string>
-    <string name="notif_channel_desc_vpn_failure">在 Rethink 被 Android 或其他 VPN 應用程式停止時提醒我</string>
+    <string name="notif_channel_desc_vpn_failure">在 白い熊 考直 被 Android 或其他 VPN 應用程式停止時提醒我</string>
     <string name="cd_dialog_error_invalid_domain">無效 URL 或網域</string>
     <string name="ci_no_rules_text">無 IP 或埠規則。</string>
     <string name="ada_firewall_status"><![CDATA[此應用程式<b><i>%1$s</i></b>。]]></string>
@@ -365,7 +363,7 @@
     <string name="brbs_backup_dialog_positive">備份</string>
     <string name="notif_channel_vpn_notification">VPN 已啟用</string>
     <string name="notif_channel_vpn_failure">VPN 未啟用</string>
-    <string name="notif_channel_desc_vpn_notification">在 Rethink 啟用且在背景時提醒我</string>
+    <string name="notif_channel_desc_vpn_notification">在 白い熊 考直 啟用且在背景時提醒我</string>
     <string name="ada_ip_connection_count">已連線至 %1$s 個 IP 位址</string>
     <string name="ada_app_status_allow">已放行</string>
     <string name="rt_dialog_neutral">繼續</string>
@@ -416,7 +414,7 @@
     <string name="settings_notification_desc1">暫停 / 停止（預設）</string>
     <string name="settings_notification_desc2">DNS / DNS + 防火牆</string>
     <string name="settings_notification_desc3">無</string>
-    <string name="settings_notification_dialog_option_1">\n暫停 / 停止（預設）：\n顯示兩個按鈕來快速暫停與停止 Rethink 。</string>
+    <string name="settings_notification_dialog_option_1">\n暫停 / 停止（預設）：\n顯示兩個按鈕來快速暫停與停止 白い熊 考直 。</string>
     <string name="settings_notification_dialog_option_2">\nDNS / DNS + 防火牆：\n顯示兩個按鈕來快速在節電的 DNS 模式和普通的 DNS + 防火牆模式間切換。</string>
     <string name="settings_notification_dialog_option_3">\n無：\n不顯示任何按鈕。\n</string>
     <string name="settings_selected_theme">目前主題：%1$s</string>
@@ -441,7 +439,7 @@
     <string name="hsf_uptime" translatable="false">（自%1$s啓動；協定：%2$s；類型：%3$s）</string>
     <string name="hsf_downtime">（自%1$s起停用）</string>
     <string name="hsf_vpn_dialog_header">注意！</string>
-    <string name="hsf_vpn_dialog_message">Rethink 需要設定本機 VPN 的權限，以加密裝置的 DNS 請求、實現網路監測與執行防火牆規則。 \n \nRethink 並不會收集任何資料，且不會以任何方式監視您。</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直 需要設定本機 VPN 的權限，以加密裝置的 DNS 請求、實現網路監測與執行防火牆規則。 \n \n白い熊 考直 並不會收集任何資料，且不會以任何方式監視您。</string>
     <string name="lbl_proceed">繼續</string>
     <string name="hsf_vpn_prepare_failure">可能是遺失 VPN 權限，亦可能是另一應用程式正處於永久連線 VPN 模式中。</string>
     <string name="hsf_start_dialog_message">您距安全的 Android 系統僅有一步之遙：即時查看網路活動，攔截網站、 IP 與不聽話的應用程式。</string>
@@ -454,7 +452,7 @@
     <string name="hsf_whats_new_remove_text">關閉中……</string>
     <string name="hsf_blocklist_updating_text">啟動中……</string>
     <string name="hsf_chip_appearance">主題：%1$s</string>
-    <string name="hsf_pause_vpn_failure">無法暫停： Rethink 未啟用</string>
+    <string name="hsf_pause_vpn_failure">無法暫停： 白い熊 考直 未啟用</string>
     <string name="dc_block_heading">規則</string>
     <string name="dc_other_dns_heading">類型</string>
     <string name="dc_custom_dns_radio">其他 DNS</string>
@@ -464,7 +462,7 @@
     <string name="dc_custom_block_heading">網域規則</string>
     <string name="dc_dns_website_heading">於 DNS 日誌中展示網站圖示（實驗性）</string>
     <string name="dc_dns_website_desc">從 <i>nextdns.io</i> 與 <i>duckduckgo.com</i> 獲取網站圖示。約佔用 350 MB 磁碟空間</string>
-    <string name="dc_dns_leaks_desc">若啟用， Rethink 將捕獲埠 53 上的所有封包，並將其轉送至您設定的 DNS 端點</string>
+    <string name="dc_dns_leaks_desc">若啟用， 白い熊 考直 將捕獲埠 53 上的所有封包，並將其轉送至您設定的 DNS 端點</string>
     <string name="dc_check_update_heading">攔截清單更新時提示</string>
     <string name="dc_check_update_desc">每<i>三</i>天檢查有無攔截清單更新</string>
     <string name="about_bravedns_explantion">Rethink 是在 Android 裝置上最易使用的監測網路活動、繞過網路審查與攔截應用程式的防火牆軟體。</string>
@@ -644,8 +642,8 @@
     <string name="settings_local_blocklist_in_use">正使用 %1$s 個攔截清單</string>
     <string name="settings_local_blocklist_dialog_positive">下載</string>
     <string name="settings_local_blocklist_version">版本： v%1$s</string>
-    <string name="accessibility_notification_content">Rethink 的無障礙服務已停止或崩潰。現已不再攔截背景應用程式。輕觸以重新啟用。</string>
-    <string name="accessibility_failure_toast">Rethink 的無障礙服務已停止或崩潰。現已不再攔截背景應用程式。</string>
+    <string name="accessibility_notification_content">白い熊 考直 的無障礙服務已停止或崩潰。現已不再攔截背景應用程式。輕觸以重新啟用。</string>
+    <string name="accessibility_failure_toast">白い熊 考直 的無障礙服務已停止或崩潰。現已不再攔截背景應用程式。</string>
     <string name="coming_soon_toast">即將推出</string>
     <string name="pause_text">已暫停</string>
     <string name="pause_desc">注意： %1$s 個已攔截的應用程式將會繼續被攔截。</string>
@@ -684,7 +682,7 @@
     <string name="brbs_restore_dialog_message">從單個備份檔案中復原應用程式設定、網路日誌與 DNS 日誌。這將重啟應用程式。</string>
     <string name="hsf_start_dialog_header">啟動 %1$s</string>
     <string name="dc_dns_leaks_heading">防止 DNS 洩漏</string>
-    <string name="settings_notification_desc">與 Rethink 的通知一同顯示的行為按鈕：%1$s</string>
+    <string name="settings_notification_desc">與 白い熊 考直 的通知一同顯示的行為按鈕：%1$s</string>
     <string name="about_privacy_policy">閱覽隱私政策</string>
     <string name="hsf_notification_permission_failure">於設定區啟用通知權限</string>
     <string name="ada_firewall_title">此應用程式防火牆規則</string>
@@ -713,14 +711,14 @@
     <string name="rbl_parental_control_desc" description="The text appears as blocklists description in configure screen">攔截成人、盜版內容，線上賭博、約會及社交媒體。</string>
     <string name="rbl_privacy_desc" description="The text appears as blocklists description in configure screen">攔截吸睛軟體、間諜軟體及恐嚇軟體。</string>
     <string name="rbl_security_desc" description="The text appears as blocklists description in configure screen">攔截惡意軟體、勒索軟體、加密軟體、釣魚及其他威脅。</string>
-    <string name="private_dns_dialog_desc">Rethink 的 DNS 設定已被 Android 的私人 DNS 覆蓋。 \n \n若要使用 Rethink 的 DNS ，請至 Android 設定並關閉「私人 DNS 」。</string>
+    <string name="private_dns_dialog_desc">白い熊 考直 的 DNS 設定已被 Android 的私人 DNS 覆蓋。 \n \n若要使用 白い熊 考直 的 DNS ，請至 Android 設定並關閉「私人 DNS 」。</string>
     <string name="private_dns_dialog_positive">前往設定</string>
     <string name="private_dns_error">無法開啟私人 DNS 區。</string>
     <string name="private_dns_dialog_heading">關閉私人 DNS</string>
     <string name="rsv_blocklist_count_text" description="This label will appear in rethink configure simple view screen which shows number of blocklists for each category">%1$s 個攔截清單</string>
     <string name="settings_locale_desc">選擇您的語言</string>
     <string name="settings_locale_dialog_title">選擇您的語言</string>
-    <string name="hs_biometeric_desc">使用生物識別驗證解鎖 Rethink</string>
+    <string name="hs_biometeric_desc">使用生物識別驗證解鎖 白い熊 考直</string>
     <string name="hs_biometeric_failed">生物識別認證失敗</string>
     <string name="fapps_info_unmetered_msg">於非計費網路（ WiFi ）放行/攔截。</string>
     <string name="fapps_info_exclude_msg">於 DNS 與防火牆中排除。</string>
@@ -733,9 +731,9 @@
     <string name="settings_locale_dialog_neutral">協助翻譯此應用程式</string>
     <string name="settings_biometeric_heading">啟用應用程式鎖</string>
     <string name="settings_biometric_desc">使用螢幕鎖保護此應用程式</string>
-    <string name="hs_biometeric_title">解鎖 Rethink</string>
+    <string name="hs_biometeric_title">解鎖 白い熊 考直</string>
     <string name="hs_biometeric_feature_not_supported">此裝置不支援或已停用生物識別驗證</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app">啟動 Rethink 以繼續</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app">啟動 白い熊 考直 以繼續</string>
     <string name="hs_biometeric_error">生物識別認證出錯</string>
     <string name="fapps_info_bypass_msg">繞過全域防火牆規則。</string>
     <string name="fapps_info_metered_msg">於計費網路（行動數據）放行/攔截。</string>
@@ -813,8 +811,8 @@
     <string name="brbs_backup_restore_desc" translatable="true">無法跨版本使用</string>
     <string name="lbl_maybe_blocked" translatable="true">或已攔截</string>
     <string name="settings_allow_lan_heading" translatable="true">勿路由專有 IP （實驗性）</string>
-    <string name="settings_allow_lan_desc" translatable="true">將 LAN 、回送、多播與本機鏈路路由排除於 Rethink 的 VPN 隧道外。</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s 僅於 Rethink 的 DNS 上生效</string>
+    <string name="settings_allow_lan_desc" translatable="true">將 LAN 、回送、多播與本機鏈路路由排除於 白い熊 考直 的 VPN 隧道外。</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s 僅於 白い熊 考直 的 DNS 上生效</string>
     <string name="lbl_network" translatable="true">網路</string>
     <string name="http_proxy_dialog_desc" translatable="true">設定符合下述格式的 URL ： &lt;協定&gt;://&lt;帳號&gt;:&lt;密碼&gt;@&lt;網域或 IP&gt;:&lt;埠&gt;&lt;路徑&gt; 。例如：http://proxy.example.com:8080/</string>
     <string name="lbl_applications" translatable="true">應用程式</string>
@@ -966,8 +964,8 @@
     <string name="settings_rinr_heading" translatable="true">回送（實驗性）</string>
     <string name="one_wg_apps_added" translatable="true">正在路由所有應用程式</string>
     <string name="wireguard_apps_proxy_map_desc" translatable="true">%1$s 的一部分</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">將 Rethink 自身的流量路由入隧道。若您不瞭解您在做什麼，請不要啟用。</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">將如下載攔截清單、連線檢查與 DNS 連線等的 Rethink 自身流量路由回隧道。</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">將 白い熊 考直 自身的流量路由入隧道。若您不瞭解您在做什麼，請不要啟用。</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">將如下載攔截清單、連線檢查與 DNS 連線等的 白い熊 考直 自身流量路由回隧道。</string>
     <string name="one_wg_dialog_desc" translatable="true">包括 DNS 在內的來自所有應用程式的流量將被單個活躍的 WireGuard VPN 路由。其他活躍的 WireGuard VPN 將被停止。</string>
     <string name="catch_all_wg_dialog_desc" translatable="true">所有未被其他 WireGuard VPN 路由的應用程式的連線將經此 VPN 路由。</string>
     <string name="one_wg_error_toast" translatable="true">停用簡單模式的 WireGuard 以切換至進階模式</string>
@@ -984,12 +982,12 @@
     <string name="exclude_apps_from_proxy">為應用程式繞行所有代理</string>
     <string name="exclude_apps_from_proxy_failure_toast">此應用程式繞行代理</string>
     <string name="settings_connectivity_checks_desc" translatable="true">發送連線檢查以確保網路連通性。</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">停用後，將轉送代理（ SOCKS5、HTTP、DNS ）應用程式從 Rethink 的 VPN 隧道中排除。</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">停用後，將轉送代理（ SOCKS5、HTTP、DNS ）應用程式從 白い熊 考直 的 VPN 隧道中排除。</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">環回轉送代理應用程式</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> 可能導致連線遺失。 變更設定以允許 Rethink 於背景使用資料和其他資源。</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> 可能導致連線遺失。 變更設定以允許 白い熊 考直 於背景使用資料和其他資源。</string>
     <string name="toast_allow_bypass_disabled" translatable="true">因已啟用代理， %1$s 已被停用</string>
     <string name="lbl_notification" translatable="true">通知</string>
-    <string name="memory_notification_text">Rethink 目前可用記憶體空間過少。系統操作可能受限。</string>
+    <string name="memory_notification_text">白い熊 考直 目前可用記憶體空間過少。系統操作可能受限。</string>
     <string name="dc_proxy_dns_desc" translatable="true">勿由永久連線的 WireGuard 、 SOCKS5 、 HTTP 代理來代理 DNS 。</string>
     <string name="lbl_unselected" translatable="true">未選</string>
     <string name="lbl_test" translatable="true">測試</string>
@@ -1003,7 +1001,7 @@
     <string name="dns_title" translatable="true">通過 DNS 攔截廣告和惡意軟體</string>
     <string name="status_no_network" translatable="true">無網路連線</string>
     <string name="settings_biometric_dialog_heading" translatable="true">生物辨識認證</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">您已使用 Rethink <b>%1$s 天</b>，折合使用成本約為 <b>$%2$s</b> 。您是否願意通過捐贈來支援它的持續開發呢?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">您已使用 白い熊 考直 <b>%1$s 天</b>，折合使用成本約為 <b>$%2$s</b> 。您是否願意通過捐贈來支援它的持續開發呢?</string>
     <string name="cd_split_dns_desc" translatable="true">將代理應用程式的 DNS 請求轉送至代理的 DNS 伺服器。</string>
     <string name="univ_firewall_rule_11" translatable="true">攔截全部本機連線</string>
     <string name="settings_mobile_metered_heading" translatable="true">計費行動數據網路</string>

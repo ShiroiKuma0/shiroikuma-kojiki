@@ -10,7 +10,7 @@
     <string name="next" translatable="true">다음</string>
     <string name="skip" translatable="true">넘기기</string>
     <string name="lbl_dismiss" translatable="true">무시하기</string>
-    <string name="accessibility_service_description" translatable="true">Rethink는 접근성 서비스를 사용하여 백그라운드 애플리케이션을 탐지하고 방화벽을 차단합니다. Rethink는 어떤 정보도 수집하거나 판매하지 않습니다.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直는 접근성 서비스를 사용하여 백그라운드 애플리케이션을 탐지하고 방화벽을 차단합니다. 白い熊 考直는 어떤 정보도 수집하거나 판매하지 않습니다.</string>
     <string name="finish" translatable="true">끝내기</string>
     <string name="lbl_cancel" translatable="true">취소</string>
     <string name="lbl_apply" translatable="true">적용</string>
@@ -18,9 +18,9 @@
     <string name="dns_query_clear_logs_title" translatable="true">모든 DNS 로그를 삭제하시겠습니까?</string>
     <string name="conn_track_clear_logs_title" translatable="true">모든 네트워크 로그를 삭제하시겠습니까?</string>
     <string name="bsct_block_domain" translatable="true">&lt;u&gt;이 앱&lt;/u&gt;의 &lt;u&gt;도메인&lt;/u&gt;을 차단 및 신뢰</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink는 접근성 서비스를 사용하여 사용 중인 앱(포그라운드)과 사용 중이 아닌 앱(백그라운드)을 추적합니다. \n \nRethink는 어떤 방식으로도 정보를 수집하거나 사용자를 감시하지 않습니다.</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直는 접근성 서비스를 사용하여 사용 중인 앱(포그라운드)과 사용 중이 아닌 앱(백그라운드)을 추적합니다. \n \n白い熊 考直는 어떤 방식으로도 정보를 수집하거나 사용자를 감시하지 않습니다.</string>
     <string name="universal_firewall_explanation" translatable="true">기기의 이벤트를 기반으로 모든 앱에 방화벽을 적용합니다. 예를 들어 기기가 잠겨 있거나 특정 앱을 사용하지 않을 때 방화벽이 적용됩니다.</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">경고: Rethink가 비활성화되었습니다</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">경고: 白い熊 考直가 비활성화되었습니다</string>
     <string name="lbl_import" translatable="true">불러오기</string>
     <string name="lbl_allowed_ips" translatable="true">허용된 IP</string>
     <string name="lbl_socks5" translatable="true">SOCKS5</string>
@@ -45,13 +45,13 @@
     <string name="firewall_mode_notification_title" translatable="true">보호됐습니다! 방화벽에 연결되었습니다.</string>
     <string name="status_waiting" description="This text appears during the connection process if Intra needs user permission or the phone is offline." translatable="true">대기 중</string>
     <string name="lbl_configure" translatable="true">구성</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">개인 DNS가 활성화됨</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">개인 DNS가 활성화됨</string>
     <string name="status_protected" description="This is a large message in a reassuring color.  It indicates that DNS queries can't be surveilled or modified in transit." translatable="true">보호됨</string>
     <string name="lbl_delete" translatable="true">삭제</string>
     <string name="status_protected_with_private_dns" translatable="true">개인 DNS로 보호됨</string>
     <string name="lbl_qr_code" translatable="true">QR 코드</string>
     <string name="status_dns_error" translatable="true">DNS 오류</string>
-    <string name="slide_1_desc" translatable="true">Rethink는 Mozilla Builders MVP 프로그램과 FOSS United 재단의 지원을 받는 오픈 소스 소프트웨어입니다.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直는 Mozilla Builders MVP 프로그램과 FOSS United 재단의 지원을 받는 오픈 소스 소프트웨어입니다.</string>
     <string name="lbl_http_socks5" translatable="true">HTTPS 및 SOCKS5</string>
     <string name="status_protected_with_proxy_private_dns" translatable="true">프록시 및 개인 DNS로 보호됨</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">보호 설정을 변경하려면 탭하세요</string>
@@ -79,7 +79,7 @@
     <string name="dns_query_clear_logs_message" translatable="true">기기 내 DNS 로그를 삭제합니다. 이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?</string>
     <string name="isolate" translatable="true">격리</string>
     <string name="lbl_dns_servers" translatable="true">DNS 서버</string>
-    <string name="slide_2_desc" translatable="true">Rethink는 안드로이드 기기에서 네트워크 활동을 모니터링하고, 인터넷 검열을 우회하고, 방화벽으로 앱을 보호하는 가장 쉬운 방법입니다.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直는 안드로이드 기기에서 네트워크 활동을 모니터링하고, 인터넷 검열을 우회하고, 방화벽으로 앱을 보호하는 가장 쉬운 방법입니다.</string>
     <string name="default_dns_name" translatable="true">RDNS 기본</string>
     <string name="bypass_universal" translatable="true">전역 우회</string>
     <string name="lbl_app_wise" translatable="true">앱별</string>
@@ -102,12 +102,12 @@
     <string name="lbl_applications" translatable="true">앱</string>
     <string name="lbl_include" translatable="true">포함</string>
     <string name="firewall_rules" translatable="true">네트워크 규칙</string>
-    <string name="dns_explanation_dns_connected" translatable="true">RethinkDNS에 연결됨</string>
+    <string name="dns_explanation_dns_connected" translatable="true">白い熊 考直에 연결됨</string>
     <string name="notification_action_dns_mode" translatable="true">DNS</string>
     <string name="lbl_very" translatable="true">매우</string>
     <string name="bsct_block_ip" translatable="true">&lt;u&gt;이 앱&lt;/u&gt;에서 &lt;u&gt;이 IP&lt;/u&gt;를 차단 또는 신뢰</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">보호되지 않음</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">RethinkDNS 및 방화벽에 연결됨</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">白い熊 考直 및 방화벽에 연결됨</string>
     <string name="allow" translatable="true">허용</string>
     <string name="dns_mode_info_explanation_new" translatable="true">DNS 요청을 모니터링, 차단 및 암호화합니다.</string>
     <string name="lbl_select_all" translatable="true">전체 선택</string>
@@ -116,7 +116,7 @@
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="lbl_create" translatable="true">만들기</string>
     <string name="status_protected_with_socks5_private_dns" translatable="true">SOCKS5 및 개인 DNS로 보호됨</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Rethink 접근성 서비스가 중단되었거나 오류가 발생했습니다. <i><b>설정으로 이동하여 Rethink를 강제 종료</b></i>한 뒤 다시 실행해야 <i>사용하지 않는 앱 차단</i> 기능을 사용할 수 있습니다.\n\nRethink는 어떤 앱이 사용 중(포그라운드)인지 또는 사용 중이 아닌지(백그라운드)를 파악하기 위해 접근성 서비스를 사용합니다.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 접근성 서비스가 중단되었거나 오류가 발생했습니다. <i><b>설정으로 이동하여 白い熊 考直를 강제 종료</b></i>한 뒤 다시 실행해야 <i>사용하지 않는 앱 차단</i> 기능을 사용할 수 있습니다.\n\n白い熊 考直는 어떤 앱이 사용 중(포그라운드)인지 또는 사용 중이 아닌지(백그라운드)를 파악하기 위해 접근성 서비스를 사용합니다.</string>
     <string name="lbl_logs" translatable="true">로그</string>
     <string name="dns_explanation_firewall_connected" translatable="true">방화벽에 연결됨</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">WireGuard 및 개인 DNS로 보호됨</string>
@@ -139,7 +139,7 @@
     <string name="lbl_stopped" translatable="true">중지됨</string>
     <string name="lbl_private" translatable="true">비공개</string>
     <string name="lbl_anonymous" translatable="true">익명</string>
-    <string name="always_on_dialog" translatable="true">\"VPN 항상 켜기\"가 이 기기에서 활성화 돼있습니다. Rethink를 시작하려면, 설정 앱으로 가서 \"VPN 항상 켜기\"를 꺼주세요.</string>
+    <string name="always_on_dialog" translatable="true">\"VPN 항상 켜기\"가 이 기기에서 활성화 돼있습니다. 白い熊 考直를 시작하려면, 설정 앱으로 가서 \"VPN 항상 켜기\"를 꺼주세요.</string>
     <string name="always_on_dialog_stop_heading" translatable="true">VPN 항상 켜기</string>
     <string name="always_on_dialog_positive" translatable="true">중지</string>
     <string name="always_on_dialog_neutral" translatable="true">설정</string>
@@ -173,7 +173,7 @@
     <string name="orbot_bs_status_trying_connect" translatable="true">Orbot 설정 중…</string>
     <string name="settings_orbot_heading" translatable="true">Orbot 설정</string>
     <string name="settings_orbot_header" translatable="true">Orbot\t❯</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">계속하려면 Rethink를 시작하세요.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">계속하려면 白い熊 考直를 시작하세요.</string>
     <string name="settings_https_disabled_error" translatable="true">%1$s에 연결되었습니다. 계속하려면 끄세요.</string>
     <string name="settings_orbot_notification_content" translatable="true">프록시로 Tor 사용 시작이 실패했습니다. Orbot 앱을 열어 수동으로 시작해주세요.</string>
     <string name="settings_network_all_networks" translatable="true">사용 가능한 모든 네트워크 사용 (실험적)</string>
@@ -231,7 +231,7 @@
     <string name="connection_http3" translatable="true">HTTP3</string>
     <string name="settings_ptrans_desc" translatable="true">기기 내에서 나가는 IPv6 트래픽을 IPv4로 변환합니다. IPv4 전용 네트워크에 연결되어있다면 활성화 하세요.</string>
     <string name="relative_time_today" translatable="true">오늘</string>
-    <string name="settings_allow_bypass_desc" translatable="true">요청하는 앱이 가능한 모든 네트워크에 접근하는 것을 허용합니다. 이 앱들은 Rethink의 VPN 터널을 필요에 따라 통과할 수도 있습니다. Zoom이나 Meet 같은 오디오/비디오 회의 앱들이 제대로 작동하기 위해 이것을 필요로 할 수 있습니다.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">요청하는 앱이 가능한 모든 네트워크에 접근하는 것을 허용합니다. 이 앱들은 白い熊 考直의 VPN 터널을 필요에 따라 통과할 수도 있습니다. Zoom이나 Meet 같은 오디오/비디오 회의 앱들이 제대로 작동하기 위해 이것을 필요로 할 수 있습니다.</string>
     <string name="settings_socks5_heading" translatable="true">SOCKS5 프록시 설정</string>
     <string name="settings_proxy_header" translatable="true">프록시</string>
     <string name="orbot_both" translatable="true">TCP + HTTP 프록시</string>
@@ -241,7 +241,7 @@
     <string name="orbot_status_arg_3" translatable="true">DNS와 TCP</string>
     <string name="orbot_app_issue" translatable="true">Orbot을 실행할 수 없습니다. 설치되어 있습니까?</string>
     <string name="orbot_stop_dialog_title" translatable="true">수동 개입 필요</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink는 Orbot으로의 연결 포워딩을 중지했습니다. 하지만 Orbot은 백그라운드에서 작동할 수 있습니다.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直는 Orbot으로의 연결 포워딩을 중지했습니다. 하지만 Orbot은 백그라운드에서 작동할 수 있습니다.</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbot은 Tor의 특징과 기능성을 Android로 가져옵니다.</string>
     <string name="settings_orbot_install_desc" translatable="true">여기를 눌러 Orbot을 설치하기</string>
     <string name="settings_socks5_disabled_error" translatable="true">%1$s에 연결되었습니다. 계속하려면 끄세요.</string>
@@ -269,7 +269,7 @@
     <string name="settings_ip_network_desc" translatable="true">인터넷 프로토콜 버전을 선택하세요.</string>
     <string name="relative_time_yesterday" translatable="true">어제</string>
     <string name="settings_ip_network_heading" translatable="true">IP 버전 선택</string>
-    <string name="settings_allow_lan_desc" translatable="true">LAN, 루프백, 멀티캐스트, 링크 로컬 라우팅을 Rethink\'s VPN 터널에서 제외합니다.</string>
+    <string name="settings_allow_lan_desc" translatable="true">LAN, 루프백, 멀티캐스트, 링크 로컬 라우팅을 白い熊 考直\'s VPN 터널에서 제외합니다.</string>
     <string name="settings_ptrans_heading" translatable="true">IPv4 출구 강제</string>
     <string name="settings_https_heading" translatable="true">HTTP(S) 연결 프록시 설정</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">VPN이 DNS 전용 모드에서 작동 중일때는 프록시를 설정할 수 없습니다.</string>
@@ -300,8 +300,8 @@
     <string name="cd_custom_doh_dialog_title" translatable="true">사용자 지정 서버 URL</string>
     <string name="cd_custom_doh_url_name_default" translatable="true">DoH</string>
     <string name="logs_disclaimer" translatable="true">처음 20000자를 보여주는 중</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">차단 목록 다운로드, 연결 확인, DNS 연결과 같은 Rethink의 자체 트래픽을 터널로 다시 라우팅합니다.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Rethink의 자체 트래픽을 터널을 통해 라우팅합니다. 자신이 무엇을 하고 있는지 알지 못한다면 끄세요.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">차단 목록 다운로드, 연결 확인, DNS 연결과 같은 白い熊 考直의 자체 트래픽을 터널로 다시 라우팅합니다.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">白い熊 考直의 자체 트래픽을 터널을 통해 라우팅합니다. 자신이 무엇을 하고 있는지 알지 못한다면 끄세요.</string>
     <string name="lbl_remove" translatable="true">제거</string>
     <string name="lbl_last" translatable="true">마지막</string>
     <string name="lbl_cache" translatable="true">캐시</string>
@@ -311,12 +311,12 @@
     <string name="orbot_install_dialog_positive" translatable="true">설치</string>
     <string name="orbot_install_dialog_neutral" translatable="true">웹사이트</string>
     <string name="orbot_stop_dialog_neutral" translatable="true">DNS 변경</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Rethink의 VPN 항상 켜기가 활성화 되어있습니다. 그래도 Rethink를 중지 하시겠어요?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">白い熊 考直의 VPN 항상 켜기가 활성화 되어있습니다. 그래도 白い熊 考直를 중지 하시겠어요?</string>
     <string name="lbl_status" translatable="true">상태</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: 앱이 인터넷에 연결하는 것을 차단합니다.\n &lt;u&gt;#2&lt;/u&gt;: 앱이 특정 IP에 연결하는 것을 차단합니다.\n &lt;u&gt;#3&lt;/u&gt;: 장치가 잠긴 경우 모든 연결을 차단합니다(전역 방화벽).\n &lt;u&gt;#4&lt;/u&gt;: 사용하지 않는 모든 앱을 차단합니다(전역 방화벽).\n &lt;u&gt;#5&lt;/u&gt;: 출처 앱을 알 수 없는 경우 연결을 차단합니다(전역 방화벽).\n &lt;u&gt;#6&lt;/u&gt;: DNS를 제외한 모든 UDP 트래픽을 차단합니다(전역 방화벽).\n &lt;u&gt;#7&lt;/u&gt;: DNS를 우회될 경우 연결을 차단합니다(전역 방화벽).</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink는 <i>락다운</i> 모드에서 VPN을 실행하고 있습니다. 중지하면 이 사용자 프로필에서 인터넷 연결이 끊어집니다. 그래도 계속하시겠습니까?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直는 <i>락다운</i> 모드에서 VPN을 실행하고 있습니다. 중지하면 이 사용자 프로필에서 인터넷 연결이 끊어집니다. 그래도 계속하시겠습니까?</string>
     <string name="lbl_starting" translatable="true">시작 중</string>
-    <string name="private_dns_dialog_desc" translatable="true">Rethink의 VPN 설정은 Android 프라이빗 DNS에 의해 덮어쓰였습니다. \n \nRethink의 DNS를 사용하기 위해서는 Android 설정으로 가서 프라이빗 DNS를 끄세요.</string>
+    <string name="private_dns_dialog_desc" translatable="true">白い熊 考直의 VPN 설정은 Android 프라이빗 DNS에 의해 덮어쓰였습니다. \n \n白い熊 考直의 DNS를 사용하기 위해서는 Android 설정으로 가서 프라이빗 DNS를 끄세요.</string>
     <string name="univ_firewall_dialog_message" translatable="true">이 규칙을 삭제하는 것은 앱이 이 IP에 연결하는 것을 허용합니다. 계속하시겠습니까?</string>
     <string name="show_logs_disabled_network_message" translatable="true">연결 로깅이 비활성화되었습니다. 다시 활성화하려면 <i>설정</i>으로 이동하여 <i>기기 내 로깅 활성화</i>를 켭니다</string>
     <string name="show_logs_disabled_dns_message" translatable="true">DNS 요청 로깅이 비활성화 되었습니다. 다시 활성화하려면 <i>설정</i>으로 이동하여 <i>기기 내 로깅 활성화</i>를 켜세요</string>
@@ -324,12 +324,12 @@
     <string name="search_firewall_all_apps" translatable="true"><font size="12">uid, 이름으로 앱 검색</font></string>
     <string name="settings_allow_lan_heading" translatable="true">사설 IP를 라우팅 하지 않기 (실험적)</string>
     <string name="settings_lock_down_mode_desc" translatable="true">VPN이 락다운 모드일 때 특정 옵션이 꺼집니다. <u>VPN 설정을 보세요</u>.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink는 Orbot으로 DNS 쿼리를 포워딩하게 설정되었습니다. 필요하다면 변경하세요.</string>
-    <string name="orbot_explanation" translatable="true">Orbot은 다른 앱이 인터넷을 더 &lt;u&gt;안전하게&lt;/u&gt; 사용할 수 있도록 지원하는 무료 프록시 앱입니다.\nOrbot은 &lt;u&gt;Tor&lt;/u&gt;로 인터넷 트래픽을 암호화하여 &lt;u&gt;검열을 우회&lt;/u&gt;하고 개인의 자유와 사생활을 위협하는 &lt;u&gt;네트워크 감시&lt;/u&gt;로부터 방어할 수 있습니다.\n&lt;u&gt;TCP 프록시&lt;/u&gt;: Rethink는 &lt;i&gt;포함된&lt;/i&gt; 앱의 TCP 연결만 Orbot으로 전달합니다.\n&lt;u&gt;HTTP 프록시&lt;/u&gt;: Rethink는 Orbot으로 HTTP CONNECT 터널을 &lt;i&gt;설정&lt;/i&gt;하고 &lt;i&gt;포함된&lt;/i&gt; 앱의 TCP 연결만 전달합니다.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直는 Orbot으로 DNS 쿼리를 포워딩하게 설정되었습니다. 필요하다면 변경하세요.</string>
+    <string name="orbot_explanation" translatable="true">Orbot은 다른 앱이 인터넷을 더 &lt;u&gt;안전하게&lt;/u&gt; 사용할 수 있도록 지원하는 무료 프록시 앱입니다.\nOrbot은 &lt;u&gt;Tor&lt;/u&gt;로 인터넷 트래픽을 암호화하여 &lt;u&gt;검열을 우회&lt;/u&gt;하고 개인의 자유와 사생활을 위협하는 &lt;u&gt;네트워크 감시&lt;/u&gt;로부터 방어할 수 있습니다.\n&lt;u&gt;TCP 프록시&lt;/u&gt;: 白い熊 考直는 &lt;i&gt;포함된&lt;/i&gt; 앱의 TCP 연결만 Orbot으로 전달합니다.\n&lt;u&gt;HTTP 프록시&lt;/u&gt;: 白い熊 考直는 Orbot으로 HTTP CONNECT 터널을 &lt;i&gt;설정&lt;/i&gt;하고 &lt;i&gt;포함된&lt;/i&gt; 앱의 TCP 연결만 전달합니다.</string>
     <string name="orbot_no_app_toast" translatable="true">Orbot을 활성화 하기 위해 최소 앱을 하나 추가하세요</string>
     <string name="settings_orbot_disabled_error" translatable="true">프록시로 토르 사용을 설정하려면 HTTP(S) 그리고(또는) SOCKS5 프록시를 끄세요.</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">기기의 전원이 켜질 때, 전원 종료 전에 실행 중이였다면 Rethink를 시작합니다.</string>
-    <string name="settings_network_all_networks_desc" translatable="true">활성화되면, Rethink는 인터넷에 연결하기 위해 모든 사용 가능한 네트워크를 이용합니다. 그렇지 않은 경우 Android에서 <i>활성화</i>된 것으로 간주되는 네트워크를 사용합니다.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">기기의 전원이 켜질 때, 전원 종료 전에 실행 중이였다면 白い熊 考直를 시작합니다.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">활성화되면, 白い熊 考直는 인터넷에 연결하기 위해 모든 사용 가능한 네트워크를 이용합니다. 그렇지 않은 경우 Android에서 <i>활성화</i>된 것으로 간주되는 네트워크를 사용합니다.</string>
     <string name="settings_app_notification_persistent_heading" translatable="true">지속적 알림</string>
     <string name="settings_go_log_desc" translatable="true">디버깅 용도</string>
     <string name="settings_rinr_heading" translatable="true">루프백 (실험적)</string>
@@ -355,7 +355,7 @@
     <string name="dot_custom_url_remove_dialog_title" translatable="true">DoT 엔드포인트를 삭제합니까?</string>
     <string name="dot_custom_url_remove_dialog_message" translatable="true">저장된 구성에서 DNS over TLS 엔드포인트를 삭제합니다.</string>
     <string name="lbl_notification" translatable="true">알림</string>
-    <string name="memory_notification_text">Rethink이(가) 메모리 부족 상태에 있습니다. 이로 인해 일부 시스템 작업이 제한될 수 있습니다.</string>
+    <string name="memory_notification_text">白い熊 考直이(가) 메모리 부족 상태에 있습니다. 이로 인해 일부 시스템 작업이 제한될 수 있습니다.</string>
     <string name="dns_crypt_relay_remove_dialog_title" translatable="true">DNSCrypt 중계를 삭제하시겠습니까?</string>
     <string name="http_proxy_dialog_heading" translatable="true">HTTP(S) 프록시 설정</string>
     <string name="settings_dns_proxy_dialog_app" translatable="true">앱</string>
@@ -418,7 +418,7 @@
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + 방화벽</string>
     <string name="settings_notification_desc3" translatable="true">없음</string>
     <string name="settings_notification_dialog_title" translatable="true">알림 작업 선택</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\n일시 정지/중지(기본값):\nRethink를 빠르게 일시 정지하고 중지하는 두 개의 버튼을 표시합니다.</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\n일시 정지/중지(기본값):\n白い熊 考直를 빠르게 일시 정지하고 중지하는 두 개의 버튼을 표시합니다.</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nDNS / DNS + 방화벽:\n배터리 절약 DNS 모드와 일반 DNS + 방화벽 모드 사이를 빠르게 전환하는 버튼 두 개를 표시합니다.</string>
     <string name="settings_locale_desc" translatable="true">선호하는 언어를 선택하세요</string>
     <string name="settings_locale_dialog_title" translatable="true">선호하는 언어를 선택하세요</string>
@@ -434,15 +434,15 @@
     <string name="firewall_status_isolate" translatable="true">외딴</string>
     <string name="firewall_status_bypass_dns_firewall" translatable="true">DNS 및 방화벽 규칙 우회</string>
     <string name="firewall_status_blocked" translatable="true">차단됨</string>
-    <string name="hs_biometeric_title" translatable="true">Rethink 잠금 해제</string>
-    <string name="hs_biometeric_desc" translatable="true">생체 인증을 사용하여 Rethink 잠금 해제</string>
-    <string name="settings_notification_desc" translatable="true">Rethink 알림과 함께 표시할 작업 버튼: %1$s</string>
+    <string name="hs_biometeric_title" translatable="true">白い熊 考直 잠금 해제</string>
+    <string name="hs_biometeric_desc" translatable="true">생체 인증을 사용하여 白い熊 考直 잠금 해제</string>
+    <string name="settings_notification_desc" translatable="true">白い熊 考直 알림과 함께 표시할 작업 버튼: %1$s</string>
     <string name="settings_locale_heading" translatable="true">언어 변경 Change language</string>
     <string name="firewall_status_unknown" translatable="true">알 수 없음</string>
     <string name="settings_connectivity_checks" translatable="true">연결 체크 수행</string>
     <string name="settings_connectivity_checks_desc" translatable="true">연결성 검사는 ascertain Reachability에 보내집니다.</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Loopback 프록시 포워더 앱</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">비활성화되면 프록시(SOCKS5, HTTP, DNS) 포워더 앱을 Rethink의 VPN 터널에서 제외합니다.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">비활성화되면 프록시(SOCKS5, HTTP, DNS) 포워더 앱을 白い熊 考直의 VPN 터널에서 제외합니다.</string>
     <string name="logs_card_network_count" translatable="true">%1$s 연결</string>
     <string name="logs_card_duration" translatable="true">%1$s부터</string>
     <string name="hsf_vpn_dialog_header" translatable="true">주목!</string>
@@ -451,7 +451,7 @@
     <string name="hsf_start_btn_state" translatable="true">시작</string>
     <string name="hsf_vpn_prepare_failure" translatable="true">VPN 권한이 없거나 다른 앱이 Always-on VPN 모드에 있습니다.</string>
     <string name="rules_card_domain_count" translatable="true">%1$s 도메인 규칙</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink는 장치의 DNS 요청을 암호화하고, 네트워크 모니터링을 구현하고, 방화벽 규칙을 적용하기 위해 로컬 VPN을 설정하는 권한이 필요합니다.\n\nWi-Fi 기반 프록시 자동화 기능을 사용하려면 연결된 Wi-Fi 네트워크(SSID)를 식별하기 위해 위치 권한이 필요합니다. 이 권한은 해당 기능을 켤 때에만 요청됩니다.\n\nRethink는 정보를 수집하거나 어떤 식으로든 사용자를 염탐하지 않습니다.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直는 장치의 DNS 요청을 암호화하고, 네트워크 모니터링을 구현하고, 방화벽 규칙을 적용하기 위해 로컬 VPN을 설정하는 권한이 필요합니다.\n\nWi-Fi 기반 프록시 자동화 기능을 사용하려면 연결된 Wi-Fi 네트워크(SSID)를 식별하기 위해 위치 권한이 필요합니다. 이 권한은 해당 기능을 켤 때에만 요청됩니다.\n\n白い熊 考直는 정보를 수집하거나 어떤 식으로든 사용자를 염탐하지 않습니다.</string>
     <string name="hsf_start_dialog_header" translatable="true">시작 %1$s</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">이 기기에서는 생체 인증이 지원되지 않거나 비활성화됩니다</string>
     <string name="hs_biometeric_failed" translatable="true">생체인증 실패</string>
@@ -472,16 +472,16 @@
     <string name="dc_dns_website_heading" translatable="true">DNS 로그에 웹사이트 아이콘 표시(실험)</string>
     <string name="dc_dns_website_desc" translatable="true"><i>nextdns.io</i> 및 <i>duckduckgo.com</i>에서 웹사이트 아이콘을 가져옵니다. 최대 350MB의 디스크 공간을 사용합니다</string>
     <string name="dc_dns_leaks_heading" translatable="true">DNS 유출 방지</string>
-    <string name="dc_dns_leaks_desc" translatable="true">활성화되면, Rethink는 포트 53에서 모든 패킷을 캡처하고 사용자가 설정한 DNS 엔드포인트로 전달합니다</string>
+    <string name="dc_dns_leaks_desc" translatable="true">활성화되면, 白い熊 考直는 포트 53에서 모든 패킷을 캡처하고 사용자가 설정한 DNS 엔드포인트로 전달합니다</string>
     <string name="cd_dns_proxy_error_text_3" translatable="true">잘못된 포트</string>
     <string name="cd_dns_crypt_dialog_title" translatable="true">DNSCrypt 리졸버 또는 중계 추가</string>
     <string name="dc_entries" translatable="true">%1$s 항목 »</string>
     <string name="dc_proxy_dns_heading" translatable="true">DNS 프록시 사용 안 함</string>
     <string name="cd_custom_dns_proxy_default_app" translatable="true">없음</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="about_bravedns_toreport_text" translatable="true">도움말 및 피드백</string>
     <string name="cd_dns_proxy_mode_internal" translatable="true">내부의</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">일시 중지할 수 없음: Rethink가 비활성화되어 있습니다</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">일시 중지할 수 없음: 白い熊 考直가 비활성화되어 있습니다</string>
     <string name="about_bug_report" translatable="true">버그 보고서</string>
     <string name="hsf_start_dialog_positive" translatable="true">시작</string>
     <string name="hsf_whats_new_chip_text" translatable="true">새로운 기능</string>
@@ -494,7 +494,7 @@
     <string name="hsf_whats_new_remove_text" translatable="true">종료 중…</string>
     <string name="hsf_blocklist_updating_text" translatable="true">활성화 중…</string>
     <string name="hsf_chip_appearance" translatable="true">테마: %1$s</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i>를 사용하면 연결이 끊길 수 있습니다. 설정을 변경하여 Rethink가 백그라운드에서 데이터 및 기타 리소스를 사용하도록 허용하세요.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i>를 사용하면 연결이 끊길 수 있습니다. 설정을 변경하여 白い熊 考直가 백그라운드에서 데이터 및 기타 리소스를 사용하도록 허용하세요.</string>
     <string name="dc_block_heading" translatable="true">규칙</string>
     <string name="dc_other_dns_heading" translatable="true">유형</string>
     <string name="dc_custom_dns_radio" translatable="true">기타 DNS</string>
@@ -549,7 +549,7 @@
     <string name="fapps_info_exclude_msg" translatable="true">DNS + 방화벽 모두에서 제외합니다.</string>
     <string name="fapps_bypass_block_dialog_message" translatable="true"><i>나열된</i> 앱에 대한 전역 방화벽 규칙을 우회하시겠습니까?</string>
     <string name="fapps_firewall_filter_desc_category" translatable="true"><![CDATA[카테고리에서 <u>%1$s</u> %2$s 앱 표시: %3$s]]></string>
-    <string name="accessibility_notification_content" translatable="true">Rethink 접근성 서비스가 중지되었거나 충돌했습니다. 더 이상 백그라운드 앱을 차단하지 않습니다. 다시 활성화하려면 탭하세요.</string>
+    <string name="accessibility_notification_content" translatable="true">白い熊 考直 접근성 서비스가 중지되었거나 충돌했습니다. 더 이상 백그라운드 앱을 차단하지 않습니다. 다시 활성화하려면 탭하세요.</string>
     <string name="fapps_bypass_dns_firewall_dialog_title" translatable="true">앱 우회</string>
     <string name="firewall_rule_device_lock" translatable="true">장치 잠김</string>
     <string name="firewall_rule_block_unmetered" translatable="true">비과금(WiFi)</string>
@@ -662,7 +662,7 @@
     <string name="firewall_rule_block_app_desc" translatable="true"><![CDATA[사용자 설정 방화벽 규칙이 이 <i>앱</i>을 차단했습니다.<br/><br/> 변경하려면 <i>모든 앱</i> 탭으로 이동하세요.]]></string>
     <string name="socks5_proxy_toast_parameter" translatable="true">SOCKS5 proxy</string>
     <string name="settings_local_blocklist_dialog_positive" translatable="true">다운로드</string>
-    <string name="accessibility_failure_toast" translatable="true">Rethink 접근성 서비스가 중지되었거나 충돌했습니다. 더 이상 백그라운드 앱을 차단하지 않습니다.</string>
+    <string name="accessibility_failure_toast" translatable="true">白い熊 考直 접근성 서비스가 중지되었거나 충돌했습니다. 더 이상 백그라운드 앱을 차단하지 않습니다.</string>
     <string name="other_dns_list_tab3" translatable="true">DNS 프록시</string>
     <string name="toast_allow_bypass_disabled" translatable="true">프록시가 활성화되어 있으므로 %1$s를 사용할 수 없습니다</string>
     <string name="firewall_rule_new_app_desc" translatable="true"><![CDATA[이 앱은 <i>처음</i> 시간 동안 연결되었습니다.<br/><br/> 변경하려면 <i>전역</i> 탭으로 이동합니다.]]></string>
@@ -701,7 +701,7 @@
     <string name="settings_biometric_dialog_option_1" translatable="true">즉시</string>
     <string name="settings_biometric_dialog_option_2" translatable="true">5분 후</string>
     <string name="settings_biometric_dialog_option_3" translatable="true">15분 후</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Rethink을(를) <b>%1$s일</b> 동안 사용하셨고, 이는 <b>$%2$s</b>의 가치에 해당합니다. 앞으로도 개발이 이어질 수 있도록 후원해 주시겠습니까?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">白い熊 考直을(를) <b>%1$s일</b> 동안 사용하셨고, 이는 <b>$%2$s</b>의 가치에 해당합니다. 앞으로도 개발이 이어질 수 있도록 후원해 주시겠습니까?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">별도로 지정된 DNS가 없는 도메인에 대해서는 시스템 DNS를 사용합니다</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true"><i>.lan</i>, <i>.internal</i> 등 별도로 지정된 DNS가 없는 도메인에는 시스템 DNS를 사용합니다.</string>
     <string name="lbl_hop" translatable="true">중계</string>
@@ -781,7 +781,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">가장 많이 접속한 IP</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">가장 많이 차단된 IP</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">가장 많이 차단된 지역</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Rethink를 시작해 계속 진행</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">白い熊 考直를 시작해 계속 진행</string>
     <string name="ssv_see_more" translatable="true">모두 표시</string>
     <string name="bad_config_reason_invalid_key" translatable="true">잘못된 키</string>
     <string name="bad_config_reason_invalid_number" translatable="true">잘못된 숫자</string>
@@ -817,8 +817,8 @@
     <string name="univ_firewall_rule_11" translatable="true">모든 로컬 호스트 연결 차단</string>
     <string name="univ_delete_domain_dialog_title" translatable="true">도메인 규칙을 모두 삭제합니까?</string>
     <string name="univ_delete_domain_dialog_message" translatable="true">규칙을 삭제하면 모든 응용 프로그램이 현재 차단한 도메인에 접속할 수 있게 됩니다.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink가 최근에 설치한 %1$s 앱을 차단했습니다.</string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink가 새 앱 %1$s개를 차단했습니다. 눌러서 보거나 수정하십시오.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直가 최근에 설치한 %1$s 앱을 차단했습니다.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直가 새 앱 %1$s개를 차단했습니다. 눌러서 보거나 수정하십시오.</string>
     <string name="new_app_bulk_notification_title" translatable="true">안내</string>
     <string name="new_app_notification_action_deny" translatable="true">계속 차단</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">앱의 네트워크 연결이 허용되었습니다</string>
@@ -950,16 +950,16 @@
     <string name="tombstone_app_desc" translatable="true">켠 경우, 앱 규칙을 7일 동안 유지합니다.</string>
     <string name="settings_locale_dialog_default" translatable="true">시스템 기본값</string>
     <string name="settings_jumbo_packets" translatable="true">대역폭 부스터</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Rethink의 VPN 터널 내에서 <i>점보 패킷</i>을 사용합니다.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">白い熊 考直의 VPN 터널 내에서 <i>점보 패킷</i>을 사용합니다.</string>
     <string name="settings_tunnel_metered" translatable="true">항상 종량제</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Rethink의 VPN 터널을 종량제 네트워크로 표시해 앱이 데이터 사용을 줄이도록 유도합니다. 주의: 이로 인해 앱이 백업같은 대형 업로드 및 다운로드 작업을 중단할 수 있습니다.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">白い熊 考直의 VPN 터널을 종량제 네트워크로 표시해 앱이 데이터 사용을 줄이도록 유도합니다. 주의: 이로 인해 앱이 백업같은 대형 업로드 및 다운로드 작업을 중단할 수 있습니다.</string>
     <string name="stability_program_toast" translatable="true"><i>실험적 기능</i>을 위해 <i>안정성 프로그램</i>에 등록했습니다.</string>
     <string name="lbl_criteria" translatable="true">조건</string>
     <string name="firewall_rule_lockdown_wg" translatable="true">락다운 프록시</string>
     <string name="lockdown_download_enable_inapp" translatable="true">다운로더 활성화</string>
     <string name="firewall_rule_global_lockdown_desc" translatable="true"><![CDATA[락다운이 설정되어 연결이 차단되었습니다.<br/><br/> 변경하려면 <i>전역</i> 탭으로 갑니다.]]></string>
     <string name="firewall_rule_lockdown_wg_desc" translatable="true"><![CDATA[WireGuard가 <i>락다운</i> 모드라서 연결이 차단되었습니다.<br/><br/> 변경하려면 <i>WireGuard</i> 화면으로 갑니다.]]></string>
-    <string name="lockdown_download_message" translatable="true">Android 내장 <i>다운로드 관리자</i>는 VPN이 <i>락다운</i> 모드일 때 작동하지 않을 수 있습니다. 대신 Rethink의 다운로더를 켤까요?</string>
+    <string name="lockdown_download_message" translatable="true">Android 내장 <i>다운로드 관리자</i>는 VPN이 <i>락다운</i> 모드일 때 작동하지 않을 수 있습니다. 대신 白い熊 考直의 다운로더를 켤까요?</string>
     <string name="exclude_apps_from_proxy">앱을 모든 프록시로부터 우회</string>
     <string name="ac_split_tls_desc" translatable="true">TCP나 TLS 패킷을 변경합니다.</string>
     <string name="ac_split_tcp_desc" translatable="true">TCP 패킷을 변경합니다.</string>
@@ -977,8 +977,8 @@
     <string name="firewall_rule_block_ip_univ_desc" translatable="true"><![CDATA[사용자 설정 방화벽 규칙이 <i>대상 IP / 포트</i>를 차단했습니다.<br/><br/> 변경하려면 <i>전역</i> 탭으로 이동하세요.]]></string>
     <string name="firewall_rule_block_ip_desc" translatable="true"><![CDATA[사용자가 설정한 방화벽 규칙이 <i>대상 IP</i>를 차단했습니다.<br/><br/> 변경하려면 <i>앱별 방화벽</i> 화면으로 이동하세요.]]></string>
     <string name="firewall_rule_trusted_ip_desc" translatable="true"><![CDATA[<i>대상 IP</i>가 신뢰할 수 있는 IP로 설정되었기 때문에 연결이 허용되었습니다.<br><br> 변경하려면 <i>앱별 방화벽</i> 화면으로 이동합니다.]]></string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">Rethink가 활성화되어 백그라운드에서 실행 중일 때 알림</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">Rethink가 Android 또는 다른 VPN 앱에 의해 중지된 경우 알림</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">白い熊 考直가 활성화되어 백그라운드에서 실행 중일 때 알림</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">白い熊 考直가 Android 또는 다른 VPN 앱에 의해 중지된 경우 알림</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">방화벽 오류 및 이상에 대한 알림</string>
     <string name="notif_channed_desc_download" translatable="true">기기 내 차단 목록의 다운로드 진행률에 대한 알림</string>
     <string name="cd_toast_deleted" translatable="true">사용자 지정 목록에서 도메인이 삭제됨</string>
@@ -1043,7 +1043,7 @@
     <string name="radio_max_btn" translatable="true">🪂 Max</string>
     <string name="wireguard_disclaimer" translatable="true">DNS를 %1$s에 포워딩했습니다.</string>
     <string name="brbs_backup_restore_desc" translatable="true">앱 버전이 다르면 호환되지 않습니다</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s 기능은 Rethink의 DNS에서만 동작합니다</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s 기능은 白い熊 考直의 DNS에서만 동작합니다</string>
     <string name="wireguard_enabled_failure" translatable="true">WireGuard를 켜려면 다른 모든 프록시를 중단하세요</string>
     <string name="crypt_adguard_desc" translatable="true">악성코드 등으로부터 기기를 보호합니다.</string>
     <string name="crypt_adguard_family_desc" translatable="true">세이프서치 및 성인 콘텐츠 차단 기능을 탑재한 Adguard DNS입니다.</string>
@@ -1051,16 +1051,16 @@
     <string name="cleanbrowsing_adult_dns_desc" translatable="true">성인 필터는 모든 성인, 음란물, 노골적인 사이트에 대한 접속을 차단합니다. 프록시나 VPN, 일반 콘텐츠와 성인 콘텐츠가 섞인 사이트는 차단하지 않습니다. Reddit같은 사이트는 허용됩니다. Google 및 Bing은 안전 모드로 설정됩니다.</string>
     <string name="crypt_cleanbrowsing_family_desc" translatable="true">모든 성인, 음란물, 노골적인 사이트로의 접속을 차단합니다. 필터를 우회할 때 쓰이는 프록시 및 VPN 도메인도 차단합니다. 일반 콘텐츠와 성인 콘텐츠가 섞인 (Reddit같은) 사이트도 차단합니다. Google, Bing, YouTube는 안전 모드로 설정됩니다.</string>
     <string name="cleanbrowsing_family_dns_desc" translatable="true">가족 필터는 모든 성인, 음란물, 노골적인 사이트로의 접속을 차단합니다. 필터를 우회할 때 쓰이는 프록시 및 VPN 도메인도 차단합니다. 일반 콘텐츠와 성인 콘텐츠가 섞인 (Reddit같은) 사이트도 차단합니다. Google, Bing, YouTube는 안전 모드로 설정됩니다.</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink가 Wi-Fi 식별자(%1$s)에 접근하려면 위치 권한이 필요합니다.</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直가 Wi-Fi 식별자(%1$s)에 접근하려면 위치 권한이 필요합니다.</string>
     <string name="wg_setting_ssid_desc" translatable="true">Wi-Fi 혹은 지정한 WiFi 식별자(%1$s) 중 하나에 연결했을 때에만 이 WireGuard VPN을 활성화합니다.</string>
     <string name="vpn_policy_auto_desc" translatable="true">중요한 네트워크 및 연결 변화에 반응합니다.</string>
     <string name="wg_mobile_only_hop_err" translatable="true">중계 시 모바일 데이터 전용 모드를 지원하지 않습니다</string>
     <string name="fail_open_network_title" translatable="true">네트워크 끊길 시 중단</string>
-    <string name="fail_open_network_desc" translatable="true">켠 경우, 연결이 끊겼을 때 <i>비행기 모드</i>처럼 Rethink가 모든 데이터 송신을 중단합니다.</string>
+    <string name="fail_open_network_desc" translatable="true">켠 경우, 연결이 끊겼을 때 <i>비행기 모드</i>처럼 白い熊 考直가 모든 데이터 송신을 중단합니다.</string>
     <string name="load_more" translatable="true">모두 불러오기</string>
     <string name="close_conns_dialog_title" translatable="true">연결 닫기</string>
     <string name="close_conns_dialog_desc" translatable="true">%1$s의 모든 연결을 닫습니까?</string>
-    <string name="adv_taster_desc" translatable="true">Rethink를 시작 및 중지할 수 있는 앱을 설정합니다.</string>
+    <string name="adv_taster_desc" translatable="true">白い熊 考直를 시작 및 중지할 수 있는 앱을 설정합니다.</string>
     <string name="most_contacted_asn" translatable="true">가장 많이 접속한 제공자</string>
     <string name="most_blocked_asn" translatable="true">가장 많이 차단된 제공자</string>
     <string name="download_ip_info_title" translatable="true">제공자 정보 표시</string>
@@ -1093,14 +1093,14 @@
     <string name="blocklist_not_available_toast" translatable="true">차단 목록을 업데이트하려면, 최신 앱 버전을 다운로드하세요.</string>
     <string name="rt_filter_desc_subgroups" translatable="true"><![CDATA[그룹: %2$s 및 하위 그룹: %3$s에서 차단 목록 <u>%1$s</u>개 표시 중]]></string>
     <string name="adv_set_dial_timeout_desc" translatable="true">이 기간 이후에 유휴 TCP 및 UDP 소켓을 닫습니다.</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Rethink 시작 및 중지를 허용할 패키지 이름을 (쉼표로 구분하여) 입력합니다.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">白い熊 考直 시작 및 중지를 허용할 패키지 이름을 (쉼표로 구분하여) 입력합니다.</string>
     <string name="wg_ssid_dialog_description" translatable="true">%3$s Wi-Fi 식별자 (%2$s)가 <i>활성화</i>된 경우 이 WireGuard VPN을 %1$s합니다.</string>
     <string name="firewall_rule_paused_app_desc" translatable="true"><![CDATA[<i>앱</i>이 <i>중지</i> 상태이기 때문에 이 연결이 허용되었습니다.]]></string>
     <string name="firewall_rule_exempt_orbot_setup_desc" translatable="true"><![CDATA[Orbot을 통한 <i>원클릭 Tor-as-a-proxy</i> 설정이 진행 중이었기 때문에 이 연결이 허용되었습니다.]]></string>
     <string name="endpoint_independent_mapping_desc" translatable="true">켠 경우, 모든 대상에 대해 UDP 소켓이 고정 주소와 포트를 유지합니다.</string>
     <string name="endpoint_independent_mapping_title" translatable="true">엔드포인트 독립 매핑</string>
     <string name="mode_change_error_proxy_enabled" translatable="true">프록시가 사용 중일 때는 모드를 변경할 수 없습니다. 눌러서 &lt;u&gt;프록시 설정을 수정하세요&lt;/u&gt;.</string>
-    <string name="bypasses_network_restrictions" translatable="true">연결성 검사는 모든 네트워크 제한을 우회합니다. Rethink는 <i>자동</i> 모드일 때 이전에 연결했던 IP 주소와 호스트 이름을 임의로 사용합니다.</string>
+    <string name="bypasses_network_restrictions" translatable="true">연결성 검사는 모든 네트워크 제한을 우회합니다. 白い熊 考直는 <i>자동</i> 모드일 때 이전에 연결했던 IP 주소와 호스트 이름을 임의로 사용합니다.</string>
     <string name="local_blocklist_delete_desc" translatable="true">기기 내 차단 목록을 삭제합니까?</string>
     <string name="adv_set_dial_timeout_title" translatable="true">유휴 제한시간</string>
     <string name="lbl_ultra_secure" translatable="true">강력한 보안</string>
@@ -1164,9 +1164,9 @@
     <string name="location_disclosure_positive" translatable="true">진행</string>
     <string name="location_disclosure_negative" translatable="true">나중에</string>
     <string name="sponsor_continue" translatable="true">진행</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">Rethink 제외</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">白い熊 考直 제외</string>
     <string name="app_info_rethink_warning_title" translatable="true">주의</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">Rethink의 방화벽 규칙을 변경하려 합니다. Rethink는 VPN 터널을 관리하므로, Rethink의 트래픽을 허용, 차단, 격리하면 전체 네트워크 접속이 끊길 수 있습니다.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">白い熊 考直의 방화벽 규칙을 변경하려 합니다. 白い熊 考直는 VPN 터널을 관리하므로, 白い熊 考直의 트래픽을 허용, 차단, 격리하면 전체 네트워크 접속이 끊길 수 있습니다.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">알겠습니다</string>
     <string name="dc_global_heading" translatable="true">전역</string>
     <string name="rethink_home_screen_warning" translatable="true">연결에 영향 끼칠 수 있음 ⚠️</string>
@@ -1174,8 +1174,8 @@
     <string name="build_flavor_website_degoogled" translatable="true">website-degoogled</string>
     <string name="use_bootstrap_dns_to_bypass_desc" translatable="true">켜면 우회한 도메인, IP에 부트스트랩 DNS를 사용합니다.</string>
     <string name="location_disclosure_title" translatable="true">Wi-Fi 기능을 위한 위치 권한</string>
-    <string name="location_disclosure_message" translatable="true">Rethink는 Wi-Fi 네트워크 정보(SSID/BSSID)를 위치 정보로 취급합니다. 백그라운드 위치를 이용하면 앱을 열지 않더라도 Wi-Fi 네트워크가 변경될 때 프록시 자동화를 적용할 수 있습니다. Rethink는 사용자의 물리적인 GPS 위치 정보를 수집, 저장, 공유하지 않습니다.</string>
+    <string name="location_disclosure_message" translatable="true">白い熊 考直는 Wi-Fi 네트워크 정보(SSID/BSSID)를 위치 정보로 취급합니다. 백그라운드 위치를 이용하면 앱을 열지 않더라도 Wi-Fi 네트워크가 변경될 때 프록시 자동화를 적용할 수 있습니다. 白い熊 考直는 사용자의 물리적인 GPS 위치 정보를 수집, 저장, 공유하지 않습니다.</string>
     <string name="rpn_recovery_desc" translatable="true">서버를 등록하거나 가져올 수 없습니다. VPN이 연결되었는지 확인하고 다시 시도하세요. 계속 실패한다면, 서버를 제거했다가 다시 추가해 보세요.</string>
     <string name="use_bootstrap_dns_to_bypass" translatable="true">우회 시 부트스트랩 DNS 사용</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">루프백 모드에서는, Rethink가 자체 네트워크 트래픽을 재라우팅할 수 있습니다. 즉 다른 일반 애플리케이션처럼 Rethink에도 자체 트래픽에 IP 및 도메인 규칙, 전역 방화벽 규칙, 프록시 규칙을 적용할 수 있습니다. 루프백 모드는 사용자에게 더 많은 제어 권한을 주지만, 항상 원하는 대로 동작하지 않을 수도 있습니다.\n\n\nRethink를 방화벽, DNS, 프록시 규칙에서 제외하는 것이 좋습니다. 이렇게 해도 네트워크 모니터링이나 로깅에는 영향을 끼치지 않고, 규칙만 변경됩니다.\n\n\n지금은, 루프백 모드에서 프록시 락다운이 강제되지 않습니다.</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">루프백 모드에서는, 白い熊 考直가 자체 네트워크 트래픽을 재라우팅할 수 있습니다. 즉 다른 일반 애플리케이션처럼 白い熊 考直에도 자체 트래픽에 IP 및 도메인 규칙, 전역 방화벽 규칙, 프록시 규칙을 적용할 수 있습니다. 루프백 모드는 사용자에게 더 많은 제어 권한을 주지만, 항상 원하는 대로 동작하지 않을 수도 있습니다.\n\n\n白い熊 考直를 방화벽, DNS, 프록시 규칙에서 제외하는 것이 좋습니다. 이렇게 해도 네트워크 모니터링이나 로깅에는 영향을 끼치지 않고, 규칙만 변경됩니다.\n\n\n지금은, 루프백 모드에서 프록시 락다운이 강제되지 않습니다.</string>
 </resources>

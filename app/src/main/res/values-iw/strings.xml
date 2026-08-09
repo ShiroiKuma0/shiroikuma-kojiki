@@ -26,7 +26,7 @@
     <string name="status_protected_with_tor_private_dns" translatable="true">מוגן עם DNS פרטי &amp; Tor</string>
     <string name="status_protected_with_proxy_private_dns" translatable="true">מוגן עם פרוקסי ו-DNS פרטי</string>
     <string name="status_protected_with_proxy" translatable="true">מוגן עם פרוקסי</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">DNS פרטי מופעל</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">DNS פרטי מופעל</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">לא מוגן</string>
     <string name="notification_action_stop_vpn" translatable="true">עצור</string>
     <string name="notification_action_pause_vpn" translatable="true">הַשהה</string>
@@ -56,15 +56,15 @@
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">בחר מצב.</string>
     <string name="pause_title_desc" translatable="true">מנמנם…</string>
     <string name="settings_title_desc" translatable="true">DNS וחומת אש הניתנים להתאמה אישית גבוהה</string>
-    <string name="accessibility_service_description" translatable="true">Rethink משתמשת בשירות הנגישות כדי לזהות ולחסום יישומי רקע. Rethink אינה אוספת או מוכרת מידע כלשהו.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 משתמשת בשירות הנגישות כדי לזהות ולחסום יישומי רקע. 白い熊 考直 אינה אוספת או מוכרת מידע כלשהו.</string>
     <string name="untracked" translatable="true">ללא מעקב</string>
     <string name="bypass_dns_firewall" translatable="true">עקוף כללי dns וחומת אש</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">אזהרה: Rethink הושבת</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">אזהרה: 白い熊 考直 הושבת</string>
     <string name="bsct_conn_block_desc_device" translatable="true">%1$s נחסם על המכשיר</string>
     <string name="bsct_conn_desc_allowed" translatable="true">מותר ב-%1$s %2$s</string>
     <string name="bsct_conn_desc_blocked" translatable="true">חסום ב-%1$s %2$s</string>
-    <string name="dns_explanation_dns_connected" translatable="true">מחובר ל-RethinkDNS</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">מחובר ל-RethinkDNS ולחומת האש</string>
+    <string name="dns_explanation_dns_connected" translatable="true">מחובר ל-白い熊 考直</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">מחובר ל-白い熊 考直 ולחומת האש</string>
     <string name="notification_action_resume_vpn" translatable="true">המשך</string>
     <string name="notification_action_dns_mode" translatable="true">DNS</string>
     <string name="apps_info_title" translatable="true">אפליקציות</string>
@@ -102,8 +102,8 @@
     <string name="orbot_both" translatable="true">פרוקסי TCP + HTTP</string>
     <string name="orbot_bs_status_trying_connect" translatable="true">מגדיר את Orbot…</string>
     <string name="orbot_stop_dialog_message_combo" translatable="false">%1$s \n \n%2$s</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink הפסיק להעביר חיבורים ל-Orbot, אבל ייתכן ש-Orbot פועל ברקע.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink מוגדר להעביר שאילתות DNS ל-Orbot. אפשר לשנות לפי הצורך.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 הפסיק להעביר חיבורים ל-Orbot, אבל ייתכן ש-Orbot פועל ברקע.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 מוגדר להעביר שאילתות DNS ל-Orbot. אפשר לשנות לפי הצורך.</string>
     <string name="orbot_stop_dialog_negative" translatable="true">עצור את Orbot</string>
     <string name="orbot_stop_dialog_neutral" translatable="true">שנה DNS</string>
     <string name="orbot_title" translatable="true">Orbot ופרוקסי</string>
@@ -114,7 +114,7 @@
     <string name="settings_network_all_networks" translatable="true">השתמש בכל הרשתות הזמינות (ניסיוני)</string>
     <string name="settings_orbot_install_desc" translatable="true">לחץ כאן כדי להתקין Orbot</string>
     <string name="settings_socks5_disabled_error" translatable="true">מחובר %1$s. כבה אותו כדי להמשיך.</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">הפעל את Rethink כדי להמשיך.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">הפעל את 白い熊 考直 כדי להמשיך.</string>
     <string name="settings_import_export_desc" translatable="true">גבה או שחזר באופן ידני נתוני אפליקציה והגדרות.</string>
     <string name="settings_theme_dialog_themes_1" translatable="true">הגדר ע\"פ המערכת</string>
     <string name="settings_theme_dialog_themes_3" translatable="true">כהה</string>
@@ -154,7 +154,7 @@
     <string name="rt_chip_update_available" translatable="true">עדכון זמין</string>
     <string name="rt_chip_check_update" translatable="true">בדוק אם ישנם עדכונים</string>
     <string name="ssv_see_more" translatable="true">הצג הכל</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">הפעל את Rethink כדי להמשיך</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">הפעל את 白い熊 考直 כדי להמשיך</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">הכתובות החסומות ביותר</string>
     <string name="ssv_most_blocked_domain_heading" description="This label will appear on the stats screen as a header for most blocked domains" translatable="true">הדומיינים החסומים ביותר</string>
     <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">האפליקציות הנחסמות ביותר</string>
@@ -173,7 +173,7 @@
     <string name="always_on_dialog_positive_btn" translatable="true">מעבר להגדרות</string>
     <string name="download_update_dialog_failure_message" translatable="true">השרתים שלנו מושבתים או שלא ניתן היה ליצור חיבור. אנא נסה שוב מאוחר יותר.</string>
     <string name="download_update_dialog_message_ok_title" translatable="true">מעודכן!</string>
-    <string name="always_on_dialog" translatable="true">\"VPN תמיד פועל\" מאופשר במכשיר זה. כדי להפעיל את Rethink, עבור אל אפליקציית ההגדרות והשבת את \"VPN תמיד פועל\".</string>
+    <string name="always_on_dialog" translatable="true">\"VPN תמיד פועל\" מאופשר במכשיר זה. כדי להפעיל את 白い熊 考直, עבור אל אפליקציית ההגדרות והשבת את \"VPN תמיד פועל\".</string>
     <string name="univ_delete_firewall_dialog_title" translatable="true">למחוק את כל כללי ה-IP?</string>
     <string name="univ_firewall_dialog_message" translatable="true">מחיקת כלל זה תאפשר לכלל האפליקציות להתחבר ל-IP זה. האם אתה רוצה להמשיך?</string>
     <string name="download_update_dialog_message_ok" translatable="true">אתה כבר משתמש בגרסה העדכנית ביותר.</string>
@@ -182,14 +182,14 @@
     <string name="download_update_dialog_message" translatable="true">גרסה חדשה של האפליקציה זמינה להורדה מהאתר. האם אתה רוצה להמשיך?</string>
     <string name="download_update_dialog_message_success" translatable="true">הורדת רשימת החסימה הצליחה.</string>
     <string name="orbot_install_dialog_title" translatable="true">להתקין Orbot?</string>
-    <string name="settings_network_all_networks_desc" translatable="true">כאשר מופעל, Rethink משתמש בכל הרשתות הזמינות כדי להתחבר לאינטרנט. אם לא, הוא משתמש בכל הרשת שנחשבת ל-<i>פעילה</i> על ידי אנדרואיד.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">כאשר מופעל, 白い熊 考直 משתמש בכל הרשתות הזמינות כדי להתחבר לאינטרנט. אם לא, הוא משתמש בכל הרשת שנחשבת ל-<i>פעילה</i> על ידי אנדרואיד.</string>
     <string name="settings_ip_network_heading" translatable="true">בחר גרסת IP</string>
     <string name="orbot_status_arg_3" translatable="true">DNS ו-TCP</string>
     <string name="orbot_stop_dialog_title" translatable="true">נדרשת התערבות ידנית</string>
     <string name="orbot_app_issue" translatable="true">לא ניתן להפעיל את Orbot. האם האפליקציה מותקנת?</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbot מביא את התכונות והפונקציונליות של Tor לאנדרואיד.</string>
     <string name="settings_ip_dialog_ipv6" translatable="true">IPv6 (ניסיוני)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">הפעלת Rethink עם הפעלת המכשיר אם הוא פעל לפני הכיבוי.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">הפעלת 白い熊 考直 עם הפעלת המכשיר אם הוא פעל לפני הכיבוי.</string>
     <string name="settings_dns_proxy_dialog_password" translatable="true">סיסמה</string>
     <string name="settings_ip_dialog_ipv4" translatable="true">IPv4 (ברירת מחדל)</string>
     <string name="settings_locale_dialog_title" translatable="true">בחר את השפה המועדפת עליך</string>
@@ -249,7 +249,7 @@
     <string name="lbl_action_required" translatable="true">פעולה נדרשת</string>
     <string name="lbl_rules" translatable="true">כללים</string>
     <string name="lbl_configure" translatable="true">הגדר</string>
-    <string name="slide_1_desc" translatable="true">Rethink היא תוכנת קוד פתוח המגובה על ידי תוכנית MVP של Mozilla Builders.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 היא תוכנת קוד פתוח המגובה על ידי תוכנית MVP של Mozilla Builders.</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="bypass_universal" translatable="true">מעקוף כללים אוניברסליים</string>
     <string name="lbl_applications" translatable="true">יישומים</string>
@@ -269,10 +269,10 @@
     <string name="lbl_insecure" translatable="true">(לא בטוח)</string>
     <string name="lbl_optional" translatable="true">(אופציונאלי)</string>
     <string name="lbl_persistent_keepalive" translatable="true">שומר מתמשך</string>
-    <string name="slide_2_desc" translatable="true">Rethink הוא הדרך הקלה ביותר לפקח על פעילות הרשת, לעקוף צנזורה באינטרנט ואפליקציות חומת אש במכשיר אנדרואיד שלך.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 הוא הדרך הקלה ביותר לפקח על פעילות הרשת, לעקוף צנזורה באינטרנט ואפליקציות חומת אש במכשיר אנדרואיד שלך.</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">מוגן באמצעות Wireguard ו- DNS פרטי</string>
     <string name="alert_permission_accessibility" translatable="true">הרשאה - נגישות</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink משתמש בשירות נגישות כדי לעקוב אילו אפליקציות הן בשימוש (חזית) לעומת אלה שאינם בשימוש (רקע). \n \nRETHINK אינו אוסף עליך מידע או מרגל אחריך בשום דרך.</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 משתמש בשירות נגישות כדי לעקוב אילו אפליקציות הן בשימוש (חזית) לעומת אלה שאינם בשימוש (רקע). \n \nRETHINK אינו אוסף עליך מידע או מרגל אחריך בשום דרך.</string>
     <string name="conn_track_clear_logs_message" translatable="true">זה מוחק רק יומני רשת אך לא כללי חומת אש. פעולה זו אינה הפיכה. אתה רוצה להמשיך?</string>
     <string name="dns_query_clear_logs_message" translatable="true">זה מוחק את יומני ה- DNS במכשיר. פעולה זו אינה הפיכה. אתה רוצה להמשיך?</string>
     <string name="lbl_status" translatable="true">סטטוס</string>
@@ -291,13 +291,13 @@
     <string name="lbl_unselected" translatable="true">לא נבחר</string>
     <string name="lbl_on_device" translatable="true">on-device</string>
     <string name="lbl_secure" translatable="true">מאובטח</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">שירות הנגישות של Rethink נעצר או קרס. <i><b>עבור להגדרות, כפה עצירה</b></i> על Rethink והפעל אותו מחדש כדי להשתמש בתכונת <i>חסום כל אפליקציה שאינה בשימוש</i>. \n \nRethink משתמש בשירות נגישות כדי לעקוב אחר אילו אפליקציות נמצאות בשימוש (בחזית) לעומת אלו שאינן בשימוש (ברקע).</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">שירות הנגישות של 白い熊 考直 נעצר או קרס. <i><b>עבור להגדרות, כפה עצירה</b></i> על 白い熊 考直 והפעל אותו מחדש כדי להשתמש בתכונת <i>חסום כל אפליקציה שאינה בשימוש</i>. \n \n白い熊 考直 משתמש בשירות נגישות כדי לעקוב אחר אילו אפליקציות נמצאות בשימוש (בחזית) לעומת אלו שאינן בשימוש (ברקע).</string>
     <string name="lbl_split" translatable="true">פיצול</string>
     <string name="lbl_peer" translatable="true">עמית</string>
     <string name="dns_act_configure_tab" translatable="true">הגדרה</string>
     <string name="doh_custom_url_remove_dialog_title" translatable="true">מחק נקודת קצה שלDoH?</string>
     <string name="lbl_notification" translatable="true">התראה</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink מריץ VPN במצב <i>סגר</i>. יצירתו תגרום לאובדן החיבור לרשת בפרופיל המשתמש הזה. האם אתה רוצה להמשיך בכל מקרה?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 מריץ VPN במצב <i>סגר</i>. יצירתו תגרום לאובדן החיבור לרשת בפרופיל המשתמש הזה. האם אתה רוצה להמשיך בכל מקרה?</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: חוסם אפליקציה מלהתחבר לרשת. \n &lt;u&gt;#2&lt;/u&gt;: חוסם כל אפליקציה מלהתחבר ל-IP מסוים. \n &lt;u&gt;#3&lt;/u&gt;: חוסם את כל החיבורים כשהמכשיר נעול (חומת אש אוניברסלית). \n &lt;u&gt;#4&lt;/u&gt;: חוסם כל אפליקציה שאינה בשימוש (חומת אש אוניברסלית). \n &lt;u&gt;#5&lt;/u&gt;: חוסם חיבורים כאשר אפליקציית המקור אינה ידועה (חומת אש אוניברסלית). \n &lt;u&gt;#6&lt;/u&gt;: חוסם כל תעבורת UDP למעט תעבורת DNS (חומת אש אוניברסלית). \n &lt;u&gt;#7&lt;/u&gt;: חסום חיבורים כאשר DNS עוקף חסימה (חומת אש אוניברסלית).</string>
     <string name="doh_custom_url_remove_success" translatable="true">נקודת הקצה נמחקה.</string>
     <string name="blocklist_update_check_not_required" translatable="true">רשימות החסימה כבר נמצאות בגרסה האחרונה.</string>
@@ -308,12 +308,12 @@
     <string name="local_blocklist_redownload" translatable="true">עדכני!</string>
     <string name="local_blocklist_redownload_desc" translatable="true">רשימות חסימות במכשיר כבר נמצאות בגרסה האחרונה v%1$s.</string>
     <string name="blocklist_update_check_failure" translatable="true">משהו השתבש. נסה שוב מאוחר יותר!</string>
-    <string name="always_on_dialog_stop_message" translatable="true">VPN שתמיד מופעל מאופשר עבור Rethink. האם אתה בטוח שאתה רוצה להפסיק את Rethink בכל זאת?</string>
-    <string name="private_dns_dialog_desc" translatable="true">הגדרות ה-DNS של Rethink מוחלפות על ידי ה-DNS הפרטי של אנדרואיד. \n \nכדי להשתמש ב-DNS של Rethink עבור להגדרות אנדרואיד וכבה \"DNS פרטי\".</string>
+    <string name="always_on_dialog_stop_message" translatable="true">VPN שתמיד מופעל מאופשר עבור 白い熊 考直. האם אתה בטוח שאתה רוצה להפסיק את 白い熊 考直 בכל זאת?</string>
+    <string name="private_dns_dialog_desc" translatable="true">הגדרות ה-DNS של 白い熊 考直 מוחלפות על ידי ה-DNS הפרטי של אנדרואיד. \n \nכדי להשתמש ב-DNS של 白い熊 考直 עבור להגדרות אנדרואיד וכבה \"DNS פרטי\".</string>
     <string name="univ_firewall_dialog_title" translatable="true">למחוק את כלל ה-IP?</string>
     <string name="dns_proxy_remove_dialog_title" translatable="true">למחוק פרוקסי DNS?</string>
     <string name="dns_proxy_remove_dialog_message" translatable="true">מחק את הDNS פרוקסי מהתצורה השמורה.</string>
-    <string name="memory_notification_text">Rethink חווה זיכרון נמוך. פעולות המערכת עשויות להיות מוגבלות.</string>
+    <string name="memory_notification_text">白い熊 考直 חווה זיכרון נמוך. פעולות המערכת עשויות להיות מוגבלות.</string>
     <string name="dot_custom_url_remove_dialog_title" translatable="true">מחק נקודת קצה של DoT?</string>
     <string name="dot_custom_url_remove_dialog_message" translatable="true">מחק נקודת קצה של DND over TLS מהתצורה השמורה.</string>
     <string name="doh_custom_url_remove_dialog_message" translatable="true">מחק את נקודת הקצה של DNS over Https מהתצורה השמורה.</string>
@@ -352,7 +352,7 @@
     <string name="http_proxy_dialog_desc" translatable="true">קבע כתובת בצורת &lt;protocol&gt;://&lt;username&gt;:&lt;password&gt;@&lt;domain-or-ip&gt;:&lt;port&gt;&lt;path&gt; לדוגמה: http://proxy.example.com:8080/</string>
     <string name="settings_connectivity_checks_desc" translatable="true">בדיקות חיבור נשלחות כדי לאמת גישה.</string>
     <string name="settings_allow_bypass_heading" translatable="true">אפשר מעקף</string>
-    <string name="settings_allow_bypass_desc" translatable="true">אפשר לאפליקציות מבקשות לעקוף את חומת האש של RethinkDNS לפי דרישה. אפליקציות ועידות אודיו/וידאו מסוימות כמו Zoom ו-Meet עשויות לדרוש מעקף לפי דרישה כדי לתפקד כראוי.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">אפשר לאפליקציות מבקשות לעקוף את חומת האש של 白い熊 考直 לפי דרישה. אפליקציות ועידות אודיו/וידאו מסוימות כמו Zoom ו-Meet עשויות לדרוש מעקף לפי דרישה כדי לתפקד כראוי.</string>
     <string name="settings_https_desc" translatable="true">‪העברת חיבורים לנקודת קצה של HTTP(S) CONNECT.</string>
     <string name="orbot_none" translatable="true">אין (ברירת מחדל)</string>
     <string name="orbot_none_desc" translatable="true">אף אחד מן הנראים לעיל.</string>
@@ -374,7 +374,7 @@
     <string name="settings_theme_desc" translatable="true">מצב בהיר/כהה</string>
     <string name="settings_go_log_desc" translatable="true">למטרות ניפוי באגים</string>
     <string name="settings_rinr_desc_disabled" translatable="true">נתב את התנועה של Rerhink עצמו, כגון הורדת רשימות חסימה, בדיקות חיבור, חיבורי DNS, חזרה למנהרה.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">מנתב את התנועה של Rethink עצמו דרך המנהרה. כבה את זה אם אתה לא יודע מה אתה עושה.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">מנתב את התנועה של 白い熊 考直 עצמו דרך המנהרה. כבה את זה אם אתה לא יודע מה אתה עושה.</string>
     <string name="settings_http_proxy_desc" translatable="true">מעביר ל%1$s</string>
     <string name="settings_http_proxy_dialog_title" translatable="true">כתובת שרת מותאם אישית</string>
     <string name="settings_http_proxy_toast_success" translatable="true">פרוקסי HTTP קבועה</string>
@@ -394,21 +394,21 @@
     <string name="settings_socks_forwarding_default_desc" translatable="true">העברת חיבורים לנקודת קצה של SOCKS5.</string>
     <string name="settings_socks5_dialog_hint_ip" translatable="true">כתובת IP</string>
     <string name="settings_ptrans_heading" translatable="true">כפה יציאת IPv4</string>
-    <string name="settings_allow_lan_desc" translatable="true">אל תכלול LAN, loopback, קישורים מקומיים במנהרת ה-VPN של Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">אל תכלול LAN, loopback, קישורים מקומיים במנהרת ה-VPN של 白い熊 考直.</string>
     <string name="whats_new_version_update" translatable="false"><![CDATA[<b>טעון במיוחד!</b><br/><br/> 1. <i>תכונה חדשה</i>: סינון DNS מתקדם; החל את כללי הדומיין רק כאשר יישומים מתחברים.<br/> 2. <i>תכונה חדשה</i>: אפשר או דחה דומיינים לכל אפליקציה.<br/> 3. <i>תכונה חדשה</i>: אפשר או דחה דומיינים עבור כל היישומים.<br/> 4. <i>תכונה חדשה</i>: עקיפת כללי DNS וחומת אש לכל אפליקציה.<br/> 5. <i>תכונה חדשה</i>: לכידת מנות (PCAP ).<br/> 6. <i>תכונה חדשה</i>: מגבר DNS; התאחדו בקשות, תגובות מטמון.<br/> 7. <i>תכונה חדשה</i>: עריכת כללי דומיין ו-IP.<br/> 8. ושינויים קלים אחרים בממשק המשתמש ותיקוני באגים.<br/><br/ > <a href=https://svc.rethinkdns.com/r/translate>עזור לתרגם את האפליקציה הזו</a>]]></string>
     <string name="settings_ptrans_desc" translatable="true">תרגם תעבורת IPv6 יוצאת ל-IPv4 במכשיר. הפעל אם אתה מחובר לרשת IPv4 בלבד.</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">כאשר כבוי, למעטים Proxy (SOCKS5, HTTP, DNS) יישומים קדימה יותר ממנהרת VPN של Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">כאשר כבוי, למעטים Proxy (SOCKS5, HTTP, DNS) יישומים קדימה יותר ממנהרת VPN של 白い熊 考直.</string>
     <string name="settings_orbot_notification_action" translatable="true">פתיחת Orbot</string>
     <string name="settings_app_notification_persistent_heading" translatable="true">התראה תמידית</string>
     <string name="settings_socks5_dialog_hint_username" translatable="true">שם משתמש (אופציונלי)</string>
     <string name="settings_socks5_dialog_hint_password" translatable="true">סיסמה (אופציונלי)</string>
-    <string name="settings_notification_desc" translatable="true">לחצני פעולה להצגה עם הודעת Rethink: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">לחצני פעולה להצגה עם הודעת 白い熊 考直: %1$s</string>
     <string name="settings_notification_desc1" translatable="true">השהיה / עצירה (ברירת מחדל)</string>
     <string name="settings_protocol_translation_dns_inactive" translatable="true">עבור למצב DNS/DNS+חומת אש כדי להפעיל הגדרה זו</string>
     <string name="settings_pcap_dialog_option_3" translatable="true">הוצאת פלט לתיקיית ההורדות</string>
     <string name="firewall_status_block_unmetered" translatable="true">חסום ברשתות (wifi) לא מדודות</string>
     <string name="firewall_status_block_metered" translatable="true">חסום ברשתות מדודות (סלולריות).</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink זקוק להרשאה להגדיר VPN מקומי כדי להצפין את בקשות ה-DNS של המכשיר, לפקח על הרשת ולאכוף כללי חומת אש.\n\nRethink לא אוסף שום מידע ולא מרגל אחרי משתמשים בשום צורה.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 זקוק להרשאה להגדיר VPN מקומי כדי להצפין את בקשות ה-DNS של המכשיר, לפקח על הרשת ולאכוף כללי חומת אש.\n\n白い熊 考直 לא אוסף שום מידע ולא מרגל אחרי משתמשים בשום צורה.</string>
     <string name="hsf_vpn_prepare_failure" translatable="true">או שהרשאת VPN חסרה, או שאפליקציה אחרת נמצאת במצב VPN תמיד פועל.</string>
     <string name="about_settings" translatable="true">מערכת</string>
     <string name="about_settings_app_info" translatable="true">מידע על האפליקציה</string>
@@ -420,7 +420,7 @@
     <string name="apps_icon_content_desc" translatable="true">סמל יישום</string>
     <string name="firewall_status_allow" translatable="true">מאופשר</string>
     <string name="firewall_status_bypass_dns_firewall" translatable="true">עוקף כללי dns וחומת אש</string>
-    <string name="hs_biometeric_desc" translatable="true">השתמש באימות ביומטרי כדי לפתוח את Rethink</string>
+    <string name="hs_biometeric_desc" translatable="true">השתמש באימות ביומטרי כדי לפתוח את 白い熊 考直</string>
     <string name="hs_biometeric_error" translatable="true">שגיאת אימות ביומטרי</string>
     <string name="firewall_card_status_active" translatable="true">%1$s אפליקציות</string>
     <string name="firewall_card_text_inactive" translatable="true">הפעל מצב חומת אש.</string>
@@ -445,7 +445,7 @@
     <string name="settings_custom_downloader_desc" translatable="true">אם מושבת, נעשה שימוש ב-<i>מנהל ההורדות</i> המובנה של אנדרואיד</string>
     <string name="hsf_blocklist_chip_text_no_data" translatable="true">הפעל RDNS+</string>
     <string name="settings_app_notification_a13_desc" translatable="true">אפשר הרשאת התראות עבור האפליקציה</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\n\nהשהיה / עצירה (ברירת מחדל):\n\nמציג שני לחצנים, כדי להשהות ולעצור במהירות את Rethink.</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\n\nהשהיה / עצירה (ברירת מחדל):\n\nמציג שני לחצנים, כדי להשהות ולעצור במהירות את 白い熊 考直.</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\n\nללא:\n\nלא מציג כפתור.\n\n</string>
     <string name="apps_card_ips_count" translatable="true">%1$s כלל(י) IP ופתחות</string>
     <string name="logs_card_network_count" translatable="true">%1$s חיבורים</string>
@@ -478,9 +478,9 @@
     <string name="hsf_packet_capture_chip_disabled_toast" translatable="true">לכידת חבילות מושבתת</string>
     <string name="hsf_whats_new_remove_text" translatable="true">סוגר…</string>
     <string name="battery_optimization_dialog_heading" translatable="true">כבה %1$s</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i>עלול לגרום לאובדן קישוריות.שנה את ההגדרה כדי לתת לRethink להשתמש בנתונים ובעוד משאבים ברקע.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i>עלול לגרום לאובדן קישוריות.שנה את ההגדרה כדי לתת ל白い熊 考直 להשתמש בנתונים ובעוד משאבים ברקע.</string>
     <string name="dc_custom_dns_radio" translatable="true">DNS אחר</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="dc_local_block_desc_1" translatable="true">בחר מתוך 195+ רשימות חסימה. לחץ כאן כדי להוריד או להגדיר רשימות חסימה.</string>
     <string name="dc_custom_block_heading" translatable="true">כללי דומיין</string>
     <string name="dc_dns_website_heading" translatable="true">הצג סמל אתר ביומני DNS (ניסיוני)</string>
@@ -504,9 +504,9 @@
     <string name="cd_dns_crypt_error_text_1" translatable="true">חותמת לא יכולה להיות ריקה</string>
     <string name="cd_doh_dialog_heading" translatable="true">הוסף DNS-דרך-HTTPS</string>
     <string name="dns_card_latency_active" translatable="true">%1$sms</string>
-    <string name="orbot_explanation" translatable="true">Orbot היא אפליקציית פרוקסי חינמית המאפשרת לאפליקציות אחרות להשתמש באינטרנט בצורה &lt;u&gt; מאובטחת&lt;/u&gt; יותר. \nOrbot משתמש ב-&lt;u&gt;Tor&lt;/u&gt; כדי להצפין את תעבורת האינטרנט שלך, מה שעוזר לך &lt;u&gt; לעקוף צנזורה&lt;/u&gt; ולהתגונן מפני צורות של &lt;u&gt;מעקב רשת&lt;/u&gt; המאיימות על חופש אישי ופרטיות. \n&lt;u&gt;TCP Proxy&lt;/u&gt;: Rethink מעביר רק חיבורי TCP של האפליקציות &lt;i&gt;הנבחרות&lt;/i&gt; ל-Orbot. \n&lt;u&gt;HTTP Proxy&lt;/u&gt;: Rethink &lt;i&gt;יוצר&lt;/i&gt; פרוקסי HTTP CONNECT לOrbot ומעביר רק חיבורי TCP של האפליקציות &lt;i&gt;הנבחרות&lt;/i&gt;.</string>
+    <string name="orbot_explanation" translatable="true">Orbot היא אפליקציית פרוקסי חינמית המאפשרת לאפליקציות אחרות להשתמש באינטרנט בצורה &lt;u&gt; מאובטחת&lt;/u&gt; יותר. \nOrbot משתמש ב-&lt;u&gt;Tor&lt;/u&gt; כדי להצפין את תעבורת האינטרנט שלך, מה שעוזר לך &lt;u&gt; לעקוף צנזורה&lt;/u&gt; ולהתגונן מפני צורות של &lt;u&gt;מעקב רשת&lt;/u&gt; המאיימות על חופש אישי ופרטיות. \n&lt;u&gt;TCP Proxy&lt;/u&gt;: 白い熊 考直 מעביר רק חיבורי TCP של האפליקציות &lt;i&gt;הנבחרות&lt;/i&gt; ל-Orbot. \n&lt;u&gt;HTTP Proxy&lt;/u&gt;: 白い熊 考直 &lt;i&gt;יוצר&lt;/i&gt; פרוקסי HTTP CONNECT לOrbot ומעביר רק חיבורי TCP של האפליקציות &lt;i&gt;הנבחרות&lt;/i&gt;.</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\n\nDNS / DNS + חומת אש:\n\nמציג שני לחצנים למעבר מהיר בין מצב DNS חיסכון בסוללה למצב DNS + חומת אש רגיל.</string>
-    <string name="dc_dns_leaks_desc" translatable="true">כאשר מופעל, Rethink לוכד את כל החבילות בפיתחה 53 ומעביר אותן לנקודת קצה של DNS שהוגדרה על ידי המשתמש</string>
+    <string name="dc_dns_leaks_desc" translatable="true">כאשר מופעל, 白い熊 考直 לוכד את כל החבילות בפיתחה 53 ומעביר אותן לנקודת קצה של DNS שהוגדרה על ידי המשתמש</string>
     <string name="hsf_notification_permission_failure" translatable="true">אפשר הרשאת התראות ממסך ההגדרות</string>
     <string name="settings_check_update_heading" translatable="true">בדוק אם יש עדכוני אפליקציה</string>
     <string name="settings_check_update_desc" translatable="true">בדוק אוטומטית אם יש עדכוני אפליקציה פעם בשבוע.</string>
@@ -515,7 +515,7 @@
     <string name="settings_app_notification_a13_heading" translatable="true">התראת אפליקציה</string>
     <string name="settings_pcap_dialog_option_1" translatable="true">כבוי (ברירת מחדל)</string>
     <string name="settings_pcap_dialog_option_2" translatable="true">הוצאת פלט ל-Logcat</string>
-    <string name="hs_biometeric_title" translatable="true">בטל את הנעילה של Rethink</string>
+    <string name="hs_biometeric_title" translatable="true">בטל את הנעילה של 白い熊 考直</string>
     <string name="lbl_battery_optimization" translatable="true">מיטוב סוללה</string>
     <string name="about_website" translatable="true">בקר בrethinkdns.com</string>
     <string name="app_info_error" translatable="true">לא ניתן היה לפתוח את פרטי האפליקציה.</string>
@@ -529,7 +529,7 @@
     <string name="about_mail_subject" translatable="true">[Rethink]:</string>
     <string name="about_mail_bugreport_share_title" translatable="true">בחר ספק דוא\"ל</string>
     <string name="about_dialog_neutral_button" translatable="true">הצע תכונות</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">לא ניתן להשהות: Rethink לא פעיל</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">לא ניתן להשהות: 白い熊 考直 לא פעיל</string>
     <string name="private_dns_error" translatable="true">לא היה ניתן להפעיל מסך DNS פרטי.</string>
     <string name="cd_custom_dns_proxy_title" translatable="true">פרוקסי DNS מותאם אישית</string>
     <string name="cd_custom_dns_proxy_name_default" translatable="true">מתווך</string>
@@ -670,8 +670,8 @@
     <string name="orbot_toast_parameter" translatable="true">Tor-as-a-Proxy</string>
     <string name="coming_soon_toast" translatable="true">יוצא בקרוב</string>
     <string name="pause_text" translatable="true">מושהה</string>
-    <string name="accessibility_failure_toast" translatable="true">שירות הנגישות של Rethink עצר או קרס. כבר לא חוסם אפליקציות שברקע.</string>
-    <string name="accessibility_notification_content" translatable="true">שירות הנגישות של Rethink נעצר או קרס. כבר לא חוסם אפליקציות שברקע. יש ללחוץ כדי לאפשר מחדש.</string>
+    <string name="accessibility_failure_toast" translatable="true">שירות הנגישות של 白い熊 考直 עצר או קרס. כבר לא חוסם אפליקציות שברקע.</string>
+    <string name="accessibility_notification_content" translatable="true">שירות הנגישות של 白い熊 考直 נעצר או קרס. כבר לא חוסם אפליקציות שברקע. יש ללחוץ כדי לאפשר מחדש.</string>
     <string name="pause_desc" translatable="true">הערה: %1$s אפליקציות חסומות ימשיכו להיחסם על ידי חומת האש.</string>
     <string name="other_dns_list_tab2" translatable="true">Dnscrypt</string>
     <string name="other_dns_list_tab3" translatable="true">פרוקסי DNS</string>
@@ -745,8 +745,8 @@
     <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[חיבור זה הותר משום ש<i>הדומיין</i> נקבע כמהימן בכללי הדומיין האוניברסליים.<br/><br/> כדי לשנות את ההתנהגות הזאת יש לעבור ללשונית <i>הגדרת הDNS</i>.]]></string>
     <string name="firewall_rule_proxied_desc" translatable="true"><![CDATA[חיבור זה תווך לפרוקסי המועדף על ידי המשתמש.<br/><br/> כדי לשנות יש לעבור ל<i>פרוקסי</i> ממסך ה<i>הגדרה</i>.]]></string>
     <string name="new_app_bulk_notification_title" translatable="true">שימו לב</string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink חסם %1$s אפליקציות חדשות.יש להקיש כדי לצפות או לשנות.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink חסם אפליקציה שהותקנה לאחרונה, %1$s.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 חסם %1$s אפליקציות חדשות.יש להקיש כדי לצפות או לשנות.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 חסם אפליקציה שהותקנה לאחרונה, %1$s.</string>
     <string name="new_app_notification_action_deny" translatable="true">המשך לחסום</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">חיבור רשת מותר לאפליקציה</string>
     <string name="new_app_notification_action_toast_deny" translatable="true">חיבור הרשת נדחה עבור האפליקציה</string>
@@ -760,8 +760,8 @@
     <string name="notif_channel_download" translatable="true">התראות הורדה</string>
     <string name="notif_dialog_pause_dialog_negative" translatable="true">מחיקה</string>
     <string name="notif_dialog_pause_dialog_neutral" translatable="true">הצגה</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">הודעה כאשר Rethink פעיל ופועל ברקע</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">הודעה כאשר Rethink נעצר על ידי אנדרואיד או על ידי אפליקציית VPN אחרת</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">הודעה כאשר 白い熊 考直 פעיל ופועל ברקע</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">הודעה כאשר 白い熊 考直 נעצר על ידי אנדרואיד או על ידי אפליקציית VPN אחרת</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">התראה על שגיאות ואנומליות בחומת האש</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">התראה על שגיאות ואנומליות ב-Proxy</string>
     <string name="notif_channed_desc_download" translatable="true">התראה על התקדמות ההורדה עבור רשימות חסימה במכשיר</string>

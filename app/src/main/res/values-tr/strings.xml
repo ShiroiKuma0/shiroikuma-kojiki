@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_small_case" translatable="false">rethink</string>
-    <string name="title_about">Hakkında</string>
+        <string name="title_about">Hakkında</string>
     <string name="pause_title_desc">ara veriliyor…</string>
     <string name="settings_title_desc">Son derece özelleştirilebilir bir DNS ve güvenlik duvarı</string>
     <string name="txt_home">Ana sayfa</string>
-    <string name="accessibility_service_description">Rethink, arka plan uygulamalarını algılamak ve güvenlik duvarına almak için erişilebilirlik hizmetini kullanır. Rethink herhangi bir bilgi toplamaz veya satmaz.</string>
+    <string name="accessibility_service_description">白い熊 考直, arka plan uygulamalarını algılamak ve güvenlik duvarına almak için erişilebilirlik hizmetini kullanır. 白い熊 考直 herhangi bir bilgi toplamaz veya satmaz.</string>
     <string name="next">İleri</string>
     <string name="skip">Atla</string>
     <string name="finish">Bitir</string>
     <string name="slide_1_title">Ücretsiz ve Açık Kaynaklı</string>
-    <string name="slide_1_desc">Rethink, Mozilla Builders MVP programı ve FOSS United Foundation tarafından desteklenen açık kaynaklı bir yazılımdır.</string>
+    <string name="slide_1_desc">白い熊 考直, Mozilla Builders MVP programı ve FOSS United Foundation tarafından desteklenen açık kaynaklı bir yazılımdır.</string>
     <string name="untracked">İzlenmiyor</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Uyarı: Rethink devre dışı bırakıldı</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Uyarı: 白い熊 考直 devre dışı bırakıldı</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Koruma ayarını değiştirmek için dokunun</string>
     <string name="dns_mode_notification_title">Korunuyor! Hızlı ve Güvenli DNS\'e Bağlandı.</string>
     <string name="firewall_mode_notification_title">Korunuyor! Güvenlik Duvarına Bağlandı.</string>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="hybrid_mode_notification_title">Korunuyor! DNS ve Güvenlik Duvarına Bağlandı.</string>
+        <string name="hybrid_mode_notification_title">Korunuyor! DNS ve Güvenlik Duvarına Bağlandı.</string>
     <string name="title_settings">Ayarlar</string>
     <string name="about_title_desc">Ağ güvenliği tehditlerini tespit edin ve engelleyin</string>
     <string name="block">Engelle</string>
@@ -26,7 +24,7 @@
     <string name="slide_2_title">Hoş Geldiniz</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="exclude">Hariç tut</string>
-    <string name="slide_2_desc">Rethink, Android aygıtınızda ağ etkinliğini izlemenin, İnternet sansürünü ve güvenlik duvarı uygulamalarını atlamanın en kolay yoludur.</string>
+    <string name="slide_2_desc">白い熊 考直, Android aygıtınızda ağ etkinliğini izlemenin, İnternet sansürünü ve güvenlik duvarı uygulamalarını atlamanın en kolay yoludur.</string>
     <string name="allow">İzin ver</string>
     <string name="pause_mode_notification_title">Duraklatıldı! Engellenen uygulamalar güvenlik duvarıyla korunmaya devam edecek.</string>
     <string name="status_waiting" description="This text appears during the connection process if Intra needs user permission or the phone is offline.">bekliyor</string>
@@ -43,7 +41,7 @@
     <string name="status_protected_with_socks5_private_dns">socks5 ve özel dns ile korunuyor</string>
     <string name="status_protected_with_socks5">socks vekil sunucusu ile korunuyor</string>
     <string name="status_protected_with_http">http vekil sunucusu ile korunuyor</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">RethinkDNS ve güvenlik duvarına bağlandı</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">白い熊 考直 ve güvenlik duvarına bağlandı</string>
     <string name="universal_firewall_explanation">Aygıt olaylarına göre tüm uygulamalara güvenlik duvarı kuralları uygulayın; örneğin, aygıt kilitlendiğinde veya belirli bir uygulama kullanımda olmadığında güvenlik duvarı uygulayın.</string>
     <string name="notification_action_resume_vpn">SÜRDÜR</string>
     <string name="notification_action_pause_vpn">DURAKLAT</string>
@@ -55,10 +53,10 @@
     <string name="firewall_mode_info_title">Güvenlik Duvarı</string>
     <string name="status_protected_with_proxy">vekil sunucu ile korunuyor</string>
     <string name="status_protected_with_http_private_dns">http vekil sunucu ve özel dns ile korunuyor</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">özel dns etkin</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">özel dns etkin</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit.">korunmuyor</string>
     <string name="dns_explanation_firewall_connected">Güvenlik duvarına bağlandı</string>
-    <string name="dns_explanation_dns_connected">RethinkDNS\'e bağlandı</string>
+    <string name="dns_explanation_dns_connected">白い熊 考直\'e bağlandı</string>
     <string name="settings_https_heading">HTTP(S) BAĞLAN Vekili Kurulumu</string>
     <string name="settings_https_desc">HTTP(S) BAĞLAN son noktası için ileri bağlantılar.</string>
     <string name="orbot">Orbot</string>
@@ -82,7 +80,7 @@
     <string name="lbbs_redownload">Blok listelerini yeniden indirin</string>
     <string name="settings_dns_proxy_dialog_username">Kullanıcı adı</string>
     <string name="univ_view_blocked_ip_desc">Engellenen veya güvenilen Etki Alanı, IP / Port kurallarını değiştirin.</string>
-    <string name="notif_channel_desc_vpn_failure">Rethink Android veya başka bir VPN uygulaması tarafından durdurulduğunda bilgilendirin</string>
+    <string name="notif_channel_desc_vpn_failure">白い熊 考直 Android veya başka bir VPN uygulaması tarafından durdurulduğunda bilgilendirin</string>
     <string name="settings_dns_proxy_dialog_app">Uygulama</string>
     <string name="about_email">Bize e-posta gönderin</string>
     <string name="univ_firewall_dialog_message">Bu kuralın silinmesi, herhangi bir uygulamanın bu IP\'ye bağlanmasına izin verecektir. Devam etmek istiyor musunuz?</string>
@@ -131,7 +129,7 @@
     <string name="app_mode_firewall">Güvenlik Duvarı</string>
     <string name="settings_enable_logs_desc">DNS ve Güvenlik Duvarı günlüklerini aygıt üzerinde yerel olarak depolayın.</string>
     <string name="settings_ip_network_heading">IP sürümünü seçin</string>
-    <string name="orbot_stop_dialog_dns_message">Rethink, DNS sorgularını Orbot\'a iletecek şekilde ayarlanmıştır. Gerektiği gibi değiştirin.</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直, DNS sorgularını Orbot\'a iletecek şekilde ayarlanmıştır. Gerektiği gibi değiştirin.</string>
     <string name="settings_autostart_bootup_heading">Açılışta otomatik başlatma (deneysel)</string>
     <string name="settings_ip_text_ipv4">IPv4</string>
     <string name="settings_notification_desc2">DNS / DNS + Güvenlik Duvarı</string>
@@ -173,7 +171,7 @@
     <string name="brbs_backup_title">Yedekle</string>
     <string name="brbs_backup_dialog_failure_message">Yedekleme yapılamadı. Tekrar deneyelim mi?</string>
     <string name="dns_proxy_desc_no_app" translatable="false">%1$s:%2$s</string>
-    <string name="dc_rethink_dns" translatable="false">Rethink DNS</string>
+    <string name="dc_rethink_dns" translatable="false">白い熊 考直 DNS</string>
     <string name="dns_crypt_relay_remove_dialog_message">DNSCrypt aktarıcısını kayıtlı yapılandırmadan silin.</string>
     <string name="search_custom_domains"><font size="12">Alan adlarını arama</font></string>
     <string name="orbot_bs_status_3">%1$s adresinden Orbot\'a yönlendirme, HTTP Proxy de ayarlandı.</string>
@@ -208,7 +206,7 @@
     <string name="orbot_stop_dialog_neutral">DNS Değiştir</string>
     <string name="orbot_title">Orbot ve Proxy\'ler</string>
     <string name="orbot_install_dialog_message">Orbot, Tor\'un özelliklerini ve işlevselliğini Android\'e getiriyor.</string>
-    <string name="settings_socks5_vpn_disabled_error">Devam etmek için Rethink’i başlatın.</string>
+    <string name="settings_socks5_vpn_disabled_error">Devam etmek için 白い熊 考直’i başlatın.</string>
     <string name="settings_dns_proxy_dialog_password">Parola</string>
     <string name="settings_socks_forwarding_default_desc">Bağlantıları SOCKS5 uç noktasına yönlendirin.</string>
     <string name="settings_socks5_dialog_hint_ip">IP Adresi</string>
@@ -227,7 +225,7 @@
     <string name="network_log_app_name_unnamed">İsimsiz (%1$s)</string>
     <string name="firewall_rule_isolate">İzole et</string>
     <string name="notif_channel_vpn_failure">Etkin Olmayan VPN</string>
-    <string name="notif_channel_desc_vpn_notification">Rethink aktif olduğunda ve arka planda çalıştığında bilgilendirin</string>
+    <string name="notif_channel_desc_vpn_notification">白い熊 考直 aktif olduğunda ve arka planda çalıştığında bilgilendirin</string>
     <string name="ci_bypass_universal_txt">Bypass Evrensel</string>
     <string name="about_mail_to">hello@celzero.com</string>
     <string name="about_twitter_handle" translatable="false">https://twitter.com/rethinkdns</string>
@@ -293,7 +291,7 @@
     <string name="settings_http_proxy_error_text3">Ana bilgisayar adı boş</string>
     <string name="settings_selected_ip_desc" translatable="false">%1$s</string>
     <string name="hsf_vpn_dialog_header">Dikkat!</string>
-    <string name="dc_dns_leaks_desc">Etkinleştirildiğinde, Rethink 53 numaralı bağlantı noktasındaki tüm paketleri yakalar ve kullanıcı tarafından ayarlanan bir DNS uç noktasına iletir</string>
+    <string name="dc_dns_leaks_desc">Etkinleştirildiğinde, 白い熊 考直 53 numaralı bağlantı noktasındaki tüm paketleri yakalar ve kullanıcı tarafından ayarlanan bir DNS uç noktasına iletir</string>
     <string name="about_dialog_neutral_button">Özellik önerin</string>
     <string name="cd_custom_dns_proxy_default_app">Hiçbiri</string>
     <string name="cd_dns_proxy_mode_internal">Dahili</string>
@@ -301,7 +299,7 @@
     <string name="fapps_firewall_filter_hint">Bütün uygulamalar gösteriliyor</string>
     <string name="system_dns_connection_failure">Geçerli DNS sunucusu belirlenemiyor</string>
     <string name="copy_clipboard_label">Adres</string>
-    <string name="new_app_bulk_notification_content">Rethink %1$s yeni uygulamaları engelledi. Görüntülemek veya değiştirmek için dokunun.</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 %1$s yeni uygulamaları engelledi. Görüntülemek veya değiştirmek için dokunun.</string>
     <string name="notif_channel_desc_proxy_failure">Proxy hataları ve anomalileri hakkında uyarı</string>
     <string name="rt_download_desc">Bu özelliği kullanmak için blok listelerini (yaklaşık 60MB) indirin.</string>
     <string name="brbs_restore_title">Geri Yükle</string>
@@ -311,7 +309,7 @@
     <string name="dns_proxy_desc" translatable="false">%1$s:%2$s, %3$s</string>
     <string name="default_dns_name">RDNS Varsayılan</string>
     <string name="dns_query_clear_logs_title">Tüm DNS kayıtları silinsin mi?</string>
-    <string name="always_on_dialog_stop_message">Rethink için her zaman açık VPN etkinleştirildi. Yine de Rethink\'i durdurmak istediğinizden emin misiniz?</string>
+    <string name="always_on_dialog_stop_message">白い熊 考直 için her zaman açık VPN etkinleştirildi. Yine de 白い熊 考直\'i durdurmak istediğinizden emin misiniz?</string>
     <string name="firewall_act_network_monitor_tab">Ağ</string>
     <string name="dns_crypt_custom_url_remove_dialog_title">DNSCrypt çözümleyicisi silinsin mi?</string>
     <string name="dns_crypt_relay_remove_success">DNSCrypt Aktarıcısı silindi.</string>
@@ -324,7 +322,7 @@
     <string name="fapps_firewall_filter_bypass_universal">Bypass edildi</string>
     <string name="fapps_metered_unblock_dialog_title">Ölçülü olarak izin ver</string>
     <string name="socks5_proxy_toast_parameter">SOCKS5 vekil</string>
-    <string name="accessibility_failure_toast">Rethink erişilebilirlik hizmeti durdu veya çöktü. Artık arka plandaki uygulamaları engellemiyor.</string>
+    <string name="accessibility_failure_toast">白い熊 考直 erişilebilirlik hizmeti durdu veya çöktü. Artık arka plandaki uygulamaları engellemiyor.</string>
     <string name="firewall_rule_exempt_orbot_setup">Orbot Kurulumu</string>
     <string name="new_app_notification_action_toast_allow">Uygulama için izin verilen ağ bağlantısı</string>
     <string name="notif_channed_desc_download">Aygıt içi blok listeleri için İndirme İlerlemesi Uyarısı</string>
@@ -369,7 +367,7 @@
     <string name="settings_socks5_dialog_hint_username">Kullanıcı adı (isteğe bağlı)</string>
     <string name="settings_theme_dialog_themes_2">Açık</string>
     <string name="settings_ip_text_ipv6">IPv6</string>
-    <string name="settings_notification_desc">Rethink bildirimiyle birlikte gösterilecek eylem düğmeleri: %1$s</string>
+    <string name="settings_notification_desc">白い熊 考直 bildirimiyle birlikte gösterilecek eylem düğmeleri: %1$s</string>
     <string name="settings_notification_dialog_title">Bildirim eylemini seçin</string>
     <string name="hsf_blocklist_chip_text_no_data">RDNS+\'ı Etkinleştir</string>
     <string name="about_bravedns_toreport_text">yardim &amp; geri̇ bi̇ldi̇ri̇m</string>
@@ -446,12 +444,12 @@
     <string name="settings_enable_logs">Aygıt üzerinde günlük kaydını etkinleştirme</string>
     <string name="connection_http3">HTTP3</string>
     <string name="settings_lock_down_mode_desc">VPN kilitlenme modundayken bazı ayarlar devre dışıdır. <u>VPN ayarlarına gidin</u>.</string>
-    <string name="orbot_stop_dialog_message">Rethink, bağlantıları Orbot\'a yönlendirmeyi durdurdu, ancak Orbot arka planda çalışıyor olabilir.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直, bağlantıları Orbot\'a yönlendirmeyi durdurdu, ancak Orbot arka planda çalışıyor olabilir.</string>
     <string name="settings_dns_proxy_dialog_port_number">Liman Numarası</string>
     <string name="settings_dns_proxy_dialog_positive_btn">Set</string>
     <string name="settings_ip_dialog_ipv6">IPv6 (deneysel)</string>
     <string name="hsf_proxy_chip_text">Proxy etkin</string>
-    <string name="dc_rethink_dns_radio">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直 DNS</string>
     <string name="dc_local_block_heading">Cihaz üzerinde blok listeleri</string>
     <string name="about_app_contributors">Katkıda bulunanlar</string>
     <string name="cd_custom_dns_proxy_name_default">Vekil</string>
@@ -492,9 +490,9 @@
     <string name="univ_delete_firewall_dialog_title">Tüm IP Kuralları silinsin mi?</string>
     <string name="fapps_metered_block_dialog_message"><i>Listelenen</i> uygulamalar için kotalı (mobil) ağda bağlantılar engellensin mi?</string>
     <string name="update_complete_action_snack">YENİDEN BAŞLAT</string>
-    <string name="new_app_notification_content">Rethink son yüklenen %1$s uygulamasını engelledi.</string>
+    <string name="new_app_notification_content">白い熊 考直 son yüklenen %1$s uygulamasını engelledi.</string>
     <string name="category_name_others">Diğer</string>
-    <string name="settings_notification_dialog_option_1">\nDuraklat / Durdur (varsayılan):\nRethinkDNS\'i hızlı bir şekilde duraklatmak ve durdurmak için iki düğme gösterir.</string>
+    <string name="settings_notification_dialog_option_1">\nDuraklat / Durdur (varsayılan):\n白い熊 考直\'i hızlı bir şekilde duraklatmak ve durdurmak için iki düğme gösterir.</string>
     <string name="ada_noapp_dialog_title">Böyle bir uygulama yok</string>
     <string name="rt_download_start">Engelleme listeleri indiriliyor…</string>
     <string name="lbbs_update_check">Güncellemeleri denetle</string>
@@ -513,7 +511,7 @@
     <string name="dns_btm_sheet_chip_no_answer">Cevap Yok</string>
     <string name="univ_firewall_rule_4">DNS ve NTP dışında UDP\'yi engelleyin</string>
     <string name="rules_load_failure_desc">Güvenlik duvarı kuralı bulunamadı</string>
-    <string name="accessibility_notification_content">Rethink erişilebilirlik hizmeti durdu veya çöktü. Artık arka plandaki uygulamaları engellemiyor. Yeniden etkinleştirmek için dokunun.</string>
+    <string name="accessibility_notification_content">白い熊 考直 erişilebilirlik hizmeti durdu veya çöktü. Artık arka plandaki uygulamaları engellemiyor. Yeniden etkinleştirmek için dokunun.</string>
     <string name="firewall_rule_block_app_desc"><![CDATA[Kullanıcı tarafından belirlenen güvenlik duvarı kuralı bu <i>uygulamayı</i> engelledi. Değiştirmek için <i>Tüm Uygulamalar</i> sekmesine gidin.]]></string>
     <string name="notif_dialog_pause_dialog_positive">Devam ettir</string>
     <string name="build__flavor_website">web sitesi</string>
@@ -524,7 +522,7 @@
     <string name="dns_mode_info_explanation_new">DNS isteklerini izleyin, engelleyin ve şifreleyin.</string>
     <string name="search_dns_logs"><font size="12">Alan adlarını veya IP\'leri arama</font></string>
     <string name="settings_http_proxy_dialog_title">Özel Sunucu URL\'si</string>
-    <string name="hsf_pause_vpn_failure">Duraklatılamıyor: Rethink etkin değil</string>
+    <string name="hsf_pause_vpn_failure">Duraklatılamıyor: 白い熊 考直 etkin değil</string>
     <string name="about_docs">Dokümanları okuyun</string>
     <string name="about_settings_notification">Bildirim ayarları</string>
     <string name="cd_dns_crypt_dialog_title">DNSCrypt Çözümleyici veya Aktarıcı Ekleme</string>
@@ -546,22 +544,22 @@
     <string name="apps_info_title">Uygulamalar</string>
     <string name="alert_permission_accessibility">İzin - Erişilebilirlik</string>
     <string name="alert_firewall_accessibility_exception">Erişilebilirlik Ayarları açılamıyor. Daha sonra tekrar deneyin!</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">Rethink erişilebilirlik hizmeti durdu veya çöktü. <i><b>Ayarlar\'a gidip Rethink\'i Durdurmaya Zorlayın</b></i> ve <i>Kullanılmayan herhangi bir uygulamayı engelle</i> özelliğini kullanmak için tekrar başlatın. \n \nRethink, hangi uygulamaların kullanımda olduğunu (ön plan) ve hangilerinin kullanımda olmadığını (arka plan) izlemek için erişilebilirlik hizmetini kullanır.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">白い熊 考直 erişilebilirlik hizmeti durdu veya çöktü. <i><b>Ayarlar\'a gidip 白い熊 考直\'i Durdurmaya Zorlayın</b></i> ve <i>Kullanılmayan herhangi bir uygulamayı engelle</i> özelliğini kullanmak için tekrar başlatın. \n \n白い熊 考直, hangi uygulamaların kullanımda olduğunu (ön plan) ve hangilerinin kullanımda olmadığını (arka plan) izlemek için erişilebilirlik hizmetini kullanır.</string>
     <string name="hybrid_mode_info_title">DNS + Güvenlik Duvarı</string>
     <string name="brave_dns_connect_mode_change_firewall">Mod Seçin.</string>
     <string name="bsct_block">&lt;u&gt;Bu uygulamayı&lt;/u&gt; engelleyin, atlayın, hariç tutun, koruyun</string>
     <string name="always_on_dialog_heading">Her Zaman Açık VPN\'i Devre Dışı Bırak</string>
     <string name="dns_firewall_mode_info_explanation_new">Yukarıdakilerin hepsi + İnternet sansürünü atlayın.</string>
     <string name="conn_track_clear_logs_message">Bu işlem yalnızca ağ günlüklerini siler ancak güvenlik duvarı kurallarını silmez. Bu işlem geri döndürülemez. Devam etmek istiyor musunuz?</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink, hangi uygulamaların kullanımda olduğunu (ön plan) ve hangilerinin kullanımda olmadığını (arka plan) izlemek için erişilebilirlik hizmetini kullanır. \n \nRethink herhangi bir şekilde bilgi toplamaz veya sizi gözetlemez.</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直, hangi uygulamaların kullanımda olduğunu (ön plan) ve hangilerinin kullanımda olmadığını (arka plan) izlemek için erişilebilirlik hizmetini kullanır. \n \n白い熊 考直 herhangi bir şekilde bilgi toplamaz veya sizi gözetlemez.</string>
     <string name="custom_url_error_invalid_url">Geçersiz URL</string>
     <string name="dns_query_clear_logs_message">Bu, aygıt üzerindeki DNS günlüklerini siler. Bu işlem geri döndürülemez. Devam etmek istiyor musunuz?</string>
     <string name="always_on_dialog_neutral">Ayarlar</string>
     <string name="bsct_conn_rule_explanation">&lt;u&gt;#1&lt;/u&gt;: Bir uygulamanın internete bağlanmasını engeller. \n &lt;u&gt;#2&lt;/u&gt;: Herhangi bir uygulamanın belirli bir IP\'ye bağlanmasını engeller. \n &lt;u&gt;#3&lt;/u&gt;: Ekran kilitlendiğinde bütün bağlantıları engeller (Genel Güvenlik Duvarı). \n &lt;u&gt;#4&lt;/u&gt;: Kullanımda olmayan her uygulamayı engeller (Genel Güvenlik Duvarı). \n &lt;u&gt;#5&lt;/u&gt;: Kaynak uygulaması belirsiz bütün bağlantıları engeller (Genel Güvenlik Duvarı). \n &lt;u&gt;#6&lt;/u&gt;: DNS hariç bütün UDP trafiğini engeller(Genel Güvenlik Duvarı). \n &lt;u&gt;#7&lt;/u&gt;: DNS atlanırsa bütün bağlantıları engeller (Genel Güvenlik Duvarı).</string>
     <string name="bsct_block_ip">Engelle, &lt;u&gt;bu IP\'ye&lt;/u&gt; &lt;u&gt;bu uygulama&lt;/u&gt; için güven</string>
     <string name="bsct_conn_block_desc">%1$s, %2$s tarafından engellendi</string>
-    <string name="always_on_dialog">Bu cihazda \"Her Zaman Açık VPN\" etkinleştirilmiştir. Rethink\'i başlatmak için lütfen Ayarlar uygulamasına gidin ve \"Her Zaman Açık VPN \"i devre dışı bırakın.</string>
-    <string name="always_on_dialog_lockdown_stop_message">Rethink, VPN\'i <i>Lockdown</i> modunda çalıştırıyor. Durdurulması, bu kullanıcı profilinde İnternet bağlantısının kaybına neden olur. Yine de devam etmek istiyor musunuz?</string>
+    <string name="always_on_dialog">Bu cihazda \"Her Zaman Açık VPN\" etkinleştirilmiştir. 白い熊 考直\'i başlatmak için lütfen Ayarlar uygulamasına gidin ve \"Her Zaman Açık VPN \"i devre dışı bırakın.</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直, VPN\'i <i>Lockdown</i> modunda çalıştırıyor. Durdurulması, bu kullanıcı profilinde İnternet bağlantısının kaybına neden olur. Yine de devam etmek istiyor musunuz?</string>
     <string name="dns_crypt_url_remove_dialog_message">DNSCrypt çözümleyicisini kayıtlı yapılandırmadan silin.</string>
     <string name="show_logs_disabled_network_message">Bağlantı günlükleme devre dışı bırakıldı. Yeniden etkinleştirmek için <i>Ayarlar</i>\'a gidin ve <i>Bağlantı Günlükleme</i>\'yi etkin hale getirin.</string>
     <string name="univ_firewall_dialog_title">IP Kuralı Silinsin mi?</string>
@@ -572,7 +570,7 @@
     <string name="dns_crypt_url_remove_success">DNSCrypt çözümleyici silindi.</string>
     <string name="local_blocklist_download_desc">Bu özelliği kullanmak için gereken engelleme listeleri (~60MB) indirilsin mi?</string>
     <string name="dc_other_dns_heading">Tür</string>
-    <string name="settings_allow_bypass_desc">İsteyen uygulamaların bütün kullanılabilir ağlara bağlanmasına izin verin. Bu uygulamalar Rethink’in VPN tünelini isteğe bağlı olarak atlayabilir. Zoom ve Meet gibi bazı sesli/görüntülü konferans uygulamalarının düzgün çalışması için gerekebilir.</string>
+    <string name="settings_allow_bypass_desc">İsteyen uygulamaların bütün kullanılabilir ağlara bağlanmasına izin verin. Bu uygulamalar 白い熊 考直’in VPN tünelini isteğe bağlı olarak atlayabilir. Zoom ve Meet gibi bazı sesli/görüntülü konferans uygulamalarının düzgün çalışması için gerekebilir.</string>
     <string name="download_update_dialog_message">Uygulamanın yeni sürümü web sitesinden indirilebilir. Devam etmek istiyor musunuz?</string>
     <string name="download_update_dialog_message_ok">Zaten en son sürümü kullanıyorsunuz.</string>
     <string name="info_dialog_url_copy_toast_msg">URL kopyalandı</string>
@@ -583,18 +581,18 @@
     <string name="orbot_stop_dialog_title">Manuel müdahale gerekli</string>
     <string name="orbot_app_issue">Orbot başlatılamadı. Yüklü mü?</string>
     <string name="orbot_bs_status_trying_connect">Orbot kurulumu…</string>
-    <string name="orbot_explanation">Orbot, diğer uygulamaların İnterneti daha &lt;u&gt;güvenli&lt;/u&gt; kullanmasını sağlayan ücretsiz bir proxy uygulamasıdır.\nOrbot, İnternet trafiğinizi şifrelemek için &lt;u&gt;Tor&lt;/u&gt; kullanır ve böylece &lt;u&gt;sansürü aşmanıza&lt;/u&gt; yardımcı olur ve kişisel özgürlük ile mahremiyeti tehdit eden &lt;u&gt;ağ gözetimi&lt;/u&gt; türlerine karşı savunma sağlar.\n&lt;u&gt;TCP Proxy&lt;/u&gt;: Rethink, yalnızca &lt;i&gt;dahil edilen&lt;/i&gt; uygulamaların TCP bağlantılarını Orbot\'a yönlendirir.\n&lt;u&gt;HTTP Proxy&lt;/u&gt;: Rethink, Orbot\'a &lt;i&gt;HTTP CONNECT tüneli kurar&lt;/i&gt; ve yalnızca &lt;i&gt;dahil edilen&lt;/i&gt; uygulamaların TCP bağlantılarını yönlendirir.</string>
+    <string name="orbot_explanation">Orbot, diğer uygulamaların İnterneti daha &lt;u&gt;güvenli&lt;/u&gt; kullanmasını sağlayan ücretsiz bir proxy uygulamasıdır.\nOrbot, İnternet trafiğinizi şifrelemek için &lt;u&gt;Tor&lt;/u&gt; kullanır ve böylece &lt;u&gt;sansürü aşmanıza&lt;/u&gt; yardımcı olur ve kişisel özgürlük ile mahremiyeti tehdit eden &lt;u&gt;ağ gözetimi&lt;/u&gt; türlerine karşı savunma sağlar.\n&lt;u&gt;TCP Proxy&lt;/u&gt;: 白い熊 考直, yalnızca &lt;i&gt;dahil edilen&lt;/i&gt; uygulamaların TCP bağlantılarını Orbot\'a yönlendirir.\n&lt;u&gt;HTTP Proxy&lt;/u&gt;: 白い熊 考直, Orbot\'a &lt;i&gt;HTTP CONNECT tüneli kurar&lt;/i&gt; ve yalnızca &lt;i&gt;dahil edilen&lt;/i&gt; uygulamaların TCP bağlantılarını yönlendirir.</string>
     <string name="orbot_status_arg_3">DNS ve TCP</string>
-    <string name="settings_autostart_bootup_desc">Cihaz açıldığında, kapatılmadan önce çalışıyorsa Rethink’i başlatın.</string>
+    <string name="settings_autostart_bootup_desc">Cihaz açıldığında, kapatılmadan önce çalışıyorsa 白い熊 考直’i başlatın.</string>
     <string name="settings_http_proxy_error_text2">Kapı Geçersiz</string>
     <string name="settings_notification_dialog_option_3">\nHiçbiri:\nHiçbir düğme göstermez.\n</string>
     <string name="firewall_status_block_metered">ölçülü (mobil) ağlarda engellendi</string>
-    <string name="settings_network_all_networks_desc">Etkinleştirildiğinde, Rethink internete bağlanmak için mevcut tüm ağları kullanır. Değilse, Android tarafından <i>aktif</i> olarak kabul edilen ağı kullanır.</string>
+    <string name="settings_network_all_networks_desc">Etkinleştirildiğinde, 白い熊 考直 internete bağlanmak için mevcut tüm ağları kullanır. Değilse, Android tarafından <i>aktif</i> olarak kabul edilen ağı kullanır.</string>
     <string name="firewall_status_whitelisted">evrensel güvenlik duvarı kurallarını atlar</string>
     <string name="apps_card_ips_count">%1$s IP ve Port kuralı</string>
     <string name="hsf_start_btn_state">başlat</string>
     <string name="dns_btm_resolved_doh">%1$s tarafından çözüldü %2$s</string>
-    <string name="hsf_vpn_dialog_message">Rethink, cihazın DNS isteklerini şifrelemek, bir ağ izleyicisi uygulamak ve güvenlik duvarı kurallarını uygulamak için yerel bir VPN kurma iznine ihtiyaç duyar. \n \nRethink herhangi bir şekilde bilgi toplamaz veya sizi gözetlemez.</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直, cihazın DNS isteklerini şifrelemek, bir ağ izleyicisi uygulamak ve güvenlik duvarı kurallarını uygulamak için yerel bir VPN kurma iznine ihtiyaç duyar. \n \n白い熊 考直 herhangi bir şekilde bilgi toplamaz veya sizi gözetlemez.</string>
     <string name="dc_dns_website_desc">Web sitesi simgelerini <i>nextdns.io</i> ve <i>duckduckgo.com</i> adresinden alır. 350 mb\'a kadar disk alanı tüketir</string>
     <string name="about_bravedns_explantion">Rethink, Android cihazınızda uygulama etkinliğini izlemenin, İnternet sansürünü aşmanın ve uygulamaları güvenlik duvarına almanın en kolay yoludur.</string>
     <string name="about_bravedns_whoarewe">Rethink, Amazon, IBM ve Scientific Games\'in eski mühendisleri tarafından yönetilen ücretsiz ve açık kaynaklı bir projedir.</string>
@@ -706,7 +704,7 @@
     <string name="rt_filter_desc_subgroups"><![CDATA[<u>%1$s</u> engelleme listesi gösteriliyor, grup: %2$s ve alt grup: %3$s]]></string>
     <string name="relative_time_yesterday">Dün</string>
     <string name="private_dns_dialog_heading">Özel DNS\'yi kapatın</string>
-    <string name="private_dns_dialog_desc">Rethink\'in DNS ayarları Android\'in Özel DNS\'i tarafından geçersiz kılınır. \n \nRethink\'in DNS\'sini kullanmak için Android Ayarları\'na gidin ve Özel DNS\'i kapatın.</string>
+    <string name="private_dns_dialog_desc">白い熊 考直\'in DNS ayarları Android\'in Özel DNS\'i tarafından geçersiz kılınır. \n \n白い熊 考直\'in DNS\'sini kullanmak için Android Ayarları\'na gidin ve Özel DNS\'i kapatın.</string>
     <string name="private_dns_dialog_positive">Ayarlara git</string>
     <string name="private_dns_error">Özel dns ekranı başlatılamadı.</string>
     <string name="ada_delete_logs_dialog_title" description="Appears as dialog title to clear the logs in app specific screen">Günlükleri temizleyin</string>
@@ -791,7 +789,7 @@
     <string name="settings_biometric_desc" translatable="true">Ekran kilidinizi kullanarak bu uygulamayı güvenli hale getirin</string>
     <string name="settings_locale_dialog_neutral" translatable="true">Bu uygulamayı çevirmeye yardım edin</string>
     <string name="cleanbrowsing_family_dns_desc" translatable="true">Aile filtresi, tüm yetişkin, pornografik ve açık sitelere erişimi engeller. Ayrıca filtrelerimizi atlamak için kullanılabilecek proxy ve VPN alan adlarını da engeller. Karışık içerikli siteler (örneğin Reddit) de engellenir. Google, Bing ve Youtube Güvenli Mod\'a ayarlanmıştır.</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Devam etmek için Rethink\'i başlatın</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">Devam etmek için 白い熊 考直\'i başlatın</string>
     <string name="settings_locale_heading" translatable="true">Dili değiştir</string>
     <string name="public_key_copy_toast_msg" translatable="true">Ortak anahtar kopyalandı.</string>
     <string name="ssv_app_network_activity_heading" description="This label will appear on the stats screen as a header for allowed apps." translatable="true">En Çok İzin Verilmiş Uygulamalar</string>
@@ -809,7 +807,7 @@
     <string name="ci_trust_rule" translatable="true">Güvenilirlik</string>
     <string name="cd_dns_alg_heading" translatable="true">Gelişmiş DNS filtreleme (deneysel)</string>
     <string name="lbl_qr_code" translatable="true">QR kod</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s yalnızca Rethink\'in DNS\'si ile çalışır</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s yalnızca 白い熊 考直\'in DNS\'si ile çalışır</string>
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">En Çok İleti̇şi̇me Geçi̇len IP\'ler</string>
     <string name="fapps_info_isolate_msg" translatable="true">Güvenilir IP\'ler hariç tümünü engelleyin.</string>
     <string name="app_ip_domain_rules_desc" translatable="true">Uygulama başına IP / Etki alanı kurallarını değiştirin.</string>
@@ -840,7 +838,7 @@
     <string name="bad_config_explanation_udp_port" translatable="true">: Geçerli bir UDP bağlantı noktası numarası olmalıdır</string>
     <string name="lbl_slow" translatable="true">yavaş</string>
     <string name="google_dns_desc" translatable="true">Herhangi bir DNS isteğini engellemez. Google\'ın DNS uç noktasını kullanır.</string>
-    <string name="settings_allow_lan_desc" translatable="true">LAN, geri döngü, çok noktaya yayın, bağlantı yerel yollarını Rethink\'in VPN tünelinden hariç tutun.</string>
+    <string name="settings_allow_lan_desc" translatable="true">LAN, geri döngü, çok noktaya yayın, bağlantı yerel yollarını 白い熊 考直\'in VPN tünelinden hariç tutun.</string>
     <string name="bad_config_reason_invalid_value" translatable="true">Geçersiz değer</string>
     <string name="ada_app_firewall" translatable="true">Güvenlik Duvarı</string>
     <string name="logs_card_dns_count" translatable="true">%1$s sorgular</string>
@@ -883,7 +881,7 @@
     <string name="bad_config_reason_unknown_section" translatable="true">Bilinmeyen Bölüm</string>
     <string name="lbl_applications" translatable="true">Uygulamalar</string>
     <string name="lbl_include" translatable="true">Dahil et</string>
-    <string name="hs_biometeric_title" translatable="true">Rethink\'in Kilidini Açın</string>
+    <string name="hs_biometeric_title" translatable="true">白い熊 考直\'in Kilidini Açın</string>
     <string name="crypt_relay_netherlands" translatable="true">Hollanda\'da barındırılan anonimleştirilmiş DNS aktarıcısı</string>
     <string name="invalid_file_error" translatable="true">geçersiz dosya</string>
     <string name="include_all_app_wg_dialog_desc">Tüm uygulamaları bu tünelden mi geçirelim?</string>
@@ -924,7 +922,7 @@
     <string name="status_protected_with_wg_private_dns" translatable="true">wireguard &amp; özel dns i̇le korunuyor</string>
     <string name="crypt_adguard_family_desc" translatable="true">Güvenli arama ve yetişkinlere yönelik içerik engelleme özellikli Adguard DNS.</string>
     <string name="bad_config_reason_syntax_error" translatable="true">Sözdizimi hatası</string>
-    <string name="hs_biometeric_desc" translatable="true">RethinkDNS\'in kilidini açmak için biyometrik kimlik doğrulamayı kullanın</string>
+    <string name="hs_biometeric_desc" translatable="true">白い熊 考直\'in kilidini açmak için biyometrik kimlik doğrulamayı kullanın</string>
     <string name="fapps_unblock_dialog_message" translatable="true"><i>Listelenen</i> uygulamalar için bağlantılara izin ver?</string>
     <string name="crypt_relay_france" translatable="true">Paris, Fransa\'da barındırılan ve https://cryptostrom.is/ tarafından sağlanan anonimleştirilmiş DNS aktarıcısı.</string>
     <string name="ssv_see_more" translatable="true">Tümünü Göster</string>
@@ -961,8 +959,8 @@
     <string name="remaining_apps_dialog_title" translatable="true">Kalan uygulamaları dahil et</string>
     <string name="remaining_apps_dialog_desc" translatable="true">Başka bir Proxy tarafından yönlendirilmeyen kalmış tüm uygulamaları dahil edin</string>
     <string name="cd_dialog_edit_title" translatable="true">Etki alanı kuralını düzenle</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Blok listesi indirmeleri, bağlantı kontrolleri, DNS bağlantıları gibi Rethink\'in kendi trafiğini tünele geri yönlendirin.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Rethink\'in kendi trafiğini tünel üzerinden yönlendirmek. Ne yaptığınızı bilmiyorsanız, kapatın.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Blok listesi indirmeleri, bağlantı kontrolleri, DNS bağlantıları gibi 白い熊 考直\'in kendi trafiğini tünele geri yönlendirin.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">白い熊 考直\'in kendi trafiğini tünel üzerinden yönlendirmek. Ne yaptığınızı bilmiyorsanız, kapatın.</string>
     <string name="catch_all_wg_dialog_desc" translatable="true">Diğer WireGuard VPN\'ler tarafından yönlendirilmeyen tüm bağlantılar ve uygulamalar bu VPN tarafından yönlendirilecektir.</string>
     <string name="one_wg_dialog_desc" translatable="true">DNS dahil olmak üzere tüm uygulamalardan gelen tüm bağlantılar tek bir aktif WireGuard VPN\'e yönlendirilecektir. Varsa diğer aktif WireGuard VPN\'ler durdurulacaktır.</string>
     <string name="wireguard_apps_proxy_map_desc" translatable="true">%1$s in bölümü</string>
@@ -977,13 +975,13 @@
     <string name="lbl_on_device" translatable="true">Cihazda</string>
     <string name="hybrid_mode_with_proxy_notification_title" translatable="true">Koruma sağlandı! DNS + Güvenlik Duvarı + Proxy\'e bağlı.</string>
     <string name="settings_connectivity_checks" translatable="true">Bağlantı kontrollerini gerçekleştir</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Devre dışı bırakıldığında, Rethink\'in VPN tünelinden proxy (SOCKS5, HTTP, DNS) yönlendirme uygulamaları hariç tutulur.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Devre dışı bırakıldığında, 白い熊 考直\'in VPN tünelinden proxy (SOCKS5, HTTP, DNS) yönlendirme uygulamaları hariç tutulur.</string>
     <string name="battery_optimization_dialog_heading" translatable="true">%1$s\'i devre dışı bırak</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> bağlantı kaybına neden olabilir. Rethink\'in arka planda veri ve diğer kaynakları kullanabilmesi için ayarı değiştirin.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> bağlantı kaybına neden olabilir. 白い熊 考直\'in arka planda veri ve diğer kaynakları kullanabilmesi için ayarı değiştirin.</string>
     <string name="dc_proxy_dns_heading" translatable="true">DNS\'i asla proxy üzerinden yönlendirme</string>
     <string name="dc_proxy_dns_desc" translatable="true">Her Zaman Açık WireGuard, SOCKS5, HTTP proxy\'leri üzerinden DNS proxy\'si oluşturmayın.</string>
     <string name="lbl_notification" translatable="true">Bildirim</string>
-    <string name="memory_notification_text">Rethink düşük bellekle çalışıyor. Sistem eylemleri sınırlı olabilir.</string>
+    <string name="memory_notification_text">白い熊 考直 düşük bellekle çalışıyor. Sistem eylemleri sınırlı olabilir.</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Loopback proxy yönlendirme uygulamaları</string>
     <string name="lbl_battery_optimization" translatable="true">Pil optimizasyonu</string>
     <string name="settings_connectivity_checks_desc" translatable="true">Bağlantı kontrolleri, erişilebilirliği doğrulamak için gönderilir.</string>
@@ -1021,7 +1019,7 @@
     <string name="settings_biometric_dialog_heading" translatable="true">Biyometrik Giriş</string>
     <string name="settings_biometric_dialog_option_0" translatable="true">Hiçbiri</string>
     <string name="settings_biometric_dialog_option_1" translatable="true">Anlık</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Rethink\'i <b>%1$s gündür</b> kullanıyorsunuz, bu da <b>$%2$s</b> kullanım maliyetine denk geliyor. Gelişimini sürdürmek için sponsor olmayı düşünür müsünüz?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">白い熊 考直\'i <b>%1$s gündür</b> kullanıyorsunuz, bu da <b>$%2$s</b> kullanım maliyetine denk geliyor. Gelişimini sürdürmek için sponsor olmayı düşünür müsünüz?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">Yetkisiz alanlar için Sistem DNS\'i kullan</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true"><i>.lan</i>, <i>.internal</i> gibi yetkisiz alanlar için Sistem DNS\'i kullan.</string>
     <string name="dc_filtering_heading" translatable="true">Filtreleme</string>
@@ -1084,23 +1082,23 @@
     <string name="wg_setting_use_on_mobile_desc" translatable="true">Bu WireGuard VPN\'ini mobil veri üzerinden kullan.</string>
     <string name="hop_add_remove_title" translatable="true">Aktarım Ekle / Kaldır</string>
     <string name="about_terms_of_service" translatable="true">Hizmet Şartları</string>
-    <string name="bypasses_network_restrictions" translatable="true">Erişilebilirlik kontrolleri tüm ağ kısıtlamalarını atlar. <i>Otomatik</i> modda, Rethink daha önce bağlandığı IP\'leri ve ana bilgisayar adlarını rastgele kullanır.</string>
+    <string name="bypasses_network_restrictions" translatable="true">Erişilebilirlik kontrolleri tüm ağ kısıtlamalarını atlar. <i>Otomatik</i> modda, 白い熊 考直 daha önce bağlandığı IP\'leri ve ana bilgisayar adlarını rastgele kullanır.</string>
     <string name="most_contacted_asn" translatable="true">en çok iletişime geçilen sağlayıcılar</string>
     <string name="most_blocked_asn" translatable="true">en çok engellenen sağlayıcılar</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Rethink\'i başlatmasına veya durdurmasına izin verilen paket adlarını girin (virgülle ayrılmış).</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">白い熊 考直\'i başlatmasına veya durdurmasına izin verilen paket adlarını girin (virgülle ayrılmış).</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">Talimatlar:\n Yayında gerekli ekstralar:\n • Anahtar: sender\n • Değer: Çağıran uygulamanın paket adı\n\nÖrnek: anahtar:sender değer:com.termux\n\n Desteklenen eylemler:\n • VPN Başlat – com.celzero.bravedns.intent.action.VPN_START\n • VPN Durdur – com.celzero.bravedns.intent.action.VPN_STOP</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">Paket adını girin (örnek: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_title" translatable="true">Sağlayıcı bilgilerini göster</string>
     <string name="download_ip_info_desc" translatable="true">Web siteleri için hizmet sağlayıcı bilgilerini <i>rethinkdns.com</i>\'dan alır, <i>%1$s</i> tarafından desteklenir</string>
     <string name="adv_taster_title" translatable="true">Otomasyon</string>
-    <string name="adv_taster_desc" translatable="true">Rethink\'i başlatabilecek veya durdurabilecek uygulamaları yapılandırın.</string>
+    <string name="adv_taster_desc" translatable="true">白い熊 考直\'i başlatabilecek veya durdurabilecek uygulamaları yapılandırın.</string>
     <string name="top_active_conns" translatable="true">en aktif bağlantılar</string>
     <string name="load_more" translatable="true">Tümünü Yükle</string>
     <string name="close_conns_dialog_title" translatable="true">Bağlantıları Kapat</string>
     <string name="close_conns_dialog_desc" translatable="true">%1$s için tüm bağlantıları kapatmak ister misiniz?</string>
     <string name="local_blocklist_delete_desc" translatable="true">Cihazdaki engelleme listelerini silmek ister misiniz?</string>
     <string name="fail_open_network_title" translatable="true">Ağ kaybında durma</string>
-    <string name="fail_open_network_desc" translatable="true">Etkinleştirildiğinde, Rethink <i>Uçak Modu</i>\'nda olduğu gibi bağlantı bulunmadığında tüm veriyi durdurur.</string>
+    <string name="fail_open_network_desc" translatable="true">Etkinleştirildiğinde, 白い熊 考直 <i>Uçak Modu</i>\'nda olduğu gibi bağlantı bulunmadığında tüm veriyi durdurur.</string>
     <string name="about_license" translatable="true">Apache-2.0 altında lisanslanmıştır</string>
     <string name="close_all" translatable="true">Hepsini Kapat</string>
     <string name="smart_dns" translatable="true">Akıllı DNS</string>
@@ -1120,7 +1118,7 @@
     <string name="copied_clipboard" translatable="true">Kopyalandı</string>
     <string name="wg_setting_ssid_title" translatable="true">Yalnızca Wi-Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Bu WireGuard VPN\'ini yalnızca Wi-Fi\'ye veya belirtilen WiFi tanımlayıcılarına (%1$s) bağlıyken etkinleştir.</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink\'in Wi‑Fi tanımlayıcılarına (%1$s) erişmek için konum iznine ihtiyacı var.</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直\'in Wi‑Fi tanımlayıcılarına (%1$s) erişmek için konum iznine ihtiyacı var.</string>
     <string name="location_enable_explanation" translatable="true">Wi‑Fi tanımlayıcılarına (%1$s) erişmek için Konum servisini açın.</string>
     <string name="ssid_location_error" translatable="true">Konum servisini etkinleştir</string>
     <string name="ssid_permission_error_action" translatable="true">İzin ver</string>
@@ -1139,12 +1137,12 @@
     <string name="settings_locale_dialog_default" translatable="true">Sistem varsayılanı</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">Etkinleştirildiğinde, WireGuard eşleri tarafından başlatılan gelen bağlantılara izin ver.</string>
-    <string name="lockdown_download_message" translatable="true">VPN <i>Kilitleme</i> modunda olduğu için Android\'in yerleşik <i>İndirme Yöneticisi</i> başarısız olabilir. Bunun yerine Rethink\'in indirici özelliğini etkinleştir?</string>
+    <string name="lockdown_download_message" translatable="true">VPN <i>Kilitleme</i> modunda olduğu için Android\'in yerleşik <i>İndirme Yöneticisi</i> başarısız olabilir. Bunun yerine 白い熊 考直\'in indirici özelliğini etkinleştir?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">İndiriciyi Etkinleştir</string>
     <string name="settings_jumbo_packets" translatable="true">Bant genişliği güçlendirici</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Rethink\'in VPN tüneli içinde <i>jumbo paketleri</i> kullanır.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">白い熊 考直\'in VPN tüneli içinde <i>jumbo paketleri</i> kullanır.</string>
     <string name="settings_tunnel_metered" translatable="true">Her zaman ölçülmüş</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Uygulamalara daha az veri tüketme talimatı vermek için Rethink\'in VPN tünelini ölçülmüş olarak işaretle. Dikkat: Bu, uygulamaların yedeklemeler gibi büyük yüklemeleri ve indirmeleri duraklatmasına neden olabilir.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Uygulamalara daha az veri tüketme talimatı vermek için 白い熊 考直\'in VPN tünelini ölçülmüş olarak işaretle. Dikkat: Bu, uygulamaların yedeklemeler gibi büyük yüklemeleri ve indirmeleri duraklatmasına neden olabilir.</string>
     <string name="stability_program_toast" translatable="true"><i>Deneysel özellikler</i> için <i>kararlılık programına</i> kaydolundu.</string>
     <string name="search_event_logs" translatable="false"><font size="12">Olayları, mesajları ara</font></string>
     <string name="bug_report_files_desc" translatable="false">Bug raporu e-postasına dahil etmek istediğiniz dosyaları seçin</string>
@@ -1195,7 +1193,7 @@
     <string name="rethink_empty_state_title" translatable="true">Blok listesi bulunamadı</string>
     <string name="rethink_empty_state_desc" translatable="true">Blok listesini indirerek veya konfigure ederek başla.</string>
     <string name="settings_rinr_btmsht_title" translatable="true">Geri döngü (deneysel)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">Geri döngü modunda Rethink kendi ağ trafiğini kendisine yönlendirir. Demek oluyor ki, Rethink kendi trafiğine (IP ve Domain kuralları, güvenlik duvarı kurallar vb.) aynı diğer uygulamalar gibi kuralları uygular. Geri döngü modu fazlaca kontrol sağlasada sonuçları pek beklendiği gibi olmayabilir.\n\n\nRethink\'i güvenlik duvarı, DNS ve proxy kurallarından muaf tutmanız önerilir. Bu işlem, ağ izleme veya günlük kaydı işlemlerini etkilemez; yalnızca kuralları etkiler.\n\n\nGeri döngü modunda, Proxy Lockdown özelliği şimdilik uygulanmayacaktır.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">Rethink\'i muaf tut</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">Geri döngü modunda 白い熊 考直 kendi ağ trafiğini kendisine yönlendirir. Demek oluyor ki, 白い熊 考直 kendi trafiğine (IP ve Domain kuralları, güvenlik duvarı kurallar vb.) aynı diğer uygulamalar gibi kuralları uygular. Geri döngü modu fazlaca kontrol sağlasada sonuçları pek beklendiği gibi olmayabilir.\n\n\n白い熊 考直\'i güvenlik duvarı, DNS ve proxy kurallarından muaf tutmanız önerilir. Bu işlem, ağ izleme veya günlük kaydı işlemlerini etkilemez; yalnızca kuralları etkiler.\n\n\nGeri döngü modunda, Proxy Lockdown özelliği şimdilik uygulanmayacaktır.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">白い熊 考直\'i muaf tut</string>
     <string name="app_info_rethink_warning_title" translatable="true">Uyarı</string>
 </resources>

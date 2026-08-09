@@ -35,13 +35,13 @@
     <string name="lbl_very" translatable="true">velmi</string>
     <string name="lbl_add" translatable="true">přidat</string>
     <string name="lbl_save" translatable="true">uložit</string>
-    <string name="slide_2_desc" translatable="true">Rethink je nejjednodušší způsob, jak monitorovat síťovou aktivitu, obejít internetovou cenzuru a firewallovat aplikace na vašem zařízení Android.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 je nejjednodušší způsob, jak monitorovat síťovou aktivitu, obejít internetovou cenzuru a firewallovat aplikace na vašem zařízení Android.</string>
     <string name="slide_2_title" translatable="true">Vítejte</string>
     <string name="lbl_cache" translatable="true">Cache</string>
     <string name="lbl_status" translatable="true">Stav</string>
     <string name="lbl_remove" translatable="true">Odebrat</string>
     <string name="settings_title_desc" translatable="true">Vysoce přizpůsobitelný DNS a Firewall</string>
-    <string name="accessibility_service_description" translatable="true">Rethink používá službu zpřístupnění (Accessibility service) k detekci a firewallování aplikací běžících na pozadí. Rethink neshromažďuje ani neprodává žádné informace.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 používá službu zpřístupnění (Accessibility service) k detekci a firewallování aplikací běžících na pozadí. 白い熊 考直 neshromažďuje ani neprodává žádné informace.</string>
     <string name="lbl_all" translatable="true">Vše</string>
     <string name="lbl_maybe_blocked" translatable="true">Možná blokováno</string>
     <string name="lbl_domain" translatable="true">Doména</string>
@@ -79,7 +79,7 @@
     <string name="lbl_anonymous" translatable="true">anonymní</string>
     <string name="block" translatable="true">blokovat</string>
     <string name="exclude" translatable="true">vyloučit</string>
-    <string name="status_waiting" description="This text appears during the connection process if Rethink needs user permission or the phone is offline." translatable="true">čekání</string>
+    <string name="status_waiting" description="This text appears during the connection process if 白い熊 考直 needs user permission or the phone is offline." translatable="true">čekání</string>
     <string name="status_protected_with_socks5_private_dns" translatable="true">chráněno pomocí socks5 &amp; private dns</string>
     <string name="status_protected_with_http_private_dns" translatable="true">chráněno pomocí http proxy &amp; private dns</string>
     <string name="notification_action_resume_vpn" translatable="true">OBNOVIT</string>
@@ -94,7 +94,7 @@
     <string name="notification_action_dns_mode" translatable="true">DNS</string>
     <string name="notification_action_dns_firewall_mode" translatable="true">DNS + Firewall</string>
     <string name="allow" translatable="true">povolit</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Upozornění: Rethink byl deaktivován</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Upozornění: 白い熊 考直 byl deaktivován</string>
     <string name="isolate" translatable="true">izolovat</string>
     <string name="untracked" translatable="true">nesledováno</string>
     <string name="lbl_notification" translatable="true">notifikace</string>
@@ -111,32 +111,32 @@
     <string name="notification_action_pause_vpn" translatable="true">POZASTAVIT</string>
     <string name="dns_mode_info_title" translatable="true">DNS</string>
     <string name="lbl_unselected" translatable="true">Neoznačeno</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">private dns je zapnuté</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">private dns je zapnuté</string>
     <string name="lbl_split" translatable="true">Rozdělit</string>
     <string name="pause_title_desc" translatable="true">dávám si šlofíka…</string>
     <string name="lbl_mtu" translatable="true">MTU</string>
     <string name="lbl_on_device" translatable="true">v zařízení</string>
-    <string name="memory_notification_text">Rethink zaznamenává nízkou dostupnou paměť. Systémové akce mohou být omezeny.</string>
+    <string name="memory_notification_text">白い熊 考直 zaznamenává nízkou dostupnou paměť. Systémové akce mohou být omezeny.</string>
     <string name="bypass_dns_firewall" translatable="true">obejít dns &amp; firewall</string>
     <string name="bypass_universal" translatable="true">univerzální obcházení</string>
     <string name="hybrid_mode_notification_title" translatable="true">Chráněno! Připojeno k DNS + Firewallu.</string>
     <string name="dns_mode_notification_title" translatable="true">Chráněno! Připojeno k rychlému a zabezpečenému DNS.</string>
     <string name="firewall_mode_notification_title" translatable="true">Chráněno! Připojeno k Firewallu.</string>
-    <string name="slide_1_desc" translatable="true">Rethink je open source software podpořený programem Mozilla Builders MVP a FOSS United Foundation.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 je open source software podpořený programem Mozilla Builders MVP a FOSS United Foundation.</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">Klepnutím změníte nastavení ochrany</string>
     <string name="hybrid_mode_with_proxy_notification_title" translatable="true">Chráněno! Připojeno k DNS + Firewall + Proxy.</string>
     <string name="pause_mode_notification_title" translatable="true">Pozastaveno! Blokované aplikace budou nadále firewallovány.</string>
     <string name="status_failing" description="This text appears if the connection is currently not working correctly. [CHAR_LIMIT=NONE]" translatable="true">selhává</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Připojeno k RethinkDNS a Firewallu</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Připojeno k 白い熊 考直 a Firewallu</string>
     <string name="firewall_mode_info_explanation_new" translatable="true">Monitorujte síťovou aktivitu a firewallujte jakoukoli aplikaci nebo IP adresu.</string>
-    <string name="dns_explanation_dns_connected" translatable="true">Připojeno k RethinkDNS</string>
+    <string name="dns_explanation_dns_connected" translatable="true">Připojeno k 白い熊 考直</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">Vyberte mód.</string>
     <string name="apps_info_title" translatable="true">Aplikace</string>
     <string name="hybrid_mode_info_title" translatable="true">DNS + Firewall</string>
     <string name="universal_firewall_explanation" translatable="true">Použijte firewallová pravidla pro všechny aplikace na základě událostí zařízení, například firewall při uzamčení zařízení nebo pokud aplikace není používána.</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink využívá službu Zpřístupnění (Accessibility), aby sledoval, které aplikace jsou používány (v popředí) a které běží na pozadí.\n\nRethink neshromažďuje žádné informace ani vás nešpehuje.</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 využívá službu Zpřístupnění (Accessibility), aby sledoval, které aplikace jsou používány (v popředí) a které běží na pozadí.\n\n白い熊 考直 neshromažďuje žádné informace ani vás nešpehuje.</string>
     <string name="dns_mode_info_explanation_new" translatable="true">Monitorujte, blokujte a šifrujte DNS požadavky.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Služba Rethink Accessibility přestala fungovat nebo došlo k pádu. <i><b>Jděte do Nastavení a Vynuceně zastavte</b></i> Rethink a spusťte jej znovu pro využití funkce <i>Blokovat aplikaci, která není používána</i>.\n\nRethink využívá službu Zpřístupnění ke sledování, které aplikace jsou v popředí a které běží na pozadí.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Služba 白い熊 考直 Accessibility přestala fungovat nebo došlo k pádu. <i><b>Jděte do Nastavení a Vynuceně zastavte</b></i> 白い熊 考直 a spusťte jej znovu pro využití funkce <i>Blokovat aplikaci, která není používána</i>.\n\n白い熊 考直 využívá službu Zpřístupnění ke sledování, které aplikace jsou v popředí a které běží na pozadí.</string>
     <string name="firewall_rules" translatable="true">Síťová pravidla</string>
     <string name="firewall_mode_info_title" translatable="true">Firewall</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">Vše výše + obejití internetové cenzury.</string>
@@ -155,7 +155,7 @@
     <string name="bsct_block_domain" translatable="true">Blokovat, důvěřovat &lt;u&gt;doméně/doménám&lt;/u&gt; pro &lt;u&gt;tuto app&lt;/u&gt;</string>
     <string name="dns_query_clear_logs_message" translatable="true">Tímto smažete DNS záznamy uložené v zařízení. Tato akce je nevratná. Chcete pokračovat?</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: Blokovat připojení aplikace k Internetu.\n &lt;u&gt;#2&lt;/u&gt;: Blokovat připojení libovolné aplikace k určité IP adrese.\n &lt;u&gt;#3&lt;/u&gt;: Blokovat všechna připojení, když je zařízení uzamčeno (Univerzální Firewall).\n &lt;u&gt;#4&lt;/u&gt;: Blokovat jakoukoli nepoužívanou aplikaci (Univerzální Firewall).\n &lt;u&gt;#5&lt;/u&gt;: Blokovat připojení, když je zdrojová aplikace neznámá (Univerzální Firewall).\n &lt;u&gt;#6&lt;/u&gt;: Blokovat veškerý provoz UDP kromě DNS (Univerzální Firewall).\n &lt;u&gt;#7&lt;/u&gt;: Blokovat připojení při obcházení DNS (Univerzální Firewall).</string>
-    <string name="always_on_dialog" translatable="true">Funkce „Always-On VPN“ je na tomto zařízení aktivní. Chcete-li spustit Rethink, přejděte do Nastavení a vypněte „Always-on VPN“.</string>
+    <string name="always_on_dialog" translatable="true">Funkce „Always-On VPN“ je na tomto zařízení aktivní. Chcete-li spustit 白い熊 考直, přejděte do Nastavení a vypněte „Always-on VPN“.</string>
     <string name="always_on_dialog_heading" translatable="true">Vypnout funkci Always-on VPN</string>
     <string name="conn_track_clear_logs_title" translatable="true">Smazat všechny síťové záznamy?</string>
     <string name="conn_track_clear_logs_message" translatable="true">Tímto smažete pouze síťové záznamy, nikoli firewallová pravidla. Tato akce je nevratná. Chcete pokračovat?</string>
@@ -207,7 +207,7 @@
     <string name="fapps_unblock_dialog_title" translatable="true">Povolit aplikace</string>
     <string name="fapps_exclude_block_dialog_message" translatable="true">Vyloučit <i>vybrané</i> aplikace z DNS i Firewallu?</string>
     <string name="notif_channel_download" translatable="true">Upozornění ke stažení</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Always-on VPN je zapnuto pro Rethink. Opravdu chcete Rethink zastavit?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">Always-on VPN je zapnuto pro 白い熊 考直. Opravdu chcete 白い熊 考直 zastavit?</string>
     <string name="firewall_act_network_monitor_tab" translatable="true">Síť</string>
     <string name="dot_custom_url_remove_dialog_message" translatable="true">Smazat DNS over TLS endpoint z uložené konfigurace.</string>
     <string name="blocklist_update_check_failure" translatable="true">Něco se pokazilo. Zkuste to prosím později!</string>
@@ -243,7 +243,7 @@
     <string name="ada_delete_logs_dialog_title" description="Appears as dialog title to clear the logs in app specific screen" translatable="true">Vymazat záznamy</string>
     <string name="always_on_dialog_stop_heading" translatable="true">Always-on VPN</string>
     <string name="private_dns_dialog_heading" translatable="true">Vypnout Private DNS</string>
-    <string name="private_dns_dialog_desc" translatable="true">Nastavení DNS v Rethink je přepsáno Androidím Private DNS.\n\nChcete-li používat DNS z Rethink, přejděte do Nastavení systému Android a vypněte „Private DNS“.</string>
+    <string name="private_dns_dialog_desc" translatable="true">Nastavení DNS v 白い熊 考直 je přepsáno Androidím Private DNS.\n\nChcete-li používat DNS z 白い熊 考直, přejděte do Nastavení systému Android a vypněte „Private DNS“.</string>
     <string name="firewall_act_universal_tab" translatable="true">univerzální</string>
     <string name="univ_firewall_dialog_title" translatable="true">Smazat pravidlo IP?</string>
     <string name="univ_firewall_dialog_message" translatable="true">Smazáním tohoto pravidla umožníte libovolné aplikaci připojení k této IP. Chcete pokračovat?</string>
@@ -290,9 +290,9 @@
     <string name="settings_ptrans_heading" translatable="true">Vynutit odchozí IPv4</string>
     <string name="settings_ptrans_desc" translatable="true">Převádí odchozí IPv6 provoz na IPv4 přímo v zařízení. Zapněte, pokud jste připojeni do sítě, která podporuje pouze IPv4.</string>
     <string name="settings_allow_lan_heading" translatable="true">Neroutovat privátní IP (experimentální)</string>
-    <string name="settings_allow_lan_desc" translatable="true">Vynechat LAN, loopback, multicast, link-local z tunelu Rethink VPN.</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Je-li vypnuto, vyjímá proxy (SOCKS5, HTTP, DNS) forwarder aplikace z VPN tunelu Rethink.</string>
-    <string name="settings_allow_bypass_desc" translatable="true">Povolit aplikacím, které to vyžadují, přístup ke všem dostupným sítím a možnost obejít tunel Rethink VPN na vyžádání. Některé konferenční aplikace (např. Zoom či Meet) to mohou potřebovat pro správnou funkci.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Vynechat LAN, loopback, multicast, link-local z tunelu 白い熊 考直 VPN.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Je-li vypnuto, vyjímá proxy (SOCKS5, HTTP, DNS) forwarder aplikace z VPN tunelu 白い熊 考直.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">Povolit aplikacím, které to vyžadují, přístup ke všem dostupným sítím a možnost obejít tunel 白い熊 考直 VPN na vyžádání. Některé konferenční aplikace (např. Zoom či Meet) to mohou potřebovat pro správnou funkci.</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">Nelze nastavit proxy, pokud VPN běží pouze v režimu DNS.</string>
     <string name="settings_proxy_header" translatable="true">proxy</string>
     <string name="settings_socks5_heading" translatable="true">Nastavit SOCKS5 Proxy</string>
@@ -312,8 +312,8 @@
     <string name="orbot_app_issue" translatable="true">Nepodařilo se spustit Orbot. Je nainstalován?</string>
     <string name="orbot_bs_status_trying_connect" translatable="true">Nastavuji Orbot…</string>
     <string name="orbot_stop_dialog_title" translatable="true">Je nutný ruční zásah</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink přestal přesměrovávat připojení do Orbotu, ale Orbot může dál běžet na pozadí.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink je nastaven k přesměrování DNS dotazů do Orbotu. Změňte to dle potřeby.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 přestal přesměrovávat připojení do Orbotu, ale Orbot může dál běžet na pozadí.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 je nastaven k přesměrování DNS dotazů do Orbotu. Změňte to dle potřeby.</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Zastavit Orbot</string>
     <string name="orbot_stop_dialog_neutral" translatable="true">Změnit DNS</string>
     <string name="orbot_title" translatable="true">Orbot a Proxy</string>
@@ -326,13 +326,13 @@
     <string name="settings_orbot_desc" translatable="true">Orbot v režimu non-vpn s HTTPS/SOCKS5.</string>
     <string name="settings_orbot_install_desc" translatable="true">Klepněte sem pro instalaci Orbotu</string>
     <string name="settings_socks5_disabled_error" translatable="true">Připojeno k %1$s. Vypněte jej pro pokračování.</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">Spusťte Rethink pro pokračování.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">Spusťte 白い熊 考直 pro pokračování.</string>
     <string name="settings_orbot_disabled_error" translatable="true">Vypněte HTTP(S) a/nebo SOCKS5 proxy pro pokračování v nastavení Toru jako proxy.</string>
     <string name="settings_general_customize" translatable="true">přizpůsobit</string>
     <string name="settings_autostart_bootup_heading" translatable="true">Automatický start po zapnutí (experimentální)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">Po zapnutí zařízení spustí Rethink, pokud běžel před vypnutím.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">Po zapnutí zařízení spustí 白い熊 考直, pokud běžel před vypnutím.</string>
     <string name="settings_network_all_networks" translatable="true">Využívat všechny dostupné sítě (experimentální)</string>
-    <string name="settings_network_all_networks_desc" translatable="true">Je-li zapnuto, Rethink používá všechny dostupné sítě k připojení k internetu. Jinak použije tu, kterou Android označí za „aktivní“.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">Je-li zapnuto, 白い熊 考直 používá všechny dostupné sítě k připojení k internetu. Jinak použije tu, kterou Android označí za „aktivní“.</string>
     <string name="settings_check_update_desc" translatable="true">Automaticky vyhledávat aktualizace jednou týdně.</string>
     <string name="settings_import_export_heading" translatable="true">Záloha &amp; Obnova</string>
     <string name="settings_import_export_desc" translatable="true">Ruční záloha nebo obnova dat a nastavení aplikace.</string>
@@ -341,8 +341,8 @@
     <string name="settings_app_notification_persistent_desc" translatable="true">Udržovat oznámení neustále zobrazené</string>
     <string name="settings_theme_desc" translatable="true">Tmavý/světlý motiv</string>
     <string name="settings_go_log_heading" translatable="true">Úroveň logů</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Směřovat vlastní provoz Rethink (stahování blokovacích seznamů, kontroly připojení, DNS) zpět do tunelu.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Rethink směřuje vlastní provoz přes tunel. Pokud nevíte, co děláte, raději to vypněte.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Směřovat vlastní provoz 白い熊 考直 (stahování blokovacích seznamů, kontroly připojení, DNS) zpět do tunelu.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">白い熊 考直 směřuje vlastní provoz přes tunel. Pokud nevíte, co děláte, raději to vypněte.</string>
     <string name="settings_http_proxy_desc" translatable="true">Přesměrování na %1$s</string>
     <string name="settings_dns_proxy_dialog_header" translatable="true">Nastavit SOCKS5 Proxy</string>
     <string name="settings_http_proxy_dialog_title" translatable="true">Vlastní URL serveru</string>
@@ -371,7 +371,7 @@
     <string name="settings_notification_desc1" translatable="true">Pozastavit / Zastavit (výchozí)</string>
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + Firewall</string>
     <string name="settings_notification_dialog_title" translatable="true">Vybrat akci notifikace</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\nPozastavit / Zastavit (výchozí): Zobrazí dvě tlačítka pro rychlé pozastavení a zastavení Rethinku.</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\nPozastavit / Zastavit (výchozí): Zobrazí dvě tlačítka pro rychlé pozastavení a zastavení 白い熊 考直u.</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nDNS / DNS + Firewall: Zobrazí dvě tlačítka pro rychlé přepínání mezi režimem DNS pro úsporu baterie a běžným DNS + Firewall.</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\nŽádné: Nezobrazí žádné tlačítko.\n</string>
     <string name="settings_locale_heading" translatable="true">Změnit jazyk</string>
@@ -389,13 +389,13 @@
     <string name="firewall_status_block_metered" translatable="true">blokováno v účtované (mobilní) síti</string>
     <string name="firewall_status_unknown" translatable="true">neznámé</string>
     <string name="ct_bs_app_info_error" translatable="true">Informace o aplikaci nenalezeny</string>
-    <string name="hs_biometeric_title" translatable="true">Odemkněte Rethink</string>
+    <string name="hs_biometeric_title" translatable="true">Odemkněte 白い熊 考直</string>
     <string name="settings_pcap_dialog_option_1" translatable="true">Vypnuto (výchozí)</string>
     <string name="firewall_status_allow" translatable="true">povoleno</string>
     <string name="firewall_status_isolate" translatable="true">izolováno</string>
     <string name="firewall_status_whitelisted" translatable="true">obchází univerzální firewallová pravidla</string>
     <string name="firewall_status_bypass_dns_firewall" translatable="true">obchází dns &amp; firewallová pravidla</string>
-    <string name="hs_biometeric_desc" translatable="true">Pro odemknutí Rethinku použijte biometrické ověření</string>
+    <string name="hs_biometeric_desc" translatable="true">Pro odemknutí 白い熊 考直u použijte biometrické ověření</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">Biometrické ověření není podporováno nebo je zakázáno na tomto zařízení</string>
     <string name="hs_biometeric_failed" translatable="true">Biometrické ověření selhalo</string>
     <string name="hs_biometeric_error" translatable="true">Chyba biometrického ověření</string>
@@ -421,14 +421,14 @@
     <string name="hsf_whats_new_remove_text" translatable="true">Zavírám…</string>
     <string name="hsf_blocklist_updating_text" translatable="true">Povoluji…</string>
     <string name="hsf_chip_appearance" translatable="true">Motiv: %1$s</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">Nelze pozastavit: Rethink není aktivní</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">Nelze pozastavit: 白い熊 考直 není aktivní</string>
     <string name="lbl_battery_optimization" translatable="true">Optimalizace baterie</string>
     <string name="battery_optimization_dialog_heading" translatable="true">Vypnout %1$s</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> může vést ke ztrátě konektivity. Změňte nastavení, abyste Rethinku povolili používat data a další prostředky na pozadí.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> může vést ke ztrátě konektivity. Změňte nastavení, abyste 白い熊 考直u povolili používat data a další prostředky na pozadí.</string>
     <string name="dc_block_heading" translatable="true">pravidla</string>
     <string name="dc_other_dns_heading" translatable="true">typ</string>
     <string name="dc_custom_dns_radio" translatable="true">Jiné DNS</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="dc_local_block_heading" translatable="true">Blokovací seznamy v zařízení</string>
     <string name="dc_local_block_desc_1" translatable="true">Vyberte si z 195+ blokovacích seznamů. Klepnutím stáhněte nebo upravte seznamy.</string>
     <string name="dc_custom_block_heading" translatable="true">Doménová pravidla</string>
@@ -437,7 +437,7 @@
     <string name="dc_proxy_dns_desc" translatable="true">Nepoužívat proxy pro DNS při Always-on WireGuard, SOCKS5, HTTP proxyně.</string>
     <string name="dc_dns_website_desc" translatable="true">Stahuje ikony webů z <i>nextdns.io</i> a <i>duckduckgo.com</i>. Může spotřebovat až 350 MB diskového prostoru</string>
     <string name="dc_dns_leaks_heading" translatable="true">Zamezit únikům DNS</string>
-    <string name="dc_dns_leaks_desc" translatable="true">Je-li zapnuto, Rethink zachytává všechny pakety na portu 53 a přesměrovává je na uživatelsky zvolené DNS</string>
+    <string name="dc_dns_leaks_desc" translatable="true">Je-li zapnuto, 白い熊 考直 zachytává všechny pakety na portu 53 a přesměrovává je na uživatelsky zvolené DNS</string>
     <string name="dc_check_update_heading" translatable="true">Upozornit na aktualizaci blokovacích seznamů</string>
     <string name="about_bravedns_explantion" translatable="true">Rethink je nejjednodušší způsob, jak monitorovat aktivitu aplikací, obcházet internetovou cenzuru a firewallovat aplikace na zařízení s Androidem.</string>
     <string name="about_bravedns_whoarewe" translatable="true">Rethink je bezplatný open-source projekt, který vedou bývalí inženýři Amazonu, IBM a Scientific Games.</string>
@@ -562,8 +562,8 @@
     <string name="settings_local_blocklist_in_use" translatable="true">Používá se %1$s blokovacích seznamů</string>
     <string name="settings_local_blocklist_dialog_positive" translatable="true">Stáhnout</string>
     <string name="settings_local_blocklist_version" translatable="true">Verze: v%1$s</string>
-    <string name="accessibility_notification_content" translatable="true">Služba zpřístupnění Rethink se zastavila nebo spadla. Už neblokuje aplikace na pozadí. Klepněte pro opětovné zapnutí.</string>
-    <string name="accessibility_failure_toast" translatable="true">Služba zpřístupnění Rethink se zastavila nebo spadla. Aplikace na pozadí již nejsou blokovány.</string>
+    <string name="accessibility_notification_content" translatable="true">Služba zpřístupnění 白い熊 考直 se zastavila nebo spadla. Už neblokuje aplikace na pozadí. Klepněte pro opětovné zapnutí.</string>
+    <string name="accessibility_failure_toast" translatable="true">Služba zpřístupnění 白い熊 考直 se zastavila nebo spadla. Aplikace na pozadí již nejsou blokovány.</string>
     <string name="toast_allow_bypass_disabled" translatable="true">%1$s je vypnuto, protože jsou aktivní proxy</string>
     <string name="pause_desc" translatable="true">Poznámka: %1$s blokovaných aplikací bude nadále firewallováno.</string>
     <string name="other_dns_list_tab1" translatable="true">DoH</string>
@@ -604,8 +604,8 @@
     <string name="notif_channel_vpn_failure" translatable="true">Neaktivní VPN</string>
     <string name="notif_channel_firewall_alerts" translatable="true">Upozornění Firewall</string>
     <string name="notif_channel_proxy_failure" translatable="true">Upozornění Proxy</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">Informovat, když Rethink běží na pozadí</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">Informovat, když je Rethink ukončen Androidem nebo jinou VPN aplikací</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">Informovat, když 白い熊 考直 běží na pozadí</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">Informovat, když je 白い熊 考直 ukončen Androidem nebo jinou VPN aplikací</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">Upozorňovat na chyby a anomálie Firewallu</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">Upozorňovat na chyby a anomálie Proxy</string>
     <string name="notif_channed_desc_download" translatable="true">Upozorňovat na průběh stahování On-device blokovacích seznamů</string>
@@ -663,7 +663,7 @@
     <string name="ada_app_isolate" translatable="true">Izolovat</string>
     <string name="ada_app_dns_settings" translatable="true">Nastavení DNS</string>
     <string name="ada_delete_logs_dialog_desc" description="Appears as dialog description to clear the logs in app specific screen" translatable="true">Smazat všechny záznamy související s touto aplikací.</string>
-    <string name="bypass_dns_firewall_tooltip">%1$s funguje pouze s DNS Rethink</string>
+    <string name="bypass_dns_firewall_tooltip">%1$s funguje pouze s DNS 白い熊 考直</string>
     <string name="bsdl_blocked_desc" translatable="true">blokováno %1$s přes %2$s</string>
     <string name="network_dns" translatable="true">Systémové DNS</string>
     <string name="notif_download_content_text" translatable="true">Probíhá stahování…</string>
@@ -753,7 +753,7 @@
     <string name="firewall_rule_device_lock" translatable="true">Zařízení uzamčeno</string>
     <string name="firewall_rule_foreground" translatable="true">Aplikace není v popředí</string>
     <string name="rt_filter_hint" translatable="true">Zobrazuji <u>všechny</u> blokovací seznamy</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink běží v režimu VPN Lockdown. Pokud jej zastavíte, ztratíte připojení k internetu v tomto uživatelském profilu. Opravdu chcete pokračovat?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 běží v režimu VPN Lockdown. Pokud jej zastavíte, ztratíte připojení k internetu v tomto uživatelském profilu. Opravdu chcete pokračovat?</string>
     <string name="always_on_dialog_neutral" translatable="true">Nastavení</string>
     <string name="doh_custom_url_remove_dialog_title" translatable="true">Smazat DoH endpoint?</string>
     <string name="doh_custom_url_remove_dialog_message" translatable="true">Smazat DNS over HTTPS endpoint z uložené konfigurace.</string>
@@ -762,7 +762,7 @@
     <string name="relative_time_yesterday" translatable="true">Včera</string>
     <string name="settings_connectivity_checks" translatable="true">Provádět kontroly připojení</string>
     <string name="settings_connectivity_checks_desc" translatable="true">Ke zjištění dosažitelnosti jsou odesílány testy připojení.</string>
-    <string name="orbot_explanation" translatable="true">Orbot je bezplatná proxy aplikace, která umožňuje ostatním aplikacím používat internet více &lt;u&gt;bezpečně&lt;/u&gt;.&lt;br/&gt;\nOrbot využívá &lt;u&gt;Tor&lt;/u&gt; k šifrování vašeho internetového provozu, což pomáhá &lt;u&gt;obejít cenzuru&lt;/u&gt; a chránit před formami &lt;u&gt;sledování sítě&lt;/u&gt;, které ohrožují osobní svobodu a soukromí.&lt;br/&gt;\n&lt;u&gt;TCP Proxy&lt;/u&gt;: Rethink přeposílá pouze TCP spojení &lt;i&gt;zahrnutých&lt;/i&gt; aplikací do Orbotu.\n&lt;u&gt;HTTP Proxy&lt;/u&gt;: Rethink &lt;i&gt;vytváří&lt;/i&gt; HTTP CONNECT tunel do Orbotu a přeposílá pouze TCP spojení &lt;i&gt;zahrnutých&lt;/i&gt; aplikací.</string>
+    <string name="orbot_explanation" translatable="true">Orbot je bezplatná proxy aplikace, která umožňuje ostatním aplikacím používat internet více &lt;u&gt;bezpečně&lt;/u&gt;.&lt;br/&gt;\nOrbot využívá &lt;u&gt;Tor&lt;/u&gt; k šifrování vašeho internetového provozu, což pomáhá &lt;u&gt;obejít cenzuru&lt;/u&gt; a chránit před formami &lt;u&gt;sledování sítě&lt;/u&gt;, které ohrožují osobní svobodu a soukromí.&lt;br/&gt;\n&lt;u&gt;TCP Proxy&lt;/u&gt;: 白い熊 考直 přeposílá pouze TCP spojení &lt;i&gt;zahrnutých&lt;/i&gt; aplikací do Orbotu.\n&lt;u&gt;HTTP Proxy&lt;/u&gt;: 白い熊 考直 &lt;i&gt;vytváří&lt;/i&gt; HTTP CONNECT tunel do Orbotu a přeposílá pouze TCP spojení &lt;i&gt;zahrnutých&lt;/i&gt; aplikací.</string>
     <string name="settings_https_disabled_error" translatable="true">Připojeno k %1$s. Vypněte jej pro pokračování.</string>
     <string name="settings_orbot_notification_content" translatable="true">Nepodařilo se spustit Tor jako proxy. Otevřete aplikaci Orbot a spusťte ji ručně.</string>
     <string name="settings_custom_downloader_heading" translatable="true">Použít vestavěný stahovač</string>
@@ -772,13 +772,13 @@
     <string name="settings_ip_dialog_ipv4" translatable="true">IPv4 (výchozí)</string>
     <string name="settings_ip_dialog_ipv6" translatable="true">IPv6 (experimentální)</string>
     <string name="settings_ip_text_ipv46" translatable="true">Auto</string>
-    <string name="settings_notification_desc" translatable="true">Tlačítka akce, která se mají zobrazit v oznámení Rethink: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">Tlačítka akce, která se mají zobrazit v oznámení 白い熊 考直: %1$s</string>
     <string name="settings_pcap_dialog_option_2" translatable="true">Výstup do Logcat</string>
     <string name="settings_pcap_dialog_option_3" translatable="true">Výstup do složky Stažené soubory</string>
     <string name="apps_icon_content_desc" translatable="true">Ikona aplikace</string>
     <string name="firewall_status_excluded" translatable="true">vyloučeno z dns a firewallu</string>
     <string name="hsf_stop_btn_state" translatable="true">zastavit</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink potřebuje oprávnění k nastavení místní VPN, aby šifroval DNS požadavky zařízení, implementoval monitorování sítě a prosazoval pravidla firewallu.\n\nRethink neshromažďuje žádné informace ani vás nijak nesleduje.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 potřebuje oprávnění k nastavení místní VPN, aby šifroval DNS požadavky zařízení, implementoval monitorování sítě a prosazoval pravidla firewallu.\n\n白い熊 考直 neshromažďuje žádné informace ani vás nijak nesleduje.</string>
     <string name="hsf_proxy_chip_text" translatable="true">Proxy aktivní</string>
     <string name="hsf_packet_capture_chip_text" translatable="true">Zachytávání paketů aktivní</string>
     <string name="hsf_blocklist_chip_text_no_data" translatable="true">Povolit RDNS+</string>
@@ -819,8 +819,8 @@
     <string name="firewall_rule_domain_trusted_univ" translatable="true">Důvěryhodná doména (Univ)</string>
     <string name="firewall_rule_proxied" translatable="true">Proxy</string>
     <string name="new_app_bulk_notification_title" translatable="true">Pozor</string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink zablokoval %1$s nových aplikací. Klepněte pro zobrazení nebo úpravu.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink zablokoval nedávno nainstalovanou aplikaci, %1$s.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 zablokoval %1$s nových aplikací. Klepněte pro zobrazení nebo úpravu.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 zablokoval nedávno nainstalovanou aplikaci, %1$s.</string>
     <string name="new_app_notification_action_deny" translatable="true">Pokračovat v blokování</string>
     <string name="build__flavor_fdroid" translatable="true">fdroid</string>
     <string name="category_name_installed" translatable="true">Nainstalované aplikace</string>
@@ -884,7 +884,7 @@
     <string name="brbs_restore_dialog_title" translatable="true">Obnovit zálohu</string>
     <string name="brbs_restore_dialog_message" translatable="true">Obnoví nastavení aplikace, síťové a DNS logy ze souboru zálohy. Aplikace se poté restartuje.</string>
     <string name="rsv_blocklist_count_text" description="This label will appear in rethink configure simple view screen which shows number of blocklists for each category" translatable="true">%1$s blokovacích seznamů</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Spusťte Rethink pro pokračování</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">Spusťte 白い熊 考直 pro pokračování</string>
     <string name="bad_config_reason_invalid_number" translatable="true">Neplatné číslo</string>
     <string name="bad_config_reason_invalid_value" translatable="true">Neplatná hodnota</string>
     <string name="bad_config_reason_missing_attribute" translatable="true">Chybějící atribut</string>
