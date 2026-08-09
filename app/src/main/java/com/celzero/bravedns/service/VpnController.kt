@@ -170,13 +170,14 @@ object VpnController : KoinComponent {
         rvpn?.refreshProxies()
     }
 
-    // Fork (白い熊 考直): DNS-watchdog entry points (see KojikiDnsWatchdog)
+    // Fork (白い熊 考直): DNS-watchdog entry points (see KojikiDnsWatchdog).
+    // Upstream renamed the service field braveVpnService -> rvpn on the v0.5.6 base.
     fun kojikiForceEngineRestart(reason: String) {
-        braveVpnService?.kojikiForceEngineRestart(reason)
+        rvpn?.kojikiForceEngineRestart(reason)
     }
 
     fun kojikiContext(): Context? {
-        return braveVpnService
+        return rvpn
     }
 
     fun hasTunnel(): Boolean {

@@ -1329,10 +1329,32 @@ abstract class AppDatabase : RoomDatabase() {
                     // and the ALTER simply throws and is ignored.
                     try {
                         db.execSQL("ALTER TABLE WgConfigFiles ADD COLUMN modifiedTs INTEGER NOT NULL DEFAULT 0")
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_30_31: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
                     } catch (e: Exception) {
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_30_31: WgConfigFiles.modifiedTs already present, ignore")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: WgConfigFiles.modifiedTs already present, ignore")
                     }
+                    // Fork (白い熊 考直): the SAME collision, one version up. "31" means two different
+                    // schemas: an earlier fork build stamped 31 after ITS 30→31 created SnoopEvent,
+                    // whereas upstream's v0.5.6 stamps 31 after ITS 30→31 creates Sponsor. A DB from
+                    // the fork lineage is therefore stamped 31 with NO Sponsor table, Room skips
+                    // upstream's 30→31, and open dies with "Migration didn't properly handle: Sponsor
+                    // ... Found: columns = { }". Create it idempotently here, with upstream's exact
+                    // DDL, so both lineages converge on the same schema at 32.
+                    db.execSQL(
+                        """
+                        CREATE TABLE IF NOT EXISTS Sponsor (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            purchase_token TEXT NOT NULL,
+                            product_id TEXT NOT NULL,
+                            purchase_time INTEGER NOT NULL,
+                            sponsor_since INTEGER NOT NULL,
+                            consumed INTEGER NOT NULL DEFAULT 1,
+                            contribution_count INTEGER NOT NULL DEFAULT 1,
+                            last_contribution_time INTEGER NOT NULL DEFAULT 0
+                        )
+                        """.trimIndent()
+                    )
+                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: ensured Sponsor table (fork-31 reconcile)")
                     db.execSQL(
                         """
                         CREATE TABLE IF NOT EXISTS `SnoopEvent` (
