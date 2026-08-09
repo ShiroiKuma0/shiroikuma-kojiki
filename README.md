@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.5y+13`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+2`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -52,7 +52,7 @@ Three broadcast receivers let external tools (Tasker, adb, companion apps) drive
 ---
 
 ## Built on RethinkDNS
-A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.5y`), shipping the tag’s pinned engine with a small fork patch for the DoH idle-pool wedge (offered upstream). The code remains under Apache-2.0.
+A fork of [celzero/rethink-app](https://github.com/celzero/rethink-app) (app id `shiroikuma.kojiki`, so it coexists with the official build). All the heavy lifting — the userspace WireGuard engine, the OpenSnitch-style firewall, the DNS-over-HTTPS/TLS/DNSCrypt client — is RethinkDNS and its [firestack](https://github.com/celzero/firestack) data plane; this fork tracks upstream’s released tags (currently `v0.5.6`), shipping the tag’s pinned engine with a small fork patch for the DoH idle-pool wedge (offered upstream as [firestack#241](https://github.com/celzero/firestack/issues/241), and since **partly adopted** — upstream now shortens the pool to 30 s, though that still sits exactly on the shortest observed resolver idle window and adds no HTTP/2 PING health-checks, so the fork keeps its own 10 s + PING patch on top). The code remains under Apache-2.0.
 
 ## Building
 ```bash
