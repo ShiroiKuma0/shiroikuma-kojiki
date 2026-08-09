@@ -5,11 +5,11 @@
     <string name="settings_lock_down_mode_desc">VPN যখন লকডাউন মোডে চলছে তখন বাইপাস, বা সেটআপ প্রক্সিগুলিকে অনুমতি দেওয়া যাবে না৷ <u>VPN সেটিংসে যান</u>।</string>
     <string name="settings_proxy_header">প্রক্সি</string>
     <string name="settings_ptrans_desc">আউটবাউন্ড IPv6 ট্রাফিককে IPv4 অন-ডিভাইসে অনুবাদ করুন। আপনি যদি শুধুমাত্র IPv4 নেটওয়ার্কের সাথে সংযুক্ত থাকেন তাহলে সক্ষম করুন৷</string>
-    <string name="orbot_stop_dialog_dns_message">RethinkDNS সেটআপ করা হয়েছে DNS প্রশ্নগুলি অরবটে ফরোয়ার্ড করার জন্য। প্রয়োজন অনুযায়ী পরিবর্তন করুন।</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 সেটআপ করা হয়েছে DNS প্রশ্নগুলি অরবটে ফরোয়ার্ড করার জন্য। প্রয়োজন অনুযায়ী পরিবর্তন করুন।</string>
     <string name="orbot_stop_dialog_negative">অরবট বন্ধ করুন</string>
     <string name="orbot_stop_dialog_neutral">DNS পরিবর্তন করুন</string>
     <string name="orbot_title">অরবট এবং প্রক্সি</string>
-    <string name="orbot_stop_dialog_message">RethinkDNS অরবোটে সংযোগ ফরওয়ার্ড করা বন্ধ করেছে, কিন্তু অরবট হয়তো পটভূমিতে চলছে।</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 অরবোটে সংযোগ ফরওয়ার্ড করা বন্ধ করেছে, কিন্তু অরবট হয়তো পটভূমিতে চলছে।</string>
     <string name="dns_btm_sheet_chip_no_answer">উত্তর নেই</string>
     <string name="dns_btm_resolved_crypt">সমাধান করা হয়েছে &lt;u&gt;বেনামে&lt;/u&gt; %1$s দ্বারা %2$s</string>
     <string name="dns_btm_resolved_doh_no_server">সমাধান করা হয়েছে %1$s</string>
@@ -17,7 +17,7 @@
     <string name="settings_dns_proxy_dialog_app_desc" translatable="false">নির্বাচিত অ্যাপটিকে আপনার পক্ষ থেকে প্রক্সি সংযোগ করতে দেওয়ার জন্য VPN থেকে বাদ দেওয়া হবে।</string>
     <string name="status_protected_with_http_private_dns">HTTP প্রক্সি এবং ব্যক্তিগত ডিএনএস দিয়ে সুরক্ষিত</string>
     <string name="status_protected_with_http">HTTP প্রক্সি দিয়ে সুরক্ষিত</string>
-    <string name="always_on_dialog_lockdown_stop_message">RethinkDNS <i>লকডাউন</i> মোডে VPN চালাচ্ছে। এটি বন্ধ করার ফলে এই ব্যবহারকারীর প্রোফাইলে ইন্টারনেট সংযোগ নষ্ট হবে৷ আপনি কি যাইহোক চালিয়ে যেতে চান?</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直 <i>লকডাউন</i> মোডে VPN চালাচ্ছে। এটি বন্ধ করার ফলে এই ব্যবহারকারীর প্রোফাইলে ইন্টারনেট সংযোগ নষ্ট হবে৷ আপনি কি যাইহোক চালিয়ে যেতে চান?</string>
     <string name="dns_crypt_url_remove_success">DNSCrypt সমাধানকারী মুছে ফেলা হয়েছে।</string>
     <string name="hsf_start_dialog_message">আপনি নিরাপদ এবং সুরক্ষিত অ্যান্ড্রয়েড থেকে এক ধাপ দূরে: তাৎক্ষণিকভাবে নেটওয়ার্ক কার্যকলাপ, ওয়েবসাইট ব্লক করুন, আইপি এবং খারাপ আচরণকারী অ্যাপগুলি দেখুন৷</string>
     <string name="about_faq">FAQs দেখুন</string>
@@ -128,7 +128,7 @@
     <string name="contributors_dialog_title">লেখক</string>
     <string name="cd_custom_dns_proxy_title">কাস্টম DNS প্রক্সি</string>
     <string name="fapps_filter_parent_system">সিস্টেম</string>
-    <string name="slide_1_desc">RethinkDNS হল Mozilla Builders MVP প্রোগ্রাম দ্বারা সমর্থিত একটি ওপেন সোর্স সফটওয়্যার।</string>
+    <string name="slide_1_desc">白い熊 考直 হল Mozilla Builders MVP প্রোগ্রাম দ্বারা সমর্থিত একটি ওপেন সোর্স সফটওয়্যার।</string>
     <string name="status_protected_with_tor">টর দিয়ে সুরক্ষিত</string>
     <string name="notification_action_stop_vpn">স্টপ</string>
     <string name="brave_dns_connect_mode_change_dns">মোড নির্বাচন করুন।</string>
@@ -197,7 +197,7 @@
     <string name="dns_proxy_remove_success">DNS প্রক্সি মুছে ফেলা হয়েছে৷</string>
     <string name="orbot_bs_status_4">টর-এ-এ-প্রক্সি (অরবট) সেটআপে এক-ক্লিক করুন।</string>
     <string name="orbot_bs_status_trying_connect">অরবট সেট আপ করা হচ্ছে…</string>
-    <string name="settings_socks5_vpn_disabled_error">এগিয়ে যেতে RethinkDNS শুরু করুন।</string>
+    <string name="settings_socks5_vpn_disabled_error">এগিয়ে যেতে 白い熊 考直 শুরু করুন।</string>
     <string name="settings_autostart_bootup_heading">পাওয়ার-আপে অটো-স্টার্ট (পরীক্ষামূলক)</string>
     <string name="settings_check_update_desc">সপ্তাহে একবার অ্যাপ আপডেটের জন্য স্বয়ংক্রিয়ভাবে পরীক্ষা করুন।</string>
     <string name="settings_http_proxy_error_text3">হোস্টনাম খালি</string>
@@ -255,7 +255,7 @@
     <string name="search_firewall_all_apps"><font size="12">অ্যাপগুলি অনুসন্ধান করুন</font></string>
     <string name="app_mode_dns_low_battery">DNS (ব্যাটারি সেভার)</string>
     <string name="settings_orbot_heading">অরবট সেটআপ করুন</string>
-    <string name="settings_network_all_networks_desc">সক্রিয় করা হলে, RethinkDNS ইন্টারনেটের সাথে সংযোগ করতে সমস্ত উপলব্ধ নেটওয়ার্ক ব্যবহার করে। যদি তা না হয়, তবে এটি Android দ্বারা <i>সক্রিয়</i> হিসাবে বিবেচিত যে কোনও নেটওয়ার্ক ব্যবহার করে৷</string>
+    <string name="settings_network_all_networks_desc">সক্রিয় করা হলে, 白い熊 考直 ইন্টারনেটের সাথে সংযোগ করতে সমস্ত উপলব্ধ নেটওয়ার্ক ব্যবহার করে। যদি তা না হয়, তবে এটি Android দ্বারা <i>সক্রিয়</i> হিসাবে বিবেচিত যে কোনও নেটওয়ার্ক ব্যবহার করে৷</string>
     <string name="settings_ip_dialog_title">আইপি সংস্করণ চয়ন করুন</string>
     <string name="settings_ip_dialog_ipv46">স্বয়ংক্রিয় (পরীক্ষামূলক)</string>
     <string name="settings_ip_text_ipv4">IPv4</string>
@@ -281,7 +281,7 @@
     <string name="settings_theme_dialog_themes_4">সত্যিকারের কালো</string>
     <string name="settings_notification_desc2">DNS / DNS + ফায়ারওয়াল</string>
     <string name="ct_bs_app_info_error">অ্যাপের তথ্য পাওয়া যায়নি</string>
-    <string name="dc_rethink_dns_radio">RethinkDNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直</string>
     <string name="about_github">GitHub-এ অবদান রাখুন</string>
     <string name="about_mail_subject">[RethinkDNS]:</string>
     <string name="cd_custom_doh_dialog_title">কাস্টম সার্ভার URL</string>
@@ -295,7 +295,7 @@
     <string name="settings_dns_proxy_dialog_app">অ্যাপ</string>
     <string name="settings_notification_heading">বিজ্ঞপ্তি কর্ম চয়ন করুন</string>
     <string name="hsf_vpn_dialog_header">মনোযোগ!</string>
-    <string name="hsf_blocklist_chip_text_no_data">RethinkDNS+ সক্ষম করুন</string>
+    <string name="hsf_blocklist_chip_text_no_data">白い熊 考直+ সক্ষম করুন</string>
     <string name="dc_local_block_desc_1">185+ ব্লকলিস্ট থেকে বেছে নিন। ব্লকলিস্ট ডাউনলোড বা কনফিগার করতে এখানে ক্লিক করুন।</string>
     <string name="about_mail_bugreport_subject">[RethinkDns]: বাগ রিপোর্ট</string>
     <string name="about_twitter_handle" translatable="false">https://twitter.com/rethinkdns</string>
@@ -345,26 +345,24 @@
     <string name="about_dialog_neutral_button">বৈশিষ্ট্য প্রস্তাব করুন</string>
     <string name="univ_firewall_rule_1">ডিভাইস লক হয়ে গেলে সমস্ত অ্যাপ ব্লক করুন</string>
     <string name="univ_firewall_rule_7">IPv6 তে IPv4 ব্লক করুন (পরীক্ষামূলক)</string>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="pause_title_desc">ঘুমানো…</string>
-    <string name="app_name_small_case" translatable="false">rethink</string>
-    <string name="title_settings">পছন্দসমূহ</string>
+        <string name="pause_title_desc">ঘুমানো…</string>
+        <string name="title_settings">পছন্দসমূহ</string>
     <string name="title_about">বিস্তারিত</string>
     <string name="finish">শেষ করুন</string>
     <string name="settings_title_desc">একটি অত্যন্ত কাস্টমাইজযোগ্য DNS এবং ফায়ারওয়াল</string>
     <string name="skip">এড়িয়ে যান</string>
-    <string name="accessibility_service_description">RethinkDNS ব্যাকগ্রাউন্ড অ্যাপ্লিকেশন সনাক্ত করতে এবং ফায়ারওয়াল করার জন্য অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে। RethinkDNS কোনো তথ্য সংগ্রহ বা বিক্রি করে না।</string>
-    <string name="slide_2_desc">RethinkDNS হল নেটওয়ার্ক কার্যকলাপ নিরীক্ষণ, ইন্টারনেট সেন্সরশিপ বাইপাস, এবং আপনার Android ডিভাইসে ফায়ারওয়াল অ্যাপ্লিকেশানগুলির সবচেয়ে সহজ উপায়৷</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">ব্যক্তিগত ডিএনএস সক্রিয় করা হয়েছে</string>
+    <string name="accessibility_service_description">白い熊 考直 ব্যাকগ্রাউন্ড অ্যাপ্লিকেশন সনাক্ত করতে এবং ফায়ারওয়াল করার জন্য অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে। 白い熊 考直 কোনো তথ্য সংগ্রহ বা বিক্রি করে না।</string>
+    <string name="slide_2_desc">白い熊 考直 হল নেটওয়ার্ক কার্যকলাপ নিরীক্ষণ, ইন্টারনেট সেন্সরশিপ বাইপাস, এবং আপনার Android ডিভাইসে ফায়ারওয়াল অ্যাপ্লিকেশানগুলির সবচেয়ে সহজ উপায়৷</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">ব্যক্তিগত ডিএনএস সক্রিয় করা হয়েছে</string>
     <string name="exclude">বাদ</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">সতর্কতা: RethinkDNS নিষ্ক্রিয় করা হয়েছে</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">সতর্কতা: 白い熊 考直 নিষ্ক্রিয় করা হয়েছে</string>
     <string name="firewall_mode_notification_title">সুরক্ষিত ! ফায়ারওয়ালের সাথে সংযুক্ত।</string>
     <string name="status_protected_with_proxy_private_dns">প্রক্সি এবং ব্যক্তিগত ডিএনএস দিয়ে সুরক্ষিত</string>
     <string name="status_protected_with_socks5">মোজা প্রক্সি দিয়ে সুরক্ষিত</string>
-    <string name="alert_firewall_accessibility_explanation">RethinkDNS অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে কোন অ্যাপগুলি ব্যবহার করা হচ্ছে (ফোরগ্রাউন্ড) বনাম যেগুলি ব্যবহারে নেই (পটভূমিতে) তা ট্র্যাক করতে। \n \nRethinkDNS কোনো তথ্য সংগ্রহ করে না বা কোনোভাবেই আপনার উপর গুপ্তচরবৃত্তি করে না।</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে কোন অ্যাপগুলি ব্যবহার করা হচ্ছে (ফোরগ্রাউন্ড) বনাম যেগুলি ব্যবহারে নেই (পটভূমিতে) তা ট্র্যাক করতে। \n \n白い熊 考直 কোনো তথ্য সংগ্রহ করে না বা কোনোভাবেই আপনার উপর গুপ্তচরবৃত্তি করে না।</string>
     <string name="bsct_block">ব্লক করুন, বাইপাস করুন, বাদ দিন, লকডাউন করুন &lt;u&gt;এই অ্যাপটি&lt;/u&gt;</string>
     <string name="untracked">আনট্র্যাক করা</string>
-    <string name="dns_explanation_dns_connected">RethinkDNS এর সাথে সংযুক্ত</string>
+    <string name="dns_explanation_dns_connected">白い熊 考直 এর সাথে সংযুক্ত</string>
     <string name="notification_action_dns_firewall_mode">DNS + ফায়ারওয়াল</string>
     <string name="dns_mode_notification_title">সুরক্ষিত ! দ্রুত এবং নিরাপদ DNS এর সাথে সংযুক্ত।</string>
     <string name="status_protected_with_proxy">প্রক্সি দিয়ে সুরক্ষিত</string>
@@ -376,7 +374,7 @@
     <string name="dns_firewall_mode_info_explanation_new">উপরের সবগুলো + বাইপাস ইন্টারনেট সেন্সরশিপ।</string>
     <string name="dns_crypt_relay_remove_dialog_message">সংরক্ষিত কনফিগারেশন থেকে DNSCrypt রিলে মুছুন।</string>
     <string name="custom_url_error_invalid_url">অবৈধ ইউ আর এল</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">RethinkDNS অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ <i><b>সেটিংসে যান এবং ফোর্স স্টপ</b></i> রিথিঙ্কডিএনএসে যান এবং <i>ব্যবহৃত নয় এমন কোনো অ্যাপ ব্লক করুন</i> বৈশিষ্ট্যটি ব্যবহার করতে এটি আবার শুরু করুন। \n \nRethinkDNS অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে কোন অ্যাপগুলি ব্যবহার করা হচ্ছে (ফোরগ্রাউন্ড) বনাম যেগুলি ব্যবহারে নেই (পটভূমিতে) তা ট্র্যাক করতে।</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">白い熊 考直 অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ <i><b>সেটিংসে যান এবং ফোর্স স্টপ</b></i> রিথিঙ্কডিএনএসে যান এবং <i>ব্যবহৃত নয় এমন কোনো অ্যাপ ব্লক করুন</i> বৈশিষ্ট্যটি ব্যবহার করতে এটি আবার শুরু করুন। \n \n白い熊 考直 অ্যাক্সেসিবিলিটি পরিষেবা ব্যবহার করে কোন অ্যাপগুলি ব্যবহার করা হচ্ছে (ফোরগ্রাউন্ড) বনাম যেগুলি ব্যবহারে নেই (পটভূমিতে) তা ট্র্যাক করতে।</string>
     <string name="alert_firewall_accessibility_exception">অ্যাক্সেসিবিলিটি সেটিংস খোলার ব্যর্থতা৷ পরে আবার চেষ্টা করুন!</string>
     <string name="conn_track_clear_logs_title">সমস্ত নেটওয়ার্ক লগ মুছবেন?</string>
     <string name="bsct_conn_desc_blocked">%1$s %2$s এ অবরুদ্ধ</string>
@@ -413,10 +411,10 @@
     <string name="settings_socks5_dialog_hint_username">ব্যবহারকারীর নাম (ঐচ্ছিক)</string>
     <string name="firewall_status_whitelisted">সার্বজনীন ফায়ারওয়াল নিয়ম বাইপাস করে</string>
     <string name="orbot_install_dialog_message">অরবট অ্যান্ড্রয়েডে টরের বৈশিষ্ট্য এবং কার্যকারিতা নিয়ে আসে।</string>
-    <string name="orbot_explanation">Orbot হল একটি বিনামূল্যের প্রক্সি অ্যাপ যা অন্যান্য অ্যাপকে আরও বেশি &lt;u&gt;নিরাপদভাবে&lt;/u&gt; ইন্টারনেট ব্যবহার করার ক্ষমতা দেয়।অরবট আপনার ইন্টারনেট ট্র্যাফিক এনক্রিপ্ট করতে &lt;u&gt;Tor&lt;/u&gt; ব্যবহার করে যা আপনাকে &lt;u&gt;সেন্সরশিপ বাইপাস&lt;/u&gt; করতে এবং ব্যক্তিগত স্বাধীনতা এবং গোপনীয়তাকে হুমকিস্বরূপ &lt;u&gt;নেটওয়ার্ক নজরদারি &lt;/u&gt; এর রূপগুলি থেকে রক্ষা করতে সহায়তা করে৷ \n&lt;u&gt;TCP প্রক্সি&lt;/u&gt;: RethinkDNS অরবোটে বাদ দেওয়া অ্যাপ ছাড়া শুধুমাত্র TCP কানেকশন ফরোয়ার্ড করে। \n&lt;u&gt;HTTP প্রক্সি&lt;/u&gt;: RethinkDNS &lt;i&gt;সেট&lt;/i&gt; HTTP প্রক্সি কিন্তু প্রয়োগ করে না যে অ্যাপগুলি এটি ব্যবহার করে। সাধারণত, Chrome এবং Firefox এর মতো ব্রাউজারগুলি এটি ব্যবহার করে। HTTP(S) প্রক্সি ব্যবহার করা অ্যাপগুলি ফায়ারওয়াল এবং DNS উভয় নিয়মকে বাইপাস করবে।</string>
+    <string name="orbot_explanation">Orbot হল একটি বিনামূল্যের প্রক্সি অ্যাপ যা অন্যান্য অ্যাপকে আরও বেশি &lt;u&gt;নিরাপদভাবে&lt;/u&gt; ইন্টারনেট ব্যবহার করার ক্ষমতা দেয়।অরবট আপনার ইন্টারনেট ট্র্যাফিক এনক্রিপ্ট করতে &lt;u&gt;Tor&lt;/u&gt; ব্যবহার করে যা আপনাকে &lt;u&gt;সেন্সরশিপ বাইপাস&lt;/u&gt; করতে এবং ব্যক্তিগত স্বাধীনতা এবং গোপনীয়তাকে হুমকিস্বরূপ &lt;u&gt;নেটওয়ার্ক নজরদারি &lt;/u&gt; এর রূপগুলি থেকে রক্ষা করতে সহায়তা করে৷ \n&lt;u&gt;TCP প্রক্সি&lt;/u&gt;: 白い熊 考直 অরবোটে বাদ দেওয়া অ্যাপ ছাড়া শুধুমাত্র TCP কানেকশন ফরোয়ার্ড করে। \n&lt;u&gt;HTTP প্রক্সি&lt;/u&gt;: 白い熊 考直 &lt;i&gt;সেট&lt;/i&gt; HTTP প্রক্সি কিন্তু প্রয়োগ করে না যে অ্যাপগুলি এটি ব্যবহার করে। সাধারণত, Chrome এবং Firefox এর মতো ব্রাউজারগুলি এটি ব্যবহার করে। HTTP(S) প্রক্সি ব্যবহার করা অ্যাপগুলি ফায়ারওয়াল এবং DNS উভয় নিয়মকে বাইপাস করবে।</string>
     <string name="settings_socks5_disabled_error">অরবোটের সাথে সংযুক্ত। চালিয়ে যেতে এটি বন্ধ করুন।</string>
     <string name="settings_socks_forwarding_desc_no_app">ফরোয়ার্ড করা হচ্ছে %1$s:%2$s</string>
-    <string name="settings_notification_dialog_option_1">\n\nপজ/স্টপ (ডিফল্ট):\n\nদুটি বোতাম দেখায়, দ্রুত বিরাম দিতে এবং RethinkDNS বন্ধ করতে।</string>
+    <string name="settings_notification_dialog_option_1">\n\nপজ/স্টপ (ডিফল্ট):\n\nদুটি বোতাম দেখায়, দ্রুত বিরাম দিতে এবং 白い熊 考直 বন্ধ করতে।</string>
     <string name="settings_orbot_notification_content">Tor-as-a-Proxy শুরু করতে ব্যর্থ হয়েছে৷ ম্যানুয়ালি শুরু করতে Orbot অ্যাপটি খুলুন।</string>
     <string name="settings_autostart_bootup_desc">ডিভাইস পাওয়ার-আপে, যদি এটি বন্ধ করার আগে চলমান থাকে তবে রিথিঙ্কডিএনএস শুরু করুন।</string>
     <string name="settings_ip_dialog_ipv4">IPv4 (ডিফল্ট)</string>
@@ -424,13 +422,13 @@
     <string name="settings_notification_dialog_option_2">\n\nDNS / DNS + ফায়ারওয়াল:\n\nব্যাটারি-সেভার DNS মোড এবং নিয়মিত DNS + ফায়ারওয়াল মোডের মধ্যে দ্রুত স্যুইচ করতে দুটি বোতাম দেখায়৷</string>
     <string name="firewall_card_text_active">%1$s অবরুদ্ধ \n%2$s বাইপাস \n%3$s বাদ \n%4$s লকডাউন</string>
     <string name="dc_dns_leaks_heading">DNS ফাঁস প্রতিরোধ করুন</string>
-    <string name="dc_dns_leaks_desc">সক্রিয় করা হলে, RethinkDNS পোর্ট 53-এ সমস্ত প্যাকেট ক্যাপচার করে এবং এটি একটি ব্যবহারকারী-সেট DNS এন্ডপয়েন্টে ফরোয়ার্ড করে</string>
+    <string name="dc_dns_leaks_desc">সক্রিয় করা হলে, 白い熊 考直 পোর্ট 53-এ সমস্ত প্যাকেট ক্যাপচার করে এবং এটি একটি ব্যবহারকারী-সেট DNS এন্ডপয়েন্টে ফরোয়ার্ড করে</string>
     <string name="dc_check_update_heading">ব্লকলিস্ট আপডেটে প্রম্পট করুন</string>
     <string name="dc_check_update_desc">প্রতি <i>তিন</i> দিনে একবার ব্লকলিস্ট আপডেট চেক করুন</string>
     <string name="about_bravedns_explantion">RethinkDNS হল অ্যাপের কার্যকলাপ নিরীক্ষণ, ইন্টারনেট সেন্সরশিপ এবং আপনার অ্যান্ড্রয়েড ডিভাইসে ফায়ারওয়াল অ্যাপ্লিকেশানগুলিকে আটকানোর সবচেয়ে সহজ উপায়৷</string>
     <string name="about_bravedns_whoarewe">RethinkDNS হল একটি বিনামূল্যের এবং ওপেন সোর্স প্রজেক্ট, যার নেতৃত্বে Amazon, IBM, এবং Scientific Games-এর প্রাক্তন প্রকৌশলীরা৷</string>
     <string name="about_bug_no_log_dialog_message">ক্র্যাশ লগগুলি আনা যায়নি৷ আপনি কি ম্যানুয়ালি আপনার বাগ রিপোর্ট করতে চান?</string>
-    <string name="hsf_vpn_dialog_message">ডিভাইসের DNS অনুরোধগুলি এনক্রিপ্ট করতে, একটি নেটওয়ার্ক মনিটর প্রয়োগ করতে এবং ফায়ারওয়াল নিয়মগুলি প্রয়োগ করতে একটি স্থানীয় VPN সেট আপ করার জন্য RethinkDNS-এর অনুমতি প্রয়োজন৷RethinkDNS কোনো তথ্য সংগ্রহ করে না বা কোনোভাবেই আপনার উপর গুপ্তচরবৃত্তি করে না।</string>
+    <string name="hsf_vpn_dialog_message">ডিভাইসের DNS অনুরোধগুলি এনক্রিপ্ট করতে, একটি নেটওয়ার্ক মনিটর প্রয়োগ করতে এবং ফায়ারওয়াল নিয়মগুলি প্রয়োগ করতে একটি স্থানীয় VPN সেট আপ করার জন্য 白い熊 考直-এর অনুমতি প্রয়োজন৷白い熊 考直 কোনো তথ্য সংগ্রহ করে না বা কোনোভাবেই আপনার উপর গুপ্তচরবৃত্তি করে না।</string>
     <string name="about_website">rethinkdns.com এ যান</string>
     <string name="hsf_downtime">(%1$s থেকে নিষ্ক্রিয়)</string>
     <string name="hsf_vpn_prepare_failure">হয় VPN অনুমতি অনুপস্থিত, অথবা অন্য একটি অ্যাপ সবসময়-চালু VPN মোডে আছে।</string>
@@ -523,7 +521,7 @@
     <string name="firewall_rule_no_rule_desc">কোন ফায়ারওয়াল নিয়ম এই সংযোগ মেলে না.</string>
     <string name="firewall_rule_foreground_desc"><![CDATA[এই সংযোগটি ফায়ারওয়াল করা হয়েছে কারণ সোর্স অ্যাপটি <i>ফোরগ্রাউন্ডে ছিল না</i>।]]></string>
     <string name="notif_dialog_pause_dialog_positive">পুনরারম্ভ</string>
-    <string name="notif_channel_desc_vpn_notification">RethinkDNS সক্রিয় এবং ব্যাকগ্রাউন্ডে চলমান থাকলে তা জানান</string>
+    <string name="notif_channel_desc_vpn_notification">白い熊 考直 সক্রিয় এবং ব্যাকগ্রাউন্ডে চলমান থাকলে তা জানান</string>
     <string name="cd_remove_dialog_message">সংরক্ষিত কনফিগারেশন থেকে ডোমেন মুছুন।</string>
     <string name="ada_ip_connection_count_zero">0 আইপি ঠিকানা</string>
     <string name="ada_ip_no_connection">এই অ্যাপের জন্য কোনো নেটওয়ার্ক লগ নেই।</string>
@@ -581,7 +579,7 @@
     <string name="firewall_rule_block_app_new_install">নতুন অ্যাপ</string>
     <string name="firewall_rule_device_lock">ডিভাইস লক করা হয়েছে</string>
     <string name="firewall_rule_block_dns_bypass_desc"><![CDATA[এই সংযোগটি ব্লক করা হয়েছে কারণ <i>সোর্স অ্যাপ</i> ব্যবহারকারী-পছন্দের DNS বাইপাস করেছে।]]></string>
-    <string name="new_app_notification_content">RethinkDNS ব্লক করা হয়েছে সম্প্রতি ইনস্টল করা অ্যাপ, %1$s।</string>
+    <string name="new_app_notification_content">白い熊 考直 ব্লক করা হয়েছে সম্প্রতি ইনস্টল করা অ্যাপ, %1$s।</string>
     <string name="notif_channel_vpn_notification">সক্রিয় ভিপিএন</string>
     <string name="notif_channed_desc_download">অন-ডিভাইস ব্লকলিস্টের জন্য ডাউনলোডের অগ্রগতি সম্পর্কে সতর্কতা</string>
     <string name="build__flavor_play_store">খেলা</string>
@@ -599,7 +597,7 @@
     <string name="lbbs_enabled">সক্ষম করা হয়েছে</string>
     <string name="lbbs_redownload">ব্লকলিস্ট পুনরায় ডাউনলোড করুন</string>
     <string name="dns_proxy_connection_failure_lockdown">লকডাউন মোডে %2$s-এর জন্য %1$s বাদ দিলে ইন্টারনেট সংযোগ সমস্যা হতে পারে।</string>
-    <string name="accessibility_failure_toast">RethinkDNS অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ ব্যাকগ্রাউন্ডেড অ্যাপসকে আর ব্লক করা হচ্ছে না।</string>
+    <string name="accessibility_failure_toast">白い熊 考直 অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ ব্যাকগ্রাউন্ডেড অ্যাপসকে আর ব্লক করা হচ্ছে না।</string>
     <string name="firewall_rule_exempt_dns_proxied">DNS প্রক্সিযুক্ত</string>
     <string name="firewall_rule_exempt_dns_proxied_desc"><![CDATA[এই DNS সংযোগটি প্রক্সি করা হয়েছিল এবং ব্যবহারকারী-পছন্দের DNS এন্ডপয়েন্টে ফরোয়ার্ড করা হয়েছিল।]]></string>
     <string name="notif_dialog_pause_dialog_negative">বাতিল</string>
@@ -609,7 +607,7 @@
     <string name="rt_dialog_neutral">Continue</string>
     <string name="rt_download">ব্লকলিস্ট ডাউনলোড করুন</string>
     <string name="dc_doh" translatable="false">HTTPS এর উপর Dns</string>
-    <string name="new_app_bulk_notification_content">RethinkDNS ব্লক করেছে %1$s নতুন অ্যাপ। দেখতে বা পরিবর্তন করতে আলতো চাপুন।</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 ব্লক করেছে %1$s নতুন অ্যাপ। দেখতে বা পরিবর্তন করতে আলতো চাপুন।</string>
     <string name="category_name_installed">ইনস্টল করা অ্যাপস</string>
     <string name="ci_blocked_initial">নীল</string>
     <string name="notif_download_failure_content">নামাতে ব্যার্থ. আবার চেষ্টা করুন.</string>
@@ -627,7 +625,7 @@
     <string name="bsrf_clear_filter">পরিষ্কার করুন</string>
     <string name="brbs_backup_dialog_title">ব্যাকআপ নিন</string>
     <string name="settings_local_blocklist_dialog_positive">ডাউনলোড</string>
-    <string name="accessibility_notification_content">RethinkDNS অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ ব্যাকগ্রাউন্ডেড অ্যাপসকে আর ব্লক করা হচ্ছে না। পুনরায় সক্ষম করতে আলতো চাপুন৷</string>
+    <string name="accessibility_notification_content">白い熊 考直 অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ বা ক্র্যাশ হয়েছে৷ ব্যাকগ্রাউন্ডেড অ্যাপসকে আর ব্লক করা হচ্ছে না। পুনরায় সক্ষম করতে আলতো চাপুন৷</string>
     <string name="firewall_rule_block_app">অ্যাপ ব্লক করা হয়েছে</string>
     <string name="firewall_rule_foreground">অ্যাপ ব্যবহারে নেই</string>
     <string name="firewall_rule_block_ip_desc"><![CDATA[একটি ব্যবহারকারী-সেট ফায়ারওয়াল নিয়ম <i>গন্তব্য আইপি</i> ব্লক করেছে।]]></string>
@@ -656,7 +654,7 @@
     <string name="firewall_rule_trusted_ip">বাইপাসড আইপি (অ্যাপ)</string>
     <string name="firewall_rule_block_ip_univ_desc"><![CDATA[একটি ব্যবহারকারী-সেট ফায়ারওয়াল নিয়ম <i>গন্তব্য আইপি / পোর্ট</i>কে ব্লক করেছে।<br/><br/> পরিবর্তন করতে <i>ইউনিভার্সাল</i> ট্যাবে যান]]></string>
     <string name="firewall_rule_trusted_ip_desc"><![CDATA[এই সংযোগের অনুমতি দেওয়া হয়েছিল কারণ <i>গন্তব্য IP</i> অ্যাপ-নির্দিষ্ট নিয়মগুলিকে বাইপাস করার জন্য সেট করা হয়েছে।<br/><br/> পরিবর্তন করতে <i>অ্যাপ-নির্দিষ্ট ফায়ারওয়াল</i> স্ক্রিনে যান।]]></string>
-    <string name="notif_channel_desc_vpn_failure">Android বা অন্য VPN অ্যাপ দ্বারা RethinkDNS বন্ধ করা হলে জানান</string>
+    <string name="notif_channel_desc_vpn_failure">Android বা অন্য VPN অ্যাপ দ্বারা 白い熊 考直 বন্ধ করা হলে জানান</string>
     <string name="lbbs_heading">185+ ব্লকলিস্ট কনফিগার করুন</string>
     <string name="brbs_restore_complete_toast">পুনরুদ্ধার সম্পন্ন হয়েছে, অ্যাপ পুনরায় চালু হচ্ছে…</string>
     <string name="brbs_backup_complete_toast">ব্যাকআপ সম্পন্ন</string>

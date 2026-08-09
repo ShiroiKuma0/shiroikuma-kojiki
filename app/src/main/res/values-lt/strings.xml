@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_settings">Nustatymai</string>
-    <string name="dns_explanation_dns_connected">Prisijungta prie RethinkDNS</string>
+    <string name="dns_explanation_dns_connected">Prisijungta prie 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected">Prisijungta prie ugniasienės</string>
-    <string name="app_name_small_case" translatable="false">rethink</string>
-    <string name="universal_firewall_explanation">Taikykite ugniasienės taisykles visoms programėlėms pagal įrenginio įvykius, pvz., ugniasienę, kai įrenginys užrakintas arba kai tam tikra programėlė nenaudojama.</string>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="title_about">Apie</string>
+        <string name="universal_firewall_explanation">Taikykite ugniasienės taisykles visoms programėlėms pagal įrenginio įvykius, pvz., ugniasienę, kai įrenginys užrakintas arba kai tam tikra programėlė nenaudojama.</string>
+        <string name="title_about">Apie</string>
     <string name="about_title_desc">Aptik ir blokuok tinklo saugumo grėsmes</string>
     <string name="txt_home">Pagrindinis</string>
-    <string name="accessibility_service_description">RethinkDNS naudoja pritaikymo neįgaliesiems paslaugą, kad aptiktų ir foninėms programėlėms pritaikytų ugniasienės taisykles . RethinkDNS nerenka ir neparduoda jokios informacijos.</string>
+    <string name="accessibility_service_description">白い熊 考直 naudoja pritaikymo neįgaliesiems paslaugą, kad aptiktų ir foninėms programėlėms pritaikytų ugniasienės taisykles . 白い熊 考直 nerenka ir neparduoda jokios informacijos.</string>
     <string name="next">Toliau</string>
     <string name="skip">Praleisti</string>
     <string name="finish">Baigti</string>
     <string name="slide_1_title">Nemokama ir atviro kodo</string>
-    <string name="slide_1_desc">RethinkDNS yra atvirojo kodo programinė įranga, kurią palaiko Mozilla Builders MVP programa.</string>
+    <string name="slide_1_desc">白い熊 考直 yra atvirojo kodo programinė įranga, kurią palaiko Mozilla Builders MVP programa.</string>
     <string name="exclude">išskirti</string>
     <string name="untracked">nesekama</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Įspėjimas: RethinkDNS buvo išjungta</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Įspėjimas: 白い熊 考直 buvo išjungta</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Bakstelėkite, kad pakeistumėte apsaugos nustatymą</string>
     <string name="dns_mode_notification_title">Apsaugota! Prisijungta prie greito ir saugaus DNS.</string>
     <string name="firewall_mode_notification_title">Apsaugota! Prisijungta prie ugniasienės.</string>
@@ -36,7 +34,7 @@
     <string name="notification_action_stop_vpn">SUSTABDYTI</string>
     <string name="notification_action_dns_mode">DNS</string>
     <string name="notification_action_dns_firewall_mode">DNS + ugniasienė</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">RethinkDNS pritaikymo neįgaliesiems paslauga sustojo arba sugedo. <i><b>Eikite į nustatymus ir priverstinai sustabdykite</b></i> RethinkDNS ir paleiskite ją iš naujo, kad galėtumėte naudoti <i>Blokuoti bet kurią nenaudojamą programėlę</i> funkciją. \n \nRethinkDNS naudoja pritaikymo neįgaliesiems paslaugą, kad atsektų, kurios programėlės yra naudojamos (pirmame plane), palyginti su tomis, kurios nenaudojamos (fone).</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">白い熊 考直 pritaikymo neįgaliesiems paslauga sustojo arba sugedo. <i><b>Eikite į nustatymus ir priverstinai sustabdykite</b></i> 白い熊 考直 ir paleiskite ją iš naujo, kad galėtumėte naudoti <i>Blokuoti bet kurią nenaudojamą programėlę</i> funkciją. \n \n白い熊 考直 naudoja pritaikymo neįgaliesiems paslaugą, kad atsektų, kurios programėlės yra naudojamos (pirmame plane), palyginti su tomis, kurios nenaudojamos (fone).</string>
     <string name="alert_firewall_accessibility_exception">Nepavyko atidaryti pritaikymo neįgaliesiems nustatymų. Bandykite dar kartą vėliau!</string>
     <string name="brave_dns_connect_mode_change_firewall">Pasirinkite režimą.</string>
     <string name="brave_dns_connect_mode_change_dns">Pasirinkite režimą.</string>
@@ -90,7 +88,7 @@
     <string name="settings_ptrans_heading">Priverstinis IPv4 išėjimas</string>
     <string name="settings_ptrans_desc">Išversti išeinantį IPv6 srautą į IPv4 įrenginyje. Įjunkite, jei esate prisijungę prie tik IPv4 tinklo.</string>
     <string name="settings_allow_bypass_heading">Leisti apeiti</string>
-    <string name="settings_allow_bypass_desc">Leisti programėlėms apeiti RethinkDNS ugniasienę pagal poreikį. Kai kurioms garso / vaizdo konferencijų programėlėms, pvz., Zoom ir WhatsApp, gali prireikti apėjimo pagal poreikį, kad jos tinkamai veiktų.</string>
+    <string name="settings_allow_bypass_desc">Leisti programėlėms apeiti 白い熊 考直 ugniasienę pagal poreikį. Kai kurioms garso / vaizdo konferencijų programėlėms, pvz., Zoom ir WhatsApp, gali prireikti apėjimo pagal poreikį, kad jos tinkamai veiktų.</string>
     <string name="settings_lock_down_mode_desc">Negalima leisti apeiti arba nustatyti įgaliotųjų serverių, kai VPN veikia visiško užrakinimo režimu. <u>Eikite į VPN nustatymus</u>.</string>
     <string name="settings_proxy_header">įgaliotasis serveris</string>
     <string name="settings_socks5_heading">Nustatyti SOCKS5 įgaliotąjį serverį</string>
@@ -104,9 +102,9 @@
     <string name="orbot_bs_status_4">Tor kaip įgaliotojo serverio (Orbot) nustatymas vienu paspaudimu.</string>
     <string name="orbot_status_arg_2">TCP</string>
     <string name="orbot_status_arg_3">DNS ir TCP</string>
-    <string name="orbot_stop_dialog_message">RethinkDNS nustojo peradresuoti ryšius į Orbot, tačiau Orbot galbūt veikia fone.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 nustojo peradresuoti ryšius į Orbot, tačiau Orbot galbūt veikia fone.</string>
     <string name="orbot_stop_dialog_negative">Sustabdyti Orbot</string>
-    <string name="orbot_explanation">Orbot yra nemokama įgaliotojo serverio programėlė, kuri suteikia kitoms programėlėms galimybę &lt;u&gt;saugiau&lt;/u&gt; naudotis internetu. \nOrbot naudoja &lt;u&gt;Tor&lt;/u&gt;, kad užšifruotų jūsų interneto srautą, kuris padeda &lt;u&gt;apeiti cenzūrą&lt;/u&gt; ir apsiginti nuo įvairių &lt;u&gt;tinklo stebėjimo&lt;/u&gt; formų, kurios kelia grėsmę asmeninei laisvei ir privatumui. \n&lt;u&gt;TCP įgaliotasis serveris&lt;/u&gt;: RethinkDNS į Orbot peradresuoja visų programėlių, išskyrus išskirtųjų, TCP ryšius. \n&lt;u&gt;HTTP įgaliotasis serveris&lt;/u&gt;: RethinkDNS &lt;i&gt;nustato&lt;/i&gt; HTTP įgaliotajį serverį, bet neįpareigoja, kad programėlės jį naudotų. Paprastai jį naudoja tokios naršyklės kaip Chrome ir Firefox. Programėlės, naudojančios HTTP(S) įgaliotąjį serverį, apeis ugniasienės ir DNS taisykles.</string>
+    <string name="orbot_explanation">Orbot yra nemokama įgaliotojo serverio programėlė, kuri suteikia kitoms programėlėms galimybę &lt;u&gt;saugiau&lt;/u&gt; naudotis internetu. \nOrbot naudoja &lt;u&gt;Tor&lt;/u&gt;, kad užšifruotų jūsų interneto srautą, kuris padeda &lt;u&gt;apeiti cenzūrą&lt;/u&gt; ir apsiginti nuo įvairių &lt;u&gt;tinklo stebėjimo&lt;/u&gt; formų, kurios kelia grėsmę asmeninei laisvei ir privatumui. \n&lt;u&gt;TCP įgaliotasis serveris&lt;/u&gt;: 白い熊 考直 į Orbot peradresuoja visų programėlių, išskyrus išskirtųjų, TCP ryšius. \n&lt;u&gt;HTTP įgaliotasis serveris&lt;/u&gt;: 白い熊 考直 &lt;i&gt;nustato&lt;/i&gt; HTTP įgaliotajį serverį, bet neįpareigoja, kad programėlės jį naudotų. Paprastai jį naudoja tokios naršyklės kaip Chrome ir Firefox. Programėlės, naudojančios HTTP(S) įgaliotąjį serverį, apeis ugniasienės ir DNS taisykles.</string>
     <string name="orbot_install_dialog_title">Įdiegti Orbot?</string>
     <string name="orbot_install_dialog_positive">Įdiegti</string>
     <string name="orbot_install_dialog_neutral">Interneto svetainė</string>
@@ -144,10 +142,10 @@
     <string name="settings_ip_text_ipv4">IPv4</string>
     <string name="settings_ip_text_ipv6">IPv6</string>
     <string name="settings_ip_text_ipv46">Automatinis</string>
-    <string name="settings_notification_desc">Veiksmų mygtukai, rodomi su RethinkDNS pranešimu: %1$s</string>
+    <string name="settings_notification_desc">Veiksmų mygtukai, rodomi su 白い熊 考直 pranešimu: %1$s</string>
     <string name="settings_notification_desc1">Pristabdyti / sustabdyti (numatytasis)</string>
     <string name="settings_notification_desc2">DNS / DNS + ugniasienė</string>
-    <string name="settings_notification_dialog_option_1">\n\nPristabdyti / sustabdyti (numatytasis):\n\nRodo du mygtukus, kad greitai pristabdytumėte ir sustabdytumėte RethinkDNS.</string>
+    <string name="settings_notification_dialog_option_1">\n\nPristabdyti / sustabdyti (numatytasis):\n\nRodo du mygtukus, kad greitai pristabdytumėte ir sustabdytumėte 白い熊 考直.</string>
     <string name="settings_notification_dialog_option_2">\n\nDNS / DNS + ugniasienė:\n\nRodo du mygtukus, leidžiančius greitai perjungti akumuliatorių taupantį DNS režimą į įprastą DNS + ugniasienės režimą.</string>
     <string name="settings_notification_dialog_option_3">\n\nJokie:\n\nNerodo jokių mygtukų.\n\n</string>
     <string name="settings_selected_theme">Dabartinė tema: %1$s</string>
@@ -175,11 +173,11 @@
     <string name="hsf_whats_new_remove_text">Uždaroma…</string>
     <string name="hsf_blocklist_updating_text">Įgalinama…</string>
     <string name="hsf_chip_appearance">Tema: %1$s</string>
-    <string name="hsf_pause_vpn_failure">Nepavyksta pristabdyti: RethinkDNS neaktyvus</string>
+    <string name="hsf_pause_vpn_failure">Nepavyksta pristabdyti: 白い熊 考直 neaktyvus</string>
     <string name="dc_block_heading">taisyklės</string>
     <string name="dc_other_dns_heading">tipas</string>
     <string name="dc_custom_dns_radio">Kitas DNS</string>
-    <string name="dc_rethink_dns_radio">RethinkDNS</string>
+    <string name="dc_rethink_dns_radio">白い熊 考直</string>
     <string name="dc_entries">%1$s įrašai 🔗</string>
     <string name="dc_local_block_desc_1">Galite rinktis iš daugiau nei 185 blokavimo sąrašų. Spustelėkite čia, jei norite atsisiųsti arba konfigūruoti blokavimo sąrašus.</string>
     <string name="dc_custom_block_heading">Leisti arba neleisti atskirų domenų</string>
@@ -286,8 +284,8 @@
     <string name="update_complete_action_snack">PERKRAUTI</string>
     <string name="settings_local_blocklist_dialog_positive">Atsisiųsti</string>
     <string name="settings_local_blocklist_version">Versija: v%1$s</string>
-    <string name="accessibility_notification_content">RethinkDNS pritaikymo neįgaliesiems paslauga sustojo arba sugedo. Nebeblokuojamos foninės programėlės. Bakstelėkite, kad vėl įjungtumėte.</string>
-    <string name="accessibility_failure_toast">RethinkDNS pritaikymo neįgaliesiems paslauga sustojo arba sugedo. Nebeblokuojamos foninės programėlės.</string>
+    <string name="accessibility_notification_content">白い熊 考直 pritaikymo neįgaliesiems paslauga sustojo arba sugedo. Nebeblokuojamos foninės programėlės. Bakstelėkite, kad vėl įjungtumėte.</string>
+    <string name="accessibility_failure_toast">白い熊 考直 pritaikymo neįgaliesiems paslauga sustojo arba sugedo. Nebeblokuojamos foninės programėlės.</string>
     <string name="coming_soon_toast">jau netrukus</string>
     <string name="pause_text">pristabdyta</string>
     <string name="pause_desc">Pastaba: %1$s užblokuotos programėlės ir toliau bus apsaugotos ugniasiene.</string>
@@ -315,7 +313,7 @@
     <string name="firewall_rule_block_dns_bypass_desc"><![CDATA[Šis ryšys buvo užblokuotas, nes <i>šaltinio programėlė</i> apėjo naudotojo pageidaujamą DNS.<br/><br/> Norėdami pakeisti šį veiksmą, eikite į <i>Universaliosios</i> skirtuką.]]></string>
     <string name="firewall_rule_exempt_orbot_setup_desc"><![CDATA[Šis ryšys buvo leidžiamas, nes buvo vykdomas <i>Tor kaip įgaliotasis serveris vienu paspaudimu</i> nustatymas per Orbot.]]></string>
     <string name="firewall_rule_block_http_desc"><![CDATA[Šis ryšys buvo užblokuotas, nes tikriausiai buvo naudojamas <i>nesaugus HTTP</i>.<br/><br/> Norėdami pakeisti, eikite į <i>Universaliosios</i> skirtuką.]]></string>
-    <string name="new_app_notification_content">RethinkDNS užblokavo neseniai įdiegtą programėlę %1$s.</string>
+    <string name="new_app_notification_content">白い熊 考直 užblokavo neseniai įdiegtą programėlę %1$s.</string>
     <string name="new_app_notification_action_deny">Blokuoti toliau</string>
     <string name="new_app_notification_action_toast_allow">Programėlei leidžiamas tinklo ryšys</string>
     <string name="new_app_notification_action_toast_deny">Programėlei neleidžiamas tinklo ryšys</string>
@@ -328,7 +326,7 @@
     <string name="notif_channel_firewall_alerts">Ugniasienės įspėjimai</string>
     <string name="notif_channel_proxy_failure">Įgaliotojo serverio įspėjimai</string>
     <string name="notif_channel_download">Atsisiuntimų įspėjimai</string>
-    <string name="notif_channel_desc_vpn_notification">Informuoti, kai RethinkDNS aktyvus ir veikia fone</string>
+    <string name="notif_channel_desc_vpn_notification">Informuoti, kai 白い熊 考直 aktyvus ir veikia fone</string>
     <string name="category_name_others">Kitos</string>
     <string name="cd_toast_deleted">Domenas pašalintas iš pasirinktinių sąrašo</string>
     <string name="cd_toast_added">Domenas sėkmingai pridėtas</string>
@@ -365,7 +363,7 @@
     <string name="radio_sky_btn">⛅ Dangus</string>
     <string name="bsrf_clear_filter">Išvalyti</string>
     <string name="dc_local_block_enabled">Įjungta</string>
-    <string name="dc_rethink_dns" translatable="false">Rethink DNS</string>
+    <string name="dc_rethink_dns" translatable="false">白い熊 考直 DNS</string>
     <string name="dc_doh" translatable="false">Dns per HTTPS</string>
     <string name="dc_dns_crypt" translatable="false">DNSCrypt</string>
     <string name="dc_dns_proxy" translatable="false">DNS įgaliotasis serveris</string>
@@ -379,7 +377,7 @@
     <string name="lbbs_heading">Konfigūruoti 185+ blokavimo sąrašus</string>
     <string name="brbs_title">Atsarginė kopija ir atkūrimas</string>
     <string name="status_protected_with_proxy">apsaugota su įgaliotuoju serveriu</string>
-    <string name="always_on_dialog">Šiame įrenginyje įjungtas „Nuolatinis VPN“. Norėdami paleisti Rethink, eikite į programėlę „Nustatymai“ ir išjunkite „Nuolatinis VPN“.</string>
+    <string name="always_on_dialog">Šiame įrenginyje įjungtas „Nuolatinis VPN“. Norėdami paleisti 白い熊 考直, eikite į programėlę „Nustatymai“ ir išjunkite „Nuolatinis VPN“.</string>
     <string name="brbs_backup_title">Atsarginė kopija</string>
     <string name="brbs_backup_desc">Programėlės nustatymų, tinklo ir DNS žurnalų atsarginės kopijos</string>
     <string name="brbs_restore_title">Atkurti</string>
@@ -397,14 +395,14 @@
     <string name="brbs_restore_dialog_failure_message">Nepavyko atkurti. Bandyti dar kartą?</string>
     <string name="brbs_restore_dialog_failure_positive">Bandyti iš atkurti naujo</string>
     <string name="brbs_backup_complete_toast">Atsarginės kopijos kūrimas baigtas</string>
-    <string name="slide_2_desc">RethinkDNS yra lengviausias būdas stebėti tinklo veiklą, apeiti interneto cenzūrą ir ugniasienės programėles jūsų Android įrenginyje.</string>
+    <string name="slide_2_desc">白い熊 考直 yra lengviausias būdas stebėti tinklo veiklą, apeiti interneto cenzūrą ir ugniasienės programėles jūsų Android įrenginyje.</string>
     <string name="slide_2_title">Sveiki</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="allow">leisti</string>
     <string name="status_protected" description="This is a large message in a reassuring color.  It indicates that DNS queries can't be surveilled or modified in transit.">apsaugota</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit.">neapsaugota</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Prisijungta prie RethinkDNS ir ugniasienės</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted.">įjungtas privatus dns</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Prisijungta prie 白い熊 考直 ir ugniasienės</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted.">įjungtas privatus dns</string>
     <string name="block">blokuoti</string>
     <string name="pause_mode_notification_title">Pristabdyta! Užblokuotoms programėlėms ir toliau bus taikoma ugniasienė.</string>
     <string name="status_app_error">programėlės klaida</string>
@@ -428,7 +426,7 @@
     <string name="alert_permission_accessibility">Leidimas - prieinamumas</string>
     <string name="bsct_app_info">Programėlės informacija</string>
     <string name="dns_act_configure_tab">Konfigūravimas</string>
-    <string name="alert_firewall_accessibility_explanation">RethinkDNS naudoja pritaikymo neįgaliesiems paslaugą, kad atsektų, kurios programėlės yra naudojamos (pirmame plane), palyginti su tomis, kurios nenaudojamos (fone). \n \nRethinkDNS nerenka jokios informacijos ir jokiu būdu nešnipinėja jūsų.</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 naudoja pritaikymo neįgaliesiems paslaugą, kad atsektų, kurios programėlės yra naudojamos (pirmame plane), palyginti su tomis, kurios nenaudojamos (fone). \n \n白い熊 考直 nerenka jokios informacijos ir jokiu būdu nešnipinėja jūsų.</string>
     <string name="always_on_dialog_stop_heading">Nuolatinis VPN</string>
     <string name="firewall_act_universal_tab">Universaliosios</string>
     <string name="univ_firewall_dialog_title">Ištrinti IP taisyklę?</string>
@@ -453,14 +451,14 @@
     <string name="orbot_app_issue">Nepavyko paleisti Orbot. Ar jis įdiegtas?</string>
     <string name="orbot_stop_dialog_title">Reikalingas rankinis įsikišimas</string>
     <string name="orbot_stop_dialog_message_combo" translatable="false">%1$s \n \n%2$s</string>
-    <string name="orbot_stop_dialog_dns_message">RethinkDNS yra nustatyta peradresuoti DNS užklausas Orbot. Pakeiskite pagal poreikį.</string>
+    <string name="orbot_stop_dialog_dns_message">白い熊 考直 yra nustatyta peradresuoti DNS užklausas Orbot. Pakeiskite pagal poreikį.</string>
     <string name="orbot_stop_dialog_neutral">Pakeisti DNS</string>
     <string name="orbot_bs_status_1">Peradresuojamos jungtys į Orbot: %1$s.</string>
     <string name="orbot_title">Orbot ir įgaliotieji serveriai</string>
     <string name="orbot_install_dialog_message">Orbot suteikia Tor funkcijas ir funkcionalumą Android.</string>
     <string name="settings_orbot_heading">Nustatyti Orbot</string>
     <string name="hsf_vpn_prepare_failure">Arba nėra VPN leidimo, arba kita programėlė veikia nuolatinio VPN režimu.</string>
-    <string name="settings_autostart_bootup_desc">Įjungus įrenginį, paleisti RethinkDNS, jei ji veikė prieš išjungimą.</string>
+    <string name="settings_autostart_bootup_desc">Įjungus įrenginį, paleisti 白い熊 考直, jei ji veikė prieš išjungimą.</string>
     <string name="settings_orbot_desc">Orbot ne VPN režimu su HTTPS/SOCKS5.</string>
     <string name="settings_orbot_disabled_error">Išjunkite HTTP(S) ir (arba) SOCKS5 įgaliotąjį serverį, kad galėtumėte tęsti Tor kaip įgaliotojo serverio nustatymą.</string>
     <string name="settings_theme_desc">Tamsi/šviesi tema</string>
@@ -470,8 +468,8 @@
     <string name="settings_orbot_install_desc">Bakstelėkite čia, kad įdiegtumėte Orbot</string>
     <string name="settings_socks5_disabled_error">Prisijungta prie %1$s. Norėdami tęsti, jį išjunkite.</string>
     <string name="settings_https_disabled_error">Prisijungta prie %1$s. Norėdami tęsti, jį išjunkite.</string>
-    <string name="settings_network_all_networks_desc">Kai įjungta, RethinkDNS naudoja visus galimus tinklus prisijungti prie interneto. Jei ne, ji naudoja tą tinklą, kurį Android laiko <i>aktyviu</i>.</string>
-    <string name="settings_socks5_vpn_disabled_error">Norėdami tęsti, paleiskite RethinkDNS.</string>
+    <string name="settings_network_all_networks_desc">Kai įjungta, 白い熊 考直 naudoja visus galimus tinklus prisijungti prie interneto. Jei ne, ji naudoja tą tinklą, kurį Android laiko <i>aktyviu</i>.</string>
+    <string name="settings_socks5_vpn_disabled_error">Norėdami tęsti, paleiskite 白い熊 考直.</string>
     <string name="settings_orbot_notification_content">Gedimas paleidžiant Tor kaip įgaliotasis serveris. Atidarykite Orbot programėlę, kad paleistumėte jį rankiniu būdu.</string>
     <string name="settings_autostart_bootup_heading">Automatinis paleidimas įrenginį įjungus (eksperimentinis)</string>
     <string name="settings_http_proxy_error_text1">Prievadų diapazonas turėtų būti 1024-65535</string>
@@ -491,7 +489,7 @@
     <string name="firewall_card_status_active">%1$s programėlės</string>
     <string name="about_app">programėlė</string>
     <string name="log_file_not_available">Gedimo ataskaitai nerasta</string>
-    <string name="hsf_vpn_dialog_message">RethinkDNS reikia leidimo nustatyti vietinį VPN, kad būtų galima užšifruoti įrenginio DNS užklausas, įdiegti tinklo monitorių ir vykdyti ugniasienės taisykles. \n \nRethinkDNS nerenka jokios informacijos ir jokiu būdu nešnipinėja jūsų.</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直 reikia leidimo nustatyti vietinį VPN, kad būtų galima užšifruoti įrenginio DNS užklausas, įdiegti tinklo monitorių ir vykdyti ugniasienės taisykles. \n \n白い熊 考直 nerenka jokios informacijos ir jokiu būdu nešnipinėja jūsų.</string>
     <string name="hsf_start_dialog_message">Iki saugaus ir patikimo Android liko vienas žingsnis: akimirksniu peržiūrėkite tinklo veiklą, blokuokite svetaines, IP adresus ir blogai besielgiančias programėles.</string>
     <string name="hsf_proxy_chip_removed_toast">Įgaliotasis serveris pašalintas</string>
     <string name="dc_dns_leaks_heading">Užkirsti kelią DNS nutekėjimui</string>
@@ -591,8 +589,8 @@
     <string name="build__flavor_website">interneto svetainė</string>
     <string name="build__flavor_play_store">play</string>
     <string name="cd_dialog_title">Pridėti domeną</string>
-    <string name="new_app_bulk_notification_content">RethinkDNS užblokavo %1$s naujas (-ą) programėles (-ę). Bakstelėkite norėdami peržiūrėti arba keisti.</string>
-    <string name="notif_channel_desc_vpn_failure">Informuoti, kai Android arba kita VPN programa sustabdo RethinkDNS</string>
+    <string name="new_app_bulk_notification_content">白い熊 考直 užblokavo %1$s naujas (-ą) programėles (-ę). Bakstelėkite norėdami peržiūrėti arba keisti.</string>
+    <string name="notif_channel_desc_vpn_failure">Informuoti, kai Android arba kita VPN programa sustabdo 白い熊 考直</string>
     <string name="notif_channed_desc_download">Įspėti apie įrenginio blokavimo sąrašų atsisiuntimo eigą</string>
     <string name="build__flavor_fdroid">fdroid</string>
     <string name="notif_channel_desc_firewall_alerts">Įspėti apie ugniasienės klaidas ir anomalijas</string>
@@ -639,7 +637,7 @@
     <string name="bsct_block">Blokuoti, leisti apeiti, išskirti, visiškai užrakinti &lt;u&gt;šią programėlę&lt;/u&gt;</string>
     <string name="bsct_conn_desc_allowed">leidžiama %1$s %2$s</string>
     <string name="bsct_conn_desc_blocked">užblokuota %1$s %2$s</string>
-    <string name="always_on_dialog_lockdown_stop_message">RethinkDNS vykdo VPN <i>Visiško užrakinimo</i> režimu. Jį sustabdžius, šis naudotojo profilis prarastų interneto ryšį. Ar vis tiek norite tęsti?</string>
+    <string name="always_on_dialog_lockdown_stop_message">白い熊 考直 vykdo VPN <i>Visiško užrakinimo</i> režimu. Jį sustabdžius, šis naudotojo profilis prarastų interneto ryšį. Ar vis tiek norite tęsti?</string>
     <string name="local_blocklist_redownload">Naujausia!</string>
     <string name="doh_custom_url_remove_dialog_title">Ištrinti DoH galinį punktą?</string>
     <string name="doh_custom_url_remove_dialog_message">Ištrinti DNS per Https galinį punktą iš išsaugotos konfigūracijos.</string>
@@ -655,12 +653,12 @@
     <string name="bsrf_sub_group_heading">Pogrupis</string>
     <string name="bsct_conn_block_desc">%1$s užblokuota pagal %2$s</string>
     <string name="bsct_conn_block_desc_device">%1$s užblokuotas įrenginyje</string>
-    <string name="always_on_dialog_stop_message">Rethink skirtas nuolatinis VPN yra įjungtas. Ar vis tiek norite sustabdyti Rethink?</string>
+    <string name="always_on_dialog_stop_message">白い熊 考直 skirtas nuolatinis VPN yra įjungtas. Ar vis tiek norite sustabdyti 白い熊 考直?</string>
     <string name="dns_card_latency_active">Delsa: %1$sms</string>
     <string name="hsf_uptime" translatable="false">(veikia nuo %1$s; protokolai: %2$s)</string>
     <string name="firewall_status_excluded">išskirta DNS ir ugniasienėje</string>
     <string name="hsf_exclude_error">VPN visiško užrakinimo režime išskyrimas nėra galimas</string>
-    <string name="dc_dns_leaks_desc">Kai įjungta, RethinkDNS užfiksuoja visus paketus 53 prievade ir persiunčia juos į vartotojo nustatytą DNS galinį punktą</string>
+    <string name="dc_dns_leaks_desc">Kai įjungta, 白い熊 考直 užfiksuoja visus paketus 53 prievade ir persiunčia juos į vartotojo nustatytą DNS galinį punktą</string>
     <string name="dns_btm_resolved_crypt">%1$s &lt;u&gt;anonimiškai&lt;/u&gt; išsprendė %2$s</string>
     <string name="dns_btm_resolved_doh">%1$s išsprendė %2$s</string>
     <string name="dns_btm_resolved_doh_no_server">išspręsta %1$s</string>

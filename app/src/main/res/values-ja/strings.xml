@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="accessibility_service_description" translatable="true">Rethink は、ユーザー補助サービスを利用してバックグラウンドアプリケーションを検出し、ファイアウォール機能を提供します。Rethink は、いかなる情報も収集・販売することはありません。</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 は、ユーザー補助サービスを利用してバックグラウンドアプリケーションを検出し、ファイアウォール機能を提供します。白い熊 考直 は、いかなる情報も収集・販売することはありません。</string>
     <string name="settings_title_desc" translatable="true">高度にカスタマイズ可能な DNS とファイアウォール</string>
     <string name="about_title_desc" translatable="true">ネットワークセキュリティの脅威を検知してブロック</string>
     <string name="txt_home" translatable="true">ホーム</string>
@@ -18,7 +18,7 @@
     <string name="lbl_logs" translatable="true">ログ</string>
     <string name="lbl_ip_rules" translatable="true">IP ルール</string>
     <string name="lbl_domain_rules" translatable="true">ドメインルール</string>
-    <string name="slide_1_desc" translatable="true">Rethink は、Mozilla Builders MVP プログラムによって支援されているオープンソースソフトウェアです。</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 は、Mozilla Builders MVP プログラムによって支援されているオープンソースソフトウェアです。</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="allow" translatable="true">許可</string>
     <string name="untracked" translatable="true">未追跡</string>
@@ -34,9 +34,9 @@
     <string name="status_protected_with_proxy_private_dns" translatable="true">プロキシとプライベート DNS で保護されています</string>
     <string name="status_protected_with_socks5_private_dns" translatable="true">SOCKS5 とプライベート DNS で保護されています</string>
     <string name="status_protected_with_proxy" translatable="true">プロキシで保護されています</string>
-    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">プライベート DNS が有効</string>
+    <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by 白い熊 考直.  It is not color-highlighted." translatable="true">プライベート DNS が有効</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">保護されていません</string>
-    <string name="dns_explanation_dns_connected" translatable="true">RethinkDNS に接続済み</string>
+    <string name="dns_explanation_dns_connected" translatable="true">白い熊 考直 に接続済み</string>
     <string name="dns_explanation_firewall_connected" translatable="true">ファイアウォールに接続済み</string>
     <string name="notification_action_dns_mode" translatable="true">DNS</string>
     <string name="firewall_mode_info_title" translatable="true">ファイアウォール</string>
@@ -59,8 +59,8 @@
     <string name="lbl_blocked" translatable="true">ブロック済み</string>
     <string name="slide_2_title" translatable="true">ようこそ</string>
     <string name="isolate" translatable="true">隔離</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">警告: Rethink は無効化されています</string>
-    <string name="slide_2_desc" translatable="true">Rethink は、Android デバイスでネットワークアクティビティを監視し、インターネットの検閲を回避し、アプリをファイアウォールするための最も簡単な方法です。</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">警告: 白い熊 考直 は無効化されています</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 は、Android デバイスでネットワークアクティビティを監視し、インターネットの検閲を回避し、アプリをファイアウォールするための最も簡単な方法です。</string>
     <string name="slide_1_title" translatable="true">フリーでオープンソース</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">タップして保護設定を変更</string>
     <string name="block" translatable="true">ブロック</string>
@@ -75,7 +75,7 @@
     <string name="status_protected_with_tor_private_dns" translatable="true">Tor とプライベート DNS で保護されています</string>
     <string name="status_protected_with_http_private_dns" translatable="true">HTTP プロキシとプライベート DNS で保護されています</string>
     <string name="status_protected_with_http" translatable="true">HTTP プロキシで保護されています</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">RethinkDNS とファイアウォールに接続済み</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">白い熊 考直 とファイアウォールに接続済み</string>
     <string name="notification_action_pause_vpn" translatable="true">一時停止</string>
     <string name="notification_action_stop_vpn" translatable="true">停止</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">上記のすべてに加えて、インターネットの検閲を回避します。</string>
@@ -89,7 +89,7 @@
     <string name="custom_url_error_invalid_url" translatable="true">無効な URL</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">モードを選択してください。</string>
     <string name="always_on_dialog_heading" translatable="true">常時接続 VPN を無効にする</string>
-    <string name="always_on_dialog" translatable="true">このデバイスでは「常時接続VPN」が有効になっています。Rethinkを開始するには、設定にて「常時接続VPN」を無効にしてください。</string>
+    <string name="always_on_dialog" translatable="true">このデバイスでは「常時接続VPN」が有効になっています。白い熊 考直を開始するには、設定にて「常時接続VPN」を無効にしてください。</string>
     <string name="always_on_dialog_positive_btn" translatable="true">設定を開く</string>
     <string name="always_on_dialog_stop_heading" translatable="true">常時接続 VPN</string>
     <string name="always_on_dialog_positive" translatable="true">停止</string>
@@ -181,11 +181,11 @@
     <string name="settings_ip_text_ipv6" translatable="true">IPv6</string>
     <string name="settings_ip_text_ipv46" translatable="true">自動</string>
     <string name="settings_notification_heading" translatable="true">通知アクションの選択</string>
-    <string name="settings_notification_desc" translatable="true">RethinkDNS 通知で表示するアクション ボタン: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">白い熊 考直 通知で表示するアクション ボタン: %1$s</string>
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + ファイアウォール</string>
     <string name="settings_notification_desc3" translatable="true">なし</string>
     <string name="settings_notification_dialog_title" translatable="true">通知アクションの選択</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\n\n一時停止/停止（デフォルト）。\n\n2つのボタンを表示し、RethinkDNSの一時停止と停止を素早く行うことができます。</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\n\n一時停止/停止（デフォルト）。\n\n2つのボタンを表示し、白い熊 考直の一時停止と停止を素早く行うことができます。</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\n\nなし：\n\nボタンを表示しません。\n\n</string>
     <string name="settings_locale_heading" translatable="true">言語の変更</string>
     <string name="settings_locale_dialog_title" translatable="true">ご希望の言語を選択してください</string>
@@ -288,7 +288,7 @@
     <string name="brbs_backup_dialog_failure_message" translatable="true">バックアップできませんでした。もう一度試してください。</string>
     <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">ブロック数が一番多いアプリケーション</string>
     <string name="ssv_app_network_activity_heading" description="This label will appear on the stats screen as a header for allowed apps." translatable="true">アクセス数が一番多いアプリケーション</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Rethinkを起動して始める</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">白い熊 考直を起動して始める</string>
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">アクセス数が一番多いIP</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">ブロック数が一番多いIP</string>
     <string name="ssv_most_blocked_domain_heading" description="This label will appear on the stats screen as a header for most blocked domains" translatable="true">ブロック数が一番多いドメイン</string>
@@ -306,14 +306,14 @@
     <string name="brbs_backup_title" translatable="true">バックアップ</string>
     <string name="brbs_backup_dialog_positive" translatable="true">バックアップ</string>
     <string name="brbs_restore_dialog_failure_title" translatable="true">復元に失敗しました</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink は、ユーザー補助サービスを使用して、どのアプリが使用中 (フォアグラウンド) で、どのアプリが使用されていない (バックグラウンド) かを追跡します。 \n \nRethink は、いかなる方法でも、あなたの情報を収集したり、スパイ行為を行ったりすることはありません。</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 は、ユーザー補助サービスを使用して、どのアプリが使用中 (フォアグラウンド) で、どのアプリが使用されていない (バックグラウンド) かを追跡します。 \n \n白い熊 考直 は、いかなる方法でも、あなたの情報を収集したり、スパイ行為を行ったりすることはありません。</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;:アプリケーションのインターネットへの接続をブロックします。 \n&lt;u&gt;#2&lt;/u&gt;:アプリが特定のIPに接続できないようにします。 \n&lt;u&gt;#3&lt;/u&gt;:デバイスがロックされているときにすべての接続をブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#4&lt;/u&gt;:使用されていないアプリをブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#5&lt;/u&gt;:アプリケーションの提供元が不明なときに接続をブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#6&lt;/u&gt;:DNSを除くすべてのUDPトラフィックをブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#7&lt;/u&gt;:DNSをバイパスする接続をブロックします(ユニバーサルファイアウォール)。</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Orbotを止める</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbotは、Torの特徴と機能をAndroidにもたらします。</string>
     <string name="dns_proxy_remove_dialog_message" translatable="true">保存された構成から DNS プロキシを削除します。</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Rethink は現在常時接続 VPN が有効になっています。Rethink を停止してもよろしいですか?</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">RethinkはVPNを<i>ロックダウン</i>モードで実行しています。これを停止した場合、現在のインターネット接続が失われます。続行しますか?</string>
-    <string name="private_dns_dialog_desc" translatable="true">Rethink の DNS 設定は、Android のプライベート DNS によって上書きされます。 \n \nRethink の DNS を使用するには、Android の設定にアクセスし、「プライベート DNS」をオフにしてください。</string>
+    <string name="always_on_dialog_stop_message" translatable="true">白い熊 考直 は現在常時接続 VPN が有効になっています。白い熊 考直 を停止してもよろしいですか?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直はVPNを<i>ロックダウン</i>モードで実行しています。これを停止した場合、現在のインターネット接続が失われます。続行しますか?</string>
+    <string name="private_dns_dialog_desc" translatable="true">白い熊 考直 の DNS 設定は、Android のプライベート DNS によって上書きされます。 \n \n白い熊 考直 の DNS を使用するには、Android の設定にアクセスし、「プライベート DNS」をオフにしてください。</string>
     <string name="private_dns_dialog_positive" translatable="true">設定を開く</string>
     <string name="univ_firewall_dialog_title" translatable="true">IPの規則を削除しますか?</string>
     <string name="univ_firewall_dialog_message" translatable="true">この規則を削除すると、すべてのアプリケーションがこの IP に接続できるようになります。続行しますか?</string>
@@ -341,13 +341,13 @@
     <string name="settings_enable_logs_desc" translatable="true">DNS とファイアウォールのログをデバイスのローカルに保存します。</string>
     <string name="settings_http_proxy_toast_success" translatable="true">HTTP プロキシが設定されています</string>
     <string name="settings_allow_bypass_heading" translatable="true">バイパスを許可する</string>
-    <string name="settings_allow_bypass_desc" translatable="true">リクエストアプリが必要に応じてRethinkDNSファイアウォールをバイパスできるようにします。ZoomやWhatsAppのような一部の音声/ビデオ会議アプリは、正しく機能するためにバイパスを必要とする場合があります。</string>
+    <string name="settings_allow_bypass_desc" translatable="true">リクエストアプリが必要に応じて白い熊 考直ファイアウォールをバイパスできるようにします。ZoomやWhatsAppのような一部の音声/ビデオ会議アプリは、正しく機能するためにバイパスを必要とする場合があります。</string>
     <string name="settings_lock_down_mode_desc" translatable="true">VPNがロックモードで動作している場合、バイパスを許可することはできません。<u>VPN設定</u> にアクセスしてください。</string>
     <string name="settings_protocol_translation_dns_inactive" translatable="true">DNS/DNS+ファイアウォールモードに切り替えると、この設定が有効になります</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">RethinkDNSは、デバイスのDNSリクエストを暗号化するローカルVPNのセットアップ、ネットワークモニターの実装、ファイアウォールルールの適用を許可する必要があります。 \n \nRethinkDNSは、いかなる情報も収集したり、スパイ行為を行ったりすることはありません。</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直は、デバイスのDNSリクエストを暗号化するローカルVPNのセットアップ、ネットワークモニターの実装、ファイアウォールルールの適用を許可する必要があります。 \n \n白い熊 考直は、いかなる情報も収集したり、スパイ行為を行ったりすることはありません。</string>
     <string name="settings_dns_proxy_dialog_positive_btn" translatable="true">設定</string>
     <string name="settings_socks5_desc" translatable="true">接続を SOCKS5 エンドポイントに転送します。</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">RethinkDNSは、DNSクエリをOrbotに転送するように設定されています。必要に応じて変更してください。</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直は、DNSクエリをOrbotに転送するように設定されています。必要に応じて変更してください。</string>
     <string name="orbot_install_dialog_title" translatable="true">Orbotをインストールしますか？</string>
     <string name="orbot_app_issue" translatable="true">Orbotを起動できませんでした。インストールされていますか？</string>
     <string name="settings_socks5_dialog_hint_port" translatable="true">ポート</string>
@@ -370,7 +370,7 @@
     <string name="firewall_status_bypass_dns_firewall" translatable="true">DNSとファイアウォールルールをバイパスします</string>
     <string name="firewall_status_blocked" translatable="true">ブロック</string>
     <string name="ct_bs_app_info_error" translatable="true">アプリ情報が見つかりません</string>
-    <string name="hs_biometeric_desc" translatable="true">RethinkDNSのロック解除に生体認証を利用する</string>
+    <string name="hs_biometeric_desc" translatable="true">白い熊 考直のロック解除に生体認証を利用する</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">このデバイスでは、生体認証はサポートされていないか、または無効になっています</string>
     <string name="hs_biometeric_error" translatable="true">生体認証に失敗しました</string>
     <string name="firewall_card_text_inactive" translatable="true">ファイアウォールモードを有効にする。</string>
@@ -386,10 +386,10 @@
     <string name="settings_general_customize" translatable="true">カスタマイズ</string>
     <string name="settings_orbot_heading" translatable="true">Orbotのセットアップ</string>
     <string name="settings_socks5_disabled_error" translatable="true">%1$sに接続されています。続行するにはOFFにしてください。</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">Rethinkを起動して始める。</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">白い熊 考直を起動して始める。</string>
     <string name="settings_orbot_notification_action" translatable="true">Orbotを開く</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">デバイスの電源投入時に、シャットダウン前にRethinkDNSが動作していた場合は、RethinkDNSが自動的に起動します。</string>
-    <string name="settings_network_all_networks_desc" translatable="true">有効にすると、RethinkDNSは利用可能なすべてのネットワークを使用してインターネットに接続します。そうでない場合は、Androidによって<i>アクティブ</i>と見なされるネットワークを使用します。</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">デバイスの電源投入時に、シャットダウン前に白い熊 考直が動作していた場合は、白い熊 考直が自動的に起動します。</string>
+    <string name="settings_network_all_networks_desc" translatable="true">有効にすると、白い熊 考直は利用可能なすべてのネットワークを使用してインターネットに接続します。そうでない場合は、Androidによって<i>アクティブ</i>と見なされるネットワークを使用します。</string>
     <string name="settings_custom_downloader_desc" translatable="true">無効の場合、Androidの組み込みの<i>ダウンロードマネージャー</i>が使用されます</string>
     <string name="settings_app_notification_a13_heading" translatable="true">アプリの通知</string>
     <string name="notification_screen_error" translatable="true">アプリの通知画面を起動できませんでした。</string>
@@ -420,11 +420,11 @@
     <string name="lbbs_enabled" translatable="true">有効化</string>
     <string name="lbbs_redownload" translatable="true">ブロックリストの再ダウンロード</string>
     <string name="lbbs_search" translatable="true">ブロックリストに含まれているドメインの検索</string>
-    <string name="orbot_explanation" translatable="true">Orbotは無料のプロキシアプリで、他のアプリがより&lt;u&gt;安全に&lt;/u&gt;インターネットを利用できるようになります。 \nOrbotは&lt;u&gt;Tor&lt;/u&gt;を使ってインターネットトラフィックを暗号化し、&lt;u&gt;検閲を回避し&lt;/u&gt;個人の自由とプライバシーを脅かす&lt;u&gt;ネットワーク監視&lt;/u&gt;形態からユーザーを守るのに役立ちます。 \n&lt;u&gt;TCPプロキシ&lt;/u&gt;:RethinkDNSは、除外されたアプリを除くすべてのTCP接続のみをOrbotに転送する。 \n&lt;u&gt;HTTPプロキシ&lt;/u&gt;:RethinkDNSはHTTPプロキシを&lt;i&gt;設定&lt;/i&gt;するが、アプリがそれを使用することを強制されません。通常、ChromeやFirefoxのようなブラウザはそれを使用しています。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方のルールがバイパスされます。</string>
+    <string name="orbot_explanation" translatable="true">Orbotは無料のプロキシアプリで、他のアプリがより&lt;u&gt;安全に&lt;/u&gt;インターネットを利用できるようになります。 \nOrbotは&lt;u&gt;Tor&lt;/u&gt;を使ってインターネットトラフィックを暗号化し、&lt;u&gt;検閲を回避し&lt;/u&gt;個人の自由とプライバシーを脅かす&lt;u&gt;ネットワーク監視&lt;/u&gt;形態からユーザーを守るのに役立ちます。 \n&lt;u&gt;TCPプロキシ&lt;/u&gt;:白い熊 考直は、除外されたアプリを除くすべてのTCP接続のみをOrbotに転送する。 \n&lt;u&gt;HTTPプロキシ&lt;/u&gt;:白い熊 考直はHTTPプロキシを&lt;i&gt;設定&lt;/i&gt;するが、アプリがそれを使用することを強制されません。通常、ChromeやFirefoxのようなブラウザはそれを使用しています。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方のルールがバイパスされます。</string>
     <string name="contributors_list" translatable="true"><![CDATA[現在の<i>Rethink Open Source Project</i>があるのは、開発に数え切れないほどの時間を費やして下さったボランティアの皆々様のおかげです。<br /> <br />🛡️ Androidアプリ <br /> <a href=https://github.com/BayLee4>BayLee4</a><br /> <a href=https://github.com/Ch4t4r>Ch4t4r</a><br /> <a href=https://github.com/HrBDev>HrBDev</a><br /> <a href=https://github.com/hussainmohd-a>hussainmohd-a</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/markwmuller>markwmuller</a><br /><a href=https://github.com/Uldiniad>Uldiniad</a><br /> <a href=https://github.com/Poussinou>Poussinou</a><br /> <a href=https://github.com/pjosingh>pjosingh</a><br /> <br />🚂 ネットワークエンジン <br /> <a href=https://github.com/alalamav>alalamav</a><br /> <a href=https://github.com/bemasc>bemasc</a><br /> <a href=https://github.com/dmcardle>dmcardle</a><br /> <a href=https://github.com/fortuna>fortuna</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/PeterDaveHello>PeterDaveHello</a><br /> <a href=https://github.com/santhosh-ponnusamy>santhosh-ponnusamy</a><br /> <a href=https://github.com/SeanBurford>SeanBurford</a><br /> <br />📚 リゾルバ <br /> <a href=https://github.com/ahmed-tasaly>ahmed-tasaly</a><br /> <a href=https://github.com/amithm7>amithm7</a><br /> <a href=https://github.com/arfshl>arfshl</a><br /> <a href=https://github.com/badmojr>badmojr</a><br /> <a href=https://github.com/bongochong>bongochong</a><br /> <a href=https://github.com/elliotwutingfeng>elliotwutingfeng</a><br /> <a href=https://github.com/georgyo>georgyo</a><br /> <a href=https://github.com/GiddyGoatGaming>GiddyGoatGaming</a><br /> <a href=https://github.com/Harish-Narayan>Harish-Narayan</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/JakeChampion>JakeChampion</a><br /> <a href=https://github.com/MasterKia>MasterKia</a><br /><a href=https://github.com/mtxadmin>mtxadmin</a><br /> <a href=https://github.com/neneeen>neneeen</a><br /> <ahref=https://github.com/PeterDaveHello>PeterDaveHello</a><br /> <a href=https://github.com/santhosh-ponnusamy>santhosh-ponnusamy</a><br /> <a href=https://github.com/shruuub>shruuub</a><br /> <a href=https://github.com/shuvashish76>shuvashish76</a><br /><br />⚜ コミュニティMods <br /> <a href=https://t.me/amithm7>amithm7</a><br /> <a href=https://t.me/ppatra>ppatra</a><br /> <a href=https://t.me/InFamous23>InFamous23</a><br /> <a href=https://t.me/TheTr1ckst3r>TheTr1ckst3r</a><br /> <a href=https://t.me/Ch4t4r>Ch4t4r</a><br /> <a href=https://t.me/Billi_ance>Billi_ance</a><br /> <a href=https://t.me/kaliangel>kaliangel</a><br /> <a href=https://github.com/PoneyClairDeLune>PoneyClairDeLune</a><br /> <br />📌 Geo-IP <br /> <a href=https://db-ip.com>db-ip.com</a><br /> <br />❇ 翻訳 <br /> <a href=https://weblate.org/en />Weblate</a><br /><br />🦆 アイコン <br /> <a href=https://github.com/celzero/rethink-app/issues/346>Icons</a><br /> <br />📦 サーバーの構築 <br /><a href=https://jitpack.io />JitPack</a><br /> <a href=https://github.com />GitHub</a><br />]]></string>
     <string name="dc_check_update_desc" translatable="true"><i>3</i>日ごとにブロックリストの更新を確認する</string>
     <string name="whats_new_version_update" translatable="false"><![CDATA[<b>スーパーチャージ!</a><br/><br/>1.<i>新機能</i>:高度なDNSフィルタリング。アプリケーションの接続時にのみドメインルールを適用します。<br/>2.<i>新機能</i>:アプリケーションごとにドメインを許可または拒否します。<br/>3.<i>新機能</i>:すべてのアプリケーションに対してドメインを許可または拒否します。<br/>4.<i>新機能</i>:アプリケーションごとにDNSとファイアウォールの両方のルールをバイパスします。<br/>5.<i>新機能</i>:パケットキャプチャ(PCAP)。<br/>6.<i>新機能</i>:DNSブースター。要求を結合し、応答をキャッシュします。<br/>7.<i>新機能</i>:ドメインおよびIPルールを編集します。<br/>8.その他のマイナーなUI変更とバグ修正。<br/>Modulated Modulatedこのアプリケーションの翻訳を支援します英語のみ)。<br/><a href=https://svc.rethinkdns.com/r/translate>]]></string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Rethink のユーザー補助サービスが停止またはクラッシュしました。<i><b>設定に移動して Rethink を強制終了</b></i>し、再度起動してください。<i>使用していないアプリをブロックする</i> 機能を使用してください。 \n \nRethink は、ユーザー補助サービスを使用して、使用中 (フォアグラウンド) のアプリと使用していない (バックグラウンド) のアプリを追跡しています。</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 のユーザー補助サービスが停止またはクラッシュしました。<i><b>設定に移動して 白い熊 考直 を強制終了</b></i>し、再度起動してください。<i>使用していないアプリをブロックする</i> 機能を使用してください。 \n \n白い熊 考直 は、ユーザー補助サービスを使用して、使用中 (フォアグラウンド) のアプリと使用していない (バックグラウンド) のアプリを追跡しています。</string>
     <string name="firewall_rule_bypass_universal_ip_desc" translatable="true"><![CDATA[<i>宛先IP</i>がすべてのユニバーサルファイアウォールルールをバイパスするように設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>ユニバーサル</i>の<i>IPルール</i>に移動してください。]]></string>
     <string name="firewall_rule_domain_blocked_univ_desc" translatable="true"><![CDATA[<i>ドメイン</i>がユニバーサルドメインルールでブロックされているため、この接続はブロックされました。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
     <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[この接続が許可されたのは、<i>ドメイン</i>がユニバーサルドメインルールで信頼できるものとして設定されているためです。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
@@ -444,12 +444,12 @@
     <string name="firewall_rule_block_dns_bypass_desc" translatable="true"><![CDATA[<i>ソースアプリケーション</i>がユーザー優先のDNSをバイパスしたため、この接続はブロックされました。<br/><br/>この動作を変更するには、<i>ユニバーサル</i>タブに移動してください。]]></string>
     <string name="ci_dialog_desc" translatable="true">IPアドレス、IPサブネット(範囲)、ポートを許可(バイパス)またはブロックします。例: 10.10.10.10, 10.1.1.*、 10.2.2/24、 ffff::/104、 [::]:80、 [10.1.0.0/16]:80、 *.*:80</string>
     <string name="show_logs_disabled_dns_message" translatable="true">DNS要求ログが無効になっています。再度有効にするには、<i>設定</i>に移動して<i>デバイス上のログを有効にする</i>をオンにしてください</string>
-    <string name="dc_dns_leaks_desc" translatable="true">有効にすると、RethinkDNSはポート53上のすべてのパケットをキャプチャし、ユーザー設定のDNSエンドポイントに転送します</string>
+    <string name="dc_dns_leaks_desc" translatable="true">有効にすると、白い熊 考直はポート53上のすべてのパケットをキャプチャし、ユーザー設定のDNSエンドポイントに転送します</string>
     <string name="pause_title_desc" translatable="true">昼寝中…</string>
     <string name="orbot_both_desc" translatable="true">上記すべてです。</string>
     <string name="orbot_bs_status_4" translatable="true">ワンクリックでTor-as-a-Proxy（Orbot）を設定できます。</string>
     <string name="orbot_stop_dialog_message_combo" translatable="false">%1$s \n \n%2$s</string>
-    <string name="orbot_stop_dialog_message" translatable="true">RethinkDNSはOrbotへの接続転送を停止していますが、Orbotはバックグラウンドで動作している可能性があります。</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直はOrbotへの接続転送を停止していますが、Orbotはバックグラウンドで動作している可能性があります。</string>
     <string name="settings_https_disabled_error" translatable="true">%1$sに接続されています。続行するにはOFFにしてください。</string>
     <string name="settings_orbot_notification_content" translatable="true">Tor-as-a-Proxy の起動失敗。 Orbotアプリを開き、手動で起動します。</string>
     <string name="settings_http_proxy_desc" translatable="true">%1$s に転送する</string>
@@ -493,11 +493,11 @@
     <string name="firewall_rule_no_rule_desc" translatable="true">この接続に一致するファイアウォール規則はありません。</string>
     <string name="firewall_rule_trusted_domain_desc" translatable="true"><![CDATA[<i>ドメイン</i>が信頼されたドメインとして設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動します。]]></string>
     <string name="new_app_bulk_notification_title" translatable="true">注意</string>
-    <string name="new_app_notification_content" translatable="true">RethinkDNSは最近インストールされたアプリ、%1$s をブロックしました。</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直は最近インストールされたアプリ、%1$s をブロックしました。</string>
     <string name="notif_dialog_pause_dialog_title" translatable="true">アプリが一時停止しました！</string>
     <string name="notif_dialog_pause_dialog_message" translatable="true">アプリケーションは一時停止状態です。再開してください</string>
     <string name="notif_dialog_pause_dialog_positive" translatable="true">再開</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">RethinkDNS がアクティブでバックグラウンドで実行されている場合に通知する</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">白い熊 考直 がアクティブでバックグラウンドで実行されている場合に通知する</string>
     <string name="build__flavor_website" translatable="true">Webサイト</string>
     <string name="build__flavor_fdroid" translatable="true">fdroid</string>
     <string name="cd_toast_deleted" translatable="true">カスタム リストからドメインを削除しました</string>
@@ -508,7 +508,7 @@
     <string name="ci_no_rule_initial" translatable="true">N</string>
     <string name="ci_block" translatable="true">ブロック</string>
     <string name="radio_sky_btn" translatable="true">⛅ Sky</string>
-    <string name="dc_rethink_dns" translatable="false">Rethink DNS</string>
+    <string name="dc_rethink_dns" translatable="false">白い熊 考直 DNS</string>
     <string name="dc_dns_proxy" translatable="false">DNSプロキシ</string>
     <string name="dc_doh" translatable="false">Dns over HTTPS</string>
     <string name="lbbs_configure" translatable="true">構成</string>
@@ -525,8 +525,8 @@
     <string name="firewall_rule_foreground" translatable="true">未使用のアプリ</string>
     <string name="firewall_rule_exempt_dns_proxied" translatable="true">DNSプロキシ</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">アプリに許可されたネットワーク接続</string>
-    <string name="accessibility_notification_content" translatable="true">RethinkDNSのアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。タップして再度有効にしてください。</string>
-    <string name="accessibility_failure_toast" translatable="true">RethinkDNSのアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。</string>
+    <string name="accessibility_notification_content" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。タップして再度有効にしてください。</string>
+    <string name="accessibility_failure_toast" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。</string>
     <string name="firewall_rule_block_metered" translatable="true">従量制（モバイル）</string>
     <string name="firewall_rule_bypass_universal_ip" translatable="true">バイパスされたIP</string>
     <string name="firewall_rule_device_lock" translatable="true">デバイスがロックされています</string>
@@ -535,7 +535,7 @@
     <string name="firewall_rule_block_domain" translatable="true">ドメイン (アプリ)</string>
     <string name="firewall_rule_exempt_orbot_setup" translatable="true">Orbot セットアップ</string>
     <string name="cd_remove_dialog_message" translatable="true">保存された設定からドメインを削除する。</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">RethinkDNSがAndroidまたは別のVPNアプリによって停止されたときに通知する</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">白い熊 考直がAndroidまたは別のVPNアプリによって停止されたときに通知する</string>
     <string name="cd_toast_added" translatable="true">ドメインが正常に追加されました</string>
     <string name="ci_blocked_initial" translatable="true">B</string>
     <string name="ci_no_rule_txt" translatable="true">ルールなし</string>
@@ -555,7 +555,7 @@
     <string name="hsf_packet_capture_chip_text" translatable="true">パケット キャプチャがアクティブ</string>
     <string name="hsf_packet_capture_chip_disabled_toast" translatable="true">パケット キャプチャが無効</string>
     <string name="hsf_whats_new_remove_text" translatable="true">閉じる..</string>
-    <string name="dc_rethink_dns_radio" translatable="true">RethinkDNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直</string>
     <string name="hsf_whats_new_chip_text" translatable="true">更新情報</string>
     <string name="hsf_proxy_chip_text" translatable="true">プロキシがアクティブ</string>
     <string name="dc_block_heading" translatable="true">ルール</string>
