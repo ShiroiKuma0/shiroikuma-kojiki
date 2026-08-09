@@ -80,12 +80,13 @@ class ConnectionTrackerViewModel(private val connectionTrackerDAO: ConnectionTra
     }
 
     /** Fork (白い熊 考直): tap an app's icon → show every connection for that uid, dropping any
-     *  active search / rule / state filter. Triggers immediately (no debounce). */
+     *  active search / rule / state filter. Triggers immediately (no debounce) — upstream dropped
+     *  its debounceJob on the v0.5.6 base, so filterString.switchMap already fires at once and
+     *  there is no pending job left to cancel. */
     fun setUidFilter(uid: Int) {
         filterUid = uid
         filterRules.clear()
         filterType = TopLevelFilter.ALL
-        debounceJob?.cancel()
         _filterString.value = "" // re-run the query (content ignored while a uid filter is set)
     }
 
