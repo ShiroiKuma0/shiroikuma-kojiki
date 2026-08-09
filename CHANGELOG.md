@@ -1,6 +1,34 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.5y`** upstream tag with its pinned firestack engine (`310d7bc603`) plus the fork’s DoH idle-pool patch.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
+
+## 0.5.6+2
+
+**Rebased onto the v0.5.6 release — 388 upstream commits — and, for the first time, the patched engine is built on exactly the tag’s own pin.**
+
+### The upstream jump
+The base moves from the `v0.5.5y` tag to **`v0.5.6`** (`VERSION_CODE 67`), 388 commits later. `versionCode` becomes `30670001`+, comfortably above the previous `3063xxxx` line, so it installs as a normal upgrade rather than a downgrade. All 60 fork commits were replayed on top.
+
+### Upstream took half of our DoH fix — the fork keeps the other half
+The idle-pool wedge we filed as [celzero/firestack#241](https://github.com/celzero/firestack/issues/241) has been **partly adopted upstream**: firestack `7ece230c` lowers the DoH connection-pool idle timeout from 3 minutes to 30 seconds, and its comment quotes our own Quad9 measurement back to us.
+
+That is the easy half. **30 seconds sits exactly on the shortest idle window we measured** (Quad9 closes at ≤30 s), so a pooled connection can still be handed a query at the very moment the resolver drops it — and upstream added **no HTTP/2 PING health-checks**, so a half-dead connection is still discovered by losing a query rather than by a ping. The fork therefore keeps its full patch on top: a **10-second** pool plus `ReadIdleTimeout`/`PingTimeout` PING eviction.
+
+The upside of the rebase: the patched AAR is now built on **`61894b7f` — precisely the engine `v0.5.6` pins**, so for the first time the fork’s engine matches its tag exactly instead of running ahead of it.
+
+### The version-31 collision (and why the first build crashed)
+Worth recording, because it will recur. `AppDatabase` version **31 came to mean two different schemas**: an earlier fork build stamped 31 after *its* `MIGRATION_30_31` created the Snooping panel’s `SnoopEvent` table, while upstream’s `v0.5.6` stamps 31 after *its* `MIGRATION_30_31` creates the `Sponsor` table.
+
+Renumbering the fork’s migration to `31 → 32` was necessary but not sufficient: a database on the fork lineage is already stamped 31, so Room skips upstream’s `30 → 31` entirely, `Sponsor` is never created, and the app dies on open with `Migration didn't properly handle: Sponsor … Found: columns = { }`. `MIGRATION_31_32` now **also creates `Sponsor` idempotently**, with upstream’s exact DDL, so both lineages converge on the same schema at 32 — the same reconciliation this migration already carried for an earlier `26 → 27` collision.
+
+### Carried across upstream’s refactors
+- **`Logger` moved** out of the default package into `com.celzero.bravedns.util`; the ten fork-owned files that imported it are repointed.
+- **`isVpnDns()` was extracted** into a new `TunFlowManager`, so the Huawei/EMUI real-fallback-DNS trap moved there with it — excluded apps still resolve, in-tunnel queries are still trapped to the DoH.
+- **`VpnController.braveVpnService` → `rvpn`**, reconnecting the DNS watchdog’s entry points.
+- **Upstream deleted `updateVpnConnectionState()` and the log-list `debounceJob`**; the tap-an-icon uid filter keeps its immediate, no-debounce behaviour because the query already fires at once.
+- **`R.color.dividerBlack` is gone** (dividers moved onto Material 3 `?attr/colorSurfaceVariant`), so the configurable row divider now draws from the fork’s own colour and cannot be removed by a future rebase. The firewall row also became a card, so the divider is re-pinned to its bottom edge.
+- **`ProxyManager.updateApp`** gained an upstream recovery path for a lost base row, which is kept — on top of the fork’s own hardening, which reads the database rather than the possibly stale in-memory cache and refuses to let a mapping conflict crash the refresh loop.
+- **The rebrand sweep was re-run** over upstream’s new strings: 1829 replacements across 38 locales and 49 locale `app_name` overrides dropped, while upstream’s credit, the rethinkdns.com links and the resolver names (RDNS, RDNS Plus) stay untouched.
 
 ## 0.5.5y+13
 
