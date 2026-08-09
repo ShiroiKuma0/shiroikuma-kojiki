@@ -15,8 +15,8 @@
  */
 package com.celzero.bravedns.scheduler
 
-import Logger
-import Logger.LOG_TAG_SCHEDULER
+import com.celzero.bravedns.util.Logger
+import com.celzero.bravedns.util.Logger.LOG_TAG_SCHEDULER
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent

@@ -877,9 +877,12 @@ object CustomUi {
             setHeight(divider, (width * density).toInt())
             divider.setBackgroundColor(color)
         } else {
-            // Default: the custom theme's as-shipped 1dp divider (AppThemeTrueBlack → dividerBlack).
+            // Default: the custom theme's as-shipped 1dp divider. Upstream dropped the hardcoded
+            // dividerBlack (#1C1C1C) on the v0.5.6 base when it moved dividers onto the Material 3
+            // ?attr/colorSurfaceVariant; use our own near-identical fork colour so a future rebase
+            // cannot take it away again.
             setHeight(divider, (1 * density).toInt())
-            divider.setBackgroundColor(ContextCompat.getColor(context, R.color.dividerBlack))
+            divider.setBackgroundColor(ContextCompat.getColor(context, R.color.kojikiSurfaceVariant))
         }
     }
 
