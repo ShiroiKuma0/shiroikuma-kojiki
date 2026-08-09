@@ -51,37 +51,45 @@ foreground). Never material yellow `#FFEB3B`.
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
 
-**We track a released tag, not `main`.** As of 2026-07-27 the base is the **`v0.5.5y` tag** (`VERSION_CODE 63`,
-commit `553062454`, 2026-07-07), whose pinned engine is firestack **`310d7bc603`** — though we do not actually
-ship that engine; see the firestack note below. We deliberately do **not** sync to `upstream/main`: a
-bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once reset the first SSH flow after the
-WireGuard double-hop relay idled, so we stay on the released tag's engine. The `UPSTREAM_AHEAD` field still
-exists to keep the name honest *if* we ever track `main` past a tag; tracking the tag exactly makes it `0` and
-the suffix drops.
+**We track a released tag, not `main`.** As of 2026-08-09 the base is the **`v0.5.6` tag** (`VERSION_CODE 67`,
+commit `21b8206b7`, 2026-08-09), whose pinned engine is firestack **`61894b7fdb`** — and for the first time we
+actually ship that engine's commit, with one patch on top; see the firestack note below. We deliberately do
+**not** sync to `upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once
+reset the first SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine.
+The `UPSTREAM_AHEAD` field still exists to keep the name honest *if* we ever track `main` past a tag; tracking
+the tag exactly makes it `0` and the suffix drops.
 
-> **Next upstream release is brewing.** As of 2026-07-27 `upstream/main` is ~69 commits past `v0.5.5y` and
-> already carries `v055z: bump version code for v055z` (`VERSION_CODE=65`, firestack `b802d068a1`), but
-> **v0.5.5z is not tagged yet**. Wait for the tag. When it lands, the firestack bump is the risky part: check
-> whether our DoH idle-pool fix (below) is in `b802d068a1`, and if not, rebuild the patched AAR on it.
+> **When the next tag lands, check the DB migration FIRST.** Every upstream release that adds a Room migration
+> collides with ours, because the fork's `SnoopEvent` migration claims a version number too — so one version
+> number ends up naming two different schemas and the app crashes on open with
+> `Migration didn't properly handle: <Table> … Found: columns = { }`. **Renumbering ours is not enough**: a
+> device on the fork lineage is already stamped at that number, so Room skips upstream's migration entirely and
+> upstream's table is never created. Our renumbered migration must **also create upstream's table idempotently**
+> (`CREATE TABLE IF NOT EXISTS`, upstream's exact DDL). This has now happened twice — `26→27`
+> (`WgConfigFiles.modifiedTs`) and `30→31` (`Sponsor`, which shipped broken in `0.5.6+1`). Both reconciliations
+> live in `MIGRATION_31_32`. Sanity-check four paths: fresh install · pre-collision version · fork lineage ·
+> upstream lineage.
 
-- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.5y` / `63`).
-- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.5y..main`).
+- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.6` / `67`).
+- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.6..main`).
   Tracking the tag exactly → **`0`**. **Recomputed at rebase time** by the **upstream-new-version** skill; it
   does **not** change between builds, and does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
 - Fork `versionName` = `"<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>"`. The `-<UPSTREAM_AHEAD>` is
   **dropped when it is `0`**, so on the tag it reads as the clean `"<VERSION_NAME>+<BUILD_NUMBER>"`
-  (e.g. `0.5.5y+1`).
-- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `63 * 10000 + 1 = 630001`).
+  (e.g. `0.5.6+1`).
+- Fork `versionCode` = `VERSION_CODE * 10000 + BUILD_NUMBER` (e.g. `67 * 10000 + 1 = 670001`).
 - The arm64-v8a APK then gets upstream's per-ABI override: `3 * 10000000 + forkVersionCode`
-  (e.g. `30630001`). This is **higher** than the previous `v0.5.5x` line (`3061xxxx`), so it installs as a
+  (e.g. `30670001`). This is **higher** than the previous `v0.5.5y` line (`3063xxxx`), so it installs as a
   normal **upgrade** — no uninstall needed.
 - Output APK (copied to `~/tmp` by `buildFoss`) =
   `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
-  (e.g. `shiroikuma-kojiki_0.5.5y+1_arm64-v8a.apk`).
+  (e.g. `shiroikuma-kojiki_0.5.6+1_arm64-v8a.apk`).
 
-So the first build on this base was `0.5.5y+1` (`630001` → `30630001`), the next build with changes is `+2`,
-and so on. As of 2026-07-27 the last build was **`0.5.5y+11`** and `BUILD_NUMBER` stands at `12`.
+So the first build on this base was `0.5.6+1` (`670001` → `30670001`), the next build with changes is `+2`,
+and so on. As of 2026-08-09 the last build was **`0.5.6+2`** (the released one) and `BUILD_NUMBER` stands
+at `3`. Release tags in this repo are the unpadded version string, matching the APK filename exactly
+(`0.5.5y+13`, `0.5.6+2`) — see the **publish-version** skill.
 
 ### Building
 
@@ -109,20 +117,29 @@ variant/task is `fdroidFullRelease` / `assembleFdroidFullRelease`.
 **firestack:** normally consumed as a prebuilt AAR from Maven Central — but **we currently ship a self-built
 patched engine**, so `gradle.properties` sets `firestackRepo=local` (not `ossrh`), which makes Gradle read
 `app/libs/tun2socks.aar` (gitignored, ~28 MB) instead of resolving `com.celzero:firestack:<commit>@aar`.
-`firestackCommit=310d7bc603` is left at the `v0.5.5y` tag's value but is **inert** while `firestackRepo=local`
-— it does not describe what is in the AAR. What is actually built:
+`firestackCommit=61894b7fdb` is the `v0.5.6` tag's value and is **inert** while `firestackRepo=local` — it
+records the AAR's upstream base, it does not describe what is in the AAR. What is actually built:
 
 - Repo `~/git/firestack`, branch **`kojiki-doh-idle`** (pushed to `fork` = `ShiroiKuma0/firestack`).
-- Base = celzero's **`origin/n2`** (firestack's default branch) at `d534669a`, **42 commits past** the
-  `v0.5.5y` pin `310d7bc603` — so the engine is newer than the tag's, not equal to it.
-- Plus our one patch **`8288fb0d`** — *"doh: keep pooled conns shorter-lived than server idle-timeouts;
-  h2 PING health-checks"*, the DoH idle-pool fix filed upstream as **celzero/firestack#241**. Without it the
-  DoH pool (3 min, no h2 ping) outlives resolver idle-kills (Quad9 ≤30 s) and DNS wedges all day. See memory
+- Base = celzero's **`origin/n2`** (firestack's default branch) at **`61894b7f`** — **exactly the `v0.5.6`
+  pin**, so as of 2026-08-09 the engine matches the tag rather than running ahead of it.
+- Plus our one patch **`662629b7`** — *"doh: keep pooled conns shorter-lived than server idle-timeouts;
+  h2 PING health-checks"*, the DoH idle-pool fix filed upstream as **celzero/firestack#241**. See memory
   `[[kojiki-dns-wedge-and-watchdog]]`; the Kotlin-side companion is `service/KojikiDnsWatchdog.kt`.
-- Rebuild recipe: memory `[[firestack-from-source-build]]` (Go + gomobile + NDK → `make intra`).
+- **Upstream has PARTLY adopted that fix** — firestack `7ece230c` lowers `IdleConnTimeout` 3 min → **30 s**
+  (its comment quotes our own Quad9 measurement). Keep our patch anyway: 30 s sits *exactly* on the shortest
+  idle window we measured (Quad9 closes at ≤30 s), and upstream still adds **no h2 PING health-checks**, so a
+  half-dead connection is still found by losing a query. Ours is **10 s** + `http2.ConfigureTransports` with
+  `ReadIdleTimeout`/`PingTimeout`. On the next rebase, re-check whether upstream has closed the rest of the
+  gap; if it ever ships the PING eviction too, this patch can be dropped.
+- Rebuild recipe: memory `[[firestack-from-source-build]]` (Go + gomobile + NDK → `make intra`). Firestack now
+  requires **Go 1.26** (`~/goroot/go` is 1.26.0); `rm -rf build` before `make intra` so the Go-runtime overlay
+  regenerates for the current toolchain, else the build reuses one patched for the old Go.
+- Verify the shipped engine: `libgojni.so` unzipped from the APK must be SHA256-identical to the one in
+  `~/git/firestack/build/intra/tun2socks.aar`.
 
-To fall back to the **stock** `v0.5.5y` engine, set `firestackRepo=ossrh` — you then lose the DoH fix and the
-wedge returns. **Do not bump `firestackCommit` to a `main`-lineage firestack** (e.g. `379ac52ace`) — that broke
+To fall back to the **stock** `v0.5.6` engine, set `firestackRepo=ossrh` — you keep upstream's 30 s half of
+the fix but lose the PING eviction. **Do not bump `firestackCommit` to a `main`-lineage firestack** (e.g. `379ac52ace`) — that broke
 WG-relay SSH (see the versioning section). On this engine the WG double-hop must run **full-tunnel with
 Lockdown ON** (per-app split wedges the resolver); the hub supplies internet via NAT. See memory
 `[[wg-hub-and-dns-architecture]]`.
