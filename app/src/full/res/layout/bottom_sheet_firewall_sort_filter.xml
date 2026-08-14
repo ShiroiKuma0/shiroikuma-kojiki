@@ -12,8 +12,20 @@
         android:layout_height="3dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="12dp"
         android:background="?attr/border" />
+
+    <!-- Fork (白い熊 考直): everything below the drag handle lives in one box so the Custom theme can
+         draw the black fill + accent border on it (FirewallAppFilterBottomSheet.applyKojikiTheme).
+         The border must NOT go on the sheet root: a full-width panel's side strokes land at the
+         screen edge and are clipped, which is why the panel itself stays plain (CustomUi.themeBottomSheet). -->
+    <LinearLayout
+        android:id="@+id/fs_content_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="10dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fs_filter_heading"
@@ -38,6 +50,7 @@
         app:singleSelection="true" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fs_categories_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -58,6 +71,59 @@
         android:padding="2dp"
         android:visibility="visible"
         app:singleSelection="false" />
+
+    <!-- Fork (白い熊 考直): the app-group (profile) filter. Selecting groups here also aims the app
+         list's bulk-rule toolbar at them, since the toolbar acts on whatever the filter selects. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fs_groups_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="@string/kojiki_group_filter_heading"
+            android:textColor="?attr/secondaryTextColor"
+            android:textSize="@dimen/large_font_text_view" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fs_groups_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            android:text="@string/kojiki_group_manage"
+            android:textColor="?attr/accentGood"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/ffa_group_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:padding="2dp"
+        app:singleSelection="false" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fs_groups_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/kojiki_group_none"
+        android:textColor="?attr/primaryLightColorText"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,6 +159,8 @@
             android:padding="5dp"
             android:text="@string/lbl_apply"
             android:textColor="?attr/chipTextColor" />
+    </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

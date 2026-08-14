@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
+import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
 import com.celzero.bravedns.database.RefreshDatabase
@@ -78,6 +79,9 @@ class AppListActivity :
 
     private var layoutManager: RecyclerView.LayoutManager? = null
 
+    // Fork (白い熊 考直): kept so the filter sheet can force a pill re-render after a group edit.
+    private var recyclerAdapter: FirewallAppListAdapter? = null
+
     private var showBypassToolTip = true
 
     private lateinit var animation: Animation
@@ -108,7 +112,13 @@ class AppListActivity :
     enum class TopLevelFilter(val id: Int) {
         ALL(0),
         INSTALLED(1),
-        SYSTEM(2);
+        SYSTEM(2),
+
+        // Fork (白い熊 考直): the synthetic "no_package_<uid>" rows — root, SYSTEM, and any uid whose
+        // traffic could not be attributed to a package. They are neither "installed" nor reliably
+        // "system" (isSystemApp depends on whether the uid resolves in AndroidUidConfig), so this is
+        // a post-query filter on the package name rather than another DAO query.
+        NON_APP(3);
 
         fun getLabel(context: Context): String {
             return when (this) {
@@ -122,6 +132,9 @@ class AppListActivity :
                 }
                 SYSTEM -> {
                     context.getString(R.string.fapps_filter_parent_system)
+                }
+                NON_APP -> {
+                    context.getString(R.string.kojiki_filter_non_app)
                 }
             }
         }
@@ -199,6 +212,21 @@ class AppListActivity :
         var topLevelFilter = TopLevelFilter.ALL
         var firewallFilter = FirewallFilter.ALL
         var searchString: String = ""
+
+        // Fork (白い熊 考直): the app-group (profile) filter. `groupFilters` is what the UI shows and
+        // what "is a group filter active?" is decided by (a group with no members must still filter
+        // the list down to nothing, not silently show everything); `groupPackages` is the resolved
+        // member set the view model matches rows against. Always set them together, via setGroups.
+        var groupFilters: MutableSet<String> = mutableSetOf()
+            private set
+        var groupPackages: Set<String> = emptySet()
+            private set
+
+        /** Select the app groups to filter by, resolving their member packages in one place. */
+        fun setGroups(context: Context, names: Collection<String>) {
+            groupFilters = names.toMutableSet()
+            groupPackages = KojikiAppGroups.packagesIn(context, groupFilters)
+        }
     }
 
     private fun Context.isDarkThemeOn(): Boolean {
@@ -243,6 +271,18 @@ class AppListActivity :
     private fun updateFilterText(filter: Filters) {
         val filterLabel = filter.topLevelFilter.getLabel(this)
         val firewallLabel = filter.firewallFilter.getLabel(this)
+        // Fork (白い熊 考直): an active group filter leads the line — it is the narrowest filter and
+        // the one the bulk-rule toolbar is then aimed at, so it must never be invisible.
+        if (filter.groupFilters.isNotEmpty()) {
+            b.firewallAppLabelTv.text =
+                UIUtils.htmlToSpannedText(
+                    getString(
+                        R.string.kojiki_group_filter_desc,
+                        filter.groupFilters.joinToString(", "),
+                        firewallLabel.lowercase()))
+            b.firewallAppLabelTv.isSelected = true
+            return
+        }
         if (filter.categoryFilters.isEmpty()) {
             b.firewallAppLabelTv.text =
                 UIUtils.htmlToSpannedText(
@@ -809,8 +849,15 @@ class AppListActivity :
         })
     }
 
+    /** Fork (白い熊 考直): re-render the rows' group pills — called by the filter sheet after it
+     *  renames or deletes a group, which changes rows other than any the user tapped. */
+    fun refreshGroupPills() {
+        recyclerAdapter?.refreshGroupPills()
+    }
+
     private fun initListAdapter() {
         val recyclerAdapter = FirewallAppListAdapter(this, this, eventLogger)
+        this.recyclerAdapter = recyclerAdapter
         b.ffaAppList.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(this)
         b.ffaAppList.layoutManager = layoutManager

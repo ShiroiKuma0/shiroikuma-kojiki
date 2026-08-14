@@ -23,7 +23,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
-import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
@@ -62,7 +61,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.shape.MaterialShapeDrawable
 import java.io.File
 
 /**
@@ -259,6 +257,19 @@ object CustomUi {
         }
     }
 
+    /**
+     * Fork (白い熊 考直): run the same styling pass over an arbitrary view tree — a dialog's or a
+     * bottom sheet's content root, which [applyTo]'s activity walk never reaches (a dialog lives in
+     * its own window). Call it after the content is built AND after any dynamically-added children
+     * (e.g. chips remade on a filter change). No-op off the Custom theme.
+     */
+    fun applyToDialogTree(root: View) {
+        if (!customThemeActive) return
+        val ctx = root.context
+        val cfg = CustomUiConfig(ctx)
+        applyToTree(ctx, root, cfg, cfg.globalStyle(), resolveThemeColor(ctx, R.attr.background))
+    }
+
     private fun applyToTree(context: Context, v: View, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle, themeBg: Int) {
         // Opt-out: leave this view (and its subtree) exactly as set by its owner — e.g. the
         // 白い熊 考直 UI preview widgets, which drive their own pill/status size.
@@ -272,6 +283,13 @@ object CustomUi {
                     v.setCardBackgroundColor(cfg.surfaceColor)
                 }
                 if (v.cardElevation != 0f) v.cardElevation = 0f
+                // Zeroing the elevation is not enough to close the gaps between cards: the Rethink
+                // card style sets cardUseCompatPadding, and that padding is reserved from
+                // *maxCardElevation*, not from the current elevation — so every flat black card kept
+                // ~5dp of invisible shadow room top and bottom (on top of its 2dp margins), which is
+                // what made the app list read as over-spaced. No shadow, no shadow padding.
+                if (v.maxCardElevation != 0f) v.maxCardElevation = 0f
+                if (v.useCompatPadding) v.useCompatPadding = false
                 // Configurable card border (0 dp = none).
                 val strokePx = (cfg.cardBorderWidth * context.resources.displayMetrics.density).toInt()
                 if (v.strokeWidth != strokePx) v.strokeWidth = strokePx
@@ -355,6 +373,9 @@ object CustomUi {
                 // Firewall row icon + wifi/data toggles are styled by FirewallAppListAdapter at bind time.
                 // The network/DNS-log app icons get their size/roundness from their adapters at bind time.
                 R.id.firewall_app_icon_iv, R.id.firewall_app_toggle_wifi, R.id.firewall_app_toggle_mobile_data,
+                // The per-app note glyph carries state in its tint (accent = has a note, dimmed = "+"),
+                // set by KojikiAppNotes.styleGlyph at bind time — a flat accent tint here would erase it.
+                R.id.firewall_app_note_iv,
                 R.id.connection_app_icon, R.id.dns_app_icon ->
                     Unit
                 else -> {
@@ -1099,27 +1120,11 @@ object CustomUi {
         if ((v.background as? ColorDrawable)?.color != color) v.setBackgroundColor(color)
     }
 
-    // --- Fork (白い熊 考直): borders for dialog / bottom-sheet surfaces. Material draws these as
-    // MaterialShapeDrawables that the activity tree-walk never reaches and a static android:background
-    // doesn't reliably replace; so add an accent stroke + force the configured fill onto the existing
-    // shape at runtime (keeping the correct corners/insets). Call after the dialog/sheet is shown. ---
+    // --- Fork (白い熊 考直): borders for dialog / bottom-sheet surfaces. The activity tree-walk never
+    // reaches these — a dialog and a sheet each live in their own window — so they are painted from
+    // their own entry points, after the dialog/sheet is shown. ---
 
-    /** Unwrap the surface MaterialShapeDrawable from a window/view background (it's often nested in an
-     *  InsetDrawable or LayerDrawable). */
-    private fun unwrapShape(d: Drawable?): MaterialShapeDrawable? = when (d) {
-        is MaterialShapeDrawable -> d
-        is InsetDrawable -> unwrapShape(d.drawable)
-        is LayerDrawable ->
-            (0 until d.numberOfLayers).asSequence().mapNotNull { unwrapShape(d.getDrawable(it)) }.firstOrNull()
-        else -> null
-    }
-
-    private fun strokeShape(shape: MaterialShapeDrawable, cfg: CustomUiConfig, strokePx: Float) {
-        shape.setStroke(strokePx, cfg.cardBorderColor)
-        shape.fillColor = ColorStateList.valueOf(cfg.backgroundColor)
-    }
-
-    /** Give an AlertDialog the custom look: an accent border + black fill on its surface. Call after
+    /** Give an AlertDialog the custom look: an accent border + the configured fill. Call after
      *  dialog.show(). No-op off the Custom theme. */
     fun themeAlertDialog(dialog: android.app.Dialog) {
         if (!customThemeActive) return
@@ -1132,32 +1137,45 @@ object CustomUi {
         val window = dialog.window ?: return
         val cfg = CustomUiConfig(dialog.context)
         val d = dialog.context.resources.displayMetrics.density
-        val strokePx = maxOf(2f, 2 * d)
-        // Material puts the dialog surface (a MaterialShapeDrawable) on a content view INSIDE the
-        // dialog, not on the window background — so scan the window bg first, then the decor tree.
-        val shape = unwrapShape(window.decorView.background) ?: firstShapeInTree(window.decorView)
-        if (shape != null) {
-            strokeShape(shape, cfg, strokePx)
+        val strokePx = maxOf(2f, 2 * d).toInt()
+        val border = if (cfg.cardBorderColor != 0) cfg.cardBorderColor else cfg.accentColor
+        // App.Dialog.NoDim gives every dialog its surface as @drawable/kojiki_dialog_bg — already a
+        // bordered box. So recolour THAT shape to the user-configured colours rather than adding a
+        // second box of our own: two boxes at slightly different bounds read as a double border.
+        if (recolourSurface(window.decorView, cfg, strokePx, border)) {
             window.decorView.invalidate()
-        } else {
-            // Fallback: a bordered, inset window background (matches the typical dialog margin).
-            val inset = (16 * d).toInt()
-            val bg = GradientDrawable().apply {
-                cornerRadius = 16 * d
-                setColor(cfg.backgroundColor)
-                setStroke(strokePx.toInt(), cfg.cardBorderColor)
-            }
-            window.setBackgroundDrawable(InsetDrawable(bg, inset, inset, inset, inset))
+            return
         }
+        // Fallback (the style didn't reach this dialog): paint an inset bordered window background.
+        val inset = (16 * d).toInt()
+        val bg = GradientDrawable().apply {
+            cornerRadius = 16 * d
+            setColor(cfg.backgroundColor)
+            setStroke(strokePx, border)
+        }
+        window.setBackgroundDrawable(InsetDrawable(bg, inset, inset, inset, inset))
+        window.decorView.invalidate()
     }
 
-    /** First (outermost, top-down) MaterialShapeDrawable-backed surface in a view tree. */
-    private fun firstShapeInTree(v: View): MaterialShapeDrawable? {
-        unwrapShape(v.background)?.let { return it }
-        if (v is ViewGroup) {
-            for (i in 0 until v.childCount) firstShapeInTree(v.getChildAt(i))?.let { return it }
+    /** Recolour the outermost shape-backed surface in a dialog tree (the one the dialog style put
+     *  there) to the configured fill + border. Top-down, so the dialog surface wins over any inner
+     *  shape-backed widget such as a button. */
+    private fun recolourSurface(
+        v: View, cfg: CustomUiConfig, strokePx: Int, border: Int
+    ): Boolean {
+        (v.background as? GradientDrawable)?.let { shape ->
+            val mutated = shape.mutate() as GradientDrawable
+            mutated.setColor(cfg.backgroundColor)
+            mutated.setStroke(strokePx, border)
+            v.background = mutated
+            return true
         }
-        return null
+        if (v is ViewGroup) {
+            for (i in 0 until v.childCount) {
+                if (recolourSurface(v.getChildAt(i), cfg, strokePx, border)) return true
+            }
+        }
+        return false
     }
 
     /** Give a BottomSheetDialog's panel the custom look: an accent border + black fill, top-rounded.

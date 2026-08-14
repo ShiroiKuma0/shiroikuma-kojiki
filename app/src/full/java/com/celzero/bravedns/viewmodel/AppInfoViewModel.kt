@@ -3,18 +3,21 @@ package com.celzero.bravedns.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.liveData
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.AppInfoDAO
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.ui.activity.AppListActivity
 import com.celzero.bravedns.util.Constants
+import com.celzero.bravedns.util.Utilities
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,6 +31,19 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     private var firewallFilter = AppListActivity.FirewallFilter.ALL
     private var search: String = ""
     private val rethinkUid = android.os.Process.myUid()
+
+    // Fork (白い熊 考直): the app-group (profile) filter. Group membership lives in a fork-private
+    // prefs store keyed by package name — not in the AppInfo table — so it is applied as a post-query
+    // filter rather than as SQL; that keeps every upstream DAO query untouched across rebases.
+    // `active` is tracked apart from the package set on purpose: a group with no members must show an
+    // empty list, whereas "no group selected" must show everything.
+    private var groupFilterActive = false
+    private var groupPackages: Set<String> = emptySet()
+
+    // Fork (白い熊 考直): the "Non-app" top-level filter — the synthetic no_package_<uid> rows. Also a
+    // post-query filter: isSystemApp does not identify them (it depends on whether the uid resolves
+    // in AndroidUidConfig), and the package-name prefix does.
+    private var nonAppOnly = false
 
     init {
         filter.value = ""
@@ -57,22 +73,62 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         this.firewallFilter = filters.firewallFilter
         this.topLevelFilter = filters.topLevelFilter
 
+        this.groupFilterActive = filters.groupFilters.isNotEmpty()
+        this.groupPackages = filters.groupPackages
+        this.nonAppOnly = filters.topLevelFilter == AppListActivity.TopLevelFilter.NON_APP
+
         this.search = filters.searchString
         setFilterWithDebounce(filters.searchString)
     }
 
     private fun getAppInfo(searchString: String): LiveData<PagingData<AppInfo>> {
-        return when (topLevelFilter) {
-            // get the app info based on the filter
-            AppListActivity.TopLevelFilter.ALL -> {
-                allApps(searchString)
+        val paged =
+            when (topLevelFilter) {
+                // get the app info based on the filter
+                AppListActivity.TopLevelFilter.ALL -> {
+                    allApps(searchString)
+                }
+                AppListActivity.TopLevelFilter.INSTALLED -> {
+                    installedApps(searchString)
+                }
+                AppListActivity.TopLevelFilter.SYSTEM -> {
+                    systemApps(searchString)
+                }
+                // Non-app rows can be either isSystemApp value, so they come out of the ALL query
+                // and are narrowed by the post-filter below.
+                AppListActivity.TopLevelFilter.NON_APP -> {
+                    allApps(searchString)
+                }
             }
-            AppListActivity.TopLevelFilter.INSTALLED -> {
-                installedApps(searchString)
+        return applyRowFilters(paged)
+    }
+
+    /**
+     * Fork (白い熊 考直): narrow a page stream to the selected app groups and/or the non-app rows.
+     * Applied after [cachedIn] so the cached pages stay filter-agnostic — a new selection re-filters
+     * the same cache instead of re-querying.
+     */
+    private fun applyRowFilters(
+        source: LiveData<PagingData<AppInfo>>
+    ): LiveData<PagingData<AppInfo>> {
+        if (!groupFilterActive && !nonAppOnly) return source
+        val pkgs = groupPackages
+        val groups = groupFilterActive
+        val nonApp = nonAppOnly
+        return source.map { pagingData ->
+            pagingData.filter { app ->
+                (!groups || pkgs.contains(app.packageName)) &&
+                    (!nonApp || Utilities.isNonApp(app.packageName))
             }
-            AppListActivity.TopLevelFilter.SYSTEM -> {
-                systemApps(searchString)
-            }
+        }
+    }
+
+    /** Fork (白い熊 考直): the same row filters applied to a plain list — the bulk-rule path. */
+    private fun applyRowFilters(apps: List<AppInfo>): List<AppInfo> {
+        if (!groupFilterActive && !nonAppOnly) return apps
+        return apps.filter { app ->
+            (!groupFilterActive || groupPackages.contains(app.packageName)) &&
+                (!nonAppOnly || Utilities.isNonApp(app.packageName))
         }
     }
 
@@ -426,22 +482,31 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
                 AppListActivity.TopLevelFilter.SYSTEM -> {
                     setOf(1)
                 }
+                // Non-app rows carry either isSystemApp value; applyRowFilters below narrows them.
+                AppListActivity.TopLevelFilter.NON_APP -> {
+                    setOf(0, 1)
+                }
             }
-        return if (category.isEmpty()) {
-            appInfoDAO.getFilteredApps(
-                "%$search%",
-                firewallFilter.getFilter(),
-                appType,
-                firewallFilter.getConnectionStatusFilter()
-            )
-        } else {
-            appInfoDAO.getFilteredApps(
-                "%$search%",
-                category,
-                firewallFilter.getFilter(),
-                appType,
-                firewallFilter.getConnectionStatusFilter()
-            )
-        }
+        // Fork (白い熊 考直): the bulk-rule toolbar acts on exactly what the list shows, so an active
+        // group filter narrows the target set here too — that is what makes "block every app in 仕事"
+        // one tap on the group pill plus one on the toolbar.
+        val apps =
+            if (category.isEmpty()) {
+                appInfoDAO.getFilteredApps(
+                    "%$search%",
+                    firewallFilter.getFilter(),
+                    appType,
+                    firewallFilter.getConnectionStatusFilter()
+                )
+            } else {
+                appInfoDAO.getFilteredApps(
+                    "%$search%",
+                    category,
+                    firewallFilter.getFilter(),
+                    appType,
+                    firewallFilter.getConnectionStatusFilter()
+                )
+            }
+        return applyRowFilters(apps)
     }
 }

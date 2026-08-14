@@ -25,7 +25,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -35,6 +37,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.CustomUi
+import com.celzero.bravedns.customui.KojikiAppGroups
+import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -47,6 +51,7 @@ import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.ProxyManager.ID_NONE
 import com.celzero.bravedns.ui.activity.AppInfoActivity
 import com.celzero.bravedns.ui.activity.AppInfoActivity.Companion.INTENT_UID
+import com.celzero.bravedns.ui.activity.AppListActivity
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.getIcon
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -133,6 +138,9 @@ class FirewallAppListAdapter(
                     // Fork (白い熊 考直): the label line is composed *after* the theme pass, since it
                     // derives the package id's colour from the label's final (themed) colour.
                     displayLabel(appInfo)
+                    // Fork (白い熊 考直): the per-app note glyph + the group-membership pills.
+                    bindNote(appInfo)
+                    bindGroups(appInfo)
                     // set the alpha based on internet permission
                     if (appInfo.hasInternetPermission(packageManager)) {
                         b.firewallAppLabelTv.alpha = ALPHA_FULL
@@ -188,6 +196,103 @@ class FirewallAppListAdapter(
                 if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
             CustomUi.applyFirewallLabel(
                 context, b.firewallAppLabelTv, appInfo.appName, key, id, appInfo.isSystemApp)
+        }
+
+        /**
+         * Fork (白い熊 考直): the per-app note affordance at the end of the label line — the note
+         * glyph when this app has a note, a dim "+" when it does not. Tap opens the view/edit dialog
+         * (saving a blank note deletes it); long-press shows the note itself as a tooltip. Synthetic
+         * "no_package_<uid>" rows have no package to key a note on, so they carry no glyph.
+         */
+        private fun bindNote(appInfo: AppInfo) {
+            // Synthetic "no_package_<uid>" rows (root, SYSTEM, unattributable uids) get notes and
+            // groups too — they are exactly the rows that most need a "do not block" annotation.
+            // Their key is a uid in package clothing, so it is device-local; Export/Import carries it
+            // but flags it on the way in (KojikiExport.markImportedNonApp).
+            b.firewallAppNotePill.visibility = View.VISIBLE
+            val hasNote =
+                KojikiAppNotes.bindRow(
+                    context,
+                    b.firewallAppNotePill,
+                    b.firewallAppNoteIv,
+                    b.firewallAppNoteTv,
+                    appInfo.packageName)
+            // With a note the label keeps its natural width and the pill takes the rest of the line,
+            // so the note reads as a continuation of the label. With none, the label stretches
+            // (match_constraint) and the glyph-only pill is pushed out to the row's right edge —
+            // where its end margin matches the group "+" pill's, so the two align exactly.
+            val labelLp = b.firewallAppLabelTv.layoutParams as ConstraintLayout.LayoutParams
+            val wantedLabel =
+                if (hasNote) ViewGroup.LayoutParams.WRAP_CONTENT
+                else ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+            if (labelLp.width != wantedLabel) {
+                labelLp.width = wantedLabel
+                b.firewallAppLabelTv.layoutParams = labelLp
+            }
+            val pillLp = b.firewallAppNotePill.layoutParams as ConstraintLayout.LayoutParams
+            // Empty: exactly the group "+" pill's width, so the two add controls form one column.
+            val addWidth =
+                (KojikiAppGroups.ADD_PILL_WIDTH_DP * context.resources.displayMetrics.density).toInt()
+            val wantedPill =
+                if (hasNote) ConstraintLayout.LayoutParams.MATCH_CONSTRAINT else addWidth
+            if (pillLp.width != wantedPill) {
+                pillLp.width = wantedPill
+                b.firewallAppNotePill.layoutParams = pillLp
+            }
+            b.firewallAppNotePill.setOnClickListener {
+                KojikiAppNotes.showNoteDialog(context, appInfo.packageName, appInfo.appName) {
+                    bindNote(appInfo)
+                }
+            }
+        }
+
+        /**
+         * Fork (白い熊 考直): the group (profile) line at the bottom of the row — 応用管理's format: a
+         * filled pill per group the app belongs to, then a trailing "+" pill. Tapping a pill filters
+         * the whole list to that group (which also aims the bulk-rule toolbar at it, since the
+         * toolbar acts on the current filter); long-pressing one drops this app from that group. The
+         * "+" opens the membership checklist, and long-pressing it manages the group list itself.
+         */
+        private fun bindGroups(appInfo: AppInfo) {
+            val row = b.firewallAppGroupsLl
+            row.removeAllViews()
+            val pkg = appInfo.packageName
+            b.firewallAppGroupsSv.visibility = View.VISIBLE
+            for (group in KojikiAppGroups.groupsOf(context, pkg)) {
+                val pill = KojikiAppGroups.pill(context, group)
+                pill.setOnClickListener { filterByGroup(group) }
+                pill.setOnLongClickListener {
+                    KojikiAppGroups.removeFrom(context, group, pkg)
+                    bindGroups(appInfo)
+                    Utilities.showToastUiCentered(
+                        context,
+                        context.getString(R.string.kojiki_group_removed, appInfo.appName, group),
+                        Toast.LENGTH_SHORT)
+                    true
+                }
+                row.addView(pill)
+            }
+            val add =
+                KojikiAppGroups.pill(
+                    context, context.getString(R.string.kojiki_group_add_pill), add = true)
+            add.setOnClickListener {
+                KojikiAppGroups.showMembershipDialog(context, pkg, appInfo.appName) {
+                    refreshGroupPills()
+                }
+            }
+            add.setOnLongClickListener {
+                KojikiAppGroups.showManageDialog(context) { refreshGroupPills() }
+                true
+            }
+            row.addView(add)
+        }
+
+        /** Filter the whole app list down to one group — the row-level shortcut for what the filter
+         *  sheet's group chips do. */
+        private fun filterByGroup(group: String) {
+            val f = AppListActivity.filters.value ?: AppListActivity.Filters()
+            f.setGroups(context, setOf(group))
+            AppListActivity.filters.postValue(f)
         }
 
         /** Whether the app is routed through a proxy — drives the key symbol on the label. */
@@ -505,6 +610,15 @@ class FirewallAppListAdapter(
             alertDialog.listView.setOnItemClickListener { _, _, _, _ -> }
             alertDialog.show()
         }
+    }
+
+    /**
+     * Fork (白い熊 考直): re-render every visible row's group pills. A group rename/delete, or adding
+     * an app to a group, changes rows other than the one that was tapped — so the whole visible range
+     * is rebound rather than just the calling holder.
+     */
+    fun refreshGroupPills() {
+        if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
     }
 
     private fun enableAfterDelay(delay: Long, vararg views: View) {

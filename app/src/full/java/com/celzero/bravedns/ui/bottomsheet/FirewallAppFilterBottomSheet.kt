@@ -18,6 +18,7 @@ package com.celzero.bravedns.ui.bottomsheet
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,9 @@ import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.celzero.bravedns.R
+import com.celzero.bravedns.customui.CustomUi
+import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.databinding.BottomSheetFirewallSortFilterBinding
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.PersistentState
@@ -64,6 +68,9 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.useTransparentNoDimBackground()
+        // Fork (白い熊 考直): flatten the Material grey/elevated panel to the configured background —
+        // the visible accent border is drawn on the inset content box by applyKojikiTheme.
+        dialog?.let { CustomUi.themeBottomSheet(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,14 +88,17 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
         remakeParentFilterChipsUi()
         if (f == null) {
             applyParentFilter(AppListActivity.TopLevelFilter.ALL.id)
+            remakeGroupChipsUi()
             return
         } else {
             this.filters.firewallFilter = f.firewallFilter
             this.filters.categoryFilters.addAll(f.categoryFilters)
+            this.filters.setGroups(requireContext(), f.groupFilters)
         }
 
         applyParentFilter(f.topLevelFilter.id)
         setFilter(f.topLevelFilter, f.categoryFilters)
+        remakeGroupChipsUi()
     }
 
     private fun initClickListeners() {
@@ -105,8 +115,27 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
             }
             new.categoryFilters.clear()
             new.topLevelFilter = AppListActivity.TopLevelFilter.ALL
+            // Fork (白い熊 考直): "clear" means every filter this sheet owns, groups included.
+            new.setGroups(requireContext(), emptySet())
             AppListActivity.filters.postValue(new)
             this.dismiss()
+        }
+
+        // Fork (白い熊 考直): create / rename / delete the app groups themselves, without leaving the
+        // filter sheet. A rename or delete invalidates selections that name the old group — both this
+        // sheet's pending selection and the list's live one — and changes the pills on every row.
+        b.fsGroupsManage.setOnClickListener {
+            KojikiAppGroups.showManageDialog(requireContext()) {
+                val alive = KojikiAppGroups.groups(requireContext()).toSet()
+                filters.setGroups(requireContext(), filters.groupFilters.filter { alive.contains(it) })
+                val live = AppListActivity.filters.value
+                if (live != null && live.groupFilters.any { !alive.contains(it) }) {
+                    live.setGroups(requireContext(), live.groupFilters.filter { alive.contains(it) })
+                    AppListActivity.filters.postValue(live)
+                }
+                remakeGroupChipsUi()
+                (activity as? AppListActivity)?.refreshGroupPills()
+            }
         }
     }
 
@@ -151,10 +180,19 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
                 getString(R.string.fapps_filter_parent_system),
                 false
             )
+        // Fork (白い熊 考直): the synthetic no_package_<uid> rows — root, SYSTEM and any uid whose
+        // traffic no package accounts for. They hide among ~400 apps otherwise.
+        val nonApp =
+            makeParentChip(
+                AppListActivity.TopLevelFilter.NON_APP.id,
+                getString(R.string.kojiki_filter_non_app),
+                false
+            )
 
         b.ffaParentChipGroup.addView(all)
         b.ffaParentChipGroup.addView(allowed)
         b.ffaParentChipGroup.addView(blocked)
+        b.ffaParentChipGroup.addView(nonApp)
     }
 
     private fun makeParentChip(id: Int, label: String, checked: Boolean): Chip {
@@ -209,6 +247,13 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
                     uiCtx { remakeChildFilterChipsUi(categories) }
                 }
             }
+            AppListActivity.TopLevelFilter.NON_APP.id -> {
+                // Non-app rows all sit in one category, so a category sub-filter would only ever
+                // narrow this to nothing or to itself — offer none.
+                filters.topLevelFilter = AppListActivity.TopLevelFilter.NON_APP
+                filters.categoryFilters.clear()
+                remakeChildFilterChipsUi(emptyList())
+            }
         }
     }
 
@@ -222,6 +267,9 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
                 b.ffaChipGroup.addView(makeChildChip(c, false))
             }
         }
+        // Fork (白い熊 考直): these chips arrive asynchronously (after the category query), so the
+        // theme pass has to run again here — the one from onViewCreated saw an empty group.
+        applyKojikiTheme()
     }
 
     private fun makeChildChip(title: String, checked: Boolean): Chip {
@@ -236,6 +284,60 @@ class FirewallAppFilterBottomSheet : BottomSheetDialogFragment() {
             colorUpChipIcon(chip)
         }
         return chip
+    }
+
+    // ---- Fork (白い熊 考直): app groups (profiles) ------------------------------------------------
+
+    /** Rebuild the group chips from the stored group list, ticking the pending selection. */
+    private fun remakeGroupChipsUi() {
+        b.ffaGroupChipGroup.removeAllViews()
+        val all = KojikiAppGroups.groups(requireContext())
+        b.fsGroupsEmpty.visibility = if (all.isEmpty()) View.VISIBLE else View.GONE
+        for (name in all) {
+            b.ffaGroupChipGroup.addView(makeGroupChip(name, filters.groupFilters.contains(name)))
+        }
+        applyKojikiTheme()
+    }
+
+    private fun makeGroupChip(name: String, checked: Boolean): Chip {
+        val chip = this.layoutInflater.inflate(R.layout.item_chip_filter, b.root, false) as Chip
+        chip.text = name
+        chip.tag = name
+        chip.isChecked = checked
+        if (checked) colorUpChipIcon(chip)
+
+        chip.setOnCheckedChangeListener { button: CompoundButton, isSelected: Boolean ->
+            val selected = filters.groupFilters.toMutableSet()
+            if (isSelected) selected.add(button.tag.toString()) else selected.remove(button.tag.toString())
+            filters.setGroups(requireContext(), selected)
+            colorUpChipIcon(chip)
+        }
+        return chip
+    }
+
+    /**
+     * Fork (白い熊 考直): give the sheet the 白い熊 考直 look — the configured black fill and accent
+     * border on the inset content box, and the shared Custom-theme pass over the whole tree (chips,
+     * buttons, text, fonts). Run after any chip rebuild, since the pass is a one-shot walk and newly
+     * inflated chips would otherwise keep the stock bottom-sheet colours. No-op off the Custom theme.
+     */
+    private fun applyKojikiTheme() {
+        if (!CustomUi.customThemeActive) return
+        val ctx = context ?: return
+        val cfg = CustomUiConfig(ctx)
+        val d = resources.displayMetrics.density
+        CustomUi.applyToDialogTree(b.root)
+        b.fsContentBox.background = GradientDrawable().apply {
+            cornerRadius = 16 * d
+            setColor(cfg.backgroundColor)
+            setStroke((2f * d).toInt(), cfg.accentColor)
+        }
+        // Section headings + the manage action lead in the accent colour; the tree pass above paints
+        // every TextView the body colour, so these have to be re-set after it, not before.
+        b.fsFilterHeading.setTextColor(cfg.accentColor)
+        b.fsCategoriesHeading.setTextColor(cfg.accentColor)
+        b.fsGroupsHeading.setTextColor(cfg.accentColor)
+        b.fsGroupsManage.setTextColor(cfg.accentColor)
     }
 
     private fun applyChildFilter(tag: Any, show: Boolean) {

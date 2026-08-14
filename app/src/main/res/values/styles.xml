@@ -749,6 +749,13 @@
              ?attr/colorPrimary made every no-dim dialog a yellow box with yellow-on-yellow text. -->
         <item name="android:background">?attr/colorSurface</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- Fork (白い熊 考直): do NOT try to give these dialogs a border from here. Both levers were
+             tried and both are wrong: android:windowBackground is replaced by
+             MaterialAlertDialogBuilder.create() at show() time (a bordered drawable set there is
+             simply discarded — confirmed with aapt2 on the shipped APK), and android:background is
+             applied to the alert's title/content/button panels *individually*, which renders three
+             stacked bordered boxes with clipped corners. A Material alert has no single outer
+             surface a theme can stroke. Fork dialogs draw their own box instead — see KojikiDialog. -->
         <item name="buttonBarPositiveButtonStyle">@style/App.AlertDialog.PositiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/App.AlertDialog.NegativeButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/App.AlertDialog.NeutralButton</item>
