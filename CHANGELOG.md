@@ -2,6 +2,28 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+017
+
+**The apps view tells you the uid, and finally lets you sort it.**
+
+### The uid leads every row
+The row's id line now reads `10050 · yqtrack.app`. The uid is the number every adb command, connection log and firewall rule actually speaks in, so having to open an app's page to find it was a small tax paid over and over.
+
+The synthetic `no_package_<uid>` rows gain the most: their “package name” is a placeholder, so that line used to be **empty** on precisely the rows that are hardest to identify — root, `SYSTEM`, and any uid whose traffic no package accounts for. They now print the uid alone.
+
+### A sort order you choose
+A sort glyph sits beside the filter icon and opens a dialog with four keys — **app name · package id · uid · data used**. The active key is drawn in the accent colour with its direction arrow, and **tapping it again reverses the order**. The choice is persisted in its own preferences file, so a sort picked once outlives the activity and the app; a long-press on the glyph names the order in force.
+
+It sits in the header rather than in the filter sheet on purpose: the sheet's chip sections already fill a folded screen, and sort is a one-tap decision, not a multi-select. The fast-scroll bubble follows the key too — a uid while sorted by uid, a byte count while sorted by data — instead of always showing a letter that means nothing in that order.
+
+### Why it had to become SQL
+A paged list cannot be re-sorted in Kotlin: each page is fetched independently, so a post-query sort only ever sorts *within* a page. The order therefore had to move into the query.
+
+Upstream ships **six** paged queries for this list — all / installed / system, each with and without a category filter — every one of them hard-ordered by `lower(appName)`. They collapse here into a single fork query whose `ORDER BY` is driven by two bound parameters through the standard SQLite `CASE` idiom, with `lower(appName)` closing the list as the tie-breaker so rows sharing a uid keep a stable, readable order. The app type and the “no category selected” case became parameters rather than separate methods. Nothing else about the list changed: the group filter, the Non-app filter and the bulk-rule toolbar all still work on top of it.
+
+### The icon that wasn't there
+The first build shipped the sort control invisible. Every glyph in this app is a **stroke** drawing — `?attr/svgFillColor` is `@android:color/transparent` in all six themes — and the Custom theme could not rescue a filled one either, since its icon tint is `setColorFilter` (SRC_ATOP), which keeps the source's alpha. Transparent stays transparent. The icon is drawn in stroke now, at the same weight as the refresh and filter icons beside it.
+
 ## 0.5.6+015
 
 **The app name never truncates, and the package id gets a line of its own.**
