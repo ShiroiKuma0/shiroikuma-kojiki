@@ -339,7 +339,8 @@ object CustomUi {
                 // Firewall app-list rows (name / status / traffic) are styled by FirewallAppListAdapter
                 // at bind time — reliable + type-aware (user vs system). The tree-walk races with their
                 // async bind, so skip them here.
-                R.id.firewall_app_label_tv, R.id.firewall_app_toggle_other, R.id.firewall_app_data_usage,
+                R.id.firewall_app_label_tv, R.id.firewall_app_id_tv,
+                R.id.firewall_app_toggle_other, R.id.firewall_app_data_usage,
                 // Snooping-panel rows are styled by SnoopEventAdapter at bind time (race-free); the
                 // severity badge/bar and blocked/allowed state keep their semantic colours, so skip
                 // them all here.
@@ -639,11 +640,16 @@ object CustomUi {
     }
 
     /**
-     * Fork (白い熊 考直): compose a firewall row's label line — the app name, the proxy key, then the
-     * package id. The id is what the app-list search matches too (`packageName like :search`), so
-     * printing it makes the searchable key visible and tells apart same-named apps.
+     * Fork (白い熊 考直): compose a firewall row's identity — the app name (plus the proxy key) on the
+     * label line, and the package id on **its own line beneath**, smaller. The id is what the
+     * app-list search matches too (`packageName like :search`), so printing it makes the searchable
+     * key visible and tells apart same-named apps.
      *
-     * The id carries its own element style ([CustomUiConfig.P_FW_APP_ID]) — colour, font family /
+     * The id used to be appended to the label as a sized span. It moved to its own view so the label
+     * line stays short: that line also carries the note pill, and a name+id label left the note only
+     * the scraps — while shrinking the label to make room simply cut the app's name off.
+     *
+     * The id keeps its own element style ([CustomUiConfig.P_FW_APP_ID]) — colour, font family /
      * weight / italic and size are each settable on the 白い熊 考直 UI page. Unset size tracks the
      * app name's size at [ID_SIZE_SCALE]; unset colour is a dimmed copy of the name's colour (so it
      * follows the per-type user/system colours by itself). The name is bolded so the two read
@@ -655,6 +661,7 @@ object CustomUi {
     fun applyFirewallLabel(
         context: Context,
         tv: TextView,
+        idTv: TextView,
         name: String,
         key: String,
         id: String,
@@ -669,31 +676,33 @@ object CustomUi {
             sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         if (key.isNotEmpty()) sb.append(key)
-        if (id.isNotEmpty()) {
-            val start = sb.length
-            sb.append(ID_GAP).append(id)
-            val end = sb.length
-            val st = cfg?.styleOf(CustomUiConfig.P_FW_APP_ID, 0)
-            val px =
-                if (st != null && st.size > 0) st.size * context.resources.displayMetrics.scaledDensity
-                else tv.textSize * ID_SIZE_SCALE
-            sb.setSpan(AbsoluteSizeSpan(px.toInt()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            val color = if (st != null && st.color != 0) st.color else dimmed(tv.currentTextColor)
-            sb.setSpan(ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            // only span a typeface when the id declares one — otherwise it inherits the label's
-            if (cfg != null && st != null &&
-                (st.family.isNotEmpty() || st.weight > 0 || st.italic)) {
-                val g = cfg.globalStyle()
-                val tf =
-                    typefaceFor(
-                        context,
-                        st.family.ifEmpty { g.family },
-                        if (st.weight > 0) st.weight else g.weight,
-                        st.italic)
-                sb.setSpan(TypefaceSpanCompat(tf), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-        }
         tv.text = sb
+
+        if (id.isEmpty()) {
+            idTv.text = ""
+            idTv.visibility = View.GONE
+            return
+        }
+        idTv.visibility = View.VISIBLE
+        idTv.text = id
+        val st = cfg?.styleOf(CustomUiConfig.P_FW_APP_ID, 0)
+        val px =
+            if (st != null && st.size > 0) st.size * context.resources.displayMetrics.scaledDensity
+            else tv.textSize * ID_SIZE_SCALE
+        idTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, px)
+        idTv.setTextColor(if (st != null && st.color != 0) st.color else dimmed(tv.currentTextColor))
+        // only set a typeface when the id declares one — otherwise it inherits the label's
+        if (cfg != null && st != null && (st.family.isNotEmpty() || st.weight > 0 || st.italic)) {
+            val g = cfg.globalStyle()
+            idTv.typeface =
+                typefaceFor(
+                    context,
+                    st.family.ifEmpty { g.family },
+                    if (st.weight > 0) st.weight else g.weight,
+                    st.italic)
+        } else {
+            idTv.typeface = tv.typeface
+        }
     }
 
     /** The same colour at [ID_DIM_ALPHA] of its opacity — the app id's default shade. */
