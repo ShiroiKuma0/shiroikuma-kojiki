@@ -717,7 +717,9 @@ object CustomUi {
         idTv: TextView,
         name: String,
         key: String,
-        id: String,
+        // CharSequence, not String: the id line carries the shared-uid marker as an accented span
+        // (see KojikiSharedUid.marker), and setTextColor below leaves a span's own colour standing.
+        id: CharSequence,
         isSystemApp: Boolean
     ) {
         val cfg = if (customThemeActive) CustomUiConfig(context) else null

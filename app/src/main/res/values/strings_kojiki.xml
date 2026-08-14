@@ -237,6 +237,16 @@
     <!-- The row's id line: the uid, then the package id. -->
     <string name="kojiki_app_id_line" translatable="false">%1$s · %2$s</string>
 
+    <!-- 白い熊 考直: shared uids (KojikiSharedUid). Android binds a firewall rule to the uid, never
+         to the package, so every app under one uid is governed by a single rule. -->
+    <!-- The row marker: "×11" = eleven packages share this row's uid. -->
+    <string name="kojiki_shared_uid_marker" translatable="false">×%1$d</string>
+    <string name="kojiki_shared_uid_title">uid %1$s · %2$d apps</string>
+    <string name="kojiki_shared_uid_body">Android binds a firewall rule to the uid, not to the app. “%1$s” shares uid %2$s with the apps below, so this rule applies to every one of them — under this uid they cannot be ruled apart.</string>
+    <string name="kojiki_shared_uid_hint">To single one out, rule its destinations instead: open it and add domain or IP rules.</string>
+    <string name="kojiki_shared_uid_bulk">⚠ Shared uids: %1$d app(s) outside this selection sit under a uid that is in it, so they get this rule too — %2$s.</string>
+    <string name="kojiki_shared_uid_bulk_more" translatable="false">%1$s +%2$d</string>
+
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
     <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
     <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>
