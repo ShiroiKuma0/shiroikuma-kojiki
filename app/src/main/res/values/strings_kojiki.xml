@@ -222,6 +222,21 @@
          KojikiExport.markImportedNonApp uses that as its "already marked" check. -->
     <string name="kojiki_note_imported_nonapp">⚠ Imported: this was “%1$s” (uid %2$s) on the other device — check it still applies.</string>
 
+    <!-- 白い熊 考直: the apps view's sort order (KojikiAppSort) -->
+    <string name="kojiki_sort_title">Sort apps</string>
+    <string name="kojiki_sort_content_desc">Sort</string>
+    <string name="kojiki_sort_by_name">App name</string>
+    <string name="kojiki_sort_by_package">Package id</string>
+    <string name="kojiki_sort_by_uid">User id (uid)</string>
+    <string name="kojiki_sort_by_data">Data used</string>
+    <string name="kojiki_sort_hint">Tap the marked key again to reverse the order.</string>
+    <string name="kojiki_sort_asc_arrow" translatable="false">↑</string>
+    <string name="kojiki_sort_desc_arrow" translatable="false">↓</string>
+    <!-- "App name ↑" — a sort key followed by its direction arrow. -->
+    <string name="kojiki_sort_row" translatable="false">%1$s %2$s</string>
+    <!-- The row's id line: the uid, then the package id. -->
+    <string name="kojiki_app_id_line" translatable="false">%1$s · %2$s</string>
+
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
     <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
     <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>
