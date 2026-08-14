@@ -2,6 +2,20 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+015
+
+**The app name never truncates, and the package id gets a line of its own.**
+
+The note pill shares the label line with the app label — and the label carried the package id as well, so the note only ever got whatever the id left over. Making room for the note by shrinking the label just cut the app's name off instead (`HMS C…`). Both halves of that are now fixed at the root.
+
+### The package id moved to its own line
+It sits under the app name, smaller, and keeps every bit of its configurability from the 白い熊 考直 UI page — size, colour, font family, weight and italic — with the same fallbacks it always had: an unset size tracks the app name's at the id scale, and an unset colour is a dimmed copy of the name's, so it still follows the per-type user/system name colours by itself. It is a real view now rather than a span inside the label, and joins the row's other bind-time-styled views in the theme walk's skip list.
+
+The point is not the id: it is that the label line is now short, so the note can have most of the row without the name giving up anything.
+
+### The name is structurally un-shrinkable
+The line's weight moved off the app name and onto a **spacer** between the name and the pill. The spacer absorbs the slack — which is what holds the pill against the right edge — and because the name carries no weight, `LinearLayout` has nothing to take from it when space runs short. It always shows in full, and no more. The note's own `maxWidth` is what keeps a very long note from running past the spacer and being clipped.
+
 ## 0.5.6+013
 
 **Every dialog in the app now wears the fork's bordered box — not just the fork's own.**
