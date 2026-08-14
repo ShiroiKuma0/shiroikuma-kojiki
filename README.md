@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+015`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+017`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -37,6 +37,11 @@ Firewall rules say *what*; they can never say *why*. Every row in the apps view 
 Rows also carry **groups** (profiles): named sets of apps shown as pills. Tap a pill to filter the list to that group, long-press to drop the app from it, “+” to add. And because the bulk-rule toolbar acts on whatever the filter selects, filtering to a group aims the entire toolbar at it — **one tap on a pill, one on “block on metered”, and the whole group is done.**
 
 Both are keyed by package name, so they survive reinstalls and travel in Export/Import. Even the uid-only rows (root, `SYSTEM`, and any traffic no package accounts for — reachable through a **Non-app** filter) can be annotated; those are carried across devices with a ⚠ marker telling you to re-check them, never silently trusted.
+
+---
+
+## 🔢 An app list you can actually read
+Every row leads its id line with the **uid** — `10050 · yqtrack.app` — the number adb, the connection logs and every firewall rule actually speak in; the uid-only rows, which have no package id to print, finally show something instead of a blank line. And the list **sorts**: by app name, package id, uid, or data used, ascending or descending, from a glyph beside the filter icon — tap the marked key again to reverse it. Your choice sticks between visits, and the fast-scroll bubble follows the key you picked instead of always showing a letter.
 
 ---
 
