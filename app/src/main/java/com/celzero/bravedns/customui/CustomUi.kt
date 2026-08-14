@@ -435,11 +435,11 @@ object CustomUi {
 
     // A *checkable* MaterialButton is a segmented toggle (e.g. SIMPLE/ADVANCED): checked = accent fill +
     // on-accent text/icon; unchecked = background fill + accent text/icon + accent border. State-keyed so
-    // it tracks selection without a re-walk. Non-checkable buttons keep the ordinary text styling.
+    // it tracks selection without a re-walk. Non-checkable buttons get the action-button treatment below.
     private fun styleMaterialButton(
         context: Context, v: MaterialButton, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
     ) {
-        if (!v.isCheckable) { styleText(context, v, global, global); return }
+        if (!v.isCheckable) { styleActionButton(context, v, cfg, global); return }
         val acc = cfg.accentColor
         val onAcc = onColorFor(acc)
         val st = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
@@ -451,6 +451,59 @@ object CustomUi {
         if (v.strokeWidth != sp) v.strokeWidth = sp
         val tf = typefaceFor(context, global.family, global.weight, global.italic)
         if (v.typeface !== tf) v.typeface = tf
+    }
+
+    // A plain (non-checkable) MaterialButton — the sheets' Clear/Apply, the dialogs' actions. Material
+    // fills it from colorPrimary, which under this theme *is* the accent, so accent text on an accent
+    // slab renders as a blank yellow brick (the apps-view filter sheet's two buttons). Invert it the way
+    // the FABs and the home button are inverted: background fill, accent border, accent label.
+    //
+    // It sits directly under rows of filter chips, and a pill with a hairline ring would read as one more
+    // chip — so an action button is deliberately *not* chip-shaped: a square-ish 8dp radius instead of a
+    // pill, a heavy 3dp border against the chips' 1dp, and a bold label.
+    //
+    // The border is a **foreground** overlay, not MaterialButton's own stroke: the stroke goes through
+    // MaterialButtonHelper, which silently no-ops whenever the button's background has been replaced
+    // (these two carry an `android:background` drawable in the layout) — the fill went black, the stroke
+    // never appeared, and the buttons read as bare floating labels. A foreground is drawn by View itself,
+    // so it survives regardless (the same reason styleHomeButton draws its ring that way). The native
+    // stroke/radius are still set for the case where the helper *is* live, which keeps the black fill
+    // aligned with the border box. Buttons whose background tint is transparent (text buttons) keep their
+    // flat look; only their colours follow the accent, else every text link in the app would grow a box.
+    private fun styleActionButton(
+        context: Context, v: MaterialButton, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
+    ) {
+        val acc = cfg.accentColor
+        val d = context.resources.displayMetrics.density
+        val tf = typefaceFor(context, global.family, maxOf(global.weight, SEMIBOLD_WEIGHT), global.italic)
+        if (v.typeface !== tf) v.typeface = tf
+        if (v.currentTextColor != acc) v.setTextColor(acc)
+        v.iconTint = ColorStateList.valueOf(acc)
+        val sp = if (global.size > 0) global.size else 0
+        if (sp > 0) {
+            val px = sp * context.resources.displayMetrics.scaledDensity
+            if (kotlin.math.abs(v.textSize - px) > 0.5f) v.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
+        }
+        // Transparent tint = a text button; leave it flat (idempotent: once filled, it stays filled).
+        val tint = v.backgroundTintList
+        if (tint != null && (tint.defaultColor ushr 24) == 0) return
+        v.backgroundTintList = ColorStateList.valueOf(cfg.backgroundColor)
+        val sw = (3 * d).toInt()
+        val r = 8 * d
+        v.strokeColor = ColorStateList.valueOf(acc)
+        if (v.strokeWidth != sw) v.strokeWidth = sw
+        if (v.cornerRadius != r.toInt()) v.cornerRadius = r.toInt()
+        // Material's 6dp top/bottom insets would leave the border box taller than the fill; drop them so
+        // the two coincide (a no-op when the helper is dead, which is exactly when the fill is full-bleed).
+        if (v.insetTop != 0) v.insetTop = 0
+        if (v.insetBottom != 0) v.insetBottom = 0
+        if (v.elevation != 0f) v.elevation = 0f
+        val ring = v.foreground as? GradientDrawable
+            ?: GradientDrawable().also { v.foreground = it }
+        ring.shape = GradientDrawable.RECTANGLE
+        ring.cornerRadius = r
+        ring.setColor(0x00000000)
+        ring.setStroke(sw, acc)
     }
 
     // Filter Chip: checked = accent fill + on-accent text/check; unchecked = background fill + accent text
