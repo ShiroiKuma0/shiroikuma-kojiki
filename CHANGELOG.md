@@ -2,6 +2,47 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+012
+
+**The apps view gains per-app notes and app groups — 白い熊 応用管理's two annotations, in kojiki's terms — and the groups turn the bulk-rule toolbar into a per-group weapon.**
+
+### Per-app notes
+Free text per app, for the thing the rule itself can never say: *why*. “Do not exclude — DNS dies on this phone.” “Needed for Hikvision.” The row's label line ends in a pill: when the app has a note it holds the note glyph plus the note's own text on one ellipsized line, drawn at low alpha so it reads as a margin note rather than a second title; when it has none it is the glyph alone, and the full text is always a long-press away as a tooltip. Tapping opens a pre-filled multi-line dialog, and **saving it blank deletes the note** — 応用管理's exact contract.
+
+Notes are keyed by **package name**, never uid, in their own preferences file, so they survive reinstalls and travel through Export/Import untouched.
+
+### App groups (profiles)
+Named sets of apps — 仕事, 通信, whatever you need — shown as outlined pills on the row's bottom line, sharing the traffic-counter line so they cost the row no extra height. **Tap a pill** and the whole list filters to that group; **long-press** and the app leaves it. The trailing “+” opens a membership checklist with a *New group…* action; long-pressing it manages the group list itself (rename, delete). The filter sheet gains a **Groups** chip section and a **Manage** action of its own.
+
+The payoff is the bulk-rule toolbar. It has always acted on whatever the current filter selects — so filtering to a group aims *the entire toolbar* at that group: **one tap on a pill, one on “block on metered”, and the whole group is done.**
+
+Group membership is keyed by package name too, and both the filter and the bulk path are applied as **post-query filters** rather than SQL. That is deliberate: not one upstream DAO query is touched, so this cannot conflict on a rebase.
+
+### Notes and groups on the uid-only rows — carried, but never trusted
+The synthetic `no_package_<uid>` rows (root — shown as **ANDROID** — `SYSTEM`, and any uid whose traffic no package accounts for) get notes and groups as well. They are, after all, exactly the rows that most deserve a “do not block, DNS dies” annotation.
+
+Their key is a uid wearing a package's name, so it means something only on the device it was made on. Export therefore carries the label each key had, and **import prefixes a ⚠ marker note** naming what it used to be — *“Imported: this was ‘ANDROID’ (uid 0) on the other device — check it still applies.”* A row that carried only group membership gets that note created for it, because membership arriving silently is the whole hazard. The marker is idempotent, so importing the same backup twice never stacks it.
+
+A new **Non-app** top-level filter lists those rows, so you can see how many there are before touching any of them.
+
+### Both stores are Export/Import categories
+**App notes** and **App groups** join the category list, on by default, exported and imported like everything else.
+
+### Dialogs draw their own border now
+The fork's dialogs are drawn by a new `KojikiDialog`: one rounded, accent-bordered black box holding the title, the content and a right-aligned button row, with the content area clamped so a long list scrolls inside the box instead of pushing the buttons off screen.
+
+This replaces two failed attempts at doing it from the theme, both recorded in the style so they are not tried again: `android:windowBackground` is **replaced** by `MaterialAlertDialogBuilder.create()` at show time, so a border set there is discarded outright; and `android:background` is applied to the alert's title, content and button panels *individually*, which renders three stacked bordered boxes with clipped corners. A Material alert simply has no single outer surface for a theme to stroke.
+
+### The filter sheet in black and yellow
+The apps-view filter sheet now carries the fork's look: an accent border on an **inset content box** — a full-width panel's side strokes land at the screen edge and are clipped — with its chips, buttons and text restyled by the new `CustomUi.applyToDialogTree`, which extends the Custom-theme pass into a dialog's own window (the activity tree-walk never reaches one). `BottomSheetDialogThemeKojikiCustom` also stopped being an empty extension of the true-black theme and now mirrors the activity theme's yellow palette, so **every** sheet reads black/yellow rather than inheriting the parent theme's green accent.
+
+### Two row-layout traps, fixed
+- **Rows were silently clipping their own text.** `firewall_app_details_ll` was `0dp` high, so the row's height came only from the 48 dp toggles and a 72 dp minimum — anything taller was cut off mid-glyph. It is `wrap_content` now.
+- **The gaps between rows were invisible shadow.** `cardUseCompatPadding` reserves its padding from **`maxCardElevation`, not the current elevation**, so zeroing `cardElevation` under the Custom theme left ~5 dp of shadow room above and below every flat card, on top of its margins. The theme pass now clears both, which tightens every card in the app.
+
+### Packaging
+The build counter is **zero-padded to three digits** in the versionName, the APK filename and therefore the release tag (`0.5.6+012`), so builds sort in build order instead of putting `+10` before `+3`. `versionCode` keeps the unpadded integer, so upgrade ordering is unchanged; the two pre-padding names (`0.5.6+1`, `0.5.6+2`) are left exactly as they were published.
+
 ## 0.5.6+2
 
 **Rebased onto the v0.5.6 release — 388 upstream commits — and, for the first time, the patched engine is built on exactly the tag’s own pin.**
