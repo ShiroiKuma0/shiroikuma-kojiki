@@ -70,6 +70,7 @@ import com.celzero.bravedns.viewmodel.AppConnectionsViewModel
 import com.celzero.bravedns.viewmodel.CustomDomainViewModel
 import com.celzero.bravedns.viewmodel.CustomIpViewModel
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiSharedUid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -1025,6 +1026,15 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
         builder.create().show()
     }
 
+    /**
+     * Every rule on this screen lands on the uid, so when the uid holds more than one package the
+     * change is a joint one — confirm it first.
+     *
+     * Fork (白い熊 考直): routed to [KojikiSharedUid.confirm], which explains the mechanism (and the
+     * destination-rule way around it) instead of only counting the other apps, and draws the fork's
+     * bordered dialog rather than a borderless Material alert. The affirmative button keeps upstream's
+     * per-status label, so it still reads as the rule being applied.
+     */
     private fun showDialog(
         packageList: List<String>,
         appInfo: AppInfo,
@@ -1032,36 +1042,14 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
         cStat: FirewallManager.ConnectionStatus,
         prevConnStat: FirewallManager.ConnectionStatus
     ) {
-
-        val builderSingle = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
-
-        builderSingle.setIcon(R.drawable.ic_firewall_block_grey)
-        val count = packageList.count()
-        builderSingle.setTitle(
-            this.getString(R.string.ctbs_block_other_apps, appInfo.appName, count.toString())
-        )
-
-        val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1)
-        arrayAdapter.addAll(packageList)
-        builderSingle.setCancelable(false)
-
-        builderSingle.setItems(packageList.toTypedArray(), null)
-
-        builderSingle
-            .setPositiveButton(getString(FirewallManager.getLabelForStatus(aStat, cStat, prevConnStat))) {
-                di: DialogInterface,
-                _: Int ->
-                di.dismiss()
-                completeFirewallChanges(aStat, cStat)
-            }
-            .setNeutralButton(this.getString(R.string.ctbs_dialog_negative_btn)) {
-                _: DialogInterface,
-                _: Int ->
-            }
-
-        val alertDialog: AlertDialog = builderSingle.create()
-        alertDialog.listView.setOnItemClickListener { _, _, _, _ -> }
-        alertDialog.show()
+        KojikiSharedUid.confirm(
+            this,
+            appInfo.appName,
+            appInfo.uid,
+            packageList,
+            getString(FirewallManager.getLabelForStatus(aStat, cStat, prevConnStat))) {
+            completeFirewallChanges(aStat, cStat)
+        }
     }
 
     private fun showCloseConnectionDialog(uid: Int, appName: String) {

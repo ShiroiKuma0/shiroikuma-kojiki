@@ -63,7 +63,9 @@ object KojikiDialog {
 
     private const val MAX_CONTENT_FRACTION = 0.55f
 
-    private fun accentOf(context: Context): Int =
+    // Public: anything building dialog-grade content of its own (KojikiSharedUid) needs the same two
+    // colours, and they must not drift from what show() paints.
+    fun accentOf(context: Context): Int =
         if (CustomUi.customThemeActive) CustomUiConfig(context).accentColor
         else UIUtils.fetchColor(context, R.attr.accentGood)
 
@@ -71,7 +73,7 @@ object KojikiDialog {
         if (CustomUi.customThemeActive) CustomUiConfig(context).backgroundColor
         else UIUtils.fetchColor(context, R.attr.background)
 
-    private fun textOf(context: Context): Int =
+    fun textOf(context: Context): Int =
         if (CustomUi.customThemeActive) CustomUiConfig(context).textColor
         else UIUtils.fetchColor(context, R.attr.primaryTextColor)
 

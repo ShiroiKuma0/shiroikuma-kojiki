@@ -413,6 +413,13 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         }
     }
 
+    /**
+     * Fork (白い熊 考直): exactly the rows a bulk rule would hit — what the toolbar's confirm dialog
+     * needs in order to say how far past them the rule reaches (see [KojikiSharedUid.spill]; rules
+     * bind to uids, and a uid's other packages need not be inside the filter).
+     */
+    suspend fun bulkTargets(): List<AppInfo> = getFilteredApps()
+
     private fun getFilteredApps(): List<AppInfo> {
         val appType = appTypeFilter()
         // Fork (白い熊 考直): the bulk-rule toolbar acts on exactly what the list shows, so an active

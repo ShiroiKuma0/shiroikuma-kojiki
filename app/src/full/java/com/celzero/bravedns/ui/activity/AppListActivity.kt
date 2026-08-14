@@ -43,6 +43,7 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppSort
+import com.celzero.bravedns.customui.KojikiSharedUid
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
 import com.celzero.bravedns.database.RefreshDatabase
@@ -66,6 +67,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -532,16 +534,30 @@ class AppListActivity :
         }
     }
 
+    /**
+     * Fork (白い熊 考直): the bulk toolbar acts on the filtered set, but the rules it writes bind to
+     * **uids** — so any package sharing a uid with a selected app gets the rule too, however far
+     * outside the filter it sits (filter to a group of one Huawei service and ten more come along).
+     * That spill is computed here and named in the message; the dialog is otherwise upstream's.
+     */
     private fun showBulkRulesUpdateDialog(title: String, message: String, type: BlockType) {
-        val builder =
-            KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.lbl_apply)) { _, _ -> updateBulkRules(type) }
-                .setNegativeButton(getString(R.string.lbl_cancel)) { _, _ -> }
-                .setCancelable(true)
+        io {
+            val extras = KojikiSharedUid.spill(appInfoViewModel.bulkTargets())
+            val warning = KojikiSharedUid.bulkWarning(this@AppListActivity, extras)
+            withContext(Dispatchers.Main) {
+                val builder =
+                    KojikiAlertDialogBuilder(this@AppListActivity, R.style.App_Dialog_NoDim)
+                        .setTitle(title)
+                        .setMessage(if (warning.isEmpty()) message else "$message\n\n$warning")
+                        .setPositiveButton(getString(R.string.lbl_apply)) { _, _ ->
+                            updateBulkRules(type)
+                        }
+                        .setNegativeButton(getString(R.string.lbl_cancel)) { _, _ -> }
+                        .setCancelable(true)
 
-        builder.create().show()
+                builder.create().show()
+            }
+        }
     }
 
     private fun updateBulkRules(type: BlockType) {

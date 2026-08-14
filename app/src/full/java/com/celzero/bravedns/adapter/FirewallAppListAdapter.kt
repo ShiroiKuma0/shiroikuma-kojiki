@@ -16,18 +16,16 @@
 package com.celzero.bravedns.adapter
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +38,7 @@ import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.customui.KojikiAppSort
+import com.celzero.bravedns.customui.KojikiSharedUid
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -55,7 +54,6 @@ import com.celzero.bravedns.ui.activity.AppInfoActivity.Companion.INTENT_UID
 import com.celzero.bravedns.ui.activity.AppListActivity
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.getIcon
-import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView.SectionedAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -120,6 +118,8 @@ class FirewallAppListAdapter(
             io {
                 val appStatus = FirewallManager.appStatus(appInfo.uid)
                 val connStatus = FirewallManager.connectionStatus(appInfo.uid)
+                // Fork (白い熊 考直): how many packages share this row's uid — the row marker.
+                val shared = KojikiSharedUid.count(appInfo.uid)
                 uiCtx {
                     // setting the appname with different color for system and user apps
                     // causes conflict with the firewall status like blocked and isolated
@@ -138,7 +138,7 @@ class FirewallAppListAdapter(
                     CustomUi.applyFirewallRow(context, b, appInfo.isSystemApp)
                     // Fork (白い熊 考直): the label line is composed *after* the theme pass, since it
                     // derives the package id's colour from the label's final (themed) colour.
-                    displayLabel(appInfo)
+                    displayLabel(appInfo, shared)
                     // Fork (白い熊 考直): the per-app note glyph + the group-membership pills.
                     bindNote(appInfo)
                     bindGroups(appInfo)
@@ -190,7 +190,7 @@ class FirewallAppListAdapter(
          * page). Must run after [CustomUi.applyFirewallRow] — the id's size and colour fall back to
          * the label's own.
          */
-        private fun displayLabel(appInfo: AppInfo) {
+        private fun displayLabel(appInfo: AppInfo, shared: Int) {
             val key = if (isProxied(appInfo)) context.getString(R.string.symbol_key) else ""
             // Fork (白い熊 考直): the uid leads the id line. It is the number every adb command,
             // connection log and firewall rule speaks in, and it is the *only* identifier the
@@ -198,9 +198,13 @@ class FirewallAppListAdapter(
             // print the uid alone rather than the empty line they used to.
             val pkg = if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
             val uid = appInfo.uid.toString()
-            val id =
+            val base =
                 if (pkg.isEmpty()) uid
                 else context.getString(R.string.kojiki_app_id_line, uid, pkg)
+            // Fork (白い熊 考直): a uid shared by several packages is one firewall principal, not
+            // several — the "×N" marker says so on the line that carries the uid, so the row stops
+            // implying a per-app decision the model cannot make. See [KojikiSharedUid].
+            val id = TextUtils.concat(base, KojikiSharedUid.marker(context, shared))
             CustomUi.applyFirewallLabel(
                 context,
                 b.firewallAppLabelTv,
@@ -569,49 +573,31 @@ class FirewallAppListAdapter(
             context.startActivity(intent)
         }
 
+        /**
+         * The uid this toggle would rule holds more than one package, so say so before applying it.
+         *
+         * Fork (白い熊 考直): upstream's version is a Material alert whose title carries the count and
+         * whose body is a bare `setItems` list — borderless under the Custom theme (Feature 6d), and
+         * silent on *why* one tap moves eleven apps. [KojikiSharedUid.confirm] states the mechanism
+         * and offers the way out (rule the destinations), in the fork's own bordered dialog.
+         */
         private fun showDialog(
             packageList: List<String>,
             appInfo: AppInfo,
             isWifi: Boolean,
             connStatus: FirewallManager.ConnectionStatus
         ) {
-
-            val builderSingle = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
-
-            builderSingle.setIcon(R.drawable.ic_firewall_block_grey)
-            val count = packageList.count()
-            builderSingle.setTitle(
-                context.getString(
-                    R.string.ctbs_block_other_apps, appInfo.appName, count.toString()))
-
-            val arrayAdapter =
-                ArrayAdapter<String>(context, android.R.layout.simple_list_item_activated_1)
-            arrayAdapter.addAll(packageList)
-            builderSingle.setCancelable(false)
-
-            builderSingle.setItems(packageList.toTypedArray(), null)
-
-            builderSingle
-                .setPositiveButton(context.getString(R.string.lbl_proceed)) {
-                    _: DialogInterface,
-                    _: Int ->
-                    io {
-                        if (isWifi) {
-                            toggleWifi(appInfo, connStatus)
-                            return@io
-                        }
-
-                        toggleMobileData(appInfo, connStatus)
-                    }
+            KojikiSharedUid.confirm(
+                context,
+                appInfo.appName,
+                appInfo.uid,
+                packageList,
+                context.getString(R.string.lbl_proceed)) {
+                io {
+                    if (isWifi) toggleWifi(appInfo, connStatus)
+                    else toggleMobileData(appInfo, connStatus)
                 }
-                .setNeutralButton(context.getString(R.string.ctbs_dialog_negative_btn)) {
-                    _: DialogInterface,
-                    _: Int ->
-                }
-
-            val alertDialog: AlertDialog = builderSingle.create()
-            alertDialog.listView.setOnItemClickListener { _, _, _, _ -> }
-            alertDialog.show()
+            }
         }
     }
 
