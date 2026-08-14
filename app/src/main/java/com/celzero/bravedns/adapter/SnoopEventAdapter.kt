@@ -44,7 +44,7 @@ import com.celzero.bravedns.service.SnoopClassifier
 import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.ui.activity.AppInfoActivity
 import com.celzero.bravedns.ui.bottomsheet.CustomDomainRulesBtmSheet
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.celzero.bravedns.util.Constants
 import com.celzero.bravedns.util.Constants.Companion.INVALID_UID
 import com.celzero.bravedns.util.Constants.Companion.UID_EVERYBODY
@@ -320,7 +320,7 @@ class SnoopEventAdapter(
             val assigned = SnoopTagStore.tagNamesFor(activity, event.domain).map { it.lowercase() }.toSet()
             val names = all.map { it.name }.toTypedArray()
             val checked = BooleanArray(all.size) { assigned.contains(all[it].name.lowercase()) }
-            MaterialAlertDialogBuilder(activity, R.style.App_Dialog_NoDim)
+            KojikiAlertDialogBuilder(activity, R.style.App_Dialog_NoDim)
                 .setTitle(event.domain)
                 .setMultiChoiceItems(names, checked) { _, which, isChecked -> checked[which] = isChecked }
                 .setNeutralButton(R.string.snoop_tag_new) { _, _ -> createTagFor(event) }

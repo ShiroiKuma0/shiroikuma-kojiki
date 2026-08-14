@@ -82,7 +82,7 @@ import com.celzero.bravedns.wireguard.WgHopManager
 import com.celzero.bravedns.wireguard.WgInterface
 import com.celzero.firestack.backend.IPMetadata
 import com.celzero.firestack.backend.RouterStats
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import inet.ipaddr.HostName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -680,7 +680,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     }
 
     private fun showInvalidConfigDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.lbl_wireguard))
         builder.setMessage(getString(R.string.config_invalid_desc))
         builder.setCancelable(false)
@@ -1091,7 +1091,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
 
     private fun showInvalidConfigInfoDialog() {
         if (isFinishing) return
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.wireguard_invalid_config_title))
         builder.setMessage(getString(R.string.wireguard_invalid_config_message))
         builder.setCancelable(true)
@@ -1102,7 +1102,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     }
 
     private fun showDeleteInterfaceDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         val delText =
             getString(
                 R.string.two_argument_space,
@@ -1145,7 +1145,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
             Utilities.showToastUiCentered(this, getString(R.string.wg_export_failure), Toast.LENGTH_LONG)
             return
         }
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.wg_export_title))
         builder.setMessage(getString(R.string.wg_export_warning))
         builder.setCancelable(true)
@@ -1404,7 +1404,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     }
 
     private fun showLocationDisclosureDialog(onContinue: () -> Unit) {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.location_disclosure_title))
         builder.setMessage(getString(R.string.location_disclosure_message))
         builder.setCancelable(true)
@@ -1423,7 +1423,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     }
 
     private fun showLocationEnableDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.location_disclosure_title))
         builder.setMessage(getString(R.string.location_disclosure_message))
         builder.setCancelable(true)
@@ -1484,7 +1484,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     }
 
     private fun showPermissionDeniedDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.ssid_permission_error_action))
         builder.setMessage(SsidPermissionManager.getPermissionExplanation(this))
         builder.setCancelable(true)

@@ -392,7 +392,7 @@ class CustomIpRulesBtmSheet :
     }
 
     private fun showDialogForDelete() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.univ_firewall_dialog_title)
         builder.setMessage(R.string.univ_firewall_dialog_message)
         builder.setCancelable(true)

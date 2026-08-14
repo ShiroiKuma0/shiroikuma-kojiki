@@ -1251,7 +1251,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
     }
 
     private fun showInvalidConfigDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.lbl_wireguard))
             .setMessage(getString(R.string.config_invalid_desc))
             .setCancelable(false)
@@ -1265,7 +1265,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
      * without leaving and re-opening the screen.
      */
     private fun showRecoveryDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.rpn_recovery_title))
             .setMessage(getString(R.string.rpn_recovery_desc))
             .setCancelable(false)
@@ -1589,7 +1589,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
     }
 
     private fun showPermissionDeniedDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.ssid_permission_error_action))
             .setMessage(SsidPermissionManager.getPermissionExplanation(this))
             .setCancelable(true)
@@ -1637,7 +1637,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
     }
 
     private fun showLocationDisclosureDialog(onContinue: () -> Unit) {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.location_disclosure_title))
         builder.setMessage(getString(R.string.location_disclosure_message))
         builder.setCancelable(true)
@@ -1653,7 +1653,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
     }
 
     private fun showLocationEnableDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.location_disclosure_title))
             .setMessage(getString(R.string.location_disclosure_message))
             .setCancelable(true)

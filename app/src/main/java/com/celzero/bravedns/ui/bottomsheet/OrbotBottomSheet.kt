@@ -532,7 +532,7 @@ class OrbotBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showStopOrbotDialog(isOrbotDns: Boolean) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.orbot_stop_dialog_title))
 
         builder.setCancelable(true)
@@ -578,7 +578,7 @@ class OrbotBottomSheet : BaseBottomSheetDialogFragment() {
     private fun showDialogForInfo() {
         val dialogBinding = DialogInfoRulesLayoutBinding.inflate(layoutInflater)
 
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()

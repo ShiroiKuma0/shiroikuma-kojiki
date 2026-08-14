@@ -50,7 +50,7 @@ import com.celzero.bravedns.util.Constants.Companion.UID_EVERYBODY
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.viewmodel.CustomIpViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import inet.ipaddr.IPAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -253,7 +253,7 @@ class CustomIpFragment : Fragment(R.layout.fragment_custom_ip), SearchView.OnQue
      */
     private fun showAddIpDialog() {
         val dBind = DialogAddCustomIpBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dBind.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dBind.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()
@@ -344,7 +344,7 @@ class CustomIpFragment : Fragment(R.layout.fragment_custom_ip), SearchView.OnQue
     }
 
     private fun showIpRulesDeleteDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.univ_delete_firewall_dialog_title)
         builder.setMessage(R.string.univ_delete_firewall_dialog_message)
         builder.setPositiveButton(getString(R.string.univ_ip_delete_dialog_positive)) { _, _ ->
@@ -424,7 +424,7 @@ class CustomIpFragment : Fragment(R.layout.fragment_custom_ip), SearchView.OnQue
      */
     private fun showImportConfirmDialog(parsed: RulesImportHelper.ParsedFile) {
         val dBind = DialogImportConfirmBinding.inflate(layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setView(dBind.root)
             .create()
 
@@ -487,7 +487,7 @@ class CustomIpFragment : Fragment(R.layout.fragment_custom_ip), SearchView.OnQue
             summary.duplicates,
             summary.invalid
         )
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.import_rules_complete_title))
             .setMessage(msg)
             .setPositiveButton(getString(R.string.fapps_info_dialog_positive_btn)) { d, _ -> d.dismiss() }

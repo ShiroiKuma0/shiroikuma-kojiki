@@ -49,7 +49,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.removeBeginningTrailingCommas
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlin.math.log2
 
 class AppWiseDomainsAdapter(
@@ -317,7 +317,7 @@ class AppWiseDomainsAdapter(
             }
 
             Logger.v(LOG_TAG_UI, "$TAG show close connection dialog for uid: $uid")
-            val dialog = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val dialog = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
                 .setTitle(context.getString(R.string.close_conns_dialog_title))
                 .setMessage(context.getString(R.string.close_conns_dialog_desc, appConn.ipAddress))
                 .setPositiveButton(R.string.lbl_proceed) { _, _ ->

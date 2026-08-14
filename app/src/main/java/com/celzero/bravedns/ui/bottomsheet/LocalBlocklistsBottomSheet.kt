@@ -306,7 +306,7 @@ class LocalBlocklistsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showDownloadDialog(isRedownload: Boolean) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         if (isRedownload) {
             builder.setTitle(R.string.local_blocklist_redownload)
             builder.setMessage(
@@ -334,7 +334,7 @@ class LocalBlocklistsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showDeleteDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.lbl_delete)
         builder.setMessage(getString(R.string.local_blocklist_delete_desc))
         builder.setCancelable(false)
@@ -373,7 +373,7 @@ class LocalBlocklistsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showLockdownDownloadDialog(isRedownload: Boolean) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.lockdown_download_enable_inapp)
         builder.setMessage(R.string.lockdown_download_message)
         builder.setCancelable(true)

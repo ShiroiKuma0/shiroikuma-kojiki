@@ -46,7 +46,7 @@ import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -325,7 +325,7 @@ class UniversalFirewallSettingsActivity :
     }
 
     private fun showPermissionAlert() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.alert_permission_accessibility)
         builder.setMessage(R.string.alert_firewall_accessibility_explanation)
         builder.setPositiveButton(getString(R.string.univ_accessibility_dialog_positive)) { _, _ ->

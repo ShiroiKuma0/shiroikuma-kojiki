@@ -4042,7 +4042,7 @@ class ServerSelectionFragment : Fragment(R.layout.fragment_server_selection),
         timeoutBar.max = LOADING_DIALOG_TIMEOUT_MS.toInt()
         timeoutBar.setProgressCompat(0, false)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setView(dialogView)
             .setCancelable(true)
             .create()

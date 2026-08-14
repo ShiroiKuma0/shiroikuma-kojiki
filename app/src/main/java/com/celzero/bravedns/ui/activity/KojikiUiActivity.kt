@@ -55,7 +55,7 @@ import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.SnoopTagStore
 import com.celzero.bravedns.ui.bottomsheet.ExportImportBottomSheet
 import com.celzero.bravedns.util.Themes
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -815,7 +815,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val fonts = CustomUi.availableFonts(this)
         val names = fonts.map { it.displayName }.toTypedArray()
         val sel = fonts.indexOfFirst { it.value == current }.coerceAtLeast(0)
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_ui_font_family)
             .setSingleChoiceItems(names, sel) { d, which ->
                 onPicked(fonts[which].value)
@@ -834,7 +834,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private fun showWeightPicker() {
         val names = CustomUi.weightOptions.map { getString(it.labelRes) }.toTypedArray()
         val current = CustomUi.weightOptions.indexOfFirst { it.value == cfg.fontWeight }.coerceAtLeast(0)
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_ui_font_weight)
             .setSingleChoiceItems(names, current) { d, which ->
                 cfg.fontWeight = CustomUi.weightOptions[which].value
@@ -923,7 +923,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     }
 
     private fun confirmRegenerateToken() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_auto_token_regen_title)
             .setMessage(R.string.kojiki_auto_token_regen_msg)
             .setPositiveButton(R.string.app_rule_token_regenerate) { _, _ ->
@@ -940,7 +940,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         Build.VERSION.SDK_INT < Build.VERSION_CODES.R || Environment.isExternalStorageManager()
 
     private fun askAllFilesAccess() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_auto_storage_title)
             .setMessage(R.string.kojiki_auto_storage_msg)
             .setPositiveButton(R.string.kojiki_auto_storage_open) { _, _ -> openAllFilesAccess() }

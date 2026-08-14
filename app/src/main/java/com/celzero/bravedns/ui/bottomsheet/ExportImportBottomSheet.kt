@@ -47,6 +47,7 @@ import androidx.lifecycle.lifecycleScope
 import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.celzero.bravedns.customui.KojikiExport
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.util.Themes
@@ -410,7 +411,7 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
         box.addView(text(ctx, getString(R.string.kojiki_eim_bl_warn_body), 14f, cfg.accentColor).apply {
             setPadding(0, dp(10), 0, 0)
         })
-        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
             .setView(NestedScrollView(ctx).apply { addView(box) })
             .setCancelable(true)
             .create()
@@ -455,7 +456,7 @@ class ExportImportBottomSheet : BottomSheetDialogFragment() {
         box.addView(text(ctx, getString(R.string.kojiki_eim_import_done_body, summary), 14f, cfg.accentColor).apply {
             setPadding(0, dp(10), 0, 0)
         })
-        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
             .setView(NestedScrollView(ctx).apply { addView(box) })
             .setCancelable(false)
             .create()

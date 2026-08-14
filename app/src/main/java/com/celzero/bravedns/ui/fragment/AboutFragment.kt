@@ -1013,7 +1013,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
         // Start on JVM Stack tab
         selectTab(true)
 
-        val dialog = MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
             .setTitle("Stacktrace")
             .setView(container)
             .setPositiveButton(R.string.fapps_info_dialog_positive_btn) { d, _ -> d.dismiss() }
@@ -1068,7 +1068,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
         val pad = resources.getDimensionPixelSize(R.dimen.dots_margin_bottom)
         val notAvailable = ctx.getString(R.string.lbl_not_available_short)
 
-        val progressDialog = MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+        val progressDialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.title_statistics))
             .setView(android.widget.ProgressBar(ctx).apply { isIndeterminate = true })
             .setCancelable(true)
@@ -1378,7 +1378,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
         // Start on the Proc / Mem tab
         selectTab(false)
 
-        val dialog = MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
             .setTitle("Proc")
             .setView(container)
             .setPositiveButton(R.string.fapps_info_dialog_positive_btn) { d, _ -> d.dismiss() }
@@ -1465,7 +1465,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
                 container.addView(listView)
                 container.addView(scroll)
 
-                MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                     .setTitle(getString(R.string.title_database_dump))
                     .setView(container)
                     .setPositiveButton(R.string.fapps_info_dialog_positive_btn) { d, _ -> d.dismiss() }
@@ -1669,7 +1669,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
     }
 
     private fun showNoLogDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.about_bug_no_log_dialog_title)
         builder.setMessage(R.string.about_bug_no_log_dialog_message)
         builder.setPositiveButton(getString(R.string.about_bug_no_log_dialog_positive_btn)) { _, _ ->
@@ -1712,7 +1712,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
         // replace the version name in the title
         val v = getVersionName().slice(0..6)
         val title = getString(R.string.about_whats_new, v)
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setView(binding.root)
             .setTitle(title)
             .setPositiveButton(getString(R.string.about_dialog_positive_button)) { dialogInterface, _ ->
@@ -1728,7 +1728,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
 
     private fun showContributors() {
         val dialogBinding = DialogInfoRulesLayoutBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         lp.copyFrom(dialog.window?.attributes)

@@ -47,7 +47,7 @@ import com.celzero.bravedns.util.UIUtils.formatToRelativeTime
 import com.celzero.bravedns.viewmodel.ConnectionTrackerViewModel
 import com.celzero.bravedns.viewmodel.ConnectionTrackerViewModel.TopLevelFilter
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -511,7 +511,7 @@ class ConnectionTrackerFragment :
         val rule = filterCategories.firstOrNull()
         if (fromUniversalFirewallScreen && rule != null) {
             // Rule-specific deletion for Universal Firewall Settings
-            MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+            KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
                 .setTitle(R.string.conn_track_clear_rule_logs_title)
                 .setMessage(R.string.conn_track_clear_rule_logs_message)
                 .setCancelable(true)
@@ -528,7 +528,7 @@ class ConnectionTrackerFragment :
                 .show()
         } else {
             // Default deletion behavior - delete all logs
-            MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+            KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
                 .setTitle(R.string.conn_track_clear_logs_title)
                 .setMessage(R.string.conn_track_clear_logs_message)
                 .setCancelable(true)

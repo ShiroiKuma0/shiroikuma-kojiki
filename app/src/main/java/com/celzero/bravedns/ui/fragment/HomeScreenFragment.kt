@@ -144,7 +144,7 @@ import com.celzero.bravedns.util.Utilities.isPrivateDnsActive
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.firestack.backend.Backend
 import com.facebook.shimmer.Shimmer
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.waseemsabir.betterypermissionhelper.BatteryPermissionHelper
 import kotlinx.coroutines.CoroutineName
@@ -2686,7 +2686,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     private fun showBatteryOptimizationDialog() {
         if (!isAtleastN()) return
 
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         val title =
             getString(
                 R.string.battery_optimization_dialog_heading,
@@ -2731,7 +2731,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun showAlwaysOnStopDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
 
         builder.setTitle(R.string.always_on_dialog_stop_heading)
         if (VpnController.isVpnLockdown()) {
@@ -2779,7 +2779,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun showAlwaysOnDisableDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.always_on_dialog_heading)
         builder.setMessage(R.string.always_on_dialog)
         builder.setCancelable(false)
@@ -3118,7 +3118,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun showPrivateDnsDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.private_dns_dialog_heading)
         builder.setMessage(R.string.private_dns_dialog_desc)
         builder.setCancelable(false)
@@ -3339,7 +3339,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun showFirstTimeVpnDialog(prepareVpnIntent: Intent) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.hsf_vpn_dialog_header)
         builder.setMessage(R.string.hsf_vpn_dialog_message)
         builder.setCancelable(false)
@@ -3451,7 +3451,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun showLocalNetworkPermissionDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.hsf_local_network_permission_dialog_heading)
         val appName = if (Utilities.isAlphaBuild()) getString(R.string.app_name_alpha) else getString(R.string.app_name)
         builder.setMessage(
