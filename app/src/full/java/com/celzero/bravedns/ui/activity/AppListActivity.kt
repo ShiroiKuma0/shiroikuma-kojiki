@@ -42,6 +42,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
 import com.celzero.bravedns.customui.KojikiAppGroups
+import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
 import com.celzero.bravedns.database.RefreshDatabase
@@ -222,10 +223,23 @@ class AppListActivity :
         var groupPackages: Set<String> = emptySet()
             private set
 
+        // Fork (白い熊 考直): the list's sort order. It rides on Filters because that is the one
+        // object the view model is handed, but its home is the persisted store — every place that
+        // makes a fresh Filters calls loadSort, so a sort picked once outlives the activity.
+        var sortBy = KojikiAppSort.By.NAME
+        var sortDesc = false
+
         /** Select the app groups to filter by, resolving their member packages in one place. */
         fun setGroups(context: Context, names: Collection<String>) {
             groupFilters = names.toMutableSet()
             groupPackages = KojikiAppGroups.packagesIn(context, groupFilters)
+        }
+
+        /** Adopt the persisted sort order. */
+        fun loadSort(context: Context): Filters {
+            sortBy = KojikiAppSort.sortBy(context)
+            sortDesc = KojikiAppSort.descending(context)
+            return this
         }
     }
 
@@ -246,7 +260,7 @@ class AppListActivity :
             window.isNavigationBarContrastEnforced = false
         }
 
-        filters.value = Filters()
+        filters.value = Filters().loadSort(this)
         initView()
         initObserver()
         setupClickListener()
@@ -255,7 +269,7 @@ class AppListActivity :
     override fun onResume() {
         super.onResume()
         setFirewallFilter(filters.value?.firewallFilter)
-        filters.value = filters.value ?: Filters()
+        filters.value = filters.value ?: Filters().loadSort(this)
         b.ffaAppList.requestFocus()
     }
 
@@ -335,7 +349,7 @@ class AppListActivity :
 
     private fun addQueryToFilters(query: String) {
         if (filters.value == null) {
-            val f = Filters()
+            val f = Filters().loadSort(this)
             f.searchString = query
             filters.postValue(f)
             return
@@ -347,6 +361,10 @@ class AppListActivity :
 
     private fun setupClickListener() {
         b.ffaFilterIcon.setOnClickListener { openFilterBottomSheet() }
+
+        // Fork (白い熊 考直): pick the list's sort order.
+        b.ffaSortIcon.setOnClickListener { openSortDialog() }
+        updateSortTooltip()
 
         b.ffaRefreshList.setOnClickListener {
             b.ffaRefreshList.isEnabled = false
@@ -639,7 +657,7 @@ class AppListActivity :
     private fun applyFirewallFilter(tag: Any) {
         val firewallFilter = FirewallFilter.filter(tag as Int)
         if (filters.value == null) {
-            val f = Filters()
+            val f = Filters().loadSort(this)
             f.firewallFilter = firewallFilter
             filters.postValue(f)
             return
@@ -870,6 +888,30 @@ class AppListActivity :
 
         b.ffaAppList.adapter = recyclerAdapter
         setQueryFilter()
+    }
+
+    /**
+     * Fork (白い熊 考直): choose the sort key / direction, persist it, and re-run the query. The list
+     * is paged, so the order is the DAO's — posting the filters is what re-issues it.
+     */
+    private fun openSortDialog() {
+        val f = filters.value ?: Filters().loadSort(this)
+        KojikiAppSort.showSortDialog(this, f.sortBy, f.sortDesc) { by, desc ->
+            KojikiAppSort.save(this, by, desc)
+            f.sortBy = by
+            f.sortDesc = desc
+            filters.postValue(f)
+            updateSortTooltip()
+            Utilities.showToastUiCentered(
+                this, KojikiAppSort.describe(this, by, desc), Toast.LENGTH_SHORT)
+        }
+    }
+
+    /** The sort icon's long-press tooltip names the order currently in force. */
+    private fun updateSortTooltip() {
+        TooltipCompat.setTooltipText(
+            b.ffaSortIcon,
+            KojikiAppSort.describe(this, KojikiAppSort.sortBy(this), KojikiAppSort.descending(this)))
     }
 
     private fun openFilterBottomSheet() {

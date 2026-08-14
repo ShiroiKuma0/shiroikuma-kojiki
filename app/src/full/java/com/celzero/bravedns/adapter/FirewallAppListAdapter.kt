@@ -39,6 +39,7 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppNotes
+import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -191,9 +192,15 @@ class FirewallAppListAdapter(
          */
         private fun displayLabel(appInfo: AppInfo) {
             val key = if (isProxied(appInfo)) context.getString(R.string.symbol_key) else ""
-            // synthetic "no_package_<uid>" rows carry no real id — nothing worth printing there
+            // Fork (白い熊 考直): the uid leads the id line. It is the number every adb command,
+            // connection log and firewall rule speaks in, and it is the *only* identifier the
+            // synthetic "no_package_<uid>" rows have — their package name is a placeholder, so they
+            // print the uid alone rather than the empty line they used to.
+            val pkg = if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
+            val uid = appInfo.uid.toString()
             val id =
-                if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
+                if (pkg.isEmpty()) uid
+                else context.getString(R.string.kojiki_app_id_line, uid, pkg)
             CustomUi.applyFirewallLabel(
                 context,
                 b.firewallAppLabelTv,
@@ -286,7 +293,7 @@ class FirewallAppListAdapter(
         /** Filter the whole app list down to one group — the row-level shortcut for what the filter
          *  sheet's group chips do. */
         private fun filterByGroup(group: String) {
-            val f = AppListActivity.filters.value ?: AppListActivity.Filters()
+            val f = AppListActivity.filters.value ?: AppListActivity.Filters().loadSort(context)
             f.setGroups(context, setOf(group))
             AppListActivity.filters.postValue(f)
         }
@@ -652,12 +659,16 @@ class FirewallAppListAdapter(
         }
         
         val appInfo = getItem(position) ?: return ""
-        
-        // Handle empty app names safely
-        return if (appInfo.appName.isNotEmpty()) {
-            appInfo.appName.substring(0, 1)
-        } else {
-            ""
+
+        // Fork (白い熊 考直): the fast-scroll bubble has to speak the same language as the list's
+        // order — an "A" while the list runs by uid tells the thumb nothing about where it is.
+        return when (KojikiAppSort.sortBy(context)) {
+            KojikiAppSort.By.NAME -> appInfo.appName.take(1)
+            KojikiAppSort.By.PACKAGE -> appInfo.packageName.take(1)
+            KojikiAppSort.By.UID -> appInfo.uid.toString()
+            KojikiAppSort.By.DATA ->
+                Utilities.humanReadableByteCount(
+                    appInfo.uploadBytes + appInfo.downloadBytes, true)
         }
     }
 }

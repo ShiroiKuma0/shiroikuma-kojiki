@@ -35,7 +35,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_weight="0.8"
+                        android:layout_weight="0.7"
                         android:fontFamily="sans-serif"
                         android:focusable="false"
                         android:isScrollContainer="true"
@@ -50,6 +50,20 @@
                         android:layout_weight="0.1"
                         android:padding="7dp"
                         android:src="@drawable/ic_refresh_white" />
+
+                    <!-- Fork (白い熊 考直): the sort affordance. It sits beside the filter icon rather
+                         than inside the filter sheet: the sheet's chip sections already fill it to
+                         the edge of a folded screen, and sort is a one-tap decision, not a
+                         multi-select. The search field gives up the 0.1 weight this takes. -->
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ffa_sort_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:contentDescription="@string/kojiki_sort_content_desc"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_kojiki_sort" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ffa_filter_icon"

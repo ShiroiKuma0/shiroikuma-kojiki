@@ -164,6 +164,59 @@ interface AppInfoDAO {
         connectionStatus: Set<Int>
     ): List<AppInfo>
 
+    /**
+     * Fork (白い熊 考直): the apps view's single paged query, with a **selectable sort order**.
+     *
+     * Upstream splits the paged list into six methods (all / installed / system × with and without a
+     * category filter), each hard-ordered by `lower(appName)`. Sorting by anything else has to happen
+     * in SQL — a page stream cannot be re-sorted in Kotlin, since each page is fetched independently —
+     * so this collapses all six into one query whose ORDER BY is driven by two bound parameters:
+     *
+     * - [sortKey]: 0 = app name · 1 = package id · 2 = uid · 3 = data used (up + down)
+     * - [descending]: 0 = ascending, 1 = descending
+     *
+     * The CASE terms are the standard SQLite idiom for a parameterised ORDER BY: exactly one term is
+     * non-NULL for a given (sortKey, descending) pair, and the rest evaluate to NULL for every row —
+     * equal, therefore no-ops. `lower(appName)` closes the list as the tie-breaker, which is what
+     * keeps rows sharing a uid in a stable, readable order.
+     *
+     * [noCategory] collapses upstream's with/without-category split: pass 1 to ignore [cat] entirely.
+     * (An empty `in ()` is valid SQLite and always false — upstream already relies on that for
+     * `isProxyExcluded`.)
+     *
+     * **On rebase:** the WHERE below mirrors upstream's `getAppInfos` / `getInstalledApps` /
+     * `getSystemApps` predicate. If upstream changes theirs, change this one to match — nothing else
+     * reads those methods now.
+     */
+    @Query(
+        "select * from AppInfo where (appName like :search or uid like :search or packageName like :search) " +
+            "and (:noCategory = 1 or appCategory in (:cat)) " +
+            "and isSystemApp in (:appType) " +
+            "and (firewallStatus in (:firewall) or isProxyExcluded in (:isProxyExcluded)) " +
+            "and connectionStatus in (:connectionStatus) " +
+            "order by " +
+            "case when :sortKey = 0 and :descending = 0 then lower(appName) end asc, " +
+            "case when :sortKey = 0 and :descending = 1 then lower(appName) end desc, " +
+            "case when :sortKey = 1 and :descending = 0 then lower(packageName) end asc, " +
+            "case when :sortKey = 1 and :descending = 1 then lower(packageName) end desc, " +
+            "case when :sortKey = 2 and :descending = 0 then uid end asc, " +
+            "case when :sortKey = 2 and :descending = 1 then uid end desc, " +
+            "case when :sortKey = 3 and :descending = 0 then uploadBytes + downloadBytes end asc, " +
+            "case when :sortKey = 3 and :descending = 1 then uploadBytes + downloadBytes end desc, " +
+            "lower(appName)"
+    )
+    fun getSortedApps(
+        search: String,
+        cat: Set<String>,
+        noCategory: Int,
+        appType: Set<Int>,
+        firewall: Set<Int>,
+        connectionStatus: Set<Int>,
+        isProxyExcluded: Set<Int>,
+        sortKey: Int,
+        descending: Int
+    ): PagingSource<Int, AppInfo>
+
     @Query(
         "update AppInfo set firewallStatus = :firewall, connectionStatus = :connectionStatus where :clause"
     )

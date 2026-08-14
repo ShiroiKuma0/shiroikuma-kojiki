@@ -12,6 +12,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.liveData
+import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.AppInfoDAO
 import com.celzero.bravedns.service.FirewallManager
@@ -45,6 +46,12 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     // in AndroidUidConfig), and the package-name prefix does.
     private var nonAppOnly = false
 
+    // Fork (白い熊 考直): the sort order, bound straight into the DAO's ORDER BY. Unlike the group and
+    // non-app filters this cannot be applied after the query — a page stream is fetched page by page,
+    // so re-ordering in Kotlin would only ever sort within a page.
+    private var sortKey = KojikiAppSort.By.NAME.id
+    private var sortDesc = 0
+
     init {
         filter.value = ""
     }
@@ -77,31 +84,51 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         this.groupPackages = filters.groupPackages
         this.nonAppOnly = filters.topLevelFilter == AppListActivity.TopLevelFilter.NON_APP
 
+        this.sortKey = filters.sortBy.id
+        this.sortDesc = if (filters.sortDesc) 1 else 0
+
         this.search = filters.searchString
         setFilterWithDebounce(filters.searchString)
     }
 
+    /**
+     * Fork (白い熊 考直): one paged query for every top-level filter, ordered by the selected sort key.
+     *
+     * Upstream branches here into `allApps` / `installedApps` / `systemApps`, each of which branches
+     * again on whether a category filter is set — six methods, all hard-ordered by `lower(appName)`.
+     * A user-selectable order has to be a bound ORDER BY, so those six collapse into
+     * [AppInfoDAO.getSortedApps], which takes the app type and the category flag as parameters. The
+     * upstream methods are consequently unused by this fork; the DAO comment carries the rebase note.
+     */
     private fun getAppInfo(searchString: String): LiveData<PagingData<AppInfo>> {
         val paged =
-            when (topLevelFilter) {
-                // get the app info based on the filter
-                AppListActivity.TopLevelFilter.ALL -> {
-                    allApps(searchString)
+            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
+                    appInfoDAO.getSortedApps(
+                        "%$searchString%",
+                        category,
+                        if (category.isEmpty()) 1 else 0,
+                        appTypeFilter(),
+                        firewallFilter.getFilter(),
+                        firewallFilter.getConnectionStatusFilter(),
+                        getBypassProxyFilter(),
+                        sortKey,
+                        sortDesc
+                    )
                 }
-                AppListActivity.TopLevelFilter.INSTALLED -> {
-                    installedApps(searchString)
-                }
-                AppListActivity.TopLevelFilter.SYSTEM -> {
-                    systemApps(searchString)
-                }
-                // Non-app rows can be either isSystemApp value, so they come out of the ALL query
-                // and are narrowed by the post-filter below.
-                AppListActivity.TopLevelFilter.NON_APP -> {
-                    allApps(searchString)
-                }
-            }
+                .liveData
+                .cachedIn(viewModelScope)
         return applyRowFilters(paged)
     }
+
+    /** The `isSystemApp` values the current top-level filter admits. */
+    private fun appTypeFilter(): Set<Int> =
+        when (topLevelFilter) {
+            AppListActivity.TopLevelFilter.ALL -> setOf(0, 1)
+            AppListActivity.TopLevelFilter.INSTALLED -> setOf(0)
+            AppListActivity.TopLevelFilter.SYSTEM -> setOf(1)
+            // Non-app rows carry either isSystemApp value; applyRowFilters narrows them afterwards.
+            AppListActivity.TopLevelFilter.NON_APP -> setOf(0, 1)
+        }
 
     /**
      * Fork (白い熊 考直): narrow a page stream to the selected app groups and/or the non-app rows.
@@ -139,90 +166,6 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
             return setOf(1)
         }
         return setOf() // empty set (as query uses or condition)
-    }
-
-    private fun allApps(searchString: String): LiveData<PagingData<AppInfo>> {
-        val includeProxyBypass = getBypassProxyFilter()
-        return if (category.isEmpty()) {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getAppInfos(
-                        "%$searchString%",
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        } else {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getAppInfos(
-                        "%$searchString%",
-                        category,
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        }
-    }
-
-    private fun installedApps(search: String): LiveData<PagingData<AppInfo>> {
-        val includeProxyBypass = getBypassProxyFilter()
-        return if (category.isEmpty()) {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getInstalledApps(
-                        "%$search%",
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        } else {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getInstalledApps(
-                        "%$search%",
-                        category,
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        }
-    }
-
-    private fun systemApps(search: String): LiveData<PagingData<AppInfo>> {
-        val includeProxyBypass = getBypassProxyFilter()
-        return if (category.isEmpty()) {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getSystemApps(
-                        "%$search%",
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        } else {
-            Pager(PagingConfig(Constants.LIVEDATA_PAGE_SIZE)) {
-                    appInfoDAO.getSystemApps(
-                        "%$search%",
-                        category,
-                        firewallFilter.getFilter(),
-                        firewallFilter.getConnectionStatusFilter(),
-                        includeProxyBypass
-                    )
-                }
-                .liveData
-                .cachedIn(viewModelScope)
-        }
     }
 
     // apply the firewall rules to the filtered apps
@@ -471,22 +414,7 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     }
 
     private fun getFilteredApps(): List<AppInfo> {
-        val appType =
-            when (topLevelFilter) {
-                AppListActivity.TopLevelFilter.ALL -> {
-                    setOf(0, 1)
-                }
-                AppListActivity.TopLevelFilter.INSTALLED -> {
-                    setOf(0)
-                }
-                AppListActivity.TopLevelFilter.SYSTEM -> {
-                    setOf(1)
-                }
-                // Non-app rows carry either isSystemApp value; applyRowFilters below narrows them.
-                AppListActivity.TopLevelFilter.NON_APP -> {
-                    setOf(0, 1)
-                }
-            }
+        val appType = appTypeFilter()
         // Fork (白い熊 考直): the bulk-rule toolbar acts on exactly what the list shows, so an active
         // group filter narrows the target set here too — that is what makes "block every app in 仕事"
         // one tap on the group pill plus one on the toolbar.
