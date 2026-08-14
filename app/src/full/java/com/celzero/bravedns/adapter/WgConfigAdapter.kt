@@ -65,7 +65,7 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
 import androidx.core.view.isVisible
 import com.celzero.bravedns.service.IpRulesManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 class WgConfigAdapter(private val context: Context, private val listener: DnsStatusListener, private val splitDns: Boolean, private val eventLogger: EventLogger) :
     PagingDataAdapter<WgConfigFiles, WgConfigAdapter.WgInterfaceViewHolder>(DIFF_CALLBACK) {
@@ -707,7 +707,7 @@ class WgConfigAdapter(private val context: Context, private val listener: DnsSta
         private fun showInvalidConfigDialog() {
             val ctx = context
             if (ctx is android.app.Activity && !ctx.isFinishing) {
-                MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                     .setTitle(R.string.wireguard_invalid_config_title)
                     .setMessage(R.string.wireguard_invalid_config_message)
                     .setCancelable(true)

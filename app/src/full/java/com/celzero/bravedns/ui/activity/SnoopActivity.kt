@@ -38,7 +38,7 @@ import com.celzero.bravedns.util.Themes.Companion.getCurrentTheme
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.celzero.bravedns.viewmodel.SnoopViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -203,7 +203,7 @@ class SnoopActivity : AppCompatActivity(R.layout.activity_snoop) {
     }
 
     private fun confirmClearAll() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.snoop_clear_confirm_title)
             .setMessage(R.string.snoop_clear_confirm_msg)
             .setCancelable(true)

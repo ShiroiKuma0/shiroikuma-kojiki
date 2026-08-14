@@ -52,7 +52,7 @@ import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.viewmodel.ManagePurchaseViewModel
 import com.celzero.bravedns.viewmodel.ManagePurchaseViewModel.OperationState
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -415,7 +415,7 @@ class ManageRpnPurchaseBtmSht : BottomSheetDialogFragment() {
 
     private fun showDialogConfirmCancelOrRevoke(isCancel: Boolean) {
         try {
-            MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+            KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
                 .setTitle(if (isCancel) getString(R.string.confirm_cancel_title) else getString(R.string.confirm_revoke_title))
                 .setMessage(if (isCancel) getString(R.string.confirm_cancel_message) else getString(R.string.confirm_revoke_message))
                 .setPositiveButton(if (isCancel) getString(R.string.cancel_subscription) else getString(R.string.revoke_subscription)) { _, _ ->

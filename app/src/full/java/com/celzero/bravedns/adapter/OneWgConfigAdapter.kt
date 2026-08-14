@@ -52,7 +52,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.UIUtils.fetchColor
 import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.RouterStats
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import inet.ipaddr.HostName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -503,7 +503,7 @@ class OneWgConfigAdapter(private val context: Context, private val listener: Dns
         private fun showInvalidConfigDialog() {
             val ctx = context
             if (ctx is android.app.Activity && !ctx.isFinishing) {
-                MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                     .setTitle(R.string.wireguard_invalid_config_title)
                     .setMessage(R.string.wireguard_invalid_config_message)
                     .setCancelable(true)

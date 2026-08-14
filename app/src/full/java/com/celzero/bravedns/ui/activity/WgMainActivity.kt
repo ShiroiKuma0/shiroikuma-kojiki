@@ -55,7 +55,7 @@ import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.celzero.bravedns.viewmodel.WgConfigViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.google.zxing.qrcode.QRCodeReader
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -397,7 +397,7 @@ class WgMainActivity :
     }
 
     private fun showDeleteAllInterfacesDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         val delText =
             getString(
                 R.string.two_argument_space,
@@ -439,7 +439,7 @@ class WgMainActivity :
 
     private fun showDisableDialog(isOneWgToggle: Boolean) {
         // show alert dialog with don't show again toggle in it
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.wireguard_disable_title))
             .setMessage(getString(R.string.wireguard_disable_message))
             .setPositiveButton(getString(R.string.always_on_dialog_positive)) { _, _ ->

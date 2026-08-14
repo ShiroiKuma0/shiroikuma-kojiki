@@ -91,7 +91,7 @@ import com.celzero.bravedns.util.Utilities.isFdroidFlavour
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.google.android.material.checkbox.MaterialCheckBox
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -439,7 +439,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     }
 
     private fun showPcapOptionsDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_pcap_dialog_title))
         val items =
             arrayOf(
@@ -820,7 +820,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
 
     private fun showGoLoggerDialog() {
         // show dialog with logger options, change log level in GoVpnAdapter based on selection
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_go_log_heading))
         val items =
             arrayOf(
@@ -877,7 +877,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
 
 
     private fun showBiometricDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_biometric_dialog_heading))
         // show an list of options disable, enable immediate, ask after 5 min, ask after 15 min
         val item0 = getString(R.string.settings_biometric_dialog_option_0)
@@ -940,7 +940,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     }
 
     private fun invokeChangeLocaleDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_locale_dialog_title))
         val languages = getLocaleEntries()
         val items = languages.keys.toTypedArray()
@@ -1101,7 +1101,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
 
         val labels = options.map { it.first }.toTypedArray()
         val checkedItem = options.indexOfFirst { it.second == persistentState.theme }.coerceAtLeast(0)
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_theme_dialog_title))
         alertBuilder.setSingleChoiceItems(labels, checkedItem) { dialog, which ->
             dialog.dismiss()
@@ -1126,7 +1126,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     }
 
     private fun showNotificationActionDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_notification_dialog_title))
         val items =
             arrayOf(

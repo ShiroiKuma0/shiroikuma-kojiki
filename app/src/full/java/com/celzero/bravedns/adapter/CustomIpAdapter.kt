@@ -55,7 +55,7 @@ import com.celzero.bravedns.util.UIUtils.fetchColor
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.getCountryCode
 import com.celzero.bravedns.util.Utilities.getFlag
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import inet.ipaddr.IPAddress
 import inet.ipaddr.IPAddressString
 import kotlinx.coroutines.Dispatchers
@@ -560,7 +560,7 @@ class CustomIpAdapter(private val context: Context, private val type: CustomRule
     private fun showEditIpDialog(customIp: CustomIp) {
         val dBind =
             DialogAddCustomIpBinding.inflate((context as CustomRulesActivity).layoutInflater)
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim).setView(dBind.root)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim).setView(dBind.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()

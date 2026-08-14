@@ -36,7 +36,7 @@ import com.celzero.bravedns.util.Themes.Companion.getCurrentTheme
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -110,7 +110,7 @@ class RpnWinProxyDetailsActivity: BaseActivity(R.layout.activity_rpn_win_proxy_d
     }
 
     private fun showNoProxyFoundDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle("No proxy found")
         builder.setMessage("Proxy information is missing for this proxy id.Please ensure that the proxy is configured correctly and try again.")
         builder.setCancelable(false)

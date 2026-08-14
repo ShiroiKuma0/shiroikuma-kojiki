@@ -57,7 +57,7 @@ import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastR
 import com.celzero.bravedns.util.Utilities.isPlayStoreFlavour
 import com.celzero.firestack.backend.Backend
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -737,7 +737,7 @@ class DnsSettingsFragment : Fragment(R.layout.fragment_dns_configure),
                     stringBuilder.append(txt).append("\n")
                 }
                 val list = stringBuilder.toString()
-                val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+                val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
                     .setTitle(R.string.smart_dns)
                     .setMessage(list)
                     .setCancelable(true)
@@ -764,7 +764,7 @@ class DnsSettingsFragment : Fragment(R.layout.fragment_dns_configure),
     }
 
     private fun showSystemDnsDialog(dns: String) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(R.string.network_dns)
             .setMessage(dns)
             .setCancelable(true)

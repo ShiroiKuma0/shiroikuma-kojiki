@@ -39,7 +39,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.UIUtils.clipboardCopy
 import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.Backend
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -163,7 +163,7 @@ class DnsCryptRelayEndpointAdapter(
         }
 
         private fun showDialogExplanation(title: String, url: String, message: String?) {
-            val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             builder.setTitle(title)
             if (message != null) builder.setMessage(url + "\n\n" + relayDesc(message))
             else builder.setMessage(url)
@@ -206,7 +206,7 @@ class DnsCryptRelayEndpointAdapter(
         }
 
         private fun showDeleteDialog(id: Int) {
-            val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             builder.setTitle(R.string.dns_crypt_relay_remove_dialog_title)
             builder.setMessage(R.string.dns_crypt_relay_remove_dialog_message)
             builder.setCancelable(true)

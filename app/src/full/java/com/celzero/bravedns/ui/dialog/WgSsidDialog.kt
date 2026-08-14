@@ -33,7 +33,7 @@ import com.celzero.bravedns.data.SsidItem
 import com.celzero.bravedns.databinding.DialogWgSsidBinding
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 class WgSsidDialog(
     private val activity: Activity,
@@ -260,7 +260,7 @@ class WgSsidDialog(
     }
 
     private fun showDeleteConfirmation(ssidItem: SsidItem) {
-        val builder = MaterialAlertDialogBuilder(activity, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(activity, R.style.App_Dialog_NoDim)
         builder.setTitle(activity.getString(R.string.wg_ssid_delete_title))
         builder.setMessage(
             activity.getString(R.string.two_argument_space, activity.getString(R.string.lbl_delete), ssidItem.name)

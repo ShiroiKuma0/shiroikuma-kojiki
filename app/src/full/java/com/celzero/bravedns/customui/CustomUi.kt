@@ -1124,6 +1124,44 @@ object CustomUi {
     // reaches these — a dialog and a sheet each live in their own window — so they are painted from
     // their own entry points, after the dialog/sheet is shown. ---
 
+    /**
+     * Fork (白い熊 考直): paint a **Material alert's own outer container** with the bordered box.
+     *
+     * This is the mechanism that gives upstream's ~144 dialogs the fork's look without rewriting any
+     * of them (they are routed through [KojikiAlertDialogBuilder], which calls this on attach).
+     * Painting a plain View background is deterministic — unlike the two theme attributes, which
+     * either get replaced by Material at show time (`android:windowBackground`) or are applied to
+     * each panel separately and render three stacked boxes (`android:background`).
+     *
+     * `parentPanel` is AppCompat's single outer container; the title / content / button / custom
+     * panels inside it are cleared so only one border is ever drawn and the box keeps its corners.
+     */
+    fun themeAlertSurface(dialog: android.app.Dialog) {
+        if (!customThemeActive) return
+        val window = dialog.window ?: return
+        val root =
+            window.findViewById<View>(androidx.appcompat.R.id.parentPanel)
+                ?: window.findViewById<View>(android.R.id.content)
+                ?: return
+        val cfg = CustomUiConfig(dialog.context)
+        val d = dialog.context.resources.displayMetrics.density
+        val border = if (cfg.cardBorderColor != 0) cfg.cardBorderColor else cfg.accentColor
+        for (id in ALERT_INNER_PANELS) window.findViewById<View>(id)?.background = null
+        root.background = GradientDrawable().apply {
+            cornerRadius = 18 * d
+            setColor(cfg.backgroundColor)
+            setStroke(maxOf(2, (2 * d).toInt()), border)
+        }
+        root.invalidate()
+    }
+
+    private val ALERT_INNER_PANELS = intArrayOf(
+        androidx.appcompat.R.id.topPanel,
+        androidx.appcompat.R.id.contentPanel,
+        androidx.appcompat.R.id.customPanel,
+        androidx.appcompat.R.id.buttonPanel
+    )
+
     /** Give an AlertDialog the custom look: an accent border + the configured fill. Call after
      *  dialog.show(). No-op off the Custom theme. */
     fun themeAlertDialog(dialog: android.app.Dialog) {

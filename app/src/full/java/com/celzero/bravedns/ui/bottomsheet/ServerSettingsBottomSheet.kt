@@ -45,7 +45,7 @@ import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastR
 import com.celzero.bravedns.viewmodel.ServerSelectionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -735,7 +735,7 @@ class ServerSettingsBottomSheet : BottomSheetDialogFragment() {
     }
 
     /**
-     * Shows a [MaterialAlertDialogBuilder] single-choice dialog for selecting
+     * Shows a [KojikiAlertDialogBuilder] single-choice dialog for selecting
      * the connection port. The current selection is pre-checked.
      */
     private fun showPortSelectionDialog() {
@@ -751,7 +751,7 @@ class ServerSettingsBottomSheet : BottomSheetDialogFragment() {
             if (it < 0) 0 else it  // fall back to random if stored value is unknown
         }
 
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.server_settings_port_dialog_title))
             .setSingleChoiceItems(portLabels, selectedIndex) { dialog, which ->
                 val newPort = PORT_VALUES[which]
@@ -779,7 +779,7 @@ class ServerSettingsBottomSheet : BottomSheetDialogFragment() {
      */
     private fun showResetConfirmationDialog() {
         if (!isAdded) return
-        MaterialAlertDialogBuilder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.rpn_restore_confirm_title))
             .setMessage(getString(R.string.rpn_restore_confirm_message))
             .setPositiveButton(getString(R.string.brbs_restore_dialog_positive)) { dialog, _ ->

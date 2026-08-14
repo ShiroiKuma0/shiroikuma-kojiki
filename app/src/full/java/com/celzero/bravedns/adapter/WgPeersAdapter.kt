@@ -30,7 +30,7 @@ import com.celzero.bravedns.ui.dialog.WgAddPeerDialog
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.wireguard.Peer
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -111,7 +111,7 @@ class WgPeersAdapter(
     }
 
     private fun showDeleteInterfaceDialog(wgPeer: Peer) {
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
         val delText =
             context.getString(
                 R.string.two_argument_space,

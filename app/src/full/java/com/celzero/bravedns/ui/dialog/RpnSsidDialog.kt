@@ -37,7 +37,7 @@ import com.celzero.bravedns.data.SsidItem
 import com.celzero.bravedns.databinding.DialogRpnSsidBinding
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 /**
  * SSID Dialog for Country-based VPN configurations
@@ -278,7 +278,7 @@ class RpnSsidDialog(
     }
 
     private fun showDeleteConfirmation(ssidItem: SsidItem) {
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
         builder.setTitle(context.getString(R.string.wg_ssid_delete_title))
         builder.setMessage(context.getString(R.string.bug_report_delete_confirmation, ssidItem.name))
         builder.setCancelable(true)

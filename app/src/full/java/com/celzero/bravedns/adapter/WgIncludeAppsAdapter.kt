@@ -44,7 +44,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities.getDefaultIcon
 import com.celzero.bravedns.util.Utilities.getIcon
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -255,7 +255,7 @@ class WgIncludeAppsAdapter(
         ) {
             val positiveTxt: String
 
-            val builderSingle = MaterialAlertDialogBuilder(context)
+            val builderSingle = KojikiAlertDialogBuilder(context)
 
             builderSingle.setIcon(R.drawable.ic_firewall_exclude_on)
 

@@ -79,7 +79,7 @@ import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.celzero.firestack.backend.Backend
 import com.celzero.firestack.backend.RouterStats
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -361,7 +361,7 @@ class ProxySettingsActivity : BaseActivity(R.layout.fragment_proxy_configure) {
 
     /** Prompt user to download the Orbot app based on the current BUILDCONFIG flavor. */
     private fun showOrbotInstallDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.orbot_install_dialog_title)
         builder.setMessage(R.string.orbot_install_dialog_message)
         builder.setPositiveButton(getString(R.string.orbot_install_dialog_positive)) { _, _ ->
@@ -819,7 +819,7 @@ class ProxySettingsActivity : BaseActivity(R.layout.fragment_proxy_configure) {
     ) {
         val dialogBinding = DialogSetProxyBinding.inflate(layoutInflater)
         val builder =
-            MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+            KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         lp.copyFrom(dialog.window?.attributes)
@@ -1033,7 +1033,7 @@ class ProxySettingsActivity : BaseActivity(R.layout.fragment_proxy_configure) {
         var host: String
         val dialogBinding = DialogSetProxyBinding.inflate(layoutInflater)
         val builder =
-            MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+            KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()

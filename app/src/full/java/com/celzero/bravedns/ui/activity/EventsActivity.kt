@@ -50,7 +50,7 @@ import com.celzero.bravedns.util.restoreFrost
 import com.celzero.bravedns.viewmodel.EventsViewModel
 import com.celzero.bravedns.viewmodel.EventsViewModel.TopLevelFilter
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -460,7 +460,7 @@ class EventsActivity : BaseActivity(R.layout.activity_events), SearchView.OnQuer
     }
 
     private fun showDeleteDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.delete_all_events)
             .setMessage(R.string.delete_all_events_confirmation)
             .setCancelable(true)

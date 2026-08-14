@@ -35,7 +35,7 @@ import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.viewmodel.WgNwActivityViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -223,7 +223,7 @@ class WgNwStatsFragment : Fragment(R.layout.fragment_wg_nw_stats) {
 
     private fun showErrorDialog() {
         // Show error dialog
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.lbl_wireguard))
             .setMessage(getString(R.string.config_invalid_desc))
             .setPositiveButton(R.string.fapps_info_dialog_positive_btn) { _, _ ->

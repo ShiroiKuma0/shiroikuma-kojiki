@@ -24,7 +24,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.celzero.bravedns.R
 import com.celzero.bravedns.service.SnoopTagStore
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 /**
  * Fork (白い熊 考直): the create / edit dialogs for Snooping-panel domain tags, shared by the Snoop
@@ -37,7 +37,7 @@ object SnoopTagUi {
     /** New tag: name + (OK = no colour) / (Colour = pick one). On success calls onCreated(name). */
     fun showNew(context: Context, onCreated: (String) -> Unit) {
         val input = nameInput(context, "")
-        MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             .setTitle(R.string.snoop_tag_new)
             .setView(wrap(context, input))
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -102,7 +102,7 @@ object SnoopTagUi {
                 addView(input)
                 addView(btnRow)
             }
-        MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             .setTitle(R.string.snoop_tag_edit)
             .setView(box)
             .setPositiveButton(android.R.string.ok) { _, _ ->

@@ -36,7 +36,7 @@ import com.celzero.bravedns.databinding.DialogSetCustomOdohBinding
 import com.celzero.bravedns.databinding.FragmentOdohListBinding
 import com.celzero.bravedns.util.RecyclerViewSpacingDecoration
 import com.celzero.bravedns.viewmodel.ODoHEndpointViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -125,7 +125,7 @@ class ODoHListFragment : Fragment(R.layout.fragment_odoh_list) {
 
     private fun showAddDialog() {
         val dialogBinding = DialogSetCustomOdohBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()

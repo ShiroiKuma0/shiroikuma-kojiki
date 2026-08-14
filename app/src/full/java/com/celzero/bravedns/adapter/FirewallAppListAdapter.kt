@@ -54,7 +54,7 @@ import com.celzero.bravedns.ui.activity.AppInfoActivity.Companion.INTENT_UID
 import com.celzero.bravedns.ui.activity.AppListActivity
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.getIcon
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView.SectionedAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -573,7 +573,7 @@ class FirewallAppListAdapter(
             connStatus: FirewallManager.ConnectionStatus
         ) {
 
-            val builderSingle = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builderSingle = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
 
             builderSingle.setIcon(R.drawable.ic_firewall_block_grey)
             val count = packageList.count()

@@ -24,7 +24,7 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.celzero.bravedns.R
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import java.util.Locale
 
 /**
@@ -100,7 +100,7 @@ object ColorPickerDialog {
         addChannel("B", b) { b = it }
         refresh()
 
-        MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             .setTitle(R.string.kojiki_ui_title)
             .setView(container)
             .setPositiveButton(android.R.string.ok) { _, _ -> onPicked(current()) }

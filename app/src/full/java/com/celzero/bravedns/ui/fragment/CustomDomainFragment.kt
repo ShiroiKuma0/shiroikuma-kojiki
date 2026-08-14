@@ -51,7 +51,7 @@ import com.celzero.bravedns.util.Constants.Companion.UID_EVERYBODY
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.removeLeadingAndTrailingDots
 import com.celzero.bravedns.viewmodel.CustomDomainViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -248,7 +248,7 @@ class CustomDomainFragment :
      */
     private fun showAddDomainDialog() {
         val dBind = DialogAddCustomDomainBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dBind.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dBind.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         dialog.show()
@@ -384,7 +384,7 @@ class CustomDomainFragment :
     }
 
     private fun showDomainRulesDeleteDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.univ_delete_domain_dialog_title))
         builder.setMessage(getString(R.string.univ_delete_domain_dialog_message))
         builder.setPositiveButton(getString(R.string.univ_ip_delete_dialog_positive)) { _, _ ->
@@ -464,7 +464,7 @@ class CustomDomainFragment :
      */
     private fun showImportConfirmDialog(parsed: RulesImportHelper.ParsedFile) {
         val dBind = DialogImportConfirmBinding.inflate(layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setView(dBind.root)
             .create()
 
@@ -517,7 +517,7 @@ class CustomDomainFragment :
             summary.duplicates,
             summary.invalid
         )
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.import_rules_complete_title))
             .setMessage(msg)
             .setPositiveButton(getString(R.string.fapps_info_dialog_positive_btn)) { d, _ -> d.dismiss() }

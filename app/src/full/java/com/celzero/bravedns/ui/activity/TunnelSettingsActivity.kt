@@ -59,7 +59,7 @@ import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -649,7 +649,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
     }
 
     private fun showDefaultDnsDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_default_dns_heading))
 
         // under proxy lockdown, the "System" (None) bootstrap DNS is not allowed because system
@@ -708,7 +708,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
             }
         }
 
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.vpn_policy_title))
             .setAdapter(adapter) { _, which ->
                 currentSelection = which
@@ -875,7 +875,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
     }
 
     private fun showIpDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_ip_dialog_title))
         val alwaysv46Txt = getString(R.string.settings_ip_text_ipv4) + " & " + getString(R.string.settings_ip_text_ipv6) + " " + getString(R.string.lbl_experimental)
         val items =
@@ -939,7 +939,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
     }
 
     private fun showConnectivityChecksOptionsDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_connectivity_checks))
         val items = arrayOf(
             getString(R.string.settings_app_list_default_app),
@@ -1052,7 +1052,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
                     disableRow.visibility = View.GONE
                 }
 
-                val dialog = MaterialAlertDialogBuilder(this@TunnelSettingsActivity, R.style.App_Dialog_NoDim)
+                val dialog = KojikiAlertDialogBuilder(this@TunnelSettingsActivity, R.style.App_Dialog_NoDim)
                     .setTitle(getString(R.string.lockdown_check_dialog_title))
                     .setView(dialogView)
                     .setPositiveButton(getString(R.string.lockdown_check_apply)) { d, _ ->

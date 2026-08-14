@@ -34,7 +34,7 @@ import com.celzero.bravedns.ui.tour.GuidedTourManager
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import org.koin.android.ext.android.inject
 
 class AdvancedSettingActivity : BaseActivity(R.layout.activity_advanced_setting) {
@@ -109,7 +109,7 @@ class AdvancedSettingActivity : BaseActivity(R.layout.activity_advanced_setting)
             if (idx == -1) 0 else idx + 1
         }
 
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle("Protocol Translation Mode")
             .setSingleChoiceItems(items, checkedItem) { dialog, which ->
                 dialog.dismiss()
@@ -191,7 +191,7 @@ class AdvancedSettingActivity : BaseActivity(R.layout.activity_advanced_setting)
     }
 
     /*private fun clearResidueAfterConfirmation() {
-        val alertBuilder = MaterialAlertDialogBuilder(this)
+        val alertBuilder = KojikiAlertDialogBuilder(this)
         alertBuilder.setTitle(getString(R.string.clear_residue_dialog_heading))
         alertBuilder.setMessage(getString(R.string.clear_residue_dialog_desc))
         alertBuilder.setCancelable(false)

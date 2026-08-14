@@ -58,7 +58,7 @@ import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.celzero.bravedns.viewmodel.AppInfoViewModel
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -516,7 +516,7 @@ class AppListActivity :
 
     private fun showBulkRulesUpdateDialog(title: String, message: String, type: BlockType) {
         val builder =
-            MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+            KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.lbl_apply)) { _, _ -> updateBulkRules(type) }
@@ -552,7 +552,7 @@ class AppListActivity :
     private fun showInfoDialog() {
         val li = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = li.inflate(R.layout.dialog_info_firewall_rules, null)
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(view)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim).setView(view)
         builder.setPositiveButton(getString(R.string.fapps_info_dialog_positive_btn)) { dialog, _ ->
             dialog.dismiss()
         }

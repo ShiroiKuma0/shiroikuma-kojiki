@@ -43,7 +43,7 @@ import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities.isAtleastQ
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -94,7 +94,7 @@ class PingTestActivity : BaseActivity(R.layout.activity_ping_test) {
     }
 
     private fun showStartVpnDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.vpn_not_active_dialog_title))
             .setMessage(getString(R.string.vpn_not_active_dialog_desc))
             .setCancelable(false)

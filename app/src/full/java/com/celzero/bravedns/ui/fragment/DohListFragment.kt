@@ -36,7 +36,7 @@ import com.celzero.bravedns.databinding.DialogSetCustomDohBinding
 import com.celzero.bravedns.databinding.FragmentDohListBinding
 import com.celzero.bravedns.util.RecyclerViewSpacingDecoration
 import com.celzero.bravedns.viewmodel.DoHEndpointViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -130,7 +130,7 @@ class DohListFragment : Fragment(R.layout.fragment_doh_list) {
      */
     private fun showAddCustomDohDialog() {
         val dialogBinding = DialogSetCustomDohBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         lp.copyFrom(dialog.window?.attributes)

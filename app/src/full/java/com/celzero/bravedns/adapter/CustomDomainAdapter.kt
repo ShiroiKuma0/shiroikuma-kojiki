@@ -56,7 +56,7 @@ import com.celzero.bravedns.util.Constants
 import com.celzero.bravedns.util.SnackbarHelper.italic
 import com.celzero.bravedns.util.UIUtils.fetchColor
 import com.celzero.bravedns.util.Utilities
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -176,7 +176,7 @@ class CustomDomainAdapter(
     private fun showEditDomainDialog(customDomain: CustomDomain) {
         val dBind =
             DialogAddCustomDomainBinding.inflate((context as CustomRulesActivity).layoutInflater)
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim).setView(dBind.root)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim).setView(dBind.root)
         val lp = WindowManager.LayoutParams()
         val dialog = builder.create()
         lp.copyFrom(dialog.window?.attributes)

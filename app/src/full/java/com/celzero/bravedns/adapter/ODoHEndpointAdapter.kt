@@ -42,7 +42,7 @@ import com.celzero.bravedns.util.UIUtils.clipboardCopy
 import com.celzero.bravedns.util.UIUtils.getDnsStatusStringRes
 import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.Backend
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -215,7 +215,7 @@ class ODoHEndpointAdapter(private val context: Context, private val appConfig: A
             resolver: String,
             message: String?
         ) {
-            val builder = MaterialAlertDialogBuilder(context)
+            val builder = KojikiAlertDialogBuilder(context)
             builder.setTitle(title)
             builder.setMessage(proxy + "\n\n" + resolver + "\n\n" + getDnsDesc(message))
             builder.setCancelable(true)
@@ -255,7 +255,7 @@ class ODoHEndpointAdapter(private val context: Context, private val appConfig: A
         }
 
         private fun showDeleteDialog(id: Int) {
-            val builder = MaterialAlertDialogBuilder(context)
+            val builder = KojikiAlertDialogBuilder(context)
             builder.setTitle(R.string.dot_custom_url_remove_dialog_title)
             builder.setMessage(R.string.dot_custom_url_remove_dialog_message)
             builder.setCancelable(true)

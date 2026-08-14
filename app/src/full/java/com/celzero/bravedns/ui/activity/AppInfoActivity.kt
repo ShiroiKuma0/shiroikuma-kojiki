@@ -69,7 +69,7 @@ import com.celzero.bravedns.util.handleFrostEffectIfNeeded
 import com.celzero.bravedns.viewmodel.AppConnectionsViewModel
 import com.celzero.bravedns.viewmodel.CustomDomainViewModel
 import com.celzero.bravedns.viewmodel.CustomIpViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -767,7 +767,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
     }
 
     private fun showAppInfoDialog(appNames: List<String>) {
-        val builderSingle = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builderSingle = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builderSingle.setTitle(this.getString(R.string.about_settings_app_info))
 
         val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1)
@@ -1012,7 +1012,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
     }
 
     private fun showNoAppFoundDialog() {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.ada_noapp_dialog_title))
         builder.setMessage(getString(R.string.ada_noapp_dialog_message))
         builder.setCancelable(false)
@@ -1033,7 +1033,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
         prevConnStat: FirewallManager.ConnectionStatus
     ) {
 
-        val builderSingle = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builderSingle = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
 
         builderSingle.setIcon(R.drawable.ic_firewall_block_grey)
         val count = packageList.count()
@@ -1066,7 +1066,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
     private fun showCloseConnectionDialog(uid: Int, appName: String) {
         Logger.v(LOG_TAG_UI, "$TAG show close connection dialog for uid: $uid")
-        val dialog = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(this.getString(R.string.close_conns_dialog_title))
             .setMessage(getString(R.string.close_conns_dialog_desc, appName))
             .setPositiveButton(R.string.lbl_proceed) { _, _ ->

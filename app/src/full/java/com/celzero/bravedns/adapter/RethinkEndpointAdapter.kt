@@ -46,7 +46,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.UIUtils.clipboardCopy
 import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.Backend
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -211,7 +211,7 @@ class RethinkEndpointAdapter(private val context: Context, private val appConfig
         }
 
         private fun showDohMetadataDialog(endpoint: RethinkDnsEndpoint) {
-            val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             builder.setTitle(endpoint.name)
             builder.setMessage(endpoint.url + "\n\n" + endpoint.desc)
             builder.setCancelable(true)

@@ -41,7 +41,7 @@ import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.viewmodel.ProxyAppsMappingViewModel
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -266,7 +266,7 @@ class WgIncludeAppsDialog(
     }
 
     private fun showDialog(toAdd: Boolean) {
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
         if (toAdd) {
             builder.setTitle(context.getString(R.string.include_all_app_wg_dialog_title))
             builder.setMessage(context.getString(R.string.include_all_app_wg_dialog_desc))
@@ -305,7 +305,7 @@ class WgIncludeAppsDialog(
     }
 
     private fun showConfirmationDialog() {
-        val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
         builder.setTitle(context.getString(R.string.remaining_apps_dialog_title))
         builder.setMessage(context.getString(R.string.remaining_apps_dialog_desc))
         builder.setCancelable(true)
