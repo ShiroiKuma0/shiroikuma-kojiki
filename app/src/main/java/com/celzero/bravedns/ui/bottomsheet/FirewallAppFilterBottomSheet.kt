@@ -83,6 +83,10 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
     private fun initView() {
         val f = AppListActivity.filters.value
 
+        // Fork (白い熊 考直): Apply posts *this* Filters over the live one, so anything it does not
+        // carry is silently reset. The sort order is owned by KojikiAppSort, so take it from there.
+        this.filters.loadSort(requireContext())
+
         remakeParentFilterChipsUi()
 
         if (f != null) {
