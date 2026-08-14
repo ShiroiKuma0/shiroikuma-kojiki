@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+017`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+020`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -42,6 +42,11 @@ Both are keyed by package name, so they survive reinstalls and travel in Export/
 
 ## 🔢 An app list you can actually read
 Every row leads its id line with the **uid** — `10050 · yqtrack.app` — the number adb, the connection logs and every firewall rule actually speak in; the uid-only rows, which have no package id to print, finally show something instead of a blank line. And the list **sorts**: by app name, package id, uid, or data used, ascending or descending, from a glyph beside the filter icon — tap the marked key again to reverse it. Your choice sticks between visits, and the fast-scroll bubble follows the key you picked instead of always showing a letter.
+
+---
+
+## 🧬 Shared uids, said out loud
+A firewall rule cannot name an app: Android hands the network stack a **uid**, so packages sharing one — a dozen `com.huawei.*` services under uid 1000, say — are a single principal that no rule can tell apart. Stock shows them as ordinary separate rows and only mentions it once you are already applying a rule. Here every such row is marked **`×11`** on its id line, both per-app confirmations explain *why* one tap moves eleven apps (and point at the one axis that does discriminate below a uid — per-app domain and IP rules), and the bulk toolbar names the apps a rule will reach **outside** your current filter because they share a uid with something inside it.
 
 ---
 
