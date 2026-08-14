@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, a fully configurable UI theme + global font, portable category-based Export/Import, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import, honest WireGuard status, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+2`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+012`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -28,6 +28,15 @@ On some phones (notably Huawei/EMUI), an app you fully *exclude* from the VPN ha
 
 ## 🕵️ Snooping panel
 A dedicated panel that watches DNS traffic **on the device itself** and surfaces which apps are phoning home to trackers and telemetry — classified in three tiers against the local blocklists, with per-domain **tags/categories** you create and assign yourself. Tap an app icon to filter the panel to that app, long-press to open it, sort and filter every which way, and cut a snoop off with one tap. Detection runs **independently of DNS logging** — turning query logs off does not blind it.
+
+---
+
+## 📝 Notes and groups on every app
+Firewall rules say *what*; they can never say *why*. Every row in the apps view gets a **free-text note** — “do not exclude, DNS dies on this phone”, “needed for Hikvision” — shown inline on the row itself and edited in one tap, with a blank note deleting itself.
+
+Rows also carry **groups** (profiles): named sets of apps shown as pills. Tap a pill to filter the list to that group, long-press to drop the app from it, “+” to add. And because the bulk-rule toolbar acts on whatever the filter selects, filtering to a group aims the entire toolbar at it — **one tap on a pill, one on “block on metered”, and the whole group is done.**
+
+Both are keyed by package name, so they survive reinstalls and travel in Export/Import. Even the uid-only rows (root, `SYSTEM`, and any traffic no package accounts for — reachable through a **Non-app** filter) can be annotated; those are carried across devices with a ⚠ marker telling you to re-check them, never silently trusted.
 
 ---
 
