@@ -2,6 +2,18 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+013
+
+**Every dialog in the app now wears the fork's bordered box — not just the fork's own.**
+
+`0.5.6+012` gave the fork's dialogs a single rounded, accent-bordered box and left upstream's ~144 alerts as Material drew them. This finishes the job: all of them are routed through a new **`KojikiAlertDialogBuilder`**, a drop-in subclass of `MaterialAlertDialogBuilder`.
+
+A subclass rather than a rewrite, deliberately. Every existing builder chain — `setItems`, `setMultiChoiceItems`, `setSingleChoiceItems`, `setView`, adapters, custom listeners — keeps working untouched, and each call site changes by exactly one identifier. That is the difference between a mechanical sweep over 69 upstream-owned files and hand-porting 144 dialogs, which would conflict on every rebase.
+
+The border is painted on **`parentPanel`** — AppCompat's single outer container of the alert layout — with `topPanel`, `contentPanel`, `customPanel` and `buttonPanel` cleared, so exactly one border is drawn and the box keeps its corners. Painting a plain view background is deterministic, which neither theme attribute is: `android:windowBackground` is replaced by `MaterialAlertDialogBuilder.create()` at show time, and `android:background` is applied to each panel separately and renders three stacked bordered boxes.
+
+The hook is an **attach-state listener rather than `setOnShowListener`**, because several call sites set a show-listener of their own and would have silently replaced ours. Off the Custom theme the whole mechanism is inert and every dialog renders exactly as upstream drew it.
+
 ## 0.5.6+012
 
 **The apps view gains per-app notes and app groups — 白い熊 応用管理's two annotations, in kojiki's terms — and the groups turn the bulk-rule toolbar into a per-group weapon.**
