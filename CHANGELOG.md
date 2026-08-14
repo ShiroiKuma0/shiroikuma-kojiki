@@ -2,6 +2,30 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+020
+
+**A firewall rule cannot name an app — so the app list stops pretending it can.**
+
+### Shared uids, on the row
+Android hands the network stack a **uid**, never a package: `VpnService`'s allow/disallow lists are uid ranges, the kernel's socket owner is a uid, and the Go engine's flow callback is answered with a uid. Packages that share one — `android.uid.system`, uid 1000, which on a Huawei is a dozen `com.huawei.*` services — are a *single* principal, and no rule can tell them apart. The app's own tables have always agreed: firewall rules key on uid, domain and IP rules on `(uid, domain)` and `(uid, ip, port, protocol)`.
+
+The list did not say so. It showed those packages as ordinary separate rows, down to identical byte counts — accounting is per-uid too — so a row implied a per-app decision the model cannot make. Every row's id line now carries **`×11`** in the accent when eleven packages share its uid. It sits at the front of the line, where an ellipsized package name cannot swallow it, and rides the row's existing background bind, so it costs nothing on the main thread.
+
+### The question, restated as *why*
+Upstream already refused to apply such a rule silently: it asked first and listed the other apps. What it never explained was the mechanism — and it asked inside a Material alert, which under this theme has no border at all and whose body was a bare list.
+
+Both per-app paths — the row's wifi/data toggles, and every rule on an app's own page — now ask in the fork's bordered dialog, titled `uid 1000 · 11 apps`, stating plainly that Android binds a rule to the uid and that under one uid these apps cannot be ruled apart, then listing them, then naming the one axis that *does* discriminate below the uid: rule the destinations instead, with per-app domain and IP rules. The affirmative button keeps its per-rule label, so it still reads as the change being made.
+
+### The bulk toolbar's blind spot
+The toolbar acts on whatever the filter selects — but the rules it writes bind to uids, so a rule aimed at a group containing one Huawei service also lands on the other ten, however far outside the filter they sit. That spill is now computed before the confirm dialog appears and named in it: how many apps outside the selection sit under a uid that is inside it, and which ones.
+
+None of this creates enforcement Android does not have. It stops the list implying enforcement Android does not have.
+
+### The filter sheet's buttons are legible
+Clear and Apply rendered as blank yellow bricks — accent text on an accent slab, because Material fills a plain button from `colorPrimary`, which under this theme *is* the accent. They now take the same inversion as the FABs and the start button: black fill, accent border, accent label, deliberately not chip-shaped (square-ish corners, a heavier border) so they never read as one more filter chip in the rows above them.
+
+The border is drawn as a foreground overlay rather than through the button's own stroke API, which silently does nothing once a button's background has been replaced — the first attempt turned the fill black and left no border at all.
+
 ## 0.5.6+017
 
 **The apps view tells you the uid, and finally lets you sort it.**
