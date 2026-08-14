@@ -195,6 +195,33 @@
 
     <string name="kojiki_ui_snoop_tag_unassigned">no domains assigned</string>
     <string name="kojiki_ui_snoop_tag_assigned">%1$d domain(s): %2$s</string>
+    <!-- 白い熊 考直: per-app notes in the apps view (KojikiAppNotes) -->
+    <string name="kojiki_note">Note</string>
+    <string name="kojiki_note_add">Add a note</string>
+    <!-- Wording kept identical to 白い熊 応用管理's note dialog (note / note_blank_deletes_helper). -->
+    <string name="kojiki_note_blank_deletes">Leave blank to delete the note.</string>
+
+    <!-- 白い熊 考直: app groups (profiles) in the apps view (KojikiAppGroups) -->
+    <string name="kojiki_group_add_pill" translatable="false">+</string>
+    <string name="kojiki_group_add_title">Groups</string>
+    <string name="kojiki_group_new">New group…</string>
+    <string name="kojiki_group_name_hint">Group name</string>
+    <string name="kojiki_group_exists">“%1$s” already exists</string>
+    <string name="kojiki_group_removed">%1$s removed from “%2$s”</string>
+    <string name="kojiki_group_manage">Manage</string>
+    <string name="kojiki_group_manage_row">%1$s — %2$d app(s)</string>
+    <string name="kojiki_group_filter_heading">Groups</string>
+    <string name="kojiki_group_none">No groups yet — tap “+” on any app row, or “Manage” above, to make one.</string>
+    <string name="kojiki_group_filter_desc">Showing &lt;b&gt;%1$s&lt;/b&gt; — %2$s apps. Bulk actions apply to this group.</string>
+    <string name="kojiki_eim_cat_notes">App notes</string>
+    <string name="kojiki_eim_cat_groups">App groups</string>
+
+    <!-- 白い熊 考直: the synthetic "no_package_<uid>" rows (root, SYSTEM, unattributable uids). -->
+    <string name="kojiki_filter_non_app">Non-app</string>
+    <!-- Prefixed to a note that arrived by import on a uid-keyed row. MUST start with ⚠ —
+         KojikiExport.markImportedNonApp uses that as its "already marked" check. -->
+    <string name="kojiki_note_imported_nonapp">⚠ Imported: this was “%1$s” (uid %2$s) on the other device — check it still applies.</string>
+
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
     <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
     <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>

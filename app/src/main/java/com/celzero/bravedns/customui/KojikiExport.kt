@@ -160,6 +160,8 @@ object KojikiExport : KoinComponent {
         APP_SETTINGS("app_settings", R.string.kojiki_eim_cat_settings),
         APPEARANCE("appearance", R.string.kojiki_eim_cat_appearance),
         SNOOP_TAGS("snoop_tags", R.string.kojiki_eim_cat_tags),
+        APP_NOTES("app_notes", R.string.kojiki_eim_cat_notes),
+        APP_GROUPS("app_groups", R.string.kojiki_eim_cat_groups),
         FIREWALL_APPS("firewall_apps", R.string.kojiki_eim_cat_fw_apps),
         FIREWALL_DOMAINS("firewall_domains", R.string.kojiki_eim_cat_fw_domains),
         FIREWALL_IPS("firewall_ips", R.string.kojiki_eim_cat_fw_ips),
@@ -183,9 +185,12 @@ object KojikiExport : KoinComponent {
      */
     class ExportCancelled : Exception("cancelled")
 
-    // Fork-private prefs stores (must match CustomUiConfig.PREFS / SnoopTagStore.PREFS).
+    // Fork-private prefs stores (must match CustomUiConfig.PREFS / SnoopTagStore.PREFS /
+    // KojikiAppNotes.PREFS / KojikiAppGroups.PREFS).
     private const val PREFS_KOJIKI_UI = "kojiki_ui"
     private const val PREFS_SNOOP_TAGS = "snoop_tags"
+    private const val PREFS_APP_NOTES = KojikiAppNotes.PREFS
+    private const val PREFS_APP_GROUPS = KojikiAppGroups.PREFS
 
     // Ephemeral / device-local keys never worth exporting from the main app prefs: runtime state,
     // version codes, one-time/onboarding flags, download/blocklist timestamps, auth tokens.
@@ -249,6 +254,17 @@ object KojikiExport : KoinComponent {
                         exportPrefs(context.getSharedPreferences(PREFS_KOJIKI_UI, Context.MODE_PRIVATE), emptySet())
                     Cat.SNOOP_TAGS ->
                         exportPrefs(context.getSharedPreferences(PREFS_SNOOP_TAGS, Context.MODE_PRIVATE), emptySet())
+                    // Both stores key on package name, so they carry across devices/reinstalls as-is
+                    // — except for the synthetic "no_package_<uid>" rows, whose key is a uid in
+                    // package clothing and can name a different thing on the target device. Those
+                    // carry their original label alongside, so the import can flag them (see
+                    // withNonAppLabels / markImportedNonApp).
+                    Cat.APP_NOTES ->
+                        withNonAppLabels(
+                            exportPrefs(context.getSharedPreferences(PREFS_APP_NOTES, Context.MODE_PRIVATE), emptySet()))
+                    Cat.APP_GROUPS ->
+                        withNonAppLabels(
+                            exportPrefs(context.getSharedPreferences(PREFS_APP_GROUPS, Context.MODE_PRIVATE), emptySet()))
                     Cat.FIREWALL_APPS -> exportFwApps()
                     Cat.FIREWALL_DOMAINS -> gson.toJson(customDomainRepo.getAllCustomDomains())
                     Cat.FIREWALL_IPS -> gson.toJson(customIpRepo.getIpRules())
@@ -271,6 +287,55 @@ object KojikiExport : KoinComponent {
         zip.write(content.toByteArray())
         zip.closeEntry()
     }
+
+    // ---- non-app ("no_package_<uid>") keys ---------------------------------------------------------
+    // A synthetic row's key encodes a uid, not a package, so a note or group membership attached to
+    // it is only meaningful on the device it was made on: uid 0 is root everywhere, but an
+    // unattributable app uid can be anything after a restore. Rather than drop them (they are the
+    // rows most worth annotating — "do not block, DNS dies"), carry them WITH the label they had, and
+    // mark them on the way in so they are reviewed rather than trusted.
+
+    /** Key under which the non-app labels ride along in a category's JSON. [importPrefs] ignores it —
+     *  its value carries no `t`/`v` pair — so older/newer readers simply skip it. */
+    private const val LABELS_KEY = "__kojiki_nonapp_labels"
+
+    /** Add `packageName -> label` for every synthetic row, so an import can say what it used to be. */
+    private suspend fun withNonAppLabels(json: String): String {
+        val labels = JSONObject()
+        for (a in appInfoRepo.getAppInfo()) {
+            if (Utilities.isNonApp(a.packageName)) labels.put(a.packageName, a.appName)
+        }
+        if (labels.length() == 0) return json
+        return JSONObject(json).put(LABELS_KEY, labels).toString(2)
+    }
+
+    private fun nonAppLabels(json: String): JSONObject =
+        runCatching { JSONObject(json).optJSONObject(LABELS_KEY) }.getOrNull() ?: JSONObject()
+
+    /**
+     * Flag every synthetic row that arrived with a note or a group, so it is checked rather than
+     * trusted: the note gets a leading line naming what the key was on the source device. A row that
+     * only carried group membership gets a note created for it — otherwise the import would be
+     * silent, and a uid quietly pointing at the wrong app is the whole hazard here.
+     *
+     * Idempotent: an already-marked note is left alone, so importing twice never stacks markers.
+     */
+    private fun markImportedNonApp(context: Context, json: String, keys: Collection<String>) {
+        val labels = nonAppLabels(json)
+        for (key in keys) {
+            if (!Utilities.isNonApp(key)) continue
+            val existing = KojikiAppNotes.getNote(context, key).orEmpty()
+            if (existing.startsWith(IMPORT_MARK)) continue
+            val label = labels.optString(key).ifEmpty { key }
+            val uid = key.removePrefix(AppInfoRepository.NO_PACKAGE_PREFIX)
+            val mark = context.getString(R.string.kojiki_note_imported_nonapp, label, uid)
+            KojikiAppNotes.setNote(
+                context, key, if (existing.isEmpty()) mark else "$mark\n$existing")
+        }
+    }
+
+    /** Leading marker of an imported synthetic-row note — also the idempotency check. */
+    private const val IMPORT_MARK = "⚠"
 
     private fun exportPrefs(sp: SharedPreferences, exclude: Set<String>): String {
         val obj = JSONObject()
@@ -426,6 +491,24 @@ object KojikiExport : KoinComponent {
                     }
                     Cat.SNOOP_TAGS ->
                         importPrefs(context.getSharedPreferences(PREFS_SNOOP_TAGS, Context.MODE_PRIVATE), json, emptySet())
+                    Cat.APP_NOTES -> {
+                        val n = importPrefs(
+                            context.getSharedPreferences(PREFS_APP_NOTES, Context.MODE_PRIVATE), json, emptySet())
+                        markImportedNonApp(context, json, JSONObject(json).keys().asSequence().toList())
+                        n
+                    }
+                    Cat.APP_GROUPS -> {
+                        val n = importPrefs(
+                            context.getSharedPreferences(PREFS_APP_GROUPS, Context.MODE_PRIVATE), json, emptySet())
+                        KojikiAppGroups.invalidateCache()
+                        // Membership alone would arrive silently, so mark the synthetic rows it names.
+                        val members =
+                            KojikiAppGroups.groups(context)
+                                .flatMap { KojikiAppGroups.members(context, it) }
+                                .distinct()
+                        markImportedNonApp(context, json, members)
+                        n
+                    }
                     Cat.FIREWALL_APPS -> importFwApps(context, json)
                     Cat.FIREWALL_DOMAINS -> importDomains(json)
                     Cat.FIREWALL_IPS -> importIps(json)
@@ -457,6 +540,7 @@ object KojikiExport : KoinComponent {
         }
         // Caches backing the fork prefs/fonts were swapped underneath; drop them so the import shows.
         SnoopTagStore.invalidateCache()
+        KojikiAppGroups.invalidateCache()
         CustomUi.invalidateCaches()
         return if (parts.isEmpty()) "nothing imported" else parts.joinToString("\n")
     }
