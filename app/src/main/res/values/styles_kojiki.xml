@@ -52,8 +52,37 @@
         <item name="android:navigationBarColor">@color/kojikiBlack</item>
     </style>
 
-    <!-- Bottom sheets: true-black base. The yellow border + black fill are applied at runtime by
-         CustomUi.themeBottomSheet — Material draws the panel as a MaterialShapeDrawable, which a static
-         android:background override doesn't reliably replace (it stayed grey + borderless). -->
-    <style name="BottomSheetDialogThemeKojikiCustom" parent="BottomSheetDialogThemeTrueBlack" />
+    <!-- Bottom sheets: true-black base. The yellow border + black fill on the PANEL are applied at
+         runtime by CustomUi.themeBottomSheet — Material draws the panel as a MaterialShapeDrawable,
+         which a static android:background override doesn't reliably replace (it stayed grey +
+         borderless). What a static style CAN do is stop the sheet's *contents* inheriting the parent
+         true-black theme's green accent: an activity's contents are recoloured by the CustomUi
+         tree-walk, but a sheet lives in its own window that walk never reaches. So mirror the
+         foundation colours of AppThemeKojikiCustom here — every sheet then reads black/yellow even
+         before any per-sheet runtime pass. -->
+    <style name="BottomSheetDialogThemeKojikiCustom" parent="BottomSheetDialogThemeTrueBlack">
+        <item name="colorPrimary">@color/kojikiYellow</item>
+        <item name="colorOnPrimary">@color/kojikiBlack</item>
+        <item name="android:colorAccent">@color/kojikiYellow</item>
+        <item name="colorAccent">@color/kojikiYellow</item>
+        <item name="accentGood">@color/kojikiYellow</item>
+
+        <item name="colorSurface">@color/kojikiSurface</item>
+        <item name="colorOnSurface">@color/kojikiYellow</item>
+        <item name="colorSurfaceVariant">@color/kojikiSurfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/kojikiYellowDim</item>
+        <item name="colorSurfaceContainer">@color/kojikiSurface</item>
+        <item name="colorOutline">@color/kojikiYellowDim</item>
+        <item name="android:colorBackground">@color/kojikiBlack</item>
+        <item name="colorOnBackground">@color/kojikiYellow</item>
+
+        <!-- Same reason as the activity theme: the Material3 tonal overlay blends colorPrimary
+             (yellow) into elevated surfaces and turns them olive. -->
+        <item name="elevationOverlayEnabled">false</item>
+
+        <item name="primaryTextColor">@color/kojikiYellow</item>
+        <item name="primaryLightColorText">@color/kojikiYellowDim</item>
+        <item name="secondaryTextColor">@color/kojikiYellow</item>
+        <item name="chipTextColor">@color/kojikiYellow</item>
+    </style>
 </resources>
