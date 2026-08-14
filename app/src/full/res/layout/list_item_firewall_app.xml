@@ -56,15 +56,19 @@
                 app:layout_constraintStart_toEndOf="@id/firewall_app_icon_iv"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Fork (白い熊 考直): the label line = app label · note glyph · note text, as one
-                     chain. With a note, the label keeps its natural width so the glyph sits right
-                     after it and the note's text fills the rest of the line (one line, ellipsized);
-                     with no note the adapter switches the label to match_constraint, which pushes
-                     the dim "+" out to the right edge. `layout_constrainedWidth` is what lets a long
-                     app label ellipsize instead of shoving the glyph off the row. -->
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- Fork (白い熊 考直): the label line = app label · note pill.
+                     A LinearLayout, not a ConstraintLayout: its weight rules give exactly the
+                     behaviour wanted here. The label carries the only weight, so it absorbs all the
+                     slack when the note is short (holding the pill against the right edge) AND all
+                     the shortfall when the note is long — meaning the pill grows leftward into the
+                     label, which ellipsizes, instead of the note being cut while the label sits on
+                     space it does not need. The note's own maxWidth (set at bind time) is what stops
+                     a very long note from squeezing the app name out entirely. -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/firewall_app_label_tv"
@@ -74,14 +78,15 @@
                         android:maxLines="1"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="?attr/colorOnSurface"
-                        app:layout_constrainedWidth="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/firewall_app_note_pill"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="App Name" />
+
+                    <!-- Carries the line's only weight, so it — not the app name — absorbs the slack
+                         and holds the note pill against the right edge. The name is weightless and
+                         therefore never shrinks: it always shows in full, and no more. -->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                     <!-- The note affordance is ONE pill in both states, tagged out of the CustomUi
                          restyle walk so its deliberately low-alpha border/text survive. With no note
@@ -100,11 +105,7 @@
                         android:paddingTop="2dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="2dp"
-                        android:tag="kojiki_no_restyle"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/firewall_app_label_tv"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:tag="kojiki_no_restyle">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/firewall_app_note_iv"
@@ -115,13 +116,14 @@
 
                         <!-- The note's own text, shown only when there is one. The empty state is the
                              glyph alone (its plus is drawn large enough to read as an add control),
-                             so nothing sits here. -->
+                             so nothing sits here. wrap_content, NOT a weighted 0dp: the pill wraps
+                             its content, and a 0dp-plus-weight child inside a wrap_content parent
+                             measures to nothing. Its maxWidth is set at bind time. -->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/firewall_app_note_tv"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textSize="11sp"
@@ -129,7 +131,22 @@
                             tools:text="do not block — breaks login"
                             tools:visibility="visible" />
                     </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <!-- Fork (白い熊 考直): the package id, on its own line under the name and smaller.
+                     It is the key the app-list search matches, so it stays visible — but off the
+                     label line, which the note pill shares. Styled at bind time by
+                     CustomUi.applyFirewallLabel (size/colour/font are configurable), so the theme
+                     tree-walk skips it. -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/firewall_app_id_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    tools:text="com.example.app"
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/firewall_app_toggle_other"

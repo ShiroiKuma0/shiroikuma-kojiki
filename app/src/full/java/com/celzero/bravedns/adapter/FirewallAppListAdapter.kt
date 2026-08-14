@@ -25,9 +25,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -195,7 +195,13 @@ class FirewallAppListAdapter(
             val id =
                 if (Utilities.isNonApp(appInfo.packageName)) "" else appInfo.packageName
             CustomUi.applyFirewallLabel(
-                context, b.firewallAppLabelTv, appInfo.appName, key, id, appInfo.isSystemApp)
+                context,
+                b.firewallAppLabelTv,
+                b.firewallAppIdTv,
+                appInfo.appName,
+                key,
+                id,
+                appInfo.isSystemApp)
         }
 
         /**
@@ -217,24 +223,14 @@ class FirewallAppListAdapter(
                     b.firewallAppNoteIv,
                     b.firewallAppNoteTv,
                     appInfo.packageName)
-            // With a note the label keeps its natural width and the pill takes the rest of the line,
-            // so the note reads as a continuation of the label. With none, the label stretches
-            // (match_constraint) and the glyph-only pill is pushed out to the row's right edge —
-            // where its end margin matches the group "+" pill's, so the two align exactly.
-            val labelLp = b.firewallAppLabelTv.layoutParams as ConstraintLayout.LayoutParams
-            val wantedLabel =
-                if (hasNote) ViewGroup.LayoutParams.WRAP_CONTENT
-                else ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
-            if (labelLp.width != wantedLabel) {
-                labelLp.width = wantedLabel
-                b.firewallAppLabelTv.layoutParams = labelLp
-            }
-            val pillLp = b.firewallAppNotePill.layoutParams as ConstraintLayout.LayoutParams
-            // Empty: exactly the group "+" pill's width, so the two add controls form one column.
+            // With a note the pill wraps its content, so it grows leftward for as much of the note's
+            // first line as fits — the label carries the line's only weight and therefore gives up
+            // the space, ellipsizing. Empty, the pill is fixed to exactly the group "+" pill's width
+            // and the label's weight pushes it out to the right edge, so the two add controls align.
+            val pillLp = b.firewallAppNotePill.layoutParams as LinearLayout.LayoutParams
             val addWidth =
                 (KojikiAppGroups.ADD_PILL_WIDTH_DP * context.resources.displayMetrics.density).toInt()
-            val wantedPill =
-                if (hasNote) ConstraintLayout.LayoutParams.MATCH_CONSTRAINT else addWidth
+            val wantedPill = if (hasNote) ViewGroup.LayoutParams.WRAP_CONTENT else addWidth
             if (pillLp.width != wantedPill) {
                 pillLp.width = wantedPill
                 b.firewallAppNotePill.layoutParams = pillLp

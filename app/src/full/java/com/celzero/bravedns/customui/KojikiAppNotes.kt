@@ -159,6 +159,13 @@ object KojikiAppNotes {
         if (has) {
             noteTv.text = note
             noteTv.setTextColor(content)
+            // The pill wraps its content and a weighted spacer holds it against the right edge, so
+            // the note grows leftward into the spacer — never into the app name, which is
+            // weightless. This cap is what stops a very long note from running past the spacer and
+            // being clipped at the row's edge. Sized off the display rather than the row: the row is
+            // not measured yet at bind time, and it is very nearly the display's width anyway.
+            noteTv.maxWidth =
+                (context.resources.displayMetrics.widthPixels * NOTE_MAX_WIDTH_FRACTION).toInt()
             noteTv.visibility = View.VISIBLE
         } else {
             noteTv.text = ""
@@ -166,4 +173,8 @@ object KojikiAppNotes {
         }
         return has
     }
+
+    /** How much of the display width the note's first line may claim before the app name stops
+     *  yielding. Leaves the label roughly the other half of the row. */
+    private const val NOTE_MAX_WIDTH_FRACTION = 0.60f
 }
