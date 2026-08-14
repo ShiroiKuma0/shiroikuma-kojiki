@@ -464,7 +464,7 @@ class RethinkBlocklistFragment :
     }
 
     private fun showLockdownDownloadDialog(type: RethinkBlocklistManager.RethinkBlocklistType) {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.lockdown_download_enable_inapp)
         builder.setMessage(R.string.lockdown_download_message)
         builder.setCancelable(true)
@@ -558,7 +558,7 @@ class RethinkBlocklistFragment :
     }
 
     private fun showApplyChangesDialog() {
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.rt_dialog_title))
         builder.setMessage(getString(R.string.rt_dialog_message))
         builder.setCancelable(true)

@@ -744,7 +744,7 @@ class ServerSettingsBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     /**
-     * Shows a [MaterialAlertDialogBuilder] single-choice dialog for selecting
+     * Shows a [KojikiAlertDialogBuilder] single-choice dialog for selecting
      * the connection port. The current selection is pre-checked.
      */
     private fun showPortSelectionDialog() {
@@ -760,7 +760,7 @@ class ServerSettingsBottomSheet : BaseBottomSheetDialogFragment() {
             if (it < 0) 0 else it  // fall back to random if stored value is unknown
         }
 
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.server_settings_port_dialog_title))
             .setSingleChoiceItems(portLabels, selectedIndex) { dialog, which ->
                 val newPort = PORT_VALUES[which]
@@ -788,7 +788,7 @@ class ServerSettingsBottomSheet : BaseBottomSheetDialogFragment() {
      */
     private fun showResetConfirmationDialog() {
         if (!isAdded) return
-        MaterialAlertDialogBuilder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.rpn_restore_confirm_title))
             .setMessage(getString(R.string.rpn_restore_confirm_message))
             .setPositiveButton(getString(R.string.brbs_restore_dialog_positive)) { dialog, _ ->

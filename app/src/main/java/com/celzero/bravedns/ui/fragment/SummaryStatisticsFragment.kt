@@ -553,7 +553,7 @@ class SummaryStatisticsFragment : Fragment(R.layout.fragment_summary_statistics)
 
     private fun showCloseConnectionDialog() {
         Logger.v(LOG_TAG_UI, "show close connection dialog all apps")
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(this.getString(R.string.close_conns_dialog_title))
             .setMessage(getString(R.string.close_conns_dialog_desc, getString(R.string.lbl_all_apps).lowercase()))
             .setPositiveButton(R.string.lbl_proceed) { _, _ ->

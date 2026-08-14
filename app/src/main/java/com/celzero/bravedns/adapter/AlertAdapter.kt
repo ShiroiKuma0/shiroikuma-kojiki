@@ -24,7 +24,7 @@
    import com.celzero.bravedns.database.AlertRegistry
    import com.celzero.bravedns.databinding.ListItemAlertRegistryBinding
    import com.celzero.bravedns.service.AlertCategory
-   import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
    class AlertAdapter(
        private val context: Context,
@@ -111,7 +111,7 @@
     else -> "Unknown category"
 }*//*
 
-               MaterialAlertDialogBuilder(context)
+               KojikiAlertDialogBuilder(context)
                    .setTitle("Actions")
                    .setMessage(message)
                    .setPositiveButton("Okay") { dialog, _ ->

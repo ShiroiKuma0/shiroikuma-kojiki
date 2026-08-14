@@ -662,7 +662,7 @@ class DnsBlocklistBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun showBlocklistDialog(groupNames: Multimap<String, String>) {
         val dialogBinding = DialogInfoRulesLayoutBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
+        val builder = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim).setView(dialogBinding.root)
         val dialog = builder.create()
         dialog.setCancelable(true)
         dialogBinding.infoRulesDialogRulesDesc.text = formatText(groupNames)

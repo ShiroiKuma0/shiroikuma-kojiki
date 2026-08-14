@@ -42,7 +42,7 @@ import com.celzero.bravedns.service.VpnController
 import com.celzero.bravedns.util.UIUtils.clipboardCopy
 import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.Backend
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -208,7 +208,7 @@ class DnsProxyEndpointAdapter(
     }
 
     private fun showDetailsDialog(title: String, ip: String?, port: String, app: String?) {
-        val builder = MaterialAlertDialogBuilder(context)
+        val builder = KojikiAlertDialogBuilder(context)
         builder.setTitle(title)
 
         if (!app.isNullOrEmpty()) {
@@ -243,7 +243,7 @@ class DnsProxyEndpointAdapter(
     }
 
     private fun showDeleteDialog(dnsProxyEndpoint: DnsProxyEndpoint) {
-        val builder = MaterialAlertDialogBuilder(context)
+        val builder = KojikiAlertDialogBuilder(context)
         builder.setTitle(R.string.dns_proxy_remove_dialog_title)
         builder.setMessage(R.string.dns_proxy_remove_dialog_message)
 

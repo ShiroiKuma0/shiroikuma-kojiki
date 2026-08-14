@@ -533,7 +533,7 @@ class BugReportFilesBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showDeleteConfirmationDialog(fileItem: BugReportFile) {
-        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val dialog = KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.lbl_delete))
             .setMessage(getString(R.string.bug_report_delete_confirmation, fileItem.name))
             .setPositiveButton(getString(R.string.lbl_delete)) { _, _ ->
