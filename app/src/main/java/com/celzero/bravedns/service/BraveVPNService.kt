@@ -260,6 +260,19 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         const val FORK_FALLBACK_DNS4: String = "9.9.9.9"
         const val FORK_FALLBACK_DNS6: String = "2620:fe::fe"
 
+        // Fork (白い熊 考直): the WireGuard overlay subnet, PINNED BACK INTO THE TUNNEL when
+        // "Do not route Private IPs" (persistentState.privateIps) subtracts the RFC1918 ranges.
+        // The reverse ssh that makes this phone reachable from outside the house dials the PC at
+        // 10.9.0.2 over the hub — an RFC1918 address — so subtracting 10.0.0.0/8 wholesale hands
+        // it to the local router, which drops it, and the away-from-home path dies. (Measured on
+        // the PC: `ESTAB 10.9.0.2:22 10.9.0.3:64879` — that one connection IS the reverse tunnel.)
+        // Excluding a range and re-adding a more-specific route inside it is what upstream itself
+        // does in addRoute4 for the tun's own 10.111.222.x, so longest-prefix match keeps the
+        // overlay tunnelled while every other private LAN — 192.168/16 at home, a 10.x hotel or
+        // office LAN away from it — leaves via the underlying interface as intended.
+        private const val FORK_WG_OVERLAY4: String = "10.9.0.0"
+        private const val FORK_WG_OVERLAY4_PREFIX: Int = 24
+
         // IPv6 vpn constants
         // Randomly generated unique local IPv6 unicast subnet prefix, as defined by RFC 4193
         // changing the below ip should require a changes in ConnectionTracer, RethinkLogAdapter
@@ -3467,6 +3480,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             } catch (ex: UnknownHostException) {
                 Logger.e(LOG_TAG_VPN, "addRoute4: ${ex.message}", ex)
             }
+            // fork: the 10.0.0.0/8 exclusion above would strand the WireGuard overlay, which the
+            // reverse ssh to the PC (10.9.0.2) rides on; pin it back — more-specific route wins.
+            Logger.i(LOG_TAG_VPN, "addRoute4: pin wg overlay $FORK_WG_OVERLAY4/$FORK_WG_OVERLAY4_PREFIX")
+            b.addRoute(FORK_WG_OVERLAY4, FORK_WG_OVERLAY4_PREFIX)
             if (persistentState.customLanIpMode) {
                 // gateway
                 val gatewayIp4 = persistentState.customLanGatewayIpv4
