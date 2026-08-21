@@ -2,6 +2,27 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+021
+
+**The local network leaves by the local interface — without cutting the way home.**
+
+### 0.67 MB/s across the room
+With the phone and the PC on the same WiFi, everything between them still went out to a WireGuard hub on the public internet and came back, because the tunnel's routing table held a bare `default` and so claimed `192.168.1.37` along with everything else. Both legs shared the one home uplink: **0.67 MB/s**, against 18.6 over a USB cable. The service on the phone was never the problem — inbound packets arrived on `wlan0` perfectly well; the *reply* was what went into the tunnel and never came out.
+
+Worth recording, because it sent the diagnosis down a false trail: `ping -I wlan0` proves nothing here. `-I` sets the source address, not the route, so the packet still enters the tunnel with the wrong source and fails whether or not the theory being tested is right. The routing table is the evidence.
+
+### Stock has the switch, and as shipped it is a trap
+Upstream ships **Configure → VPN → “Do not route Private IPs”** (off by default), which replaces the tunnel's `0.0.0.0/0` with `0.0.0.0/0` minus the private ranges. That is the right mechanism, and here it is the only one: `VpnService.excludeRoute` needs Android 13, and this phone runs 12.
+
+But it subtracts **every** private range at once, `10.0.0.0/8` included — and the WireGuard overlay carrying this phone's reverse-ssh path home lives at `10.9.0.2`. Turn the switch on as shipped and that address goes to the home router, which drops it: the LAN gets faster and the phone becomes unreachable the moment it leaves the house. The one thing that had to keep working is precisely what it breaks.
+
+### Pin the overlay, subtract the rest
+So the fork keeps `10/8` excluded and pins `10.9.0.0/24` straight back into the tunnel — the same manoeuvre the routing code already performs a few lines further down for the tunnel's own `10.111.222.x`, with longest-prefix match settling which wins. The obvious alternative, dropping `10/8` from the exclusion list, was rejected: it does not fix the bug so much as relocate it to whichever 10.x hotel or office LAN you walk into next.
+
+Confirmed on-device: the LAN and the router resolve to `wlan0`, the overlay and the hub and the internet stay on the tunnel, `10.9.0.0/24` appears in the tunnel's table beside `10.111.222.x` with the bare default gone, and the reverse tunnel survives the change. Throughput across the room went **0.67 MB/s → roughly 2–8 up and 13–23 down** (one identical incompressible file, no storage at either end). The remaining up/down asymmetry is not the tunnel, the phone or the air — it is the sending PC's own WiFi transmit path, which caps everything that machine sends, to a hub on the internet just as much as to the phone. The switch is meant to stay on from now on; there is nothing to remember before leaving.
+
+Two conditions it rests on, both written into `CLAUDE.md` for the next rebase: Android's own lockdown must stay off — always-on plus “block connections without VPN” makes the OS blackhole excluded routes, and upstream's `TODO: vpn lockdown mode is not handled` sits in that very function — and the overlay prefix is a constant, so if the network renumbers, the constant moves with it.
+
 ## 0.5.6+020
 
 **A firewall rule cannot name an app — so the app list stops pretending it can.**

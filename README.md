@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+020`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+021`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -23,6 +23,11 @@ Stock RethinkDNS could lose DNS for the whole device every few minutes: its engi
 
 ## 🧭 Excluded apps that still resolve
 On some phones (notably Huawei/EMUI), an app you fully *exclude* from the VPN has its DNS misrouted by the OS to the VPN's DNS server — which an excluded app can't reach — so it silently loses name resolution and its connectivity gets throttled. The fork advertises a real fallback resolver alongside the in-tunnel one: in-tunnel apps stay on the DoH (no leak), while an excluded app reaches the real resolver directly and resolves normally. Exclude an app and it stays excluded — without breaking its DNS.
+
+---
+
+## 🏠 Your own LAN, off the tunnel
+A VPN that routes `0.0.0.0/0` swallows the local network too: with the phone and the PC on the same WiFi, every byte between them still went out to a WireGuard hub on the internet and back — **0.67 MB/s**, both legs sharing the one home uplink. Stock has a switch for this (*Do not route Private IPs*), but it subtracts **every** private range at once, which strands the WireGuard overlay the phone's own path home rides on: turn it on as shipped and the phone goes unreachable the moment you leave the house. The fork pins that overlay back into the tunnel while everything else private leaves by the real interface — so the LAN is direct **and** the way home survives. Across the room: **0.67 MB/s → roughly 2–8 up and 13–23 down**, with nothing to remember before you walk out the door.
 
 ---
 
