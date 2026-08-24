@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+021`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+025`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -52,6 +52,11 @@ Every row leads its id line with the **uid** — `10050 · yqtrack.app` — the 
 
 ## 🧬 Shared uids, said out loud
 A firewall rule cannot name an app: Android hands the network stack a **uid**, so packages sharing one — a dozen `com.huawei.*` services under uid 1000, say — are a single principal that no rule can tell apart. Stock shows them as ordinary separate rows and only mentions it once you are already applying a rule. Here every such row is marked **`×11`** on its id line, both per-app confirmations explain *why* one tap moves eleven apps (and point at the one axis that does discriminate below a uid — per-app domain and IP rules), and the bulk toolbar names the apps a rule will reach **outside** your current filter because they share a uid with something inside it.
+
+---
+
+## 📖 The firewall explains itself
+**Bypass DNS & Firewall**, **Bypass Universal**, **Exclude** — three buttons whose differences decide whether an app is filtered, exempt, or gone from the tunnel altogether. Stock explains them with a single white tooltip, on one of the three, that flashes one sentence and vanishes. Long-press any of them here — on an app’s own screen, or on the bulk toolbar that applies them to a whole filtered set — and you get the real answer: a paragraph per button, then a rule-by-rule table of exactly what each one waives, read straight off the firewall’s decision order rather than off the labels. It settles the two questions the UI never answered: **both** bypasses drop “block when app is not in use” *and* “block when device is locked”, and **neither** of them lifts the app’s own WiFi and mobile-data toggles.
 
 ---
 

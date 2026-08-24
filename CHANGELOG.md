@@ -2,6 +2,26 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+025
+
+**Three buttons decide how an app is filtered. The app now says what they do.**
+
+### One sentence, on one of three buttons
+An app's firewall row offers **Bypass DNS & Firewall**, **Bypass Universal** and **Exclude**, and the distance between them is the whole question: one keeps the resolver and drops the filtering, one keeps the filtering and drops the global rules, one takes the app out of the tunnel entirely. Upstream documents this with a single platform tooltip, attached to the first of the three, which raises a white unthemed box, prints one sentence, and disappears — on a black-and-yellow build it reads as a glitch more than a help.
+
+Long-pressing any of the three now opens a scrollable, near-full-screen dialog in the fork's own bordered box, on the app's own screen **and** on the app-list bulk toolbar where the same three actions apply to a whole filtered set. The pressed button leads with its own paragraph; the other two follow, because the point of the dialog is the contrast between them.
+
+### The table is read off the code, not off the labels
+Beneath the paragraphs is a rule-by-rule table — every DNS stage, every universal firewall toggle, the rules set on the app itself, and the tunnel-level consequences — showing for each whether the rule still applies, is waived, or cannot apply at all. It was derived by reading the firewall's decision order rather than the button names, and two of its rows contradict what the labels imply:
+
+- **Both** bypasses waive “block when app is not in use” **and** “block when device is locked”. Both branches return before those checks are ever reached, so neither toggle can touch an app carrying either status. It is easy to assume only one of them goes that far; neither does less.
+- **Neither** bypass lifts the app's own **WiFi / mobile-data** toggles. Those are tested earlier than either bypass, so an app set to Bypass DNS & Firewall *and* “block on mobile data” is still blocked on mobile data.
+
+The genuine asymmetry is on the DNS side, and the table states it plainly: a Bypass Universal app still has its blocklisted domains blocked, and still has port 53 trapped by “prevent DNS leaks”, while Bypass DNS & Firewall escapes both. Five notes carry the exceptions — including the one universal rule that survives Bypass Universal (a **Trust** domain rule), and why Android's own lockdown makes Exclude a no-op.
+
+### Small things that made it possible
+The fork's dialog already draws its own bordered box, since a Material alert has no single outer surface to stroke; it grew one parameter — how much of the screen the scrolling area may claim — defaulted so that every existing dialog is unmoved, and placed so that no call site changed. The explainer's prose lives in the Kotlin file rather than in `strings.xml`: it is fork-only and English-only, and keeping it out of upstream's translated resource file is one less conflict at every rebase. Upstream's own “explain before the first enable” guard, which used to poke the tooltip on the first tap, now opens the same dialog.
+
 ## 0.5.6+021
 
 **The local network leaves by the local interface — without cutting the way home.**
