@@ -70,6 +70,7 @@ import com.celzero.bravedns.viewmodel.AppConnectionsViewModel
 import com.celzero.bravedns.viewmodel.CustomDomainViewModel
 import com.celzero.bravedns.viewmodel.CustomIpViewModel
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -373,21 +374,29 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
             }
         }
 
-        TooltipCompat.setTooltipText(
-            b.aadAppSettingsBypassDnsFirewall,
-            getString(
-                R.string.bypass_dns_firewall_tooltip,
-                getString(R.string.ada_app_bypass_dns_firewall)
-            )
-        )
+        // fork: long-press each of the three status buttons for the full explanation. Upstream put
+        // a one-line platform tooltip on the first of them — a white, unthemed flash that says far
+        // less than the rule actually does; KojikiFirewallHelp replaces it for all three.
+        b.aadAppSettingsBypassDnsFirewall.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
+            true
+        }
+        b.aadAppSettingsBypassUniv.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_UNIVERSAL)
+            true
+        }
+        b.aadAppSettingsExclude.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.EXCLUDE)
+            true
+        }
 
         TooltipCompat.setTooltipText(b.aadCloseConnsChip, getString(R.string.close_conns_dialog_title))
 
         b.aadAppSettingsBypassDnsFirewall.setOnClickListener {
             guardAppInfoInitialized("aadAppSettingsBypassDnsFirewall") {
-                // show the tooltip only once when app is not bypassed (dns + firewall) earlier
+                // explain once before the first enable (upstream flashed its tooltip here)
                 if (showBypassToolTip && appStatus == FirewallManager.FirewallStatus.NONE) {
-                    b.aadAppSettingsBypassDnsFirewall.performLongClick()
+                    KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
                     showBypassToolTip = false
                     return@guardAppInfoInitialized
                 }

@@ -79,12 +79,15 @@ object KojikiDialog {
 
     /**
      * Show a themed dialog. [content] receives the vertical container to fill (already inside the
-     * scrolling area) and the dialog itself, so a row can dismiss it.
+     * scrolling area) and the dialog itself, so a row can dismiss it. [maxContentFraction] is the
+     * share of the screen the scrolling area may claim — raise it for a reading dialog that is meant
+     * to fill the screen (KojikiFirewallHelp), leave it for an ordinary prompt.
      */
     fun show(
         context: Context,
         title: CharSequence?,
         actions: List<Action>,
+        maxContentFraction: Float = MAX_CONTENT_FRACTION,
         content: ((LinearLayout, Dialog) -> Unit)? = null
     ): Dialog {
         val d = context.resources.displayMetrics.density
@@ -119,7 +122,7 @@ object KojikiDialog {
             val inner = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
             content(inner, dialog)
             // Clamp the scrolling area so a long list can never push the buttons off the screen.
-            val maxH = (context.resources.displayMetrics.heightPixels * MAX_CONTENT_FRACTION).toInt()
+            val maxH = (context.resources.displayMetrics.heightPixels * maxContentFraction).toInt()
             val scroll = object : ScrollView(context) {
                 override fun onMeasure(widthSpec: Int, heightSpec: Int) {
                     super.onMeasure(

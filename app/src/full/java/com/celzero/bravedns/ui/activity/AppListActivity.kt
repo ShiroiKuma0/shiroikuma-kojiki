@@ -43,6 +43,7 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppSort
+import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -404,16 +405,27 @@ class AppListActivity :
                 BlockType.LOCKDOWN)
         }
 
-        TooltipCompat.setTooltipText(
-            b.ffaToggleAllBypassDnsFirewall,
-            getString(
-                R.string.bypass_dns_firewall_tooltip, getString(R.string.bypass_dns_firewall)))
+        // fork: long-press any of the three status actions for the full explanation, the same
+        // dialog the app screen opens. Upstream's one-line platform tooltip on the first of them
+        // was a white unthemed flash, and said far less than the rule actually does.
+        b.ffaToggleAllBypassDnsFirewall.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
+            true
+        }
+        b.ffaToggleAllBypass.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_UNIVERSAL)
+            true
+        }
+        b.ffaToggleAllExclude.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.EXCLUDE)
+            true
+        }
 
         b.ffaToggleAllBypassDnsFirewall.setOnClickListener {
-            // show tooltip once the user clicks on the button
+            // explain once before the first bulk apply (upstream flashed its tooltip here)
             if (showBypassToolTip) {
                 showBypassToolTip = false
-                b.ffaToggleAllBypassDnsFirewall.performLongClick()
+                KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
                 return@setOnClickListener
             }
 
