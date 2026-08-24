@@ -41,10 +41,11 @@ description: Build the signed FOSS (fdroidFull) release APK with the buildFoss G
 
 1. **Note the output filename.** Read the current version and build number:
    - `grep -E 'VERSION_NAME|VERSION_CODE|UPSTREAM_AHEAD|BUILD_NUMBER' gradle.properties`
-   - The APK will be `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<BUILD_NUMBER>_arm64-v8a.apk`
-     (the `-<UPSTREAM_AHEAD>` part is dropped when it is `0`), using the `BUILD_NUMBER` value **before**
-     the build (the task bumps it afterward). E.g. `shiroikuma-kojiki_0.5.5u+1_arm64-v8a.apk`
-     (`UPSTREAM_AHEAD=0`, so no `-N`).
+   - The APK will be `shiroikuma-kojiki_<VERSION_NAME>-<UPSTREAM_AHEAD>+<NNN>_arm64-v8a.apk`, where
+     `<NNN>` is `BUILD_NUMBER` **zero-padded to three digits** and read **before** the build (the task
+     bumps it afterward); the `-<UPSTREAM_AHEAD>` part is dropped when it is `0`. E.g.
+     `shiroikuma-kojiki_0.5.6+022_arm64-v8a.apk`. The padding is display-only — `gradle.properties`
+     stores a plain integer, and the versionCode arithmetic uses the unpadded value.
    - The arm64-v8a installed `versionCode` = `3 * 10000000 + (VERSION_CODE * 10000 + BUILD_NUMBER)`
      (e.g. for `53` / `1`: `30530001`). `buildFoss` prints this as `>>> versionCode <n>`.
 
@@ -79,8 +80,11 @@ is Claude's job (step 3), done automatically after the build.
   `releaseType` = {`full`}. We ship **`fdroidFull`** (de-Googled). The release task is
   `assembleFdroidFullRelease`; release builds produce split APKs (x86, armeabi-v7a, arm64-v8a, x86_64)
   plus a universal APK — `buildFoss` picks the **arm64-v8a** split.
-- **firestack** is consumed as a prebuilt AAR, pinned in `gradle.properties`
-  (`firestackRepo=ossrh`, `firestackCommit=379ac52ace`), resolved from Maven Central.
+- **firestack** currently comes from a **self-built patched AAR**: `gradle.properties` sets
+  `firestackRepo=local`, so Gradle reads the gitignored `app/libs/tun2socks.aar` (~28 MB) instead of
+  resolving from Maven Central. `firestackCommit=61894b7fdb` records the AAR's upstream base and is
+  **inert** while the repo is `local`. `firestackRepo=ossrh` falls back to the stock `v0.5.6` engine.
+  See the firestack section of `CLAUDE.md` before changing either value.
 
 ## Signing
 
