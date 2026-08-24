@@ -104,6 +104,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -1018,11 +1019,34 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
             }
         }
 
+        // fork: long-press each of the three status buttons for the full explanation. Upstream put
+        // a one-line platform tooltip on the first of them — a white, unthemed flash that says far
+        // less than the rule actually does; KojikiFirewallHelp replaces it for all three.
+        b.aadAppSettingsBypassDnsFirewall.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
+            true
+        }
+        b.aadAppSettingsBypassUniv.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_UNIVERSAL)
+            true
+        }
+        b.aadAppSettingsExclude.setOnLongClickListener {
+            KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.EXCLUDE)
+            true
+        }
+
         TooltipCompat.setTooltipText(b.aadCloseConnsChip, getString(R.string.close_conns_dialog_title))
         TooltipCompat.setTooltipText(b.aadAppInfoIcon, getString(R.string.about_settings_app_info))
 
         b.aadAppSettingsBypassDnsFirewall.setOnClickListener {
             guardAppInfoInitialized("aadAppSettingsBypassDnsFirewall") {
+                // explain once before the first enable (upstream flashed its tooltip here)
+                if (showBypassToolTip && appStatus == FirewallManager.FirewallStatus.NONE) {
+                    KojikiFirewallHelp.show(this, KojikiFirewallHelp.Rule.BYPASS_DNS_FIREWALL)
+                    showBypassToolTip = false
+                    return@guardAppInfoInitialized
+                }
+
                 if (appStatus == FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL) {
                     updateFirewallStatus(
                         FirewallManager.FirewallStatus.NONE,
