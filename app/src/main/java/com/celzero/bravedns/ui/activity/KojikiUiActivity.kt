@@ -846,17 +846,26 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     }
 
     // -------------------------------------------------------------------------------------------
-    // 保存復元 automation (the sister-app state-export contract) — two rows under Export / Import
+    // 保存復元 automation (the sister-app contract v2) — three rows under Export / Import
     // -------------------------------------------------------------------------------------------
 
     /**
-     * The master switch + the token row, appended directly below the Export / Import entry. Never a
-     * section of its own: this is a backup feature, so it lives where backup lives — the same place
-     * in every sister app. See [com.celzero.bravedns.receiver.StateExportReceiver].
+     * The master switch, the token switch, and — only when the token is actually being asked for —
+     * the token row. Appended directly below the Export / Import entry, never a section of its own:
+     * this is a backup feature, so it lives where backup lives, the same place in every sister app.
+     * See [com.celzero.bravedns.receiver.StateExportReceiver] (§1) and
+     * [com.celzero.bravedns.automation.AutomationProvider] (§2a).
+     *
+     * Contract v2 ordering and defaults: master switch ON, token OFF, token row hidden while it is
+     * off — a 48-character secret sitting under an off switch only invites pasting it somewhere it
+     * will do nothing.
      */
     private fun addAutomationRows() {
         val on = persistentState.automationExportEnabled
         renderedAllFilesAccess = hasAllFilesAccess()
+        // The warning is about §1's caller-supplied ABSOLUTE path only. §2a's data door writes into
+        // a descriptor the caller opened and needs no storage permission at all, so this never
+        // blocks 応用管理's backup — it only limits where 自由作業盤's batch may put the ZIP.
         val warn = on && !renderedAllFilesAccess
         addToggleRow(
             R.string.kojiki_auto_switch, on, 1,
@@ -867,7 +876,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             persistentState.automationExportEnabled = checked
             if (checked && !hasAllFilesAccess()) askAllFilesAccess() else buildRows()
         }
-        addTokenRow()
+        addToggleRow(
+            R.string.kojiki_auto_require_token, persistentState.automationRequireToken, 1,
+            desc = getString(R.string.kojiki_auto_require_token_desc)
+        ) { checked ->
+            persistentState.automationRequireToken = checked
+            buildRows() // the token row appears/disappears with it
+        }
+        if (persistentState.automationRequireToken) addTokenRow()
     }
 
     /** Tap = copy the full token; "Regenerate" on the right = a fresh secret (revokes pasted copies). */

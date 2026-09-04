@@ -196,6 +196,7 @@ object KojikiExport : KoinComponent {
     // version codes, one-time/onboarding flags, download/blocklist timestamps, auth tokens.
     private val APP_SETTINGS_EXCLUDE = setOf(
         "enabled", "is_first_time_launch", "app_rule_intent_token", "automation_export_enabled",
+        "automation_require_token",
         "app_version",
         "app_update_last_check", "remote_block_list_count", "local_block_list_count",
         "remote_block_list_downloaded_time", "local_block_list_downloaded_time",
@@ -472,6 +473,28 @@ object KojikiExport : KoinComponent {
         }.getOrDefault(false)
     }
 
+    /**
+     * Force every prefs file this app writes to disk, synchronously.
+     *
+     * [importPrefs] commits its own edits, but the import also drives `PersistentState` (Krate,
+     * which uses `apply()`) and [com.celzero.bravedns.service.KojikiPendingFw]. A `commit()` on the
+     * same `SharedPreferences` instance blocks on the write lock until any queued `apply()` has
+     * landed, so an empty commit per file is a flush.
+     *
+     * Called before the automation data door replies OK to an import, because the caller SIGKILLs
+     * this process on that reply and anything still queued dies with it.
+     */
+    fun flushPrefs(context: Context) {
+        val files = listOf(
+            PREFS_KOJIKI_UI, PREFS_SNOOP_TAGS, PREFS_APP_NOTES, PREFS_APP_GROUPS,
+            "kojiki_pending_fw"
+        )
+        runCatching { PreferenceManager.getDefaultSharedPreferences(context).edit().commit() }
+        files.forEach { f ->
+            runCatching { context.getSharedPreferences(f, Context.MODE_PRIVATE).edit().commit() }
+        }
+    }
+
     /** Apply the selected categories from a ZIP. Missing files are skipped. Returns a human summary. */
     suspend fun import(context: Context, zip: ByteArray, cats: Set<Cat>): String {
         val files = readZip(zip)
@@ -570,7 +593,12 @@ object KojikiExport : KoinComponent {
             }
             n++
         }
-        ed.apply()
+        // commit(), NOT apply(). 応用管理 force-stops this app with SIGKILL the instant the data
+        // door answers OK to an import, so an apply() still in flight is simply lost — the restore
+        // reports success and the data is silently gone. It never shows up in a hand-run import,
+        // because that is followed by a normal lifecycle that flushes. (Found across the family,
+        // 2026-09-04.) The cost is a synchronous write on a background thread, which is nothing.
+        ed.commit()
         return n
     }
 

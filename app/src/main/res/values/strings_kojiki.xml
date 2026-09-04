@@ -181,7 +181,9 @@
     <string name="kojiki_eim_bl_warn_restore_anyway">Restore anyway</string>
     <!-- 白い熊 考直: 保存復元 automation (the sister-app state-export contract), inside Export / Import -->
     <string name="kojiki_auto_switch">Automation export</string>
-    <string name="kojiki_auto_switch_desc">Let sister-app tasks (自由作業盤 → 保存復元) run this app\'s export headlessly, using the token below.</string>
+    <string name="kojiki_auto_switch_desc">Let sister apps run this app\'s export headlessly (自由作業盤 → 保存復元), and let 応用管理 back its data up and put it back on a clean phone.</string>
+    <string name="kojiki_auto_require_token">Use authorization token?</string>
+    <string name="kojiki_auto_require_token_desc">Off: any sister app may drive the automation. On: a caller must also present the token below. Either way, the data door checks the caller\'s package name, uid and signing certificate.</string>
     <string name="kojiki_auto_no_storage">All-files access is off — backups can only go to the export directory above. Tap this row to grant it.</string>
     <string name="kojiki_auto_token">Automation token</string>
     <string name="kojiki_auto_token_copied">Automation token copied</string>
