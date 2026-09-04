@@ -93,6 +93,13 @@ class SetWgStateReceiver : BroadcastReceiver(), KoinComponent {
 
     private suspend fun handle(context: Context, intent: Intent) {
         // 1) token guard (shared secret in prefs; same token as SetAppRuleReceiver)
+        // Fork (白い熊 考直): this gate is DELIBERATELY not PersistentState.refuseAutomation().
+        // Contract v2 made the token optional for the DATA surface (export / list / cancel /
+        // describe / import) because a pasted secret cannot survive the wipe that the clean-phone
+        // restore exists to recover from. That argument has NO force here: this is an ACTING
+        // operation -- it changes the device's network posture -- and a wiped phone has no firewall
+        // rules to re-apply by broadcast anyway. So SET_WG_STATE keeps requiring the token
+        // unconditionally, independent of automation_require_token. Flagged for 白い熊 to decide.
         val provided = intent.getStringExtra(EXTRA_TOKEN)
         if (!persistentState.isAppRuleTokenValid(provided)) { // constant-time
             Logger.w(LOG_TAG_PROXY, "$TAG: token missing/mismatch; rejecting")

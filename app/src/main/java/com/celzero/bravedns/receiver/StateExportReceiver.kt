@@ -25,6 +25,7 @@ import android.os.Build
 import android.os.Environment
 import androidx.documentfile.provider.DocumentFile
 import com.celzero.bravedns.BuildConfig
+import com.celzero.bravedns.automation.AutomationWire
 import com.celzero.bravedns.customui.KojikiExport
 import com.celzero.bravedns.service.PersistentState
 import kotlinx.coroutines.CoroutineScope
@@ -41,11 +42,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  * every 白い熊 app exposes so one 自由作業盤 task can back them all up headlessly.
  *
  * - [ACTION_EXPORT_STATE]: run the category-ZIP export ([KojikiExport]) with no UI. Extras (all
- *   String): `token` (required — the app's one automation token, [PersistentState]), `path`
+ *   String): `token` (OPTIONAL since contract v2 — checked only when
+ *   [PersistentState.automationRequireToken] is on, and IGNORED rather than refused otherwise), `path`
  *   (optional absolute directory; wins over the configured export directory), `items` (optional
  *   comma list of [KojikiExport.Cat] ids; absent/empty = everything), `progress_action` (optional —
  *   see below), plus the reply trio `reply_action` / `reply_package` / `reply_id`.
- * - [ACTION_LIST_CATEGORIES]: token-gated, instant category enumeration for the caller's picker.
+ * - [ACTION_LIST_CATEGORIES]: gated, instant category enumeration for the caller's picker.
  *   Our categories are flat (no sub-options), so each line is `id<TAB>label<TAB><TAB>on|off` — an
  *   empty parent field, then the app's own answer to "does this item start ticked?"
  *   ([KojikiExport.Cat.onByDefault]), which is a decision for this app to state rather than for the
@@ -74,8 +76,13 @@ import java.util.concurrent.atomic.AtomicBoolean
  * percentage) and structured `current`/`total` (long) + `unit` (String). Throttled to at most one
  * every 500 ms, with a final one always sent at completion.
  *
- * Security: exported with NO android:permission (the caller cannot hold one) — the master switch
- * plus the token are the gate. Both live in the 白い熊 考直 UI page under Export / Import.
+ * Security: exported with NO android:permission (the caller cannot hold one). Since contract v2
+ * this receiver is the deliberately UNAUTHENTICATED half of the surface — it only ever writes where
+ * it was told to and reports what it did. The master switch (default ON) and the now-optional token
+ * are [PersistentState.refuseAutomation]; both switches live in the 白い熊 考直 UI page under
+ * Export / Import. Everything that moves data through a CALLER-SUPPLIED descriptor lives behind
+ * [com.celzero.bravedns.automation.AutomationProvider] instead, which knows who is calling — and
+ * `import` exists ONLY there, because an import here would let any app on the phone wipe this one.
  */
 class StateExportReceiver : BroadcastReceiver(), KoinComponent {
 
@@ -102,22 +109,18 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
             // Log either way — the reply is invisible on this side, and this is what 白い熊 reads
             // back with `adb logcat` during acceptance testing.
             Logger.w(LOG_TAG_BACKUP_RESTORE, "$TAG: $action [$replyId] -> ${result.take(160)}")
-            if (silent || replyAction.isEmpty() || replyPackage.isEmpty()) return
-            app.sendBroadcast(Intent(replyAction).apply {
-                setPackage(replyPackage)
-                addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                putExtra(EXTRA_REPLY_ID, replyId)
-                putExtra(EXTRA_RESULT, result)
-            })
+            if (silent) return
+            // ONE sender for both halves of the contract (see AutomationWire). §1 correlates on
+            // `reply_id` alone, so no `job_id` rides along and this wire stays byte-identical to
+            // the shape proven on EMUI.
+            AutomationWire.reply(app, replyAction, replyPackage, replyId, null, result)
         }
 
-        // Gate first — "disabled" and "bad token" are distinct on purpose (they debug differently).
-        if (!persistentState.automationExportEnabled) {
-            reply("ERROR:automation disabled")
-            return
-        }
-        if (!persistentState.isAppRuleTokenValid(token)) {
-            reply("ERROR:bad token")
+        // Gate first, through the ONE function every automation entry point asks (contract v2 §2).
+        // "disabled" and "bad token" stay distinct on purpose (they debug differently), and a token
+        // sent to an app that does not require one is IGNORED rather than refused.
+        persistentState.refuseAutomation(token)?.let {
+            reply(it)
             return
         }
 
@@ -155,24 +158,18 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
                 }
                 val appLabel = app.packageManager.getApplicationLabel(app.applicationInfo).toString()
                 val fileName = KojikiExport.exportFileName()
-                var lastProgressMs = 0L
+                // Same throttled sender the data door uses — 自由作業盤 treats every progress
+                // broadcast as proof we are still alive, so its shape must not differ between the
+                // two halves of the contract.
+                val orderedIds = AutomationWire.orderedIds(cats)
+                val sender = AutomationWire.Progress(
+                    app, progressAction, replyPackage, replyId, null, appLabel, PROGRESS_UNIT
+                )
 
                 fun progress(done: Int, total: Int, catLabel: String) {
-                    if (progressAction.isEmpty() || replyPackage.isEmpty()) return
-                    val now = System.currentTimeMillis()
-                    // At most one every 500 ms — but the final one always goes out.
-                    if (done < total && now - lastProgressMs < PROGRESS_MIN_INTERVAL_MS) return
-                    lastProgressMs = now
-                    app.sendBroadcast(Intent(progressAction).apply {
-                        setPackage(replyPackage)
-                        addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                        putExtra(EXTRA_REPLY_ID, replyId)
-                        putExtra(EXTRA_PROGRESS_APP, appLabel)
-                        putExtra(EXTRA_PROGRESS_TEXT, "$PROGRESS_UNIT $done/$total — $catLabel")
-                        putExtra(EXTRA_PROGRESS_CURRENT, done.toLong())
-                        putExtra(EXTRA_PROGRESS_TOTAL, total.toLong())
-                        putExtra(EXTRA_PROGRESS_UNIT, PROGRESS_UNIT)
-                    })
+                    // §3: send `item` — the category id being written. Without it the panel falls
+                    // back to reading `current` as a row position, which only works by luck.
+                    sender.send(done, total, orderedIds.getOrNull(done - 1), catLabel)
                 }
 
                 // One export at a time — the contract forbids two, and it is what makes a cancel
@@ -320,7 +317,6 @@ class StateExportReceiver : BroadcastReceiver(), KoinComponent {
         private fun isCancelled(): Boolean = cancelRequested
 
         private const val TAG = "StateExportReceiver"
-        private const val PROGRESS_MIN_INTERVAL_MS = 500L
         private const val PROGRESS_UNIT = "区分" // categories — what this app counts
         private const val EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents"
 
