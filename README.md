@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+025`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+027`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -75,8 +75,10 @@ Stock Rethink reads a tunnel as “Failing” even while traffic flows through i
 
 ---
 
-## 🤖 Automation intents
-Three broadcast receivers let external tools (Tasker, adb, companion apps) drive the app by intent, all gated by one shared token: set a **per-app firewall rule**, **enable/disable a WireGuard tunnel**, or run a **headless backup** — the last one exports the chosen categories to a caller-supplied folder with no UI at all, reporting live progress in real counts and replying with the written path and byte size. It also states which categories start ticked, so a remote picker never has to guess, and it can be **cancelled mid-run**: the export unwinds at the next category boundary and deletes its half-written archive, leaving the backup folder exactly as it found it. That makes 考直 one target in a fleet-wide backup run: a single automation task can back up every app on the phone, this one included, and get a per-app ✓/✗ summary back.
+## 🤖 Automation, and a backup that survives a wiped phone
+External tools (Tasker, adb, companion apps) can drive the app by intent: set a **per-app firewall rule**, **enable/disable a WireGuard tunnel**, or run a **headless backup** that exports the chosen categories with no UI at all — reporting live progress in real counts, saying which categories start ticked so a remote picker never has to guess, and replying with the written path and byte size. It can be **cancelled mid-run**: the export unwinds at the next category boundary and deletes its half-written archive, leaving the backup folder exactly as it found it.
+
+The rule-changing intents still require a shared token. **The backup side no longer does** — because a token you pasted into another app is exactly what a factory reset destroys, and restoring a wiped phone is the one moment you need this most. In its place the app answers a **data door** that identifies who is calling: an exact package name, the uid the kernel reports, and a pinned signing certificate. A companion backup app can hand over an open file and have 考直 write its whole configuration into it — every firewall rule, WireGuard tunnel, note and DNS endpoint — then hand the same file back on a fresh install and get the phone's filtering back without a single tap. Rules for apps that are not installed yet simply wait for them.
 
 ---
 
