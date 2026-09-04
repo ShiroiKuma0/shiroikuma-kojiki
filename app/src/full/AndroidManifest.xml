@@ -12,6 +12,21 @@
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+    <!-- Fork (白い熊 考直): the automation data door's foreground service is a dataSync. From API 34
+         the TYPE ALONE throws at startForeground() without this permission. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- Fork (白い熊 考直): sister-app automation contract v2 §4. WITHOUT this element the reply
+         broadcast's setPackage() fails SILENTLY on Android 11+ — the export runs, writes correctly,
+         and is never heard of. BOTH callers are named on purpose: §1's 保存復元 batch is driven by
+         自由作業盤, and §2a's data door by 応用管理, so listing only one leaves this app inaudible to
+         the other. (This app also holds QUERY_ALL_PACKAGES as a firewall, which would cover it
+         today — the element is here so the contract does not silently depend on that.) -->
+    <queries>
+        <package android:name="shiroikuma.oyokanri" />
+        <package android:name="shiroikuma.jiyusagyoban" />
+    </queries>
+
     <application
         android:name=".RethinkDnsApplication"
         android:theme="@style/AppThemeInitial">
@@ -251,6 +266,43 @@
                 <action android:name="${applicationId}.action.CANCEL_EXPORT" />
             </intent-filter>
         </receiver>
+        <!-- Fork (白い熊 考直): the v2 DATA DOOR (contract §2a) — 応用管理 backs this app up WITH its
+             data and puts it back on a wiped phone. Exported with NO android:permission, and this
+             time for a real reason: a custom permission would have to be `normal` (any app may hold
+             it) or `signature` (impossible — every app in this family has its own keystore), so
+             neither buys anything AutomationCallers does not already do. The caller is checked three
+             ways instead: an EXACT package name, the uid the kernel reports, and a pinned signing
+             certificate. `import` exists ONLY here — never as a broadcast action, because the §1
+             receiver is exported and unauthenticated. -->
+        <provider
+            android:name=".automation.AutomationProvider"
+            android:authorities="${applicationId}.automation"
+            android:exported="true" />
+
+        <!-- dataSync because that is what this service IS — it writes this app's backup into a
+             descriptor — and it is what contract §1 already prescribes for the state-export
+             service. `specialUse` would also work: it is an API 34 literal, but 自由作業盤 has
+             shipped two specialUse services on this same Mate XT at SDK_INT 31 for months, so the
+             older platform does not reject it (checked 2026-09-04 — an earlier comment here claimed
+             the opposite from inference rather than evidence, and was wrong). The matching API-34
+             runtime permission, FOREGROUND_SERVICE_DATA_SYNC, is declared above; from API 34 the
+             type alone throws at startForeground() without it. -->
+        <service
+            android:name=".automation.AutomationDataService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- What this app can do, readable WITHOUT waking it. 応用管理 builds its list across every
+             installed package at once, and a FROZEN app cannot be asked anything (`pm disable-user`
+             stops its receivers resolving) — reading the manifest is the only way to answer "can
+             this app be backed up" for an app that is currently disabled. `min_format` is what lets
+             a restore be refused before any bytes are streamed: old data into a newer app is fine
+             because apps migrate their own storage, newer data into an older app is not. An app
+             WITHOUT these entries is simply not offered for data backup — that is the opt-out. -->
+        <meta-data android:name="shiroikuma.automation.contract" android:value="2" />
+        <meta-data android:name="shiroikuma.automation.format" android:value="2" />
+        <meta-data android:name="shiroikuma.automation.min_format" android:value="1" />
+
         <receiver
             android:name=".receiver.NotificationActionReceiver"
             android:exported="false"

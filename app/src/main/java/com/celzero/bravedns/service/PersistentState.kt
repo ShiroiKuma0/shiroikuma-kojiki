@@ -43,6 +43,33 @@ import org.koin.core.component.KoinComponent
 
 class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
     companion object {
+        /**
+         * The automation gate, evaluated straight off SharedPreferences.
+         *
+         * This exists as well as the instance method for one reason: a `ContentProvider`'s
+         * `onCreate` runs BEFORE `Application.onCreate`, so a `call()` can land while Koin is still
+         * initialising — and that is precisely the clean-phone case, where the provider call is
+         * what STARTS the process. Resolving `PersistentState` through DI there answers a refusal
+         * to 応用管理 and the app is skipped from the restore. So
+         * [com.celzero.bravedns.automation.AutomationProvider] asks this instead, and the instance
+         * method above delegates to it, which keeps ONE implementation of the logic.
+         *
+         * Krate stores every key below in the default SharedPreferences, so these read exactly what
+         * the properties do. Defaults are repeated here on purpose and must match them.
+         */
+        fun refuseAutomation(prefs: android.content.SharedPreferences, candidate: String?): String? {
+            if (!prefs.getBoolean("automation_export_enabled", true)) {
+                return "ERROR:automation disabled"
+            }
+            if (!prefs.getBoolean("automation_require_token", false)) return null
+            // A token is only demanded on a phone someone has already configured, so the stored
+            // secret exists; a blank one simply never matches. Constant-time, as everywhere else.
+            val stored = prefs.getString("app_rule_intent_token", "").orEmpty()
+            val ok = !candidate.isNullOrEmpty() && stored.isNotEmpty() &&
+                java.security.MessageDigest.isEqual(candidate.toByteArray(), stored.toByteArray())
+            return if (ok) null else "ERROR:bad token"
+        }
+
         const val BRAVE_MODE = "brave_mode"
         const val BACKGROUND_MODE = "background_mode"
         const val LOCAL_BLOCK_LIST = "enable_local_list"
@@ -134,10 +161,21 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
     // receiver.StateExportReceiver.
     private var appRuleIntentToken by stringPref("app_rule_intent_token").withDefault<String>("")
 
-    // Master switch for the state-export automation contract (EXPORT_STATE / LIST_CATEGORIES).
-    // DEFAULT OFF — nothing is reachable until 白い熊 turns it on. Device-local: excluded from the
-    // export (KojikiExport.APP_SETTINGS_EXCLUDE), like the token itself.
-    var automationExportEnabled by booleanPref("automation_export_enabled").withDefault<Boolean>(false)
+    // Master switch for the whole automation surface -- the 保存復元 state-export receiver
+    // (EXPORT_STATE / LIST_CATEGORIES / CANCEL_EXPORT) and the v2 data door
+    // (automation.AutomationProvider). DEFAULT ON since contract v2 (2026-09-04): the case this
+    // family now exists to serve is 応用管理 restoring apps AND their data onto a WIPED phone, where
+    // nothing has been configured and nobody has pasted anything -- a gate that only works once the
+    // phone is already set up is no gate for setting the phone up. Kept as a switch rather than
+    // removed because it is the only way to close this app off, and a feature that can be turned on
+    // but never off is one the user cannot retreat from. Device-local: excluded from the export
+    // (KojikiExport.APP_SETTINGS_EXCLUDE), like the token itself.
+    var automationExportEnabled by booleanPref("automation_export_enabled").withDefault<Boolean>(true)
+
+    // Whether an automation caller must ALSO present the token. DEFAULT OFF (contract v2): the token
+    // is opt-in now. It still exists, still regenerates, still never leaves the phone -- but a
+    // pasted 48-character secret cannot survive a wipe, so it cannot be the gate. Device-local.
+    var automationRequireToken by booleanPref("automation_require_token").withDefault<Boolean>(false)
 
     /** Returns the app-rule intent token, generating + persisting one on first use. */
     @Synchronized
@@ -167,6 +205,30 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
             candidate.toByteArray(), getOrCreateAppRuleToken().toByteArray()
         )
     }
+
+    /**
+     * The WHOLE automation gate, in the one place every entry point asks -- the state-export
+     * receiver and the data-door provider both call this and nothing else.
+     *
+     * Returns null to proceed, or the exact `ERROR:` string to answer with. Written as one function
+     * on purpose (contract v2 §2): two checks spelled out at each entry point is how "automation
+     * disabled" and "bad token" drift apart across forty-two sister apps. The two stay DISTINCT
+     * because they debug differently.
+     *
+     * **A token handed to an app that does not require one is IGNORED, never an error.** Tokens live
+     * in task arguments and workspace variables that outlive the setting they were pasted for; a
+     * caller still sending one -- because it was configured last year, or because another app on the
+     * batch does want one -- must be served. Refusing it would turn "the user turned a switch off"
+     * into "half the batch mysteriously fails", which is exactly the friction the switch removes.
+     *
+     * NOTE: this gate governs the DATA surface only (export / list / cancel / describe / import).
+     * The ACTING receivers -- SetAppRuleReceiver (SET_APP_RULE) and SetWgStateReceiver
+     * (SET_WG_STATE) -- deliberately do NOT use it: they change the device's network posture rather
+     * than move data, so they keep requiring the token unconditionally. See those files.
+     */
+    fun refuseAutomation(candidate: String?): String? =
+        refuseAutomation(sharedPreferences, candidate) // Krate's own store — the default prefs
+
 
     private fun generateAppRuleToken(): String {
         val bytes = ByteArray(24) // 24 random bytes, hex-encoded (sister-app convention)
