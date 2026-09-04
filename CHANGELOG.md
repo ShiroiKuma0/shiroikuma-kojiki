@@ -2,6 +2,36 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+027
+
+**The backup can now be driven from outside the app — and survive the phone being wiped.**
+
+### A pasted secret cannot survive a factory reset
+The automation this app already answered was gated by a 48-character token: you copied it out of 考直's settings and pasted it into whatever was going to drive the backup. That works right up until the moment it matters most. A wiped phone has no pasted token, no configured anything — and putting the phone back is precisely when you want a companion app to reinstall 考直 and hand it its own configuration back. A gate that only works once the phone is already set up is no gate for setting the phone up.
+
+So the master switch now ships **on**, and the token became a separate switch that ships **off**, with its row hidden until you ask for it. A caller that still sends a token to an app no longer asking for one is **served, not refused** — tokens live in task arguments that outlive the setting they were pasted for, and rejecting them would turn one switch being off into half a backup run mysteriously failing. Both checks now live in a single function, so “automation disabled” and “bad token” cannot drift apart between the paths that report them.
+
+### What replaces the token: knowing who is calling
+A broadcast cannot tell you who sent it, and the caller is the one naming where the export gets written — so removing the token needed something better than a `shiroikuma.*` name check, which is not an identity at all: package names are not a namespace anyone owns, and a sideloaded app may call itself anything it likes. Since the caller supplies the destination, a prefix test would have handed such an app the complete data of every sister app in turn — weaker than the token it replaced.
+
+The app therefore answers a **content provider** that asks the framework three questions, each because the one before it is insufficient: an **exact** package name from a short list; the uid the **kernel** reports, since a package may declare an attribution it does not own; and the caller's **signing certificate** against a pinned hash, which is what covers the case a clean phone makes unavoidable — whichever caller is not installed yet is a name anyone can take.
+
+### The data moves through an open file, not a folder
+The caller opens the destination itself and passes the open file; 考直 writes bytes into it and does nothing else. Handing over a folder path would have broken three things at once in a backup app: a backup is not a stable directory while it is being assembled and gets renamed on commit; encryption is applied per file it knows about, so a file dropped in from outside would sit in plaintext inside an otherwise encrypted archive; and the integrity manifest is built the same way, so a corrupted archive would come back at restore with no complaint. An open file also stops being usable the moment it is closed, which a folder never does.
+
+Restore is only offered here, never as a broadcast — an import overwrites every firewall rule in the app, and the broadcast side is deliberately open.
+
+### A restore that reported success and lost your rules
+Found while building the above, and worth stating plainly because it was silent. The companion app force-stops 考直 the instant an import reports success — deliberately, because an app shut down normally writes its cached settings back out over the import that just happened. The consequence is that anything 考直 had merely *queued* to disk at that moment died with the process, and the restore reported success over rules that were never written.
+
+Fixing the app's own writes was not enough: the settings layer queues its own writes internally, and so does the store where **rules for not-yet-installed apps** wait — which is the clean-phone path specifically, the exact case this feature exists for. Every preferences file is now flushed synchronously before the answer goes out, not after.
+
+### Two more that would only have shown up in use
+A caller retrying with a stale job id **crashed the app**: the background worker returned early without first entering the foreground state the platform requires of it once started that way. And the door read its own settings through the app's dependency graph, which is not yet built when a provider call is what starts the process — on a clean phone that would have answered a polite refusal instead of a backup, which is worse than a crash, because it looks like a deliberate no.
+
+### What did not change
+**Setting a firewall rule and switching a WireGuard tunnel still require the token, unconditionally.** They are acting operations — they change what this device does on the network — rather than data access, and the clean-phone argument has no force for them: putting a wiped phone back never requires changing a firewall rule from it. Only the backup-side operations relaxed.
+
 ## 0.5.6+025
 
 **Three buttons decide how an app is filtered. The app now says what they do.**
