@@ -22,7 +22,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.InsetDrawable
+import android.graphics.drawable.DrawableWrapper
+import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
@@ -61,6 +62,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.shape.MaterialShapeDrawable
 import java.io.File
 
 /**
@@ -1193,12 +1195,19 @@ object CustomUi {
      *
      * This is the mechanism that gives upstream's ~144 dialogs the fork's look without rewriting any
      * of them (they are routed through [KojikiAlertDialogBuilder], which calls this on attach).
-     * Painting a plain View background is deterministic — unlike the two theme attributes, which
-     * either get replaced by Material at show time (`android:windowBackground`) or are applied to
-     * each panel separately and render three stacked boxes (`android:background`).
+     * Painting a plain View is deterministic — unlike the two theme attributes, which either get
+     * replaced by Material at show time (`android:windowBackground`) or are applied to each panel
+     * separately and render three stacked boxes (`android:background`).
      *
-     * `parentPanel` is AppCompat's single outer container; the title / content / button / custom
-     * panels inside it are cleared so only one border is ever drawn and the box keeps its corners.
+     * `parentPanel` is AppCompat's single outer container. Two things had to be true for the border
+     * to actually show (found on 0.5.6+028, where every alert came up borderless): the stroke is the
+     * panel's **foreground**, never part of its background — every view inflated under
+     * `App.Dialog.NoDim` carries the theme's `android:background` (`?attr/colorSurface`), so the
+     * title row, the message scroller and the button bar each painted an opaque full-width rectangle
+     * over a background stroke and only a sliver survived at the corners — and those theme-painted
+     * fills are stripped, so the box shows the *configured* fill rather than the palette's static
+     * one. The panel also clips its children to the box's outline, so nothing inflated later (list
+     * rows, a custom view) can poke a square corner out of it.
      */
     fun themeAlertSurface(dialog: android.app.Dialog) {
         if (!customThemeActive) return
@@ -1208,14 +1217,12 @@ object CustomUi {
                 ?: window.findViewById<View>(android.R.id.content)
                 ?: return
         val cfg = CustomUiConfig(dialog.context)
-        val d = dialog.context.resources.displayMetrics.density
-        val border = if (cfg.cardBorderColor != 0) cfg.cardBorderColor else cfg.accentColor
         for (id in ALERT_INNER_PANELS) window.findViewById<View>(id)?.background = null
-        root.background = GradientDrawable().apply {
-            cornerRadius = 18 * d
-            setColor(cfg.backgroundColor)
-            setStroke(maxOf(2, (2 * d).toInt()), border)
-        }
+        stripThemeFills(root, themeBackgroundColor(dialog.context))
+        paintDialogBox(root, cfg)
+        // The Material surface under the panel: same fill, no elevation overlay — so nothing grey
+        // or olive can peek out where its own (28 dp) rounding differs from the box's.
+        recolourSurfaceShape(window.decorView.background, cfg.backgroundColor)
         root.invalidate()
     }
 
@@ -1226,58 +1233,98 @@ object CustomUi {
         androidx.appcompat.R.id.buttonPanel
     )
 
-    /** Give an AlertDialog the custom look: an accent border + the configured fill. Call after
-     *  dialog.show(). No-op off the Custom theme. */
-    fun themeAlertDialog(dialog: android.app.Dialog) {
+    /**
+     * Fork (白い熊 考直): a dialog whose surface is a [MaterialCardView] inside a transparent window
+     * (upstream's SSID dialogs): theme its content and make the outermost card the bordered box.
+     * Call after the content view exists. No-op off the Custom theme.
+     */
+    fun themeCardDialog(root: View) {
         if (!customThemeActive) return
-        // Run now and again after layout — the Material surface drawable can attach a frame later.
-        applyDialogBorder(dialog)
-        dialog.window?.decorView?.post { applyDialogBorder(dialog) }
+        applyToDialogTree(root)
+        val card = findCard(root) ?: return
+        paintDialogBox(card, CustomUiConfig(root.context))
     }
 
-    private fun applyDialogBorder(dialog: android.app.Dialog) {
-        val window = dialog.window ?: return
-        val cfg = CustomUiConfig(dialog.context)
-        val d = dialog.context.resources.displayMetrics.density
-        val strokePx = maxOf(2f, 2 * d).toInt()
+    private fun findCard(v: View): MaterialCardView? {
+        if (v is MaterialCardView) return v
+        if (v is ViewGroup) for (i in 0 until v.childCount) findCard(v.getChildAt(i))?.let { return it }
+        return null
+    }
+
+    private const val DIALOG_BOX_RADIUS_DP = 18
+    private const val DIALOG_BOX_STROKE_DP = 2
+
+    /**
+     * The fork's dialog box on [v] — the same geometry as [KojikiDialog]'s: an 18 dp rounded fill in
+     * the configured background colour with a 2 dp accent stroke. The stroke goes in the
+     * **foreground** so no child can paint over it, and the children are clipped to the rounded
+     * outline. A [MaterialCardView] owns its background, so it gets the same box through its own API
+     * (its stroke is already drawn above the content).
+     */
+    private fun paintDialogBox(v: View, cfg: CustomUiConfig) {
+        val d = v.resources.displayMetrics.density
+        val radius = DIALOG_BOX_RADIUS_DP * d
+        val stroke = maxOf(2, (DIALOG_BOX_STROKE_DP * d).toInt())
         val border = if (cfg.cardBorderColor != 0) cfg.cardBorderColor else cfg.accentColor
-        // App.Dialog.NoDim gives every dialog its surface as @drawable/kojiki_dialog_bg — already a
-        // bordered box. So recolour THAT shape to the user-configured colours rather than adding a
-        // second box of our own: two boxes at slightly different bounds read as a double border.
-        if (recolourSurface(window.decorView, cfg, strokePx, border)) {
-            window.decorView.invalidate()
+        if (v is MaterialCardView) {
+            v.setCardBackgroundColor(cfg.backgroundColor)
+            v.cardElevation = 0f
+            v.maxCardElevation = 0f
+            v.useCompatPadding = false
+            v.radius = radius
+            v.strokeWidth = stroke
+            v.strokeColor = border
             return
         }
-        // Fallback (the style didn't reach this dialog): paint an inset bordered window background.
-        val inset = (16 * d).toInt()
-        val bg = GradientDrawable().apply {
-            cornerRadius = 16 * d
+        v.background = GradientDrawable().apply {
+            cornerRadius = radius
             setColor(cfg.backgroundColor)
-            setStroke(strokePx, border)
         }
-        window.setBackgroundDrawable(InsetDrawable(bg, inset, inset, inset, inset))
-        window.decorView.invalidate()
+        v.foreground = GradientDrawable().apply {
+            cornerRadius = radius
+            setColor(android.graphics.Color.TRANSPARENT)
+            setStroke(stroke, border)
+        }
+        v.clipToOutline = true
     }
 
-    /** Recolour the outermost shape-backed surface in a dialog tree (the one the dialog style put
-     *  there) to the configured fill + border. Top-down, so the dialog surface wins over any inner
-     *  shape-backed widget such as a button. */
-    private fun recolourSurface(
-        v: View, cfg: CustomUiConfig, strokePx: Int, border: Int
-    ): Boolean {
-        (v.background as? GradientDrawable)?.let { shape ->
-            val mutated = shape.mutate() as GradientDrawable
-            mutated.setColor(cfg.backgroundColor)
-            mutated.setStroke(strokePx, border)
-            v.background = mutated
-            return true
+    /** The colour a theme's `android:background` paints on every view inflated under it, or 0 when
+     *  the theme sets none (or sets a drawable). */
+    private fun themeBackgroundColor(context: Context): Int {
+        val tv = TypedValue()
+        if (!context.theme.resolveAttribute(android.R.attr.background, tv, true)) return 0
+        val isColor = tv.type >= TypedValue.TYPE_FIRST_COLOR_INT && tv.type <= TypedValue.TYPE_LAST_COLOR_INT
+        return if (isColor) tv.data else 0
+    }
+
+    /** Drop the flat fills a dialog theme's `android:background` stamped on every inflated view, so
+     *  the box underneath is what shows. Only that exact colour goes; a card, a button, a ripple or
+     *  anything an owner set on purpose is untouched. */
+    private fun stripThemeFills(v: View, fill: Int) {
+        if (fill == 0) return
+        if (v !is MaterialCardView) {
+            val bg = v.background
+            if (bg is ColorDrawable && bg.color == fill) v.background = null
         }
-        if (v is ViewGroup) {
-            for (i in 0 until v.childCount) {
-                if (recolourSurface(v.getChildAt(i), cfg, strokePx, border)) return true
+        if (v is ViewGroup) for (i in 0 until v.childCount) stripThemeFills(v.getChildAt(i), fill)
+    }
+
+    /** Recolour the shape inside a window background (Material's inset surface, or a plain inset
+     *  shape) to a flat [color], unwrapping insets and layers on the way. Unknown drawables are
+     *  left alone. */
+    private fun recolourSurfaceShape(drawable: Drawable?, color: Int) {
+        when (drawable) {
+            null -> return
+            is MaterialShapeDrawable -> {
+                drawable.fillColor = ColorStateList.valueOf(color)
+                drawable.elevation = 0f
             }
+            is GradientDrawable -> (drawable.mutate() as GradientDrawable).setColor(color)
+            is DrawableWrapper -> recolourSurfaceShape(drawable.drawable, color)
+            is LayerDrawable ->
+                for (i in 0 until drawable.numberOfLayers) recolourSurfaceShape(drawable.getDrawable(i), color)
+            else -> Unit
         }
-        return false
     }
 
     /** Give a BottomSheetDialog's panel the custom look: an accent border + black fill, top-rounded.

@@ -583,7 +583,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     // Fork (白い熊 考直): show the SET_APP_RULE shared-secret token, with copy + regenerate.
     private fun showAppRuleTokenDialog() {
         val token = persistentState.getOrCreateAppRuleToken()
-        AlertDialog.Builder(this)
+        KojikiAlertDialogBuilder(this)
             .setTitle(R.string.app_rule_token_title)
             .setMessage(getString(R.string.app_rule_token_dialog_msg, token))
             .setPositiveButton(R.string.app_rule_token_copy) { _, _ ->
