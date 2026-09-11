@@ -2,6 +2,25 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+029
+
+**The bordered box that `0.5.6+013` promised every dialog is now actually drawn.**
+
+### A border that was there and could not be seen
+`0.5.6+013` routed all of upstream's alerts through the fork's builder and painted a 2 dp accent stroke on `parentPanel`, the alert's single outer container. On the phone, every one of those dialogs came up as a plain black box — the accessibility-permission prompt on the Universal screen being the one that finally got a screenshot. Zoomed in, that screenshot shows a hairline yellow arc at each corner and nothing along the edges: the border was painted, and then covered.
+
+### Who was covering it
+The dialog theme behind 125 of the 135 alerts carries `android:background=?attr/colorSurface`, and a theme's `android:background` is not applied to “the dialog” — the inflater stamps it on **every view** inflated under that theme. `0.5.6+013` cleared it from the four panels it knew about; the title row, the message scroller, the scroller's inner layout, the message text and the button bar each kept an opaque, full-width black rectangle and painted it over the stroke, which lived in the panel's *background*. Only the corner slivers those square rectangles could not reach survived.
+
+### Three changes, one box
+The stroke is now the panel's **foreground**, drawn above every child, so nothing inside the dialog can paint over it. The theme-stamped fills are **stripped** — only that one resolved colour, so a card, a button, a ripple or anything an owner set on purpose is untouched — which also means the box shows the *configured* fill rather than the palette's static one. And the panel **clips its children to the rounded outline**, so a list row created after the pass cannot poke a square corner out of the box. Material's own surface underneath is recoloured to the same fill with its elevation overlay zeroed, so nothing grey or olive peeks where its 28 dp rounding differs from the box's 18 dp. The geometry is `KojikiDialog`'s, so the fork's own dialogs and upstream's alerts now read identically.
+
+### The ones the sweep had missed
+Three plain `AlertDialog.Builder` sites had survived `0.5.6+013` — the app-rule **token** dialog, the *adv taster* dialog and the RPN server-removal dialog — and use the fork's builder now. `WgSsidDialog` and `RpnSsidDialog`, a card floating in a transparent window, get the same box through a new `CustomUi.themeCardDialog`. A dead second border path, left over from before the sweep, is gone.
+
+### Left as they are, on purpose
+The full-screen `Dialog` subclasses — the WireGuard include-apps picker, add-peer, the DNSCrypt relays, the hop dialogs, the custom LAN IP — are given the *activity* theme, fill the screen and read as pages, not boxes; a border there would hug the screen edges, the same reason the bottom sheets carry theirs on an inset content box instead. Popup menus and spinner dropdowns are not dialogs either.
+
 ## 0.5.6+028
 
 **The WireGuard tunnel is back in the backup. It had been missing since July.**
