@@ -1727,7 +1727,7 @@ class ServerSelectionFragment : Fragment(R.layout.fragment_server_selection),
             showToast(getString(R.string.server_selection_auto_always_on))
             return
         }
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.server_selection_remove_title))
             .setMessage(getString(R.string.server_selection_remove_message, group.countryName, group.cityName))
             .setPositiveButton(getString(R.string.lbl_remove)) { _, _ ->

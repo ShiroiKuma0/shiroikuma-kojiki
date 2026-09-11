@@ -755,7 +755,11 @@
              simply discarded — confirmed with aapt2 on the shipped APK), and android:background is
              applied to the alert's title/content/button panels *individually*, which renders three
              stacked bordered boxes with clipped corners. A Material alert has no single outer
-             surface a theme can stroke. Fork dialogs draw their own box instead — see KojikiDialog. -->
+             surface a theme can stroke. Fork dialogs draw their own box instead — see KojikiDialog;
+             upstream's alerts get theirs from KojikiAlertDialogBuilder + CustomUi.themeAlertSurface.
+             Note that the android:background above is stamped on EVERY view inflated under this
+             theme (title row, message scroller, button bar — not just the panels), which is why
+             themeAlertSurface strips those fills and keeps its stroke in the foreground. -->
         <item name="buttonBarPositiveButtonStyle">@style/App.AlertDialog.PositiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/App.AlertDialog.NegativeButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/App.AlertDialog.NeutralButton</item>

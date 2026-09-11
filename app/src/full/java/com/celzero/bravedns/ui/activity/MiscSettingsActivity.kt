@@ -43,7 +43,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -575,7 +574,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
     // Fork (白い熊 考直): show the SET_APP_RULE shared-secret token, with copy + regenerate.
     private fun showAppRuleTokenDialog() {
         val token = persistentState.getOrCreateAppRuleToken()
-        AlertDialog.Builder(this)
+        KojikiAlertDialogBuilder(this)
             .setTitle(R.string.app_rule_token_title)
             .setMessage(getString(R.string.app_rule_token_dialog_msg, token))
             .setPositiveButton(R.string.app_rule_token_copy) { _, _ ->
@@ -1062,7 +1061,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings) {
               addView(linearLayout)
           }
 
-          AlertDialog.Builder(context)
+          KojikiAlertDialogBuilder(context)
               .setTitle(context.getString(R.string.adv_taster_title))
               .setView(scrollView)
               .setPositiveButton(context.getString(R.string.lbl_save)) { dialog, _ ->
