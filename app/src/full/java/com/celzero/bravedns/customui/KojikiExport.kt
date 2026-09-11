@@ -49,6 +49,7 @@ import com.celzero.bravedns.service.KojikiPendingFw
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.SnoopTagStore
+import com.celzero.bravedns.service.WireguardConfigFileManager
 import com.celzero.bravedns.service.WireguardManager
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.wireguard.Config
@@ -377,13 +378,27 @@ object KojikiExport : KoinComponent {
     private suspend fun exportWireGuard(context: Context): String {
         val arr = JSONArray()
         for (m in WireguardManager.getAllMappings()) {
+            // Since upstream e4ea1ddb7 (v0.5.5y base) the config files are PLAINTEXT
+            // (WireguardConfigFileManager; WireguardManager.load migrates the old encrypted ones).
+            // Reading a plaintext file through EncryptedFileManager throws, and the catch below used
+            // to swallow that into an empty conf — so every export from 0.5.5y to 0.5.6+027 carried
+            // a silently empty WireGuard category. Read plaintext first; the encrypted reader is
+            // kept only for a file the migration has not reached yet.
+            val file = File(m.configPath)
             val conf = try {
-                EncryptedFileManager.read(context, File(m.configPath))
+                if (WireguardConfigFileManager.isPlaintextConfig(file)) {
+                    WireguardConfigFileManager.read(file).toString(Charsets.UTF_8)
+                } else {
+                    EncryptedFileManager.read(context, file)
+                }
             } catch (e: Exception) {
                 Logger.w(LOG_TAG_BACKUP_RESTORE, "kojiki export: wg ${m.id} read failed: ${e.message}")
                 ""
             }
-            if (conf.isBlank()) continue
+            if (conf.isBlank()) {
+                Logger.w(LOG_TAG_BACKUP_RESTORE, "kojiki export: wg ${m.id} (${m.name}) skipped: empty conf")
+                continue
+            }
             val mappings = proxyAppMappingRepo.getAppsForProxy(ProxyManager.ID_WG_BASE + m.id)
             arr.put(
                 JSONObject()
