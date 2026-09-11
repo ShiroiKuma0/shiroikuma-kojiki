@@ -2,6 +2,22 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+028
+
+**The WireGuard tunnel is back in the backup. It had been missing since July.**
+
+### A backup that said “done” and carried no tunnel
+A restore onto a new phone came up with every firewall rule, every note, every group, the DNS endpoint, the blocklist selection — and no WireGuard proxy. The ZIP was to blame, not the import: its `wireguard.json` was two bytes long, `[]`. Pulling the older archives off the phone dated it precisely. The export of 2026‑06‑19 still held the tunnel — name, full config, lockdown flag, six bound apps. Every export after the move to the 0.5.5y base — 2026‑07‑24, 2026‑08‑24, 2026‑09‑03 — held an empty list. For ten weeks the category was ticked, the progress line counted it, the summary reported it, and nothing was in it.
+
+### What changed underneath
+Upstream had stopped encrypting the WireGuard config files. From the 0.5.5y base onward they are plain text on disk, with a one-time migration that decrypts the old ones the first time the manager loads. The fork’s exporter never learned this: it still opened each file through the encrypted reader, which throws on a plaintext file — and the surrounding `catch`, written for the case of a config that genuinely could not be read, logged a warning behind the gated logger, treated the config as empty, and skipped the tunnel. A correct fallback for a broken file became a silent drop of every good one.
+
+### The fix, and the fallback that stays
+The exporter now reads a config as plain text when the file looks like one (the same test the migration itself uses), and reaches for the encrypted reader only for a file the migration has not converted yet. A tunnel that still comes back empty is logged **by name** rather than vanishing from the count. The import side was never broken — replace-all, activation, lockdown and catch-all flags, app bindings by package name — it simply had nothing to import.
+
+### If a restore already left the tunnel behind
+The 2026‑06‑19 export is the last one that has it, and the WireGuard category can be imported from that ZIP alone with the other categories unticked. Better: install this build on the phone that still runs the tunnel, export again, and check that `wireguard.json` is no longer `[]` before importing. Two things noticed along the way: a tunnel gets a **new id** on import, so anything switching it by intent should address it by **name**, which the intent accepts; and an automation task that sends an explicit category list captured before per-app notes and groups existed will not export them either — re-list the categories on the calling side.
+
 ## 0.5.6+027
 
 **The backup can now be driven from outside the app — and survive the phone being wiped.**
