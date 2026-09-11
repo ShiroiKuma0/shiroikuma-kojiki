@@ -37,6 +37,7 @@ import com.celzero.bravedns.data.SsidItem
 import com.celzero.bravedns.databinding.DialogRpnSsidBinding
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 /**
@@ -65,6 +66,8 @@ class RpnSsidDialog(
 
         b = DialogRpnSsidBinding.inflate(layoutInflater)
         setContentView(b.root)
+        // Fork (白い熊 考直): the card is the dialog's surface — give it the fork's bordered box.
+        CustomUi.themeCardDialog(b.root)
         setCancelable(false)
         setupDialog()
         setupRecyclerView()
