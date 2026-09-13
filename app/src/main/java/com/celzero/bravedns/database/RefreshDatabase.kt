@@ -399,13 +399,15 @@ internal constructor(
     private suspend fun addMissingPackages(apps: Set<FirewallManager.AppInfoTuple>) {
         if (apps.isEmpty()) return
 
+        // Fork (白い熊 考直): packages whose parked (imported) rule was applied on insert
+        val restored = mutableSetOf<String>()
         apps.forEach {
             // no need to avoid adding Rethink app to the database, so commenting the below line
             // if (it.packageName == context.applicationContext.packageName) return@forEach
             val ai = Utilities.getApplicationInfo(ctx, it.packageName) ?: return@forEach
-            insertApp(ai)
+            if (insertApp(ai)) restored.add(it.packageName)
         }
-        maybeSendNewAppNotification(apps)
+        maybeSendNewAppNotification(apps, restored)
     }
 
     private suspend fun updateExistingPackagesIfNeeded(apps: Set<FirewallManager.AppInfoTuple>) {
@@ -489,15 +491,18 @@ internal constructor(
             Logger.i(LOG_TAG_APP_DB, "insertApp: $uid is tombstone ($oldUid), reset ts")
             return
         }
+        // Fork (白い熊 考直): both inserters report whether a parked (imported) rule was applied,
+        // so the notification can say what actually happened to the app.
+        val restored: Boolean
         if (ai != null) {
             // uid may be different from the one in ai, if the app is installed in a different user
-            insertApp(ai)
+            restored = insertApp(ai)
             logEvent(Severity.LOW, "new app installed", "inserted app ${ai.packageName}, uid: ${ai.uid}")
         } else {
-            insertUnknownApp(uid)
+            restored = insertUnknownApp(uid)
             logEvent(Severity.MEDIUM, "new unknown app installed", "inserted unknown app, uid: $uid")
         }
-        showNewAppNotificationIfNeeded(FirewallManager.AppInfoTuple(uid, pkg))
+        showNewAppNotificationIfNeeded(FirewallManager.AppInfoTuple(uid, pkg), restored)
     }
 
     private fun maybeFetchAppInfo(uid: Int): ApplicationInfo? {
@@ -617,7 +622,7 @@ internal constructor(
         )
     }
 
-    private suspend fun insertUnknownApp(uid: Int) {
+    private suspend fun insertUnknownApp(uid: Int): Boolean {
         val androidUidConfig = AndroidUidConfig.fromFileSystemUid(uid)
         val newAppInfo = AppInfo(null)
 
@@ -638,8 +643,13 @@ internal constructor(
             newAppInfo.connectionStatus = FirewallManager.ConnectionStatus.BOTH.id
         }
 
+        // Fork (白い熊 考直): the synthetic no_package_<uid> rows carry imported rules too (they are
+        // the "do not block, DNS dies" rows), keyed by the uid the export saw — apply a parked one.
+        val restored = KojikiPendingFw.applyTo(ctx, newAppInfo)
+
         FirewallManager.persistAppInfo(newAppInfo)
         ProxyManager.addNewApp(newAppInfo)
+        return restored
     }
 
     private suspend fun updateApp(oldUid: Int, newUid: Int, pkg: String) {
@@ -650,7 +660,7 @@ internal constructor(
         FirewallManager.updateUidAndResetTombstone(oldUid, newUid, pkg)
     }
 
-    private suspend fun insertApp(ai: ApplicationInfo) {
+    private suspend fun insertApp(ai: ApplicationInfo): Boolean {
         val appName: String = try {
             ctx.packageManager.getApplicationLabel(ai).toString()
         } catch (_: Exception) {
@@ -681,31 +691,39 @@ internal constructor(
 
         // Fork (白い熊 考直): if the 白い熊 考直 export parked a per-app firewall rule for this package
         // (imported before the app was installed), apply it now so the rule survives by package name.
-        KojikiPendingFw.applyTo(ctx, entry)
+        // Returned to the caller so the new-app notification reports the restored rule, not "blocked".
+        val restored = KojikiPendingFw.applyTo(ctx, entry)
 
         Logger.i(LOG_TAG_APP_DB, "insert app: $ai")
         FirewallManager.persistAppInfo(entry)
         ProxyManager.addNewApp(entry)
+        return restored
     }
 
-    private suspend fun maybeSendNewAppNotification(apps: Set<FirewallManager.AppInfoTuple>) {
+    // Fork (白い熊 考直): [restored] = the packages whose parked (imported) rule was applied; those are
+    // announced even when "block newly installed apps" is off, since a silently restored rule is
+    // exactly what a user checking a fresh restore wants to hear about.
+    private suspend fun maybeSendNewAppNotification(
+        apps: Set<FirewallManager.AppInfoTuple>,
+        restored: Set<String> = emptySet()
+    ) {
         // need not notify if "block newly installed apps" is off: insertApp() & insertUnkownApp()
-        if (!persistentState.getBlockNewlyInstalledApp()) return
+        if (!persistentState.getBlockNewlyInstalledApp() && restored.isEmpty()) return
 
         val appCount = apps.count()
         // Show bulk notification when the app size is greater than NEW_APP_BULK_CHECK_COUNT(5)
         if (appCount > NOTIF_BATCH_NEW_APPS_THRESHOLD) {
-            showNewAppsBulkNotificationIfNeeded(appCount)
+            showNewAppsBulkNotificationIfNeeded(appCount, restored.size)
             return
         }
 
         // show notification for particular app (less than NEW_APP_BULK_CHECK_COUNT)
-        apps.forEach { showNewAppNotificationIfNeeded(it) }
+        apps.forEach { showNewAppNotificationIfNeeded(it, it.packageName in restored) }
     }
 
-    private fun showNewAppsBulkNotificationIfNeeded(appSize: Int) {
+    private fun showNewAppsBulkNotificationIfNeeded(appSize: Int, restoredCount: Int = 0) {
         // no need to notify if the Universal setting is off
-        if (!persistentState.getBlockNewlyInstalledApp()) return
+        if (!persistentState.getBlockNewlyInstalledApp() && restoredCount == 0) return
 
         val notificationManager =
             ctx.getSystemService(VpnService.NOTIFICATION_SERVICE) as NotificationManager
@@ -735,7 +753,18 @@ internal constructor(
 
         val contentTitle: String = ctx.resources.getString(R.string.new_app_bulk_notification_title)
         val contentText: String =
-            ctx.resources.getString(R.string.new_app_bulk_notification_content, appSize.toString())
+            if (restoredCount > 0) {
+                // Fork (白い熊 考直): say how many got their saved rule back, and what the rest got
+                val defaultWord =
+                    if (persistentState.getBlockNewlyInstalledApp()) {
+                        ctx.getString(R.string.firewall_status_blocked)
+                    } else {
+                        ctx.getString(R.string.firewall_status_allow)
+                    }
+                KojikiPendingFw.restoredBulkContent(appSize, restoredCount, defaultWord)
+            } else {
+                ctx.resources.getString(R.string.new_app_bulk_notification_content, appSize.toString())
+            }
 
         builder
             .setSmallIcon(R.drawable.ic_notification_icon)
@@ -761,9 +790,17 @@ internal constructor(
         )
     }
 
-    private suspend fun showNewAppNotificationIfNeeded(app: FirewallManager.AppInfoTuple) {
+    // Fork (白い熊 考直): [restored] = a parked (imported) rule was applied to this app on insert.
+    // Upstream's text is "blocked" unconditionally, because upstream only ever blocks a new app; a
+    // restored rule may be anything, so the notification reads the rule off the row and says that —
+    // and is shown regardless of the "block newly installed apps" setting, since it then reports an
+    // event, not a decision to make.
+    private suspend fun showNewAppNotificationIfNeeded(
+        app: FirewallManager.AppInfoTuple,
+        restored: Boolean = false
+    ) {
         // no need to notify if the Universal setting is off
-        if (!persistentState.getBlockNewlyInstalledApp()) return
+        if (!persistentState.getBlockNewlyInstalledApp() && !restored) return
 
         // no need to notify if the vpn is not on
         @Suppress("DEPRECATION")
@@ -787,9 +824,18 @@ internal constructor(
                 }
             }
 
+        // Fork (白い熊 考直): the row as just persisted — its rule is what the notification describes
+        val rule: AppInfo? =
+            if (restored) {
+                FirewallManager.getAppInfoByUidAndPackage(app.uid, pkgName)
+                    ?: FirewallManager.getAppInfoByPackage(pkgName)
+            } else {
+                null
+            }
+
         val notificationManager =
             ctx.getSystemService(VpnService.NOTIFICATION_SERVICE) as NotificationManager
-        Logger.d(LOG_TAG_VPN, "New app installed: $appName, show notification")
+        Logger.d(LOG_TAG_VPN, "New app installed: $appName, restored rule? ${rule != null}, show notification")
 
         val intent = Intent(ctx, NotificationHandlerActivity::class.java)
         intent.putExtra(
@@ -819,9 +865,12 @@ internal constructor(
             builder = NotificationCompat.Builder(ctx, NOTIF_CHANNEL_ID_FIREWALL_ALERTS)
         }
 
-        val contentTitle: String = ctx.resources.getString(R.string.lbl_action_required)
+        val contentTitle: String =
+            if (rule != null) KojikiPendingFw.restoredTitle()
+            else ctx.resources.getString(R.string.lbl_action_required)
         val contentText: String =
-            ctx.resources.getString(R.string.new_app_notification_content, appName)
+            if (rule != null) KojikiPendingFw.restoredContent(ctx, appName.toString(), rule)
+            else ctx.resources.getString(R.string.new_app_notification_content, appName)
 
         builder
             .setSmallIcon(R.drawable.ic_notification_icon)
@@ -859,8 +908,34 @@ internal constructor(
                 ctx.resources.getString(R.string.new_app_notification_action_deny).uppercase(),
                 openIntent2
             )
-        builder.addAction(notificationAction)
-        builder.addAction(notificationAction2)
+        // Fork (白い熊 考直): the two actions set "allow" / "block on both" outright, so they only fit a
+        // rule that is one of those two. Plain block keeps upstream's pair; plain allow gets the
+        // mirror pair (KEEP ALLOWING = the allow intent, a no-op that dismisses; BLOCK = the deny
+        // intent); anything else — partial block, bypass, exclude, isolate — gets no buttons, since
+        // either one would silently downgrade the rule. Tapping the body opens the app's page.
+        when {
+            rule == null || KojikiPendingFw.isPlainBlock(rule) -> {
+                builder.addAction(notificationAction)
+                builder.addAction(notificationAction2)
+            }
+            KojikiPendingFw.isPlainAllow(rule) -> {
+                builder.addAction(
+                    NotificationCompat.Action(
+                        0,
+                        KojikiPendingFw.keepAllowingLabel().uppercase(),
+                        openIntent1
+                    )
+                )
+                builder.addAction(
+                    NotificationCompat.Action(
+                        0,
+                        ctx.resources.getString(R.string.block).uppercase(),
+                        openIntent2
+                    )
+                )
+            }
+            else -> {}
+        }
 
         // API >= 21 only
         builder.setVisibility(NotificationCompat.VISIBILITY_SECRET)
