@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+029`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+030`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -66,7 +66,7 @@ A **default “Custom” theme** with every colour user-configurable via full-AR
 ---
 
 ## 📦 Export / Import
-A category-based, all-JSON-in-a-ZIP Export/Import that **replaces** the stock backup/restore — ten independent categories (app settings, appearance + fonts, snoop tags, firewall apps/domains/IPs, WireGuard, blocklist selection, DNS endpoints, proxies). Portable by construction: per-app rules key on **package name**, not uid, so an export survives reinstalls and fresh devices; rules for not-yet-installed apps park and apply automatically on install. The WireGuard category carries each tunnel’s full config, flags and bound apps — read as the plain-text files upstream now writes, so a restore on a new phone brings the tunnel with it. Lives at the top of the 白い熊 考直 UI page.
+A category-based, all-JSON-in-a-ZIP Export/Import that **replaces** the stock backup/restore — ten independent categories (app settings, appearance + fonts, snoop tags, firewall apps/domains/IPs, WireGuard, blocklist selection, DNS endpoints, proxies). Portable by construction: per-app rules key on **package name**, not uid, so an export survives reinstalls and fresh devices; rules for not-yet-installed apps park and apply automatically on install — and the install-time notification names the rule the app actually got, rather than stock’s unconditional “blocked”. The WireGuard category carries each tunnel’s full config, flags and bound apps — read as the plain-text files upstream now writes, so a restore on a new phone brings the tunnel with it. Lives at the top of the 白い熊 考直 UI page.
 
 ---
 
