@@ -2,6 +2,22 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+030
+
+**A restored rule is now announced as the rule it is — not as “blocked”.**
+
+### The notification that contradicted the app list
+Install an app on a phone whose configuration was just imported, and the parked rule for that package is applied the moment the row is created — the app comes up allowed, or bypassing, or excluded, exactly as the export said. The notification that fired right afterwards said the opposite: “白い熊 考直 blocked recently installed app, X”, with ALLOW / KEEP BLOCKING buttons underneath. Stock Rethink only ever *blocks* a new app, so its text never had to ask what happened; the fork changed what happens and never told the notification. An app restored as allowed was announced as blocked, and the one button that looked like a fix would have done nothing.
+
+### The inserter reports, the notification reads the row
+The parked-rule step now says whether it applied anything, and both inserters pass that up to the notification, which reads the rule off the row it has just persisted and states it: *allowed*, *blocked*, *blocked on metered (mobile) networks*, *bypasses universal firewall rules*, *excluded from dns and firewall*, *isolated*, *bypasses dns & firewall rules* — the same words the app list prints under each row, so the two can no longer disagree — plus “excluded from proxies” when that flag came with it. The title becomes “Saved rule restored”, since no action is required. The fork-only sentences live in Kotlin rather than in upstream’s translated `strings.xml`, which is one fewer file to reconcile at the next rebase.
+
+### Buttons that fit the rule
+Stock’s two actions set “allow” or “block on both” outright, which is fine for the one rule stock ever produces and wrong for most of the others. A restored plain block keeps ALLOW / KEEP BLOCKING; a restored plain allow gets the mirror pair, KEEP ALLOWING / BLOCK; anything else — a partial block, a bypass, an exclusion, isolation — gets no buttons at all, because either one would have silently downgraded the rule to something the export never said. Tapping the body still opens the app’s page. When more than five apps arrive in one refresh, the batch notification now counts how many got a saved rule back and what the rest were given.
+
+### Two smaller things
+The synthetic non-app rows — root, `SYSTEM`, any uid no package accounts for — never received a parked rule on creation, even though they are the rows most worth annotating (“do not block, DNS dies”); they do now. And a restored rule is announced even when “block newly installed apps” is off: it reports something that happened, not a decision waiting to be made, and confirming that a restore worked is exactly what one wants from a fresh phone. Apps without a saved rule behave precisely as stock.
+
 ## 0.5.6+029
 
 **The bordered box that `0.5.6+013` promised every dialog is now actually drawn.**
