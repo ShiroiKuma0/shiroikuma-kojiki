@@ -38,6 +38,7 @@ import com.celzero.bravedns.database.DnsLogRepository
 import com.celzero.bravedns.databinding.FragmentDnsLogsBinding
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.ui.activity.NetworkLogsActivity.Companion.RULES_SEARCH_ID_RPN
+import com.celzero.bravedns.ui.activity.NetworkLogsActivity.Companion.RULES_SEARCH_ID_UID
 import com.celzero.bravedns.ui.activity.NetworkLogsActivity.Companion.RULES_SEARCH_ID_WIREGUARD
 import com.celzero.bravedns.ui.activity.UniversalFirewallSettingsActivity
 import com.celzero.bravedns.util.Constants
@@ -112,6 +113,13 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
                 val rpnId = query.substringAfter(RULES_SEARCH_ID_RPN)
                 hideSearchLayout()
                 viewModel.setIsRpnLogs(true, rpnId)
+            } else if (query.startsWith(RULES_SEARCH_ID_UID)) {
+                // Fork (白い熊 考直): deep link from an app's own page. initView() has already run
+                // here, so the filter can be applied straight away.
+                val uid = query.removePrefix(RULES_SEARCH_ID_UID).toIntOrNull()
+                if (uid != null) {
+                    filterByApp(uid, getString(R.string.kojiki_app_log_uid_label, uid.toString()))
+                }
             } else {
                 if (query.isEmpty()) return
                 if (query.contains(UniversalFirewallSettingsActivity.RULES_SEARCH_ID)) {
@@ -351,15 +359,18 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
     // app's uid. The app name fills the search box as the active-app indicator; editing/clearing the
     // box (×) drops the app filter and shows everything again.
     private fun filterByApp(log: DnsLog) {
+        filterByApp(log.uid, log.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) })
+    }
+
+    private fun filterByApp(uid: Int, label: String) {
         appFilterActive = true
         filterValue = ""
         filterType = DnsLogFilter.ALL
         remakeFilterChipsUi() // reflect "All" (chip listeners attach after isChecked, so no callback)
         hideChipsUi()
-        viewModel.setUidFilter(log.uid)
-        val name = log.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) }
+        viewModel.setUidFilter(uid)
         suppressSearch = true
-        b.queryListSearch.setQuery(name, false)
+        b.queryListSearch.setQuery(label, false)
         suppressSearch = false
         b.queryListSearch.clearFocus()
     }
@@ -381,6 +392,13 @@ class DnsLogFragment : Fragment(R.layout.fragment_dns_logs), SearchView.OnQueryT
                 .debounce(QUERY_TEXT_DELAY)
                 .distinctUntilChanged()
                 .collect { query ->
+                    // Fork (白い熊 考直): the flow replays its initial "" to a new collector. When
+                    // the screen was opened already filtered to an app (deep link from that app's
+                    // page), that replay would call setFilter and silently drop the filter a beat
+                    // after it was applied. A user clearing the box goes through
+                    // clearAppFilterIfActive first, which unsets appFilterActive, so this only
+                    // ever swallows the replay.
+                    if (appFilterActive && query.isEmpty()) return@collect
                     filterValue = query
                     viewModel.setFilter(filterValue, filterType)
                 }

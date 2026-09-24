@@ -544,6 +544,64 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Fork (白い熊 考直): the app's own time-ordered log. Every section below this one
+                 is an aggregate ("top active", "most contacted"): counts and totals, but no access
+                 times and no sparse entries. These two chips open the full Network / DNS logs
+                 already filtered to this app, where each row carries its timestamp. -->
+            <RelativeLayout
+                android:id="@+id/aad_kojiki_logs_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/aad_kojiki_logs_title"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toStartOf="@id/aad_kojiki_dns_log_chip"
+                    android:lineSpacingExtra="5dp"
+                    android:padding="5dp"
+                    android:text="@string/kojiki_app_log_title"
+                    android:textColor="?attr/colorOnBackground" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/aad_kojiki_dns_log_chip"
+                    style="@style/ThinnerChip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@id/aad_kojiki_net_log_chip"
+                    android:text="@string/kojiki_app_log_dns"
+                    android:textColor="?attr/chipTextPositive"
+                    android:textSize="@dimen/large_font_text_view"
+                    app:chipBackgroundColor="?attr/chipBgColorPositive"
+                    app:chipSurfaceColor="@null" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/aad_kojiki_net_log_chip"
+                    style="@style/ThinnerChip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/kojiki_app_log_network"
+                    android:textColor="?attr/chipTextPositive"
+                    android:textSize="@dimen/large_font_text_view"
+                    app:chipBackgroundColor="?attr/chipBgColorPositive"
+                    app:chipSurfaceColor="@null" />
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/aad_active_conns_rl"
                 android:layout_width="match_parent"

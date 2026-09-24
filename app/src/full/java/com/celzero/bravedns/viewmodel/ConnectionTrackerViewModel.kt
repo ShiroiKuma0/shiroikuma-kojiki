@@ -131,6 +131,15 @@ class ConnectionTrackerViewModel(private val connectionTrackerDAO: ConnectionTra
     }
 
     private fun fetchMergedNetworkLogs(input: String): LiveData<PagingData<MergedConnectionLog>> {
+        // app filter active → everything for this uid, regardless of search/rules/type. The
+        // unmerged fetchNetworkLogs has always done this; this path had not, so tapping an app's
+        // icon (or arriving from its page) left the list unfiltered while the search box showed
+        // the app -- and merged logs are the default.
+        if (filterUid != INVALID_UID) {
+            return Pager(pagingConfig) { connectionTrackerDAO.getMergedConnectionsByUid(filterUid) }
+                .liveData
+                .cachedIn(viewModelScope)
+        }
         val protocolPrefix = ConnectionTrackerFragment.PROTOCOL_FILTER_PREFIX.lowercase()
         val s = input.trim().lowercase()
         if (s.startsWith(protocolPrefix)) {

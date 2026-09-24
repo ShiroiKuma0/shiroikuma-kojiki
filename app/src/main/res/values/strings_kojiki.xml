@@ -252,4 +252,10 @@
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
     <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
     <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>
+
+    <!-- Fork (白い熊 考直): per-app time-ordered logs, reached from the app's own page. -->
+    <string name="kojiki_app_log_title">Connection log</string>
+    <string name="kojiki_app_log_network">Network</string>
+    <string name="kojiki_app_log_dns">DNS</string>
+    <string name="kojiki_app_log_uid_label">uid %1$s</string>
 </resources>
