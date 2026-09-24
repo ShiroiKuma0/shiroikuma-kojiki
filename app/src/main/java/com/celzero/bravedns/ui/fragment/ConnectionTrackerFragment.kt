@@ -82,6 +82,8 @@ class ConnectionTrackerFragment :
     // the app name shows in the search box; editing/clearing the box drops the filter. suppressSearch
     // stops the indicator text from being treated as a search query.
     private var appFilterActive = false
+    // Fork (白い熊 考直): uid carried in from an app page deep link; applied after initView.
+    private var pendingAppFilterUid: Int? = null
     private var suppressSearch = false
 
     companion object {
@@ -130,6 +132,11 @@ class ConnectionTrackerFragment :
                 filterType = TopLevelFilter.ALL
                 viewModel.setFilter(filterQuery, filterCategories, filterType)
                 hideSearchLayout()
+            } else if (query.startsWith(NetworkLogsActivity.RULES_SEARCH_ID_UID)) {
+                // Fork (白い熊 考直): deep link from an app's own page -- hold the uid until the
+                // chips and adapter exist, then apply the same filter the icon tap applies.
+                pendingAppFilterUid =
+                    query.removePrefix(NetworkLogsActivity.RULES_SEARCH_ID_UID).toIntOrNull()
             } else {
                 b.connectionSearch.setQuery(query, true)
                 viewModel.setFilter(query, filterCategories, filterType)
@@ -137,6 +144,12 @@ class ConnectionTrackerFragment :
             }
         }
         initView()
+        // Fork (白い熊 考直): applied after initView, which builds the chips filterByApp resets.
+        pendingAppFilterUid?.let { uid ->
+            pendingAppFilterUid = null
+            filterByApp(uid, getString(R.string.kojiki_app_log_uid_label, uid.toString()))
+            setQueryFilter() // else the search box is dead once the app filter is dropped
+        }
         Logger.v(LOG_TAG_UI, "$TAG, view created from univ? $fromUniversalFirewallScreen, from wg? $fromWireGuardScreen")
     }
 
@@ -457,6 +470,13 @@ class ConnectionTrackerFragment :
                 .debounce(QUERY_TEXT_DELAY.milliseconds)
                 .distinctUntilChanged()
                 .collect { query ->
+                    // Fork (白い熊 考直): the flow replays its initial "" to a new collector. When
+                    // the screen was opened already filtered to an app (deep link from that app's
+                    // page), that replay would call setFilter and silently drop the filter a beat
+                    // after it was applied. A user clearing the box goes through
+                    // clearAppFilterIfActive first, which unsets appFilterActive, so this only
+                    // ever swallows the replay.
+                    if (appFilterActive && query.isEmpty()) return@collect
                     filterQuery = query
                     viewModel.setFilter(query, filterCategories, filterType)
                 }
@@ -483,16 +503,19 @@ class ConnectionTrackerFragment :
     // connection for that app's uid. The app name fills the search box as the active-app indicator;
     // editing/clearing the box (×) drops the app filter and shows everything again.
     private fun filterByApp(ct: ConnectionTracker) {
+        filterByApp(ct.uid, ct.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) })
+    }
+
+    private fun filterByApp(uid: Int, label: String) {
         appFilterActive = true
         filterQuery = ""
         filterCategories.clear()
         filterType = TopLevelFilter.ALL
         remakeParentFilterChipsUi() // reflect "All" (chip listeners attach after isChecked, so no callback)
         hideChildChipsUi()
-        viewModel.setUidFilter(ct.uid)
-        val name = ct.appName.ifEmpty { getString(R.string.network_log_app_name_unknown) }
+        viewModel.setUidFilter(uid)
         suppressSearch = true
-        b.connectionSearch.setQuery(name, false)
+        b.connectionSearch.setQuery(label, false)
         suppressSearch = false
         b.connectionSearch.clearFocus()
     }

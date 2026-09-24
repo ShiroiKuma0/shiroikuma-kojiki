@@ -260,6 +260,14 @@ interface ConnectionTrackerDAO {
     // Each arm is capped to the newest MERGE_SCAN_LIMIT rows (see the constant
     // for why) so the compound sort is bounded instead of full-table.
 
+    // Fork (白い熊 考直): every merged row for one app -- the uid filter behind the app-icon tap
+    // and the app page's log chips. getConnectionsByUid is its unmerged counterpart; without this
+    // one the uid filter silently did nothing whenever merged logs are on, which is the default.
+    @Query(
+        "select $CT_COLUMNS from ConnectionTracker where uid = :uid UNION ALL select $RLOG_COLUMNS from RethinkLog where uid = :uid order by timeStamp desc, id desc"
+    )
+    fun getMergedConnectionsByUid(uid: Int): PagingSource<Int, MergedConnectionLog>
+
     @Query(
         "select * from (select $CT_COLUMNS from ConnectionTracker where isBlocked = 1 order by id desc limit $MERGE_SCAN_LIMIT) " +
             "union all select * from (select $RLOG_COLUMNS from RethinkLog where isBlocked = 1 order by id desc limit $MERGE_SCAN_LIMIT) " +

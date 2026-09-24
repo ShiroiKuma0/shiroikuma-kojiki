@@ -69,6 +69,20 @@ class NetworkLogsActivity : BaseActivity(R.layout.activity_network_logs) {
     companion object {
         const val RULES_SEARCH_ID_WIREGUARD = "W:"
         const val RULES_SEARCH_ID_RPN = "RPN:"
+
+        // Fork (白い熊 考直): "U:<uid>" opens the log tabs already filtered to one app -- the deep
+        // link from that app's own page, which otherwise shows only aggregate "most contacted"
+        // lists carrying no timestamps at all. It holds the uid and nothing else: the prefixes
+        // above (and UniversalFirewallSettingsActivity's "R:") are matched with contains(), so an
+        // app name in this string could misroute the whole screen.
+        const val RULES_SEARCH_ID_UID = "U:"
+
+        fun appLogIntent(ctx: android.content.Context, uid: Int, tab: Tabs): android.content.Intent {
+            val i = android.content.Intent(ctx, NetworkLogsActivity::class.java)
+            i.putExtra(Constants.VIEW_PAGER_SCREEN_TO_LOAD, tab.screen)
+            i.putExtra(Constants.SEARCH_QUERY, "$RULES_SEARCH_ID_UID$uid")
+            return i
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

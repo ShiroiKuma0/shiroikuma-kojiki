@@ -34,3 +34,6 @@ app/fdroidFull/release
 app/playFull/release
 app/websiteFull/release
 app/libs/*.aar
+
+# scratch space for build/diagnostic artefacts (never committed)
+.scratch/
