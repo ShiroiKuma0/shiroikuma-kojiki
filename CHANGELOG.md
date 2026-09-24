@@ -2,6 +2,38 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
 
+## 0.5.6+034
+
+**Apps that could not connect until you turned the VPN off — and a per-app log that can show you why.**
+
+### The connections that died with nothing written down
+For days, apps would intermittently fail to reach anything, and switching 考直 off connected them instantly. The app's own logs showed nothing at all: no blocked row, no rule, not even a failed attempt. The engine was dropping those flows *before* the firewall ever saw them, so there was nothing to record.
+
+The cause is in the DNS ALG — the “Advanced DNS filtering” option that hands every answer a synthetic address so a connection can still be tied to the domain that produced it. The engine keeps two facts about such an address: that it exists, and what it maps to. The first never expires for the life of the tunnel; the second expires with the DNS answer, and always sooner. Once an app dialled a synthetic address in that gap — its own cache holding the address well past the answer's lifetime — the engine recognised the address, found no addresses and no domain behind it, and blocked the flow outright. The app retried the same cached address and failed the same way, until something made it re-resolve. That is the fluctuation.
+
+Upstream's own code calls that empty result *“a way to signal that the alg mapping is stale”* and expects the caller to re-resolve. The caller tried — but only from the domain list that had expired along with everything else, so it had nothing to re-resolve and fell through to the block. Two more things it never used sat right there: the probable domains it had already computed a few lines earlier and then discarded, and the twenty-four hours of expired mappings the ALG deliberately retains but never serves while translation is on.
+
+### Recover the flow, then let the rules decide
+The fork's engine now walks all three sources — authoritative, probable, then the stale reserve — re-resolves the domain and dials the current addresses, falling back to the last known addresses only if no name resolves at all. The domain that actually resolved is attached to the flow, because the firewall binds domain rules to that field and merely logs the probable one.
+
+And it no longer short-circuits. A flow that still has nothing to dial now goes to the firewall anyway and is blocked *after* it — so the drop is attributed, carries a connection id, appears in the network log, and is governed by your own rules instead of vanishing. Blocklist enforcement is deliberately untouched: it rides on the unspecified addresses inside the answer, which a re-resolution reproduces, so a blocked domain stays blocked through the new path.
+
+Verified on the phone against a mapping seven minutes dead: what used to be a refused connection now returns `200`, while a domain carrying a block rule is still refused through the very same stale address, and an unblocked one alongside it still connects.
+
+This is an upstream defect, live on celzero's default branch and not previously reported; two field reports (rethink-app #2602 and #3065) carry the same signature undiagnosed. The engine patch sits on our own branch, to be offered upstream.
+
+### A time-ordered log for one app
+An app's page listed only aggregates — top active connections, most contacted providers, domains and addresses. Counts and totals, no access times, and the sparse entries buried under the busy ones. The full Network and DNS logs have always carried every row with its timestamp, rule and details; the app page simply had no door to them.
+
+It has one now: a **Connection log** row with **Network** and **DNS** chips, each opening the full log already filtered to that app.
+
+### Two filters that were only pretending to filter
+Building that door exposed two bugs in the existing per-app filter — the one behind tapping an app's icon inside the log, which was broken in exactly the same ways.
+
+The merged log ignored the uid filter completely. The unmerged path honoured it; the merged path — which is the default — walked straight past it, so the search box would show the app while the list showed everyone. It now has the query it was missing.
+
+And the debounced search flow replayed its initial empty value to every new collector, which called the filter setter and quietly dropped a just-applied app filter about a third of a second after the screen opened. Invisible when a tap applied the filter long after that moment; fatal for a link that applies it as the screen is built. The replay is now ignored while an app filter is active — clearing the search box by hand still drops it, as before.
+
 ## 0.5.6+030
 
 **A restored rule is now announced as the rule it is — not as “blocked”.**
