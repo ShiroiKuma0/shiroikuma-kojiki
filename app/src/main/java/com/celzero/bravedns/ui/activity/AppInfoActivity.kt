@@ -440,6 +440,11 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
         return names
     }
 
+    // Fork (白い熊 考直): open the full log, filtered to this app, on the requested tab.
+    private fun openAppLogs(tab: NetworkLogsActivity.Tabs) {
+        startActivity(NetworkLogsActivity.appLogIntent(this, uid, tab))
+    }
+
     private fun openCustomIpScreen() {
         val intent = Intent(this, CustomRulesActivity::class.java)
         intent.putExtra(VIEW_PAGER_SCREEN_TO_LOAD, CustomRulesActivity.Tabs.IP_RULES.screen)
@@ -1175,6 +1180,11 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
                 }
             }
         }
+
+        // Fork (白い熊 考直): the time-ordered log for this app; the sections below are aggregates.
+        b.aadKojikiNetLogChip.setOnClickListener { openAppLogs(NetworkLogsActivity.Tabs.NETWORK_LOGS) }
+
+        b.aadKojikiDnsLogChip.setOnClickListener { openAppLogs(NetworkLogsActivity.Tabs.DNS_LOGS) }
 
         b.aadIpBlockCard.setOnClickListener { openCustomIpScreen() }
 
