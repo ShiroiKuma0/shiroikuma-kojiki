@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.6+030`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.6+034`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -28,6 +28,16 @@ On some phones (notably Huawei/EMUI), an app you fully *exclude* from the VPN ha
 
 ## 🏠 Your own LAN, off the tunnel
 A VPN that routes `0.0.0.0/0` swallows the local network too: with the phone and the PC on the same WiFi, every byte between them still went out to a WireGuard hub on the internet and back — **0.67 MB/s**, both legs sharing the one home uplink. Stock has a switch for this (*Do not route Private IPs*), but it subtracts **every** private range at once, which strands the WireGuard overlay the phone's own path home rides on: turn it on as shipped and the phone goes unreachable the moment you leave the house. The fork pins that overlay back into the tunnel while everything else private leaves by the real interface — so the LAN is direct **and** the way home survives. Across the room: **0.67 MB/s → roughly 2–8 up and 13–23 down**, with nothing to remember before you walk out the door.
+
+---
+
+## 🔌 Connections that recover instead of dying
+With advanced DNS filtering on, every answer gets a synthetic address so a connection can still be tied to the domain behind it. Stock forgets what that address means sooner than the app stops using it — and then drops the connection, before the firewall sees it, so nothing is logged and nothing explains it. Apps fail intermittently and work the instant the VPN is switched off. The fork re-resolves the domain instead: it consults the probable mapping stock computes and throws away, and the day of expired mappings stock keeps but never reads, then dials the current addresses. If there is genuinely nothing left to dial, the flow still reaches the firewall, so the block is attributed, logged, and decided by your rules rather than disappearing. Blocking is untouched — a blocklisted or rule-blocked domain stays blocked through the recovered path.
+
+---
+
+## 🕰️ Every app's own log, with times
+An app's page tells you *what it contacted most*. It could not tell you *what it contacted at 21:04* — the aggregates carry counts, not clocks, and the sparse entries hide under the busy ones. A **Connection log** row now opens the full Network or DNS log already filtered to that app, every row with its timestamp, its rule and its details sheet. The same filter behind tapping an app's icon in the log — which, it turned out, had never actually filtered the merged view.
 
 ---
 
