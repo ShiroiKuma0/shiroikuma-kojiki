@@ -2,6 +2,24 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
 
+## 0.5.7+005
+
+**One note per app, wherever you edit it.**
+
+### Notes folded onto upstream's own column
+v0.5.7 added per-app notes of its own — a column on the app record, with a dialog on the app's detail screen — which left two separate stores for one idea: the fork's note on the list row, upstream's on the detail page, neither aware of the other.
+
+They are now the same note. Writing it from the row or from the detail screen writes the same text, and both show it. Drawing a row also got cheaper along the way: the note arrives with the row rather than being looked up per line, and saving one re-renders the row by itself.
+
+Your existing notes are folded across once, the first time the app list opens. That migration is careful about a single trap — an app it cannot find is treated as "not installed, keep this note aside", which is right once the app list has loaded and disastrous before it has: every note would have been set aside, the migration would have marked itself finished, and the notes would have disappeared from their rows. It refuses to run until the apps are loaded, and refuses to mark itself finished if any note fails to move.
+
+### A note that outlives the app
+The fork used to keep notes in its own file, so uninstalling an app and installing it again brought the note back. A note living on the app's record dies with it — and the setting that would have kept the record is off unless you turn it on.
+
+So a note is now set aside the moment its app is removed, and lands again when the app returns. The same waiting room holds notes that arrive from another phone for apps you have not installed yet: they wait by package name, and attach themselves when the app appears.
+
+Backups are unaffected in both directions — the file format has not changed, so an archive written before this release restores onto it, and one written after restores onto an older build.
+
 ## 0.5.7+003
 
 **A new upstream release — and the screen it tried to shrink.**
