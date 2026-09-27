@@ -23,14 +23,14 @@
     <string name="slide_2_title">Benvenuto/a</string>
     <string name="slide_2_desc">白い熊 考直 è il modo più semplice per monitorare l\'attività di rete, aggirare la censura di Internet e attivare un firewall per le app del tuo dispositivo Android.</string>
     <string name="slide_1_title">Gratuito e con sorgente pubblica</string>
-    <string name="slide_1_desc">Rethink è un software open source sostenuto dal programma Mozilla Builders MVP e da FOSS United Foundation.</string>
+    <string name="slide_1_desc">白い熊 考直 è un software open source sostenuto dal programma Mozilla Builders MVP e da FOSS United Foundation.</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="allow">Consenti</string>
     <string name="bypass_universal">Aggira regole universali</string>
     <string name="exclude">Escludi</string>
     <string name="isolate">Isola</string>
     <string name="untracked">Non tracciato</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Attenzione: Rethink è stato disattivato</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Attenzione: 白い熊 考直 è stato disattivato</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Tocca per modificare l\'impostazione di protezione</string>
     <string name="dns_mode_notification_title">Protetto! Connesso ad un DNS veloce e sicuro.</string>
     <string name="hybrid_mode_notification_title">Protetto! Connesso a DNS e firewall.</string>
@@ -176,7 +176,7 @@
     <string name="settings_orbot_notification_action">Apri Orbot</string>
     <string name="settings_general_header">Generali</string>
     <string name="settings_network_all_networks">Usa tutte le reti disponibili</string>
-    <string name="settings_network_all_networks_desc">Se abilitato, Rethink utilizza tutte le reti disponibili per connettersi a Internet. Altrimenti, Rethink utilizza la rete indicata come <i>attiva</i> da Android.</string>
+    <string name="settings_network_all_networks_desc">Se abilitato, 白い熊 考直 utilizza tutte le reti disponibili per connettersi a Internet. Altrimenti, 白い熊 考直 utilizza la rete indicata come <i>attiva</i> da Android.</string>
     <string name="settings_autostart_bootup_heading">Avvio automatico all\'accensione (sperimentale)</string>
     <string name="settings_autostart_bootup_desc">Avvia automaticamente 白い熊 考直 quando accendi il dispositivo, se questo era in esecuzione prima che venisse spento.</string>
     <string name="settings_check_update_heading">Controlla aggiornamenti dell\'app</string>
@@ -234,7 +234,7 @@
     <string name="firewall_status_whitelisted">Aggira le regole universali del firewall</string>
     <string name="firewall_status_blocked">bloccata</string>
     <string name="lbl_proceed">Prosegui</string>
-    <string name="hsf_vpn_dialog_message">Rethink ha bisogno dell\'autorizzazione di impostare una VPN locale per crittografare le richieste DNS del dispositivo, implementare un monitor di rete e applicare le regole del firewall.\n \nL\'automazione del proxy basato su Wi-Fi richiede l\'autorizzazione alla posizione per identificare la rete Wi-Fi connessa (SSID). Questa autorizzazione è richiesta solo quando attivi la fuzione.\n\nRethink non raccoglie informazioni né spia l\'utente in alcun modo.</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直 ha bisogno dell\'autorizzazione di impostare una VPN locale per crittografare le richieste DNS del dispositivo, implementare un monitor di rete e applicare le regole del firewall.\n \nL\'automazione del proxy basato su Wi-Fi richiede l\'autorizzazione alla posizione per identificare la rete Wi-Fi connessa (SSID). Questa autorizzazione è richiesta solo quando attivi la fuzione.\n\n白い熊 考直 non raccoglie informazioni né spia l\'utente in alcun modo.</string>
     <string name="contributors_list"><![CDATA[Il <i>Rethink Open Source Project</i> deve la sua esistenza a questi volontari, che dedicano innumerevoli ore al suo sviluppo.<br/> <br/>🛡️ App Android <br/> <a href=https://github.com/BayLee4>BayLee4</a><br/> <a href=https://github.com/Ch4t4r>Ch4t4r</a><br/> <a href=https://github.com/HrBDev>HrBDev</a><br/> <a href=https://github.com/hussainmohd-a>hussainmohd-a</a><br/> <a href=https://github.com/ignoramous>ignoramous</a><br/> <a href=https://github.com/markwmuller>markwmuller</a><br/><a href=https://github.com/Mygod>Mygod</a><br/> <a href=https://github.com/Uldiniad>Uldiniad</a><br/> <a href=https://github.com/Poussinou>Poussinou</a><br/> <a href=https://github.com/pjosingh>pjosingh</a><br/> <br/>🚂 Motore di rete <br/> <a href=https://github.com/alalamav>alalamav</a><br/> <a href=https://github.com/bemasc>bemasc</a><br/> <a href=https://github.com/dmcardle>dmcardle</a><br/> <a href=https://github.com/fortuna>fortuna</a><br/> <a href=https://github.com/ignoramous>ignoramous</a><br/> <a href=https://github.com/PeterDaveHello>PeterDaveHello</a><br/> <a href=https://github.com/SeanBurford>SeanBurford</a><br/> <br/>📚 Resolver <br/> <a href=https://github.com/ahmed-tasaly>ahmed-tasaly</a><br/> <a href=https://github.com/amithm7>amithm7</a><br/> <a href=https://github.com/arfshl>arfshl</a><br/> <a href=https://github.com/badmojr>badmojr</a><br/> <a href=https://github.com/bongochong>bongochong</a><br/> <a href=https://github.com/elliotwutingfeng>elliotwutingfeng</a><br/> <a href=https://github.com/georgyo>georgyo</a><br/> <a href=https://github.com/GiddyGoatGaming>GiddyGoatGaming</a><br/> <a href=https://github.com/Harish-Narayan>Harish-Narayan</a><br/> <a href=https://github.com/ignoramous>ignoramous</a><br/> <a href=https://github.com/JakeChampion>JakeChampion</a><br/> <a href=https://github.com/MasterKia>MasterKia</a><br/> <a href=https://github.com/mtxadmin>mtxadmin</a><br/> <a href=https://github.com/neneeen>neneeen</a><br/> <a href=https://github.com/PeterDaveHello>PeterDaveHello</a><br/> <a href=https://github.com/santhosh-ponnusamy>santhosh-ponnusamy</a><br/> <a href=https://github.com/shruuub>shruuub</a><br/> <a href=https://github.com/shuvashish76>shuvashish76</a><br/> <br/>⚜ Moderatori della community <br/> <a href=https://t.me/amithm7>amithm7</a><br/> <a href=https://t.me/TronSlayer>Andersen</a><br/><a href=https://t.me/ppatra>ppatra</a><br/> <a href=https://t.me/InFamous23>InFamous23</a><br/> <a href=https://t.me/TheTr1ckst3r>TheTr1ckst3r</a><br/> <a href=https://t.me/Ch4t4r>Ch4t4r</a><br/> <a href=https://t.me/Billi_ance>Billi_ance</a><br/> <a href=https://t.me/kaliangel>kaliangel</a><br/> <a href=https://github.com/PoneyClairDeLune>PoneyClairDeLune</a><br/>📌 Geo-IP <br/> <a href=https://db-ip.com>db-ip.com</a><br/> <br/>❇ Traduzioni <br/> <a href=https://weblate.org/en/>Weblate</a><br/> <br/>🦆 Icons <br/> <a href=https://github.com/celzero/rethink-app/issues/346>Icons</a><br/> <br/>📦 Build server <br/> <a href=https://jitpack.io/>JitPack</a><br/> <a href=https://github.com/>GitHub</a><br/>]]></string>
     <string name="cd_custom_dns_proxy_default_app">Nessuno</string>
     <string name="cd_dns_proxy_error_text_3">Porta invalida</string>
@@ -353,7 +353,7 @@
     <string name="hsf_whats_new_remove_text">Chiusura…</string>
     <string name="hsf_blocklist_updating_text">Avvio…</string>
     <string name="hsf_chip_appearance">Tema: %1$s</string>
-    <string name="hsf_pause_vpn_failure">Impossibile mettere in pausa: Rethink non è attivo</string>
+    <string name="hsf_pause_vpn_failure">Impossibile mettere in pausa: 白い熊 考直 non è attivo</string>
     <string name="dc_block_heading">Regole</string>
     <string name="dc_other_dns_heading">Tipo</string>
     <string name="dc_custom_dns_radio">Altro DNS</string>
@@ -688,7 +688,7 @@
     <string name="about_privacy_policy">Leggi l\'informativa sulla privacy</string>
     <string name="private_dns_error">Impossibile avviare schermata DNS privato.</string>
     <string name="private_dns_dialog_heading">Disattiva DNS privato</string>
-    <string name="private_dns_dialog_desc">Le impostazioni DNS di Rethink sono sovrascritte dal DNS privato di Android. \n \nPer utilizzare il DNS di Rethink vai nelle Impostazioni di Android e disattiva il DNS privato.</string>
+    <string name="private_dns_dialog_desc">Le impostazioni DNS di 白い熊 考直 sono sovrascritte dal DNS privato di Android. \n \nPer utilizzare il DNS di 白い熊 考直 vai nelle Impostazioni di Android e disattiva il DNS privato.</string>
     <string name="private_dns_dialog_positive">Vai alle Impostazioni</string>
     <string name="relative_time_today">Oggi</string>
     <string name="relative_time_yesterday">Ieri</string>
@@ -1017,10 +1017,10 @@
     <string name="settings_log_lifespan_heading" translatable="true">Ciclo di vita dei log</string>
     <string name="settings_log_lifespan_desc_default" translatable="true">7 giorni (predefinito)</string>
     <string name="settings_rinr_btmsht_title" translatable="true">Loopback (sperimentale)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">In modalità Loopback, Rethink può reindirizzare il proprio traffico di rete. Ciò significa che Rethink può applicare le regole IP e di dominio, le regole firewall universali e le regole di proxy sul traffico di Rethink come se fosse qualsiasi altra app regolare. Anche se Loopback offre più controllo, il comportamento finale può non essere sempre quello desiderato.\n\n\nSi consiglia di escludere Rethink dalle regole firewall, DNS e proxy. In questo modo non influisce sul monitoraggio della rete o sulla registrazione, ma solo sulle regole.\n\n\nIn modalità Loopback, Proxy Lockdown non sarà applicato, per ora.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">Escludi Rethink</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">In modalità Loopback, 白い熊 考直 può reindirizzare il proprio traffico di rete. Ciò significa che 白い熊 考直 può applicare le regole IP e di dominio, le regole firewall universali e le regole di proxy sul traffico di 白い熊 考直 come se fosse qualsiasi altra app regolare. Anche se Loopback offre più controllo, il comportamento finale può non essere sempre quello desiderato.\n\n\nSi consiglia di escludere 白い熊 考直 dalle regole firewall, DNS e proxy. In questo modo non influisce sul monitoraggio della rete o sulla registrazione, ma solo sulle regole.\n\n\nIn modalità Loopback, Proxy Lockdown non sarà applicato, per ora.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">Escludi 白い熊 考直</string>
     <string name="app_info_rethink_warning_title" translatable="true">Attenzione</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">Stai per cambiare le regole del firewall per Rethink. Dal momento che Rethink gestisce il tunnel VPN, permettere, bloccare o isolare il proprio traffico può rompere l’accesso alla rete attraverso lo strumento.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">Stai per cambiare le regole del firewall per 白い熊 考直. Dal momento che 白い熊 考直 gestisce il tunnel VPN, permettere, bloccare o isolare il proprio traffico può rompere l’accesso alla rete attraverso lo strumento.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">Ho capito</string>
     <string name="rethink_home_screen_warning" translatable="true">può influire sulla connettività ⚠️</string>
     <string name="settings_log_lifespan_dialog_option_0" translatable="true">1 ora</string>

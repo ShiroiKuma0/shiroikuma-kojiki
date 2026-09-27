@@ -30,7 +30,7 @@
     <string name="settings_title_desc" translatable="true">En mycket anpassningsbar DNS- och brandvägg</string>
     <string name="about_title_desc" translatable="true">Upptäck och blockera nätverkssäkerhetshot</string>
     <string name="txt_home" translatable="true">Hem</string>
-    <string name="accessibility_service_description" translatable="true">Rethink använder tillgänglighetstjänsten för att upptäcka appar i bakgrunden och tillämpa brandväggsregler på dem. Rethink samlar inte in eller säljer någon information.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 använder tillgänglighetstjänsten för att upptäcka appar i bakgrunden och tillämpa brandväggsregler på dem. 白い熊 考直 samlar inte in eller säljer någon information.</string>
     <string name="next" translatable="true">Nästa</string>
     <string name="skip" translatable="true">Hoppa över</string>
     <string name="finish" translatable="true">Slutför</string>
@@ -66,9 +66,9 @@
     <string name="lbl_persistent_keepalive" translatable="true">Beständig keepalive</string>
     <string name="lbl_allowed_ips" translatable="true">Tillåtna IP-adresser</string>
     <string name="lbl_save" translatable="true">Spara</string>
-    <string name="slide_2_desc" translatable="true">Rethink är det enklaste sättet att övervaka nätverksaktivitet, kringgå internetcensur och tillämpa brandväggsregler på appar på din Android-enhet.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 är det enklaste sättet att övervaka nätverksaktivitet, kringgå internetcensur och tillämpa brandväggsregler på appar på din Android-enhet.</string>
     <string name="slide_1_title" translatable="true">Fri och öppen källkod</string>
-    <string name="slide_1_desc" translatable="true">Rethink är programvara med öppen källkod som stöds av Mozilla Builders MVP-programmet och FOSS United Foundation.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 är programvara med öppen källkod som stöds av Mozilla Builders MVP-programmet och FOSS United Foundation.</string>
     <string name="allow" translatable="true">Tillåt</string>
     <string name="block" translatable="true">Blockera</string>
     <string name="bypass_universal" translatable="true">Kringgå universella regler</string>
@@ -76,7 +76,7 @@
     <string name="isolate" translatable="true">Isolera</string>
     <string name="untracked" translatable="true">Ospårad</string>
     <string name="bypass_dns_firewall" translatable="true">Kringgå DNS och brandvägg</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Varning: Rethink har avaktiverats</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Varning: 白い熊 考直 har avaktiverats</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">Tryck för att ändra skyddsinställning</string>
     <string name="dns_mode_notification_title" translatable="true">Skyddad! Ansluten till snabb och säker DNS.</string>
     <string name="firewall_mode_notification_title" translatable="true">Skyddad! Ansluten till brandväggen.</string>
@@ -102,9 +102,9 @@
     <string name="status_protected_with_wg_private_dns" translatable="true">skyddad med WireGuard och privat DNS</string>
     <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">privat DNS är aktiverad</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">inte skyddad</string>
-    <string name="dns_explanation_dns_connected" translatable="true">Ansluten till RethinkDNS</string>
+    <string name="dns_explanation_dns_connected" translatable="true">Ansluten till 白い熊 考直</string>
     <string name="dns_explanation_firewall_connected" translatable="true">Ansluten till brandväggen</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Ansluten till RethinkDNS och brandväggen</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">Ansluten till 白い熊 考直 och brandväggen</string>
     <string name="universal_firewall_explanation" translatable="true">Tillämpa brandväggsregler på alla appar utifrån enhetshändelser, till exempel när enheten är låst eller när en viss app inte används.</string>
     <string name="notification_action_resume_vpn" translatable="true">ÅTERUPPTA</string>
     <string name="notification_action_pause_vpn" translatable="true">PAUSA</string>
@@ -116,8 +116,8 @@
     <string name="dns_mode_info_explanation_new" translatable="true">Övervaka, blockera och kryptera DNS-förfrågningar.</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">Allt ovanstående samt kringgå internetcensur.</string>
     <string name="alert_permission_accessibility" translatable="true">Behörighet – Tillgänglighet</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink använder tillgänglighetstjänsten för att se vilka appar som används (i förgrunden) och vilka som inte används (i bakgrunden).\n\nRethink samlar inte in information och övervakar dig inte på något sätt.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">Rethinks tillgänglighetstjänst har stoppats eller kraschat. <i><b>Gå till Inställningar och tvinga stopp</b></i> för Rethink, och starta sedan appen igen för att använda funktionen <i>Blockera alla appar som inte används</i>.\n\nRethink använder tillgänglighetstjänsten för att se vilka appar som används (i förgrunden) och vilka som inte används (i bakgrunden).</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 använder tillgänglighetstjänsten för att se vilka appar som används (i förgrunden) och vilka som inte används (i bakgrunden).\n\n白い熊 考直 samlar inte in information och övervakar dig inte på något sätt.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直s tillgänglighetstjänst har stoppats eller kraschat. <i><b>Gå till Inställningar och tvinga stopp</b></i> för 白い熊 考直, och starta sedan appen igen för att använda funktionen <i>Blockera alla appar som inte används</i>.\n\n白い熊 考直 använder tillgänglighetstjänsten för att se vilka appar som används (i förgrunden) och vilka som inte används (i bakgrunden).</string>
     <string name="alert_firewall_accessibility_exception" translatable="true">Det gick inte att öppna inställningarna för Tillgänglighet. Försök igen senare!</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">Välj läge.</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">Välj läge.</string>
@@ -136,15 +136,15 @@
     <string name="bsct_conn_desc_blocked" translatable="true">blockerad på %1$s %2$s</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: Blockerar en app från att ansluta till internet. \n &lt;u&gt;#2&lt;/u&gt;: Blockerar alla appar från att ansluta till en viss IP-adress. \n &lt;u&gt;#3&lt;/u&gt;: Blockerar alla anslutningar när enheten är låst (universell brandvägg). \n &lt;u&gt;#4&lt;/u&gt;: Blockerar alla appar som inte används (universell brandvägg). \n &lt;u&gt;#5&lt;/u&gt;: Blockerar anslutningar när källappen är okänd (universell brandvägg). \n &lt;u&gt;#6&lt;/u&gt;: Blockerar all UDP-trafik utom DNS (universell brandvägg). \n &lt;u&gt;#7&lt;/u&gt;: Blockerar anslutningar när DNS kringgås (universell brandvägg).</string>
     <string name="always_on_dialog_heading" translatable="true">Inaktivera alltid-på-VPN</string>
-    <string name="always_on_dialog" translatable="true">”Alltid-på-VPN” är aktiverat på den här enheten. För att starta Rethink, öppna Inställningar och inaktivera ”Alltid-på-VPN”.</string>
+    <string name="always_on_dialog" translatable="true">”Alltid-på-VPN” är aktiverat på den här enheten. För att starta 白い熊 考直, öppna Inställningar och inaktivera ”Alltid-på-VPN”.</string>
     <string name="always_on_dialog_positive_btn" translatable="true">Gå till Inställningar</string>
     <string name="always_on_dialog_stop_heading" translatable="true">Alltid-på-VPN</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Alltid-på-VPN är aktiverat för Rethink. Är du säker på att du vill stoppa Rethink ändå?</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink kör VPN i <i>låst</i> läge. Om du stoppar det förlorar användarprofilen internetanslutning. Vill du fortsätta ändå?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">Alltid-på-VPN är aktiverat för 白い熊 考直. Är du säker på att du vill stoppa 白い熊 考直 ändå?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 kör VPN i <i>låst</i> läge. Om du stoppar det förlorar användarprofilen internetanslutning. Vill du fortsätta ändå?</string>
     <string name="always_on_dialog_positive" translatable="true">Stoppa</string>
     <string name="always_on_dialog_neutral" translatable="true">Inställningar</string>
     <string name="private_dns_dialog_heading" translatable="true">Stäng av privat DNS</string>
-    <string name="private_dns_dialog_desc" translatable="true">Rethinks DNS-inställningar åsidosätts av Androids privata DNS.\n\nFör att använda Rethinks DNS, öppna Android-inställningarna och stäng av privat DNS.</string>
+    <string name="private_dns_dialog_desc" translatable="true">白い熊 考直s DNS-inställningar åsidosätts av Androids privata DNS.\n\nFör att använda 白い熊 考直s DNS, öppna Android-inställningarna och stäng av privat DNS.</string>
     <string name="private_dns_dialog_positive" translatable="true">Gå till Inställningar</string>
     <string name="firewall_act_universal_tab" translatable="true">Universell</string>
     <string name="firewall_act_network_monitor_tab" translatable="true">Nätverk</string>
@@ -216,9 +216,9 @@
     <string name="settings_ptrans_heading" translatable="true">Tvinga utgående IPv4</string>
     <string name="settings_ptrans_desc" translatable="true">Översätt utgående IPv6-trafik till IPv4 på enheten. Aktivera detta om du är ansluten till ett nätverk med enbart IPv4.</string>
     <string name="settings_allow_lan_heading" translatable="true">Routa inte privata IP-adresser</string>
-    <string name="settings_allow_lan_desc" translatable="true">Undanta LAN, loopback, multicast och länk-lokala rutter från Rethinks VPN-tunnel.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Undanta LAN, loopback, multicast och länk-lokala rutter från 白い熊 考直s VPN-tunnel.</string>
     <string name="settings_allow_bypass_heading" translatable="true">Aktivera nätverkssynlighet</string>
-    <string name="settings_allow_bypass_desc" translatable="true">Tillåt appar som begär det att komma åt alla tillgängliga nätverk. Dessa appar kan vid behov kringgå Rethinks VPN-tunnel. Vissa ljud- och videokonferensappar, som Zoom och Meet, kan behöva detta för att fungera korrekt.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">Tillåt appar som begär det att komma åt alla tillgängliga nätverk. Dessa appar kan vid behov kringgå 白い熊 考直s VPN-tunnel. Vissa ljud- och videokonferensappar, som Zoom och Meet, kan behöva detta för att fungera korrekt.</string>
     <string name="settings_lock_down_mode_desc" translatable="true">Vissa alternativ är inaktiverade när VPN körs i låst läge. <u>Se VPN-inställningar</u>.</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">Det går inte att konfigurera proxyservrar när VPN körs i läget enbart DNS.</string>
     <string name="settings_proxy_header" translatable="true">Proxy</string>
@@ -244,12 +244,12 @@
     <string name="orbot_app_issue" translatable="true">Det gick inte att starta Orbot. Är appen installerad?</string>
     <string name="orbot_bs_status_trying_connect" translatable="true">Konfigurerar Orbot …</string>
     <string name="orbot_stop_dialog_title" translatable="true">Manuell åtgärd krävs</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink har slutat vidarebefordra anslutningar till Orbot, men Orbot kan fortfarande köras i bakgrunden.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink är inställt på att vidarebefordra DNS-förfrågningar till Orbot. Ändra vid behov.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 har slutat vidarebefordra anslutningar till Orbot, men Orbot kan fortfarande köras i bakgrunden.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 är inställt på att vidarebefordra DNS-förfrågningar till Orbot. Ändra vid behov.</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Stoppa Orbot</string>
     <string name="orbot_stop_dialog_neutral" translatable="true">Ändra DNS</string>
     <string name="orbot_title" translatable="true">Orbot och proxyservrar</string>
-    <string name="orbot_explanation" translatable="true">Orbot är en fri proxyapp som låter andra appar använda internet på ett mer &lt;u&gt;säkert&lt;/u&gt; sätt. \\nOrbot använder &lt;u&gt;Tor&lt;/u&gt; för att kryptera din internettrafik, vilket hjälper dig att &lt;u&gt;kringgå censur&lt;/u&gt; och skydda dig mot former av &lt;u&gt;nätverksövervakning&lt;/u&gt; som hotar personlig frihet och integritet. \\n&lt;u&gt;TCP-proxy&lt;/u&gt;: Rethink vidarebefordrar endast TCP-anslutningar från &lt;i&gt;inkluderade&lt;/i&gt; appar till Orbot. \\n&lt;u&gt;HTTP-proxy&lt;/u&gt;: Rethink &lt;i&gt;upprättar&lt;/i&gt; en HTTP CONNECT-tunnel till Orbot och vidarebefordrar endast TCP-anslutningar från &lt;i&gt;inkluderade&lt;/i&gt; appar.</string>
+    <string name="orbot_explanation" translatable="true">Orbot är en fri proxyapp som låter andra appar använda internet på ett mer &lt;u&gt;säkert&lt;/u&gt; sätt. \\nOrbot använder &lt;u&gt;Tor&lt;/u&gt; för att kryptera din internettrafik, vilket hjälper dig att &lt;u&gt;kringgå censur&lt;/u&gt; och skydda dig mot former av &lt;u&gt;nätverksövervakning&lt;/u&gt; som hotar personlig frihet och integritet. \\n&lt;u&gt;TCP-proxy&lt;/u&gt;: 白い熊 考直 vidarebefordrar endast TCP-anslutningar från &lt;i&gt;inkluderade&lt;/i&gt; appar till Orbot. \\n&lt;u&gt;HTTP-proxy&lt;/u&gt;: 白い熊 考直 &lt;i&gt;upprättar&lt;/i&gt; en HTTP CONNECT-tunnel till Orbot och vidarebefordrar endast TCP-anslutningar från &lt;i&gt;inkluderade&lt;/i&gt; appar.</string>
     <string name="orbot_install_dialog_title" translatable="true">Installera Orbot?</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbot ger Android funktionerna i Tor.</string>
     <string name="orbot_install_dialog_positive" translatable="true">Installera</string>
@@ -259,7 +259,7 @@
     <string name="settings_orbot_desc" translatable="true">Orbot i icke-VPN-läge med HTTPS/SOCKS5.</string>
     <string name="settings_orbot_install_desc" translatable="true">Tryck här för att installera Orbot</string>
     <string name="settings_socks5_disabled_error" translatable="true">Ansluten till %1$s. Stäng av den för att fortsätta.</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">Starta Rethink för att fortsätta.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">Starta 白い熊 考直 för att fortsätta.</string>
     <string name="settings_orbot_disabled_error" translatable="true">Stäng av HTTP(S)- och/eller SOCKS5-proxy för att fortsätta konfigurera Tor som proxy.</string>
     <string name="settings_https_disabled_error" translatable="true">Ansluten till %1$s. Stäng av den för att fortsätta.</string>
     <string name="settings_orbot_notification_content" translatable="true">Det gick inte att starta Tor som proxy. Öppna Orbot-appen för att starta den manuellt.</string>
@@ -267,9 +267,9 @@
     <string name="settings_general_header" translatable="true">Allmänt</string>
     <string name="settings_general_customize" translatable="true">Anpassa</string>
     <string name="settings_autostart_bootup_heading" translatable="true">Starta automatiskt vid uppstart (experimentellt)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">Starta Rethink vid enhetsstart om det kördes före avstängningen.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">Starta 白い熊 考直 vid enhetsstart om det kördes före avstängningen.</string>
     <string name="settings_network_all_networks" translatable="true">Använd alla tillgängliga nätverk</string>
-    <string name="settings_network_all_networks_desc" translatable="true">När det är aktiverat använder Rethink alla tillgängliga nätverk för att ansluta till internet. Annars används nätverket som Android bedömer som <i>aktivt</i>.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">När det är aktiverat använder 白い熊 考直 alla tillgängliga nätverk för att ansluta till internet. Annars används nätverket som Android bedömer som <i>aktivt</i>.</string>
     <string name="settings_check_update_heading" translatable="true">Sök efter appuppdateringar</string>
     <string name="settings_check_update_desc" translatable="true">Sök automatiskt efter appuppdateringar en gång i veckan.</string>
     <string name="settings_custom_downloader_heading" translatable="true">Använd hämtning i appen</string>
@@ -317,12 +317,12 @@
     <string name="settings_ip_text_ipv6" translatable="true">IPv6</string>
     <string name="settings_ip_text_ipv46" translatable="true">Automatiskt</string>
     <string name="settings_notification_heading" translatable="true">Välj aviseringsåtgärd</string>
-    <string name="settings_notification_desc" translatable="true">Åtgärdsknappar som ska visas med Rethink-aviseringen: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">Åtgärdsknappar som ska visas med 白い熊 考直-aviseringen: %1$s</string>
     <string name="settings_notification_desc1" translatable="true">Pausa/stoppa (standard)</string>
     <string name="settings_notification_desc2" translatable="true">DNS/DNS och brandvägg</string>
     <string name="settings_notification_desc3" translatable="true">Ingen</string>
     <string name="settings_notification_dialog_title" translatable="true">Välj aviseringsåtgärd</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\nPausa/stoppa (standard):\nVisar två knappar för att snabbt pausa och stoppa Rethink.</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\nPausa/stoppa (standard):\nVisar två knappar för att snabbt pausa och stoppa 白い熊 考直.</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nDNS/DNS och brandvägg:\nVisar två knappar för att snabbt växla mellan batterisparande DNS-läge och normalt läge för DNS och brandvägg.</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\nIngen:\nVisar inga knappar.\n</string>
     <string name="settings_locale_heading" translatable="true">Byt språk</string>
@@ -352,8 +352,8 @@
     <string name="firewall_status_blocked" translatable="true">blockerad</string>
     <string name="firewall_status_unknown" translatable="true">okänd</string>
     <string name="ct_bs_app_info_error" translatable="true">Appinformation hittades inte</string>
-    <string name="hs_biometeric_title" translatable="true">Lås upp Rethink</string>
-    <string name="hs_biometeric_desc" translatable="true">Använd biometrisk autentisering för att låsa upp Rethink</string>
+    <string name="hs_biometeric_title" translatable="true">Lås upp 白い熊 考直</string>
+    <string name="hs_biometeric_desc" translatable="true">Använd biometrisk autentisering för att låsa upp 白い熊 考直</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">Biometrisk autentisering stöds inte eller är inaktiverad på den här enheten</string>
     <string name="hs_biometeric_failed" translatable="true">Biometrisk autentisering misslyckades</string>
     <string name="hs_biometeric_error" translatable="true">Fel vid biometrisk autentisering</string>
@@ -386,11 +386,11 @@
     <string name="hsf_whats_new_remove_text" translatable="true">Stänger …</string>
     <string name="hsf_blocklist_updating_text" translatable="true">Aktiverar …</string>
     <string name="hsf_chip_appearance" translatable="true">Tema: %1$s</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">Det går inte att pausa: Rethink är inte aktivt</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">Det går inte att pausa: 白い熊 考直 är inte aktivt</string>
     <string name="dc_block_heading" translatable="true">Regler</string>
     <string name="dc_other_dns_heading" translatable="true">Typ</string>
     <string name="dc_custom_dns_radio" translatable="true">Annan DNS</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="dc_entries" translatable="true">%1$s poster »</string>
     <string name="dc_local_block_heading" translatable="true">Blocklistor på enheten</string>
     <string name="dc_local_block_desc_1" translatable="true">Välj bland fler än 195 blocklistor. Klicka här för att hämta eller konfigurera blocklistor.</string>
@@ -398,7 +398,7 @@
     <string name="dc_dns_website_heading" translatable="true">Visa webbplatsikon i DNS-loggar</string>
     <string name="dc_dns_website_desc" translatable="true">Hämtar webbplatsikoner från <i>nextdns.io</i> och <i>duckduckgo.com</i>. Använder upp till 350 MB diskutrymme.</string>
     <string name="dc_dns_leaks_heading" translatable="true">Förhindra DNS-läckor</string>
-    <string name="dc_dns_leaks_desc" translatable="true">När det är aktiverat fångar Rethink alla paket på port 53 och vidarebefordrar dem till en DNS-slutpunkt som användaren har angett.</string>
+    <string name="dc_dns_leaks_desc" translatable="true">När det är aktiverat fångar 白い熊 考直 alla paket på port 53 och vidarebefordrar dem till en DNS-slutpunkt som användaren har angett.</string>
     <string name="dc_check_update_heading" translatable="true">Fråga vid uppdateringar av blocklistor</string>
     <string name="dc_check_update_desc" translatable="true">Sök efter uppdateringar av blocklistor var <i>tredje</i> dag</string>
     <string name="about_bravedns_explantion" translatable="true">Rethink är det enklaste sättet att övervaka appaktivitet, kringgå internetcensur och tillämpa brandväggsregler på appar på din Android-enhet.</string>
@@ -583,8 +583,8 @@
     <string name="settings_local_blocklist_in_use" translatable="true">%1$s blocklistor används</string>
     <string name="settings_local_blocklist_dialog_positive" translatable="true">Hämta</string>
     <string name="settings_local_blocklist_version" translatable="true">Version: v%1$s</string>
-    <string name="accessibility_notification_content" translatable="true">Rethinks tillgänglighetstjänst har stoppats eller kraschat. Appar i bakgrunden blockeras inte längre. Tryck för att aktivera igen.</string>
-    <string name="accessibility_failure_toast" translatable="true">Rethinks tillgänglighetstjänst har stoppats eller kraschat. Appar i bakgrunden blockeras inte längre.</string>
+    <string name="accessibility_notification_content" translatable="true">白い熊 考直s tillgänglighetstjänst har stoppats eller kraschat. Appar i bakgrunden blockeras inte längre. Tryck för att aktivera igen.</string>
+    <string name="accessibility_failure_toast" translatable="true">白い熊 考直s tillgänglighetstjänst har stoppats eller kraschat. Appar i bakgrunden blockeras inte längre.</string>
     <string name="coming_soon_toast" translatable="true">kommer snart</string>
     <string name="pause_text" translatable="true">pausad</string>
     <string name="pause_desc" translatable="true">Observera: %1$s blockerade appar omfattas fortfarande av brandväggen.</string>
@@ -650,8 +650,8 @@
     <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[Anslutningen tilläts eftersom <i>domänen</i> är inställd som betrodd i universella domänregler.<br><br> Ändra detta på fliken <i>Konfigurera DNS</i>.]]></string>
     <string name="firewall_rule_proxied_desc" translatable="true"><![CDATA[Anslutningen vidarebefordrades till användarens valda proxy.<br><br> Ändra detta under <i>Proxy</i> på skärmen <i>Konfigurera</i>.]]></string>
     <string name="new_app_bulk_notification_title" translatable="true">Observera</string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink blockerade %1$s nya appar. Tryck för att visa eller ändra.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink blockerade den nyligen installerade appen %1$s.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 blockerade %1$s nya appar. Tryck för att visa eller ändra.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 blockerade den nyligen installerade appen %1$s.</string>
     <string name="new_app_notification_action_deny" translatable="true">Fortsätt blockera</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">Nätverksanslutning tillåten för appen</string>
     <string name="new_app_notification_action_toast_deny" translatable="true">Nätverksanslutning nekad för appen</string>
@@ -665,8 +665,8 @@
     <string name="notif_channel_firewall_alerts" translatable="true">Brandväggsvarningar</string>
     <string name="notif_channel_proxy_failure" translatable="true">Proxyvarningar</string>
     <string name="notif_channel_download" translatable="true">Hämtningsvarningar</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">Informera när Rethink är aktivt och körs i bakgrunden</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">Informera när Rethink stoppas av Android eller av en annan VPN-app</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">Informera när 白い熊 考直 är aktivt och körs i bakgrunden</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">Informera när 白い熊 考直 stoppas av Android eller av en annan VPN-app</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">Varna vid brandväggsfel och avvikelser</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">Varna vid proxyfel och avvikelser</string>
     <string name="notif_channed_desc_download" translatable="true">Varna vid hämtningsförlopp för blocklistor på enheten</string>
@@ -808,7 +808,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">Mest kontaktade IP-adresser</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">Mest blockerade IP-adresser</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">Mest blockerade länder</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Starta Rethink för att fortsätta</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Starta 白い熊 考直 för att fortsätta</string>
     <string name="ssv_see_more" translatable="true">Visa alla</string>
     <string name="bad_config_reason_invalid_key" translatable="true">Ogiltig nyckel</string>
     <string name="bad_config_reason_invalid_number" translatable="true">Ogiltigt tal</string>
@@ -890,8 +890,8 @@
     <string name="dot_custom_url_remove_dialog_message" translatable="true">Ta bort DNS över TLS-slutpunkten från den sparade konfigurationen.</string>
     <string name="orbot_no_app_toast" translatable="true">Lägg till minst en app för att aktivera Orbot</string>
     <string name="settings_rinr_heading" translatable="true">Loopback (experimentellt)</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Routar Rethinks egen trafik genom tunneln. Stäng av detta om du inte vet vad du gör.</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Routa Rethinks egen trafik, såsom hämtning av blocklistor, anslutningskontroller och DNS-anslutningar, tillbaka in i tunneln.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">Routar 白い熊 考直s egen trafik genom tunneln. Stäng av detta om du inte vet vad du gör.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Routa 白い熊 考直s egen trafik, såsom hämtning av blocklistor, anslutningskontroller och DNS-anslutningar, tillbaka in i tunneln.</string>
     <string name="cd_dialog_edit_title" translatable="true">Redigera domänregel</string>
     <string name="cd_toast_edit" translatable="true">Redigerad</string>
     <string name="one_wg_apps_added" translatable="true">Routar alla appar</string>
@@ -920,13 +920,13 @@
     <string name="lbl_unselected" translatable="true">Inte vald</string>
     <string name="lbl_battery_optimization" translatable="true">Batterioptimering</string>
     <string name="battery_optimization_dialog_heading" translatable="true">Inaktivera %1$s</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> kan orsaka förlorad anslutning. Ändra inställningen så att Rethink kan använda data och andra resurser i bakgrunden.</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> kan orsaka förlorad anslutning. Ändra inställningen så att 白い熊 考直 kan använda data och andra resurser i bakgrunden.</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Appar för loopback-proxyvidarebefordran</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">När den är inaktiverad undantas appar som vidarebefordrar proxy (SOCKS5, HTTP, DNS) från Rethinks VPN-tunnel.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">När den är inaktiverad undantas appar som vidarebefordrar proxy (SOCKS5, HTTP, DNS) från 白い熊 考直s VPN-tunnel.</string>
     <string name="exclude_apps_from_proxy">Kringgå app från alla proxyservrar</string>
     <string name="exclude_apps_from_proxy_failure_toast">Den här appen kringgår proxyservrar</string>
     <string name="lbl_notification" translatable="true">Avisering</string>
-    <string name="memory_notification_text">Rethink har lite minne. Systemåtgärder kan vara begränsade.</string>
+    <string name="memory_notification_text">白い熊 考直 har lite minne. Systemåtgärder kan vara begränsade.</string>
     <string name="lbl_test" translatable="true">Test</string>
     <string name="lbl_protos" translatable="true">protokoll</string>
     <string name="lbl_experimental" translatable="true">(experimentellt)</string>
@@ -949,7 +949,7 @@
     <string name="settings_biometric_dialog_option_1" translatable="true">Omedelbart</string>
     <string name="settings_biometric_dialog_option_2" translatable="true">Efter 5 minuter</string>
     <string name="settings_biometric_dialog_option_3" translatable="true">Efter 15 minuter</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Du har använt Rethink i <b>%1$s dagar</b>, vilket motsvarar en användningskostnad på <b>$%2$s</b>. Vill du sponsra projektet för att stödja fortsatt utveckling?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Du har använt 白い熊 考直 i <b>%1$s dagar</b>, vilket motsvarar en användningskostnad på <b>$%2$s</b>. Vill du sponsra projektet för att stödja fortsatt utveckling?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">Använd system-DNS för odelegerade domäner</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true">Använd system-DNS för odelegerade domäner som <i>.lan</i>, <i>.internal</i> och så vidare.</string>
     <string name="dc_filtering_heading" translatable="true">Filtrering</string>
@@ -1007,22 +1007,22 @@
     <string name="wg_setting_use_on_mobile_desc" translatable="true">Använd detta WireGuard-VPN via mobildata.</string>
     <string name="hop_add_remove_title" translatable="true">Lägg till/ta bort relä</string>
     <string name="about_terms_of_service" translatable="true">Användarvillkor</string>
-    <string name="bypasses_network_restrictions" translatable="true">Nåbarhetskontroller kringgår alla nätverksbegränsningar. I läget <i>Automatiskt</i> använder Rethink slumpmässigt tidigare anslutna IP-adresser och värdnamn.</string>
+    <string name="bypasses_network_restrictions" translatable="true">Nåbarhetskontroller kringgår alla nätverksbegränsningar. I läget <i>Automatiskt</i> använder 白い熊 考直 slumpmässigt tidigare anslutna IP-adresser och värdnamn.</string>
     <string name="most_contacted_asn" translatable="true">Mest kontaktade leverantörer</string>
     <string name="most_blocked_asn" translatable="true">Mest blockerade leverantörer</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">Ange paketnamn (kommaseparerade) som får starta eller stoppa Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">Ange paketnamn (kommaseparerade) som får starta eller stoppa 白い熊 考直.</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">Ange paketnamn (exempel: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_title" translatable="true">Visa leverantörsinformation</string>
     <string name="download_ip_info_desc" translatable="true">Hämtar tjänsteleverantörsuppgifter för webbplatser från <i>rethinkdns.com</i>, med data från <i>%1$s</i></string>
     <string name="adv_taster_title" translatable="true">Automatisering</string>
-    <string name="adv_taster_desc" translatable="true">Konfigurera appar som kan starta eller stoppa Rethink.</string>
+    <string name="adv_taster_desc" translatable="true">Konfigurera appar som kan starta eller stoppa 白い熊 考直.</string>
     <string name="top_active_conns" translatable="true">Mest aktiva anslutningar</string>
     <string name="load_more" translatable="true">Läs in alla</string>
     <string name="close_conns_dialog_title" translatable="true">Stäng anslutningar</string>
     <string name="close_conns_dialog_desc" translatable="true">Stäng alla anslutningar för %1$s?</string>
     <string name="local_blocklist_delete_desc" translatable="true">Ta bort blocklistor på enheten?</string>
     <string name="fail_open_network_title" translatable="true">Stoppa vid nätverksbortfall</string>
-    <string name="fail_open_network_desc" translatable="true">När detta är aktiverat stoppar Rethink all data när ingen anslutning finns, till exempel i <i>flygplansläge</i>.</string>
+    <string name="fail_open_network_desc" translatable="true">När detta är aktiverat stoppar 白い熊 考直 all data när ingen anslutning finns, till exempel i <i>flygplansläge</i>.</string>
     <string name="about_license" translatable="true">Licensierad under Apache-2.0</string>
     <string name="close_all" translatable="true">Stäng alla</string>
     <string name="smart_dns" translatable="true">Smart DNS</string>
@@ -1054,7 +1054,7 @@
     <string name="vpn_policy_fixed_desc" translatable="true">Reagerar minimalt på nätverksändringar.</string>
     <string name="wg_setting_ssid_title" translatable="true">Endast Wi-Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Aktivera detta WireGuard-VPN endast när det är anslutet till Wi-Fi eller till en av de angivna Wi-Fi-identifierarna (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink behöver platsbehörighet för att komma åt Wi-Fi-identifierare (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直 behöver platsbehörighet för att komma åt Wi-Fi-identifierare (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">Slå på platstjänster för att komma åt Wi-Fi-identifierare (%1$s).</string>
     <string name="ssid_location_error" translatable="true">Aktivera platstjänster</string>
     <string name="ssid_permission_error_action" translatable="true">Bevilja behörighet</string>
@@ -1073,15 +1073,15 @@
     <string name="settings_locale_dialog_default" translatable="true">Systemstandard</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">När detta är aktiverat tillåts inkommande anslutningar som initieras av WireGuard-peers.</string>
-    <string name="lockdown_download_message" translatable="true">Androids inbyggda <i>Hämtningshanterare</i> kan misslyckas eftersom VPN är i <i>låst</i> läge. Aktivera Rethinks hämtare i stället?</string>
+    <string name="lockdown_download_message" translatable="true">Androids inbyggda <i>Hämtningshanterare</i> kan misslyckas eftersom VPN är i <i>låst</i> läge. Aktivera 白い熊 考直s hämtare i stället?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">Aktivera hämtare</string>
     <string name="settings_jumbo_packets" translatable="true">Bandbreddsaccelerator</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Använder <i>jumbopaket</i> i Rethinks VPN-tunnel.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">Använder <i>jumbopaket</i> i 白い熊 考直s VPN-tunnel.</string>
     <string name="settings_tunnel_metered" translatable="true">Alltid med datatak</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Markera Rethinks VPN-tunnel som ett nätverk med datatak för att uppmuntra appar att använda mindre data. Observera: Detta kan få appar att pausa stora uppladdningar och hämtningar, till exempel säkerhetskopior.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Markera 白い熊 考直s VPN-tunnel som ett nätverk med datatak för att uppmuntra appar att använda mindre data. Observera: Detta kan få appar att pausa stora uppladdningar och hämtningar, till exempel säkerhetskopior.</string>
     <string name="stability_program_toast" translatable="true">Ansluten till <i>stabilitetsprogrammet</i> för <i>experimentella funktioner</i>.</string>
     <string name="dns_record_types_auto_mode_status" translatable="true">Automatiskt (alla typer)</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink behöver behörighet för att konfigurera ett lokalt VPN och därmed kryptera enhetens DNS-förfrågningar, övervaka nätverk och tillämpa brandväggsregler.\n\nWi-Fi-baserad proxyautomatisering kräver platsbehörighet för att identifiera det anslutna Wi-Fi-nätverket (SSID). Behörigheten begärs bara när du aktiverar funktionen.\n\nRethink samlar inte in information och övervakar dig inte på något sätt.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 behöver behörighet för att konfigurera ett lokalt VPN och därmed kryptera enhetens DNS-förfrågningar, övervaka nätverk och tillämpa brandväggsregler.\n\nWi-Fi-baserad proxyautomatisering kräver platsbehörighet för att identifiera det anslutna Wi-Fi-nätverket (SSID). Behörigheten begärs bara när du aktiverar funktionen.\n\n白い熊 考直 samlar inte in information och övervakar dig inte på något sätt.</string>
     <string name="stability_program_snackbar_msg" translatable="true">Stabilitetsprogram aktiverat</string>
     <string name="stability_program_snackbar_disable" translatable="true">Ångra</string>
     <plurals name="server_count">

@@ -1175,7 +1175,7 @@
     <string name="location_disclosure_message" translatable="true">白い熊 考直는 Wi-Fi 네트워크 정보(SSID/BSSID)를 위치 정보로 취급합니다. 백그라운드 위치를 이용하면 앱을 열지 않더라도 Wi-Fi 네트워크가 변경될 때 프록시 자동화를 적용할 수 있습니다. 白い熊 考直는 사용자의 물리적인 GPS 위치 정보를 수집, 저장, 공유하지 않습니다.</string>
     <string name="rpn_recovery_desc" translatable="true">서버를 등록하거나 가져올 수 없습니다. VPN이 연결되었는지 확인하고 다시 시도하세요. 계속 실패한다면, 서버를 제거했다가 다시 추가해 보세요.</string>
     <string name="use_bootstrap_dns_to_bypass" translatable="true">우회 시 부트스트랩 DNS 사용</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">루프백 모드에서는, Rethink가 자체 네트워크 트래픽을 재라우팅할 수 있습니다. 즉 다른 일반 애플리케이션처럼 Rethink에도 자체 트래픽에 IP 및 도메인 규칙, 전역 방화벽 규칙, 프록시 규칙을 적용할 수 있습니다. 루프백 모드는 사용자에게 더 많은 제어 권한을 주지만, 항상 원하는 대로 동작하지 않을 수도 있습니다.\n\n\nRethink를 방화벽, DNS, 프록시 규칙에서 제외하는 것이 좋습니다. 이렇게 해도 네트워크 모니터링이나 로깅에는 영향을 끼치지 않고, 규칙만 변경됩니다.\n\n\n지금은, 루프백 모드에서 프록시 락다운이 강제되지 않습니다.</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">루프백 모드에서는, 白い熊 考直가 자체 네트워크 트래픽을 재라우팅할 수 있습니다. 즉 다른 일반 애플리케이션처럼 白い熊 考直에도 자체 트래픽에 IP 및 도메인 규칙, 전역 방화벽 규칙, 프록시 규칙을 적용할 수 있습니다. 루프백 모드는 사용자에게 더 많은 제어 권한을 주지만, 항상 원하는 대로 동작하지 않을 수도 있습니다.\n\n\n白い熊 考直를 방화벽, DNS, 프록시 규칙에서 제외하는 것이 좋습니다. 이렇게 해도 네트워크 모니터링이나 로깅에는 영향을 끼치지 않고, 규칙만 변경됩니다.\n\n\n지금은, 루프백 모드에서 프록시 락다운이 강제되지 않습니다.</string>
     <string name="wireguard_dns_mode_conflict" translatable="true">DNS 전용 모드에서는 WireGuard를 켤 수 없습니다. 방화벽 또는 DNS+방화벽 모드로 전환하십시오.</string>
     <string name="wireguard_invalid_config_title" translatable="true">잘못된 WireGuard 설정</string>
     <string name="wireguard_invalid_config_message" translatable="true">선택한 WireGuard 설정이 잘못되었거나 누락되었습니다. 설정을 편집하거나 다시 가져온 뒤 다시 시도하세요.</string>
@@ -1210,7 +1210,7 @@
     <string name="download_err_network" translatable="true">네트워크 연결에 문제가 있습니다. 인터넷을 확인하고 다시 시도하세요.</string>
     <string name="download_err_internal" translatable="true">내부 오류가 발생했습니다. 나중에 다시 시도하세요.</string>
     <string name="download_err_flavor_not_supported" translatable="true">이 버전에서는 로컬 차단 목록을 이용할 수 없습니다.</string>
-    <string name="download_err_system_manager" translatable="true">Android 다운로드 관리자에 오류가 발생했습니다. Rethink 다운로더로 전환해 보십시오.</string>
+    <string name="download_err_system_manager" translatable="true">Android 다운로드 관리자에 오류가 발생했습니다. 白い熊 考直 다운로더로 전환해 보십시오.</string>
     <string name="ssv_insights_no_data" description="Shown in the insights view when a stats section has no data for the selected period." translatable="true">아직 데이터 없음</string>
     <string name="download_inapp_vpn_toast" translatable="true">VPN 켜짐. 이 다운로드에는 앱 내 다운로더를 사용합니다.</string>
     <string name="download_switch_to_system" translatable="true">시스템 다운로더 사용</string>
@@ -1219,7 +1219,7 @@
     <string name="qs_relay_no_locations_toast" translatable="true">위치를 선택하여 중계 켜기</string>
     <string name="qs_relay_failure_toast" translatable="true">위치 %1$d곳의 중계를 갱신하는 데 실패</string>
     <string name="rpn_stats_conn_count" translatable="true">연결 %1$s회</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">Rethink를 시작하여 프록시 통계 보기</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">白い熊 考直를 시작하여 프록시 통계 보기</string>
     <string name="rpn_stats_view_logs" translatable="true">연결 로그 보기</string>
     <string name="rpn_stats_empty" translatable="true">선택한 서버와 최근 24시간 동안 연결하지 않았습니다.</string>
     <string name="rpn_bypass_positive" translatable="true">우회</string>
@@ -1262,5 +1262,5 @@
     <string name="download_err_storage" translatable="true">공간이 충분하지 않거나 저장소에 오류가 있습니다. 기기 저장소를 확인하세요.</string>
     <string name="download_err_validation" translatable="true">차단 목록을 확인하거나 처리할 수 없습니다. 손상되었을 수 있습니다.</string>
     <string name="ci_dialog_error_invalid_cidr" translatable="true">올바른 CIDR이 아닙니다. IP 범위(예: 1.1.1.1-55)와 비트에 꼭 맞지 않는 와일드카드는 지원되지 않습니다. 1.1.1.0/24와 같이 CIDR 표기를 사용하세요.</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">다른 앱이 \"VPN 항상 켜기\" 및 \"연결 차단(VPN 제외)\"으로 설정되어 있으면 Rethink를 시작할 수 없습니다. 계속하려면 VPN 설정을 바꾸세요.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">다른 앱이 \"VPN 항상 켜기\" 및 \"연결 차단(VPN 제외)\"으로 설정되어 있으면 白い熊 考直를 시작할 수 없습니다. 계속하려면 VPN 설정을 바꾸세요.</string>
 </resources>

@@ -7,7 +7,7 @@
     <string name="settings_title_desc" translatable="true">DNS ແລະ ໄຟວໍ ທີ່ສາມາດປັບແຕ່ງໄດ້ສູງ</string>
     <string name="about_title_desc" translatable="true">ກວດຫາ ແລະ ບລັອກໄພຂົ່ມຂູ່ດ້ານຄວາມປອດໄພຂອງເຄືອຂ່າຍ</string>
     <string name="txt_home" translatable="true">ໜ້າຫຼັກ</string>
-    <string name="accessibility_service_description" translatable="true">Rethink ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອກວດຫາ ແລະ ບລັອກແອັບພລິເຄຊັນພື້ນຫຼັງ. Rethink ບໍ່ໄດ້ເກັບກຳ ຫຼື ຂາຍຂໍ້ມູນໃດໆ.</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອກວດຫາ ແລະ ບລັອກແອັບພລິເຄຊັນພື້ນຫຼັງ. 白い熊 考直 ບໍ່ໄດ້ເກັບກຳ ຫຼື ຂາຍຂໍ້ມູນໃດໆ.</string>
     <string name="next" translatable="true">ຕໍ່ໄປ</string>
     <string name="skip" translatable="true">ຂ້າມ</string>
     <string name="finish" translatable="true">ສຳເລັດ</string>
@@ -115,13 +115,13 @@
     <string name="lbl_action" translatable="true">ການດຳເນີນການ</string>
     <string name="lbl_connect" translatable="true">ເຊື່ອມຕໍ່</string>
     <string name="lbl_criteria" translatable="true">ເງື່ອນໄຂ</string>
-    <string name="memory_notification_text">Rethink ພົບວ່າໜ່ວຍຄວາມຈຳເຫຼືອໜ້ອຍ. ການເຮັດວຽກຂອງລະບົບອາດຖືກຈຳກັດ.</string>
+    <string name="memory_notification_text">白い熊 考直 ພົບວ່າໜ່ວຍຄວາມຈຳເຫຼືອໜ້ອຍ. ການເຮັດວຽກຂອງລະບົບອາດຖືກຈຳກັດ.</string>
     <string name="ip_mismatch_notification_title" translatable="true">ໂປຣໂຕຄໍເຄືອຂ່າຍບໍ່ກົງກັນ</string>
     <string name="ip_mismatch_notification_content" translatable="true">ໂປຣໂຕຄໍ IP ທີ່ທ່ານເລືອກບໍ່ມີໃຫ້ໃຊ້ໃນເຄືອຂ່າຍປັດຈຸບັນ. ປ່ຽນເປັນໂໝດ \"IPv4 &amp; IPv6\" ຫຼື \"ອັດຕະໂນມັດ\" ເພື່ອເຊື່ອມຕໍ່ຕໍ່ໄປ.</string>
     <string name="slide_2_title" translatable="true">ຍິນດີຕ້ອນຮັບ</string>
-    <string name="slide_2_desc" translatable="true">Rethink ແມ່ນວິທີທີ່ງ່າຍທີ່ສຸດໃນການຕິດຕາມການເຄື່ອນໄຫວຂອງເຄືອຂ່າຍ, ຂ້າມຜ່ານການເຊັນເຊີອິນເຕີເນັດ ແລະ ຕັ້ງຄ່າໄຟວໍແອັບໃນອຸປະກອນ Android ຂອງທ່ານ.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 ແມ່ນວິທີທີ່ງ່າຍທີ່ສຸດໃນການຕິດຕາມການເຄື່ອນໄຫວຂອງເຄືອຂ່າຍ, ຂ້າມຜ່ານການເຊັນເຊີອິນເຕີເນັດ ແລະ ຕັ້ງຄ່າໄຟວໍແອັບໃນອຸປະກອນ Android ຂອງທ່ານ.</string>
     <string name="slide_1_title" translatable="true">ຟຣີ ແລະ ໂອເພນຊອດ</string>
-    <string name="slide_1_desc" translatable="true">Rethink ແມ່ນຊອບແວໂອເພນຊອດທີ່ໄດ້ຮັບການສະໜັບສະໜູນໂດຍໂຄງການ Mozilla Builders MVP, ມູນນິທິ FOSS United.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 ແມ່ນຊອບແວໂອເພນຊອດທີ່ໄດ້ຮັບການສະໜັບສະໜູນໂດຍໂຄງການ Mozilla Builders MVP, ມູນນິທິ FOSS United.</string>
     <string name="wireguard_title" translatable="true">ອິນເຕີເນັດປອດໄພດ້ວຍ WireGuard</string>
     <string name="wireguard_desc" translatable="true">ເຂົ້າລະຫັດການຈະລາຈອນອິນເຕີເນັດຂອງທ່ານດ້ວຍ WireGuard. ເລືອກເສັ້ນທາງທີ່ແຕກຕ່າງກັນສຳລັບແອັບທີ່ແຕກຕ່າງກັນ.</string>
     <string name="firewall_title" translatable="true">ປົກປ້ອງ Android ຂອງທ່ານດ້ວຍໄຟວໍ</string>
@@ -135,7 +135,7 @@
     <string name="isolate" translatable="true">ແຍກດ່ຽວ</string>
     <string name="untracked" translatable="true">ບໍ່ໄດ້ຕິດຕາມ</string>
     <string name="bypass_dns_firewall" translatable="true">ຂ້າມຜ່ານ DNS ແລະ ໄຟວໍ</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">ຄຳເຕືອນ: Rethink ຖືກປິດໃຊ້ງານແລ້ວ</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">ຄຳເຕືອນ: 白い熊 考直 ຖືກປິດໃຊ້ງານແລ້ວ</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">ແຕະເພື່ອປ່ຽນການຕັ້ງຄ່າການປົກປ້ອງ</string>
     <string name="dns_mode_notification_title" translatable="true">ໄດ້ຮັບການປົກປ້ອງແລ້ວ! ເຊື່ອມຕໍ່ກັບ DNS ທີ່ໄວ ແລະ ປອດໄພ.</string>
     <string name="firewall_mode_notification_title" translatable="true">ໄດ້ຮັບການປົກປ້ອງແລ້ວ! ເຊື່ອມຕໍ່ກັບໄຟວໍ.</string>
@@ -163,9 +163,9 @@
     <string name="status_protected_with_wg_private_dns" translatable="true">ປົກປ້ອງດ້ວຍ wireguard &amp; private dns</string>
     <string name="status_strict" description="This is similar to dns_on, but the protection is being provided by the operating system, not by Rethink.  It is not color-highlighted." translatable="true">private dns ເປີດໃຊ້ງານແລ້ວ</string>
     <string name="status_exposed" description="This is a large message in a scary color.  It indicates that DNS queries can be surveilled or modified in transit." translatable="true">ບໍ່ໄດ້ຮັບການປົກປ້ອງ</string>
-    <string name="dns_explanation_dns_connected" translatable="true">ເຊື່ອມຕໍ່ກັບ RethinkDNS ແລ້ວ</string>
+    <string name="dns_explanation_dns_connected" translatable="true">ເຊື່ອມຕໍ່ກັບ 白い熊 考直 ແລ້ວ</string>
     <string name="dns_explanation_firewall_connected" translatable="true">ເຊື່ອມຕໍ່ກັບໄຟວໍແລ້ວ</string>
-    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">ເຊື່ອມຕໍ່ກັບ RethinkDNS ແລະ ໄຟວໍແລ້ວ</string>
+    <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected" translatable="true">ເຊື່ອມຕໍ່ກັບ 白い熊 考直 ແລະ ໄຟວໍແລ້ວ</string>
     <string name="universal_firewall_explanation" translatable="true">ນຳໃຊ້ກົດລະບຽບໄຟວໍກັບແອັບພລິເຄຊັນທັງໝົດໂດຍອີງຕາມເຫດການຂອງອຸປະກອນ, ຕົວຢ່າງ, ບລັອກການເຊື່ອມຕໍ່ເມື່ອອຸປະກອນຖືກລັອກ ຫຼື ເມື່ອແອັບໃດໜຶ່ງບໍ່ໄດ້ຖືກນຳໃຊ້.</string>
     <string name="notification_action_resume_vpn" translatable="true">ສືບຕໍ່</string>
     <string name="notification_action_pause_vpn" translatable="true">ຢຸດຊົ່ວຄາວ</string>
@@ -181,8 +181,8 @@
     <string name="dns_mode_info_explanation_new" translatable="true">ຕິດຕາມ, ບລັອກ ແລະ ເຂົ້າລະຫັດຄຳຂໍ DNS.</string>
     <string name="dns_firewall_mode_info_explanation_new" translatable="true">ທັງໝົດຂ້າງເທິງ + ຂ້າມຜ່ານການເຊັນເຊີອິນເຕີເນັດ.</string>
     <string name="alert_permission_accessibility" translatable="true">ສິດການອະນຸຍາດ - ການເຂົ້າເຖິງ</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">Rethink ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອຕິດຕາມວ່າແອັບໃດກຳລັງຖືກນຳໃຊ້ (ພື້ນໜ້າ) ແລະ ແອັບໃດບໍ່ໄດ້ຖືກນຳໃຊ້ (ພື້ນຫຼັງ).\n\nRethink ບໍ່ໄດ້ເກັບກຳຂໍ້ມູນໃດໆ ຫຼື ສອດແນມທ່ານໃນທາງໃດທາງໜຶ່ງ.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງຂອງ Rethink ໄດ້ຢຸດ ຫຼື ຂັດຂ້ອງ. <i><b>ໄປທີ່ການຕັ້ງຄ່າ ແລະ ບັງຄັບຢຸດ (Force Stop)</b></i> Rethink ແລ້ວເລີ່ມຕົ້ນໃໝ່ອີກຄັ້ງເພື່ອໃຊ້ຄຸນສົມບັດ <i>ບລັອກແອັບທີ່ບໍ່ໄດ້ໃຊ້</i>.\n\nRethink ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອຕິດຕາມວ່າແອັບໃດກຳລັງຖືກນຳໃຊ້ (ພື້ນໜ້າ) ແລະ ແອັບໃດບໍ່ໄດ້ຖືກນຳໃຊ້ (ພື້ນຫຼັງ).</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອຕິດຕາມວ່າແອັບໃດກຳລັງຖືກນຳໃຊ້ (ພື້ນໜ້າ) ແລະ ແອັບໃດບໍ່ໄດ້ຖືກນຳໃຊ້ (ພື້ນຫຼັງ).\n\n白い熊 考直 ບໍ່ໄດ້ເກັບກຳຂໍ້ມູນໃດໆ ຫຼື ສອດແນມທ່ານໃນທາງໃດທາງໜຶ່ງ.</string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງຂອງ 白い熊 考直 ໄດ້ຢຸດ ຫຼື ຂັດຂ້ອງ. <i><b>ໄປທີ່ການຕັ້ງຄ່າ ແລະ ບັງຄັບຢຸດ (Force Stop)</b></i> 白い熊 考直 ແລ້ວເລີ່ມຕົ້ນໃໝ່ອີກຄັ້ງເພື່ອໃຊ້ຄຸນສົມບັດ <i>ບລັອກແອັບທີ່ບໍ່ໄດ້ໃຊ້</i>.\n\n白い熊 考直 ໃຊ້ບໍລິການຊ່ວຍເຫຼືອການເຂົ້າເຖິງ ເພື່ອຕິດຕາມວ່າແອັບໃດກຳລັງຖືກນຳໃຊ້ (ພື້ນໜ້າ) ແລະ ແອັບໃດບໍ່ໄດ້ຖືກນຳໃຊ້ (ພື້ນຫຼັງ).</string>
     <string name="alert_firewall_accessibility_exception" translatable="true">ບໍ່ສາມາດເປີດການຕັ້ງຄ່າການເຂົ້າເຖິງໄດ້. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ!</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">ເລືອກໂໝດ.</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">ເລືອກໂໝດ.</string>
@@ -204,15 +204,15 @@
     <string name="bsct_conn_desc_blocked" translatable="true">ຖືກບລັອກເທິງ %1$s %2$s</string>
     <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;: ບລັອກແອັບບໍ່ໃຫ້ເຊື່ອມຕໍ່ອິນເຕີເນັດ. \n &lt;u&gt;#2&lt;/u&gt;: ບລັອກທຸກແອັບບໍ່ໃຫ້ເຊື່ອມຕໍ່ກັບ IP ທີ່ກຳນົດ. \n &lt;u&gt;#3&lt;/u&gt;: ບລັອກການເຊື່ອມຕໍ່ທັງໝົດເມື່ອອຸປະກອນຖືກລັອກ (Universal Firewall). \n &lt;u&gt;#4&lt;/u&gt;: ບລັອກແອັບໃດກໍຕາມທີ່ບໍ່ໄດ້ນຳໃຊ້ (Universal Firewall). \n &lt;u&gt;#5&lt;/u&gt;: ບລັອກການເຊື່ອມຕໍ່ເມື່ອບໍ່ຮູ້ແຫຼ່ງທີ່ມາຂອງແອັບ (Universal Firewall). \n &lt;u&gt;#6&lt;/u&gt;: ບລັອກການຈະລາຈອນ UDP ທັງໝົດຍົກເວັ້ນ DNS (Universal Firewall). \n &lt;u&gt;#7&lt;/u&gt;: ບລັອກການເຊື່ອມຕໍ່ເມື່ອ DNS ຖືກຂ້າມຜ່ານ (Universal Firewall).</string>
     <string name="always_on_dialog_heading" translatable="true">ປິດໃຊ້ງານ Always-on VPN</string>
-    <string name="always_on_dialog" translatable="true">\"Always-On VPN\" ຖືກເປີດໃຊ້ງານໃນອຸປະກອນນີ້. ເພື່ອເລີ່ມຕົ້ນ Rethink, ກະລຸນາໄປທີ່ແອັບການຕັ້ງຄ່າ ແລະ ປິດໃຊ້ງານ \"Always-on VPN\".</string>
+    <string name="always_on_dialog" translatable="true">\"Always-On VPN\" ຖືກເປີດໃຊ້ງານໃນອຸປະກອນນີ້. ເພື່ອເລີ່ມຕົ້ນ 白い熊 考直, ກະລຸນາໄປທີ່ແອັບການຕັ້ງຄ່າ ແລະ ປິດໃຊ້ງານ \"Always-on VPN\".</string>
     <string name="always_on_dialog_positive_btn" translatable="true">ໄປທີ່ການຕັ້ງຄ່າ</string>
     <string name="always_on_dialog_stop_heading" translatable="true">VPN ທີ່ເປີດຕະຫຼອດເວລາ</string>
-    <string name="always_on_dialog_stop_message" translatable="true">Always-on VPN ຖືກເປີດໃຊ້ສຳລັບ Rethink ແລ້ວ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການຢຸດ Rethink ກໍຕາມ?</string>
-    <string name="always_on_dialog_lockdown_stop_message" translatable="true">Rethink ກຳລັງເປີດໃຊ້ VPN ໃນໂໝດ <i>ລັອກດາວ (Lockdown)</i>. ການຢຸດມັນຈະເຮັດໃຫ້ບໍ່ສາມາດເຊື່ອມຕໍ່ອິນເຕີເນັດໃນໂປຣໄຟລ໌ຜູ້ໃຊ້ນີ້ໄດ້. ທ່ານຕ້ອງການສືບຕໍ່ບໍ່?</string>
+    <string name="always_on_dialog_stop_message" translatable="true">Always-on VPN ຖືກເປີດໃຊ້ສຳລັບ 白い熊 考直 ແລ້ວ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການຢຸດ 白い熊 考直 ກໍຕາມ?</string>
+    <string name="always_on_dialog_lockdown_stop_message" translatable="true">白い熊 考直 ກຳລັງເປີດໃຊ້ VPN ໃນໂໝດ <i>ລັອກດາວ (Lockdown)</i>. ການຢຸດມັນຈະເຮັດໃຫ້ບໍ່ສາມາດເຊື່ອມຕໍ່ອິນເຕີເນັດໃນໂປຣໄຟລ໌ຜູ້ໃຊ້ນີ້ໄດ້. ທ່ານຕ້ອງການສືບຕໍ່ບໍ່?</string>
     <string name="always_on_dialog_positive" translatable="true">ຢຸດ</string>
     <string name="always_on_dialog_neutral" translatable="true">ການຕັ້ງຄ່າ</string>
     <string name="private_dns_dialog_heading" translatable="true">ປິດ Private DNS</string>
-    <string name="private_dns_dialog_desc" translatable="true">ການຕັ້ງຄ່າ DNS ຂອງ Rethink ຖືກແທນທີ່ໂດຍ Private DNS ຂອງ Android.\n\nເພື່ອໃຊ້ DNS ຂອງ Rethink ໃຫ້ໄປທີ່ການຕັ້ງຄ່າ Android ແລະ ປິດ Private DNS.</string>
+    <string name="private_dns_dialog_desc" translatable="true">ການຕັ້ງຄ່າ DNS ຂອງ 白い熊 考直 ຖືກແທນທີ່ໂດຍ Private DNS ຂອງ Android.\n\nເພື່ອໃຊ້ DNS ຂອງ 白い熊 考直 ໃຫ້ໄປທີ່ການຕັ້ງຄ່າ Android ແລະ ປິດ Private DNS.</string>
     <string name="private_dns_dialog_positive" translatable="true">ໄປທີ່ການຕັ້ງຄ່າ</string>
     <string name="firewall_act_universal_tab" translatable="true">ທົ່ວໄປ</string>
     <string name="firewall_act_network_monitor_tab" translatable="true">ເຄືອຂ່າຍ</string>
@@ -300,13 +300,13 @@
     <string name="settings_connectivity_checks" translatable="true">ກວດສອບການເຊື່ອມຕໍ່</string>
     <string name="settings_connectivity_checks_desc" translatable="true">ການກວດສອບການເຊື່ອມຕໍ່ຈະຖືກສົ່ງໄປເພື່ອຢືນຢັນວ່າສາມາດເຂົ້າເຖິງໄດ້.</string>
     <string name="settings_allow_lan_heading" translatable="true">ບໍ່ຕ້ອງກຳນົດເສັ້ນທາງ IP ສ່ວນຕົວ</string>
-    <string name="settings_allow_lan_desc" translatable="true">ຍົກເວັ້ນເສັ້ນທາງ LAN, loopback, multicast, link-local ອອກຈາກ VPN tunnel ຂອງ Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">ຍົກເວັ້ນເສັ້ນທາງ LAN, loopback, multicast, link-local ອອກຈາກ VPN tunnel ຂອງ 白い熊 考直.</string>
     <string name="settings_mobile_metered_heading" translatable="true">ວັດແທກເຄືອຂ່າຍມືຖື</string>
     <string name="settings_mobile_metered_desc" translatable="true">ນັບສະເພາະເຄືອຂ່າຍມືຖືວ່າເປັນການວັດແທກປະລິມານຂໍ້ມູນ, ສ່ວນອັນອື່ນຖືວ່າບໍ່ມີການວັດແທກ.</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">ແອັບສົ່ງຕໍ່ Loopback proxy</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">ເມື່ອປິດໃຊ້ງານ, ຈະຍົກເວັ້ນແອັບສົ່ງຕໍ່ proxy (SOCKS5, HTTP, DNS) ອອກຈາກ VPN tunnel ຂອງ Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">ເມື່ອປິດໃຊ້ງານ, ຈະຍົກເວັ້ນແອັບສົ່ງຕໍ່ proxy (SOCKS5, HTTP, DNS) ອອກຈາກ VPN tunnel ຂອງ 白い熊 考直.</string>
     <string name="settings_allow_bypass_heading" translatable="true">ເປີດການເບິ່ງເຫັນເຄືອຂ່າຍ</string>
-    <string name="settings_allow_bypass_desc" translatable="true">ອະນຸຍາດໃຫ້ແອັບທີ່ຮ້ອງຂໍສາມາດເຂົ້າເຖິງທຸກເຄືອຂ່າຍທີ່ມີ. ແອັບເຫຼົ່ານີ້ອາດຈະຂ້າມ VPN tunnel ຂອງ Rethink ໄດ້ຕາມຕ້ອງການ. ບາງແອັບປະຊຸມສຽງ/ວິດີໂອ ເຊັ່ນ Zoom ແລະ Meet ອາດຈະຕ້ອງໃຊ້ສິ່ງນີ້ເພື່ອໃຫ້ເຮັດວຽກໄດ້ຢ່າງຖືກຕ້ອງ.</string>
+    <string name="settings_allow_bypass_desc" translatable="true">ອະນຸຍາດໃຫ້ແອັບທີ່ຮ້ອງຂໍສາມາດເຂົ້າເຖິງທຸກເຄືອຂ່າຍທີ່ມີ. ແອັບເຫຼົ່ານີ້ອາດຈະຂ້າມ VPN tunnel ຂອງ 白い熊 考直 ໄດ້ຕາມຕ້ອງການ. ບາງແອັບປະຊຸມສຽງ/ວິດີໂອ ເຊັ່ນ Zoom ແລະ Meet ອາດຈະຕ້ອງໃຊ້ສິ່ງນີ້ເພື່ອໃຫ້ເຮັດວຽກໄດ້ຢ່າງຖືກຕ້ອງ.</string>
     <string name="settings_lock_down_mode_desc" translatable="true">ບາງຕົວເລືອກຈະຖືກປິດໃຊ້ງານເມື່ອ VPN ຢູ່ໃນໂໝດລັອກດາວ (lockdown). <u>ເບິ່ງການຕັ້ງຄ່າ VPN</u>.</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">ບໍ່ສາມາດຕັ້ງຄ່າ proxy ໄດ້ໃນຂະນະທີ່ VPN ກຳລັງເຮັດວຽກໃນໂໝດ DNS ເທົ່ານັ້ນ.</string>
     <string name="settings_proxy_header" translatable="true">Proxy</string>
@@ -332,12 +332,12 @@
     <string name="orbot_app_issue" translatable="true">ບໍ່ສາມາດເປີດ Orbot ໄດ້. ໄດ້ຕິດຕັ້ງແລ້ວຫຼືບໍ່?</string>
     <string name="orbot_bs_status_trying_connect" translatable="true">ກຳລັງຕັ້ງຄ່າ Orbot…</string>
     <string name="orbot_stop_dialog_title" translatable="true">ຕ້ອງການດຳເນີນການດ້ວຍຕົນເອງ</string>
-    <string name="orbot_stop_dialog_message" translatable="true">Rethink ໄດ້ຢຸດການສົ່ງຕໍ່ການເຊື່ອມຕໍ່ໄປຫາ Orbot ແລ້ວ, ແຕ່ Orbot ອາດຈະຍັງເຮັດວຽກຢູ່ເບື້ອງຫຼັງ.</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">Rethink ຖືກຕັ້ງຄ່າໃຫ້ສົ່ງຕໍ່ຄຳຮ້ອງຂໍ DNS ໄປຫາ Orbot. ກະລຸນາປ່ຽນແປງຕາມຄວາມຕ້ອງການ.</string>
+    <string name="orbot_stop_dialog_message" translatable="true">白い熊 考直 ໄດ້ຢຸດການສົ່ງຕໍ່ການເຊື່ອມຕໍ່ໄປຫາ Orbot ແລ້ວ, ແຕ່ Orbot ອາດຈະຍັງເຮັດວຽກຢູ່ເບື້ອງຫຼັງ.</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直 ຖືກຕັ້ງຄ່າໃຫ້ສົ່ງຕໍ່ຄຳຮ້ອງຂໍ DNS ໄປຫາ Orbot. ກະລຸນາປ່ຽນແປງຕາມຄວາມຕ້ອງການ.</string>
     <string name="orbot_stop_dialog_negative" translatable="true">ຢຸດ Orbot</string>
     <string name="orbot_stop_dialog_neutral" translatable="true">ປ່ຽນ DNS</string>
     <string name="orbot_title" translatable="true">Orbot ແລະ Proxy ຕ່າງໆ</string>
-    <string name="orbot_explanation" translatable="true">Orbot ແມ່ນແອັບ proxy ຟຣີທີ່ຊ່ວຍໃຫ້ແອັບອື່ນໆສາມາດໃຊ້ອິນເຕີເນັດໄດ້ຢ່າງ&lt;u&gt;ປອດໄພ&lt;/u&gt;ຂຶ້ນ. \nOrbot ໃຊ້ &lt;u&gt;Tor&lt;/u&gt; ເພື່ອເຂົ້າລະຫັດຂໍ້ມູນອິນເຕີເນັດຂອງທ່ານ ເຊິ່ງຊ່ວຍໃຫ້ທ່ານ&lt;u&gt;ຫຼີກລ່ຽງການປິດກັ້ນ&lt;/u&gt; ແລະ ປ້ອງກັນຮູບແບບ&lt;u&gt;ການຕິດຕາມເຄືອຂ່າຍ&lt;/u&gt;ທີ່ຂົ່ມຂູ່ຕໍ່ສິດເສລີພາບ ແລະ ຄວາມເປັນສ່ວນຕົວຂອງທ່ານ. \n&lt;u&gt;TCP Proxy&lt;/u&gt;: Rethink ຈະສົ່ງຕໍ່ສະເພາະການເຊື່ອມຕໍ່ TCP ຂອງແອັບທີ່&lt;i&gt;ລວມຢູ່&lt;/i&gt; ໄປຫາ Orbot. \n&lt;u&gt;HTTP Proxy&lt;/u&gt;: Rethink &lt;i&gt;ສ້າງ&lt;/i&gt; HTTP CONNECT tunnel ໄປຫາ Orbot ແລະ ສົ່ງຕໍ່ສະເພາະການເຊື່ອມຕໍ່ TCP ຂອງແອັບທີ່&lt;i&gt;ລວມຢູ່&lt;/i&gt;.</string>
+    <string name="orbot_explanation" translatable="true">Orbot ແມ່ນແອັບ proxy ຟຣີທີ່ຊ່ວຍໃຫ້ແອັບອື່ນໆສາມາດໃຊ້ອິນເຕີເນັດໄດ້ຢ່າງ&lt;u&gt;ປອດໄພ&lt;/u&gt;ຂຶ້ນ. \nOrbot ໃຊ້ &lt;u&gt;Tor&lt;/u&gt; ເພື່ອເຂົ້າລະຫັດຂໍ້ມູນອິນເຕີເນັດຂອງທ່ານ ເຊິ່ງຊ່ວຍໃຫ້ທ່ານ&lt;u&gt;ຫຼີກລ່ຽງການປິດກັ້ນ&lt;/u&gt; ແລະ ປ້ອງກັນຮູບແບບ&lt;u&gt;ການຕິດຕາມເຄືອຂ່າຍ&lt;/u&gt;ທີ່ຂົ່ມຂູ່ຕໍ່ສິດເສລີພາບ ແລະ ຄວາມເປັນສ່ວນຕົວຂອງທ່ານ. \n&lt;u&gt;TCP Proxy&lt;/u&gt;: 白い熊 考直 ຈະສົ່ງຕໍ່ສະເພາະການເຊື່ອມຕໍ່ TCP ຂອງແອັບທີ່&lt;i&gt;ລວມຢູ່&lt;/i&gt; ໄປຫາ Orbot. \n&lt;u&gt;HTTP Proxy&lt;/u&gt;: 白い熊 考直 &lt;i&gt;ສ້າງ&lt;/i&gt; HTTP CONNECT tunnel ໄປຫາ Orbot ແລະ ສົ່ງຕໍ່ສະເພາະການເຊື່ອມຕໍ່ TCP ຂອງແອັບທີ່&lt;i&gt;ລວມຢູ່&lt;/i&gt;.</string>
     <string name="orbot_install_dialog_title" translatable="true">ຕິດຕັ້ງ Orbot ບໍ່?</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbot ນຳເອົາຄຸນສົມບັດ ແລະ ການເຮັດວຽກຂອງ Tor ມາສູ່ Android.</string>
     <string name="orbot_install_dialog_positive" translatable="true">ຕິດຕັ້ງ</string>
@@ -348,7 +348,7 @@
     <string name="settings_orbot_desc" translatable="true">Orbot ໃນໂໝດທີ່ບໍ່ແມ່ນ VPN ດ້ວຍ HTTPS/SOCKS5.</string>
     <string name="settings_orbot_install_desc" translatable="true">ແຕະບ່ອນນີ້ເພື່ອຕິດຕັ້ງ Orbot</string>
     <string name="settings_socks5_disabled_error" translatable="true">ເຊື່ອມຕໍ່ກັບ %1$s ແລ້ວ. ປິດມັນເພື່ອດຳເນີນການຕໍ່.</string>
-    <string name="settings_socks5_vpn_disabled_error" translatable="true">ເປີດ Rethink ເພື່ອດຳເນີນການຕໍ່.</string>
+    <string name="settings_socks5_vpn_disabled_error" translatable="true">ເປີດ 白い熊 考直 ເພື່ອດຳເນີນການຕໍ່.</string>
     <string name="settings_orbot_disabled_error" translatable="true">ປິດ HTTP(S) ແລະ/ຫຼື SOCKS5 proxy ເພື່ອດຳເນີນການຕັ້ງຄ່າ Tor-as-a-proxy ຕໍ່.</string>
     <string name="settings_https_disabled_error" translatable="true">ເຊື່ອມຕໍ່ກັບ %1$s ແລ້ວ. ປິດມັນເພື່ອດຳເນີນການຕໍ່.</string>
     <string name="settings_orbot_notification_content" translatable="true">ການເລີ່ມຕົ້ນ Tor-as-a-Proxy ຫຼົ້ມເຫຼວ. ເປີດແອັບ Orbot ເພື່ອເລີ່ມຕົ້ນດ້ວຍຕົນເອງ.</string>
@@ -356,9 +356,9 @@
     <string name="settings_general_header" translatable="true">ທົ່ວໄປ</string>
     <string name="settings_general_customize" translatable="true">ປັບແຕ່ງ</string>
     <string name="settings_autostart_bootup_heading" translatable="true">ເລີ່ມອັດຕະໂນມັດເມື່ອເປີດເຄື່ອງ (ທົດລອງ)</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">ເມື່ອເປີດອຸປະກອນ, ໃຫ້ເລີ່ມ Rethink ຖ້າມັນກຳລັງເຮັດວຽກຢູ່ກ່ອນທີ່ຈະປິດເຄື່ອງ.</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">ເມື່ອເປີດອຸປະກອນ, ໃຫ້ເລີ່ມ 白い熊 考直 ຖ້າມັນກຳລັງເຮັດວຽກຢູ່ກ່ອນທີ່ຈະປິດເຄື່ອງ.</string>
     <string name="settings_network_all_networks" translatable="true">ໃຊ້ທຸກເຄືອຂ່າຍທີ່ມີ</string>
-    <string name="settings_network_all_networks_desc" translatable="true">ເມື່ອເປີດໃຊ້ງານ, Rethink ຈະໃຊ້ທຸກເຄືອຂ່າຍທີ່ມີເພື່ອເຊື່ອມຕໍ່ອິນເຕີເນັດ. ຖ້າບໍ່ດັ່ງນັ້ນ, ມັນຈະໃຊ້ເຄືອຂ່າຍໃດກໍຕາມທີ່ Android ຖືວ່າ <i>ກຳລັງນຳໃຊ້ຢູ່</i>.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">ເມື່ອເປີດໃຊ້ງານ, 白い熊 考直 ຈະໃຊ້ທຸກເຄືອຂ່າຍທີ່ມີເພື່ອເຊື່ອມຕໍ່ອິນເຕີເນັດ. ຖ້າບໍ່ດັ່ງນັ້ນ, ມັນຈະໃຊ້ເຄືອຂ່າຍໃດກໍຕາມທີ່ Android ຖືວ່າ <i>ກຳລັງນຳໃຊ້ຢູ່</i>.</string>
     <string name="settings_check_update_heading" translatable="true">ກວດຫາການອັບເດດແອັບ</string>
     <string name="settings_check_update_desc" translatable="true">ກວດຫາການອັບເດດແອັບອັດຕະໂນມັດອາທິດລະຄັ້ງ.</string>
     <string name="settings_custom_downloader_heading" translatable="true">ໃຊ້ຕົວດາວໂຫຼດພາຍໃນແອັບ</string>
@@ -376,13 +376,13 @@
     <string name="settings_log_lifespan_heading" translatable="true">ອາຍຸຂອງ Log</string>
     <string name="settings_log_lifespan_desc_default" translatable="true">7 ມື້ (ຄ່າເລີ່ມຕົ້ນ)</string>
     <string name="settings_rinr_heading" translatable="true">Loopback (ທົດລອງ)</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">ກຳນົດເສັ້ນທາງຂໍ້ມູນຂອງ Rethink ເອງ ເຊັ່ນ: ການດາວໂຫຼດລາຍຊື່ທີ່ຖືກບລັອກ, ການກວດສອບການເຊື່ອມຕໍ່, ການເຊື່ອມຕໍ່ DNS ກັບເຂົ້າໄປໃນ tunnel.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">ກຳລັງກຳນົດເສັ້ນທາງຂໍ້ມູນຂອງ Rethink ຜ່ານ tunnel. ຖ້າທ່ານບໍ່ຮູ້ວ່າກຳລັງເຮັດຫຍັງຢູ່, ໃຫ້ປິດມັນ.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">ກຳນົດເສັ້ນທາງຂໍ້ມູນຂອງ 白い熊 考直 ເອງ ເຊັ່ນ: ການດາວໂຫຼດລາຍຊື່ທີ່ຖືກບລັອກ, ການກວດສອບການເຊື່ອມຕໍ່, ການເຊື່ອມຕໍ່ DNS ກັບເຂົ້າໄປໃນ tunnel.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">ກຳລັງກຳນົດເສັ້ນທາງຂໍ້ມູນຂອງ 白い熊 考直 ຜ່ານ tunnel. ຖ້າທ່ານບໍ່ຮູ້ວ່າກຳລັງເຮັດຫຍັງຢູ່, ໃຫ້ປິດມັນ.</string>
     <string name="settings_rinr_btmsht_title" translatable="true">Loopback (ທົດລອງ)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">ໃນໂໝດ Loopback, Rethink ສາມາດປ່ຽນເສັ້ນທາງຂໍ້ມູນເຄືອຂ່າຍຂອງຕົນເອງ. ໝາຍຄວາມວ່າ Rethink ສາມາດນຳໃຊ້ກົດຂອງ IP ແລະ ໂດເມນ, ກົດຂອງໄຟວໍທົ່ວໄປ, ແລະ ກົດຂອງການເຮັດ proxy ກັບຂໍ້ມູນຂອງ Rethink ໄດ້ຄືກັບວ່າມັນເປັນແອັບທົ່ວໄປອື່ນໆ. ເຖິງແມ່ນວ່າ Loopback ຈະໃຫ້ການຄວບຄຸມຫຼາຍກວ່າ, ແຕ່ພຶດຕິກຳທີ່ເກີດຂຶ້ນອາດຈະບໍ່ເປັນທີ່ຕ້ອງການສະເໝີໄປ.\n\n\nແນະນຳໃຫ້ຍົກເວັ້ນ Rethink ອອກຈາກກົດຂອງໄຟວໍ, DNS, ແລະ proxy. ການເຮັດແນວນີ້ຈະບໍ່ມີຜົນກະທົບຕໍ່ການຕິດຕາມເຄືອຂ່າຍ ຫຼື ການບັນທຶກ (logging), ແຕ່ມີຜົນສະເພາະກັບກົດຕ່າງໆເທົ່ານັ້ນ.\n\n\nໃນໂໝດ Loopback, Proxy Lockdown ຈະບໍ່ຖືກບັງຄັບໃຊ້ໃນຕອນນີ້.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">ຍົກເວັ້ນ Rethink</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">ໃນໂໝດ Loopback, 白い熊 考直 ສາມາດປ່ຽນເສັ້ນທາງຂໍ້ມູນເຄືອຂ່າຍຂອງຕົນເອງ. ໝາຍຄວາມວ່າ 白い熊 考直 ສາມາດນຳໃຊ້ກົດຂອງ IP ແລະ ໂດເມນ, ກົດຂອງໄຟວໍທົ່ວໄປ, ແລະ ກົດຂອງການເຮັດ proxy ກັບຂໍ້ມູນຂອງ 白い熊 考直 ໄດ້ຄືກັບວ່າມັນເປັນແອັບທົ່ວໄປອື່ນໆ. ເຖິງແມ່ນວ່າ Loopback ຈະໃຫ້ການຄວບຄຸມຫຼາຍກວ່າ, ແຕ່ພຶດຕິກຳທີ່ເກີດຂຶ້ນອາດຈະບໍ່ເປັນທີ່ຕ້ອງການສະເໝີໄປ.\n\n\nແນະນຳໃຫ້ຍົກເວັ້ນ 白い熊 考直 ອອກຈາກກົດຂອງໄຟວໍ, DNS, ແລະ proxy. ການເຮັດແນວນີ້ຈະບໍ່ມີຜົນກະທົບຕໍ່ການຕິດຕາມເຄືອຂ່າຍ ຫຼື ການບັນທຶກ (logging), ແຕ່ມີຜົນສະເພາະກັບກົດຕ່າງໆເທົ່ານັ້ນ.\n\n\nໃນໂໝດ Loopback, Proxy Lockdown ຈະບໍ່ຖືກບັງຄັບໃຊ້ໃນຕອນນີ້.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">ຍົກເວັ້ນ 白い熊 考直</string>
     <string name="app_info_rethink_warning_title" translatable="true">ລະວັງ</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">ທ່ານກຳລັງຈະປ່ຽນກົດໄຟວໍສຳລັບ Rethink. ເນື່ອງຈາກ Rethink ເປັນຕົວຈັດການ VPN tunnel, ການອະນຸຍາດ, ການບລັອກ, ຫຼື ການແຍກຂໍ້ມູນຂອງມັນເອງອາດຈະເຮັດໃຫ້ການເຂົ້າເຖິງເຄືອຂ່າຍທັງໝົດມີບັນຫາ.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">ທ່ານກຳລັງຈະປ່ຽນກົດໄຟວໍສຳລັບ 白い熊 考直. ເນື່ອງຈາກ 白い熊 考直 ເປັນຕົວຈັດການ VPN tunnel, ການອະນຸຍາດ, ການບລັອກ, ຫຼື ການແຍກຂໍ້ມູນຂອງມັນເອງອາດຈະເຮັດໃຫ້ການເຂົ້າເຖິງເຄືອຂ່າຍທັງໝົດມີບັນຫາ.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">ຂ້ອຍເຂົ້າໃຈ</string>
     <string name="rethink_home_screen_warning" translatable="true">ອາດມີຜົນກະທົບຕໍ່ການເຊື່ອມຕໍ່ ⚠️</string>
     <string name="settings_log_lifespan_dialog_option_0" translatable="true">1 ຊົ່ວໂມງ</string>
@@ -430,12 +430,12 @@
     <string name="settings_ip_text_ipv6" translatable="true">IPv6</string>
     <string name="settings_ip_text_ipv46" translatable="true">ອັດຕະໂນມັດ</string>
     <string name="settings_notification_heading" translatable="true">ເລືອກຄຳສັ່ງແຈ້ງເຕືອນ</string>
-    <string name="settings_notification_desc" translatable="true">ປຸ່ມຄຳສັ່ງທີ່ຈະສະແດງພ້ອມກັບການແຈ້ງເຕືອນ Rethink: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">ປຸ່ມຄຳສັ່ງທີ່ຈະສະແດງພ້ອມກັບການແຈ້ງເຕືອນ 白い熊 考直: %1$s</string>
     <string name="settings_notification_desc1" translatable="true">ຢຸດຊົ່ວຄາວ / ຢຸດ (ຄ່າເລີ່ມຕົ້ນ)</string>
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + ໄຟວໍ</string>
     <string name="settings_notification_desc3" translatable="true">ບໍ່ມີ</string>
     <string name="settings_notification_dialog_title" translatable="true">ເລືອກຄຳສັ່ງແຈ້ງເຕືອນ</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\nຢຸດຊົ່ວຄາວ / ຢຸດ (ຄ່າເລີ່ມຕົ້ນ):\nສະແດງສອງປຸ່ມ, ເພື່ອຢຸດຊົ່ວຄາວ ແລະ ຢຸດ Rethink ຢ່າງໄວວາ.</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\nຢຸດຊົ່ວຄາວ / ຢຸດ (ຄ່າເລີ່ມຕົ້ນ):\nສະແດງສອງປຸ່ມ, ເພື່ອຢຸດຊົ່ວຄາວ ແລະ ຢຸດ 白い熊 考直 ຢ່າງໄວວາ.</string>
     <string name="settings_notification_dialog_option_2" translatable="true">\nDNS / DNS + ໄຟວໍ:\nສະແດງສອງປຸ່ມເພື່ອສະຫຼັບຢ່າງໄວວາລະຫວ່າງໂໝດ DNS ປະຢັດແບັດເຕີຣີ ແລະ ໂໝດປົກກະຕິ DNS + ໄຟວໍ.</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\nບໍ່ມີ:\nບໍ່ສະແດງປຸ່ມໃດໆ.\n</string>
     <string name="settings_locale_heading" translatable="true">ປ່ຽນພາສາ</string>
@@ -470,8 +470,8 @@
     <string name="firewall_status_blocked" translatable="true">ບລັອກແລ້ວ</string>
     <string name="firewall_status_unknown" translatable="true">ບໍ່ຮູ້ຈັກ</string>
     <string name="ct_bs_app_info_error" translatable="true">ບໍ່ພົບຂໍ້ມູນແອັບ</string>
-    <string name="hs_biometeric_title" translatable="true">ປົດລັອກ Rethink</string>
-    <string name="hs_biometeric_desc" translatable="true">ໃຊ້ການຢືນຢັນຕົວຕົນດ້ວຍຊີວະມິຕິເພື່ອປົດລັອກ Rethink</string>
+    <string name="hs_biometeric_title" translatable="true">ປົດລັອກ 白い熊 考直</string>
+    <string name="hs_biometeric_desc" translatable="true">ໃຊ້ການຢືນຢັນຕົວຕົນດ້ວຍຊີວະມິຕິເພື່ອປົດລັອກ 白い熊 考直</string>
     <string name="hs_biometeric_feature_not_supported" translatable="true">ການຢືນຢັນຕົວຕົນດ້ວຍຊີວະມິຕິບໍ່ຮອງຮັບ ຫຼື ຖືກປິດໄວ້ໃນອຸປະກອນນີ້</string>
     <string name="hs_biometeric_failed" translatable="true">ການຢືນຢັນຕົວຕົນດ້ວຍຊີວະມິຕິຫຼົ້ມເຫຼວ</string>
     <string name="hs_biometeric_error" translatable="true">ເກີດຂໍ້ຜິດພາດໃນການຢືນຢັນຕົວຕົນດ້ວຍຊີວະມິຕິ</string>
@@ -494,9 +494,9 @@
     <string name="logs_card_duration" translatable="true">ຕັ້ງແຕ່ %1$s</string>
     <string name="logs_card_heatmap_window" translatable="true">24 ຊົ່ວໂມງທີ່ຜ່ານມາ</string>
     <string name="hsf_vpn_dialog_header" translatable="true">ໂປດຊາບ!</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink ຕ້ອງການສິດອະນຸຍາດໃນການຕັ້ງຄ່າ VPN ພາຍໃນ (local VPN) ເພື່ອເຂົ້າລະຫັດການຮ້ອງຂໍ DNS ຂອງອຸປະກອນ, ນຳໃຊ້ຕົວຕິດຕາມເຄືອຂ່າຍ, ແລະ ບັງຄັບໃຊ້ກົດໄຟວໍ.\n\nການເຮັດວຽກອັດຕະໂນມັດຂອງ Proxy ຜ່ານ Wi-Fi ຕ້ອງການສິດອະນຸຍາດຕຳແໜ່ງ (Location) ເພື່ອລະບຸເຄືອຂ່າຍ Wi-Fi (SSID) ທີ່ເຊື່ອມຕໍ່ຢູ່. ສິດອະນຸຍາດນີ້ຈະຖືກຮ້ອງຂໍເມື່ອທ່ານເປີດໃຊ້ຄຸນສົມບັດນີ້ເທົ່ານັ້ນ.\n\nRethink ບໍ່ໄດ້ເກັບກຳຂໍ້ມູນ ຫຼື ສອດແນມທ່ານໃນທາງໃດກໍ່ຕາມ.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 ຕ້ອງການສິດອະນຸຍາດໃນການຕັ້ງຄ່າ VPN ພາຍໃນ (local VPN) ເພື່ອເຂົ້າລະຫັດການຮ້ອງຂໍ DNS ຂອງອຸປະກອນ, ນຳໃຊ້ຕົວຕິດຕາມເຄືອຂ່າຍ, ແລະ ບັງຄັບໃຊ້ກົດໄຟວໍ.\n\nການເຮັດວຽກອັດຕະໂນມັດຂອງ Proxy ຜ່ານ Wi-Fi ຕ້ອງການສິດອະນຸຍາດຕຳແໜ່ງ (Location) ເພື່ອລະບຸເຄືອຂ່າຍ Wi-Fi (SSID) ທີ່ເຊື່ອມຕໍ່ຢູ່. ສິດອະນຸຍາດນີ້ຈະຖືກຮ້ອງຂໍເມື່ອທ່ານເປີດໃຊ້ຄຸນສົມບັດນີ້ເທົ່ານັ້ນ.\n\n白い熊 考直 ບໍ່ໄດ້ເກັບກຳຂໍ້ມູນ ຫຼື ສອດແນມທ່ານໃນທາງໃດກໍ່ຕາມ.</string>
     <string name="hsf_vpn_prepare_failure" translatable="true">ອາດຈະບໍ່ມີສິດອະນຸຍາດ VPN, ຫຼື ແອັບອື່ນກຳລັງຢູ່ໃນໂໝດ Always-on VPN (ເປີດໃຊ້ VPN ຕະຫຼອດເວລາ).</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">Rethink ບໍ່ສາມາດເລີ່ມຕົ້ນໄດ້ໃນຂະນະທີ່ແອັບອື່ນຖືກຕັ້ງເປັນ Always-on VPN ພ້ອມກັບ \"ບລັອກການເຊື່ອມຕໍ່ທີ່ບໍ່ມີ VPN\" (lockdown). ແກ້ໄຂການຕັ້ງຄ່າ VPN ເພື່ອດຳເນີນການຕໍ່.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">白い熊 考直 ບໍ່ສາມາດເລີ່ມຕົ້ນໄດ້ໃນຂະນະທີ່ແອັບອື່ນຖືກຕັ້ງເປັນ Always-on VPN ພ້ອມກັບ \"ບລັອກການເຊື່ອມຕໍ່ທີ່ບໍ່ມີ VPN\" (lockdown). ແກ້ໄຂການຕັ້ງຄ່າ VPN ເພື່ອດຳເນີນການຕໍ່.</string>
     <string name="hsf_notification_permission_failure" translatable="true">ເປີດສິດອະນຸຍາດການແຈ້ງເຕືອນຈາກໜ້າຈໍການຕັ້ງຄ່າ</string>
     <string name="hsf_local_network_permission_dialog_heading" translatable="true">ສິດອະນຸຍາດເຄືອຂ່າຍພາຍໃນ (Local Network)</string>
     <string name="hsf_local_network_permission_dialog_message" translatable="true">%1$s ຕ້ອງການສິດອະນຸຍາດເຄືອຂ່າຍພາຍໃນເພື່ອໃຫ້ບາງຄຸນສົມບັດເຮັດວຽກໄດ້. VPN ໄດ້ຖືກປິດແລ້ວ. ໃຫ້ສິດອະນຸຍາດຈາກການຕັ້ງຄ່າແອັບ ແລະ ລອງໃໝ່ອີກຄັ້ງ.</string>
@@ -513,16 +513,16 @@
     <string name="hsf_whats_new_remove_text" translatable="true">ກຳລັງປິດ…</string>
     <string name="hsf_blocklist_updating_text" translatable="true">ກຳລັງເປີດໃຊ້…</string>
     <string name="hsf_chip_appearance" translatable="true">ທີມ: %1$s</string>
-    <string name="hsf_pause_vpn_failure" translatable="true">ບໍ່ສາມາດຢຸດຊົ່ວຄາວໄດ້: Rethink ບໍ່ໄດ້ເຮັດວຽກຢູ່</string>
+    <string name="hsf_pause_vpn_failure" translatable="true">ບໍ່ສາມາດຢຸດຊົ່ວຄາວໄດ້: 白い熊 考直 ບໍ່ໄດ້ເຮັດວຽກຢູ່</string>
     <string name="lbl_battery_optimization" translatable="true">ການປັບແຕ່ງແບັດເຕີຣີ</string>
     <string name="battery_optimization_dialog_heading" translatable="true">ປິດ %1$s</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> ອາດສົ່ງຜົນໃຫ້ສູນເສຍການເຊື່ອມຕໍ່. ປ່ຽນການຕັ້ງຄ່າເພື່ອໃຫ້ Rethink ສາມາດໃຊ້ຂໍ້ມູນ ແລະ ຊັບພະຍາກອນອື່ນໆ ເມື່ອເຮັດວຽກຢູ່ເບື້ອງຫຼັງ.</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">ທ່ານໄດ້ໃຊ້ Rethink ມາເປັນເວລາ <b>%1$s ມື້</b> ແລ້ວ, ເຊິ່ງຄິດເປັນຄ່າໃຊ້ຈ່າຍປະມານ <b>$%2$s</b>. ທ່ານຈະພິຈາລະນາສະໜັບສະໜູນເພື່ອໃຫ້ການພັດທະນາດຳເນີນຕໍ່ໄປໄດ້ຫຼືບໍ່?</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> ອາດສົ່ງຜົນໃຫ້ສູນເສຍການເຊື່ອມຕໍ່. ປ່ຽນການຕັ້ງຄ່າເພື່ອໃຫ້ 白い熊 考直 ສາມາດໃຊ້ຂໍ້ມູນ ແລະ ຊັບພະຍາກອນອື່ນໆ ເມື່ອເຮັດວຽກຢູ່ເບື້ອງຫຼັງ.</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">ທ່ານໄດ້ໃຊ້ 白い熊 考直 ມາເປັນເວລາ <b>%1$s ມື້</b> ແລ້ວ, ເຊິ່ງຄິດເປັນຄ່າໃຊ້ຈ່າຍປະມານ <b>$%2$s</b>. ທ່ານຈະພິຈາລະນາສະໜັບສະໜູນເພື່ອໃຫ້ການພັດທະນາດຳເນີນຕໍ່ໄປໄດ້ຫຼືບໍ່?</string>
     <string name="dc_block_heading" translatable="true">ກົດ</string>
     <string name="dc_other_dns_heading" translatable="true">ປະເພດ</string>
     <string name="dc_global_heading" translatable="true">ທົ່ວລະບົບ</string>
     <string name="dc_custom_dns_radio" translatable="true">DNS ອື່ນໆ</string>
-    <string name="dc_rethink_dns_radio" translatable="true">Rethink DNS</string>
+    <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直 DNS</string>
     <string name="dc_entries" translatable="true">%1$s ລາຍການ »</string>
     <string name="dc_local_block_heading" translatable="true">ລາຍຊື່ບລັອກໃນອຸປະກອນ</string>
     <string name="dc_local_block_desc_1" translatable="true">ເລືອກຈາກ 195+ ລາຍຊື່ບລັອກ. ຄລິກທີ່ນີ້ເພື່ອດາວໂຫຼດ ຫຼື ຕັ້ງຄ່າລາຍຊື່ບລັອກ.</string>
@@ -530,7 +530,7 @@
     <string name="dc_dns_website_heading" translatable="true">ສະແດງໄອຄອນເວັບໄຊໃນບັນທຶກ DNS</string>
     <string name="dc_dns_website_desc" translatable="true">ດຶງຂໍ້ມູນໄອຄອນເວັບໄຊຈາກ <i>nextdns.io</i> ແລະ <i>duckduckgo.com</i>. ໃຊ້ພື້ນທີ່ຈັດເກັບຂໍ້ມູນສູງສຸດເຖິງ 350 mb</string>
     <string name="dc_dns_leaks_heading" translatable="true">ປ້ອງກັນ DNS ຮົ່ວໄຫຼ</string>
-    <string name="dc_dns_leaks_desc" translatable="true">ເມື່ອເປີດໃຊ້ງານ, Rethink ຈະຈັບທຸກແພັກເກັດໃນພອດ 53 ແລະ ສົ່ງຕໍ່ໄປຍັງປາຍທາງ DNS ທີ່ຜູ້ໃຊ້ກຳນົດໄວ້</string>
+    <string name="dc_dns_leaks_desc" translatable="true">ເມື່ອເປີດໃຊ້ງານ, 白い熊 考直 ຈະຈັບທຸກແພັກເກັດໃນພອດ 53 ແລະ ສົ່ງຕໍ່ໄປຍັງປາຍທາງ DNS ທີ່ຜູ້ໃຊ້ກຳນົດໄວ້</string>
     <string name="dc_check_update_heading" translatable="true">ແຈ້ງເຕືອນເມື່ອມີການອັບເດດລາຍຊື່ບລັອກ</string>
     <string name="dc_check_update_desc" translatable="true">ກວດຫາການອັບເດດລາຍຊື່ບລັອກທຸກໆ <i>ສາມ</i> ມື້</string>
     <string name="dc_proxy_dns_heading" translatable="true">ບໍ່ຕ້ອງເຮັດ proxy ໃຫ້ DNS</string>
@@ -739,8 +739,8 @@
     <string name="settings_local_blocklist_in_use" translatable="true">ກຳລັງໃຊ້ບັນຊີບລັອກ %1$s ລາຍການ</string>
     <string name="settings_local_blocklist_dialog_positive" translatable="true">ດາວໂຫຼດ</string>
     <string name="settings_local_blocklist_version" translatable="true">ເວີຊັນ: v%1$s</string>
-    <string name="accessibility_notification_content" translatable="true">ບໍລິການການເຂົ້າເຖິງຂອງ Rethink ຢຸດເຮັດວຽກ ຫຼື ຂັດຂ້ອງແລ້ວ. ຈະບໍ່ບລັອກແອັບໃນພື້ນຫຼັງອີກຕໍ່ໄປ. ແຕະເພື່ອເປີດໃຊ້ອີກຄັ້ງ.</string>
-    <string name="accessibility_failure_toast" translatable="true">ບໍລິການການເຂົ້າເຖິງຂອງ Rethink ຢຸດເຮັດວຽກ ຫຼື ຂັດຂ້ອງແລ້ວ. ຈະບໍ່ບລັອກແອັບໃນພື້ນຫຼັງອີກຕໍ່ໄປ.</string>
+    <string name="accessibility_notification_content" translatable="true">ບໍລິການການເຂົ້າເຖິງຂອງ 白い熊 考直 ຢຸດເຮັດວຽກ ຫຼື ຂັດຂ້ອງແລ້ວ. ຈະບໍ່ບລັອກແອັບໃນພື້ນຫຼັງອີກຕໍ່ໄປ. ແຕະເພື່ອເປີດໃຊ້ອີກຄັ້ງ.</string>
+    <string name="accessibility_failure_toast" translatable="true">ບໍລິການການເຂົ້າເຖິງຂອງ 白い熊 考直 ຢຸດເຮັດວຽກ ຫຼື ຂັດຂ້ອງແລ້ວ. ຈະບໍ່ບລັອກແອັບໃນພື້ນຫຼັງອີກຕໍ່ໄປ.</string>
     <string name="coming_soon_toast" translatable="true">ໄວໆນີ້</string>
     <string name="toast_allow_bypass_disabled" translatable="true">%1$s ຖືກປິດໃຊ້ງານເນື່ອງຈາກພຣັອກຊີກຳລັງເຮັດວຽກ</string>
     <string name="pause_text" translatable="true">ຢຸດໄວ້ຊົ່ວຄາວ</string>
@@ -818,8 +818,8 @@
     <string name="firewall_rule_lockdown_wg_desc" translatable="true"><![CDATA[ການເຊື່ອມຕໍ່ນີ້ຖືກບລັອກເນື່ອງຈາກ WireGuard ຢູ່ໃນໂໝດ <i>ລັອກດາວ</i>.<br><br> ເພື່ອປ່ຽນແປງ ໃຫ້ໄປທີ່ໜ້າຈໍ <i>WireGuard</i>.]]></string>
     <string name="firewall_rule_proxy_error_desc" translatable="true"><![CDATA[ການເຊື່ອມຕໍ່ນີ້ຖືກບລັອກເນື່ອງຈາກ <i>ພຣັອກຊີ</i> ທີ່ເລືອກສຳລັບແອັບບໍ່ໄດ້ຖືກເລືອກໄວ້.<br><br> ເພື່ອປ່ຽນແປງ ໃຫ້ໄປທີ່ <i>ພຣັອກຊີ</i> ຈາກໜ້າຈໍ <i>ຕັ້ງຄ່າ</i>.]]></string>
     <string name="new_app_bulk_notification_title" translatable="true">ຂໍ້ຄວນລະວັງ</string>
-    <string name="new_app_bulk_notification_content" translatable="true">Rethink ໄດ້ບລັອກແອັບໃໝ່ %1$s ແອັບ. ແຕະເພື່ອເບິ່ງ ຫຼື ແກ້ໄຂ.</string>
-    <string name="new_app_notification_content" translatable="true">Rethink ໄດ້ບລັອກແອັບທີ່ຫາກໍຕິດຕັ້ງ, %1$s.</string>
+    <string name="new_app_bulk_notification_content" translatable="true">白い熊 考直 ໄດ້ບລັອກແອັບໃໝ່ %1$s ແອັບ. ແຕະເພື່ອເບິ່ງ ຫຼື ແກ້ໄຂ.</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直 ໄດ້ບລັອກແອັບທີ່ຫາກໍຕິດຕັ້ງ, %1$s.</string>
     <string name="new_app_notification_action_deny" translatable="true">ບລັອກຕໍ່ໄປ</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">ອະນຸຍາດການເຊື່ອມຕໍ່ເຄືອຂ່າຍສຳລັບແອັບແລ້ວ</string>
     <string name="new_app_notification_action_toast_deny" translatable="true">ປະຕິເສດການເຊື່ອມຕໍ່ເຄືອຂ່າຍສຳລັບແອັບແລ້ວ</string>
@@ -833,8 +833,8 @@
     <string name="notif_channel_firewall_alerts" translatable="true">ການແຈ້ງເຕືອນໄຟວໍ</string>
     <string name="notif_channel_proxy_failure" translatable="true">ການແຈ້ງເຕືອນພຣັອກຊີ</string>
     <string name="notif_channel_download" translatable="true">ການແຈ້ງເຕືອນການດາວໂຫຼດ</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">ແຈ້ງບອກເມື່ອ Rethink ເຮັດວຽກ ແລະ ແລ່ນຢູ່ໃນພື້ນຫຼັງ</string>
-    <string name="notif_channel_desc_vpn_failure" translatable="true">ແຈ້ງບອກເມື່ອ Rethink ຖືກຢຸດໂດຍ Android ຫຼື ໂດຍແອັບ VPN ອື່ນ</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">ແຈ້ງບອກເມື່ອ 白い熊 考直 ເຮັດວຽກ ແລະ ແລ່ນຢູ່ໃນພື້ນຫຼັງ</string>
+    <string name="notif_channel_desc_vpn_failure" translatable="true">ແຈ້ງບອກເມື່ອ 白い熊 考直 ຖືກຢຸດໂດຍ Android ຫຼື ໂດຍແອັບ VPN ອື່ນ</string>
     <string name="notif_channel_desc_firewall_alerts" translatable="true">ແຈ້ງເຕືອນເມື່ອມີຂໍ້ຜິດພາດ ແລະ ຄວາມຜິດປົກກະຕິຂອງໄຟວໍ</string>
     <string name="notif_channel_desc_proxy_failure" translatable="true">ແຈ້ງເຕືອນເມື່ອມີຂໍ້ຜິດພາດ ແລະ ຄວາມຜິດປົກກະຕິຂອງພຣັອກຊີ</string>
     <string name="notif_channed_desc_download" translatable="true">ແຈ້ງເຕືອນຄວາມຄືບໜ້າການດາວໂຫຼດສຳລັບບັນຊີບລັອກໃນອຸປະກອນ</string>
@@ -997,7 +997,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">IP ທີ່ຕິດຕໍ່ຫຼາຍທີ່ສຸດ</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">IP ທີ່ຖືກບລັອກຫຼາຍທີ່ສຸດ</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">ປະເທດທີ່ຖືກບລັອກຫຼາຍທີ່ສຸດ</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">ເລີ່ມ Rethink ເພື່ອສືບຕໍ່</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">ເລີ່ມ 白い熊 考直 ເພື່ອສືບຕໍ່</string>
     <string name="ssv_see_more" translatable="true">ສະແດງທັງໝົດ</string>
     <string name="ssv_insights_no_active_conns" description="Shown in the insights view when there are no active connections." translatable="true">ບໍ່ມີການເຊື່ອມຕໍ່ທີ່ເຄື່ອນໄຫວ</string>
     <string name="ssv_insights_no_data" description="Shown in the insights view when a stats section has no data for the selected period." translatable="true">ຍັງບໍ່ມີຂໍ້ມູນ</string>
@@ -1139,23 +1139,23 @@
     <string name="wg_setting_use_on_mobile_desc" translatable="true">ໃຊ້ WireGuard VPN ນີ້ຜ່ານອິນເຕີເນັດມືຖື.</string>
     <string name="hop_add_remove_title" translatable="true">ເພີ່ມ / ລຶບ ການສົ່ງຕໍ່ (Relay)</string>
     <string name="about_terms_of_service" translatable="true">ເງື່ອນໄຂການໃຫ້ບໍລິການ</string>
-    <string name="bypasses_network_restrictions" translatable="true">ການກວດສອບການເຂົ້າເຖິງຈະຂ້າມທຸກຂໍ້ຈຳກັດຂອງເຄືອຂ່າຍ. ໃນໂໝດ <i>ອັດຕະໂນມັດ</i>, Rethink ຈະສຸ່ມໃຊ້ IP ແລະ ຊື່ໂຮສທີ່ເຄີຍເຊື່ອມຕໍ່ກ່ອນໜ້ານີ້.</string>
+    <string name="bypasses_network_restrictions" translatable="true">ການກວດສອບການເຂົ້າເຖິງຈະຂ້າມທຸກຂໍ້ຈຳກັດຂອງເຄືອຂ່າຍ. ໃນໂໝດ <i>ອັດຕະໂນມັດ</i>, 白い熊 考直 ຈະສຸ່ມໃຊ້ IP ແລະ ຊື່ໂຮສທີ່ເຄີຍເຊື່ອມຕໍ່ກ່ອນໜ້ານີ້.</string>
     <string name="most_contacted_asn" translatable="true">ຜູ້ໃຫ້ບໍລິການທີ່ຕິດຕໍ່ຫຼາຍທີ່ສຸດ</string>
     <string name="most_blocked_asn" translatable="true">ຜູ້ໃຫ້ບໍລິການທີ່ຖືກບລັອກຫຼາຍທີ່ສຸດ</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">ປ້ອນຊື່ແພັກເກັດ (ຂັ້ນດ້ວຍເຄື່ອງໝາຍຈຸດ) ທີ່ອະນຸຍາດໃຫ້ເລີ່ມ ຫຼື ຢຸດ Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">ປ້ອນຊື່ແພັກເກັດ (ຂັ້ນດ້ວຍເຄື່ອງໝາຍຈຸດ) ທີ່ອະນຸຍາດໃຫ້ເລີ່ມ ຫຼື ຢຸດ 白い熊 考直.</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">ຄຳແນະນຳ:\n ຂໍ້ມູນພິເສດທີ່ຈຳເປັນໃນການປະກາດ (broadcast):\n • ຄີ: sender\n • ຄ່າ: ຊື່ແພັກເກັດຂອງແອັບທີ່ເອີ້ນ\n\n ຕົວຢ່າງ: key:sender value:com.termux\n\n ແອັກຊັນທີ່ຮອງຮັບ:\n • ເລີ່ມ VPN – com.celzero.bravedns.intent.action.VPN_START\n • ຢຸດ VPN – com.celzero.bravedns.intent.action.VPN_STOP</string>
     <string name="adv_tasker_dialog_edit_hint" translatable="true">ປ້ອນຊື່ແພັກເກັດ (ຕົວຢ່າງ: net.dinglisch.android.taskerm)</string>
     <string name="download_ip_info_title" translatable="true">ສະແດງຂໍ້ມູນຜູ້ໃຫ້ບໍລິການ</string>
     <string name="download_ip_info_desc" translatable="true">ດຶງລາຍລະອຽດຜູ້ໃຫ້ບໍລິການສຳລັບເວັບໄຊຈາກ <i>rethinkdns.com</i>, ຂັບເຄື່ອນໂດຍ <i>%1$s</i></string>
     <string name="adv_taster_title" translatable="true">ອັດຕະໂນມັດ</string>
-    <string name="adv_taster_desc" translatable="true">ຕັ້ງຄ່າແອັບທີ່ສາມາດເລີ່ມ ຫຼື ຢຸດ Rethink ໄດ້.</string>
+    <string name="adv_taster_desc" translatable="true">ຕັ້ງຄ່າແອັບທີ່ສາມາດເລີ່ມ ຫຼື ຢຸດ 白い熊 考直 ໄດ້.</string>
     <string name="top_active_conns" translatable="true">ການເຊື່ອມຕໍ່ທີ່ເຄື່ອນໄຫວສູງສຸດ</string>
     <string name="load_more" translatable="true">ໂຫຼດທັງໝົດ</string>
     <string name="close_conns_dialog_title" translatable="true">ປິດການເຊື່ອມຕໍ່</string>
     <string name="close_conns_dialog_desc" translatable="true">ປິດການເຊື່ອມຕໍ່ທັງໝົດສຳລັບ %1$s ບໍ?</string>
     <string name="local_blocklist_delete_desc" translatable="true">ລຶບລາຍຊື່ບລັອກໃນອຸປະກອນບໍ?</string>
     <string name="fail_open_network_title" translatable="true">ຢຸດສະງັກເມື່ອເຄືອຂ່າຍຫຼຸດ</string>
-    <string name="fail_open_network_desc" translatable="true">ເມື່ອເປີດໃຊ້, Rethink ຈະຢຸດຂໍ້ມູນທັງໝົດເມື່ອບໍ່ມີການເຊື່ອມຕໍ່, ເຊັ່ນໃນ <i>ໂໝດເຄື່ອງບິນ (Airplane Mode)</i>.</string>
+    <string name="fail_open_network_desc" translatable="true">ເມື່ອເປີດໃຊ້, 白い熊 考直 ຈະຢຸດຂໍ້ມູນທັງໝົດເມື່ອບໍ່ມີການເຊື່ອມຕໍ່, ເຊັ່ນໃນ <i>ໂໝດເຄື່ອງບິນ (Airplane Mode)</i>.</string>
     <string name="about_license" translatable="true">ອະນຸຍາດພາຍໃຕ້ Apache-2.0</string>
     <string name="close_all" translatable="true">ປິດທັງໝົດ</string>
     <string name="smart_dns" translatable="true">Smart DNS</string>
@@ -1177,14 +1177,14 @@
     <string name="copied_clipboard" translatable="true">ສຳເນົາແລ້ວ</string>
     <string name="wg_setting_ssid_title" translatable="true">Wi‑Fi ເທົ່ານັ້ນ</string>
     <string name="wg_setting_ssid_desc" translatable="true">ເປີດໃຊ້ WireGuard VPN ນີ້ສະເພາະເມື່ອເຊື່ອມຕໍ່ Wi-Fi ຫຼື ໜຶ່ງໃນຊື່ Wi-Fi ທີ່ລະບຸໄວ້ (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">Rethink ຕ້ອງການສິດເຂົ້າເຖິງສະຖານທີ່ເພື່ອເຂົ້າເຖິງຊື່ Wi‑Fi (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">白い熊 考直 ຕ້ອງການສິດເຂົ້າເຖິງສະຖານທີ່ເພື່ອເຂົ້າເຖິງຊື່ Wi‑Fi (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">ເພື່ອເຂົ້າເຖິງຊື່ Wi‑Fi (%1$s), ໃຫ້ເປີດບໍລິການສະຖານທີ່ (Location Services).</string>
     <string name="ssid_location_error" translatable="true">ເປີດບໍລິການສະຖານທີ່</string>
     <string name="ssid_permission_error_action" translatable="true">ອະນຸຍາດສິດ</string>
     <string name="ssid_location_error_action" translatable="true">ເປີດສະຖານທີ່</string>
     <string name="wg_ssid_and_mobile_err" translatable="true">ບໍ່ສາມາດໃຊ້ທັງ %1$s ແລະ %2$s ໄດ້</string>
     <string name="location_disclosure_title" translatable="true">ສິດອະນຸຍາດສະຖານທີ່ສຳລັບຄຸນສົມບັດ Wi-Fi</string>
-    <string name="location_disclosure_message" translatable="true">Rethink ຖືວ່າຂໍ້ມູນເຄືອຂ່າຍ Wi-Fi (SSID/BSSID) ເປັນຂໍ້ມູນສະຖານທີ່. ສະຖານທີ່ໃນພື້ນຫຼັງຊ່ວຍໃຫ້ແອັບນຳໃຊ້ລະບົບອັດຕະໂນມັດຂອງພຣັອກຊີເມື່ອ Wi-Fi ຂອງທ່ານປ່ຽນແປງ, ເຖິງແມ່ນວ່າແອັບຈະບໍ່ໄດ້ເປີດຢູ່ກໍຕາມ. Rethink ບໍ່ໄດ້ເກັບກຳ, ຈັດເກັບ ຫຼື ແບ່ງປັນສະຖານທີ່ GPS ຕົວຈິງຂອງທ່ານ.</string>
+    <string name="location_disclosure_message" translatable="true">白い熊 考直 ຖືວ່າຂໍ້ມູນເຄືອຂ່າຍ Wi-Fi (SSID/BSSID) ເປັນຂໍ້ມູນສະຖານທີ່. ສະຖານທີ່ໃນພື້ນຫຼັງຊ່ວຍໃຫ້ແອັບນຳໃຊ້ລະບົບອັດຕະໂນມັດຂອງພຣັອກຊີເມື່ອ Wi-Fi ຂອງທ່ານປ່ຽນແປງ, ເຖິງແມ່ນວ່າແອັບຈະບໍ່ໄດ້ເປີດຢູ່ກໍຕາມ. 白い熊 考直 ບໍ່ໄດ້ເກັບກຳ, ຈັດເກັບ ຫຼື ແບ່ງປັນສະຖານທີ່ GPS ຕົວຈິງຂອງທ່ານ.</string>
     <string name="location_disclosure_positive" translatable="true">ສືບຕໍ່</string>
     <string name="location_disclosure_negative" translatable="true">ບໍ່ແມ່ນຕອນນີ້</string>
     <string name="wg_ssid_dialog_description" translatable="true">%1$s WireGuard VPN ນີ້ເມື່ອຊື່ Wi-Fi <i>ທີ່ກຳລັງໃຊ້ງານ</i> (%2$s) %3$s.</string>
@@ -1200,12 +1200,12 @@
     <string name="settings_locale_dialog_default" translatable="true">ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ</string>
     <string name="settings_allow_incoming_wg_packets" translatable="true">WireGuard P2P</string>
     <string name="settings_allow_incoming_wg_packets_desc" translatable="true">ເມື່ອເປີດໃຊ້ງານ, ຈະອະນຸຍາດໃຫ້ມີການເຊື່ອມຕໍ່ຂາເຂົ້າທີ່ເລີ່ມໂດຍເພື່ອນຮ່ວມ WireGuard.</string>
-    <string name="lockdown_download_message" translatable="true"><i>ຕົວຈັດການການດາວໂຫລດ</i> ທີ່ຕິດມາກັບ Android ອາດຈະລົ້ມເຫລວເນື່ອງຈາກ VPN ຢູ່ໃນໂໝດ <i>ລັອກດາວ</i>. ເປີດໃຊ້ງານຕົວດາວໂຫລດຂອງ Rethink ແທນບໍ່?</string>
+    <string name="lockdown_download_message" translatable="true"><i>ຕົວຈັດການການດາວໂຫລດ</i> ທີ່ຕິດມາກັບ Android ອາດຈະລົ້ມເຫລວເນື່ອງຈາກ VPN ຢູ່ໃນໂໝດ <i>ລັອກດາວ</i>. ເປີດໃຊ້ງານຕົວດາວໂຫລດຂອງ 白い熊 考直 ແທນບໍ່?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">ເປີດໃຊ້ງານຕົວດາວໂຫລດ</string>
     <string name="settings_jumbo_packets" translatable="true">ຕົວຊ່ວຍເພີ່ມແບນວິດ</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">ໃຊ້ <i>ແພັກເກັດຈຳໂບ້ (jumbo packets)</i> ພາຍໃນອຸໂມງ VPN ຂອງ Rethink.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">ໃຊ້ <i>ແພັກເກັດຈຳໂບ້ (jumbo packets)</i> ພາຍໃນອຸໂມງ VPN ຂອງ 白い熊 考直.</string>
     <string name="settings_tunnel_metered" translatable="true">ວັດແທກປະລິມານຂໍ້ມູນສະເໝີ</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">ໝາຍອຸໂມງ VPN ຂອງ Rethink ວ່າເປັນແບບວັດແທກປະລິມານຂໍ້ມູນ ເພື່ອກະຕຸ້ນໃຫ້ແອັບໃຊ້ຂໍ້ມູນໜ້ອຍລົງ. ຄຳເຕືອນ: ສິ່ງນີ້ອາດເຮັດໃຫ້ແອັບຢຸດການອັບໂຫລດ ແລະ ດາວໂຫລດຂະໜາດໃຫຍ່, ເຊັ່ນ ການສຳຮອງຂໍ້ມູນ.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">ໝາຍອຸໂມງ VPN ຂອງ 白い熊 考直 ວ່າເປັນແບບວັດແທກປະລິມານຂໍ້ມູນ ເພື່ອກະຕຸ້ນໃຫ້ແອັບໃຊ້ຂໍ້ມູນໜ້ອຍລົງ. ຄຳເຕືອນ: ສິ່ງນີ້ອາດເຮັດໃຫ້ແອັບຢຸດການອັບໂຫລດ ແລະ ດາວໂຫລດຂະໜາດໃຫຍ່, ເຊັ່ນ ການສຳຮອງຂໍ້ມູນ.</string>
     <string name="stability_program_toast" translatable="true">ເຂົ້າຮ່ວມ <i>ໂຄງການຄວາມສະຖຽນ</i> ສຳລັບ <i>ຄຸນສົມບັດທົດລອງ</i> ແລ້ວ.</string>
     <string name="stability_program_snackbar_msg" translatable="true">ເປີດໃຊ້ງານໂຄງການຄວາມສະຖຽນແລ້ວ</string>
     <string name="stability_program_snackbar_disable" translatable="true">ຍົກເລີກ</string>
@@ -1233,7 +1233,7 @@
     <string name="sponsor_continue" translatable="true">ສືບຕໍ່</string>
     <string name="download_err_network" translatable="true">ມີບັນຫາການເຊື່ອມຕໍ່ເຄືອຂ່າຍ. ກະລຸນາກວດສອບອິນເຕີເນັດຂອງທ່ານແລ້ວລອງໃໝ່ອີກຄັ້ງ.</string>
     <string name="download_err_storage" translatable="true">ພື້ນທີ່ບໍ່ພຽງພໍ ຫຼື ບ່ອນເກັບຂໍ້ມູນຜິດພາດ. ກະລຸນາກວດສອບບ່ອນເກັບຂໍ້ມູນໃນອຸປະກອນຂອງທ່ານ.</string>
-    <string name="download_err_system_manager" translatable="true">Android Download Manager ພົບຂໍ້ຜິດພາດ. ລອງປ່ຽນໄປໃຊ້ຕົວດາວໂຫຼດຂອງ Rethink.</string>
+    <string name="download_err_system_manager" translatable="true">Android Download Manager ພົບຂໍ້ຜິດພາດ. ລອງປ່ຽນໄປໃຊ້ຕົວດາວໂຫຼດຂອງ 白い熊 考直.</string>
     <string name="download_err_validation" translatable="true">ບໍ່ສາມາດຢືນຢັນ ຫຼື ປະມວນຜົນລາຍຊື່ບລັອກໄດ້. ໄຟລ໌ອາດຈະເສຍຫາຍ.</string>
     <string name="download_err_internal" translatable="true">ເກີດຂໍ້ຜິດພາດພາຍໃນລະບົບ. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ.</string>
     <string name="download_err_flavor_not_supported" translatable="true">ລາຍຊື່ບລັອກພາຍໃນເຄື່ອງບໍ່ຮອງຮັບສຳລັບຮູບແບບນີ້.</string>
@@ -1259,6 +1259,6 @@
     <string name="rpn_stats_top_apps" translatable="true">ແອັບຍອດນິຍົມ · 24 ຊມ. ລ່າສຸດ</string>
     <string name="rpn_stats_view_logs" translatable="true">ເບິ່ງບັນທຶກການເຊື່ອມຕໍ່</string>
     <string name="rpn_stats_empty" translatable="true">ບໍ່ມີການເຊື່ອມຕໍ່ຜ່ານເຊີບເວີທີ່ເລືອກໃນ 24 ຊົ່ວໂມງທີ່ຜ່ານມາ.</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">ເລີ່ມ Rethink ເພື່ອເບິ່ງສະຖິຕິພຣັອກຊີ</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">ເລີ່ມ 白い熊 考直 ເພື່ອເບິ່ງສະຖິຕິພຣັອກຊີ</string>
     <string name="rpn_stats_conn_count" translatable="true">ການເຊື່ອມຕໍ່ %1$s</string>
 </resources>

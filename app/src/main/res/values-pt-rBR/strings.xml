@@ -1135,7 +1135,7 @@
     <string name="ctbs_app_notes_save_failed" translatable="true">Falha ao salvar as notas</string>
     <string name="settings_log_lifespan_heading" translatable="true">Vida útil do registro</string>
     <string name="settings_log_lifespan_desc_default" translatable="true">7 dias (padrão)</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">Você está prestes a alterar as regras do firewall para o Rethink. Como o Rethink gerencia o túnel VPN, permitir, bloquear ou isolar seu próprio tráfego pode interromper o acesso à rede de forma geral.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">Você está prestes a alterar as regras do firewall para o 白い熊 考直. Como o 白い熊 考直 gerencia o túnel VPN, permitir, bloquear ou isolar seu próprio tráfego pode interromper o acesso à rede de forma geral.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">Eu entendo</string>
     <string name="rethink_home_screen_warning" translatable="true">Pode afetar a conectividade ⚠️</string>
     <string name="settings_log_lifespan_dialog_option_0" translatable="true">1 hora</string>
@@ -1198,10 +1198,10 @@
     <string name="wg_setting_use_on_mobile" translatable="true">Somente para dispositivos móveis</string>
     <string name="wg_setting_use_on_mobile_desc" translatable="true">Use esta VPN WireGuard em redes móveis.</string>
     <string name="hop_add_remove_title" translatable="true">Adicionar / Remover Relé</string>
-    <string name="bypasses_network_restrictions" translatable="true">As verificações de acessibilidade contornam todas as restrições de rede. No modo *Auto*, o Rethink utiliza aleatoriamente endereços IP e nomes de host conectados anteriormente.</string>
+    <string name="bypasses_network_restrictions" translatable="true">As verificações de acessibilidade contornam todas as restrições de rede. No modo *Auto*, o 白い熊 考直 utiliza aleatoriamente endereços IP e nomes de host conectados anteriormente.</string>
     <string name="most_contacted_asn" translatable="true">Fornecedores mais contatados</string>
     <string name="most_blocked_asn" translatable="true">Provedores mais bloqueados</string>
-    <string name="adv_tasker_dialog_msg" translatable="true">‘Insira os nomes dos pacotes (separados por vírgula) com permissão para iniciar ou parar o Rethink.</string>
+    <string name="adv_tasker_dialog_msg" translatable="true">‘Insira os nomes dos pacotes (separados por vírgula) com permissão para iniciar ou parar o 白い熊 考直.</string>
     <string name="adv_tasker_dialog_instructions" translatable="true">Instruções: Parâmetros extras obrigatórios na transmissão (broadcast): • Chave: sender • Valor: O nome do pacote do aplicativo que realiza a chamada Exemplo: chave:sender valor:com.termux Ações suportadas: • Iniciar VPN – com.celzero.bravedns.intent.action.VPN_START • Parar VPN – com.celzero.bravedns.intent.action.VPN_STOP</string>
     <string name="download_ip_info_desc" translatable="true">Busca detalhes do provedor de serviços para sites a partir de <i>rethinkdns.com</i>, com tecnologia de <i>%1$s</i></string>
     <string name="vpn_policy_sensitive" translatable="true">Confidencial</string>
@@ -1217,13 +1217,13 @@
     <string name="copied_clipboard" translatable="true">Copiado(a)</string>
     <string name="wg_setting_ssid_title" translatable="true">Apenas Wi-Fi</string>
     <string name="wg_setting_ssid_desc" translatable="true">Ative esta VPN WireGuard apenas quando estiver conectado ao Wi-Fi ou a um dos identificadores de Wi-Fi especificados (%1$s).</string>
-    <string name="ssid_permission_explanation" translatable="true">O Rethink precisa de permissão de localização para acessar identificadores de Wi-Fi (%1$s).</string>
+    <string name="ssid_permission_explanation" translatable="true">O 白い熊 考直 precisa de permissão de localização para acessar identificadores de Wi-Fi (%1$s).</string>
     <string name="location_enable_explanation" translatable="true">Para acessar identificadores de Wi-Fi (%1$s), ative os Serviços de Localização.</string>
     <string name="ssid_location_error" translatable="true">Ativar serviços de localização</string>
     <string name="ssid_permission_error_action" translatable="true">Conceder permissão</string>
     <string name="wg_ssid_and_mobile_err" translatable="true">Não é possível usar %1$s e %2$s simultaneamente.</string>
     <string name="location_disclosure_title" translatable="true">Permissão de localização para recursos de Wi-Fi</string>
-    <string name="location_disclosure_message" translatable="true">O Rethink trata as informações da rede Wi-Fi (SSID/BSSID) como dados de localização. A localização em segundo plano permite que o aplicativo aplique automaticamente a automação de Proxy quando a rede Wi-Fi muda, mesmo que o aplicativo não esteja aberto. O Rethink NÃO coleta, armazena nem compartilha sua localização física via GPS.</string>
+    <string name="location_disclosure_message" translatable="true">O 白い熊 考直 trata as informações da rede Wi-Fi (SSID/BSSID) como dados de localização. A localização em segundo plano permite que o aplicativo aplique automaticamente a automação de Proxy quando a rede Wi-Fi muda, mesmo que o aplicativo não esteja aberto. O 白い熊 考直 NÃO coleta, armazena nem compartilha sua localização física via GPS.</string>
     <string name="location_disclosure_positive" translatable="true">Continuar</string>
     <string name="location_disclosure_negative" translatable="true">Agora não</string>
     <string name="wg_ssid_dialog_description" translatable="true">%1$s esta VPN WireGuard quando o identificador de Wi-Fi <i>ativo</i> (%2$s) %3$s.</string>
@@ -1234,9 +1234,9 @@
     <string name="settings_firebase_error_reporting_heading" translatable="true">Programa de estabilidade</string>
     <string name="tombstone_app_title" translatable="true">Lembrar de aplicativos desinstalados</string>
     <string name="settings_locale_dialog_default" translatable="true">Padrão do sistema</string>
-    <string name="lockdown_download_message" translatable="true">O *Gerenciador de Downloads* nativo do Android pode falhar quando a VPN está no modo *Lockdown*. Deseja ativar o downloader do Rethink em vez dele?</string>
+    <string name="lockdown_download_message" translatable="true">O *Gerenciador de Downloads* nativo do Android pode falhar quando a VPN está no modo *Lockdown*. Deseja ativar o downloader do 白い熊 考直 em vez dele?</string>
     <string name="lockdown_download_enable_inapp" translatable="true">Ativar downloader</string>
-    <string name="settings_jumbo_packets_desc" translatable="true">Utiliza *jumbo packets* dentro do túnel VPN do Rethink.</string>
+    <string name="settings_jumbo_packets_desc" translatable="true">Utiliza *jumbo packets* dentro do túnel VPN do 白い熊 考直.</string>
     <string name="settings_tunnel_metered" translatable="true">Sempre medido</string>
-    <string name="settings_tunnel_metered_desc" translatable="true">Marque o túnel VPN do Rethink como conexão limitada para incentivar os aplicativos a usar menos dados. Atenção: isso pode fazer com que os aplicativos pausem uploads e downloads grandes, como backups.</string>
+    <string name="settings_tunnel_metered_desc" translatable="true">Marque o túnel VPN do 白い熊 考直 como conexão limitada para incentivar os aplicativos a usar menos dados. Atenção: isso pode fazer com que os aplicativos pausem uploads e downloads grandes, como backups.</string>
 </resources>

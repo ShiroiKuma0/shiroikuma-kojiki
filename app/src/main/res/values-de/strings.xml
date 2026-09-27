@@ -202,7 +202,7 @@
     <string name="exclude">Ausschließen</string>
     <string name="bsct_app_info">App-Informationen</string>
     <string name="settings_orbot_install_desc">Hier tippen, um Orbot zu installieren</string>
-    <string name="settings_socks5_vpn_disabled_error">Rethink starten, um fortzufahren.</string>
+    <string name="settings_socks5_vpn_disabled_error">白い熊 考直 starten, um fortzufahren.</string>
     <string name="orbot_app_issue">Orbot konnte nicht gestartet werden. Ist es installiert?</string>
     <string name="settings_general_header">Allgemein</string>
     <string name="settings_network_all_networks">Alle verfügbaren Netze nutzen</string>
@@ -479,7 +479,7 @@
     <string name="rsv_blocklist_count_text" description="This label will appear in rethink configure simple view screen which shows number of blocklists for each category">%1$s Blocklisten</string>
     <string name="brbs_backup_dialog_failure_message">Das Backup konnte nicht erstellt werden. Erneut versuchen?</string>
     <string name="ada_app_dns_settings">DNS-Einstellungen</string>
-    <string name="hsf_vpn_dialog_message">Rethink benötigt die Berechtigung, ein lokales VPN einzurichten, um die DNS-Anfragen des Geräts zu verschlüsseln, einen Netzwerkmonitor zu implementieren und Firewall-Regeln zu erzwingen.\n\nFür die WLAN-basierte Proxy-Automatisierung ist die Standortberechtigung erforderlich, um das verbundene WLAN-Netzwerk (SSID) zu identifizieren. Diese Berechtigung wird nur angefordert, wenn du die Funktion aktivierst.\n\nRethink sammelt keinerlei Informationen und spioniert dich in keiner Weise aus.</string>
+    <string name="hsf_vpn_dialog_message">白い熊 考直 benötigt die Berechtigung, ein lokales VPN einzurichten, um die DNS-Anfragen des Geräts zu verschlüsseln, einen Netzwerkmonitor zu implementieren und Firewall-Regeln zu erzwingen.\n\nFür die WLAN-basierte Proxy-Automatisierung ist die Standortberechtigung erforderlich, um das verbundene WLAN-Netzwerk (SSID) zu identifizieren. Diese Berechtigung wird nur angefordert, wenn du die Funktion aktivierst.\n\n白い熊 考直 sammelt keinerlei Informationen und spioniert dich in keiner Weise aus.</string>
     <string name="firewall_card_text_active">%1$s blockiert \n%2$s umgangen \n%3$s ausgeschlossen \n%4$s isoliert</string>
     <string name="firewall_card_text_inactive">Firewall-Modus aktivieren.</string>
     <string name="dns_card_latency_active">%1$s ms</string>
@@ -561,7 +561,7 @@
     <string name="dc_dns_website_heading">Website-Icon in DNS-Logs anzeigen</string>
     <string name="dc_dns_website_desc">Ruft Webseitensymbole von <i>nextdns.io</i> und <i>duckduckgo.com</i> ab. Verbraucht bis zu 350 MB Speicherplatz</string>
     <string name="dc_dns_leaks_heading">DNS-Lecks verhindern</string>
-    <string name="dc_dns_leaks_desc">Wenn aktiviert, fängt Rethink alle Pakete an Port 53 ab und leitet sie an den festgelegten DNS-Endpunkt weiter</string>
+    <string name="dc_dns_leaks_desc">Wenn aktiviert, fängt 白い熊 考直 alle Pakete an Port 53 ab und leitet sie an den festgelegten DNS-Endpunkt weiter</string>
     <string name="dc_check_update_desc">Alle <i>drei</i> Tage auf Aktualisierungen der Blocklisten prüfen</string>
     <string name="about_bug_no_log_dialog_title">Fehlerbericht</string>
     <string name="about_bug_no_log_dialog_message">Es konnten keine Absturzprotokolle abgerufen werden. Möchtest du den Fehler manuell melden?</string>
@@ -745,7 +745,7 @@
     <string name="copy_clipboard_label">URL</string>
     <string name="fapps_unmetered_block_dialog_title" translatable="true">Bei ungetaktet blockieren</string>
     <string name="fapps_info_metered_msg" translatable="true">Im getakteten (mobilen) Netz zulassen / blockieren.</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Rethink starten, um fortzufahren</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">白い熊 考直 starten, um fortzufahren</string>
     <string name="lbl_wildcard" translatable="true">Platzhalter</string>
     <string name="lbl_allowed" translatable="true">Erlaubt</string>
     <string name="lbl_blocked" translatable="true">Blockiert</string>
@@ -810,7 +810,7 @@
     <string name="lbl_maybe_blocked" translatable="true">Eventuell blockiert</string>
     <string name="lbl_network" translatable="true">Netzwerk</string>
     <string name="settings_allow_lan_heading" translatable="true">Private IPs nicht weiterleiten</string>
-    <string name="settings_allow_lan_desc" translatable="true">LAN, Loopback, Multicast und Link-Local-Routen von Rethinks VPN-Tunnel ausschließen.</string>
+    <string name="settings_allow_lan_desc" translatable="true">LAN, Loopback, Multicast und Link-Local-Routen von 白い熊 考直s VPN-Tunnel ausschließen.</string>
     <string name="lbl_import" translatable="true">Importieren</string>
     <string name="lbl_socks5" translatable="true">SOCKS5</string>
     <string name="lbl_http" translatable="true">HTTP</string>
@@ -1010,7 +1010,7 @@
     <string name="settings_theme_dialog_themes_5" translatable="true">Hell Plus</string>
     <string name="settings_biometric_dialog_option_0" translatable="true">Nie</string>
     <string name="settings_biometric_dialog_option_1" translatable="true">Sofort</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Du nutzt Rethink nun seit <b>%1$s Tagen</b>, was Nutzungskosten von ca. <b>$%2$s</b> entspricht. Möchtest du spenden, um die Entwicklung aufrechtzuerhalten?</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Du nutzt 白い熊 考直 nun seit <b>%1$s Tagen</b>, was Nutzungskosten von ca. <b>$%2$s</b> entspricht. Möchtest du spenden, um die Entwicklung aufrechtzuerhalten?</string>
     <string name="dc_use_sys_dns_undelegated_heading" translatable="true">DNS des Systems für undelegierte Domains nutzen</string>
     <string name="dc_use_sys_dns_undelegated_desc" translatable="true">DNS des Systems für undelegierte Domains wie <i>.lan</i>, <i>.internal</i> etc. nutzen</string>
     <string name="cd_split_dns_desc" translatable="true">DNS-Anfragen von geproxyten Apps zum DNS-Server des Proxys weiterleiten.</string>
@@ -1197,10 +1197,10 @@
     <string name="settings_log_lifespan_heading" translatable="true">Protokoll-Lebenszyklus</string>
     <string name="settings_log_lifespan_desc_default" translatable="true">7 Tage (Standard)</string>
     <string name="settings_rinr_btmsht_title" translatable="true">Loopback (experimentell)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">Im Loopback-Modus kann Rethink seinen eigenen Netzwerkverkehr umleiten. Das bedeutet, dass Rethink IP- und Domain-Regeln, allgemeine Firewall-Regeln sowie Proxy-Regeln auf den Datenverkehr von Rethink anwenden kann, als wäre es eine ganz normale App. Auch wenn der Loopback-Modus mehr Kontrolle bietet, ist das daraus resultierende Verhalten möglicherweise nicht immer wünschenswert.\n\n\nEs wird empfohlen, Rethink von Firewall-, DNS- und Proxy-Regeln auszunehmen. Dies hat keine Auswirkungen auf die Netzwerküberwachung oder -protokollierung, sondern betrifft lediglich die Regeln.\n\n\nIm Loopback-Modus wird „Proxy Lockdown“ vorerst nicht erzwungen.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">Rethink ausnehmen</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">Im Loopback-Modus kann 白い熊 考直 seinen eigenen Netzwerkverkehr umleiten. Das bedeutet, dass 白い熊 考直 IP- und Domain-Regeln, allgemeine Firewall-Regeln sowie Proxy-Regeln auf den Datenverkehr von 白い熊 考直 anwenden kann, als wäre es eine ganz normale App. Auch wenn der Loopback-Modus mehr Kontrolle bietet, ist das daraus resultierende Verhalten möglicherweise nicht immer wünschenswert.\n\n\nEs wird empfohlen, 白い熊 考直 von Firewall-, DNS- und Proxy-Regeln auszunehmen. Dies hat keine Auswirkungen auf die Netzwerküberwachung oder -protokollierung, sondern betrifft lediglich die Regeln.\n\n\nIm Loopback-Modus wird „Proxy Lockdown“ vorerst nicht erzwungen.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">白い熊 考直 ausnehmen</string>
     <string name="app_info_rethink_warning_title" translatable="true">Vorsicht</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">Du bist dabei, die Firewall-Regeln für Rethink zu ändern. Da Rethink den VPN-Tunnel verwaltet, kann das Zulassen, Blockieren oder Isolieren seines eigenen Datenverkehrs den Netzwerkzugang insgesamt unterbrechen.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">Du bist dabei, die Firewall-Regeln für 白い熊 考直 zu ändern. Da 白い熊 考直 den VPN-Tunnel verwaltet, kann das Zulassen, Blockieren oder Isolieren seines eigenen Datenverkehrs den Netzwerkzugang insgesamt unterbrechen.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">Ich verstehe</string>
     <string name="rethink_home_screen_warning" translatable="true">kann die Konnektivität beeinträchtigen ⚠️</string>
     <string name="settings_log_lifespan_dialog_option_0" translatable="true">1 Stunde</string>
@@ -1229,7 +1229,7 @@
     <string name="use_bootstrap_dns_to_bypass" translatable="true">Bootstrap-DNS als Umgehung verwenden</string>
     <string name="use_bootstrap_dns_to_bypass_desc" translatable="true">Wenn diese Option aktiviert ist, wird für umgangene Domains und IP-Adressen stets das Bootstrap-DNS verwendet.</string>
     <string name="location_disclosure_title" translatable="true">Standortzugriff für WLAN-Funktionen</string>
-    <string name="location_disclosure_message" translatable="true">Rethink behandelt WLAN-Netzwerkinformationen (SSID/BSSID) als Standortdaten. Dank der Standortbestimmung im Hintergrund kann die App die Proxy-Automatisierung automatisch anwenden, wenn sich dein WLAN ändert – auch wenn die App nicht geöffnet ist. Rethink erfasst, speichert oder gibt deinen physischen GPS-Standort NICHT weiter.</string>
+    <string name="location_disclosure_message" translatable="true">白い熊 考直 behandelt WLAN-Netzwerkinformationen (SSID/BSSID) als Standortdaten. Dank der Standortbestimmung im Hintergrund kann die App die Proxy-Automatisierung automatisch anwenden, wenn sich dein WLAN ändert – auch wenn die App nicht geöffnet ist. 白い熊 考直 erfasst, speichert oder gibt deinen physischen GPS-Standort NICHT weiter.</string>
     <string name="location_disclosure_positive" translatable="true">Weiter</string>
     <string name="location_disclosure_negative" translatable="true">Jetzt nicht</string>
     <string name="rpn_desc_one" translatable="true">Unbegrenzte Bandbreite • 100+ Städte</string>
@@ -1251,7 +1251,7 @@
     <string name="hsf_firewall_mode_off_indicator" translatable="true">Firewall · aus</string>
     <string name="hsf_proxy_off_indicator" translatable="true">Proxy inaktiv</string>
     <string name="logs_card_heatmap_window" translatable="true">Letzte 24 Stunden</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">Rethink kann nicht starten, während eine andere App als Always-on VPN mit \"Verbindungen ohne VPN blockieren\" (Lockdown) eingestellt ist. Bearbeite die VPN-Einstellungen, um fortzufahren.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">白い熊 考直 kann nicht starten, während eine andere App als Always-on VPN mit \"Verbindungen ohne VPN blockieren\" (Lockdown) eingestellt ist. Bearbeite die VPN-Einstellungen, um fortzufahren.</string>
     <string name="cd_doh_dialog_resolver_ip" translatable="true">Resolver IP Adresse (optional)</string>
     <string name="ci_dialog_error_invalid_cidr" translatable="true">Kein gültiger CIDR. IP-Bereiche (z.B. 1.1.1.1-55) und nicht ausgerichtete Platzhalter werden nicht unterstützt. Verwende CIDR-Notation wie 1.1.1.0/24.</string>
     <string name="notif_download_progress_content" translatable="true">Download in Bearbeitung… %1$d%%</string>
@@ -1266,7 +1266,7 @@
     <string name="cd_stats_country_map" description="Content description for the offline world map shown in the insights view." translatable="true">Weltkarte der am meisten kontaktierten Länder</string>
     <string name="download_err_network" translatable="true">Problem der Netzwerkverbindung. Bitte überprüfe dein Internet und versuche es erneut.</string>
     <string name="download_err_storage" translatable="true">Ungenügender Speicherplatz oder Speicherfehler. Bitte überprüfe deinen Gerätespeicher.</string>
-    <string name="download_err_system_manager" translatable="true">Android Download Manager ist auf einen Fehler gestoßen. Wechsle zum Rethink Downloader.</string>
+    <string name="download_err_system_manager" translatable="true">Android Download Manager ist auf einen Fehler gestoßen. Wechsle zum 白い熊 考直 Downloader.</string>
     <string name="download_err_validation" translatable="true">Die Blockliste konnte nicht verifiziert oder verarbeitet werden. Sie könnte fehlerhaft sein.</string>
     <string name="download_err_internal" translatable="true">Es ist ein interner Fehler aufgetreten. Bitte versuche es später noch einmal.</string>
     <string name="download_err_flavor_not_supported" translatable="true">Lokale Blockliste nicht für diesen Flavor verfügbar.</string>
@@ -1292,7 +1292,7 @@
     <string name="rpn_stats_top_apps" translatable="true">Top Apps · letzte 24h</string>
     <string name="rpn_stats_view_logs" translatable="true">Verbindungsprotokolle anzeigen</string>
     <string name="rpn_stats_empty" translatable="true">In den letzten 24 Stunden sind keine Verbindungen über die ausgewählten Server gegangen.</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">Rethink starten, um Proxy-Statistiken zu sehen</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">白い熊 考直 starten, um Proxy-Statistiken zu sehen</string>
     <string name="rpn_stats_conn_count" translatable="true">%1$s Verb</string>
     <string name="lbl_enable" translatable="true">Aktivieren</string>
     <string name="lbl_app_rules" translatable="true">App-Regeln</string>
