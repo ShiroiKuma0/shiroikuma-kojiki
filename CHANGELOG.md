@@ -1,6 +1,32 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.6`** upstream tag with its pinned firestack engine (`61894b7fdb`) plus the fork’s DoH idle-pool patch.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
+
+## 0.5.7+003
+
+**A new upstream release — and the screen it tried to shrink.**
+
+### The whole screen, back again
+Upstream v0.5.7 added a width cap aimed at tablets: on any window wider than 600dp it pins the app's content to 600dp and centres it. On a tri-fold that is not a tablet layout, it is a waste — unfolded, the phone is about 819dp wide, so every screen became a narrow column between wide black bars.
+
+There turned out to be two independent caps, which is why the first fix only half worked. One is in code (`BaseActivity` applies the 600dp cap to every activity); the other is in the home screen's own layout — a 720dp cap plus a centring gravity on the card grid, and a second 720dp cap on the STOP row, present in both the normal and the wide layout. The bottom navigation sits outside the scrolling area and was never capped, which is why it alone still reached the edges while everything above it stopped short.
+
+All of them are gone. Dialogs and bottom sheets keep their 600dp cap on purpose: a dialog narrower than the screen is ordinary, and the fork's bordered sheet already assumes an inset box.
+
+### Rebased onto v0.5.7
+Upstream moved its **entire Kotlin source set** this release — the `full` source set no longer exists and all 246 of its files now live under `main`, while the wide home-screen layout changed qualifier. Every fork feature was replayed onto the new layout; the home screen was rebuilt upstream as a constraint chain, so the Snooping card was re-placed by hand in both layouts.
+
+Two fork changes did not survive, deliberately. The tappable "Apps" card title is **dropped as obsolete**: upstream's redesign puts the click on the card itself and leaves the title an ordinary label, so it no longer swallows the tap. And upstream grew **its own app-list sort** (name, package, uid) with chips in the filter sheet — but the fork's sort is a superset, adding *data used* and a reversible direction, so the fork keeps its own and the new chips, which drove nothing, were removed rather than left as dead controls.
+
+Upstream also grew **its own per-app notes**, on the app detail screen. The fork's notes live on the list row and are untouched; the two coexist.
+
+### A third collision in the database
+Every upstream release that adds a database migration collides with the fork's, because both claim the same version number for different schemas — and this time upstream also **renumbered its own chain**, so the number that used to create one table now adds another. A device on the fork's lineage would have skipped upstream's new `notes` column entirely and crashed on open.
+
+The fork's migration now sits above upstream's whole chain and reconciles what either lineage may have missed — the notes column and its length triggers, and the two older reconciliations — so a phone upgrading from any earlier build, and a fresh install, converge on the same schema.
+
+### The engine, rebuilt on the new pin
+The engine is firestack `c4a33649be`, exactly the version upstream pins for v0.5.7, carrying both fork patches: the DoH idle-pool fix and the ALG stale-mapping recovery. Upstream still ships no HTTP/2 PING health-checks, so the DoH patch stays load-bearing. Verified in the shipped APK rather than assumed.
 
 ## 0.5.6+034
 
