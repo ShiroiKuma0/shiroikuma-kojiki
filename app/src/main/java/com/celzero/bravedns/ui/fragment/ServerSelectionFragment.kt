@@ -107,7 +107,7 @@ import com.celzero.bravedns.viewmodel.ServerSelectionViewModel
 import com.celzero.firestack.backend.Backend
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -2166,7 +2166,7 @@ class ServerSelectionFragment : Fragment(R.layout.fragment_server_selection),
     /** Confirmation dialog shown when AUTO automation (mobileOnly/ssidBased) is active. */
     private fun showRelayAutomationDialog(onProceed: () -> Unit) {
         if (!isAdded || isStateSaved) return
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.qs_relay_automation_dialog_title))
             .setMessage(getString(R.string.qs_relay_automation_dialog_message))
             .setPositiveButton(getString(R.string.lbl_proceed)) { _, _ -> onProceed() }
@@ -3196,7 +3196,7 @@ class ServerSelectionFragment : Fragment(R.layout.fragment_server_selection),
         )
         container.addView(favChip)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val dialog = KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.server_selection_filter_locations))
             .setView(container)
             .setPositiveButton(getString(R.string.lbl_apply)) { _, _ ->

@@ -277,7 +277,7 @@ class DnsProxyEndpointAdapter(
                     ?: endpoint.proxyAppName
                     ?: context.getString(R.string.cd_custom_dns_proxy_default_app)
             uiCtx {
-                MaterialAlertDialogBuilder(context)
+                KojikiAlertDialogBuilder(context)
                     .setTitle(R.string.lockdown_check_dialog_title)
                     .setMessage(
                         context.getString(R.string.dns_proxy_lockdown_conflict_message, appName)

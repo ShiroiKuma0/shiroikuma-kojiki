@@ -239,7 +239,7 @@ class DohEndpointAdapter(private val context: Context, private val appConfig: Ap
         }
 
         private fun showDohMetadataDialog(title: String, url: String, ips: String?, message: String?) {
-            val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             builder.setTitle(title)
             val msg = url + if (!ips.isNullOrEmpty()) "\n\n$ips" else "" + "\n\n" + getDnsDesc(message)
             builder.setMessage(msg)

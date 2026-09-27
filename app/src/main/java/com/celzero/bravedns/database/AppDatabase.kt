@@ -1599,6 +1599,20 @@ abstract class AppDatabase : RoomDatabase() {
         private val MIGRATION_35_36: Migration =
             object : Migration(35, 36) {
                 override fun migrate(db: SupportSQLiteDatabase) {
+                    // Fork (白い熊 考直): the SAME collision, two versions up — and the one that
+                    // bites on the v0.5.7 base. A DB on the FORK lineage is stamped "32" by our own
+                    // former 31→32 (SnoopEvent), whereas upstream stamps 32 after ITS 31→32, which
+                    // adds AppInfo.notes and installs the notes length triggers (its 30→31 adds the
+                    // column too). Room therefore skips BOTH on a fork DB and open dies with
+                    // "Migration didn't properly handle: AppInfo ... Expected ... notes". Add the
+                    // column and the triggers idempotently here so both lineages converge at 36.
+                    try {
+                        db.execSQL("ALTER TABLE AppInfo ADD COLUMN notes TEXT NOT NULL DEFAULT ''")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: added AppInfo.notes (fork-32 reconcile)")
+                    } catch (e: Exception) {
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: AppInfo.notes already present, ignore")
+                    }
+                    createAppInfoNotesLengthTriggers(db)
                     // Fork (白い熊 考直): reconcile WgConfigFiles for DBs created by an EARLIER fork
                     // build. On the v0.5.5u base our SnoopEvent migration was numbered 26→27, which
                     // collides with upstream's own 26→27 (it rebuilt WgConfigFiles + added modifiedTs).
@@ -1608,9 +1622,9 @@ abstract class AppDatabase : RoomDatabase() {
                     // and the ALTER simply throws and is ignored.
                     try {
                         db.execSQL("ALTER TABLE WgConfigFiles ADD COLUMN modifiedTs INTEGER NOT NULL DEFAULT 0")
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
                     } catch (e: Exception) {
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: WgConfigFiles.modifiedTs already present, ignore")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: WgConfigFiles.modifiedTs already present, ignore")
                     }
                     // Fork (白い熊 考直): the SAME collision, one version up. "31" means two different
                     // schemas: an earlier fork build stamped 31 after ITS 30→31 created SnoopEvent,
@@ -1633,7 +1647,7 @@ abstract class AppDatabase : RoomDatabase() {
                         )
                         """.trimIndent()
                     )
-                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_31_32: ensured Sponsor table (fork-31 reconcile)")
+                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: ensured Sponsor table (fork-31 reconcile)")
                     db.execSQL(
                         """
                         CREATE TABLE IF NOT EXISTS `SnoopEvent` (

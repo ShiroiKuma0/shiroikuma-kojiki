@@ -75,7 +75,7 @@ import com.celzero.firestack.backend.Backend
 import com.celzero.firestack.backend.IPMetadata
 import com.celzero.firestack.backend.RouterStats
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -1018,7 +1018,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
                     }
                     // Revert the checkbox first; re-applied on proceed.
                     setHopCheckSilently(false)
-                    MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+                    KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
                         .setTitle(getString(R.string.qs_relay_automation_dialog_title))
                         .setMessage(getString(R.string.qs_relay_automation_dialog_message))
                         .setPositiveButton(getString(R.string.lbl_proceed)) { _, _ -> applyHop(true) }
@@ -1089,7 +1089,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
                     }
                     // Revert the checkbox first; re-applied on proceed.
                     setMobileCheckSilently(false)
-                    MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+                    KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
                         .setTitle(getString(R.string.qs_relay_automation_dialog_title))
                         .setMessage(getString(R.string.qs_relay_automation_dialog_message))
                         .setPositiveButton(getString(R.string.lbl_proceed)) { _, _ -> applyMobileOnly(true) }
@@ -1528,7 +1528,7 @@ class RpnConfigDetailActivity : BaseActivity(R.layout.activity_rpn_config_detail
                     }
                     // Revert the switch first; re-applied on proceed.
                     setSsidCheckSilently(false)
-                    MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+                    KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
                         .setTitle(getString(R.string.qs_relay_automation_dialog_title))
                         .setMessage(getString(R.string.qs_relay_automation_dialog_message))
                         .setPositiveButton(getString(R.string.lbl_proceed)) { _, _ -> persistSsid(true) }

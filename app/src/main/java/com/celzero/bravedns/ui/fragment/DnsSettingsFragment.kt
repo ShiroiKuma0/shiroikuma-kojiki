@@ -684,7 +684,7 @@ class DnsSettingsFragment : Fragment(R.layout.fragment_dns_configure),
     }
 
     private fun showRestoreDefaultsDialog() {
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(R.string.restore_defaults_dialog_title)
             .setMessage(R.string.restore_defaults_dialog_message)
             .setPositiveButton(R.string.lbl_proceed) { di, _ ->

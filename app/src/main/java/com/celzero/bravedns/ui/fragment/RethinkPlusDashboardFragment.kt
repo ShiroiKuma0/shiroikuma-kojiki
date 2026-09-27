@@ -53,7 +53,7 @@ import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.viewmodel.ServerSelectionViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -322,7 +322,7 @@ class RethinkPlusDashboardFragment : Fragment(R.layout.fragment_rethink_plus_das
             showToastUiCentered(requireContext(), getString(R.string.ssv_toast_start_rethink), Toast.LENGTH_SHORT)
             return
         }
-        MaterialAlertDialogBuilder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.rpn_restore_confirm_title))
             .setMessage(getString(R.string.rpn_restore_confirm_message))
             .setPositiveButton(getString(R.string.brbs_restore_dialog_positive)) { dialog, _ ->
@@ -411,7 +411,7 @@ class RethinkPlusDashboardFragment : Fragment(R.layout.fragment_rethink_plus_das
         timeoutBar.max = timeoutMs.toInt()
         timeoutBar.setProgressCompat(0, false)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setView(dialogView)
             .setCancelable(true)
             .create()

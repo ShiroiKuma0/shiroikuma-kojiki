@@ -107,7 +107,7 @@ import com.celzero.bravedns.util.Utilities.showToastUiCentered
 import com.celzero.bravedns.util.disableFrostTemporarily
 import com.celzero.bravedns.util.restoreFrost
 import com.celzero.firestack.intra.Intra
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -1152,7 +1152,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener, K
                             android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
                     }
 
-                    MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                    KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                         .setTitle(getString(R.string.title_statistics))
                         .setView(container)
                         .setPositiveButton(R.string.fapps_info_dialog_positive_btn) { d, _ -> d.dismiss() }

@@ -775,6 +775,50 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Fork (白い熊 考直): Snooping panel entry point. Re-placed on the v0.5.7 home screen,
+                 which became a ConstraintLayout chain — hence the Top_toBottomOf constraint. -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/fhs_card_snoop_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="?attr/cardBackgroundColor"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintTop_toBottomOf="@id/fhs_card_apps_cv">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fhs_card_snoop_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="12dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
+                        android:text="@string/snoop_card_title"
+                        android:textColor="?attr/homeScreenHeaderTextColor"
+                        android:textSize="18sp"
+                        app:drawableStartCompat="@drawable/ic_privacy_policy" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fhs_card_snoop_desc"
+                        style="@style/TextAppearance.Widget.HomeScreen.Desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/snoop_card_desc"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -66,7 +66,7 @@ import com.celzero.bravedns.util.Utilities
 import com.celzero.firestack.backend.Backend
 import com.celzero.firestack.backend.IPMetadata
 import com.celzero.firestack.backend.RouterStats
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -951,7 +951,7 @@ class VpnServerAdapter(
                             io { setRelay(group, true) }
                             return@uiCtx
                         }
-                        MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                        KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                             .setTitle(ctx.getString(R.string.qs_relay_automation_dialog_title))
                             .setMessage(ctx.getString(R.string.qs_relay_automation_dialog_message))
                             .setPositiveButton(ctx.getString(R.string.lbl_proceed)) { _, _ ->

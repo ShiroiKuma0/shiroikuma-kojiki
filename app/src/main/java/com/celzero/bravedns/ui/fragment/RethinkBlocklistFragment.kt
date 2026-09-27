@@ -71,7 +71,7 @@ import com.celzero.bravedns.viewmodel.RethinkRemoteFileTagViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -856,7 +856,7 @@ class RethinkBlocklistFragment :
         val a = activity
         if (a == null || !isAdded || a.isFinishing || a.isDestroyed) return
 
-        val builder = MaterialAlertDialogBuilder(a, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(a, R.style.App_Dialog_NoDim)
         builder.setTitle(R.string.download_update_dialog_failure_title)
         builder.setMessage(getString(R.string.download_update_dialog_failure_message) + "\n\n" + reason)
         builder.setPositiveButton(R.string.retry) { _, _ ->
