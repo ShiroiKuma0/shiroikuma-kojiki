@@ -363,6 +363,10 @@ internal constructor(
                     IpRulesManager.deleteRulesByUid(it.uid)
                     DomainRulesManager.deleteRulesByUid(it.uid)
                     ProxyManager.deleteApp(it.uid, it.packageName)
+                    // Fork (白い熊 考直): the note lives on this row now, so deleting it would take
+                    // the note too — and tombstoning, which is what would have kept the row, is off
+                    // by default. Park the note by package name so a reinstall lands it again.
+                    KojikiAppNotes.parkOnDelete(ctx, appInfo)
                     deletePackage(it.uid, it.packageName)
                     Logger.i(
                         LOG_TAG_APP_DB,

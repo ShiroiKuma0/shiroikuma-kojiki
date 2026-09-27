@@ -131,6 +131,21 @@ object KojikiAppNotes {
     }
 
     /**
+     * Park [appInfo]'s note just before its row is deleted, so a reinstall gets it back through
+     * [applyParked].
+     *
+     * This is what keeps the fold from costing a promise. The fork's former prefs store survived an
+     * uninstall for free and handed the note back when the app returned; a note living on the row
+     * dies with it. Upstream only keeps the row when *tombstoning* is enabled, and that setting
+     * **defaults to off** — so without this, the ordinary uninstall/reinstall of an app would
+     * silently lose its note.
+     */
+    fun parkOnDelete(context: Context, appInfo: AppInfo) {
+        val note = noteOf(appInfo) ?: return
+        sp(context).edit().putString(appInfo.packageName, note.take(MAX_LENGTH)).apply()
+    }
+
+    /**
      * One-time fold of the fork's former prefs store into `AppInfo.notes`. Every entry whose package
      * has a row is written to the column; entries with no row stay exactly where they are and become
      * park entries, which is the same file's new job. Idempotent, and a no-op on a fresh install.
