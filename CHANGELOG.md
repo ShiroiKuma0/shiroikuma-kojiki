@@ -2,6 +2,20 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
 
+## 0.5.7+008
+
+**The pill row becomes yours.**
+
+### Find the apps you annotated
+A **Has a note** filter, in the filter sheet and in the pill row. It asks the database directly rather than sifting the list afterwards, which is only possible because notes moved onto the app's own record in the last release — and it applies to the bulk-rule toolbar as well, so "select every app I have annotated, block it on metered" is two taps and acts on exactly the rows you can see. An active note filter says so on the "Showing…" line, like any other.
+
+### A pill row you arrange yourself
+The row under the search field used to be eight fixed firewall pills, and everything else — installed, system, non-app, a category, one of your app groups, and now "has a note" — lived two taps deep in the filter sheet. Any of them can sit in the row now, **in the order you put them**, with the ones you never use hidden.
+
+**Hold a pill and move it** to drag it somewhere else; **hold and let go** for its menu — clear this filter, hide this pill, or manage the whole set. Manage lists every possible pill with a tick, and a Reset that puts the row back the way it shipped. Until you change something, the row looks exactly as it did; a group or category made later simply appears at the end rather than hiding until you go looking.
+
+Pills clear each other only within their own kind, which is what lets a mixed row behave: choosing a different firewall pill replaces the current one, while a group pill and the note pill switch on and off independently of it. Tapping an active firewall or installed/system pill now clears it back to *All* — the old row could not do that, because it always insisted on exactly one selection.
+
 ## 0.5.7+005
 
 **One note per app, wherever you edit it.**
