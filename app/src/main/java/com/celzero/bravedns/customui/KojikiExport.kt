@@ -187,7 +187,9 @@ object KojikiExport : KoinComponent {
     class ExportCancelled : Exception("cancelled")
 
     // Fork-private prefs stores (must match CustomUiConfig.PREFS / SnoopTagStore.PREFS /
-    // KojikiAppNotes.PREFS / KojikiAppGroups.PREFS).
+    // KojikiAppNotes.PREFS / KojikiAppGroups.PREFS). PREFS_APP_NOTES is no longer the notes store —
+    // notes live in AppInfo.notes since 2026-09-27 — but it still holds notes PARKED for packages
+    // that are not installed here, so it is still flushed before the data door replies.
     private const val PREFS_KOJIKI_UI = "kojiki_ui"
     private const val PREFS_SNOOP_TAGS = "snoop_tags"
     private const val PREFS_APP_NOTES = KojikiAppNotes.PREFS
@@ -261,9 +263,7 @@ object KojikiExport : KoinComponent {
                     // package clothing and can name a different thing on the target device. Those
                     // carry their original label alongside, so the import can flag them (see
                     // withNonAppLabels / markImportedNonApp).
-                    Cat.APP_NOTES ->
-                        withNonAppLabels(
-                            exportPrefs(context.getSharedPreferences(PREFS_APP_NOTES, Context.MODE_PRIVATE), emptySet()))
+                    Cat.APP_NOTES -> withNonAppLabels(exportNotes(context))
                     Cat.APP_GROUPS ->
                         withNonAppLabels(
                             exportPrefs(context.getSharedPreferences(PREFS_APP_GROUPS, Context.MODE_PRIVATE), emptySet()))
@@ -322,7 +322,7 @@ object KojikiExport : KoinComponent {
      *
      * Idempotent: an already-marked note is left alone, so importing twice never stacks markers.
      */
-    private fun markImportedNonApp(context: Context, json: String, keys: Collection<String>) {
+    private suspend fun markImportedNonApp(context: Context, json: String, keys: Collection<String>) {
         val labels = nonAppLabels(json)
         for (key in keys) {
             if (!Utilities.isNonApp(key)) continue
@@ -334,6 +334,49 @@ object KojikiExport : KoinComponent {
             KojikiAppNotes.setNote(
                 context, key, if (existing.isEmpty()) mark else "$mark\n$existing")
         }
+    }
+
+    /**
+     * Fork (白い熊 考直): the notes category reads **`AppInfo.notes`** (upstream's column, which the
+     * fork's own prefs store was folded onto on 2026-09-27) plus anything still parked for a package
+     * that is not installed here. Emitted in exactly the `{"t":"s","v":…}` shape the generic prefs
+     * exporter used, so an archive written before the fold still imports, and one written after it
+     * still reads on an older build.
+     */
+    private suspend fun exportNotes(context: Context): String {
+        KojikiAppNotes.migrateLegacyStore(context)
+        val obj = JSONObject()
+        for (a in appInfoRepo.getAppInfo()) {
+            val note = a.notes.trim()
+            if (note.isEmpty()) continue
+            obj.put(a.packageName, JSONObject().put("t", "s").put("v", note))
+        }
+        for (pkg in KojikiAppNotes.parkedPackages(context)) {
+            if (obj.has(pkg)) continue
+            val note = KojikiAppNotes.parkedNote(context, pkg) ?: continue
+            obj.put(pkg, JSONObject().put("t", "s").put("v", note))
+        }
+        return obj.toString(2)
+    }
+
+    /**
+     * Restore notes onto the rows they name. A package with a row gets its column written; one
+     * without stays parked by package name until it is installed, the same way an imported per-app
+     * firewall rule waits in [com.celzero.bravedns.service.KojikiPendingFw].
+     */
+    private suspend fun importNotes(context: Context, json: String): Int {
+        val obj = JSONObject(json)
+        var n = 0
+        for (k in obj.keys().asSequence().toList()) {
+            if (k == LABELS_KEY) continue
+            val e = obj.optJSONObject(k) ?: continue
+            if (e.optString("t") != "s") continue
+            val v = e.optString("v").trim()
+            if (v.isEmpty()) continue
+            KojikiAppNotes.setNote(context, k, v)
+            n++
+        }
+        return n
     }
 
     /** Leading marker of an imported synthetic-row note — also the idempotency check. */
@@ -530,8 +573,7 @@ object KojikiExport : KoinComponent {
                     Cat.SNOOP_TAGS ->
                         importPrefs(context.getSharedPreferences(PREFS_SNOOP_TAGS, Context.MODE_PRIVATE), json, emptySet())
                     Cat.APP_NOTES -> {
-                        val n = importPrefs(
-                            context.getSharedPreferences(PREFS_APP_NOTES, Context.MODE_PRIVATE), json, emptySet())
+                        val n = importNotes(context, json)
                         markImportedNonApp(context, json, JSONObject(json).keys().asSequence().toList())
                         n
                     }

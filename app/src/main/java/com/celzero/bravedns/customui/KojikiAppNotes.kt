@@ -18,6 +18,7 @@ package com.celzero.bravedns.customui
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.text.InputFilter
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,13 @@ import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.TooltipCompat
 import com.celzero.bravedns.R
+import com.celzero.bravedns.database.AppInfo
+import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.util.UIUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Fork (白い熊 考直): free-text per-app notes for the apps view — "why is this app excluded?", "do not
@@ -35,64 +42,166 @@ import com.celzero.bravedns.util.UIUtils
  * glyph affordance (a "+" when there is no note, a filled note glyph when there is one), tapping it
  * opens a pre-filled multi-line dialog, and **saving a blank note deletes it**.
  *
- * Storage is a dedicated SharedPreferences file keyed by **package name** — never uid, which changes
- * on every reinstall (the same rule the Export/Import per-app firewall rules follow). The dedicated
- * file also makes the Export/Import category a two-line change: [KojikiExport] carries it with the
- * generic prefs exporter.
+ * ### Storage: upstream's own column (folded 2026-09-27)
+ * The note lives in **`AppInfo.notes`**, the column upstream added at v0.5.7, written through
+ * [FirewallManager.updateAppNotes] so the row cache and the database stay in step. Before that the
+ * fork kept its own package-keyed prefs file, which meant two separate stores for one idea; the old
+ * file is migrated on first use by [migrateLegacyStore] and then keeps only a much smaller job.
+ *
+ * That job is the **park**: `AppInfo.notes` can only hold a note for an app that has a row, so a
+ * note for a package that is not installed — an import from another phone, a rule written ahead of
+ * time — waits in [PREFS] keyed by package name until the app appears, exactly as
+ * [com.celzero.bravedns.service.KojikiPendingFw] parks firewall rules. [applyParked] is called from
+ * `RefreshDatabase.insertApp` and lands the note on the row being inserted.
+ *
+ * Reading a note for a row already in hand is therefore free — it is just [AppInfo.notes], no
+ * lookup ([noteOf]); only the by-package paths (import, export, the synthetic-row marker) pay for a
+ * cache lookup, and those are already suspend.
  *
  * Limitation (as in 応用管理): a package installed under several Android users shares one note.
  */
 object KojikiAppNotes {
 
-    /** Must match [KojikiExport.PREFS_APP_NOTES]. */
+    /**
+     * Park for notes whose app is not installed yet (and, until [migrateLegacyStore] runs once, the
+     * fork's former notes store). Must match [KojikiExport.PREFS_APP_NOTES].
+     */
     const val PREFS = "kojiki_app_notes"
+
+    /** Set once [migrateLegacyStore] has folded the old store into `AppInfo.notes`. */
+    private const val KEY_MIGRATED = "__kojiki_notes_migrated"
+
+    /**
+     * Hard cap on a note, matching `AppDatabase.APP_NOTES_MAX_LENGTH`. Upstream enforces it with a
+     * SQLite trigger that **ABORTs** the write, so anything longer has to be clamped before it
+     * reaches the database rather than discovered as a failed transaction.
+     */
+    const val MAX_LENGTH = 500
+
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     private fun sp(context: Context): SharedPreferences =
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-    /** The stored note for [pkg], or null when there is none. */
-    fun getNote(context: Context, pkg: String): String? = sp(context).getString(pkg, null)
+    private fun clamp(text: CharSequence?): String =
+        text?.toString()?.trim().orEmpty().take(MAX_LENGTH)
 
-    /** True when [pkg] carries a non-blank note. */
-    fun hasNote(context: Context, pkg: String): Boolean = !getNote(context, pkg).isNullOrBlank()
+    /** The note carried by a row already in hand — no lookup, no I/O. */
+    fun noteOf(appInfo: AppInfo): String? = appInfo.notes.ifBlank { null }
 
-    /** Persist (or, on blank text, delete) the note for [pkg]. */
-    fun setNote(context: Context, pkg: String, text: CharSequence?) {
-        val trimmed = text?.toString()?.trim().orEmpty()
-        val ed = sp(context).edit()
-        if (trimmed.isEmpty()) ed.remove(pkg) else ed.putString(pkg, trimmed)
-        ed.apply()
-    }
+    /** The parked note for [pkg] (an app that has no row yet), or null. */
+    fun parkedNote(context: Context, pkg: String): String? =
+        sp(context).getString(pkg, null)?.ifBlank { null }
 
-    /** Every package that carries a note — used by the apps-view "has a note" filter. */
-    fun notedPackages(context: Context): Set<String> =
-        sp(context).all.filterValues { it is String && it.isNotBlank() }.keys
+    /** The note for [pkg]: the installed row's column, else whatever is parked for it. */
+    suspend fun getNote(context: Context, pkg: String): String? =
+        FirewallManager.getAppInfoByPackage(pkg)?.notes?.ifBlank { null }
+            ?: parkedNote(context, pkg)
 
     /**
-     * View / edit the note for [pkg]. The field opens pre-filled and immediately editable; Save
+     * Persist (or, on blank text, delete) the note for [pkg]. Writes the installed row's column;
+     * with no row yet the note is parked until the app is installed. Text longer than [MAX_LENGTH]
+     * is clamped — see the note there.
+     */
+    suspend fun setNote(context: Context, pkg: String, text: CharSequence?) {
+        val trimmed = clamp(text)
+        val app = FirewallManager.getAppInfoByPackage(pkg)
+        if (app != null) {
+            FirewallManager.updateAppNotes(app.uid, pkg, trimmed)
+            // a row exists, so nothing should still be parked for this package
+            if (sp(context).contains(pkg)) sp(context).edit().remove(pkg).apply()
+        } else {
+            val ed = sp(context).edit()
+            if (trimmed.isEmpty()) ed.remove(pkg) else ed.putString(pkg, trimmed)
+            ed.apply()
+        }
+    }
+
+    /**
+     * Land a parked note on the row about to be inserted for a freshly installed app, and drop the
+     * parked copy. Called from `RefreshDatabase.insertApp` beside
+     * [com.celzero.bravedns.service.KojikiPendingFw.applyTo]; kept separate from it because that
+     * one's return value reports a restored *rule* to the new-app notification.
+     */
+    fun applyParked(context: Context, entry: AppInfo): Boolean {
+        val parked = parkedNote(context, entry.packageName) ?: return false
+        entry.notes = parked.take(MAX_LENGTH)
+        sp(context).edit().remove(entry.packageName).apply()
+        return true
+    }
+
+    /**
+     * One-time fold of the fork's former prefs store into `AppInfo.notes`. Every entry whose package
+     * has a row is written to the column; entries with no row stay exactly where they are and become
+     * park entries, which is the same file's new job. Idempotent, and a no-op on a fresh install.
+     */
+    suspend fun migrateLegacyStore(context: Context) {
+        val sp = sp(context)
+        if (sp.getBoolean(KEY_MIGRATED, false)) return
+        val entries = sp.all.filterKeys { it != KEY_MIGRATED }
+        if (entries.isEmpty()) { sp.edit().putBoolean(KEY_MIGRATED, true).apply(); return }
+
+        // Only run against a populated cache. An unresolved package is read as "not installed, keep
+        // it parked" — which is right once the apps are loaded and catastrophically wrong before
+        // they are: every note would be parked, the run would mark itself done, and since a parked
+        // note is only ever landed by a fresh install, every existing note would silently vanish
+        // from its row. So if the cache is empty, do nothing and leave the flag alone; the next
+        // visit to the app list runs it again.
+        if (FirewallManager.getAllApps().isEmpty()) return
+
+        var failed = false
+        for ((pkg, v) in entries) {
+            val note = (v as? String)?.trim().orEmpty()
+            if (note.isEmpty()) { sp.edit().remove(pkg).apply(); continue }
+            val app = FirewallManager.getAppInfoByPackage(pkg) ?: continue // not installed: parked
+            val ok = runCatching {
+                FirewallManager.updateAppNotes(app.uid, pkg, note.take(MAX_LENGTH))
+            }.isSuccess
+            if (ok) sp.edit().remove(pkg).apply() else failed = true
+        }
+        // A failed write leaves the note where it was, so retry on the next run rather than
+        // declaring the fold complete over the top of it.
+        if (!failed) sp.edit().putBoolean(KEY_MIGRATED, true).apply()
+    }
+
+    /** Every package that carries a parked note — the ones still waiting for their app. */
+    fun parkedPackages(context: Context): Set<String> =
+        sp(context).all.filterKeys { it != KEY_MIGRATED }
+            .filterValues { it is String && it.isNotBlank() }.keys
+
+    /**
+     * View / edit the note for [appInfo]. The field opens pre-filled and immediately editable; Save
      * persists it, and **a blank field deletes the note** (the glyph reverts to "+"). [onSaved] runs
-     * on the UI thread after a save, so the calling row can re-render its glyph.
+     * on the UI thread after the write lands, so the calling row can re-render its glyph.
      */
     @UiThread
     fun showNoteDialog(
         context: Context,
-        pkg: String,
-        appLabel: String?,
+        appInfo: AppInfo,
         onSaved: (() -> Unit)? = null
     ) {
         // Just "Note" as the field hint — 応用管理's wording; no chatty placeholder sentence.
         val input =
             KojikiDialog.input(
-                context, getNote(context, pkg), context.getString(R.string.kojiki_note),
+                context, noteOf(appInfo), context.getString(R.string.kojiki_note),
                 multiLine = true)
+        // Stop typing at the column's limit rather than truncating on save — the same cap upstream's
+        // own notes dialog applies, and the one its SQLite trigger enforces by aborting the write.
+        input.filters = arrayOf(InputFilter.LengthFilter(MAX_LENGTH))
         KojikiDialog.show(
             context,
-            appLabel ?: context.getString(R.string.kojiki_note),
+            appInfo.appName.ifBlank { context.getString(R.string.kojiki_note) },
             listOf(
                 KojikiDialog.Action(context.getString(R.string.lbl_cancel)),
                 KojikiDialog.Action(context.getString(R.string.lbl_save)) {
-                    setNote(context, pkg, input.text)
-                    onSaved?.invoke()
+                    val text = clamp(input.text)
+                    scope.launch {
+                        setNote(context, appInfo.packageName, text)
+                        // keep the row object the adapter is holding in step with the write, so the
+                        // re-render below reads the new note rather than the pre-save one
+                        appInfo.notes = text
+                        withContext(Dispatchers.Main) { onSaved?.invoke() }
+                    }
                 })
         ) { body, _ ->
             body.addView(
@@ -113,7 +222,7 @@ object KojikiAppNotes {
     private const val ALPHA_CONTENT = 0.60f
 
     /**
-     * Render the row's note affordance for [pkg] and report whether a note exists.
+     * Render the row's note affordance for [appInfo] and report whether a note exists.
      *
      * It is one pill either way, so the two states read as the same control: with a note it holds
      * the glyph plus the note's text (one line, ellipsized) and the caller lets it start right after
@@ -126,10 +235,12 @@ object KojikiAppNotes {
         pill: View,
         glyph: ImageView,
         noteTv: TextView,
-        pkg: String
+        appInfo: AppInfo
     ): Boolean {
-        val note = getNote(context, pkg)
-        val has = !note.isNullOrBlank()
+        // The note rides on the row itself now (upstream's AppInfo.notes), so binding costs nothing
+        // — no store lookup per row, and the paging source re-emits when the column changes.
+        val note = noteOf(appInfo)
+        val has = note != null
         val d = context.resources.displayMetrics.density
         val accent =
             if (CustomUi.customThemeActive) CustomUiConfig(context).accentColor

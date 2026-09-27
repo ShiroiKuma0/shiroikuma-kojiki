@@ -42,6 +42,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
 import com.celzero.bravedns.customui.KojikiAppGroups
+import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
@@ -266,6 +267,12 @@ class AppListActivity :
         super.onCreate(savedInstanceState)
 
         handleFrostEffectIfNeeded(persistentState.theme)
+
+        // Fork (白い熊 考直): fold the fork's former per-app notes store onto upstream's AppInfo.notes
+        // column, once. Cheap and idempotent after the first run (a single flag read). Writing the
+        // column invalidates the paging source, so any row already on screen re-renders with its
+        // note rather than waiting for the next visit.
+        lifecycleScope.launch { KojikiAppNotes.migrateLegacyStore(this@AppListActivity) }
 
         if (isAtleastQ()) {
             val controller = WindowInsetsControllerCompat(window, window.decorView)
