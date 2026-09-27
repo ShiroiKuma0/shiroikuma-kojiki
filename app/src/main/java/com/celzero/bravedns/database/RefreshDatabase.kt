@@ -43,6 +43,7 @@ import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.FirewallManager.NOTIF_CHANNEL_ID_FIREWALL_ALERTS
 import com.celzero.bravedns.service.FirewallManager.TOMBSTONE_EXPIRY_TIME_MS
 import com.celzero.bravedns.service.FirewallManager.deletePackage
+import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.service.KojikiPendingFw
 import com.celzero.bravedns.service.IpRulesManager
 import com.celzero.bravedns.service.PersistentState
@@ -661,6 +662,8 @@ internal constructor(
         // Fork (白い熊 考直): the synthetic no_package_<uid> rows carry imported rules too (they are
         // the "do not block, DNS dies" rows), keyed by the uid the export saw — apply a parked one.
         val restored = KojikiPendingFw.applyTo(ctx, newAppInfo)
+        // and the note parked for it, which lives in AppInfo.notes once the row exists
+        KojikiAppNotes.applyParked(ctx, newAppInfo)
 
         FirewallManager.persistAppInfo(newAppInfo)
         ProxyManager.addNewApp(newAppInfo)
@@ -710,6 +713,9 @@ internal constructor(
         // (imported before the app was installed), apply it now so the rule survives by package name.
         // Returned to the caller so the new-app notification reports the restored rule, not "blocked".
         val restored = KojikiPendingFw.applyTo(ctx, entry)
+        // Same for a parked note: AppInfo.notes can only hold one once the row exists, so an import
+        // that named a package before it was installed left the note waiting in KojikiAppNotes.
+        KojikiAppNotes.applyParked(ctx, entry)
 
         Logger.i(LOG_TAG_APP_DB, "insert app: $ai")
         FirewallManager.persistAppInfo(entry)

@@ -241,7 +241,7 @@ class FirewallAppListAdapter(
                     b.firewallAppNotePill,
                     b.firewallAppNoteIv,
                     b.firewallAppNoteTv,
-                    appInfo.packageName)
+                    appInfo)
             // With a note the pill wraps its content, so it grows leftward for as much of the note's
             // first line as fits — the label carries the line's only weight and therefore gives up
             // the space, ellipsizing. Empty, the pill is fixed to exactly the group "+" pill's width
@@ -255,9 +255,7 @@ class FirewallAppListAdapter(
                 b.firewallAppNotePill.layoutParams = pillLp
             }
             b.firewallAppNotePill.setOnClickListener {
-                KojikiAppNotes.showNoteDialog(context, appInfo.packageName, appInfo.appName) {
-                    bindNote(appInfo)
-                }
+                KojikiAppNotes.showNoteDialog(context, appInfo) { bindNote(appInfo) }
             }
         }
 
