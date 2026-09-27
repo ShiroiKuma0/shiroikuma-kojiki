@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="blocklist_update_check_not_required">Bloklijsten zijn al op de laatste versie.</string>
-    <string name="alert_firewall_accessibility_explanation">Rethink gebruikt de toegankelijkheidsdienst om bij te houden welke apps in gebruik zijn (voorgrond) versus die welke niet in gebruik zijn (achtergrond). \n \nRethink verzamelt geen informatie en bespioneert u op geen enkele manier.</string>
+    <string name="alert_firewall_accessibility_explanation">白い熊 考直 gebruikt de toegankelijkheidsdienst om bij te houden welke apps in gebruik zijn (voorgrond) versus die welke niet in gebruik zijn (achtergrond). \n \n白い熊 考直 verzamelt geen informatie en bespioneert u op geen enkele manier.</string>
     <string name="status_no_internet">geen internet</string>
     <string name="status_protected_with_private_dns">beveiligd met privé dns</string>
     <string name="dns_explanation_connected" description="The message will be shown when the DNS is connected">Verbonden met 白い熊 考直 en Firewall</string>
@@ -29,8 +29,8 @@
     <string name="settings_enable_logs">On-device logging inschakelen</string>
     <string name="search_custom_domains"><font size="12">Domeinnamen zoeken</font></string>
     <string name="search_rethinkplus_file_tag"><font size="12">Bloklijsten zoeken</font></string>
-    <string name="settings_socks5_vpn_disabled_error">Start Rethink om verder te gaan.</string>
-    <string name="settings_network_all_networks_desc">Indien ingeschakeld, gebruikt RethinkDNS alle beschikbare netwerken om verbinding te maken met het internet. Indien niet, gebruikt het netwerk dat door Android als <i>actief wordt beschouwd</i>.</string>
+    <string name="settings_socks5_vpn_disabled_error">Start 白い熊 考直 om verder te gaan.</string>
+    <string name="settings_network_all_networks_desc">Indien ingeschakeld, gebruikt 白い熊 考直 alle beschikbare netwerken om verbinding te maken met het internet. Indien niet, gebruikt het netwerk dat door Android als <i>actief wordt beschouwd</i>.</string>
     <string name="settings_ip_network_heading">Kies IP-versie</string>
     <string name="settings_https_heading">HTTP(S)-proxy instellen</string>
     <string name="orbot_http_desc">Beveelt aan dat apps de HTTP-proxy van Orbot gebruiken.</string>
@@ -61,7 +61,7 @@
     <string name="firewall_status_excluded">uitgesloten van dns en firewall</string>
     <string name="firewall_status_block_unmetered">geblokkeerd op niet-gemeten (wifi) netwerken</string>
     <string name="orbot_both">TCP + HTTP-proxy</string>
-    <string name="orbot_stop_dialog_message">Rethink is gestopt met het doorsturen van verbindingen naar Orbot, maar Orbot draait misschien op de achtergrond.</string>
+    <string name="orbot_stop_dialog_message">白い熊 考直 is gestopt met het doorsturen van verbindingen naar Orbot, maar Orbot draait misschien op de achtergrond.</string>
     <string name="settings_http_proxy_error_text2">Ongeldige poort</string>
     <string name="settings_dns_proxy_dialog_header">SOCKS5 (TCP) proxy instellen</string>
     <string name="settings_vpn_heading">vpn</string>
@@ -89,8 +89,7 @@
     <string name="info_dialog_rethink_toast_msg">Gekopieerd als RDNS+ DNS-over-HTTPS URL</string>
     <string name="settings_enable_logs_desc">Sla DNS- en firewall-logs lokaal op het apparaat op.</string>
     <string name="app_mode_choose">Kies de modus</string>
-    <string name="app_name" translatable="false">RethinkDNS</string>
-    <string name="app_name_small_case" translatable="false">rethink</string>
+    <string name="app_name_small_case" translatable="false">白い熊 考直</string>
     <string name="title_settings">Instellingen</string>
     <string name="pause_title_desc">In slaapstand…</string>
     <string name="about_title_desc">Detecteer en blokkeer netwerkbeveiligingsbedreigingen</string>
@@ -175,8 +174,8 @@
     <string name="settings_ip_network_desc">Kies tussen Internet Protocol versies.</string>
     <string name="slide_2_title">Welkom</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
-    <string name="slide_2_desc">Rethink is de eenvoudigste manier om netwerkactiviteiten te controleren, internetcensuur te omzeilen en apps op uw Android-toestel te firewallen.</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification.">Waarschuwing: Rethink is gedeactiveerd</string>
+    <string name="slide_2_desc">白い熊 考直 is de eenvoudigste manier om netwerkactiviteiten te controleren, internetcensuur te omzeilen en apps op uw Android-toestel te firewallen.</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification.">Waarschuwing: 白い熊 考直 is gedeactiveerd</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification.">Tik om de beveiligingsinstelling te wijzigen</string>
     <string name="brave_dns_connect_mode_change_firewall">Kies de modus.</string>
     <string name="search_firewall_all_apps"><font size="12">Apps zoeken op uid, naam</font></string>
@@ -230,7 +229,7 @@
     <string name="firewall_rule_foreground">App Niet in gebruik</string>
     <string name="univ_firewall_rule_1">Alle apps blokkeren wanneer het apparaat is vergrendeld</string>
     <string name="dc_local_block_desc_1">Kies uit 185+ blocklists. Klik hier om bloklijsten te downloaden of te configureren.</string>
-    <string name="alert_firewall_accessibility_regrant_explanation">Rethink toegankelijkheidsdienst is gestopt of gecrasht. <i><b>Ga naar Instellingen en Forceer Stop</b></i> RethinkDNS en start het opnieuw om de <i>Blokkeer elke app die niet in gebruik is</i> functie te gebruiken.\n\nRethink gebruikt de toegankelijkheidsdienst om bij te houden welke apps in gebruik zijn (voorgrond) versus welke niet in gebruik zijn (achtergrond).</string>
+    <string name="alert_firewall_accessibility_regrant_explanation">白い熊 考直 toegankelijkheidsdienst is gestopt of gecrasht. <i><b>Ga naar Instellingen en Forceer Stop</b></i> 白い熊 考直 en start het opnieuw om de <i>Blokkeer elke app die niet in gebruik is</i> functie te gebruiken.\n\n白い熊 考直 gebruikt de toegankelijkheidsdienst om bij te houden welke apps in gebruik zijn (voorgrond) versus welke niet in gebruik zijn (achtergrond).</string>
     <string name="show_logs_disabled_dns_message">Het loggen van DNS-verzoeken is uitgeschakeld. Om dit opnieuw in te schakelen, gaat u naar <i>Instellingen</i> en schakelt u <i>Inschakelen van on-device logging in.</i></string>
     <string name="firewall_status_unknown">onbekend</string>
     <string name="ct_bs_app_info_error">App Info niet gevonden</string>
@@ -679,7 +678,7 @@
     <string name="lbl_include" translatable="true">Toevoegen</string>
     <string name="lbl_persistent_keepalive" translatable="true">Aanhoudende keepalive</string>
     <string name="lbl_notification" translatable="true">Melding</string>
-    <string name="memory_notification_text">Rethink heeft weinig geheugen beschikbaar. Systeemacties kunnen beperkt zijn.</string>
+    <string name="memory_notification_text">白い熊 考直 heeft weinig geheugen beschikbaar. Systeemacties kunnen beperkt zijn.</string>
     <string name="http_proxy_dialog_desc" translatable="true">URL van formulier instellen, &lt;protocol&gt;://&lt;gebruikersnaam&gt;:&lt;wachtwoord&gt;@&lt;domein-of-ip&gt;:&lt;poort&gt;&lt;pad&gt;. Voorbeeld: http://proxy.example.com:8080/</string>
     <string name="settings_exclude_proxy_apps_heading" translatable="true">Loopback proxy-forwarder-apps</string>
     <string name="whats_new_version_update" translatable="false"><![CDATA[<b>Don\'t Panic 2</b><br/><br/> 1. New: Capture network engine errors in user bug reports.<br/> 2. New: use System DNS for undelegated domain names iff Prevent DNS leaks is ON.<br/> 3. Improvement: Dual-stack (IPv4 + IPv6) WireGuard connectivity.<br/> 4. Improvement: Avoid blocking the UI elements when the network engine is unresponsive.<br/> 5. Fix: Connection timeouts with Advanced DNS filtering turned ON.<br/> 6. Fix: WireGuard peer endpoints with domain names hang on network changes.<br/><br/> <a href=https://svc.rethinkdns.com/r/translate>Help translate this app</a>]]></string>
@@ -705,17 +704,17 @@
     <string name="rethink_empty_state_desc" translatable="true">Download of configureer een blokkeerlijst om te beginnen.</string>
     <string name="settings_mobile_metered_heading" translatable="true">Mobiele netwerken met datalimiet meten</string>
     <string name="settings_mobile_metered_desc" translatable="true">Alleen mobiele netwerken als netwerken met datalimiet behandelen, de rest als netwerken zonder datalimiet.</string>
-    <string name="settings_exclude_proxy_apps_desc" translatable="true">Als dit is uitgeschakeld, worden proxy-apps (SOCKS5, HTTP, DNS) uitgesloten van de VPN-tunnel van Rethink.</string>
+    <string name="settings_exclude_proxy_apps_desc" translatable="true">Als dit is uitgeschakeld, worden proxy-apps (SOCKS5, HTTP, DNS) uitgesloten van de VPN-tunnel van 白い熊 考直.</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">Je kunt geen proxy\'s instellen wanneer de VPN in de modus Alleen DNS draait.</string>
-    <string name="orbot_explanation" translatable="true">Orbot is een gratis proxy-app waarmee andere apps veiliger gebruik kunnen maken van internet.\nOrbot gebruikt Tor om je internetverkeer te versleutelen. Dit helpt censuur te omzeilen en beschermt tegen vormen van netwerkbewaking die je persoonlijke vrijheid en privacy bedreigen.\nTCP-proxy: Rethink stuurt alleen TCP-verbindingen van &lt;i&gt;opgenomen&lt;/i&gt; apps door naar Orbot.\nHTTP-proxy: Rethink &lt;i&gt;maakt&lt;/i&gt; een HTTP CONNECT-tunnel naar Orbot en stuurt alleen TCP-verbindingen van &lt;i&gt;opgenomen&lt;/i&gt; apps door.</string>
+    <string name="orbot_explanation" translatable="true">Orbot is een gratis proxy-app waarmee andere apps veiliger gebruik kunnen maken van internet.\nOrbot gebruikt Tor om je internetverkeer te versleutelen. Dit helpt censuur te omzeilen en beschermt tegen vormen van netwerkbewaking die je persoonlijke vrijheid en privacy bedreigen.\nTCP-proxy: 白い熊 考直 stuurt alleen TCP-verbindingen van &lt;i&gt;opgenomen&lt;/i&gt; apps door naar Orbot.\nHTTP-proxy: 白い熊 考直 &lt;i&gt;maakt&lt;/i&gt; een HTTP CONNECT-tunnel naar Orbot en stuurt alleen TCP-verbindingen van &lt;i&gt;opgenomen&lt;/i&gt; apps door.</string>
     <string name="settings_go_log_desc" translatable="true">Voor foutopsporingsdoeleinden</string>
-    <string name="settings_rinr_desc_disabled" translatable="true">Stuur Rethinks eigen verkeer, zoals downloads van blokkeerlijsten, connectiviteitscontroles en DNS-verbindingen, terug door de tunnel.</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Rethinks eigen verkeer door de tunnel sturen. Schakel dit uit, tenzij je weet wat je doet.</string>
+    <string name="settings_rinr_desc_disabled" translatable="true">Stuur 白い熊 考直s eigen verkeer, zoals downloads van blokkeerlijsten, connectiviteitscontroles en DNS-verbindingen, terug door de tunnel.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">白い熊 考直s eigen verkeer door de tunnel sturen. Schakel dit uit, tenzij je weet wat je doet.</string>
     <string name="settings_rinr_btmsht_title" translatable="true">Loopback (experimenteel)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">In de Loopback-modus kan Rethink zijn eigen netwerkverkeer omleiden. Dit betekent dat Rethink IP- en domeinregels, algemene firewallregels en proxyregels kan toepassen op zijn eigen verkeer alsof het een gewone app is. Hoewel Loopback meer controle biedt, is het gedrag dat hieruit voortkomt niet altijd wenselijk.\n\nHet wordt aanbevolen om Rethink uit te sluiten van firewall-, DNS- en proxyregels. Dit heeft geen invloed op netwerkmonitoring of logboeken, maar alleen op de regels.\n\nIn de Loopback-modus wordt Proxy Lockdown voorlopig niet afgedwongen.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">Rethink uitsluiten</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">In de Loopback-modus kan 白い熊 考直 zijn eigen netwerkverkeer omleiden. Dit betekent dat 白い熊 考直 IP- en domeinregels, algemene firewallregels en proxyregels kan toepassen op zijn eigen verkeer alsof het een gewone app is. Hoewel Loopback meer controle biedt, is het gedrag dat hieruit voortkomt niet altijd wenselijk.\n\nHet wordt aanbevolen om 白い熊 考直 uit te sluiten van firewall-, DNS- en proxyregels. Dit heeft geen invloed op netwerkmonitoring of logboeken, maar alleen op de regels.\n\nIn de Loopback-modus wordt Proxy Lockdown voorlopig niet afgedwongen.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">白い熊 考直 uitsluiten</string>
     <string name="app_info_rethink_warning_title" translatable="true">Let op</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">Je staat op het punt de firewallregels voor Rethink te wijzigen. Omdat Rethink de VPN-tunnel beheert, kan het toestaan, blokkeren of isoleren van het eigen verkeer van Rethink de netwerktoegang volledig verbreken.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">Je staat op het punt de firewallregels voor 白い熊 考直 te wijzigen. Omdat 白い熊 考直 de VPN-tunnel beheert, kan het toestaan, blokkeren of isoleren van het eigen verkeer van 白い熊 考直 de netwerktoegang volledig verbreken.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">Ik begrijp het</string>
     <string name="rethink_home_screen_warning" translatable="true">kan de verbinding beïnvloeden ⚠️</string>
     <string name="settings_theme_dialog_themes_5" translatable="true">Licht plus</string>
@@ -742,8 +741,8 @@
     <string name="hsf_packet_capture_chip_text" translatable="true">Pakketregistratie actief</string>
     <string name="hsf_packet_capture_chip_disabled_toast" translatable="true">Pakketregistratie uitgeschakeld</string>
     <string name="battery_optimization_dialog_heading" translatable="true">%1$s uitschakelen</string>
-    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> kan leiden tot verlies van de verbinding. Wijzig de instelling zodat Rethink gegevens en andere bronnen op de achtergrond kan gebruiken.</string>
-    <string name="sponser_dialog_usage_msg" translatable="true">Je gebruikt Rethink al <b>%1$s dagen</b>, wat neerkomt op gebruikskosten van <b>$%2$s</b>. Zou je willen overwegen om de ontwikkeling te steunen?</string>
+    <string name="restrict_dialog_message" translatable="true"><i>%1$s</i> kan leiden tot verlies van de verbinding. Wijzig de instelling zodat 白い熊 考直 gegevens en andere bronnen op de achtergrond kan gebruiken.</string>
+    <string name="sponser_dialog_usage_msg" translatable="true">Je gebruikt 白い熊 考直 al <b>%1$s dagen</b>, wat neerkomt op gebruikskosten van <b>$%2$s</b>. Zou je willen overwegen om de ontwikkeling te steunen?</string>
     <string name="dc_global_heading" translatable="true">Globaal</string>
     <string name="dc_proxy_dns_desc" translatable="true">DNS niet via Always-on WireGuard, SOCKS5- of HTTP-proxy\'s laten lopen.</string>
     <string name="dc_block_unknown_heading" translatable="true">DNS van onbekende bron blokkeren</string>
@@ -986,7 +985,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">meest gecontacteerde ips</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">Meeste geblokkeerde ip\'s</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">de meest geblokkeerde landen</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Start Rethink om door te gaan</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Start 白い熊 考直 om door te gaan</string>
     <string name="ssv_see_more" translatable="true">alles tonen</string>
     <string name="bad_config_reason_invalid_key" translatable="true">Ongeldige sleutel</string>
     <string name="bad_config_reason_invalid_number" translatable="true">Ongeldig nummer</string>

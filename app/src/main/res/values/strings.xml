@@ -865,7 +865,7 @@
 
     <string name="hsf_vpn_prepare_failure" translatable="true">Either VPN permission missing, or another app is in Always-on VPN mode.</string>
 
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">Rethink cannot start while another app is set as Always-on VPN with \"Block connections without VPN\" (lockdown). Edit VPN settings to proceed.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">白い熊 考直 cannot start while another app is set as Always-on VPN with \"Block connections without VPN\" (lockdown). Edit VPN settings to proceed.</string>
 
     <string name="hsf_notification_permission_failure" translatable="true">Enable notification permission from Settings screen</string>
 
@@ -1728,7 +1728,7 @@
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">Most Contacted IPs</string>
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">Most Blocked IPs</string>
     <string name="ssv_most_blocked_countries_heading" description="This label will appear on the stats screen as a header for most blocked domains by country" translatable="true">Most Blocked Countries</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Start Rethink</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app" translatable="true">Start 白い熊 考直</string>
     <string name="ssv_see_more" translatable="true">Show All</string>
     <string name="ssv_insights_no_active_conns" description="Shown in the insights view when there are no active connections." translatable="true">No active connections</string>
     <string name="ssv_insights_no_data" description="Shown in the insights view when a stats section has no data for the selected period." translatable="true">No data yet</string>
@@ -2239,8 +2239,8 @@
     <string name="lockdown_check_setting_disabled" translatable="false">Proxy Lockdown is enabled. This setting cannot be changed.</string>
     <string name="lockdown_check_no_proxy" translatable="false">No Proxy Enabled</string>
     <string name="lockdown_check_no_proxy_desc" translatable="false">No proxy (HTTP, SOCKS5, WireGuard, RPN, or Orbot) is enabled. Lockdown mode will block all traffic.</string>
-    <string name="lockdown_check_rethink_bypass" translatable="false">Rethink Bypass</string>
-    <string name="lockdown_check_rethink_bypass_desc" translatable="false">Rethink is in loopback mode but is set to bypass the proxy. Traffic will not route through Rethink.</string>
+    <string name="lockdown_check_rethink_bypass" translatable="false">白い熊 考直 Bypass</string>
+    <string name="lockdown_check_rethink_bypass_desc" translatable="false">白い熊 考直 is in loopback mode but is set to bypass the proxy. Traffic will not route through 白い熊 考直.</string>
 
     <string name="settings_flood_wg" translatable="false">Flood WireGuard</string>
     <string name="settings_flood_wg_desc" translatable="true">When enabled, sends additional WireGuard packets to make tunnel traffic harder to identify and block on restrictive networks.</string>
@@ -2429,8 +2429,8 @@
     <string name="server_selection_error_title" translatable="false">Error fetching locations</string>
     <string name="server_selection_error_hint" translatable="false">Check your connection or try again in a moment.</string>
     <string name="server_selection_error_retry" translatable="false">Try Again</string>
-    <string name="server_selection_vpn_stopped_title" translatable="false">Rethink is stopped</string>
-    <string name="server_selection_vpn_stopped_hint" translatable="false">Start Rethink to proceed.</string>
+    <string name="server_selection_vpn_stopped_title" translatable="false">白い熊 考直 is stopped</string>
+    <string name="server_selection_vpn_stopped_hint" translatable="false">Start 白い熊 考直 to proceed.</string>
     <string name="server_selection_proxy_unavailable" translatable="false">Could not load locations. Proxy may not be ready yet.</string>
 
     <!-- RPN reset progress dialog (dialog_server_loading layout) -->
@@ -2814,7 +2814,7 @@
 
     <!-- Step 1: VPN / Protection Toggle -->
     <string name="tour_step_vpn_title" translatable="false">Your Privacy Shield</string>
-    <string name="tour_step_vpn_desc" translatable="false">Start or stop Rethink\'s VPN tunnel. When active, your app traffic is routed through your chosen DNS, firewall, and network rules for greater control and privacy.</string>
+    <string name="tour_step_vpn_desc" translatable="false">Start or stop 白い熊 考直\'s VPN tunnel. When active, your app traffic is routed through your chosen DNS, firewall, and network rules for greater control and privacy.</string>
 
     <!-- Step 2: DNS Card -->
     <string name="tour_step_dns_title" translatable="false">DNS Protection</string>
@@ -2953,7 +2953,7 @@
     <!-- Blocklist Download Strings -->
     <string name="download_err_network" translatable="true">Network connection issue. Please check your internet and try again.</string>
     <string name="download_err_storage" translatable="true">Insufficient space or storage error. Please check your device storage.</string>
-    <string name="download_err_system_manager" translatable="true">Android Download Manager encountered an error. Try switching to the Rethink downloader.</string>
+    <string name="download_err_system_manager" translatable="true">Android Download Manager encountered an error. Try switching to the 白い熊 考直 downloader.</string>
     <string name="download_err_validation" translatable="true">The blocklist could not be verified or processed. It might be corrupted.</string>
     <string name="download_err_internal" translatable="true">An internal error occurred. Please try again later.</string>
     <string name="download_err_flavor_not_supported" translatable="true">Local blocklist not available for this flavor.</string>
@@ -2988,7 +2988,7 @@
     <string name="rpn_stats_top_apps" translatable="true">Top apps · last 24h</string>
     <string name="rpn_stats_view_logs" translatable="true">View connection logs</string>
     <string name="rpn_stats_empty" translatable="true">No connections have gone through selected servers in the last 24 hours.</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">Start Rethink to see proxy stats</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">Start 白い熊 考直 to see proxy stats</string>
     <string name="rpn_stats_conn_count" translatable="true">%1$s conns</string>
 
     <string name="blocklist_count_home_screen" translatable="false">%1$s lists</string>

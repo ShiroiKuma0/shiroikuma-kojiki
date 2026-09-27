@@ -73,10 +73,10 @@
     <string name="lbl_on_device" translatable="true">на-уређају</string>
     <string name="lbl_unselected" translatable="true">Неизабрано</string>
     <string name="lbl_notification" translatable="true">Обавештење</string>
-    <string name="memory_notification_text">Rethink-у недостаје меморије. Системске радње могу бити ограничене.</string>
+    <string name="memory_notification_text">白い熊 考直-у недостаје меморије. Системске радње могу бити ограничене.</string>
     <string name="slide_2_title" translatable="true">Добродошли</string>
     <string name="slide_1_title" translatable="true">Бесплатан и отвореног кода</string>
-    <string name="slide_1_desc" translatable="true">Rethink је софтвер отвореног кода подржан од стране Mozilla Builders MVP програма, FOSS United Foundation.</string>
+    <string name="slide_1_desc" translatable="true">白い熊 考直 је софтвер отвореног кода подржан од стране Mozilla Builders MVP програма, FOSS United Foundation.</string>
     <string name="allow" translatable="true">Дозволи</string>
     <string name="block" translatable="true">Блокирај</string>
     <string name="bypass_universal" translatable="true">Заобиђи Универзално</string>
@@ -745,9 +745,9 @@
     <string name="lbl_overall" translatable="true">Опште</string>
     <string name="lbl_idle" translatable="true">Мирује</string>
     <string name="lbl_anonymous" translatable="true">анонимно</string>
-    <string name="slide_2_desc" translatable="true">Rethink је најлакши начин да надгледате активност мреже, заобиђете цензуру интернета, и блокирате апликације на вашем андроид уређају.</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 је најлакши начин да надгледате активност мреже, заобиђете цензуру интернета, и блокирате апликације на вашем андроид уређају.</string>
     <string name="untracked" translatable="true">Непраћен</string>
-    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Упозорење: Rethink је деактивиран</string>
+    <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">Упозорење: 白い熊 考直 је деактивиран</string>
     <string name="isolate" translatable="true">Изолуј</string>
     <string name="dns_mode_notification_title" translatable="true">Заштићени! Повезани са брзим и безбедним DNS-ом.</string>
     <string name="pause_mode_notification_title" translatable="true">Паузирано! Блокиране апликације ће наставити да буду надгледане.</string>

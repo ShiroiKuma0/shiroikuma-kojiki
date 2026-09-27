@@ -179,7 +179,7 @@
     <string name="relative_time_today" translatable="true">امروز</string>
     <string name="relative_time_yesterday" translatable="true">دیروز</string>
     <string name="settings_allow_lan_heading" translatable="true">عدم مسیریابی آی‌پی‌های خصوصی</string>
-    <string name="settings_allow_lan_desc" translatable="true">حذف LAN، Loopback و مسیرهای پیوند محلی از تونل VPN Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">حذف LAN، Loopback و مسیرهای پیوند محلی از تونل VPN 白い熊 考直.</string>
     <string name="settings_ip_network_heading" translatable="true">نسخه IP را انتخاب کنید</string>
     <string name="settings_ptrans_desc" translatable="true">ترافیک IPv6 خروجی را به IPv4 روی دستگاه ترجمه کنید؛ اگر به یک شبکه IPv4 متصل هستید، فعال کنید.</string>
     <string name="settings_allow_bypass_heading" translatable="true">فعال سازی قابلیت مشاهده شبکه</string>
@@ -289,7 +289,7 @@
     <string name="settings_check_update_desc" translatable="true">Automatically check for app updates once a week.</string>
     <string name="about_settings_notification" translatable="true">تنظیمات اعلان</string>
     <string name="settings_network_all_networks" translatable="true">از تمام شبکه‌های موجود استفاده کنید</string>
-    <string name="settings_network_all_networks_desc" translatable="true">When enabled, Rethink uses all available networks to connect to Internet. If not, it uses whichever network is deemed <i>active</i> by Android.</string>
+    <string name="settings_network_all_networks_desc" translatable="true">When enabled, 白い熊 考直 uses all available networks to connect to Internet. If not, it uses whichever network is deemed <i>active</i> by Android.</string>
     <string name="public_key_copy_toast_msg" translatable="true">Public key copied.</string>
     <string name="settings_orbot_header" translatable="true">اوربات</string>
     <string name="orbot_explanation" translatable="true">Orbot یک برنامه پراکسی رایگان است که به سایر برنامه‌ها اجازه می‌دهد تا &lt;u&gt;ایمن‌تر&lt;/u&gt; از اینترنت استفاده کنند. \n Orbot از &lt;u&gt;Tor&lt;/u&gt; برای رمزگذاری ترافیک اینترنت شما استفاده می کند که به شما کمک می کند &lt;u&gt;سانسور را دور بزنید&lt;/u&gt; و در برابر اشکال &lt;u&gt;نظارت شبکه&lt;/u&gt; که آزادی و حریم خصوصی شخصی را تهدید می کند، دفاع کنید. \n &lt;u&gt;پراکسی TCP&lt;/u&gt;: فقط اتصالات TCP برنامه‌های &lt;i&gt;شامل شده&lt;/i&gt; را مجدداً به Orbot فوروارد کنید. \n &lt;u&gt;پراکسی HTTP&lt;/u&gt;: دوباره فکر کنید &lt;i&gt;تونل HTTP CONNECT را به Orbot ایجاد می کند و فقط اتصالات TCP برنامه های &lt;i&gt;شامل&lt;/i&gt; را ارسال می کند.</string>
@@ -433,7 +433,7 @@
     <string name="about_bug_report_dialog_positive_btn" translatable="true">ارسال ایمیل</string>
     <string name="about_app" translatable="true">برنامه</string>
     <string name="about_web" translatable="true">پیوند‌ها</string>
-    <string name="settings_notification_desc" translatable="true">دکمه‌های عملیاتی برای نمایش با اعلان Rethink: %1$s</string>
+    <string name="settings_notification_desc" translatable="true">دکمه‌های عملیاتی برای نمایش با اعلان 白い熊 考直: %1$s</string>
     <string name="settings_pcap_heading" translatable="true">ضبط بسته</string>
     <string name="firewall_status_block_metered" translatable="true">در شبکه‌های محدود شده (موبایل) مسدود شده است</string>
     <string name="hs_biometeric_failed" translatable="true">احراز هویت بیومتریک ناموفق بود</string>
@@ -474,7 +474,7 @@
     <string name="firewall_status_bypass_dns_firewall" translatable="true">قوانین دی ان اس و فایروال را دور می‌زند</string>
     <string name="firewall_status_block_unmetered" translatable="true">مسدود شدن در شبکه‌های نامحدود (وای‌فای)</string>
     <string name="apps_card_ips_count" translatable="true">%1$s قانون(های) آی‌پی و پورت</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">Rethink برای راه‌اندازی VPN محلی جهت رمزگذاری درخواست‌های DNS دستگاه، پیاده‌سازی مانیتور شبکه و اجرای قوانین فایروال به مجوز نیاز دارد.\n\nخودکارسازی پروکسی مبتنی بر Wi-Fi برای شناسایی شبکه Wi-Fi متصل (SSID) به مجوز موقعیت مکانی نیاز دارد. این مجوز فقط زمانی درخواست می‌شود که این ویژگی را فعال کنید.\n\nRethink هیچ اطلاعاتی را جمع‌آوری نمی‌کند و به هیچ وجه از شما جاسوسی نمی‌کند.</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直 برای راه‌اندازی VPN محلی جهت رمزگذاری درخواست‌های DNS دستگاه، پیاده‌سازی مانیتور شبکه و اجرای قوانین فایروال به مجوز نیاز دارد.\n\nخودکارسازی پروکسی مبتنی بر Wi-Fi برای شناسایی شبکه Wi-Fi متصل (SSID) به مجوز موقعیت مکانی نیاز دارد. این مجوز فقط زمانی درخواست می‌شود که این ویژگی را فعال کنید.\n\n白い熊 考直 هیچ اطلاعاتی را جمع‌آوری نمی‌کند و به هیچ وجه از شما جاسوسی نمی‌کند.</string>
     <string name="dc_other_dns_heading" translatable="true">نوع</string>
     <string name="about_github" translatable="true">مشارکت در گیت‌هاب</string>
     <string name="about_twitter" translatable="true">ما را در توییتر دنبال کنید</string>
@@ -811,10 +811,10 @@
     <string name="settings_log_lifespan_heading" translatable="true">⁦طول عمر گزارش</string>
     <string name="settings_log_lifespan_desc_default" translatable="true">۷ روز (پیش‌فرض)</string>
     <string name="settings_rinr_btmsht_title" translatable="true">حلقه برگشتی (آزمایشی)</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">در حالت حلقه برگشتی، Rethink می‌تواند ترافیک شبکه خود را تغییر مسیر دهد. این بدان معناست که Rethink می‌تواند قوانین IP و دامنه، قوانین فایروال جهانی و قوانین پروکسی را مانند هر برنامه معمولی دیگری بر ترافیک Rethink اعمال کند. حتی اگر حلقه برگشتی کنترل بیشتری ارائه دهد، رفتار حاصل ممکن است همیشه مطلوب نباشد.\n\nتوصیه می‌شود Rethink را از قوانین فایروال، DNS و پروکسی معاف کنید. انجام این کار بر نظارت یا ثبت وقایع شبکه تأثیری ندارد، بلکه فقط بر قوانین تأثیر می‌گذارد.\n\nدر حالت حلقه برگشتی، قفل پروکسی فعلاً اجرا نخواهد شد.</string>
-    <string name="settings_rinr_exempt_btn" translatable="true">معاف کردن Rethink</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">در حالت حلقه برگشتی، 白い熊 考直 می‌تواند ترافیک شبکه خود را تغییر مسیر دهد. این بدان معناست که 白い熊 考直 می‌تواند قوانین IP و دامنه، قوانین فایروال جهانی و قوانین پروکسی را مانند هر برنامه معمولی دیگری بر ترافیک 白い熊 考直 اعمال کند. حتی اگر حلقه برگشتی کنترل بیشتری ارائه دهد، رفتار حاصل ممکن است همیشه مطلوب نباشد.\n\nتوصیه می‌شود 白い熊 考直 را از قوانین فایروال، DNS و پروکسی معاف کنید. انجام این کار بر نظارت یا ثبت وقایع شبکه تأثیری ندارد، بلکه فقط بر قوانین تأثیر می‌گذارد.\n\nدر حالت حلقه برگشتی، قفل پروکسی فعلاً اجرا نخواهد شد.</string>
+    <string name="settings_rinr_exempt_btn" translatable="true">معاف کردن 白い熊 考直</string>
     <string name="app_info_rethink_warning_title" translatable="true">احتیاط</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">شما در شرف تغییر قوانین فایروال Rethink هستید. از آنجایی که Rethink تونل فیلترشکن را مدیریت می‌کند، اجازه دادن، مسدود کردن یا ایزوله کردن ترافیک خودش می‌تواند دسترسی به شبکه را در همه جا مختل کند.</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">شما در شرف تغییر قوانین فایروال 白い熊 考直 هستید. از آنجایی که 白い熊 考直 تونل فیلترشکن را مدیریت می‌کند، اجازه دادن، مسدود کردن یا ایزوله کردن ترافیک خودش می‌تواند دسترسی به شبکه را در همه جا مختل کند.</string>
     <string name="app_info_rethink_warning_proceed" translatable="true">می‌فهمم</string>
     <string name="rethink_home_screen_warning" translatable="true">ممکن است بر اتصال تأثیر بگذارد ⚠️</string>
     <string name="settings_log_lifespan_dialog_option_0" translatable="true">۱ ساعت</string>
@@ -843,7 +843,7 @@
     <string name="hsf_firewall_mode_off_indicator" translatable="true">دیوار آتش · خاموش</string>
     <string name="hsf_proxy_off_indicator" translatable="true">پراکسی غیرفعال</string>
     <string name="logs_card_heatmap_window" translatable="true">۲۴ ساعت گذشته</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">برنامه Rethink نمی‌تواند اجرا شود، زیرا برنامه دیگری به‌عنوان VPN همیشه فعال همراه با قابلیت «مسدودسازی اتصالات بدون VPN» (قرنطینه) تنظیم شده است. برای ادامه، تنظیمات VPN را ویرایش کنید.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">برنامه 白い熊 考直 نمی‌تواند اجرا شود، زیرا برنامه دیگری به‌عنوان VPN همیشه فعال همراه با قابلیت «مسدودسازی اتصالات بدون VPN» (قرنطینه) تنظیم شده است. برای ادامه، تنظیمات VPN را ویرایش کنید.</string>
     <string name="cd_doh_dialog_resolver_ip" translatable="true">آدرس IP حل‌کننده (اختیاری)</string>
     <string name="fapps_filter_sort_heading" translatable="true">مرتب بر‌اساس</string>
     <string name="firewall_rule_trusted_domain" translatable="true">دامنه (برنامه) مورد اعتماد</string>

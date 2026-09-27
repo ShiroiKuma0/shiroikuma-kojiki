@@ -272,7 +272,7 @@
     <string name="slide_2_desc" translatable="true">白い熊 考直 הוא הדרך הקלה ביותר לפקח על פעילות הרשת, לעקוף צנזורה באינטרנט ואפליקציות חומת אש במכשיר אנדרואיד שלך.</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">מוגן באמצעות Wireguard ו- DNS פרטי</string>
     <string name="alert_permission_accessibility" translatable="true">הרשאה - נגישות</string>
-    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 משתמש בשירות נגישות כדי לעקוב אילו אפליקציות הן בשימוש (חזית) לעומת אלה שאינם בשימוש (רקע). \n \nRETHINK אינו אוסף עליך מידע או מרגל אחריך בשום דרך.</string>
+    <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 משתמש בשירות נגישות כדי לעקוב אילו אפליקציות הן בשימוש (חזית) לעומת אלה שאינם בשימוש (רקע). \n \n白い熊 考直 אינו אוסף עליך מידע או מרגל אחריך בשום דרך.</string>
     <string name="conn_track_clear_logs_message" translatable="true">זה מוחק רק יומני רשת אך לא כללי חומת אש. פעולה זו אינה הפיכה. אתה רוצה להמשיך?</string>
     <string name="dns_query_clear_logs_message" translatable="true">זה מוחק את יומני ה- DNS במכשיר. פעולה זו אינה הפיכה. אתה רוצה להמשיך?</string>
     <string name="lbl_status" translatable="true">סטטוס</string>

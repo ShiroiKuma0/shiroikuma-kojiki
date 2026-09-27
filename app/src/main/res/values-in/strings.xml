@@ -806,7 +806,7 @@
     <string name="lbl_maybe_blocked" translatable="true">Mungkin Diblokir</string>
     <string name="lbl_network" translatable="true">Jaringan</string>
     <string name="settings_allow_lan_heading" translatable="true">Jangan rutekan IP Privat</string>
-    <string name="settings_allow_lan_desc" translatable="true">Kecualikan rute LAN, loopback, multicast, dan link-lokal dari terowongan VPN Rethink.</string>
+    <string name="settings_allow_lan_desc" translatable="true">Kecualikan rute LAN, loopback, multicast, dan link-lokal dari terowongan VPN 白い熊 考直.</string>
     <string name="fapps_bypass_dns_firewall_dialog_message" translatable="true">Abaikan DNS &amp; aturan firewall untuk aplikasi <i>tercantum</i>\?</string>
     <string name="firewall_rule_bypass_dns_firewall_desc" translatable="true"><![CDATA[Koneksi ini diizinkan karena <i>source app</i> telah diatur untuk <i>melewati DNS dan firewall</i>.<br/><br/> Untuk mengubah pengaturan, buka layar <i>App-specific Firewall</i>.]]></string>
     <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[Koneksi ini diizinkan karena <i>domain</i> ditetapkan sebagai tepercaya dalam aturan domain Universal.<br/><br/> Untuk mengubah perilaku ini, buka tab <i>Konfigurasi DNS</i>.]]></string>
@@ -948,7 +948,7 @@
     <string name="settings_rinr_desc_disabled" translatable="true">Rutekan Lalu lintas 白い熊 考直 sendiri, seperti unduhan daftar blokir, pemeriksaan konektivitas, koneksi DNS, kembali ke tunnel.</string>
     <string name="cd_dialog_edit_title" translatable="true">Edit aturan domain</string>
     <string name="cd_toast_edit" translatable="true">Disunting</string>
-    <string name="settings_rinr_desc_enabled" translatable="true">Rutekan lalu lintas mandiri dari rethink melalui terowongan. Kecuali Anda tahu apa yang Anda lakukan, matikan.</string>
+    <string name="settings_rinr_desc_enabled" translatable="true">Rutekan lalu lintas mandiri dari 白い熊 考直 melalui terowongan. Kecuali Anda tahu apa yang Anda lakukan, matikan.</string>
     <string name="dot_custom_url_remove_dialog_title" translatable="true">Hapus titik akhir DoT?</string>
     <string name="dot_custom_url_remove_dialog_message" translatable="true">Menghapus DNS melalui titik-akhir TLS dari konfigurasi yang tersimpan.</string>
     <string name="one_wg_apps_added" translatable="true">Merutekan semua aplikasi</string>
@@ -1262,7 +1262,7 @@
     <string name="hsf_firewall_mode_off_indicator" translatable="true">Firewall · nonaktif</string>
     <string name="hsf_proxy_off_indicator" translatable="true">Proxy tidak aktif</string>
     <string name="logs_card_heatmap_window" translatable="true">24 jam terakhir</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">Rethink tidak dapat dimulai saat aplikasi lain ditetapkan sebagai VPN selalu aktif dengan opsi \"Blokir koneksi tanpa VPN\" (lockdown). Ubah pengaturan VPN untuk melanjutkan.</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">白い熊 考直 tidak dapat dimulai saat aplikasi lain ditetapkan sebagai VPN selalu aktif dengan opsi \"Blokir koneksi tanpa VPN\" (lockdown). Ubah pengaturan VPN untuk melanjutkan.</string>
     <string name="cd_doh_dialog_resolver_ip" translatable="true">Alamat IP resolver (opsional)</string>
     <string name="ci_dialog_error_invalid_cidr" translatable="true">CIDR tidak valid. Rentang IP (misalnya 1.1.1.1-55) dan wildcard yang tidak selaras tidak didukung. Gunakan notasi CIDR seperti 1.1.1.0/24.</string>
     <string name="notif_download_progress_content" translatable="true">Unduhan sedang berlangsung… %1$d%%</string>
@@ -1277,7 +1277,7 @@
     <string name="cd_stats_country_map" description="Content description for the offline world map shown in the insights view." translatable="true">Peta dunia negara yang paling sering dihubungi</string>
     <string name="download_err_network" translatable="true">Masalah koneksi jaringan. Periksa internet Anda lalu coba lagi.</string>
     <string name="download_err_storage" translatable="true">Ruang tidak mencukupi atau terjadi kesalahan penyimpanan. Periksa penyimpanan perangkat Anda.</string>
-    <string name="download_err_system_manager" translatable="true">Pengelola Unduhan Android mengalami kesalahan. Coba beralih ke pengunduh Rethink.</string>
+    <string name="download_err_system_manager" translatable="true">Pengelola Unduhan Android mengalami kesalahan. Coba beralih ke pengunduh 白い熊 考直.</string>
     <string name="download_err_validation" translatable="true">Daftar blok tidak dapat diverifikasi atau diproses. Daftar tersebut mungkin rusak.</string>
     <string name="download_err_internal" translatable="true">Terjadi kesalahan internal. Silakan coba lagi nanti.</string>
     <string name="download_err_flavor_not_supported" translatable="true">Daftar blok lokal tidak tersedia untuk varian ini.</string>
@@ -1303,6 +1303,6 @@
     <string name="rpn_stats_top_apps" translatable="true">Aplikasi teratas · 24 jam terakhir</string>
     <string name="rpn_stats_view_logs" translatable="true">Lihat log koneksi</string>
     <string name="rpn_stats_empty" translatable="true">Tidak ada koneksi yang melalui server terpilih dalam 24 jam terakhir.</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">Mulai Rethink untuk melihat statistik proksi</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">Mulai 白い熊 考直 untuk melihat statistik proksi</string>
     <string name="rpn_stats_conn_count" translatable="true">%1$s koneksi</string>
 </resources>

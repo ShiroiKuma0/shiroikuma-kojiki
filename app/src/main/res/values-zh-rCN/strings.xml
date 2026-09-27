@@ -293,7 +293,7 @@
     <string name="settings_theme_dialog_themes_2">亮色</string>
     <string name="settings_theme_dialog_themes_3">暗色</string>
     <string name="settings_ip_dialog_ipv6">IPv6</string>
-    <string name="settings_notification_desc">与 Rethink 的通知一同显示的操作按钮：%1$s</string>
+    <string name="settings_notification_desc">与 白い熊 考直 的通知一同显示的操作按钮：%1$s</string>
     <string name="dns_card_latency_active">%1$sms</string>
     <string name="lbl_add">添加</string>
     <string name="dns_btm_sheet_chip">+%1$s 个其他 IP</string>
@@ -317,7 +317,7 @@
     <string name="configure_dns_crypt">DNSCrypt: %1$s 服务器</string>
     <string name="search_universal_ips"><font size="12">搜索 IP</font></string>
     <string name="settings_ptrans_heading">强制 IPv4 出站</string>
-    <string name="settings_autostart_bootup_desc">Rethink 若在关机前运行，开机时则自动启动。</string>
+    <string name="settings_autostart_bootup_desc">白い熊 考直 若在关机前运行，开机时则自动启动。</string>
     <string name="settings_network_all_networks">使用所有可用网络</string>
     <string name="settings_socks_forwarding_default_desc">正转发连接至 SOCKS5 端点。</string>
     <string name="firewall_card_status_active">%1$s 个应用</string>
@@ -749,7 +749,7 @@
     <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">拦截最多的 IP</string>
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">连接最多的 IP</string>
     <string name="ssv_see_more">显示所有</string>
-    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app">启动 Rethink</string>
+    <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start Rethink app">启动 白い熊 考直</string>
     <string name="lbl_all" translatable="true">全部</string>
     <string name="lbl_blocked" translatable="true">拦截</string>
     <string name="lbl_wildcard" translatable="true">通配</string>
@@ -810,7 +810,7 @@
     <string name="brbs_backup_restore_desc" translatable="true">无法跨版本使用</string>
     <string name="lbl_maybe_blocked" translatable="true">或被拦截</string>
     <string name="lbl_network" translatable="true">网络</string>
-    <string name="settings_allow_lan_desc" translatable="true">将局域网、环回、多播与本地链路路由排除于 Rethink 的 VPN 隧道外。</string>
+    <string name="settings_allow_lan_desc" translatable="true">将局域网、环回、多播与本地链路路由排除于 白い熊 考直 的 VPN 隧道外。</string>
     <string name="settings_allow_lan_heading" translatable="true">勿路由私有 IP</string>
     <string name="lbl_delete" translatable="true">删除</string>
     <string name="lbl_private_key" translatable="true">私钥</string>
@@ -1204,8 +1204,8 @@
     <string name="settings_rinr_btmsht_title" translatable="true">环回（实验性）</string>
     <string name="settings_rinr_exempt_btn" translatable="true">排除 白い熊 考直</string>
     <string name="app_info_rethink_warning_title" translatable="true">注意</string>
-    <string name="app_info_rethink_warning_desc" translatable="true">您即将更改 Rethink 的防火墙规则。由于 Rethink 管理 VPN 隧道，因此放行、拦截或隔离其自身流量可能会导致整个网络访问中断。</string>
-    <string name="settings_rinr_btmsht_desc" translatable="true">在环回模式下，Rethink 可以重新路由自身的网络流量。这意味着，Rethink 可以像对待其他常规应用一样，对其流量应用 IP 和域名规则、全局防火墙规则以及代理规则。尽管环回模式提供了更多控制权，但其最终行为可能并非总是理想的。\n\n\n建议将 Rethink 排除在防火墙、DNS 和代理规则之外。这样做不会影响网络监控或日志记录，只会影响规则本身。\n\n\n在环回模式下，代理锁定功能目前不会强制执行。</string>
+    <string name="app_info_rethink_warning_desc" translatable="true">您即将更改 白い熊 考直 的防火墙规则。由于 白い熊 考直 管理 VPN 隧道，因此放行、拦截或隔离其自身流量可能会导致整个网络访问中断。</string>
+    <string name="settings_rinr_btmsht_desc" translatable="true">在环回模式下，白い熊 考直 可以重新路由自身的网络流量。这意味着，白い熊 考直 可以像对待其他常规应用一样，对其流量应用 IP 和域名规则、全局防火墙规则以及代理规则。尽管环回模式提供了更多控制权，但其最终行为可能并非总是理想的。\n\n\n建议将 白い熊 考直 排除在防火墙、DNS 和代理规则之外。这样做不会影响网络监控或日志记录，只会影响规则本身。\n\n\n在环回模式下，代理锁定功能目前不会强制执行。</string>
     <string name="hsf_local_network_permission_dialog_heading" translatable="true">本地网络权限</string>
     <string name="hsf_local_network_permission_dialog_message" translatable="true">%1$s 的一些功能需要本地网络权限才能正常工作。 已停用 VPN 。从系统的应用设置授予该权限并重试。</string>
     <string name="wireguard_dns_mode_conflict" translatable="true">无法在仅 DNS 模式下启用 WireGuard。切换到防火墙或 DNS+防火墙模式。</string>
@@ -1250,7 +1250,7 @@
     <string name="hsf_firewall_mode_off_indicator" translatable="true">防火墙 · off</string>
     <string name="hsf_proxy_off_indicator" translatable="true">代理不活跃</string>
     <string name="logs_card_heatmap_window" translatable="true">最近 24 小时</string>
-    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">通过“阻止不使用 VPN 的连接”（锁定模式）将另一个应用设为“始终开启的 VPN” 应用时无法启动 Rethink。要继续请编辑 VPN 设置。</string>
+    <string name="hsf_vpn_lockdown_prepare_failure" translatable="true">通过“阻止不使用 VPN 的连接”（锁定模式）将另一个应用设为“始终开启的 VPN” 应用时无法启动 白い熊 考直。要继续请编辑 VPN 设置。</string>
     <string name="cd_doh_dialog_resolver_ip" translatable="true">解析器 IP 地址（可选）</string>
     <string name="ci_dialog_error_invalid_cidr" translatable="true">不是有效的 CIDR。不支持 IP 段（如 1.1.1.1-55）和没对齐的通配符。使用类似 1.1.1.0/24 的 CIDR 符号。</string>
     <string name="notif_download_progress_content" translatable="true">下载中 … %1$d%%</string>
@@ -1265,7 +1265,7 @@
     <string name="cd_stats_country_map" description="Content description for the offline world map shown in the insights view." translatable="true">联系最多地区的世界地图</string>
     <string name="download_err_network" translatable="true">网络连接问题。请检查互联网并重试。</string>
     <string name="download_err_storage" translatable="true">空间不足或存储错误。请检查设备存储。</string>
-    <string name="download_err_system_manager" translatable="true">安卓下载管理器遇到错误。试着切换到 Rethink 下载器。</string>
+    <string name="download_err_system_manager" translatable="true">安卓下载管理器遇到错误。试着切换到 白い熊 考直 下载器。</string>
     <string name="download_err_validation" translatable="true">无法验证或处理黑名单。可能已损坏。</string>
     <string name="download_err_internal" translatable="true">出现内部错误。请稍后重试。</string>
     <string name="download_err_flavor_not_supported" translatable="true">该版本没有本地黑名单可用。</string>
@@ -1291,7 +1291,7 @@
     <string name="rpn_stats_top_apps" translatable="true">过去 24 小时 Top 应用</string>
     <string name="rpn_stats_view_logs" translatable="true">查看连接日志</string>
     <string name="rpn_stats_empty" translatable="true">过去 24 小时没有连接流经所选服务器。</string>
-    <string name="rpn_stats_no_active_proxy" translatable="true">启动 Rethink 查看代理统计数</string>
+    <string name="rpn_stats_no_active_proxy" translatable="true">启动 白い熊 考直 查看代理统计数</string>
     <string name="rpn_stats_conn_count" translatable="true">%1$s 个连接</string>
     <string name="lbl_enable" translatable="true">启用</string>
     <string name="lbl_app_rules" translatable="true">应用程序规则</string>
