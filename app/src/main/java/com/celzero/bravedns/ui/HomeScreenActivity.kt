@@ -404,15 +404,25 @@ class HomeScreenActivity : BaseActivity(R.layout.activity_home_screen) {
         }
         moveRemoteBlocklistFileFromAsset()
 
-        try {
-            // /data/data/com.celzero.bravedns/shared_prefs/com.celzero.bravedns_preferences.xml
-            val prefs = getSharedPreferences("com.celzero.bravedns_preferences", MODE_PRIVATE)
-            val allowBypass = prefs.getBoolean("allow_bypass", false)
-            persistentState.privateIps = allowBypass
-        } catch (e: Exception) {
-            Logger.w(LOG_TAG_UI, "err reading shared prefs: ${e.message}", e)
-            persistentState.privateIps = isPlayStoreFlavour()
-        }
+        // FORK (白い熊 考直): upstream's one-shot migration of `allow_bypass` onto
+        // `private_ips` is deliberately NOT replayed here. Upstream v0.5.7 added, at this spot:
+        //
+        //     val prefs = getSharedPreferences("com.celzero.bravedns_preferences", MODE_PRIVATE)
+        //     persistentState.privateIps = prefs.getBoolean("allow_bypass", false)
+        //
+        // which is wrong for this fork twice over. First, removeThisMethod() runs on every version
+        // bump, i.e. on every build 白い熊 installs, so it is not one-shot for us -- it silently
+        // reset "Do not route Private IPs" after each delivery. Second, it reads the prefs file
+        // `com.celzero.bravedns_preferences`, which does not exist under our APP_ID
+        // (`shiroikuma.kojiki`), so `allow_bypass` always fell back to the default `false` and the
+        // assignment always forced privateIps OFF regardless of the real setting.
+        //
+        // That setting is load-bearing here: Feature 7 keeps 10/8 out of the tun and pins the WG
+        // overlay 10.9.0.0/24 back in (BraveVPNService.addRoute4), and the home LAN is direct only
+        // while privateIps is on. Found 2026-09-27 on 0.5.7+008: table 1352 had a bare
+        // `default dev tun1` with no RFC1918 subtraction and no overlay pin.
+        //
+        // RE-CHECK ON EVERY REBASE -- upstream will reintroduce this block.
 
         try {
             io {
