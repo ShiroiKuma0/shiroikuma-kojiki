@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.7+003`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.7+005`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -51,7 +51,7 @@ Firewall rules say *what*; they can never say *why*. Every row in the apps view 
 
 Rows also carry **groups** (profiles): named sets of apps shown as pills. Tap a pill to filter the list to that group, long-press to drop the app from it, “+” to add. And because the bulk-rule toolbar acts on whatever the filter selects, filtering to a group aims the entire toolbar at it — **one tap on a pill, one on “block on metered”, and the whole group is done.**
 
-Both are keyed by package name, so they survive reinstalls and travel in Export/Import. Even the uid-only rows (root, `SYSTEM`, and any traffic no package accounts for — reachable through a **Non-app** filter) can be annotated; those are carried across devices with a ⚠ marker telling you to re-check them, never silently trusted.
+The note is the same one the app's own detail page shows — one note per app, edited from wherever you happen to be. Groups are keyed by package name; a note is set aside when its app is uninstalled and comes back when it returns, so both survive reinstalls and travel in Export/Import. Even the uid-only rows (root, `SYSTEM`, and any traffic no package accounts for — reachable through a **Non-app** filter) can be annotated; those are carried across devices with a ⚠ marker telling you to re-check them, never silently trusted.
 
 ---
 
