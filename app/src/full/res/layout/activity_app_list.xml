@@ -76,26 +76,23 @@
                         android:visibility="visible" />
                 </LinearLayout>
 
-                <HorizontalScrollView
-                    android:id="@+id/ffa_sort_chip_ll"
+                <!-- Fork (白い熊 考直): the quick-filter bar. A RecyclerView, not upstream's
+                     ChipGroup inside a HorizontalScrollView: the row is heterogeneous now (firewall,
+                     top-level, category, group and "has a note" pills all share it), so ChipGroup's
+                     single-selection is wrong, and drag-reordering needs an ItemTouchHelper, which
+                     attaches to a RecyclerView. It scrolls itself — nesting it in the old
+                     HorizontalScrollView would have left two horizontal scrollers fighting. -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ffa_firewall_chip_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:clipToPadding="false"
                     android:paddingTop="10dp"
-                    android:scrollbars="none">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/ffa_firewall_chip_group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="5dp"
-                        android:paddingBottom="5dp"
-                        android:visibility="visible"
-                        app:selectionRequired="true"
-                        app:singleLine="true"
-                        app:singleSelection="true" />
-                </HorizontalScrollView>
+                    android:paddingBottom="5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/firewall_app_label_tv"

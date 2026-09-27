@@ -48,6 +48,8 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     private var search: String = ""
     private val rethinkUid = android.os.Process.myUid()
     private var sort: AppListActivity.SortOption = AppListActivity.SortOption.NAME
+    // Fork (白い熊 考直): "only rows with a note" — bound straight into the paged query.
+    private var notesOnly = false
 
     private val _notesErrorEvent = MutableLiveData<OneTimeEvent<Int>>()
     val notesErrorEvent: LiveData<OneTimeEvent<Int>> = _notesErrorEvent
@@ -102,6 +104,7 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         this.firewallFilter = filters.firewallFilter
         this.topLevelFilter = filters.topLevelFilter
         this.sort = filters.sort
+        this.notesOnly = filters.notesOnly
 
         this.groupFilterActive = filters.groupFilters.isNotEmpty()
         this.groupPackages = filters.groupPackages
@@ -134,6 +137,7 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
                         firewallFilter.getFilter(),
                         firewallFilter.getConnectionStatusFilter(),
                         getBypassProxyFilter(),
+                        if (notesOnly) 1 else 0,
                         sortKey,
                         sortDesc
                     )
@@ -175,10 +179,15 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
 
     /** Fork (白い熊 考直): the same row filters applied to a plain list — the bulk-rule path. */
     private fun applyRowFilters(apps: List<AppInfo>): List<AppInfo> {
-        if (!groupFilterActive && !nonAppOnly) return apps
+        // notesOnly is checked here but NOT in the PagingData overload: the paged list comes from
+        // the fork's own getSortedApps, which binds the predicate in SQL, while this bulk path runs
+        // upstream's getFilteredApps, which knows nothing about notes. Both must agree, because the
+        // bulk-rule toolbar acts on exactly what the list shows.
+        if (!groupFilterActive && !nonAppOnly && !notesOnly) return apps
         return apps.filter { app ->
             (!groupFilterActive || groupPackages.contains(app.packageName)) &&
-                (!nonAppOnly || Utilities.isNonApp(app.packageName))
+                (!nonAppOnly || Utilities.isNonApp(app.packageName)) &&
+                (!notesOnly || app.notes.isNotBlank())
         }
     }
 

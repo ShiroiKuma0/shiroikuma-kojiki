@@ -255,6 +255,7 @@ interface AppInfoDAO {
             "and isSystemApp in (:appType) " +
             "and (firewallStatus in (:firewall) or isProxyExcluded in (:isProxyExcluded)) " +
             "and connectionStatus in (:connectionStatus) " +
+            "and (:notesOnly = 0 or trim(notes) != '') " +
             "order by " +
             "case when :sortKey = 0 and :descending = 0 then lower(appName) end asc, " +
             "case when :sortKey = 0 and :descending = 1 then lower(appName) end desc, " +
@@ -274,6 +275,7 @@ interface AppInfoDAO {
         firewall: Set<Int>,
         connectionStatus: Set<Int>,
         isProxyExcluded: Set<Int>,
+        notesOnly: Int,
         sortKey: Int,
         descending: Int
     ): PagingSource<Int, AppInfo>

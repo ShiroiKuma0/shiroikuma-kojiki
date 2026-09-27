@@ -212,7 +212,15 @@
     <string name="kojiki_group_removed">%1$s removed from “%2$s”</string>
     <string name="kojiki_group_manage">Manage</string>
     <string name="kojiki_group_manage_row">%1$s — %2$d app(s)</string>
-    <string name="kojiki_group_filter_heading">Groups</string>
+    <string name="kojiki_group_filter_heading">Groups &amp; notes</string>
+    <string name="kojiki_filter_has_note">Has a note</string>
+    <!-- quick-filter bar (the pill row in the apps view) -->
+    <string name="kojiki_qf_clear">Clear this filter</string>
+    <string name="kojiki_qf_hide">Hide this pill</string>
+    <string name="kojiki_qf_manage">Manage pills</string>
+    <string name="kojiki_qf_reset">Reset</string>
+    <string name="kojiki_qf_manage_hint">Unticked pills stay out of the row. To reorder, hold a pill in the row and move it.</string>
+    <string name="kojiki_note_filter_suffix">, &lt;b&gt;with a note&lt;/b&gt;</string>
     <string name="kojiki_group_none">No groups yet — tap “+” on any app row, or “Manage” above, to make one.</string>
     <string name="kojiki_group_filter_desc">Showing &lt;b&gt;%1$s&lt;/b&gt; — %2$s apps. Bulk actions apply to this group.</string>
     <string name="kojiki_eim_cat_notes">App notes</string>
