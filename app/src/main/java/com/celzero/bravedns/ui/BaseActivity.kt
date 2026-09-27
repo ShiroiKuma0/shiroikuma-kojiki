@@ -100,7 +100,12 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        applyMaxContentWidth()
+        // Fork (白い熊 考直): upstream v0.5.7 added a 600dp content cap here — on any window wider
+        // than MAX_CONTENT_WIDTH_DP it pins the content to 600dp and centres it. 白い熊's phone is a
+        // tri-fold: unfolded it is ~819dp wide, so the cap left wide black bars down both sides
+        // (reported 2026-09-27 on 0.5.7+001). This fork wants the whole screen, on every screen, so
+        // applyMaxContentWidth() is deliberately NOT called. Upstream's methods are left intact and
+        // unused so the next rebase still diffs cleanly against them — re-check this after each one.
     }
 
     /**
@@ -125,6 +130,7 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
      * [android.view.View.OnLayoutChangeListener]; the mutation is a no-op when the target
      * width is unchanged.
      */
+    @Suppress("unused") // fork: intentionally not called; see onPostCreate
     private fun applyMaxContentWidth() {
         val content = findViewById<FrameLayout>(android.R.id.content) ?: return
         if (!isMaxWidthHooked) {
