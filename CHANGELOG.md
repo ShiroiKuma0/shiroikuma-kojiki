@@ -2,6 +2,21 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
 
+## 0.5.7+009
+
+**The LAN setting stays where you put it.**
+
+### “Do not route Private IPs” stopped being switched off by every update
+v0.5.7 brought a small piece of housekeeping with it: a migration that copies the retired “allow bypass” preference onto “Do not route Private IPs”. Upstream meant it to run once, on the release that retired the old setting.
+
+Here it ran on every build. The routine carrying it is the one the app runs whenever it notices its own version has changed — which, on a phone that gets a new build most days, is every single install. So each delivery quietly put the setting back to off, and nothing said so; the only way to find out was to go and look at it.
+
+It was blunter than a reset, too. The migration reads the preferences file under the *stock* app's name, and this fork does not have one, so it never found an old value to copy and simply wrote “off” every time — whatever the setting had been.
+
+That switch is not cosmetic here. It is what keeps the home network outside the tunnel, so the phone reaches things on the LAN directly instead of routing them through the VPN and back, and it is the switch this fork hangs its WireGuard overlay pin on. With it forced off, the LAN quietly went back through the tunnel after every update, and the pin never came into play at all.
+
+The migration is deleted, with a comment in its place recording exactly what it did and why it does not belong here, so the next upstream release cannot reintroduce it unnoticed.
+
 ## 0.5.7+008
 
 **The pill row becomes yours.**
