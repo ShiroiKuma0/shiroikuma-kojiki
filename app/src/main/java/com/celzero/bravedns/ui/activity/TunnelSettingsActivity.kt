@@ -657,7 +657,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
     }
 
     private fun showRestoreDefaultsDialog() {
-        MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.restore_defaults_dialog_title)
             .setMessage(R.string.restore_defaults_dialog_message)
             .setPositiveButton(R.string.lbl_proceed) { di, _ ->

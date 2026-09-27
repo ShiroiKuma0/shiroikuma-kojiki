@@ -38,7 +38,7 @@ import com.celzero.bravedns.util.ProcessInfoCollector
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities.isAtleastO
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

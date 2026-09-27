@@ -60,7 +60,7 @@ import com.celzero.bravedns.util.UIUtils.htmlToSpannedText
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.getIcon
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
 import com.google.gson.Gson
@@ -527,7 +527,7 @@ class ConnTrackerBottomSheet : BaseBottomSheetDialogFragment(), KoinComponent {
                         ?: info?.appName?.takeIf { it.isNotBlank() }
                         ?: getString(R.string.lbl_app_rules)
                 val dialog =
-                    MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+                    KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
                         .setTitle(title)
                         .setSingleChoiceItems(labels, appRuleLabelIndex(a, c)) { d, which ->
                             d.dismiss()

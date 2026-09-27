@@ -27,7 +27,7 @@ import com.celzero.bravedns.util.SelectionIndicator
 import com.celzero.bravedns.database.SmartDnsEndpoint
 import com.celzero.bravedns.database.SmartDnsMode
 import com.celzero.bravedns.databinding.ListItemEndpointBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 
 class SmartDnsEndpointAdapter(
     private val context: Context,
@@ -106,7 +106,7 @@ class SmartDnsEndpointAdapter(
         }
 
         private fun showExplanationDialog(endpoint: SmartDnsEndpoint) {
-            val builder = MaterialAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
+            val builder = KojikiAlertDialogBuilder(context, R.style.App_Dialog_NoDim)
             builder.setTitle(endpoint.dnsName)
             builder.setMessage(endpoint.dnsExplanation)
             builder.setCancelable(true)

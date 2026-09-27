@@ -43,7 +43,7 @@ import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.viewmodel.ProxyAppsMappingViewModel
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -309,7 +309,7 @@ class WgIncludeAppsActivity : BaseActivity(R.layout.dialog_wg_apps),
     }
 
     private fun confirmBulkAction(include: Boolean) {
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         if (include) {
             builder.setTitle(getString(R.string.include_all_app_wg_dialog_title))
             builder.setMessage(getString(R.string.include_all_app_wg_dialog_desc))

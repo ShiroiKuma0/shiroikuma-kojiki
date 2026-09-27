@@ -813,7 +813,7 @@ class MiscSettingsActivity : BaseActivity(R.layout.activity_misc_settings),
     }
 
     private fun showLogLifespanDialog() {
-        val alertBuilder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val alertBuilder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         alertBuilder.setTitle(getString(R.string.settings_log_lifespan_heading))
         val items = LogLifespan.getLifespanStrings(this)
         val checkedItem = persistentState.logLifespan.toInt()

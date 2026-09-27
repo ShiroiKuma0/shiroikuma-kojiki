@@ -57,7 +57,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
 import kotlinx.coroutines.Dispatchers

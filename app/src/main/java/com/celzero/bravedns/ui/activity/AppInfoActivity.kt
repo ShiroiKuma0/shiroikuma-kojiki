@@ -102,7 +102,6 @@ import com.celzero.bravedns.viewmodel.CustomIpViewModel
 import com.celzero.firestack.backend.Backend
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
@@ -128,6 +127,12 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
     private var uid: Int = INVALID_UID
     private var requestedPackageName: String? = null
     private lateinit var appInfo: AppInfo
+
+    // Fork (白い熊 考直): upstream dropped this field at v0.5.7 along with its platform
+
+    // tooltip; Feature 8 still uses it to explain the rule once before the first enable.
+
+    private var showBypassToolTip: Boolean = true
 
     private var appStatus = FirewallManager.FirewallStatus.NONE
     private var connStatus = FirewallManager.ConnectionStatus.ALLOW
@@ -1960,7 +1965,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
         notesEditText = editText
 
-        val dialog = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val dialog = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
             .setTitle(R.string.lbl_notes)
             .setView(container)
             .setPositiveButton(R.string.lbl_save) { _, _ ->

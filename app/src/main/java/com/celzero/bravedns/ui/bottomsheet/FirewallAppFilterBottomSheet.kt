@@ -15,6 +15,7 @@ limitations under the License.
 */
 package com.celzero.bravedns.ui.bottomsheet
 
+import com.celzero.bravedns.util.useTransparentNoDimBackground
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -93,11 +94,8 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             this.filters.firewallFilter = f.firewallFilter
             this.filters.categoryFilters.clear()
             this.filters.categoryFilters.addAll(f.categoryFilters)
-            this.filters.sort = f.sort
             this.filters.searchString = f.searchString
         }
-
-        remakeSortChipsUi()
 
         if (f == null) {
             applyParentFilter(AppListActivity.TopLevelFilter.ALL.id)
@@ -128,7 +126,7 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             }
             new.categoryFilters.clear()
             new.topLevelFilter = AppListActivity.TopLevelFilter.ALL
-            new.sort = AppListActivity.SortOption.NAME
+            // Fork (白い熊 考直): sort is owned by KojikiAppSort (header glyph), not this sheet.
             // Fork (白い熊 考直): "clear" means every filter this sheet owns, groups included.
             new.setGroups(requireContext(), emptySet())
             AppListActivity.filters.postValue(new)
@@ -222,42 +220,6 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             } else {
                 // no-op
                 // no action needed for checkState: false
-            }
-        }
-
-        return chip
-    }
-
-    private fun remakeSortChipsUi() {
-        b.fsSortChipGroup.removeAllViews()
-        b.fsSortChipGroup.addView(makeSortChip(AppListActivity.SortOption.NAME, getString(R.string.fapps_filter_sort_name)))
-        b.fsSortChipGroup.addView(makeSortChip(AppListActivity.SortOption.PACKAGE, getString(R.string.fapps_filter_sort_package)))
-        b.fsSortChipGroup.addView(makeSortChip(AppListActivity.SortOption.UID, getString(R.string.fapps_filter_sort_uid)))
-    }
-
-    private fun makeSortChip(
-        value: AppListActivity.SortOption,
-        label: String
-    ): Chip {
-        val chip =
-            layoutInflater.inflate(R.layout.item_chip_filter, b.root, false) as Chip
-
-        chip.id = View.generateViewId()
-        chip.tag = value
-        chip.text = label
-        chip.isChecked = filters.sort == value
-
-        if (chip.isChecked) {
-            colorUpChipIcon(chip)
-        }
-
-        chip.setOnCheckedChangeListener { _, isSelected: Boolean ->
-            if (isSelected) {
-                filters.sort = value
-                colorUpChipIcon(chip)
-            } else {
-                chip.checkedIcon?.colorFilter = null
-                chip.chipIcon?.colorFilter = null
             }
         }
 
