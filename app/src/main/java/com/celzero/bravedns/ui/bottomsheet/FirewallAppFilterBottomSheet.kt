@@ -105,6 +105,7 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             this.filters.firewallFilter = f.firewallFilter
             this.filters.categoryFilters.addAll(f.categoryFilters)
             this.filters.setGroups(requireContext(), f.groupFilters)
+            this.filters.notesOnly = f.notesOnly
         }
 
         applyParentFilter(f.topLevelFilter.id)
@@ -127,8 +128,10 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             new.categoryFilters.clear()
             new.topLevelFilter = AppListActivity.TopLevelFilter.ALL
             // Fork (白い熊 考直): sort is owned by KojikiAppSort (header glyph), not this sheet.
-            // Fork (白い熊 考直): "clear" means every filter this sheet owns, groups included.
+            // Fork (白い熊 考直): "clear" means every filter this sheet owns — groups and the note
+            // filter included.
             new.setGroups(requireContext(), emptySet())
+            new.notesOnly = false
             AppListActivity.filters.postValue(new)
             this.dismiss()
         }
@@ -303,12 +306,29 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
     /** Rebuild the group chips from the stored group list, ticking the pending selection. */
     private fun remakeGroupChipsUi() {
         b.ffaGroupChipGroup.removeAllViews()
+        // "Has a note" shares this row rather than opening a section of its own: the sheet's chip
+        // sections already fill a folded screen, and the row is multi-select, so the note filter
+        // combines with the groups beside it instead of replacing them.
+        b.ffaGroupChipGroup.addView(makeNoteChip(filters.notesOnly))
         val all = KojikiAppGroups.groups(requireContext())
         b.fsGroupsEmpty.visibility = if (all.isEmpty()) View.VISIBLE else View.GONE
         for (name in all) {
             b.ffaGroupChipGroup.addView(makeGroupChip(name, filters.groupFilters.contains(name)))
         }
         applyKojikiTheme()
+    }
+
+    /** Fork (白い熊 考直): narrow the list to rows carrying a note. */
+    private fun makeNoteChip(checked: Boolean): Chip {
+        val chip = this.layoutInflater.inflate(R.layout.item_chip_filter, b.root, false) as Chip
+        chip.text = getString(R.string.kojiki_filter_has_note)
+        chip.isChecked = checked
+        if (checked) colorUpChipIcon(chip)
+        chip.setOnCheckedChangeListener { _, isSelected: Boolean ->
+            filters.notesOnly = isSelected
+            colorUpChipIcon(chip)
+        }
+        return chip
     }
 
     private fun makeGroupChip(name: String, checked: Boolean): Chip {

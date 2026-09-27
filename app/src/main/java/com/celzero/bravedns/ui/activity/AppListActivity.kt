@@ -37,12 +37,15 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.celzero.bravedns.R
 import com.celzero.bravedns.adapter.FirewallAppListAdapter
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppNotes
+import com.celzero.bravedns.customui.KojikiQuickFilters
+import com.celzero.bravedns.adapter.KojikiQuickFilterAdapter
 import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
@@ -57,6 +60,7 @@ import com.celzero.bravedns.ui.BaseActivity
 import com.celzero.bravedns.ui.bottomsheet.FirewallAppFilterBottomSheet
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.UIUtils
+import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
@@ -237,6 +241,12 @@ class AppListActivity :
         var groupPackages: Set<String> = emptySet()
             private set
 
+        // Fork (白い熊 考直): show only rows carrying a note. Orthogonal to every other filter —
+        // "installed apps I have annotated" is the useful question — so it is a toggle rather than
+        // another top-level filter, and it is a bound SQL predicate on AppInfo.notes rather than a
+        // post-query pass, which the group filter has to be because its key lives outside the table.
+        var notesOnly = false
+
         // Fork (白い熊 考直): the list's sort order. It rides on Filters because that is the one
         // object the view model is handed, but its home is the persisted store — every place that
         // makes a fresh Filters calls loadSort, so a sort picked once outlives the activity.
@@ -288,7 +298,7 @@ class AppListActivity :
 
     override fun onResume() {
         super.onResume()
-        setFirewallFilter(filters.value?.firewallFilter)
+        refreshQuickFilterBar()
         filters.value = filters.value ?: Filters().loadSort(this)
         b.ffaAppList.requestFocus()
     }
@@ -304,12 +314,18 @@ class AppListActivity :
 
             appInfoViewModel.setFilter(it)
             updateFilterText(it)
+            // the sheet writes the same Filters object, so the bar re-reads its checked states here
+            refreshQuickFilterBar()
         }
     }
 
     private fun updateFilterText(filter: Filters) {
         val filterLabel = filter.topLevelFilter.getLabel(this)
         val firewallLabel = filter.firewallFilter.getLabel(this)
+        // Fork (白い熊 考直): the note filter combines with every other one, so rather than leading
+        // the line like a group does it is appended to whichever line is built below — but appear it
+        // must, for the same reason: a filter the toolbar is aimed at cannot be invisible.
+        val note = if (filter.notesOnly) getString(R.string.kojiki_note_filter_suffix) else ""
         // Fork (白い熊 考直): an active group filter leads the line — it is the narrowest filter and
         // the one the bulk-rule toolbar is then aimed at, so it must never be invisible.
         if (filter.groupFilters.isNotEmpty()) {
@@ -318,7 +334,7 @@ class AppListActivity :
                     getString(
                         R.string.kojiki_group_filter_desc,
                         filter.groupFilters.joinToString(", "),
-                        firewallLabel.lowercase()))
+                        firewallLabel.lowercase()) + note)
             b.firewallAppLabelTv.isSelected = true
             return
         }
@@ -328,7 +344,7 @@ class AppListActivity :
                     getString(
                         R.string.fapps_firewall_filter_desc,
                         firewallLabel.lowercase(),
-                        filterLabel))
+                        filterLabel) + note)
         } else {
             b.firewallAppLabelTv.text =
                 UIUtils.htmlToSpannedText(
@@ -336,7 +352,7 @@ class AppListActivity :
                         R.string.fapps_firewall_filter_desc_category,
                         firewallLabel.lowercase(),
                         filterLabel,
-                        filter.categoryFilters))
+                        filter.categoryFilters) + note)
         }
         b.firewallAppLabelTv.isSelected = true
     }
@@ -628,93 +644,80 @@ class AppListActivity :
         builder.create().show()
     }
 
-    private fun setFirewallFilter(firewallFilter: FirewallFilter?) {
-        if (firewallFilter == null) return
+    // ---- Fork (白い熊 考直): the quick-filter pill bar -------------------------------------------
+    // Upstream's row was a fixed, single-select ChipGroup of the eight firewall filters. It now
+    // carries any filter the sheet offers, in the user's own order, with unwanted pills hidden —
+    // see KojikiQuickFilters for the key grammar and KojikiQuickFilterAdapter for the gestures.
 
-        val view: Chip = b.ffaFirewallChipGroup.findViewWithTag(firewallFilter.id)
-        b.ffaFirewallChipGroup.check(view.id)
-        colorUpChipIcon(view)
-    }
+    private var quickFilterAdapter: KojikiQuickFilterAdapter? = null
+    /** Categories resolved off the main thread; drives the category pills and the manager. */
+    private var quickFilterCategories: List<String> = emptyList()
 
-    private fun remakeFirewallChipsUi() {
-        b.ffaFirewallChipGroup.removeAllViews()
+    private fun setupQuickFilterBar() {
+        val adapter =
+            KojikiQuickFilterAdapter(
+                context = this,
+                onApply = { key ->
+                    val f = filters.value ?: Filters().loadSort(this)
+                    KojikiQuickFilters.apply(this, f, key)
+                    filters.value = f
+                    filters.postValue(f)
+                    refreshQuickFilterBar()
+                },
+                onMenu = { key -> showQuickFilterMenu(key) },
+                checked = { key -> KojikiQuickFilters.isChecked(filters.value, key) })
+        quickFilterAdapter = adapter
+        b.ffaFirewallChipGroup.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        b.ffaFirewallChipGroup.adapter = adapter
+        val helper =
+            ItemTouchHelper(
+                KojikiQuickFilterAdapter.DragCallback(adapter) { order ->
+                    // Persist what the drag settled on. The stored order is the full visible set, so
+                    // a hidden pill keeps its place for when it is shown again.
+                    val hidden = KojikiQuickFilters.hidden(this)
+                    KojikiQuickFilters.setOrder(this, order + hidden.filter { it !in order })
+                })
+        helper.attachToRecyclerView(b.ffaFirewallChipGroup)
+        // the adapter starts drags itself, once a hold has turned into a move
+        adapter.itemTouchHelper = helper
 
-        val none = makeFirewallChip(FirewallFilter.ALL.id, getString(R.string.lbl_all), true)
-        val allowed =
-            makeFirewallChip(FirewallFilter.ALLOWED.id, getString(R.string.lbl_allowed), false)
-        val blocked =
-            makeFirewallChip(FirewallFilter.BLOCKED.id, getString(R.string.lbl_blocked), false)
-        val blockedWifiTxt = getString(
-            R.string.two_argument_colon,
-            getString(R.string.lbl_blocked),
-            getString(R.string.firewall_rule_block_unmetered)
-        )
-        val blockedWifi =
-            makeFirewallChip(FirewallFilter.BLOCKED_WIFI.id, blockedWifiTxt, false)
-        val blockedMobileDataTxt = getString(
-            R.string.two_argument_colon,
-            getString(R.string.lbl_blocked),
-            getString(R.string.firewall_rule_block_metered)
-        )
-        val blockedMobileData =
-            makeFirewallChip(FirewallFilter.BLOCKED_MOBILE_DATA.id, blockedMobileDataTxt, false)
-
-        val bypassUniversal =
-            makeFirewallChip(
-                FirewallFilter.BYPASS.id,
-                getString(R.string.fapps_firewall_filter_bypass_universal),
-                false)
-        val excluded =
-            makeFirewallChip(
-                FirewallFilter.EXCLUDED.id,
-                getString(R.string.fapps_firewall_filter_excluded),
-                false)
-        val lockdown =
-            makeFirewallChip(
-                FirewallFilter.LOCKDOWN.id,
-                getString(R.string.fapps_firewall_filter_isolate),
-                false)
-
-        b.ffaFirewallChipGroup.addView(none)
-        b.ffaFirewallChipGroup.addView(allowed)
-        b.ffaFirewallChipGroup.addView(blocked)
-        b.ffaFirewallChipGroup.addView(blockedWifi)
-        b.ffaFirewallChipGroup.addView(blockedMobileData)
-        b.ffaFirewallChipGroup.addView(bypassUniversal)
-        b.ffaFirewallChipGroup.addView(excluded)
-        b.ffaFirewallChipGroup.addView(lockdown)
-    }
-
-    private fun makeFirewallChip(id: Int, label: String, checked: Boolean): Chip {
-        val chip = this.layoutInflater.inflate(R.layout.item_chip_filter, b.root, false) as Chip
-        chip.tag = id
-        chip.text = label
-        chip.isChecked = checked
-
-        chip.setOnCheckedChangeListener { button: CompoundButton, isSelected: Boolean ->
-            if (isSelected) {
-                applyFirewallFilter(button.tag)
-                colorUpChipIcon(chip)
-            } else {
-                // no-op
-                // no action needed for checkState: false
+        // Categories are a DB read; fetch once, then build the bar.
+        io {
+            val cats = FirewallManager.getAllCategories().toList()
+            withContext(Dispatchers.Main) {
+                quickFilterCategories = cats
+                refreshQuickFilterBar()
             }
         }
-
-        return chip
+        refreshQuickFilterBar()
     }
 
-    private fun applyFirewallFilter(tag: Any) {
-        val firewallFilter = FirewallFilter.filter(tag as Int)
-        if (filters.value == null) {
-            val f = Filters().loadSort(this)
-            f.firewallFilter = firewallFilter
-            filters.postValue(f)
-            return
-        }
+    /** Rebuild the bar's contents and each pill's checked state from the live filters. */
+    private fun refreshQuickFilterBar() {
+        val adapter = quickFilterAdapter ?: return
+        adapter.submit(KojikiQuickFilters.visibleKeys(this, quickFilterCategories))
+    }
 
-        filters.value?.firewallFilter = firewallFilter
-        filters.postValue(filters.value)
+    private fun showQuickFilterMenu(key: String) {
+        KojikiQuickFilters.pillMenu(
+            context = this,
+            key = key,
+            checked = KojikiQuickFilters.isChecked(filters.value, key),
+            onClear = {
+                val f = filters.value ?: Filters().loadSort(this)
+                // apply() toggles, and the menu only offers Clear when the pill is on
+                KojikiQuickFilters.apply(this, f, key)
+                filters.value = f
+                filters.postValue(f)
+                refreshQuickFilterBar()
+            },
+            onHidden = { refreshQuickFilterBar() },
+            onManage = {
+                KojikiQuickFilters.manageDialog(this, quickFilterCategories) {
+                    refreshQuickFilterBar()
+                }
+            })
     }
 
     private fun colorUpChipIcon(chip: Chip) {
@@ -876,7 +879,7 @@ class AppListActivity :
         initListAdapter()
         b.ffaSearch.setOnQueryTextListener(this)
         addAnimation()
-        remakeFirewallChipsUi()
+        setupQuickFilterBar()
         handleKeyboardEvent()
     }
 
