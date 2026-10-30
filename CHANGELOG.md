@@ -2,6 +2,31 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
 
+## 0.5.7+011
+
+**A frozen app keeps its rules, and a bypassed app looks like what it is.**
+
+### Freezing an app no longer wipes its firewall rules
+Apps frozen with 白い熊 応用管理 are hidden from the system (and usually suspended and disabled as well). A hidden app does not show up when the app list asks Android which apps are installed — unless it asks in a particular way, which upstream did not. So every freeze looked like an uninstall. With “Remember uninstalled apps” off, which is the default, the app’s row was deleted together with its IP rules, domain rules and WireGuard/proxy binding. Unfreezing it then brought up the “new app installed” prompt, as if it had never been seen before.
+
+The app list now asks for hidden apps too, and so it never mistakes a freeze for an uninstall. A frozen app keeps its row, its uid and every rule for as long as it sleeps, and waking it brings no prompt. An app that is really uninstalled — including one removed with its data kept — still leaves the list as before.
+
+Apps that are hidden at the time of the update come back on the first refresh, quietly: an app that is frozen when it is first seen is not announced as new. Their rules from before this release are gone, though, because they were deleted earlier; set them again, or bring them back with an import.
+
+### Frozen apps are visible in the list
+Every hidden, suspended or disabled app is marked at the end of its id line — **`· hidden`**, **`· suspended`** or **`· disabled`** — and its row is dimmed. A hidden app also shows its real icon now instead of the generic one. The states are re-read each time you open the list, so it follows whatever 応用管理 has frozen or woken in the meantime.
+
+A new **Hidden / frozen** filter lists exactly those apps. It is a chip in the filter sheet beside “Has a note”, and a pill for the quick-filter bar, which you can place or hide like the others. As with every filter, the bulk-rule toolbar then acts on just those rows — so one tap can set a rule on everything that is currently frozen.
+
+### A bypassed app’s WiFi and data toggles read as allowed
+Choosing **Bypass Universal** or **Bypass DNS & Firewall** sets the app to allowed on both WiFi and mobile data. Upstream then greyed both toggles out, which reads as “off” — the opposite of the truth. Now they stay lit, and each carries a small badge in its corner: the glyph of whichever bypass is on. You can see which of the two bypasses an app has from the list alone. Under the 白い熊 考直 UI theme the icon takes the “allowed” colour and the badge the bypass’s own colour from the theme page (yellow, unless you set one).
+
+### The rule intent no longer leaves an app bypassed and still blocked
+Setting a bypass through the `SET_APP_RULE` automation intent kept the app’s previous WiFi/mobile-data setting. An app that had been blocked therefore came out bypassed *and* blocked, because the app’s own WiFi/data rule is checked before either bypass — and with the toggles drawn as allowed, nothing on screen said why. A bypass set by intent now sets both networks to allowed, as the buttons on the app screen and the bulk toolbar always did. An explicit `conn` extra still takes precedence.
+
+### Corrected firewall help
+The help that opens on a long press of a bypass button said the app’s own WiFi and mobile-data toggles still block under a bypass. That cannot happen from the app’s own buttons, so the table and the note now say what really happens: a bypass sets both to allowed, and tapping one of them ends the bypass. The dialog’s warning against Exclude on Huawei/EMUI phones is gone too — the fork’s fallback resolver fixed that problem long ago, and Exclude works normally.
+
 ## 0.5.7+009
 
 **The LAN setting stays where you put it.**

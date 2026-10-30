@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.7+009`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.7+011`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -57,6 +57,11 @@ The pill row under the search field is **yours to arrange**: any filter — fire
 
 ---
 
+## 🧊 Frozen apps keep their rules
+Freeze an app with 白い熊 応用管理 and Android hides it — and stock RethinkDNS, which never asks for hidden apps, takes that for an uninstall: the row and every rule on it are deleted, and unfreezing the app greets you with a “new app installed” prompt. Here a frozen app keeps its row, its uid and all its rules for as long as it sleeps, and wakes without a word. The list shows it as **`· hidden`**, **`· suspended`** or **`· disabled`**, dimmed, and a **Hidden / frozen** filter lists exactly those apps — with the bulk toolbar aimed at them, should you want one rule for everything that is frozen.
+
+---
+
 ## 🔢 An app list you can actually read
 Every row leads its id line with the **uid** — `10050 · yqtrack.app` — the number adb, the connection logs and every firewall rule actually speak in; the uid-only rows, which have no package id to print, finally show something instead of a blank line. And the list **sorts**: by app name, package id, uid, or data used, ascending or descending, from a glyph beside the filter icon — tap the marked key again to reverse it. Your choice sticks between visits, and the fast-scroll bubble follows the key you picked instead of always showing a letter.
 
@@ -68,7 +73,7 @@ A firewall rule cannot name an app: Android hands the network stack a **uid**, s
 ---
 
 ## 📖 The firewall explains itself
-**Bypass DNS & Firewall**, **Bypass Universal**, **Exclude** — three buttons whose differences decide whether an app is filtered, exempt, or gone from the tunnel altogether. Stock explains them with a single white tooltip, on one of the three, that flashes one sentence and vanishes. Long-press any of them here — on an app’s own screen, or on the bulk toolbar that applies them to a whole filtered set — and you get the real answer: a paragraph per button, then a rule-by-rule table of exactly what each one waives, read straight off the firewall’s decision order rather than off the labels. It settles the two questions the UI never answered: **both** bypasses drop “block when app is not in use” *and* “block when device is locked”, and **neither** of them lifts the app’s own WiFi and mobile-data toggles.
+**Bypass DNS & Firewall**, **Bypass Universal**, **Exclude** — three buttons whose differences decide whether an app is filtered, exempt, or gone from the tunnel altogether. Stock explains them with a single white tooltip, on one of the three, that flashes one sentence and vanishes. Long-press any of them here — on an app’s own screen, or on the bulk toolbar that applies them to a whole filtered set — and you get the real answer: a paragraph per button, then a rule-by-rule table of exactly what each one waives, read straight off the firewall’s decision order rather than off the labels. It settles the question the UI never answered: **both** bypasses drop “block when app is not in use” *and* “block when device is locked”. And a bypassed app no longer looks switched off: its WiFi and mobile-data toggles stay lit — a bypass sets both to allowed — each wearing the badge of the bypass that is on, so the list itself tells you which one an app has.
 
 ---
 
