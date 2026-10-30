@@ -34,7 +34,7 @@ Keep our changes **additive / in new files** wherever possible, to minimize reba
 | App launcher label | `白い熊 考直` | `app_name` in `app/src/main/res/values/strings.xml` |
 | Signing | reuses the denwa keystore | `keystore.properties` (gitignored) → `~/.android-keystores/shiroikuma-denwa.jks` (alias `denwa`) |
 | Feature 1 | external intent to set a per-app firewall rule | `receiver/SetAppRuleReceiver.kt` (+ manifest, settings token) |
-| Feature 1b | external intent to enable/disable a WireGuard tunnel | `receiver/SetWgStateReceiver.kt` (same token) |
+| Feature 1b | external intent to enable/disable a WireGuard tunnel. v0.5.8 added upstream's own `receiver/VpnControlReceiver` (`VPN_START`/`VPN_STOP`/`WG_START`/`WG_STOP`/`WG_PAUSE`/`WG_RESUME`, configured from its Tasker bottom sheet); its actions differ from ours, so both coexist — keep ours, which the existing Tasker tasks use | `receiver/SetWgStateReceiver.kt` (same token) |
 | Feature 2 | honest WireGuard status — don’t read “Failing” while traffic still flows | `util/UIUtils.kt` (`honestWgStatusId`), consumed by `OneWgConfigAdapter` / `WgConfigAdapter` / `WgConfigDetailActivity` **and the home Proxy card** (`HomeScreenFragment.getProxyStatus`, keyed `home:`) (full) |
 | Feature 3 | 白い熊 考直 UI — a **default** “Custom…” app theme with user-configurable colours (full ARGB: background/accent/text) + a global font (family/weight/size), via a new “Customize → 白い熊 考直 UI” settings page; 白い熊's exported look is seeded as the defaults; dialogs/bottom-sheets/toasts/start-button are themed too | `customui/` (`CustomUiConfig`, `CustomUi`, `ColorPickerDialog`) + `ui/activity/KojikiUiActivity.kt` + `Themes.CUSTOM` (default in `PersistentState.theme`) + `*_kojiki.xml` + `kojiki_toast*` (+ the runtime hook in `BaseActivity.onResume`, `MiscSettingsActivity`, full manifest) |
 | Feature 5 | **Per-app notes** (apps view) — 白い熊 応用管理's notes, same operation: a glyph at the end of each row's label line (note glyph = has one, dim “+” = none), tap opens a pre-filled multi-line dialog, **saving blank deletes**, long-press = the note as a tooltip. **Stored in upstream's `AppInfo.notes` column** (folded onto it 2026-09-27, after v0.5.7 added the column + its 500-char SQLite triggers + its own dialog on the app *detail* screen) — so the fork's list-row note and upstream's detail-screen note are one and the same text, written through `FirewallManager.updateAppNotes`. Binding a row costs nothing (the note is already on the `AppInfo`), and writing invalidates the paging source so rows re-render themselves. **`kojiki_app_notes` still exists, with a smaller job**: it is the *park* for a note whose package has no row yet — an import from another phone — exactly as `KojikiPendingFw` parks firewall rules, landed by `KojikiAppNotes.applyParked` from `RefreshDatabase.insertApp`. `migrateLegacyStore` folds the old store once, and **bails without setting its flag if the FirewallManager cache is empty**: an unresolved package means "not installed, keep parked", which before the cache loads would park every note, mark itself done, and make every existing note vanish (a parked note is only ever landed by a fresh install). Export still emits the portable package-keyed `{"t":"s","v":…}` shape, so archives written either side of the fold interoperate; text is clamped to 500 at the input filter and again on save. A **“Has a note” filter chip** sits in the sheet's multi-select row beside the group pills (no section of its own — those already fill a folded screen) and is a **bound SQL predicate** on the column (`getSortedApps`'s `notesOnly`), not a post-query pass like the group filter, which has to be one because its key lives outside the table. The bulk list path runs upstream's `getFilteredApps`, which knows nothing about notes, so `applyRowFilters` checks it there too — both paths must agree or the bulk-rule toolbar acts on rows the list is not showing | `customui/KojikiAppNotes.kt` + `ic_kojiki_note{,_add}.xml` + `list_item_firewall_app.xml` label row + `FirewallAppListAdapter.bindNote` (+ `firewall_app_note_iv` in `CustomUi.applyToTree`'s skip list — its tint carries state) |
@@ -47,7 +47,7 @@ Keep our changes **additive / in new files** wherever possible, to minimize reba
 | Feature 4 | **Export / Import** — a category-based, all-JSON-in-a-ZIP export/import that **replaces** RethinkDNS's backup/restore (the Settings “Backup & Restore” row + its bottom sheet now open this). Categories (each on/off, default on): app settings · appearance(+fonts) · snoop tags · **app notes · app groups** · firewall apps/domains/IPs · WireGuard · blocklists · DNS custom endpoints (DoH/DoT/DNSCrypt/DNS-proxy/ODoH) · proxies (SOCKS5/HTTP). Future-proof (skip-missing, upsert, entity defaults); **per-app firewall + WG bindings key on package name**, not uid (uid changes per install) — rules for not-yet-installed apps park in `KojikiPendingFw` and apply on install (hook in `RefreshDatabase.insertApp`); DNS endpoint is actually re-selected; WG uses replace-all + `ProxyManager.addProxyToApp` / `WireguardManager.updateLockdownConfig` so bindings + lockdown actually stick. **WG conf files are PLAINTEXT since upstream `e4ea1ddb7` (v0.5.5y base)** — `exportWireGuard` reads them via `WireguardConfigFileManager` (encrypted reader only as a fallback for an unmigrated file); reading a plaintext file through `EncryptedFileManager` throws, and from 0.5.5y to 0.5.6+027 that was swallowed into an **empty `wireguard.json`** in every export (found 2026-09-11 when a new-phone restore came up without the tunnel). Re-check the reader on every rebase | `customui/KojikiExport.kt` + `ui/bottomsheet/ExportImportBottomSheet.kt` + `service/KojikiPendingFw.kt` (main) + `database/RefreshDatabase.kt` hook (retired: `BackupRestoreBottomSheet`, `KojikiBackup`) |
 | Feature 7 | **LAN direct path — the WG overlay pinned into the tunnel.** Upstream's own **Configure → VPN → “Do not route Private IPs”** (`persistentState.privateIps`, **default off**) swaps the tun's `0.0.0.0/0` default for `0.0.0.0/0` **minus** 127/8 · 10/8 · 172.16/12 · 192.168/16 · 169.254/16 · 224/3, so LAN traffic leaves via wlan0 instead of tun1 — in **both** directions, since routing is by destination (the reply to a LAN peer is what was actually broken; inbound always arrived fine). **Do not diagnose this with `ping -I wlan0`** — `-I` sets the *source address*, not the route, so it fails even when the theory is right; read `ip route show table 1206` instead. **The trap: that exclusion strands 10.0.0.0/8, and the WG overlay lives there** — the reverse ssh that makes the phone reachable from outside the house dials the PC at **10.9.0.2** over the hub (measured on the PC: `ESTAB 10.9.0.2:22 10.9.0.3:64879` — that one connection *is* the tunnel), so stock behaviour hands it to the home router, which drops it, and the away-from-home path dies. The fork therefore **keeps 10/8 excluded and pins `10.9.0.0/24` back** (`FORK_WG_OVERLAY4`), which is the manoeuvre upstream already performs in the same function for the tun's own `10.111.222.x` — longest-prefix match wins. **Dropping 10/8 from `ipsToExclude` instead is the wrong fix**: it relocates the bug to any 10.x hotel/corporate/ISP LAN, which would stay tunnelled and unreachable. Two conditions this rests on: **Android lockdown must stay off** (always-on + “block connections without VPN” makes the OS blackhole excluded routes — upstream's `TODO: vpn lockdown mode is not handled` sits in `addRoute4`; verified null on this device), and `excludeRoute` is **API 33** while the phone is **API 31**, so route subtraction is the only available mechanism. v6 needs nothing — `addRoute6` already omits ULA/link-local and the overlay is v4-only. Hardcodes the overlay prefix: if it renumbers, the constant moves and the app is rebuilt. **v0.5.7 added a second half to this feature**: upstream's `HomeScreenActivity.removeThisMethod()` began assigning `persistentState.privateIps = prefs.getBoolean("allow_bypass", false)`, which **silently reset the toggle after every delivered build** (that method runs on each version bump, so it is not one-shot for us) and always to `false`, since it reads the prefs file `com.celzero.bravedns_preferences` — a name that does not exist under our `APP_ID`. The fork deletes that assignment; found 2026-09-27 on `0.5.7+008`, where `ip route show table 1352` showed a bare `default dev tun1` with neither the RFC1918 subtraction nor the overlay pin | `BraveVPNService.addRoute4` (`FORK_WG_OVERLAY4` / `FORK_WG_OVERLAY4_PREFIX` in the companion) + `HomeScreenActivity.removeThisMethod` (the deleted clobber) — **re-check BOTH survive every rebase**; the toggle itself is upstream's (`TunnelSettingsActivity`, `PersistentState.privateIps`) |
 | Feature 8 | **Firewall-rule help dialog** — long-pressing **Bypass DNS & Firewall / Bypass Universal / Exclude**, on the app screen *and* on the app-list bulk toolbar, opens a near-full-screen scrollable `KojikiDialog` instead of upstream's white platform tooltip (one unthemed sentence, on only one of the three): a paragraph per button with the pressed one leading, a rule-by-rule table of what each waives, then the notes. The table is read off `TunFirewallManager.firewall()`'s decision order and states the two things the UI never did — **both** bypasses waive “app not in use” and “device locked” (both branches `return` before that tail), and **neither** lifts the row's own WiFi/mobile-data toggles (`appBlocked` is tested earlier); `TunDnsManager.onQuery` consults only `bypassDnsFirewall`, which is why Bypass Universal still gets its blocklisted domains blocked. Text lives in the Kotlin file, **not** `strings.xml` — fork-only English, one less conflict in upstream's translated resource. `KojikiDialog.show` gained a `maxContentFraction` (default unchanged at `0.55`; the help passes `0.78`) placed **before** the trailing `content` lambda, so no call site moved. Upstream's explain-before-first-enable tap guard (`showBypassToolTip` + `performLongClick()`) now opens the same dialog directly | `customui/KojikiFirewallHelp.kt` + `KojikiDialog.show(maxContentFraction)` + the long-press wiring in `AppInfoActivity` / `AppListActivity` |
-| Feature 9 | **Full-width content — upstream's 600dp cap is NOT applied.** v0.5.7 added `BaseActivity.applyMaxContentWidth()`: on any window wider than `MAX_CONTENT_WIDTH_DP` (600dp) it pins the content view to 600dp and centres it inside `android.R.id.content`. 白い熊's phone is a **tri-fold** — unfolded it is **~819dp** wide, so the cap rendered every screen as a narrow column between **wide black bars** (reported 2026-09-27 on `0.5.7+001`). The fork therefore does **not** call it from `onPostCreate`; upstream's `applyMaxContentWidth` / `capContentChildWidth` are left intact but unused (`@Suppress("unused")`) so the next rebase still diffs cleanly. **That was only half of it**: the home screen carries its OWN caps in XML — the scroll content's `android:maxWidth="720dp"` + `layout_gravity="center_horizontal"`, and `layout_constraintWidth_max="720dp"` on `fhs_control_cluster` (the STOP row) — in **both** `layout/` and `layout-w600dp/fragment_home_screen.xml`. Those are removed too, else the app list goes full width while the home page stays inset (exactly what 白い熊 saw on `0.5.7+002`). **Re-check all three after every rebase** — upstream may move the call or re-add the XML caps. Grep is `720dp`. The sibling 600dp caps on *dialogs* (`UIUtils.DIALOG_MAX_WIDTH_DP`, 33 call sites) and *bottom sheets* (`BaseBottomSheetDialogFragment.MAX_WIDTH_DP`) are deliberately **left alone**: a dialog narrower than the screen is normal, and the fork's sheet border already assumes an inset box | `ui/BaseActivity.kt` (`onPostCreate`) |
+| Feature 9 | **Full-width content — upstream's 600dp cap is NOT applied.** v0.5.7 added `BaseActivity.applyMaxContentWidth()`: on any window wider than `MAX_CONTENT_WIDTH_DP` (600dp) it pins the content view to 600dp and centres it inside `android.R.id.content`. 白い熊's phone is a **tri-fold** — unfolded it is **~819dp** wide, so the cap rendered every screen as a narrow column between **wide black bars** (reported 2026-09-27 on `0.5.7+001`). The fork therefore does **not** call it from `onPostCreate`; upstream's `applyMaxContentWidth` / `capContentChildWidth` are left intact but unused (`@Suppress("unused")`) so the next rebase still diffs cleanly. v0.5.8 added a second line to `onPostCreate`, `TextSelectionGuard.apply(…)` (a fix for the floating text-selection toolbar) — that one **is** kept; only the width cap is left out. **That was only half of it**: the home screen carries its OWN caps in XML — the scroll content's `android:maxWidth="720dp"` + `layout_gravity="center_horizontal"`, and `layout_constraintWidth_max="720dp"` on `fhs_control_cluster` (the STOP row) — in **both** `layout/` and `layout-w600dp/fragment_home_screen.xml`. Those are removed too, else the app list goes full width while the home page stays inset (exactly what 白い熊 saw on `0.5.7+002`). **Re-check all three after every rebase** — upstream may move the call or re-add the XML caps. Grep is `720dp`. The sibling 600dp caps on *dialogs* (`UIUtils.DIALOG_MAX_WIDTH_DP`, 33 call sites) and *bottom sheets* (`BaseBottomSheetDialogFragment.MAX_WIDTH_DP`) are deliberately **left alone**: a dialog narrower than the screen is normal, and the fork's sheet border already assumes an inset box | `ui/BaseActivity.kt` (`onPostCreate`) |
 | Feature 10 | **Hidden / frozen apps keep their rows and rules.** 白い熊 応用管理 freezes apps by hiding (+ suspending/disabling) them, and a hidden package is left out of `getInstalledPackages()` unless `MATCH_UNINSTALLED_PACKAGES` is passed — so upstream's refresh read every freeze as an uninstall, deleted the row with its IP/domain/proxy rules ("Remember uninstalled apps" is off by default; on, it only keeps them 7 days), and the unfreeze announced a "new app". The refresh now queries through **`KojikiFrozenApps.installedPackages`** (hidden included, filtered on `FLAG_INSTALLED` so a `pm uninstall -k` still counts as gone) and resolves packages via `KojikiFrozenApps.appInfo`; a package first tracked while frozen is **not** announced. The apps view marks such rows `· hidden` / `· suspended` / `· disabled` on the id line, dims them, loads a hidden app's icon via its `ApplicationInfo`, and offers a **"Hidden / frozen" filter** (sheet chip + quick-filter key `frozen`) — post-query like the group filter, from a snapshot `AppListActivity.refreshFrozenState` re-reads on every resume. **Re-check the refresh query on every rebase** | `customui/KojikiFrozenApps.kt` + `RefreshDatabase.process` / `addMissingPackages` / `upsertNonApp` / `updateExistingPackagesIfNeeded` + `Utilities.AppIconCache.get` + `AppListActivity.Filters.frozenOnly` + `AppInfoViewModel.applyRowFilters` + `FirewallAppFilterBottomSheet.makeFrozenChip` + `KojikiQuickFilters.KEY_FROZEN` + `FirewallAppListAdapter.displayLabel` |
 | Feature 11 | **A bypassed app's WiFi/data toggles read as allowed, with a badge.** Choosing either bypass stores `ConnectionStatus.ALLOW` (app screen, bulk toolbar), yet upstream greys both toggles as if off. They are now drawn lit with the bypass's own glyph as a corner badge on a background-coloured disc (`KojikiToggleBadge`: bottom-right of the WiFi arcs, top-left of the data triangle), tinted per layer under the Custom theme — so callers must **not** put a view-level colour filter over it (it would paint the disc). `SET_APP_RULE` now stores ALLOW with a bypass unless `conn` is given (it used to preserve a block, leaving the app bypassed **and** blocked, since `appBlocked` runs before either bypass); the help dialog's toggle row/note were corrected and its stale Huawei "don't Exclude" caution removed — the fork's `FORK_FALLBACK_DNS4/6` fixed that in 0.5.5y+2 | `customui/KojikiToggleBadge.kt` + `AppInfoActivity.enableAppBypassedUi` / `enableDnsFirewallBypassedUi` + `FirewallAppListAdapter.displayConnectionStatus` + `SetAppRuleReceiver` (step 4) + `KojikiFirewallHelp` |
 
@@ -63,8 +63,8 @@ foreground). Never material yellow `#FFEB3B`.
 
 We base our version on the upstream **release tag** we track and add a fork increment (`BUILD_NUMBER`).
 
-**We track a released tag, not `main`.** As of 2026-09-27 the base is the **`v0.5.7` tag** (`VERSION_CODE 69`,
-commit `070232086`, 2026-09-20), whose pinned engine is firestack **`c4a33649be`** — and we ship that engine's
+**We track a released tag, not `main`.** As of 2026-10-30 the base is the **`v0.5.8` tag** (`VERSION_CODE 70`,
+commit `b750334a3`, 2026-10-13), whose pinned engine is firestack **`d3d530ea3e`** — and we ship that engine's
 commit with two patches on top; see the firestack note below. We deliberately do
 **not** sync to `upstream/main`: a bleeding-edge firestack (`379ac52ace`, the `TNT/TZZ` wgproxy rework) once
 reset the first SSH flow after the WireGuard double-hop relay idled, so we stay on the released tag's engine.
@@ -77,17 +77,19 @@ the tag exactly makes it `0` and the suffix drops.
 > `Migration didn't properly handle: <Table> … Found: columns = { }`. **Renumbering ours is not enough**: a
 > device on the fork lineage is already stamped at that number, so Room skips upstream's migration entirely and
 > upstream's table is never created. Our renumbered migration must **also create upstream's table idempotently**
-> (`CREATE TABLE IF NOT EXISTS`, upstream's exact DDL). This has now happened three times — `26→27`
-> (`WgConfigFiles.modifiedTs`), `30→31` (`Sponsor`, which shipped broken in `0.5.6+1`) and — on the `v0.5.7`
-> base — `31→32`, where upstream adds **`AppInfo.notes` plus its length triggers** (its `30→31` adds the column
-> too, so a fork DB stamped `32` skips *both*). All three reconciliations now live in **`MIGRATION_35_36`**
-> (DB `version = 36`): upstream owns `31→32` … `34→35`, so ours sits above the whole upstream chain. Note
+> (`CREATE TABLE IF NOT EXISTS`, upstream's exact DDL; for an added column, `ALTER TABLE` guarded by
+> `doesColumnExistInTable`). This has now happened four times — `26→27` (`WgConfigFiles.modifiedTs`),
+> `30→31` (`Sponsor`, which shipped broken in `0.5.6+1`), on the `v0.5.7` base `31→32`, where upstream adds
+> **`AppInfo.notes` plus its length triggers** (its `30→31` adds the column too, so a fork DB stamped `32`
+> skips *both*), and on the `v0.5.8` base `35→36`, where upstream adds **`CountryConfig.ipv4`/`ipv6`**. All
+> four reconciliations now live in **`MIGRATION_36_37`** (DB `version = 37`): upstream owns `31→32` …
+> `35→36`, so ours sits above the whole upstream chain. Note
 > upstream also **renumbers its own migrations between tags** — do not assume `30→31` still means what it
 > meant last release; read the new chain before renumbering. Sanity-check four paths: fresh install ·
 > pre-collision version · fork lineage · upstream lineage.
 
-- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.7` / `69`).
-- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.7..main`).
+- `VERSION_NAME` / `VERSION_CODE` in `gradle.properties` **track the chosen tag** (currently `0.5.8` / `70`).
+- `UPSTREAM_AHEAD` = commits our base sits past tag `v<VERSION_NAME>` (`git rev-list --count v0.5.8..main`).
   Tracking the tag exactly → **`0`**. **Recomputed at rebase time** by the **upstream-new-version** skill; it
   does **not** change between builds, and does **not** affect `versionCode`.
 - `BUILD_NUMBER` is **our** increment. It starts at `1` and bumps by `1` on every build with changes.
@@ -122,13 +124,14 @@ JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew buildFoss < /dev/null
 
 See the **build-apk** skill for the full build-and-push procedure.
 
-`buildFoss` (defined in `app/build.gradle`):
+`buildFoss` (defined at the end of `app/build.gradle.kts`):
 1. builds `assembleFdroidFullRelease` (the de-Googled FOSS release; signed via `keystore.properties`),
-2. copies the **arm64-v8a** split APK to `~/tmp/shiroikuma-kojiki_<version>_arm64-v8a.apk`,
+2. copies the **arm64-v8a** split APK to `~/tmp/shiroikuma-kojiki_<version>_arm64-v8a.apk` — and **fails
+   rather than overwrite** one already there (a stale `BUILD_NUMBER` must never replace an earlier build),
 3. **auto-increments `BUILD_NUMBER`** in `gradle.properties` for the next build.
 
 **Flavors:** dimension `releaseChannel` = {`play`, `fdroid`, `website`}, dimension `releaseType` = {`full`}.
-We ship **`fdroidFull`** (de-Googled). The upstream gate is `isFdroidBuild = taskNames.contains("fdroid")`,
+We ship **`fdroidFull`** (de-Googled). The upstream gate is `fdroidBuild = taskNames.contains("fdroid")`,
 which misses our `buildFoss` task — so the fork extends it to `… || taskNames.contains("foss")`, skipping the
 Firebase plugins. (A dangling unused `import com.google.firebase.Firebase` in `service/BraveVPNService.kt` is
 also removed, else the de-Googled compile fails with `Unresolved reference 'firebase'`.) The FOSS release
@@ -137,23 +140,25 @@ variant/task is `fdroidFullRelease` / `assembleFdroidFullRelease`.
 **firestack:** normally consumed as a prebuilt AAR from Maven Central — but **we currently ship a self-built
 patched engine**, so `gradle.properties` sets `firestackRepo=local` (not `ossrh`), which makes Gradle read
 `app/libs/tun2socks.aar` (gitignored, ~28 MB) instead of resolving `com.celzero:firestack:<commit>@aar`.
-`firestackCommit=c4a33649be` is the `v0.5.7` tag's value and is **inert** while `firestackRepo=local` — it
+`firestackCommit=d3d530ea3e` is the `v0.5.8` tag's value and is **inert** while `firestackRepo=local` — it
 records the AAR's upstream base, it does not describe what is in the AAR. What is actually built:
 
-- Repo `~/git/firestack`, branch **`kojiki-doh-idle-057`** (the `v0.5.6`-era branch `kojiki-doh-idle`, base
-  `61894b7f`, is kept for reference; it is what shipped up to `0.5.6+034`).
-- Base = celzero's **`origin/n2`** (firestack's default branch) at **`c4a33649be`** — **exactly the `v0.5.7`
-  pin**, so as of 2026-09-27 the engine matches the tag rather than running ahead of it.
+- Repo `~/git/firestack`, branch **`kojiki-doh-idle-058`** (earlier branches are kept for reference:
+  `kojiki-doh-idle-057` on `c4a33649be` shipped `0.5.7+001`…`+011`; `kojiki-doh-idle` on `61894b7f` shipped
+  up to `0.5.6+034`). Each new tag gets a fresh `kojiki-doh-idle-<tag>` branch on its pin, with the patches
+  cherry-picked onto it.
+- Base = celzero's **`origin/n2`** (firestack's default branch) at **`d3d530ea3e`** — **exactly the `v0.5.8`
+  pin**, so as of 2026-10-30 the engine matches the tag rather than running ahead of it.
 - Plus **two** fork patches, both of which cherry-picked clean onto the new base:
   - *"doh: keep pooled conns shorter-lived than server idle-timeouts; h2 PING health-checks"* — the DoH
     idle-pool fix filed upstream as **celzero/firestack#241**. See memory `[[kojiki-dns-wedge-and-watchdog]]`;
     the Kotlin-side companion is `service/KojikiDnsWatchdog.kt`.
   - *"alg: recover an aged-out alg mapping instead of dropping the flow"* — filed as
     **celzero/firestack#252**. See memory `[[kojiki-alg-stale-mapping-fix]]`.
-- **Upstream has PARTLY adopted the DoH fix** — `IdleConnTimeout` is **30 s** at `c4a33649be` (its comment
+- **Upstream has PARTLY adopted the DoH fix** — `IdleConnTimeout` is **30 s** since `c4a33649be` (its comment
   quotes our own Quad9 measurement). Keep our patch anyway: 30 s sits *exactly* on the shortest idle window
   we measured (Quad9 closes at ≤30 s), and upstream **still ships no h2 PING health-checks** (re-verified on
-  `c4a33649be`, 2026-09-27), so a half-dead connection is still found only by losing a query. Ours is
+  `d3d530ea3e`, 2026-10-30 — `intra/doh/doh.go` is untouched between the two pins), so a half-dead connection is still found only by losing a query. Ours is
   **10 s** + `http2.ConfigureTransports` with `ReadIdleTimeout`/`PingTimeout`. Re-check on every rebase; if
   upstream ever ships the PING eviction too, this patch can be dropped.
 - Rebuild recipe: memory `[[firestack-from-source-build]]` (Go + gomobile + NDK → `make intra`). Firestack
@@ -162,19 +167,40 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
   `GOROOT=$HOME/goroot/go1.27.1 PATH=$HOME/goroot/go1.27.1/bin:$PATH`). `rm -rf build` before `make intra`
   so the Go-runtime overlay regenerates for the current toolchain, else the build reuses one patched for the
   old Go. `gobind` must be installed alongside `gomobile` or the bind fails with "gobind was not found".
+  Since `d3d530ea3e` upstream builds with **NDK `30.0.16248370`** (installed under `~/android-sdk/ndk/`) and
+  SDK 37: export `ANDROID_NDK_HOME=$HOME/android-sdk/ndk/30.0.16248370`. The whole `make intra` takes a few
+  minutes; detach it (`setsid nohup … &`) and do the app rebase meanwhile.
 - Verify the shipped engine: `libgojni.so` unzipped from the APK is **NOT** SHA256-identical to the one in
   `~/git/firestack/build/intra/tun2socks.aar` — packaging re-aligns it (an ~8-byte size delta), so that check
   raises a false alarm. Compare **marker strings** instead: `strings libgojni.so | grep` for a patch marker
-  (`resolved alg domain`, from the ALG fix) *and* for a symbol new to the base you pinned (`onPrequery` is in
-  `c4a33649be` but not `61894b7f`). Both present ⇒ the APK carries our patched engine on the right base.
+  (`resolved alg domain`, from the ALG fix) *and* for a string new to the base you pinned
+  (`svc: queueSummary: dropped` is in `d3d530ea3e` but not `c4a33649be`; find the next one with
+  `git diff <old-pin> <new-pin> -- '*.go' | grep '^+'` for a new string literal, and confirm it is absent from
+  the previous APK). Both present ⇒ the APK carries our patched engine on the right base.
 
-To fall back to the **stock** `v0.5.7` engine, set `firestackRepo=ossrh` — you keep upstream's 30 s half of
+To fall back to the **stock** `v0.5.8` engine, set `firestackRepo=ossrh` — you keep upstream's 30 s half of
 the DoH fix but lose the PING eviction, and you lose the ALG recovery entirely. **Do not bump `firestackCommit` to a `main`-lineage firestack** (e.g. `379ac52ace`) — that broke
 WG-relay SSH (see the versioning section). On this engine the WG double-hop must run **full-tunnel with
 Lockdown ON** (per-app split wedges the resolver); the hub supplies internet via NAT. See memory
 `[[wg-hub-and-dns-architecture]]`.
 
 ### Rebasing onto a new upstream release
+
+> **v0.5.8 moved the Gradle build to the Kotlin DSL.** `app/build.gradle`, `build.gradle`,
+> `settings.gradle` and `benchmark/build.gradle` are gone, replaced by `*.gradle.kts`, with dependency
+> versions in `gradle/lib.toml`. Seven fork commits touch the old Groovy files, so each replays as a
+> modify/delete conflict: resolve it with `git rm` (the Groovy hunk is dropped) and port the **whole** fork
+> build delta to the `.kts` files once, at the end, as one commit (`git diff <old-tag> <pre-rebase-custom> --
+> app/build.gradle settings.gradle` shows it). In the `.kts` script, `java` resolves to Gradle's `java {}`
+> extension, so a fully-qualified `java.nio…` call does not compile — use Kotlin's `File.copyTo`. The local
+> engine dependency is the notation `":tun2socks@aar"`, resolved by the `flatDir` in `settings.gradle.kts`
+> (`RepositoriesMode.PREFER_SETTINGS` ignores project-level repositories). Rename detection carried our
+> `settings.gradle` hunk into `settings.gradle.kts` **in Groovy syntax** — check that file by eye.
+>
+> The replay of the other ~100 commits is mechanical: in this repo `README.md` (fully ours) and
+> `gradle.properties` (final values set once at the end) are always resolved to the commit's own side, the
+> Groovy files are `git rm`-ed, and everything else stops for a real decision. A small loop script over
+> `git ls-files -u` did that; only nine commits needed a hand resolution.
 
 > **v0.5.7 moved the whole Kotlin source set.** `app/src/full/java/**` no longer exists — all 246 files
 > moved to `app/src/main/java/**` at the same relative path (only `ManageRpnPurchaseBtmSht.kt` and
@@ -281,7 +307,8 @@ mappings (firestack falls back to Base when a bound WG is inactive).
 ## Key Configuration Files
 
 - `gradle.properties` — fork app id/namespace, version name/code, `BUILD_NUMBER`, firestack pin.
-- `app/build.gradle` (Groovy) — Android config, flavors, signing, fork version logic, the `buildFoss` task.
+- `app/build.gradle.kts` (Kotlin DSL since v0.5.8) — Android config, flavors, signing, fork version logic, the `buildFoss` task.
+- `settings.gradle.kts` — repositories, including the `firestackRepo=local` `flatDir`; `gradle/lib.toml` — dependency versions.
 - `keystore.properties` — signing config (gitignored; points to `~/.android-keystores/shiroikuma-denwa.jks`).
 - `local.properties` — `sdk.dir` (gitignored).
 
