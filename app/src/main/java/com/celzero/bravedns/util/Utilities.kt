@@ -581,7 +581,10 @@ object Utilities {
                 context.applicationContext.packageManager
                     .getApplicationIcon(packageName)
             } catch (_: PackageManager.NameNotFoundException) {
-                return getDefaultIcon(context)
+                // Fork (白い熊 考直): a hidden app is not found by name, but its APK is still there
+                com.celzero.bravedns.customui.KojikiFrozenApps.appInfo(context, packageName)
+                    ?.loadIcon(context.applicationContext.packageManager)
+                    ?: return getDefaultIcon(context)
             }
 
             val bitmap = downscale(context, drawable, sizePx)

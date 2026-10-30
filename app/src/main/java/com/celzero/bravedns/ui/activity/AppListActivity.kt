@@ -48,6 +48,7 @@ import com.celzero.bravedns.customui.KojikiQuickFilters
 import com.celzero.bravedns.adapter.KojikiQuickFilterAdapter
 import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.customui.KojikiFirewallHelp
+import com.celzero.bravedns.customui.KojikiFrozenApps
 import com.celzero.bravedns.customui.KojikiSharedUid
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -247,6 +248,11 @@ class AppListActivity :
         // post-query pass, which the group filter has to be because its key lives outside the table.
         var notesOnly = false
 
+        // Fork (白い熊 考直): show only apps that are hidden, suspended or disabled (frozen by
+        // 白い熊 応用管理). A post-query filter like the group one: that state lives in the
+        // PackageManager, not in the AppInfo table — see KojikiFrozenApps.
+        var frozenOnly = false
+
         // Fork (白い熊 考直): the list's sort order. It rides on Filters because that is the one
         // object the view model is handed, but its home is the persisted store — every place that
         // makes a fresh Filters calls loadSort, so a sort picked once outlives the activity.
@@ -299,6 +305,7 @@ class AppListActivity :
     override fun onResume() {
         super.onResume()
         refreshQuickFilterBar()
+        refreshFrozenState()
         filters.value = filters.value ?: Filters().loadSort(this)
         b.ffaAppList.requestFocus()
     }
@@ -325,7 +332,9 @@ class AppListActivity :
         // Fork (白い熊 考直): the note filter combines with every other one, so rather than leading
         // the line like a group does it is appended to whichever line is built below — but appear it
         // must, for the same reason: a filter the toolbar is aimed at cannot be invisible.
-        val note = if (filter.notesOnly) getString(R.string.kojiki_note_filter_suffix) else ""
+        val note =
+            (if (filter.notesOnly) getString(R.string.kojiki_note_filter_suffix) else "") +
+                (if (filter.frozenOnly) getString(R.string.kojiki_frozen_filter_suffix) else "")
         // Fork (白い熊 考直): an active group filter leads the line — it is the narrowest filter and
         // the one the bulk-rule toolbar is then aimed at, so it must never be invisible.
         if (filter.groupFilters.isNotEmpty()) {
@@ -918,6 +927,23 @@ class AppListActivity :
                 }
             }
         })
+    }
+
+    /**
+     * Fork (白い熊 考直): re-read which apps are hidden / frozen — 白い熊 応用管理 may have frozen or
+     * woken some while this screen was away. Only a change costs anything: the rows rebind for their
+     * marker, and an active "Hidden / frozen" filter is re-applied against the new set.
+     */
+    private fun refreshFrozenState() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val changed = KojikiFrozenApps.refresh(this@AppListActivity)
+            if (!changed) return@launch
+            withContext(Dispatchers.Main) {
+                recyclerAdapter?.refreshGroupPills()
+                val f = filters.value
+                if (f != null && f.frozenOnly) filters.value = f
+            }
+        }
     }
 
     /** Fork (白い熊 考直): re-render the rows' group pills — called by the filter sheet after it

@@ -106,6 +106,7 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             this.filters.categoryFilters.addAll(f.categoryFilters)
             this.filters.setGroups(requireContext(), f.groupFilters)
             this.filters.notesOnly = f.notesOnly
+            this.filters.frozenOnly = f.frozenOnly
         }
 
         applyParentFilter(f.topLevelFilter.id)
@@ -132,6 +133,7 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
             // filter included.
             new.setGroups(requireContext(), emptySet())
             new.notesOnly = false
+            new.frozenOnly = false
             AppListActivity.filters.postValue(new)
             this.dismiss()
         }
@@ -310,6 +312,7 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
         // sections already fill a folded screen, and the row is multi-select, so the note filter
         // combines with the groups beside it instead of replacing them.
         b.ffaGroupChipGroup.addView(makeNoteChip(filters.notesOnly))
+        b.ffaGroupChipGroup.addView(makeFrozenChip(filters.frozenOnly))
         val all = KojikiAppGroups.groups(requireContext())
         b.fsGroupsEmpty.visibility = if (all.isEmpty()) View.VISIBLE else View.GONE
         for (name in all) {
@@ -326,6 +329,19 @@ class FirewallAppFilterBottomSheet : BaseBottomSheetDialogFragment() {
         if (checked) colorUpChipIcon(chip)
         chip.setOnCheckedChangeListener { _, isSelected: Boolean ->
             filters.notesOnly = isSelected
+            colorUpChipIcon(chip)
+        }
+        return chip
+    }
+
+    /** Fork (白い熊 考直): narrow the list to hidden, suspended or disabled apps. */
+    private fun makeFrozenChip(checked: Boolean): Chip {
+        val chip = this.layoutInflater.inflate(R.layout.item_chip_filter, b.root, false) as Chip
+        chip.text = getString(R.string.kojiki_filter_frozen)
+        chip.isChecked = checked
+        if (checked) colorUpChipIcon(chip)
+        chip.setOnCheckedChangeListener { _, isSelected: Boolean ->
+            filters.frozenOnly = isSelected
             colorUpChipIcon(chip)
         }
         return chip

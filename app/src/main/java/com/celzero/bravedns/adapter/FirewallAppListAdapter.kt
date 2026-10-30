@@ -38,6 +38,7 @@ import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.KojikiAppGroups
 import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.customui.KojikiAppSort
+import com.celzero.bravedns.customui.KojikiFrozenApps
 import com.celzero.bravedns.customui.KojikiSharedUid
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
@@ -160,6 +161,12 @@ class FirewallAppListAdapter(
                     }
                     b.firewallAppToggleWifi.visibility = View.VISIBLE
                     b.firewallAppToggleMobileData.visibility = View.VISIBLE
+                    // Fork (白い熊 考直): a hidden / frozen app is dimmed like one without
+                    // internet permission — it cannot reach the network until it is woken.
+                    if (KojikiFrozenApps.stateOf(appInfo.packageName) != null) {
+                        b.firewallAppLabelTv.alpha = ALPHA_DISABLED
+                        b.firewallAppIconIv.alpha = ALPHA_DISABLED
+                    }
                     // strike through the app name if the app is tombstoned
                     if (appInfo.tombstoneTs > 0) {
                         b.firewallAppLabelTv.paint.isStrikeThruText = true
@@ -212,7 +219,13 @@ class FirewallAppListAdapter(
             // Fork (白い熊 考直): a uid shared by several packages is one firewall principal, not
             // several — the "×N" marker says so on the line that carries the uid, so the row stops
             // implying a per-app decision the model cannot make. See [KojikiSharedUid].
-            val id = TextUtils.concat(base, KojikiSharedUid.marker(context, shared))
+            // Fork (白い熊 考直): "· hidden" / "· suspended" / "· disabled" for an app frozen by
+            // 白い熊 応用管理, whose row (and rules) now stay put while it sleeps.
+            val id =
+                TextUtils.concat(
+                    base,
+                    KojikiSharedUid.marker(context, shared),
+                    KojikiFrozenApps.marker(context, appInfo.packageName))
             CustomUi.applyFirewallLabel(
                 context,
                 b.firewallAppLabelTv,

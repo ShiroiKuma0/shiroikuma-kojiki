@@ -41,6 +41,7 @@ import com.celzero.bravedns.ui.activity.AppListActivity.TopLevelFilter
  * | `cat:<name>` | app category | many |
  * | `grp:<name>` | fork app group | many |
  * | `note` | has a note | toggle |
+ * | `frozen` | hidden / frozen (see [KojikiFrozenApps]) | toggle |
  *
  * Families matter because the bar is heterogeneous: tapping a firewall pill must clear the other
  * firewall pills but leave a group pill alone. [apply] is where that lives — one place, so the bar
@@ -62,6 +63,7 @@ object KojikiQuickFilters {
     private const val SEP = "\u0001"
 
     const val KEY_NOTE = "note"
+    const val KEY_FROZEN = "frozen"
 
     private fun sp(context: Context): SharedPreferences =
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -106,6 +108,7 @@ object KojikiQuickFilters {
         listOf(TopLevelFilter.INSTALLED, TopLevelFilter.SYSTEM, TopLevelFilter.NON_APP)
             .forEach { keys.add("top:${it.id}") }
         keys.add(KEY_NOTE)
+        keys.add(KEY_FROZEN)
         KojikiAppGroups.groups(context).forEach { keys.add("grp:$it") }
         categories.forEach { keys.add("cat:$it") }
         return keys
@@ -134,6 +137,7 @@ object KojikiQuickFilters {
     /** The pill's text. Firewall labels are rebuilt from the same strings upstream's row used. */
     fun labelOf(context: Context, key: String): String = when {
         key == KEY_NOTE -> context.getString(R.string.kojiki_filter_has_note)
+        key == KEY_FROZEN -> context.getString(R.string.kojiki_filter_frozen)
         key.startsWith("grp:") -> key.removePrefix("grp:")
         key.startsWith("cat:") -> key.removePrefix("cat:")
         key.startsWith("top:") -> when (key.removePrefix("top:").toIntOrNull()) {
@@ -168,6 +172,7 @@ object KojikiQuickFilters {
         if (filters == null) return false
         return when {
             key == KEY_NOTE -> filters.notesOnly
+            key == KEY_FROZEN -> filters.frozenOnly
             key.startsWith("grp:") -> filters.groupFilters.contains(key.removePrefix("grp:"))
             key.startsWith("cat:") -> filters.categoryFilters.contains(key.removePrefix("cat:"))
             key.startsWith("top:") -> filters.topLevelFilter.id == key.removePrefix("top:").toIntOrNull()
@@ -184,6 +189,7 @@ object KojikiQuickFilters {
     fun apply(context: Context, filters: AppListActivity.Filters, key: String) {
         when {
             key == KEY_NOTE -> filters.notesOnly = !filters.notesOnly
+            key == KEY_FROZEN -> filters.frozenOnly = !filters.frozenOnly
 
             key.startsWith("grp:") -> {
                 val name = key.removePrefix("grp:")
