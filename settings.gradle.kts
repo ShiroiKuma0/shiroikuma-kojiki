@@ -36,8 +36,8 @@ dependencyResolutionManagement {
             }
         } else if (firestackRepo == "local") {
             // Fork (白い熊 考直): self-built patched engine AAR — `make intra` in ~/git/firestack
-            // (branch kojiki-doh-idle), copied to app/libs/tun2socks.aar (gitignored).
-            flatDir { dirs "${rootDir}/app/libs" }
+            // (branch kojiki-doh-idle-058), copied to app/libs/tun2socks.aar (gitignored).
+            flatDir { dirs("$rootDir/app/libs") }
         }
         // "ossrh": no-op; mavenCentral (com.celzero:firestack) is already included
     }

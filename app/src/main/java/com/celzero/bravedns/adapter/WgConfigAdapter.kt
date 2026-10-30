@@ -762,7 +762,7 @@ class WgConfigAdapter(private val context: Context, private val listener: DnsSta
         private fun showDuplicateKeysWarningDialog(onProceed: () -> Unit) {
             val ctx = context
             if (ctx is android.app.Activity && !ctx.isFinishing) {
-                val dialog = MaterialAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
+                val dialog = KojikiAlertDialogBuilder(ctx, R.style.App_Dialog_NoDim)
                     .setTitle(R.string.wireguard_duplicate_keys_warning_title)
                     .setMessage(R.string.wireguard_duplicate_keys_warning)
                     .setCancelable(true)

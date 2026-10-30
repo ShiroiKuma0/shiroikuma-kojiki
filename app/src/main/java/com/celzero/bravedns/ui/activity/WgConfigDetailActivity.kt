@@ -1081,7 +1081,7 @@ class WgConfigDetailActivity : BaseActivity(R.layout.activity_wg_detail) {
     // Proceed enables catch-all anyway; OK keeps it disabled.
     private fun showDuplicateKeysWarningDialog(onProceed: () -> Unit) {
         if (isFinishing) return
-        val builder = MaterialAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
+        val builder = KojikiAlertDialogBuilder(this, R.style.App_Dialog_NoDim)
         builder.setTitle(getString(R.string.wireguard_duplicate_keys_warning_title))
         builder.setMessage(getString(R.string.wireguard_duplicate_keys_warning))
         builder.setCancelable(true)

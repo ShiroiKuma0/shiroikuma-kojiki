@@ -35,7 +35,7 @@ import com.celzero.bravedns.iab.ServerApiError
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Themes.Companion.getBottomSheetCurrentTheme
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -172,7 +172,7 @@ class DeviceNotRegisteredBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun confirmIdentityReset() {
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(R.string.server_selection_error_retry)
             .setMessage(R.string.device_not_registered_reset_confirm_msg)
             .setPositiveButton(R.string.lbl_proceed) { _, _ ->

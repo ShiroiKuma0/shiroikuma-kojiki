@@ -22,7 +22,10 @@ plugins {
 // but they'll only process play/website variants (Firebase deps are scoped to those variants)
 val taskNames = gradle.startParameter.taskNames.joinToString(",").lowercase()
 val playBuild = taskNames.contains("play")
-val fdroidBuild = taskNames.contains("fdroid")
+// Fork (白い熊 考直): our `buildFoss` task assembles the de-Googled fdroidFull release, but its task
+// name is "foss" (not "fdroid…"), so also treat any "foss" task as an fdroid/de-Googled build —
+// otherwise the Google Services plugin is applied and the build fails on the missing google-services.json.
+val fdroidBuild = taskNames.contains("fdroid") || taskNames.contains("foss")
 // for alpha builds generate universal apk only
 val alphaBuild = taskNames.contains("alpha")
 
@@ -133,12 +136,37 @@ fun getVersionCode(): Int {
 
 val appVersionCode = getVersionCode()
 
+// --- Fork versioning (白い熊 考直) ---
+// VERSION_NAME / VERSION_CODE track the upstream release tag; BUILD_NUMBER is our fork increment.
+// UPSTREAM_AHEAD = commits our base sits past tag v<VERSION_NAME> (`git rev-list --count
+// v<VERSION_NAME>..main`), maintained at rebase time by the upstream-new-version skill; it keeps the
+// name honest if we ever track upstream's main past a tag.
+//   Fork versionName = "<VERSION_NAME>-<UPSTREAM_AHEAD>+<NNN>"  (the "-N" is dropped when 0,
+//   so building exactly on a release reads as the clean "<VERSION_NAME>+<NNN>").
+//   <NNN> = BUILD_NUMBER zero-padded to three digits (+001, +014, +142), so APK filenames and
+//   release tags sort in build order. BUILD_NUMBER itself stays a plain integer in gradle.properties.
+//   Fork versionCode = VERSION_CODE*10000 + BUILD_NUMBER  (UPSTREAM_AHEAD does not affect the code).
+// The per-ABI override below turns the arm64-v8a code into 3*10000000 + forkVersionCode (monotonic).
+val upstreamAhead = project.property("UPSTREAM_AHEAD").toString().toInt()
+val aheadSuffix = if (upstreamAhead > 0) "-$upstreamAhead" else ""
+val buildNumber = project.property("BUILD_NUMBER").toString().toInt()
+val paddedBuildNumber = String.format("%03d", buildNumber)
+val forkVersionName = "${project.property("VERSION_NAME")}$aheadSuffix+$paddedBuildNumber"
+val forkVersionCode = project.property("VERSION_CODE").toString().toInt() * 10000 + buildNumber
+
 try {
     if (keystorePropertiesFile.exists()) {
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
     }
 } catch (ex: Exception) {
     logger.info("missing keystore prop: ${ex.message}")
+}
+// Fork: with no keystore.properties, fall back to SIGNING_* env vars (CI); else leave unsigned.
+if (!keystorePropertiesFile.exists()) {
+    System.getenv("SIGNING_KEY_ALIAS")?.let { keystoreProperties["keyAlias"] = it }
+    System.getenv("SIGNING_KEY_PASSWORD")?.let { keystoreProperties["keyPassword"] = it }
+    System.getenv("SIGNING_STORE_FILE")?.let { keystoreProperties["storeFile"] = it }
+    System.getenv("SIGNING_STORE_PASSWORD")?.let { keystoreProperties["storePassword"] = it }
 }
 
 // ref: developer.android.com/build/jdks#target-compat
@@ -159,10 +187,13 @@ val hasTvReleaseSigningConfig =
 android {
     compileSdk = 37
     // https://developer.android.com/studio/build/configure-app-module
-    namespace = "com.celzero.bravedns"
+    // Fork: code namespace stays on the upstream package (APP_NAMESPACE=com.celzero.bravedns)
+    // so R/BuildConfig, sources, and intent strings are unchanged; only the installed id differs.
+    namespace = project.property("APP_NAMESPACE").toString()
 
     defaultConfig {
-        applicationId = "com.celzero.bravedns"
+        // Fork: installed id (APP_ID=shiroikuma.kojiki) so it coexists with upstream Rethink.
+        applicationId = project.property("APP_ID").toString()
         minSdk = 23
         targetSdk = 37
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -344,9 +375,13 @@ android {
             // getPackageInfo().versionCode not returning the correct value (in prod builds) when
             // value is set in AndroidManifest.xml so setting it here
             // for build type alpha, versionCode is set in env overriding gradle.properties
-            versionCode = getVersionCode()
-            versionName = gitVersion
-            buildConfigField("int", "BASE_VERSION_CODE", appVersionCode.toString())
+            // Fork: use our forkVersionCode/forkVersionName instead of upstream's gitVersion/getVersionCode().
+            // The per-ABI override (arm64-v8a = 3*10000000 + forkVersionCode) keeps codes monotonic.
+            versionCode = forkVersionCode
+            versionName = forkVersionName
+            // add base version code to the build config, so that if there is override of
+            // version numbers by some builds (because of split apks); fork: base = forkVersionCode
+            buildConfigField("int", "BASE_VERSION_CODE", forkVersionCode.toString())
             vectorDrawables.useSupportLibrary = true
         }
         create("tv") {
@@ -431,6 +466,9 @@ fun firestackDependency(): String {
         "jitpack" -> "com.github.celzero:firestack:$firestackCommit@aar"
         "github" -> "com.github.celzero:firestack:$firestackCommit@aar"
         "ossrh" -> "com.celzero:firestack:$firestackCommit@aar"
+        // fork (白い熊 考直): self-built patched engine (firestack branch kojiki-doh-idle-058 on the
+        // v0.5.8 pin), resolved from app/libs/tun2socks.aar via the flatDir repo in settings.gradle.kts
+        "local" -> ":tun2socks@aar"
         else -> throw GradleException("Unknown firestackRepo: $firestackRepo")
     }
 }
@@ -446,6 +484,8 @@ dependencies {
     "fullImplementation"(libs.jetbrainsKotlinKotlinStdlibJdk8)
     "fullImplementation"(libs.androidxAppcompatAppcompat)
     "fullImplementation"(libs.androidxCoreCoreKtx)
+    // Fork (白い熊 考直): SAF tree access for the 白い熊 考直 settings export/import directory.
+    "fullImplementation"("androidx.documentfile:documentfile:1.1.0")
     implementation(libs.androidxPreferencePreferenceKtx)
     "fullImplementation"(libs.androidxConstraintlayoutConstraintlayout)
     "fullImplementation"(libs.androidxSwiperefreshlayoutSwiperefreshlayout)
@@ -652,4 +692,46 @@ dependencies {
     "playImplementation"(platform(libs.googleFirebaseFirebaseBom))
     "playImplementation"(libs.googleFirebaseFirebaseCrashlytics)
     "playImplementation"(libs.googleFirebaseFirebaseCrashlyticsNdk)
+}
+
+// --- Fork build helper (白い熊 考直) ---
+// Build the de-Googled FOSS release (fdroidFullRelease), copy the arm64-v8a split APK to ~/tmp
+// renamed to shiroikuma-kojiki_<version>_arm64-v8a.apk, then bump BUILD_NUMBER for the next build.
+// See the build-apk skill. Config cache is enabled, so everything that touches project/layout/System
+// is captured at configuration time; doLast only uses those captured locals + plain file IO.
+tasks.register("buildFoss") {
+    description = "Build the fdroidFull release APK, copy arm64-v8a to ~/tmp, and bump BUILD_NUMBER."
+    group = "build"
+    dependsOn("assembleFdroidFullRelease")
+
+    val apkName = "shiroikuma-kojiki_${forkVersionName}_arm64-v8a.apk"
+    val outputDir = layout.buildDirectory.dir("outputs/apk/fdroidFull/release").get().asFile
+    val targetDir = File(System.getProperty("user.home"), "tmp")
+    val propsFile = rootProject.file("gradle.properties")
+    val currentBuildNumber = buildNumber
+    val fvc = forkVersionCode
+    // arm64-v8a installed code = upstream per-ABI multiplier (3) * 10000000 + forkVersionCode.
+    val arm64Code = 3 * 10000000 + forkVersionCode
+
+    doLast {
+        val srcApk = outputDir.listFiles()?.find {
+            it.name.contains("arm64-v8a") && it.name.endsWith(".apk")
+        } ?: throw GradleException("No arm64-v8a APK found in $outputDir")
+        targetDir.mkdirs()
+        val targetFile = File(targetDir, apkName)
+        // Never overwrite an earlier build: a stale BUILD_NUMBER fails here instead.
+        srcApk.copyTo(targetFile, overwrite = false)
+        println("\u001B[1;36m>>> ${targetFile.absolutePath}\u001B[0m")
+        println("\u001B[1;36m>>> versionCode $arm64Code (arm64-v8a; forkVersionCode $fvc)\u001B[0m")
+
+        // Auto-increment BUILD_NUMBER for the next build.
+        val nextBuildNumber = currentBuildNumber + 1
+        propsFile.writeText(
+            propsFile.readText().replace(
+                "BUILD_NUMBER=$currentBuildNumber",
+                "BUILD_NUMBER=$nextBuildNumber"
+            )
+        )
+        println("\u001B[1;36m>>> BUILD_NUMBER bumped to $nextBuildNumber\u001B[0m")
+    }
 }

@@ -1612,18 +1612,31 @@ abstract class AppDatabase : RoomDatabase() {
         private val MIGRATION_36_37: Migration =
             object : Migration(36, 37) {
                 override fun migrate(db: SupportSQLiteDatabase) {
+                    // Fork (白い熊 考直): the collision once more, on the v0.5.8 base. A DB on the
+                    // FORK lineage is stamped "36" by our own former 35→36 (SnoopEvent), whereas
+                    // upstream stamps 36 after ITS 35→36, which adds CountryConfig.ipv4/ipv6. Room
+                    // therefore skips upstream's step on a fork DB and open dies with "Migration didn't
+                    // properly handle: CountryConfig". Add both columns idempotently, upstream's DDL.
+                    if (!doesColumnExistInTable(db, "CountryConfig", "ipv4")) {
+                        db.execSQL("ALTER TABLE CountryConfig ADD COLUMN ipv4 INTEGER NOT NULL DEFAULT 0")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: added CountryConfig.ipv4 (fork-36 reconcile)")
+                    }
+                    if (!doesColumnExistInTable(db, "CountryConfig", "ipv6")) {
+                        db.execSQL("ALTER TABLE CountryConfig ADD COLUMN ipv6 INTEGER NOT NULL DEFAULT 0")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: added CountryConfig.ipv6 (fork-36 reconcile)")
+                    }
                     // Fork (白い熊 考直): the SAME collision, two versions up — and the one that
                     // bites on the v0.5.7 base. A DB on the FORK lineage is stamped "32" by our own
                     // former 31→32 (SnoopEvent), whereas upstream stamps 32 after ITS 31→32, which
                     // adds AppInfo.notes and installs the notes length triggers (its 30→31 adds the
                     // column too). Room therefore skips BOTH on a fork DB and open dies with
                     // "Migration didn't properly handle: AppInfo ... Expected ... notes". Add the
-                    // column and the triggers idempotently here so both lineages converge at 36.
+                    // column and the triggers idempotently here so both lineages converge at 37.
                     try {
                         db.execSQL("ALTER TABLE AppInfo ADD COLUMN notes TEXT NOT NULL DEFAULT ''")
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: added AppInfo.notes (fork-32 reconcile)")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: added AppInfo.notes (fork-32 reconcile)")
                     } catch (e: Exception) {
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: AppInfo.notes already present, ignore")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: AppInfo.notes already present, ignore")
                     }
                     createAppInfoNotesLengthTriggers(db)
                     // Fork (白い熊 考直): reconcile WgConfigFiles for DBs created by an EARLIER fork
@@ -1635,9 +1648,9 @@ abstract class AppDatabase : RoomDatabase() {
                     // and the ALTER simply throws and is ignored.
                     try {
                         db.execSQL("ALTER TABLE WgConfigFiles ADD COLUMN modifiedTs INTEGER NOT NULL DEFAULT 0")
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: added modifiedTs to WgConfigFiles (fork-27 reconcile)")
                     } catch (e: Exception) {
-                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: WgConfigFiles.modifiedTs already present, ignore")
+                        Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: WgConfigFiles.modifiedTs already present, ignore")
                     }
                     // Fork (白い熊 考直): the SAME collision, one version up. "31" means two different
                     // schemas: an earlier fork build stamped 31 after ITS 30→31 created SnoopEvent,
@@ -1660,7 +1673,7 @@ abstract class AppDatabase : RoomDatabase() {
                         )
                         """.trimIndent()
                     )
-                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_35_36: ensured Sponsor table (fork-31 reconcile)")
+                    Logger.i(LOG_TAG_APP_DB, "MIGRATION_36_37: ensured Sponsor table (fork-31 reconcile)")
                     db.execSQL(
                         """
                         CREATE TABLE IF NOT EXISTS `SnoopEvent` (

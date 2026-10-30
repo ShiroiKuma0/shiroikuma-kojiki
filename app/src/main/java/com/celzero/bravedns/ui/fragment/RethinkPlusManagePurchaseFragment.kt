@@ -376,7 +376,7 @@ class RethinkPlusManagePurchaseFragment : Fragment(R.layout.fragment_rethink_plu
     }
 
     private fun showPurchaseAlreadyEndedDialog() {
-        MaterialAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
+        KojikiAlertDialogBuilder(requireContext(), R.style.App_Dialog_NoDim)
             .setTitle(getString(R.string.rpn_purchase_already_ended_title))
             .setMessage(getString(R.string.rpn_purchase_already_ended_message))
             .setPositiveButton(android.R.string.ok, null)

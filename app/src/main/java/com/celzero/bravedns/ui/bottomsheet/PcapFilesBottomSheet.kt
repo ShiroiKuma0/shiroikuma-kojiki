@@ -44,7 +44,7 @@ import com.celzero.bravedns.util.Logger.LOG_TAG_UI
 import com.celzero.bravedns.util.PcapMode
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.Utilities.showToastUiCentered
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -271,7 +271,7 @@ class PcapFilesBottomSheet : BaseBottomSheetDialogFragment() {
     }
 
     private fun showDeleteConfirmationDialog(file: File) {
-        MaterialAlertDialogBuilder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.lbl_delete))
             .setMessage(getString(R.string.pcap_delete_file_confirmation, file.name))
             .setPositiveButton(getString(R.string.lbl_delete)) { _, _ ->
@@ -286,7 +286,7 @@ class PcapFilesBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun showDeleteAllConfirmationDialog() {
         if (pcapFiles.isEmpty()) return
-        MaterialAlertDialogBuilder(requireContext())
+        KojikiAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.univ_ip_delete_dialog_positive))
             .setMessage(getString(R.string.pcap_delete_all_confirmation))
             .setPositiveButton(getString(R.string.lbl_delete)) { _, _ ->
