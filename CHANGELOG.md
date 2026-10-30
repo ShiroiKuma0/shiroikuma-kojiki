@@ -1,6 +1,26 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.7`** upstream tag with its pinned firestack engine (`c4a33649be`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
+
+## 0.5.8+001
+
+**A new upstream release, carried over intact.**
+
+### Rebased onto v0.5.8
+Every fork feature was replayed onto upstream's v0.5.8 release. Upstream's own additions come along with it: an option to use the network's own DNS while on a captive portal, a sheet to view and delete packet captures (a capture now stops by itself after about three hours), its own automation intents for starting, stopping, pausing and resuming the VPN and WireGuard tunnels, a fix for the floating text-selection toolbar on some devices, a fix that stops the proxy card reporting WireGuard as running when no tunnel is active, and a stricter duplicate-tunnel check that needs both the private key and a peer key to match.
+
+Upstream's new automation intents use their own action names and do not touch the fork's `SET_APP_RULE` and `SET_WG_STATE`; both sets work side by side. Upstream's Tasker and packet-capture dialogs became bottom sheets this release, so the fork's versions of those two dialogs were dropped in favour of upstream's. The six new dialogs upstream added are drawn in the fork's bordered style like all the others.
+
+### A fourth collision in the database
+Upstream's new migration adds IPv4 and IPv6 flags to its country table, and claims the same version number the fork's Snooping table already used. A phone on the fork's lineage would have skipped upstream's step and crashed on open with the country table missing its new columns.
+
+The fork's migration moves up one, above upstream's whole chain, and adds those two columns itself when they are missing — alongside the three earlier reconciliations. A phone upgrading from any earlier build, and a fresh install, end up with the same schema.
+
+### The build, moved to Kotlin script
+Upstream rewrote its whole Gradle build in Kotlin script this release. The fork's build logic — the fork's version numbering, its own app id, local signing, the de-Googled build, the self-built engine and the one-step `buildFoss` — was moved over in a single change. `buildFoss` now refuses to overwrite an APK that already exists, instead of quietly replacing it.
+
+### The engine, rebuilt on the new pin
+The engine is firestack `d3d530ea3e`, exactly the version upstream pins for v0.5.8, carrying both fork patches: the DoH idle-pool fix and the ALG stale-mapping recovery. Both applied unchanged. Upstream still ships no HTTP/2 PING health checks, so the DoH patch is still needed. Built with Go 1.27.1 and NDK 30, the toolchain upstream moved to, and verified in the shipped APK.
 
 ## 0.5.7+011
 
