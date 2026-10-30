@@ -14,6 +14,7 @@ import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.liveData
 import com.celzero.bravedns.customui.KojikiAppSort
+import com.celzero.bravedns.customui.KojikiFrozenApps
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.AppInfoDAO
 import com.celzero.bravedns.R
@@ -70,6 +71,11 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     // in AndroidUidConfig), and the package-name prefix does.
     private var nonAppOnly = false
 
+    // Fork (白い熊 考直): the "Hidden / frozen" filter — the set is taken when the filter is set, so
+    // the list keeps a stable answer until the activity re-reads it (KojikiFrozenApps).
+    private var frozenOnly = false
+    private var frozenPackages: Set<String> = emptySet()
+
     // Fork (白い熊 考直): the sort order, bound straight into the DAO's ORDER BY. Unlike the group and
     // non-app filters this cannot be applied after the query — a page stream is fetched page by page,
     // so re-ordering in Kotlin would only ever sort within a page.
@@ -109,6 +115,8 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         this.groupFilterActive = filters.groupFilters.isNotEmpty()
         this.groupPackages = filters.groupPackages
         this.nonAppOnly = filters.topLevelFilter == AppListActivity.TopLevelFilter.NON_APP
+        this.frozenOnly = filters.frozenOnly
+        this.frozenPackages = KojikiFrozenApps.packages()
 
         this.sortKey = filters.sortBy.id
         this.sortDesc = if (filters.sortDesc) 1 else 0
@@ -165,14 +173,17 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
     private fun applyRowFilters(
         source: LiveData<PagingData<AppInfo>>
     ): LiveData<PagingData<AppInfo>> {
-        if (!groupFilterActive && !nonAppOnly) return source
+        if (!groupFilterActive && !nonAppOnly && !frozenOnly) return source
         val pkgs = groupPackages
         val groups = groupFilterActive
         val nonApp = nonAppOnly
+        val frozen = frozenOnly
+        val frozenPkgs = frozenPackages
         return source.map { pagingData ->
             pagingData.filter { app ->
                 (!groups || pkgs.contains(app.packageName)) &&
-                    (!nonApp || Utilities.isNonApp(app.packageName))
+                    (!nonApp || Utilities.isNonApp(app.packageName)) &&
+                    (!frozen || frozenPkgs.contains(app.packageName))
             }
         }
     }
@@ -183,11 +194,12 @@ class AppInfoViewModel(private val appInfoDAO: AppInfoDAO) : ViewModel() {
         // the fork's own getSortedApps, which binds the predicate in SQL, while this bulk path runs
         // upstream's getFilteredApps, which knows nothing about notes. Both must agree, because the
         // bulk-rule toolbar acts on exactly what the list shows.
-        if (!groupFilterActive && !nonAppOnly && !notesOnly) return apps
+        if (!groupFilterActive && !nonAppOnly && !notesOnly && !frozenOnly) return apps
         return apps.filter { app ->
             (!groupFilterActive || groupPackages.contains(app.packageName)) &&
                 (!nonAppOnly || Utilities.isNonApp(app.packageName)) &&
-                (!notesOnly || app.notes.isNotBlank())
+                (!notesOnly || app.notes.isNotBlank()) &&
+                (!frozenOnly || frozenPackages.contains(app.packageName))
         }
     }
 

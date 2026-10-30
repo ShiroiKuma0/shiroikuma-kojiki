@@ -44,6 +44,7 @@ import com.celzero.bravedns.service.FirewallManager.NOTIF_CHANNEL_ID_FIREWALL_AL
 import com.celzero.bravedns.service.FirewallManager.TOMBSTONE_EXPIRY_TIME_MS
 import com.celzero.bravedns.service.FirewallManager.deletePackage
 import com.celzero.bravedns.customui.KojikiAppNotes
+import com.celzero.bravedns.customui.KojikiFrozenApps
 import com.celzero.bravedns.service.KojikiPendingFw
 import com.celzero.bravedns.service.IpRulesManager
 import com.celzero.bravedns.service.PersistentState
@@ -180,14 +181,11 @@ internal constructor(
             val canTombstone = persistentState.tombstoneApps
             val trackedApps = FirewallManager.getAllApps()
             // installedPackages includes apps which are disabled by the user
-            val installedPackages: List<PackageInfo> =
-                if (isAtleastT()) {
-                    pm.getInstalledPackages(
-                        PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())
-                    )
-                } else {
-                    pm.getInstalledPackages(PackageManager.GET_META_DATA)
-                }
+            // Fork (白い熊 考直): ...and apps which are hidden. Upstream's query left them out, so
+            // every freeze (白い熊 応用管理 hides the apps it freezes) read as an uninstall: the row
+            // and all its rules were deleted, and the unfreeze announced a "new" app. See
+            // KojikiFrozenApps.
+            val installedPackages: List<PackageInfo> = KojikiFrozenApps.installedPackages(pm)
 
             val installedApps: MutableSet<FirewallManager.AppInfoTuple> = mutableSetOf()
             installedPackages.forEach {
@@ -410,7 +408,7 @@ internal constructor(
         installed.forEach { x ->
             val known = FirewallManager.getAppInfoByUidAndPackage(x.uid, x.packageName)
             if (known != null) return@forEach
-            val ai = Utilities.getApplicationInfo(ctx, x.packageName) ?: return@forEach
+            val ai = KojikiFrozenApps.appInfo(ctx, x.packageName) ?: return@forEach
             insertApp(ai)
         }
     }
@@ -423,10 +421,14 @@ internal constructor(
         apps.forEach {
             // no need to avoid adding Rethink app to the database, so commenting the below line
             // if (it.packageName == context.applicationContext.packageName) return@forEach
-            val ai = Utilities.getApplicationInfo(ctx, it.packageName) ?: return@forEach
+            val ai = KojikiFrozenApps.appInfo(ctx, it.packageName) ?: return@forEach
             if (insertApp(ai)) restored.add(it.packageName)
         }
-        maybeSendNewAppNotification(apps, restored)
+        // Fork (白い熊 考直): an app first seen while hidden or frozen is not being installed, and
+        // cannot use the network until it is woken; its row (and any rule set on it meanwhile) is
+        // simply there when it is. Announcing it would be the very "new app" prompt this avoids.
+        val awake = apps.filter { KojikiFrozenApps.stateOf(it.packageName) == null }.toSet()
+        if (awake.isNotEmpty()) maybeSendNewAppNotification(awake, restored)
     }
 
     private suspend fun updateExistingPackagesIfNeeded(apps: Set<FirewallManager.AppInfoTuple>) {
@@ -434,7 +436,7 @@ internal constructor(
 
         apps.forEach { old ->
             // get the latest app info from package manager against existing package name
-            val newInfo = Utilities.getApplicationInfo(ctx, old.packageName) ?: return@forEach
+            val newInfo = KojikiFrozenApps.appInfo(ctx, old.packageName) ?: return@forEach
             updateApp(old.uid, newInfo.uid, old.packageName)
             // updating the ip/domain/proxy rules with the new uid are handled in caller methods
         }
