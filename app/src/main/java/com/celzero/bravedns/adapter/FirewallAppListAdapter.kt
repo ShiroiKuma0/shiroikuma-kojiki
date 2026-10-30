@@ -40,6 +40,7 @@ import com.celzero.bravedns.customui.KojikiAppNotes
 import com.celzero.bravedns.customui.KojikiAppSort
 import com.celzero.bravedns.customui.KojikiFrozenApps
 import com.celzero.bravedns.customui.KojikiSharedUid
+import com.celzero.bravedns.customui.KojikiToggleBadge
 import com.celzero.bravedns.database.AppInfo
 import com.celzero.bravedns.database.EventSource
 import com.celzero.bravedns.database.EventType
@@ -360,6 +361,16 @@ class FirewallAppListAdapter(
             firewallStatus: FirewallManager.FirewallStatus,
             connStatus: FirewallManager.ConnectionStatus
         ) {
+            // Fork (白い熊 考直): a bypassed app's toggles are allowed, not greyed — drawn lit with
+            // the bypass's badge. The drawable tints its own layers, so no view filter goes over it.
+            if (KojikiToggleBadge.isBypass(firewallStatus)) {
+                b.firewallAppToggleWifi.setImageDrawable(KojikiToggleBadge.wifi(context, firewallStatus))
+                b.firewallAppToggleMobileData.setImageDrawable(
+                    KojikiToggleBadge.data(context, firewallStatus))
+                b.firewallAppToggleWifi.clearColorFilter()
+                b.firewallAppToggleMobileData.clearColorFilter()
+                return
+            }
             when (firewallStatus) {
                 FirewallManager.FirewallStatus.NONE -> {
                     when (connStatus) {

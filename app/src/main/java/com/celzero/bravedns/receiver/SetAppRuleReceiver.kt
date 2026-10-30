@@ -40,7 +40,8 @@ import org.koin.core.component.inject
  * Action: [ACTION_SET_APP_RULE]. All extras are read AS STRINGS (Tasker and `am --es` send strings):
  *   - pkg    (required): package name, e.g. "com.termux"
  *   - rule   (optional): EXCLUDE | BYPASS_UNIVERSAL | NONE | ISOLATE | BYPASS_DNS_FIREWALL
- *   - conn   (optional): BOTH | UNMETERED | METERED | ALLOW (default: preserve the app's current value)
+ *   - conn   (optional): BOTH | UNMETERED | METERED | ALLOW (default: preserve the app's current value;
+ *                       ALLOW for the two bypasses, as the app screen does)
  *   - toggle (optional): "true" — if true and no `rule`, flip current EXCLUDE <-> BYPASS_UNIVERSAL
  *   - token  (required): shared secret; must match the stored token (Settings > Misc)
  *
@@ -155,7 +156,10 @@ class SetAppRuleReceiver : BroadcastReceiver(), KoinComponent {
             }
         }
 
-        // 4) connection status: explicit `conn` wins; else preserve the app's current value
+        // 4) connection status: explicit `conn` wins; else preserve the app's current value —
+        //    except for the two bypasses, which store ALLOW exactly as the app screen and the bulk
+        //    toolbar do. Preserving a block there left the app bypassed *and* blocked (the per-app
+        //    WiFi/data rule is tested before either bypass), with the toggles drawn as allowed.
         val connStr = intent.getStringExtra(EXTRA_CONN)?.trim()?.uppercase()
         val conn: FirewallManager.ConnectionStatus =
             if (!connStr.isNullOrEmpty()) {
@@ -164,6 +168,11 @@ class SetAppRuleReceiver : BroadcastReceiver(), KoinComponent {
                     toast(context, "SET_APP_RULE: bad conn '$connStr'")
                     return
                 }
+            } else if (
+                target == FirewallManager.FirewallStatus.BYPASS_UNIVERSAL ||
+                    target == FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL
+            ) {
+                FirewallManager.ConnectionStatus.ALLOW
             } else {
                 FirewallManager.ConnectionStatus.getStatus(appInfo.connectionStatus)
             }

@@ -105,6 +105,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.celzero.bravedns.customui.KojikiAlertDialogBuilder
 import com.celzero.bravedns.customui.KojikiFirewallHelp
 import com.celzero.bravedns.customui.KojikiSharedUid
+import com.celzero.bravedns.customui.KojikiToggleBadge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -1716,8 +1717,9 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
     private fun enableAppBypassedUi() {
         setDrawable(R.drawable.ic_bypass_dns_firewall_off, b.aadAppSettingsBypassDnsFirewall)
-        setDrawable(R.drawable.ic_firewall_wifi_on_grey, b.aadAppSettingsBlockWifi)
-        setDrawable(R.drawable.ic_firewall_data_on_grey, b.aadAppSettingsBlockMd)
+        // Fork (白い熊 考直): allowed, not greyed — lit, with the bypass's badge (KojikiToggleBadge)
+        setDrawable(KojikiToggleBadge.wifi(this, FirewallManager.FirewallStatus.BYPASS_UNIVERSAL), b.aadAppSettingsBlockWifi)
+        setDrawable(KojikiToggleBadge.data(this, FirewallManager.FirewallStatus.BYPASS_UNIVERSAL), b.aadAppSettingsBlockMd)
         setDrawable(R.drawable.ic_firewall_bypass_on, b.aadAppSettingsBypassUniv)
         setDrawable(R.drawable.ic_firewall_exclude_off, b.aadAppSettingsExclude)
         setDrawable(R.drawable.ic_firewall_lockdown_off, b.aadAppSettingsIsolate)
@@ -1725,8 +1727,9 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
     private fun enableDnsFirewallBypassedUi() {
         setDrawable(R.drawable.ic_bypass_dns_firewall_on, b.aadAppSettingsBypassDnsFirewall)
-        setDrawable(R.drawable.ic_firewall_wifi_on_grey, b.aadAppSettingsBlockWifi)
-        setDrawable(R.drawable.ic_firewall_data_on_grey, b.aadAppSettingsBlockMd)
+        // Fork (白い熊 考直): allowed, not greyed — lit, with the bypass's badge (KojikiToggleBadge)
+        setDrawable(KojikiToggleBadge.wifi(this, FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL), b.aadAppSettingsBlockWifi)
+        setDrawable(KojikiToggleBadge.data(this, FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL), b.aadAppSettingsBlockMd)
         setDrawable(R.drawable.ic_firewall_bypass_off, b.aadAppSettingsBypassUniv)
         setDrawable(R.drawable.ic_firewall_exclude_off, b.aadAppSettingsExclude)
         setDrawable(R.drawable.ic_firewall_lockdown_off, b.aadAppSettingsIsolate)
@@ -1794,6 +1797,10 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
     private fun setDrawable(drawable: Int, txt: TextView) {
         val top = ContextCompat.getDrawable(this, drawable)
+        txt.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null)
+    }
+
+    private fun setDrawable(top: android.graphics.drawable.Drawable?, txt: TextView) {
         txt.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null)
     }
 

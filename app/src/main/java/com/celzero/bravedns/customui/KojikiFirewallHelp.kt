@@ -39,8 +39,10 @@ import com.celzero.bravedns.R
  * The table is not folklore — it is the decision order in `TunFirewallManager.firewall()`, where
  * both bypass branches return before the universal-toggle tail, and `TunDnsManager.onQuery()`,
  * which consults only `bypassDnsFirewall`. Two consequences people get wrong and the table states
- * plainly: **both** bypasses waive "app not in use" and "device locked", and **neither** bypass
- * lifts the row's own WiFi/mobile-data toggles, which are tested earlier.
+ * plainly: **both** bypasses waive "app not in use" and "device locked", and choosing either one
+ * stores the row's own WiFi/mobile-data toggles as *allowed* (the app screen, the bulk toolbar and
+ * the SET_APP_RULE intent all do) — those toggles are tested earlier, so a bypass stored next to a
+ * block would still be blocked, which is exactly why no path stores one.
  *
  * Text lives here rather than in `strings.xml` — it is fork-only, English-only, and keeping it out
  * of upstream's translated resource file is one less rebase conflict. Button names still come from
@@ -79,7 +81,6 @@ object KojikiFirewallHelp {
             for (r in order) {
                 box.addView(heading(context, context.getString(r.labelRes), r == focus))
                 box.addView(para(context, blurb(context, r)))
-                if (r == Rule.EXCLUDE) box.addView(KojikiDialog.helper(context, EXCLUDE_CAUTION))
             }
 
             box.addView(divider(context, 0.4f, 14))
@@ -116,10 +117,6 @@ object KojikiFirewallHelp {
         }
     }
 
-    private const val EXCLUDE_CAUTION =
-        "On some Huawei/EMUI builds an excluded app loses name resolution entirely — the system " +
-            "misroutes its queries — so prefer one of the bypasses there."
-
     private const val TITLE = "Firewall rules"
 
     /**
@@ -150,8 +147,9 @@ object KojikiFirewallHelp {
                 "Firewall escapes it.",
             "Both bypasses waive these two. Neither “not in use” nor “device locked” can block an " +
                 "app carrying either status.",
-            "The app’s own WiFi and mobile-data toggles are tested before either bypass, so they " +
-                "still block. A bypass does not override the two toggles on this row.",
+            "Choosing either bypass sets this app’s WiFi and mobile-data toggles to allowed. " +
+                "They stay lit, with the bypass’s badge on them. Tapping one ends the bypass and " +
+                "returns the app to ordinary rules, with that network blocked.",
             "Under Android’s “block connections without VPN”, an excluded app would be left with " +
                 "no connectivity at all, so the exclude list is ignored and the app is tunnelled " +
                 "normally.")
@@ -187,7 +185,7 @@ object KojikiFirewallHelp {
             Section(
                 "Rules set on this app",
                 listOf(
-                    Row("Block on WiFi / mobile data ⁴", YES, YES, NA),
+                    Row("Block on WiFi / mobile data ⁴", NO, NO, NA),
                     Row("Domain rules (Trust / Block)", YES, YES, NA),
                     Row("IP rules (Trust / Block)", YES, YES, NA))),
             Section(
