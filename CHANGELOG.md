@@ -2,6 +2,13 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
 
+## 0.5.8+007
+
+**A tighter settings page.**
+
+### The 白い熊 考直 UI page, spaced like 白い熊 Jami's
+The page wasted most of a folded screen on empty space: each level of nesting was indented a further 60 dp, so the controls under a sub-heading started 136 dp from the edge, and every row carried 12–14 dp of padding above and below. It now uses the same spacing as 白い熊 Jami's settings page. Section titles sit at 36 dp and each level is 18 dp deeper; switch rows take 10 dp above and 6 dp below, every other row 8 dp each way; section breaks and sub-headings are about half as tall. The whole page — Diagnostics included — fits roughly twice as much on screen, and nothing on it changed apart from the spacing.
+
 ## 0.5.8+006
 
 **Connectivity comes back within seconds after an update, screens no longer pile up in memory, and diagnostics you can switch on.**
