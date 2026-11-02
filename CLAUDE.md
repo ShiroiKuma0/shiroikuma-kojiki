@@ -156,10 +156,11 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
     the Kotlin-side companion is `service/KojikiDnsWatchdog.kt`.
   - *"alg: recover an aged-out alg mapping instead of dropping the flow"* — filed as
     **celzero/firestack#252**. See memory `[[kojiki-alg-stale-mapping-fix]]`.
-  - *"alg: reject an orphaned alg ip at once instead of dialing it"* (`38e2f647`, 2026-11-02, not yet filed
-    upstream). The alg table is in memory only, so every process restart (an update, a crash, a force-stop)
+  - *"alg: reject an orphaned alg ip at once instead of dialing it"* (`38e2f647`, 2026-11-02) — filed as
+    **celzero/firestack#256**. The alg table is in memory only, so every process restart (an update, a crash, a force-stop)
     orphans the alg ips apps still hold; the engine used to dial them literally and hang ~20 s each — ~1150
-    dead flows and ~5 min without connectivity after one install. Now an ip in alg space
+    alg-miss log lines (several per flow, and the engine's log drops repeats, so not a flow count) and ~5 min
+    without connectivity after one install. Now an ip in alg space
     (`dnsx.IsAlgSpace`: `64:ff9b:1:da19:100::/80` always, `100.64/10` only while `Gateway.Translating()`)
     with no record and no domain is blocked after `listener.Flow`, so the app fails fast and re-resolves.
     Marker string: `orphaned alg ip`. Measured with Diagnostics → VPN restarts (Feature 12). The heavier

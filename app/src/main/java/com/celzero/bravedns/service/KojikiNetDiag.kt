@@ -34,7 +34,8 @@ import java.util.concurrent.atomic.AtomicInteger
  * of *orphaned alg ips*: flows aimed at an alg address (100.64/10, 64:ff9b:1:da19:100::/80) that the
  * engine has no record of. The alg table lives in the engine's memory only, so every restart of the
  * process — an app update, a crash, a force-stop — orphans the alg ips apps still hold; on
- * 2026-11-02 that left ~1150 dead flows and ~5 minutes without connectivity after one install. The
+ * 2026-11-02 one install left ~1150 alg-miss log lines (several per flow) and ~5 minutes without
+ * connectivity. The
  * count is reported 60 s and 5 min after each engine start, with the first few flows named.
  *
  * **WireGuard health** ([Group.WG]) — every minute, per active tunnel: status, handshake age, rx/tx
