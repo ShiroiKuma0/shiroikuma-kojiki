@@ -108,10 +108,13 @@ object CustomUi {
     // would defeat the equality-guarded re-walk), keyed "family|weight|italic".
     private val styledCache = HashMap<String, Typeface>()
 
-    // One global-layout listener per content view, so re-resumes never stack listeners. Keyed weakly
-    // by the content view, so the entry (and listener) is collected with the activity.
-    private val layoutListeners =
-        java.util.WeakHashMap<View, ViewTreeObserver.OnGlobalLayoutListener>()
+    // One global-layout listener per content view, so re-resumes never stack listeners. Only the
+    // content view is remembered, weakly — never the listener: it captures the activity, and a
+    // WeakHashMap value that reaches its own key pins the entry forever, which leaked every screen
+    // ever opened (found 2026-11-02 with KojikiLeakWatch). The listener itself is held by the view's
+    // own ViewTreeObserver, so it goes with the window.
+    private val layoutListeners: MutableSet<View> =
+        java.util.Collections.newSetFromMap(java.util.WeakHashMap<View, Boolean>())
 
     data class FontOption(val displayName: String, val value: String)
 
@@ -247,13 +250,13 @@ object CustomUi {
         // Catch dynamically-added views (e.g. RecyclerView rows). Re-walking is cheap because every
         // set below is equality-guarded, so only genuinely-new/changed views do any work. Install at
         // most one listener per content view (config edits recreate() the activity, refreshing it).
-        if (!layoutListeners.containsKey(content)) {
+        if (content !in layoutListeners) {
             val vto = content.viewTreeObserver
             if (vto.isAlive) {
                 val listener = ViewTreeObserver.OnGlobalLayoutListener {
                     applyToTree(activity, content, cfg, global, themeBg)
                 }
-                layoutListeners[content] = listener
+                layoutListeners.add(content)
                 vto.addOnGlobalLayoutListener(listener)
             }
         }
