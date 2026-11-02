@@ -20,6 +20,8 @@ import com.celzero.bravedns.util.Logger.LOG_TAG_SCHEDULER
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.os.StrictMode
+import com.celzero.bravedns.customui.KojikiDiag
+import com.celzero.bravedns.customui.KojikiLeakWatch
 import com.celzero.bravedns.scheduler.EnhancedBugReport
 import com.celzero.bravedns.scheduler.ScheduleManager
 import com.celzero.bravedns.scheduler.WorkScheduler
@@ -44,6 +46,12 @@ class RethinkDnsApplication : Application() {
         DEBUG =
             applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE ==
                     ApplicationInfo.FLAG_DEBUGGABLE
+
+        // Fork (白い熊 考直): Diagnostics switches (all off by default) and the diagnostics they gate.
+        KojikiDiag.init(this)
+        KojikiLeakWatch.install(this)
+        com.celzero.bravedns.service.KojikiNetDiag.init()
+        com.celzero.bravedns.service.KojikiNetDiag.onEvent("process start")
 
         startKoin {
             if (DEBUG) androidLogger()

@@ -272,4 +272,24 @@
     <string name="kojiki_app_log_network">Network</string>
     <string name="kojiki_app_log_dns">DNS</string>
     <string name="kojiki_app_log_uid_label">uid %1$s</string>
+
+    <!-- Fork (白い熊 考直): Diagnostics (KojikiDiag) — every switch off by default; off costs nothing. -->
+    <string name="kojiki_diag_section" translatable="false">Diagnostics</string>
+    <string name="kojiki_diag_intro" translatable="false">Each switch records one thing to its own trace, all off by default. Off means nothing is recorded and nothing runs. Traces are capped at 512 KiB and also readable with adb under Android/data/%1$s/files/kojiki-diag/.</string>
+    <string name="kojiki_diag_sub_app" translatable="false">App</string>
+    <string name="kojiki_diag_sub_net" translatable="false">Tunnel &amp; network</string>
+    <string name="kojiki_diag_leaks" translatable="false">Screen leaks</string>
+    <string name="kojiki_diag_leaks_desc" translatable="false">15 s after a screen closes, forces a garbage collection and records every closed screen still held in memory.</string>
+    <string name="kojiki_diag_heap" translatable="false">Heap dump on next leak</string>
+    <string name="kojiki_diag_heap_desc" translatable="false">One-shot: the next leak found also writes heap.hprof (~60 MB) beside the trace, then this switch turns itself off. Needs Screen leaks on.</string>
+    <string name="kojiki_diag_vpn" translatable="false">VPN restarts</string>
+    <string name="kojiki_diag_vpn_desc" translatable="false">Every engine start, recycle and stop with its reason, network changes, and how many connections still aim at stand-in (ALG) addresses from before a restart: counted 60 s and 5 min after each start, the first five named.</string>
+    <string name="kojiki_diag_dns" translatable="false">DNS watchdog</string>
+    <string name="kojiki_diag_dns_desc" translatable="false">Every failed DNS query, and each recycle or failover the watchdog performs.</string>
+    <string name="kojiki_diag_wg" translatable="false">WireGuard health</string>
+    <string name="kojiki_diag_wg_desc" translatable="false">Each minute, per active tunnel: status, handshake age, bytes and the last error — written when something changes or a handshake is over 3 min old, plus a line every 15 min.</string>
+    <string name="kojiki_diag_view" translatable="false">View trace</string>
+    <string name="kojiki_diag_view_empty" translatable="false">Nothing recorded yet.</string>
+    <string name="kojiki_diag_clear" translatable="false">Clear</string>
+    <string name="kojiki_diag_close" translatable="false">Close</string>
 </resources>

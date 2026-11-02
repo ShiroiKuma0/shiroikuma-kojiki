@@ -20,6 +20,7 @@
  */
 package com.celzero.bravedns.service
 
+import com.celzero.bravedns.customui.KojikiDiag
 import com.celzero.bravedns.util.Logger
 import com.celzero.bravedns.util.Logger.LOG_TAG_VPN
 import android.app.NotificationChannel
@@ -115,12 +116,14 @@ object KojikiDnsWatchdog : KoinComponent {
     fun onDnsTransaction(t: Transaction) {
         // failure diagnostics via android.util.Log directly: the app's Logger is gated by the
         // in-app log level (observed fully silent in logcat), which would hide the telemetry
-        if (t.status != Transaction.Status.COMPLETE && t.status != Transaction.Status.START) {
-            android.util.Log.e(
-                TAG,
-                "diag: FAIL status=${t.status} cached=${t.isCached} q=${t.qName} " +
-                    "server=${t.serverName} msg=${t.msg.take(80)}"
-            )
+        // Off unless Diagnostics → "DNS watchdog" is on (KojikiDiag): then also kept in its trace.
+        if (KojikiDiag.isOn(KojikiDiag.Group.DNS) &&
+            t.status != Transaction.Status.COMPLETE && t.status != Transaction.Status.START
+        ) {
+            val line = "FAIL status=${t.status} cached=${t.isCached} q=${t.qName} " +
+                "server=${t.serverName} msg=${t.msg.take(80)}"
+            android.util.Log.e(TAG, "diag: $line")
+            KojikiDiag.log(KojikiDiag.Group.DNS, line)
         }
         // NOTE: do NOT skip on isCached — the engine's caching wrapper (CachePreferred) stamps
         // cached=true on every summary that flows through it, INCLUDING upstream failures for
@@ -175,7 +178,7 @@ object KojikiDnsWatchdog : KoinComponent {
                     LOG_TAG_VPN,
                     "$TAG: window fails=$fails oks=$oks (trigger: fails>=$FAIL_THRESHOLD)"
                 )
-                android.util.Log.e(TAG, "window fails=$fails oks=$oks (trigger: fails>=$FAIL_THRESHOLD)")
+                alarm("window fails=$fails oks=$oks (trigger: fails>=$FAIL_THRESHOLD)")
             }
             // no success-ratio gate: the wedge is bursty — 10-30s bursts break apps even when the
             // 3-min window holds more successes than failures. A recycle is cheap and
@@ -197,7 +200,7 @@ object KojikiDnsWatchdog : KoinComponent {
 
     private fun doRestart() {
         Logger.e(LOG_TAG_VPN, "$TAG: DoH failure streak; forcing full tunnel recycle")
-        android.util.Log.e(TAG, "TRIGGER: forcing full tunnel recycle")
+        alarm("TRIGGER: forcing full tunnel recycle")
         VpnController.kojikiForceEngineRestart(
             "kojikiDnsWatchdog, at: ${SystemClock.elapsedRealtime()}"
         )
@@ -218,7 +221,7 @@ object KojikiDnsWatchdog : KoinComponent {
                 if (doh == null || persistentState.connectedDnsName == doh.dohName) {
                     // already on the fallback (or it's missing): recycle again instead
                     Logger.e(LOG_TAG_VPN, "$TAG: wedge persists on fallback; recycling again")
-                    android.util.Log.e(TAG, "TRIGGER: wedge persists on fallback; recycling again")
+                    alarm("TRIGGER: wedge persists on fallback; recycling again")
                     synchronized(this@KojikiDnsWatchdog) {
                         lastRestartAt = SystemClock.elapsedRealtime()
                     }
@@ -233,7 +236,7 @@ object KojikiDnsWatchdog : KoinComponent {
                     return@launch
                 }
                 val prev = persistentState.connectedDnsName
-                android.util.Log.e(TAG, "TRIGGER: failing over to fallback DoH")
+                alarm("TRIGGER: failing over to fallback DoH")
                 Logger.e(LOG_TAG_VPN, "$TAG: wedge returned after restart; failing over " +
                         "'$prev' -> '${doh.dohName}'")
                 // same select sequence as KojikiExport's DNS import (proven to stick): select in
@@ -287,5 +290,12 @@ object KojikiDnsWatchdog : KoinComponent {
         } catch (e: Exception) {
             Logger.e(LOG_TAG_VPN, "$TAG: notify failed: ${e.message}", e)
         }
+    }
+
+    // a watchdog action: always to logcat (rare, and the one thing worth seeing there), and to the
+    // DNS diagnostic trace while that is on
+    private fun alarm(line: String) {
+        android.util.Log.e(TAG, line)
+        KojikiDiag.log(KojikiDiag.Group.DNS, line)
     }
 }

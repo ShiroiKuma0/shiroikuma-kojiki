@@ -49,6 +49,8 @@ import com.celzero.bravedns.R
 import com.celzero.bravedns.customui.ColorPickerDialog
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
+import com.celzero.bravedns.customui.KojikiDiag
+import com.celzero.bravedns.customui.KojikiDialog
 import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
@@ -279,6 +281,76 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
 
         addValueRow(R.string.kojiki_ui_reset, "") { cfg.resetToDefaults(); recreate() }
+
+        addDiagnosticsSection()
+    }
+
+    // ---- Diagnostics (2026-11-02) ----
+    // Every fork diagnostic behind its own switch, all OFF by default (KojikiDiag): off means nothing
+    // is recorded, formatted or timed. Each trace switch is followed by a row that shows the trace.
+    private fun addDiagnosticsSection() {
+        addSectionHeader(R.string.kojiki_diag_section)
+        b.kojikiUiHolder.addView(AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            text = getString(R.string.kojiki_diag_intro, packageName)
+            setTextColor(cfg.textColor)
+            alpha = 0.7f
+            setPadding(0, dp(8), dp(16), dp(4))
+            indent(this, 1)
+        })
+        addSubLabel(R.string.kojiki_diag_sub_app)
+        addDiagToggle(R.string.kojiki_diag_leaks, R.string.kojiki_diag_leaks_desc, KojikiDiag.Group.LEAKS)
+        addToggleRow(
+            R.string.kojiki_diag_heap, KojikiDiag.isOn(KojikiDiag.Group.HEAP_DUMP), 2,
+            desc = getString(R.string.kojiki_diag_heap_desc)
+        ) {
+            KojikiDiag.set(this, KojikiDiag.Group.HEAP_DUMP, it)
+            // a dump is taken only when a leak is found, so it needs the leak watch on
+            if (it && !KojikiDiag.isOn(KojikiDiag.Group.LEAKS)) {
+                KojikiDiag.set(this, KojikiDiag.Group.LEAKS, true)
+                recreate()
+            }
+        }
+        addDiagView(KojikiDiag.Group.LEAKS, R.string.kojiki_diag_leaks)
+        addSubLabel(R.string.kojiki_diag_sub_net)
+        addDiagToggle(R.string.kojiki_diag_vpn, R.string.kojiki_diag_vpn_desc, KojikiDiag.Group.VPN)
+        addDiagView(KojikiDiag.Group.VPN, R.string.kojiki_diag_vpn)
+        addDiagToggle(R.string.kojiki_diag_dns, R.string.kojiki_diag_dns_desc, KojikiDiag.Group.DNS)
+        addDiagView(KojikiDiag.Group.DNS, R.string.kojiki_diag_dns)
+        addDiagToggle(R.string.kojiki_diag_wg, R.string.kojiki_diag_wg_desc, KojikiDiag.Group.WG)
+        addDiagView(KojikiDiag.Group.WG, R.string.kojiki_diag_wg)
+    }
+
+    private fun addDiagToggle(@StringRes labelRes: Int, @StringRes descRes: Int, g: KojikiDiag.Group) {
+        addToggleRow(labelRes, KojikiDiag.isOn(g), 2, desc = getString(descRes)) {
+            KojikiDiag.set(this, g, it)
+        }
+    }
+
+    private fun addDiagView(g: KojikiDiag.Group, @StringRes titleRes: Int) {
+        addValueRow(R.string.kojiki_diag_view, KojikiDiag.file(g)?.name.orEmpty(), indentLevel = 2) {
+            showDiagTrace(g, getString(titleRes))
+        }
+    }
+
+    private fun showDiagTrace(g: KojikiDiag.Group, title: String) {
+        val text = KojikiDiag.tail(g).ifEmpty { getString(R.string.kojiki_diag_view_empty) }
+        KojikiDialog.show(
+            this, title,
+            listOf(
+                KojikiDialog.Action(getString(R.string.kojiki_diag_clear), leading = true) { KojikiDiag.clear(g) },
+                KojikiDialog.Action(getString(R.string.kojiki_diag_close))
+            ),
+            0.78f
+        ) { box, _ ->
+            box.addView(TextView(this).apply {
+                this.text = text
+                typeface = Typeface.MONOSPACE
+                textSize = 11f
+                setTextColor(KojikiDialog.textOf(this@KojikiUiActivity))
+                setTextIsSelectable(true)
+            })
+        }
     }
 
     // Icon size + roundness with a live preview (the app's own icon) that updates as the sliders move.

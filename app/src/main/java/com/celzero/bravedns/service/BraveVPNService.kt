@@ -1987,6 +1987,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     }
 
     fun signalStopService(reason: String, userInitiated: Boolean = true) {
+        KojikiNetDiag.onEvent("vpn stop: $reason (user? $userInitiated)")
         if (!userInitiated) notifyUserOnVpnFailure()
         io(reason) {
             stopVpnAdapter()
@@ -2323,6 +2324,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                     // it dials its first upstream — restart the watchdog's warm-up so that burst
                     // isn't reported as a wedge.
                     KojikiDnsWatchdog.onTunnelUp()
+                    KojikiNetDiag.onEngineUp("new engine (fresh alg table)")
                     io("tunInit") { vpnAdapter?.initResolverProxiesPcap(opts) }
                     io("rpnCheck") { checkForPlusSubscription() }
                     return@withContext ok
@@ -2337,6 +2339,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                         }
                         vpnAdapter?.setLinkMtu(nwMtu)
                         KojikiDnsWatchdog.onTunnelUp()
+                        KojikiNetDiag.onEngineUp("tunnel recycled by the DNS watchdog")
                         return@withContext ok
                     }
                     when (restartPolicy) {
@@ -2391,6 +2394,9 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     // TODO: #294 - Figure out a way to show users that the device is offline instead of status as
     // failing.
     suspend fun onNetworkDisconnected(networks: ConnectionMonitor.UnderlyingNetworks, forceRestart: Boolean = false) {
+        KojikiNetDiag.onEvent(
+            "network lost: v4 nets ${networks.ipv4Net.size}, v6 nets ${networks.ipv6Net.size}"
+        )
         underlyingNetworks = networks
         underlyingNetworks?.vpnLockdown = isLockdown()
 
@@ -2551,6 +2557,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     suspend fun onNetworkConnected(networks: ConnectionMonitor.UnderlyingNetworks, forceRestart: Boolean = false) {
         val curnet = underlyingNetworks
         val out = interestingNetworkChanges(curnet, networks)
+        KojikiNetDiag.onEvent(
+            "network up/changed: netChanged? ${out.netChanged}, v4 nets ${networks.ipv4Net.size}, " +
+                "v6 nets ${networks.ipv6Net.size}, force? $forceRestart"
+        )
         val isRoutesChanged = hasRouteChangedInAutoMode(out)
         val isBoundNetworksChanged = out.netChanged
         val isMtuChanged = out.mtuChanged
@@ -3928,6 +3938,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         blocklists: String?,
         isAlg: Boolean
     ): Mark = go2kt(flowDispatcher) {
+        // Fork (白い熊 考直): counts orphaned alg ips while the VPN diagnostic is on; no-op off
+        KojikiNetDiag.onFlow(_uid, dst, realIps, isAlg)
         TunFlowManager.handleFlow(
             buildFlowContext(),
             protocol, _uid, src, dst, realIps, d, probableDomains, blocklists, isAlg
