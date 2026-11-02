@@ -1,6 +1,27 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool and ALG stale-mapping patches.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
+
+## 0.5.8+006
+
+**Connectivity comes back within seconds after an update, screens no longer pile up in memory, and diagnostics you can switch on.**
+
+### No more minutes offline after an update
+With advanced DNS filtering on, apps connect to stand-in addresses that the engine maps back to the real host. That map is kept in memory only, so every restart of the app — installing an update, a crash, a force-stop — throws it away while apps still hold the old addresses. The engine then dialed each such address as if it were a real one and waited about 20 seconds for nothing. After one install that came to roughly 1,150 dead connections and five minutes in which most apps had no connectivity, until each happened to look its host up again.
+
+A connection to a stand-in address the engine has no record of is now turned down at once, so the app looks the name up again and reconnects within seconds. It still reaches the firewall first, so it is logged like any other blocked flow. An address the engine still knows a domain for keeps going through the recovery path from earlier releases. The IPv6 stand-in range is used by nothing else and is always handled this way. The IPv4 one (`100.64.0.0/10`) is shared with carrier-grade NAT and overlay networks, so it is handled this way only while DNS filtering is producing stand-ins. This is a third patch to the engine, on top of the same `d3d530ea3e` base.
+
+### Screens no longer stay in memory after you close them
+The theme code remembered each screen it had styled in a way that kept that screen alive for good, so every screen ever opened — with all its views — stayed in memory as long as the VPN ran. A process monitor showed 15 screens and about 2,000 views held with none of them open. They are now released when they close: the same round of opening and closing screens now leaves only the home screen and about 360 views.
+
+### Diagnostics
+A new **Diagnostics** section at the end of Settings → Customize → 白い熊 考直 UI. Every switch is off by default, and off means nothing is recorded and nothing runs. Each one keeps a timestamped trace, capped at 512 KiB, that a **View trace** row shows on the page (with **Clear**), also readable with adb under `Android/data/shiroikuma.kojiki/files/kojiki-diag/`.
+
+- **Screen leaks** — 15 seconds after a screen closes, records it if it is still held in memory. This is what found the leak above.
+- **Heap dump on next leak** — one-shot: the next leak found also writes a heap dump beside the trace, then the switch turns itself off.
+- **VPN restarts** — every engine start, recycle and stop with its reason, network changes, and how many connections still aim at stand-in addresses from before the restart, counted 60 seconds and 5 minutes after each start, with the first five named.
+- **DNS watchdog** — every failed query, and each recycle or failover the watchdog performs. The per-query failure line no longer goes to the system log unless this switch is on; the watchdog's actions still always do.
+- **WireGuard health** — each minute, per active tunnel: status, handshake age, bytes and the last error, written when something changes or a handshake is more than 3 minutes old, plus a line every 15 minutes.
 
 ## 0.5.8+001
 

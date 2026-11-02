@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, switchable diagnostics, and external automation intents.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+001`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+006`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -33,6 +33,8 @@ A VPN that routes `0.0.0.0/0` swallows the local network too: with the phone and
 
 ## 🔌 Connections that recover instead of dying
 With advanced DNS filtering on, every answer gets a synthetic address so a connection can still be tied to the domain behind it. Stock forgets what that address means sooner than the app stops using it — and then drops the connection, before the firewall sees it, so nothing is logged and nothing explains it. Apps fail intermittently and work the instant the VPN is switched off. The fork re-resolves the domain instead: it consults the probable mapping stock computes and throws away, and the day of expired mappings stock keeps but never reads, then dials the current addresses. If there is genuinely nothing left to dial, the flow still reaches the firewall, so the block is attributed, logged, and decided by your rules rather than disappearing. Blocking is untouched — a blocklisted or rule-blocked domain stays blocked through the recovered path.
+
+A restart is the harsher version of the same problem: the engine keeps those mappings in memory only, so every update, crash or force-stop throws them all away while apps still hold the old addresses. Stock dials each one as if it were real and waits about 20 seconds for nothing — after one install that meant roughly 1,150 dead connections and five minutes with most apps offline. The fork turns such a connection down at once, so the app looks the name up again and is back within seconds.
 
 ---
 
@@ -101,6 +103,11 @@ The rule-changing intents still require a shared token. **The backup side no lon
 
 ## 🖥️ The whole screen, unfolded
 Upstream caps the app's content at 600dp and centres it, which suits a tablet and wastes a foldable: unfolded, a tri-fold is wide enough that every screen became a narrow column between black bars. The fork drops that cap — and the two further 720dp caps the home screen carries in its own layout — so the cards, the list and the controls use the width the device actually has. Dialogs and sheets stay deliberately inset, because a dialog that spans a tri-fold is worse, not better.
+
+---
+
+## 🩻 Diagnostics, off until you want them
+A **Diagnostics** section on the 白い熊 考直 UI page puts every fork diagnostic behind its own switch — all off by default, and off means nothing is recorded and nothing runs. Turn one on and it keeps a capped, timestamped trace you can read on the page or pull with adb: **screen leaks** (closed screens still held in memory, with a one-shot heap dump), **VPN restarts** (every engine start and stop with its reason, and how many connections still aim at addresses from before the restart), the **DNS watchdog**'s failures and actions, and **WireGuard health** per tunnel. The first of them has already paid for itself: it found the theme code holding every screen ever opened in memory.
 
 ---
 
