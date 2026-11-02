@@ -127,8 +127,9 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
     private fun indent(view: View, level: Int) {
-        // Fork (白い熊 考直): indents tripled (per-level step 20 → 60 dp) for clearer group nesting.
-        val start = dp(16) + level * dp(60)
+        // Fork (白い熊 考直): tight spacing, matching 白い熊 Jami's settings page (2026-11-02) — the
+        // section title sits at 36 dp and each level is 18 dp deeper (was 16 dp + 60 dp per level).
+        val start = dp(36) + level * dp(18)
         view.setPaddingRelative(start, view.paddingTop, view.paddingEnd, view.paddingBottom)
     }
 
@@ -389,7 +390,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val previewBox = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
-            setPadding(0, dp(12), dp(16), dp(12))
+            setPadding(0, dp(8), dp(16), dp(8))
             addView(preview)
         }
         indent(previewBox, 1)
@@ -423,7 +424,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, dp(12), dp(16), dp(12))
+            setPadding(0, dp(8), dp(16), dp(8))
             addView(preview)
         }
         indent(box, 1)
@@ -489,7 +490,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(0, dp(12), dp(16), dp(12))
+            setPadding(0, dp(8), dp(16), dp(8))
         }
         // WRAP_CONTENT (centred) so the pill renders at its true width, not stretched full-width
         // (a vertical LinearLayout defaults children to MATCH_PARENT).
@@ -616,7 +617,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(10), dp(16), dp(6))
             addView(labelBox)
             addView(sw)
             if (onRowClick != null) {
@@ -653,7 +654,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(0, dp(16), 0, dp(2))
+            setPadding(0, dp(10), 0, dp(2))
             addView(label)
             addView(underline)
         }
@@ -667,7 +668,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val dark = androidx.core.graphics.ColorUtils.calculateLuminance(cfg.backgroundColor) < 0.5
         val line = View(this).apply {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(1)).also {
-                it.topMargin = dp(20)
+                it.topMargin = dp(10)
             }
             setBackgroundColor(if (dark) 0x59FFFFFF else 0x59000000)
         }
@@ -694,13 +695,13 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
         val underline = View(this).apply {
             layoutParams = LinearLayout.LayoutParams(textWidth(label), dp(2)).also {
-                it.topMargin = dp(4)
+                it.topMargin = dp(2)
             }
             setBackgroundColor(cfg.accentColor)
         }
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(16), dp(16), dp(16), dp(4))
+            setPadding(dp(36), dp(8), dp(16), dp(2))
             addView(label)
             addView(underline)
         }
@@ -712,7 +713,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(8), dp(16), dp(8))
             isClickable = true
             setOnClickListener { ColorPickerDialog.show(this@KojikiUiActivity, color, onPick) }
         }
@@ -738,7 +739,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(8), dp(16), dp(8))
             isClickable = true
             setOnClickListener { SnoopTagUi.showEdit(this@KojikiUiActivity, tag) { recreate() } }
         }
@@ -774,7 +775,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(8), dp(16), dp(8))
             isClickable = true
             setOnClickListener { onClick() }
         }
@@ -806,7 +807,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val offset = if (defaultable) 1 else 0
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(8), dp(16), dp(8))
         }
         val header = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         val label = AppCompatTextView(this).apply {
@@ -858,7 +859,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             setTextColor(cfg.textColor)
             typeface = CustomUi.typefaceFor(this@KojikiUiActivity, cfg.fontFamily, cfg.fontWeight, cfg.fontItalic)
             if (cfg.fontSize > 0) setTextSize(TypedValue.COMPLEX_UNIT_SP, cfg.fontSize.toFloat())
-            setPadding(0, dp(6), dp(16), dp(18))
+            setPadding(0, dp(4), dp(16), dp(8))
         }
         indent(sample, 1)
         b.kojikiUiHolder.addView(sample)
@@ -994,7 +995,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             gravity = Gravity.CENTER_VERTICAL
             background = selectableBackground()
             isClickable = true
-            setPadding(0, dp(14), dp(16), dp(14))
+            setPadding(0, dp(8), dp(16), dp(8))
             addView(labelBox)
             addView(regenerate)
             setOnClickListener { copyToken() }
