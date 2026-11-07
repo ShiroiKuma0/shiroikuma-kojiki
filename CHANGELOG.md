@@ -2,6 +2,12 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
 
+## 0.5.8+017
+
+**Every dialog button is a black-yellow pill.**
+
+The fork's own dialogs and upstream's alerts now draw every button as an unfilled, fully rounded pill on the dialog's background: the main action (OK, Save, the one thing the dialog is for) with a 3 dp accent frame and bold text, every other action (Cancel, Hide, Close) with a 1.25 dp frame, and a disabled one at 38 % accent. The STOP progress box's **Hide** is a main pill too. Built on the `v0.5.8` upstream tag, same engine as 0.5.8+016.
+
 ## 0.5.8+016
 
 **STOP stops, a quiet DNS wedge no longer lasts all night, the Google failover is temporary, and a companion app can now guard the VPN.**
