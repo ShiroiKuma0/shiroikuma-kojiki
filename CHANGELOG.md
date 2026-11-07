@@ -2,6 +2,35 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
 
+## 0.5.8+016
+
+**STOP stops, a quiet DNS wedge no longer lasts all night, the Google failover is temporary, and a companion app can now guard the VPN.**
+
+### STOP really stops
+Pressing STOP could leave the VPN running, or bring it straight back. The app only noted that the VPN was no longer wanted once its service had fully gone, and in the seconds before that, everything that restarts the VPN still thought it was wanted. A network change three seconds after STOP rebuilt a whole new engine in the stopping service. Every return to the app (through the app lock) ran the home screen's auto-start, which kept the old service alive — a STOP that seemed to take 90 seconds. And if the tunnel's close had not started by the time the service shut down, it was dropped, leaving every app without a network for about four minutes.
+
+Now STOP marks the VPN unwanted at once, and a stopping service refuses to rebuild its tunnel. A START that arrives while the old service is still winding down (from the tile or an automation) is replayed on a fresh service once the old one is gone. A safeguard closes the tunnel itself if the normal close has not run within 3 seconds. A stop that is not over within 0.4 s shows a progress box with a spinner, the current step and a seconds counter, and pressing the VPN button again only brings that box back.
+
+### A quiet DNS wedge is caught
+DNS was dead all night without a single failed lookup being logged: questions reached the app and no answers came back, so the DNS watchdog — which counts failures — never noticed. It now also counts unanswered questions: three or more over 30 seconds with nothing answered is a stall, and the engine is restarted, with a notification and a thread dump.
+
+### The Google failover is temporary
+When a wedge returned right after a restart, the watchdog switched DNS to Google — and nothing ever switched it back, so one bad half hour could leave the phone on Google for days without anyone noticing. It now remembers the DoH resolver you chose and goes back to it after 15 minutes. If that resolver wedges again within half an hour, the next stay on Google doubles (up to 8 hours). If you change the DNS setting yourself in the meantime, your choice wins. The plan survives an app update.
+
+### Guard intents for a companion watchdog
+Four new intents let another app look after the VPN: **STATUS** (VPN wanted, tunnel up, stopping, underlying network, seconds since the last DNS answer, unanswered questions, stall, resolver and whether it is the temporary failover, each WireGuard tunnel's status and handshake age, version), **RECYCLE** (restart the engine), **VPN_STOP** and **VPN_START**. Each answers with a broadcast to the asking app once the step has actually happened — or after 20 seconds with `timeout`. Measured: engine restart about 1.6 s, stop about 0.3 s, start about 0.2 s. 白い熊 自由作業盤 uses them to probe the internet every 15 minutes and escalate — restart the engine, stop and start, force-stop — before raising a red alert. A refused request is answered too (`bad-token`, `automation-disabled`), so a wrong token can never look like a hung app.
+
+### One switch for every automation token
+The firewall-rule and WireGuard intents used to demand the shared token always. They now follow the same **require token** switch as the backup door and the guard intents: off, none of them needs a token; on, all of them do.
+
+### Diagnostics
+- **Thread dumps** — a new switch: when the app stalls (unanswered DNS, or a service still alive 5 s after STOP) every thread's stack is written to `threads.txt`, at most once a minute. A **Dump threads now** row writes one at any time.
+- Traces moved to `Android/data/shiroikuma.kojiki/files/diag/`; anything left in the old `kojiki-diag/` is moved in on start.
+- Under the switches: a **Stored** line (files, size, first and last entry), **Export** (copies every trace into a dated subdirectory of a directory you pick) and **Purge** (lists what will go, then deletes it).
+
+### Dialogs
+The STOP progress box's **Hide** is the black-yellow pill (a thick yellow frame, never filled); fork dialogs can now use pills for their buttons.
+
 ## 0.5.8+007
 
 **A tighter settings page.**

@@ -6,18 +6,20 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, switchable diagnostics, and external automation intents.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, switchable diagnostics, and external automation intents — including a guard that lets a companion app check the internet and cure a wedged VPN.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+007`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+016`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
 ---
 
 ## 🩺 Self-healing DNS
-Stock RethinkDNS could lose DNS for the whole device every few minutes: its engine pools DoH connections for 3 minutes while resolvers like Quad9 close idle ones after ≤30 seconds — so every quiet spell filled the pool with dead connections that queries then hung and died on. The fork fixes the engine (a 10-second pool + HTTP/2 PING health-checks, so dead connections are evicted before a query ever rides one) **and** adds a DNS watchdog beneath it: on a burst of upstream failures it recycles the full Go tunnel automatically; if the wedge returns right after, it fails DNS over to a spare resolver — each action announced by a notification. Validated on-device: zero wedge failures in worst-case traffic on the same resolver that previously failed all day.
+Stock RethinkDNS could lose DNS for the whole device every few minutes: its engine pools DoH connections for 3 minutes while resolvers like Quad9 close idle ones after ≤30 seconds — so every quiet spell filled the pool with dead connections that queries then hung and died on. The fork fixes the engine (a 10-second pool + HTTP/2 PING health-checks, so dead connections are evicted before a query ever rides one) **and** adds a DNS watchdog beneath it: on a burst of upstream failures it recycles the full Go tunnel automatically; if the wedge returns right after, it fails DNS over to a spare resolver for 15 minutes and then goes back to the one you chose (waiting longer each time it relapses) — each action announced by a notification. It also notices the quiet kind of wedge, where questions go out and simply never come back: half a minute of that and the engine is recycled. Validated on-device: zero wedge failures in worst-case traffic on the same resolver that previously failed all day.
+
+And when you press **STOP**, the VPN stops — with a progress box if it takes more than a moment — instead of being rebuilt behind your back by the next network change.
 
 ---
 
@@ -95,9 +97,9 @@ Stock Rethink reads a tunnel as “Failing” even while traffic flows through i
 ---
 
 ## 🤖 Automation, and a backup that survives a wiped phone
-External tools (Tasker, adb, companion apps) can drive the app by intent: set a **per-app firewall rule**, **enable/disable a WireGuard tunnel**, or run a **headless backup** that exports the chosen categories with no UI at all — reporting live progress in real counts, saying which categories start ticked so a remote picker never has to guess, and replying with the written path and byte size. It can be **cancelled mid-run**: the export unwinds at the next category boundary and deletes its half-written archive, leaving the backup folder exactly as it found it.
+External tools (Tasker, adb, companion apps) can drive the app by intent: set a **per-app firewall rule**, **enable/disable a WireGuard tunnel**, ask for the **VPN's health** (tunnel, DNS answers, resolver, WireGuard handshakes) and **restart the engine, stop or start the VPN** — each answered once it has actually happened, so a watchdog app can probe the internet itself and cure a wedge step by step — or run a **headless backup** that exports the chosen categories with no UI at all — reporting live progress in real counts, saying which categories start ticked so a remote picker never has to guess, and replying with the written path and byte size. It can be **cancelled mid-run**: the export unwinds at the next category boundary and deletes its half-written archive, leaving the backup folder exactly as it found it.
 
-The rule-changing intents still require a shared token. **The backup side no longer does** — because a token you pasted into another app is exactly what a factory reset destroys, and restoring a wiped phone is the one moment you need this most. In its place the app answers a **data door** that identifies who is calling: an exact package name, the uid the kernel reports, and a pinned signing certificate. A companion backup app can hand over an open file and have 考直 write its whole configuration into it — every firewall rule, WireGuard tunnel, note and DNS endpoint — then hand the same file back on a fresh install and get the phone's filtering back without a single tap. Rules for apps that are not installed yet simply wait for them.
+One switch decides whether any of them needs a shared token: off, they all work without one. **The backup side works without it either way** — because a token you pasted into another app is exactly what a factory reset destroys, and restoring a wiped phone is the one moment you need this most. In its place the app answers a **data door** that identifies who is calling: an exact package name, the uid the kernel reports, and a pinned signing certificate. A companion backup app can hand over an open file and have 考直 write its whole configuration into it — every firewall rule, WireGuard tunnel, note and DNS endpoint — then hand the same file back on a fresh install and get the phone's filtering back without a single tap. Rules for apps that are not installed yet simply wait for them.
 
 ---
 
@@ -107,7 +109,7 @@ Upstream caps the app's content at 600dp and centres it, which suits a tablet an
 ---
 
 ## 🩻 Diagnostics, off until you want them
-A **Diagnostics** section on the 白い熊 考直 UI page puts every fork diagnostic behind its own switch — all off by default, and off means nothing is recorded and nothing runs. Turn one on and it keeps a capped, timestamped trace you can read on the page or pull with adb: **screen leaks** (closed screens still held in memory, with a one-shot heap dump), **VPN restarts** (every engine start and stop with its reason, and how many connections still aim at addresses from before the restart), the **DNS watchdog**'s failures and actions, and **WireGuard health** per tunnel. The first of them has already paid for itself: it found the theme code holding every screen ever opened in memory.
+A **Diagnostics** section on the 白い熊 考直 UI page puts every fork diagnostic behind its own switch — all off by default, and off means nothing is recorded and nothing runs. Turn one on and it keeps a capped, timestamped trace you can read on the page or pull with adb: **screen leaks** (closed screens still held in memory, with a one-shot heap dump), **VPN restarts** (every engine start and stop with its reason, and how many connections still aim at addresses from before the restart), the **DNS watchdog**'s failures and actions, **WireGuard health** per tunnel, and **thread dumps** written whenever the app stalls, so the next mystery outage leaves evidence. Stored traces can be exported to a directory you pick or purged in one go. The first of them has already paid for itself: it found the theme code holding every screen ever opened in memory.
 
 ---
 
