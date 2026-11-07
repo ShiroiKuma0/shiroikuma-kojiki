@@ -1226,6 +1226,10 @@ object CustomUi {
         // The Material surface under the panel: same fill, no elevation overlay — so nothing grey
         // or olive can peek out where its own (28 dp) rounding differs from the box's.
         recolourSurfaceShape(window.decorView.background, cfg.backgroundColor)
+        // the buttons are pills too: positive = the main action, negative / neutral regular
+        window.findViewById<android.widget.Button>(android.R.id.button1)?.let { KojikiDialog.stylePill(it, true) }
+        window.findViewById<android.widget.Button>(android.R.id.button2)?.let { KojikiDialog.stylePill(it, false) }
+        window.findViewById<android.widget.Button>(android.R.id.button3)?.let { KojikiDialog.stylePill(it, false) }
         root.invalidate()
     }
 

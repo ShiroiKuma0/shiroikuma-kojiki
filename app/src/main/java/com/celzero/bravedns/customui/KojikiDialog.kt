@@ -28,6 +28,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
+import com.google.android.material.button.MaterialButton
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -59,10 +60,9 @@ object KojikiDialog {
     class Action(
         val label: CharSequence,
         val leading: Boolean = false,
-        // the black-yellow pill: an unfilled, fully round accent frame — 3 dp + bold text for the
-        // block's main action ([main]), 1.25 dp + normal text otherwise. Off keeps the bare-text
-        // button every other dialog still uses. Before onClick, so a trailing lambda stays onClick.
-        val pill: Boolean = false,
+        // Every button is a black-yellow pill ([stylePill]). [main] marks the block's main action
+        // (3 dp frame, bold); when no action is marked, the last right-hand one is the main one.
+        // Before onClick, so a trailing lambda stays onClick.
         val main: Boolean = false,
         val onClick: (() -> Unit)? = null
     )
@@ -152,9 +152,16 @@ object KojikiDialog {
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(0, dp(10), 0, 0)
             }
-            for (a in actions.filter { it.leading }) row.addView(actionButton(context, a, dialog, accent))
+            val main = actions.firstOrNull { it.main } ?: actions.lastOrNull { !it.leading }
+            fun add(a: Action) {
+                val lp = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                if (row.childCount > 0) lp.marginStart = dp(8)
+                row.addView(actionButton(context, a, dialog, a === main), lp)
+            }
+            for (a in actions.filter { it.leading }) add(a)
             row.addView(View(context), LinearLayout.LayoutParams(0, 1, 1f))
-            for (a in actions.filterNot { it.leading }) row.addView(actionButton(context, a, dialog, accent))
+            for (a in actions.filterNot { it.leading }) add(a)
             box.addView(
                 row,
                 LinearLayout.LayoutParams(
@@ -182,34 +189,53 @@ object KojikiDialog {
         return dialog
     }
 
-    private fun actionButton(context: Context, a: Action, dialog: Dialog, accent: Int): Button {
-        val d = context.resources.displayMetrics.density
+    private fun actionButton(context: Context, a: Action, dialog: Dialog, main: Boolean): Button {
         return Button(context).apply {
             text = a.label
-            isAllCaps = false
-            setTextColor(accent)
-            typeface = Typeface.DEFAULT_BOLD
-            background = null
-            stateListAnimator = null
-            minWidth = 0
-            minimumWidth = 0
-            setPadding((14 * d).toInt(), (8 * d).toInt(), (14 * d).toInt(), (8 * d).toInt())
-            if (a.pill) {
-                typeface = if (a.main) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
-                val shape = GradientDrawable().apply {
-                    cornerRadius = 100 * d
-                    setColor(backgroundOf(context))
-                    setStroke(((if (a.main) 3f else 1.25f) * d).toInt().coerceAtLeast(1), accent)
-                }
-                background = RippleDrawable(
-                    ColorStateList.valueOf(withAlpha(accent, 0.3f)), shape, null)
-                setPadding((22 * d).toInt(), (8 * d).toInt(), (22 * d).toInt(), (8 * d).toInt())
-            }
+            stylePill(this, main)
             setOnClickListener {
                 dialog.dismiss()
                 a.onClick?.invoke()
             }
         }
+    }
+
+    /**
+     * The black-yellow pill (black-yellow-theme skill, settled 2026-11-02): fully round, an accent
+     * frame, the background showing through — never filled. The main action of a block gets a 3 dp
+     * frame and bold text, every other action 1.25 dp and normal text; disabled is the accent at
+     * 38 %. Works on a plain [Button] and on the [MaterialButton]s inside upstream's alerts
+     * ([CustomUi.themeAlertSurface]), whose background must be set through their own API.
+     */
+    fun stylePill(b: Button, main: Boolean) {
+        val context = b.context
+        val d = context.resources.displayMetrics.density
+        val accent = accentOf(context)
+        val bg = backgroundOf(context)
+        val states = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf())
+        val frame = ColorStateList(states, intArrayOf(withAlpha(accent, 0.38f), accent))
+        val stroke = ((if (main) 3f else 1.25f) * d).toInt().coerceAtLeast(1)
+        b.isAllCaps = false
+        b.setTextColor(frame)
+        b.typeface = if (main) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+        b.minWidth = 0
+        b.minimumWidth = 0
+        b.stateListAnimator = null
+        if (b is MaterialButton) {
+            b.cornerRadius = (100 * d).toInt()
+            b.strokeWidth = stroke
+            b.strokeColor = frame
+            b.backgroundTintList = ColorStateList.valueOf(bg)
+            b.rippleColor = ColorStateList.valueOf(withAlpha(accent, 0.3f))
+        } else {
+            val shape = GradientDrawable().apply {
+                cornerRadius = 100 * d
+                setColor(bg)
+                setStroke(stroke, frame)
+            }
+            b.background = RippleDrawable(ColorStateList.valueOf(withAlpha(accent, 0.3f)), shape, null)
+        }
+        b.setPadding((22 * d).toInt(), (8 * d).toInt(), (22 * d).toInt(), (8 * d).toInt())
     }
 
     // ---- content helpers -------------------------------------------------------------------------

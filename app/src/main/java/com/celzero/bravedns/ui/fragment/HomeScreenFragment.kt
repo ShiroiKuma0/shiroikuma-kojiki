@@ -3334,7 +3334,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
         val dialog = KojikiDialog.show(
             ctx,
             getString(R.string.kojiki_stop_title),
-            listOf(KojikiDialog.Action(getString(R.string.kojiki_stop_hide), pill = true, main = true))
+            listOf(KojikiDialog.Action(getString(R.string.kojiki_stop_hide), main = true))
         ) { box, _ ->
             val row = LinearLayout(ctx).apply {
                 orientation = LinearLayout.HORIZONTAL
