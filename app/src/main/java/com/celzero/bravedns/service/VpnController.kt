@@ -191,6 +191,13 @@ object VpnController : KoinComponent {
         return rvpn
     }
 
+    // Fork (白い熊 考直): which service instance is running, so the STOP dialog waits for the one it
+    // stopped and not for a new one started after it. 0 = none.
+    fun kojikiServiceId(): Int = rvpn?.let { System.identityHashCode(it) } ?: 0
+
+    // Fork (白い熊 考直): for the guard intents' STATUS reply.
+    fun kojikiStopping(): Boolean = rvpn?.kojikiIsStopping() == true
+
     fun hasTunnel(): Boolean {
         return rvpn?.hasTunnel() == true
     }

@@ -42,7 +42,7 @@ import org.koin.core.component.inject
  * Action: [ACTION_SET_WG_STATE]. All extras are read AS STRINGS (Tasker and `am --es` send strings):
  *   - wg     (required): WireGuard config to target — either its numeric id or its name (case-insensitive)
  *   - state  (optional): on | off | toggle  (default: toggle)
- *   - token  (required): shared secret; must match the token from Settings > Misc (same token that
+ *   - token  shared secret from Settings > Misc, checked only while "require token" is on (same token that
  *                        guards SetAppRuleReceiver — one secret for all automations)
  *
  * Always target this receiver EXPLICITLY (Android 8+ won't deliver an implicit custom-action broadcast
@@ -92,17 +92,15 @@ class SetWgStateReceiver : BroadcastReceiver(), KoinComponent {
     }
 
     private suspend fun handle(context: Context, intent: Intent) {
-        // 1) token guard (shared secret in prefs; same token as SetAppRuleReceiver)
-        // Fork (白い熊 考直): this gate is DELIBERATELY not PersistentState.refuseAutomation().
-        // Contract v2 made the token optional for the DATA surface (export / list / cancel /
-        // describe / import) because a pasted secret cannot survive the wipe that the clean-phone
-        // restore exists to recover from. That argument has NO force here: this is an ACTING
-        // operation -- it changes the device's network posture -- and a wiped phone has no firewall
-        // rules to re-apply by broadcast anyway. So SET_WG_STATE keeps requiring the token
-        // unconditionally, independent of automation_require_token. Flagged for 白い熊 to decide.
-        val provided = intent.getStringExtra(EXTRA_TOKEN)
-        if (!persistentState.isAppRuleTokenValid(provided)) { // constant-time
-            Logger.w(LOG_TAG_PROXY, "$TAG: token missing/mismatch; rejecting")
+        // 1) automation gate (token only while "require token" is on; same as SetAppRuleReceiver)
+        // Fork (白い熊 考直): the same gate as the automation data door and the guard intents —
+        // PersistentState.refuseAutomation(): the token is checked only while Settings → "require
+        // token" is on, and the automation master switch can refuse everything. This used to demand
+        // the token unconditionally (an acting operation, so stricter than the data door); 白い熊
+        // decided on 2026-11-07 that one switch governs every automation entry point.
+        val refused = persistentState.refuseAutomation(intent.getStringExtra(EXTRA_TOKEN))
+        if (refused != null) {
+            Logger.w(LOG_TAG_PROXY, "$TAG: refused: $refused")
             return
         }
 

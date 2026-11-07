@@ -275,7 +275,7 @@
 
     <!-- Fork (白い熊 考直): Diagnostics (KojikiDiag) — every switch off by default; off costs nothing. -->
     <string name="kojiki_diag_section" translatable="false">Diagnostics</string>
-    <string name="kojiki_diag_intro" translatable="false">Each switch records one thing to its own trace, all off by default. Off means nothing is recorded and nothing runs. Traces are capped at 512 KiB and also readable with adb under Android/data/%1$s/files/kojiki-diag/.</string>
+    <string name="kojiki_diag_intro" translatable="false">Each switch records one thing to its own trace, all off by default. Off means nothing is recorded and nothing runs. Traces are capped at 512 KiB and also readable with adb under Android/data/%1$s/files/diag/, the app’s own data directory.</string>
     <string name="kojiki_diag_sub_app" translatable="false">App</string>
     <string name="kojiki_diag_sub_net" translatable="false">Tunnel &amp; network</string>
     <string name="kojiki_diag_leaks" translatable="false">Screen leaks</string>
@@ -288,8 +288,31 @@
     <string name="kojiki_diag_dns_desc" translatable="false">Every failed DNS query, and each recycle or failover the watchdog performs.</string>
     <string name="kojiki_diag_wg" translatable="false">WireGuard health</string>
     <string name="kojiki_diag_wg_desc" translatable="false">Each minute, per active tunnel: status, handshake age, bytes and the last error — written when something changes or a handshake is over 3 min old, plus a line every 15 min.</string>
+    <string name="kojiki_diag_threads" translatable="false">Thread dumps</string>
+    <string name="kojiki_diag_threads_desc" translatable="false">When kojiki stalls — DNS questions unanswered for 30 s, or the service still running 5 s after STOP — writes every thread’s stack, so the trace shows what is holding it. At most one a minute.</string>
+    <string name="kojiki_diag_threads_now" translatable="false">Dump threads now</string>
+    <string name="kojiki_diag_threads_now_desc" translatable="false">Writes one dump straight away, whether the switch is on or not.</string>
+    <string name="kojiki_diag_threads_done" translatable="false">Thread dump written to threads.txt</string>
+    <string name="kojiki_stop_title" translatable="false">Stopping the VPN</string>
+    <string name="kojiki_stop_hide" translatable="false">Hide</string>
+    <string name="kojiki_stop_closing" translatable="false">Closing the tunnel and its connections…</string>
+    <string name="kojiki_stop_releasing" translatable="false">Tunnel closed. Waiting for Android to release the VPN…</string>
+    <string name="kojiki_stop_elapsed" translatable="false">%1$d s</string>
+    <string name="kojiki_stop_slow" translatable="false">%1$d s — longer than usual. Pressing STOP again will not speed it up; with Diagnostics → Thread dumps on, what holds it is recorded.</string>
     <string name="kojiki_diag_view" translatable="false">View trace</string>
     <string name="kojiki_diag_view_empty" translatable="false">Nothing recorded yet.</string>
     <string name="kojiki_diag_clear" translatable="false">Clear</string>
     <string name="kojiki_diag_close" translatable="false">Close</string>
+    <string name="kojiki_diag_stored_reading" translatable="false">Stored: reading…</string>
+    <string name="kojiki_diag_stored" translatable="false">Stored: %1$s</string>
+    <string name="kojiki_diag_stored_none" translatable="false">Stored: nothing</string>
+    <string name="kojiki_diag_export" translatable="false">Export diagnostic data</string>
+    <string name="kojiki_diag_export_desc" translatable="false">Copies every file into a new dated subdirectory of a directory you pick (last: %1$s).</string>
+    <string name="kojiki_diag_export_done" translatable="false">Exported %1$d files to %2$s</string>
+    <string name="kojiki_diag_export_failed" translatable="false">Export failed: %1$s</string>
+    <string name="kojiki_diag_purge" translatable="false">Purge diagnostic data</string>
+    <string name="kojiki_diag_purge_desc" translatable="false">Deletes every stored trace and heap dump, after a warning that lists them.</string>
+    <string name="kojiki_diag_purge_title" translatable="false">Delete all diagnostic data?</string>
+    <string name="kojiki_diag_purge_button" translatable="false">Delete forever</string>
+    <string name="kojiki_diag_purge_done" translatable="false">Deleted %1$d files</string>
 </resources>

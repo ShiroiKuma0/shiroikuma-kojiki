@@ -1945,6 +1945,9 @@ class GoVpnAdapter : KoinComponent {
         }
     }
 
+    // Fork (白い熊 考直): lets the stop backstop in BraveVPNService see whether the queued close ran.
+    fun kojikiTunConnected(): Boolean = try { tunnel.isConnected } catch (_: Exception) { false }
+
     suspend fun closeTun() {
         try {
             if (tunnel.isConnected) {

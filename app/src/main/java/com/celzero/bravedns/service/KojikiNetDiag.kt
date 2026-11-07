@@ -156,6 +156,24 @@ object KojikiNetDiag {
         wgJob = null
     }
 
+    /**
+     * The active WireGuard tunnels as "name:STATUS:handshake-age" (e.g. "wg96-x:TOK:31s", "never"
+     * when there was none), ";"-separated — the guard intents' `wg` field. Empty without a tunnel.
+     */
+    suspend fun wgSummary(): String {
+        if (!VpnController.hasTunnel()) return ""
+        val now = System.currentTimeMillis()
+        val parts = ArrayList<String>()
+        for (m in WireguardManager.getAllMappings().filter { it.isActive }) {
+            val id = ProxyManager.ID_WG_BASE + m.id
+            val status = try { VpnController.getProxyStatusById(id).first } catch (_: Exception) { null }
+            val lastOk = try { VpnController.getProxyStats(id)?.lastOK } catch (_: Exception) { null } ?: 0L
+            val age = if (lastOk > 0) "${(now - lastOk) / 1000}s" else "never"
+            parts.add("${m.name}:${statusName(status)}:$age")
+        }
+        return parts.joinToString(";")
+    }
+
     private fun statusName(id: Int?): String =
         UIUtils.ProxyStatus.entries.firstOrNull { it.id == id }?.name ?: "unknown($id)"
 }

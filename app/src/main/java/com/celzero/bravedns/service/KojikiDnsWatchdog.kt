@@ -15,12 +15,14 @@
  *      BraveVPNService.makeOrUpdateVpnAdapter — a plain link update keeps the wedged Go state);
  *   2. if the wedge re-triggers shortly after a restart (and DNS *was* healthy recently, so this
  *      isn't just a dead network), fails the DoH endpoint over to the fallback (Google) and
- *      recycles again.
+ *      recycles again — for a while only: the chosen resolver is tried again after 15 min
+ *      (doubling on a relapse), see "the failover is temporary" below.
  * Each action raises a notification. Cooldowns prevent restart loops.
  */
 package com.celzero.bravedns.service
 
 import com.celzero.bravedns.customui.KojikiDiag
+import com.celzero.bravedns.customui.KojikiThreadDump
 import com.celzero.bravedns.util.Logger
 import com.celzero.bravedns.util.Logger.LOG_TAG_VPN
 import android.app.NotificationChannel
@@ -37,7 +39,9 @@ import com.celzero.bravedns.util.UIUtils.getAccentColor
 import com.celzero.bravedns.util.Utilities.isAtleastO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -103,13 +107,96 @@ object KojikiDnsWatchdog : KoinComponent {
      * restarts the warm-up, so the startup failure burst that follows every tunnel bring-up is not
      * mistaken for a wedge.
      */
+    // ---- read by the guard intents (KojikiGuardReceiver, 2026-11-07) ----
+    @Volatile private var lastAnsweredAt = 0L
+    /** Bumped on every tunnel bring-up — a RECYCLE is done when this moves. */
+    @Volatile var tunnelUps = 0
+        private set
+
+    /** Seconds since the last DNS answer of any kind, -1 when none since the process started. */
+    fun dnsAnswerAgeS(): Long =
+        lastAnsweredAt.let { if (it == 0L) -1L else (SystemClock.elapsedRealtime() - it) / 1000 }
+
+    fun dnsUnanswered(): Int = synchronized(this) { askedSinceAnswer }
+
+    fun dnsStalled(): Boolean = synchronized(this) { stallReported }
+
+    /** On the temporary fallback resolver, with a return to the chosen one pending. */
+    fun onFallback(): Boolean = runCatching { prefs().getString(K_URL, null) != null }.getOrDefault(false)
+
     fun onTunnelUp() {
+        tunnelUps++
         synchronized(this) {
             armedAt = SystemClock.elapsedRealtime()
             resolvedSinceArm = false
             failTimes.clear()
             okTimes.clear()
+            firstUnansweredAt = 0L
+            askedSinceAnswer = 0
+            stallReported = false
         }
+        // a failover plan from before a process restart: re-arm its timer
+        if (returnJob?.isActive != true) runCatching { scheduleReturn() }
+    }
+
+    // ---- stall: questions asked, nothing answered (2026-11-07) ----
+    //
+    // The failure watch above only ever sees answers — a failed one is still an answer. On
+    // 2026-11-06/07 DNS was dead all night with not a single failure logged: the questions were
+    // reaching kojiki (onQuery) and no answer came back at all (onResponse), so the watchdog stayed
+    // silent. This watches the gap itself: STALL_MIN_ASKED questions over STALL_MS with no answer in
+    // between is a stall — dump the threads (what is holding it) and recycle the engine.
+    private const val STALL_MS = 30_000L
+    private const val STALL_MIN_ASKED = 3
+    private var firstUnansweredAt = 0L
+    private var askedSinceAnswer = 0
+    private var stallReported = false
+
+    /** Every question the engine hands kojiki (BraveVPNService.onQuery); must stay cheap. */
+    fun onAsked() {
+        val now = SystemClock.elapsedRealtime()
+        val stalledFor: Long
+        val asked: Int
+        synchronized(this) {
+            if (firstUnansweredAt == 0L) firstUnansweredAt = now
+            askedSinceAnswer++
+            // a fresh tunnel answers slowly at first; only a settled one can be stalled
+            if (stallReported || armedAt == 0L || now - armedAt < STALL_MS) return
+            stalledFor = now - firstUnansweredAt
+            asked = askedSinceAnswer
+            if (stalledFor < STALL_MS || asked < STALL_MIN_ASKED) return
+            stallReported = true
+        }
+        onStall(stalledFor, asked)
+    }
+
+    /** Every answer, failed or not (BraveVPNService.onResponse). */
+    fun onAnswered() {
+        lastAnsweredAt = SystemClock.elapsedRealtime()
+        val resumed: Boolean
+        synchronized(this) {
+            resumed = stallReported
+            firstUnansweredAt = 0L
+            askedSinceAnswer = 0
+            stallReported = false
+        }
+        if (resumed) alarm("stall over: answers are coming back")
+    }
+
+    private fun onStall(stalledFor: Long, asked: Int) {
+        alarm("STALL: $asked questions over ${stalledFor / 1000} s, not one answered")
+        KojikiThreadDump.auto("dns stall: $asked questions over ${stalledFor / 1000} s, no answer")
+        val now = SystemClock.elapsedRealtime()
+        synchronized(this) {
+            if (now - lastActionAt < ACTION_COOLDOWN_MS) return
+            lastActionAt = now
+            lastRestartAt = now
+        }
+        if (!VpnController.hasTunnel()) return
+        doRestart(
+            "DNS questions went unanswered for ${stalledFor / 1000} s; the tunnel engine was " +
+                "restarted to clear it."
+        )
     }
 
     // called from NetLogTracker.processDnsLog for every DNS response; must stay cheap
@@ -198,17 +285,16 @@ object KojikiDnsWatchdog : KoinComponent {
         if (failover) doFailover() else doRestart()
     }
 
-    private fun doRestart() {
+    private fun doRestart(
+        why: String = "Repeated DNS failures detected; the tunnel engine was restarted to clear " +
+            "them. If the wedge returns shortly, DNS will fail over to Google DoH."
+    ) {
         Logger.e(LOG_TAG_VPN, "$TAG: DoH failure streak; forcing full tunnel recycle")
         alarm("TRIGGER: forcing full tunnel recycle")
         VpnController.kojikiForceEngineRestart(
             "kojikiDnsWatchdog, at: ${SystemClock.elapsedRealtime()}"
         )
-        notify(
-            "DNS wedged — tunnel restarted",
-            "Repeated DNS failures detected; the tunnel engine was restarted to clear them. " +
-                "If the wedge returns shortly, DNS will fail over to Google DoH."
-        )
+        notify("DNS wedged — tunnel restarted", why)
     }
 
     private fun doFailover() {
@@ -236,6 +322,7 @@ object KojikiDnsWatchdog : KoinComponent {
                     return@launch
                 }
                 val prev = persistentState.connectedDnsName
+                val back = rememberResolver()
                 alarm("TRIGGER: failing over to fallback DoH")
                 Logger.e(LOG_TAG_VPN, "$TAG: wedge returned after restart; failing over " +
                         "'$prev' -> '${doh.dohName}'")
@@ -255,11 +342,121 @@ object KojikiDnsWatchdog : KoinComponent {
                 notify(
                     "DNS failed over to ${doh.dohName}",
                     "The tunnel restart did not cure the DNS wedge, so the resolver was switched " +
-                        "from '$prev' to '${doh.dohName}' and the tunnel was restarted."
+                        "from '$prev' to '${doh.dohName}' and the tunnel was restarted." +
+                        if (back != null) " Temporary: '$prev' is tried again in ${back / 60_000} min."
+                        else " '$prev' is not a DoH resolver, so switch back by hand."
                 )
+                if (back != null) scheduleReturn()
             } catch (e: Exception) {
                 Logger.e(LOG_TAG_VPN, "$TAG: failover failed: ${e.message}", e)
             }
+        }
+    }
+
+    // ---- the failover is temporary (2026-11-07) ----
+    //
+    // A failover used to be permanent: it rewrote the DNS setting and nothing ever changed it back,
+    // so one bad half hour left the phone on Google for days, unnoticed (found 2026-11-07, when the
+    // resolver 白い熊 had chosen — Quad9 DoH — was long gone). Now the chosen resolver is remembered
+    // and tried again after RETURN_FIRST_MS; if the wedge sends it back to Google within
+    // RETURN_RELAPSE_MS of a return, the next wait doubles, up to RETURN_MAX_MS. A DNS setting
+    // changed by hand in the meantime wins: the plan is dropped. The plan lives in prefs, so a
+    // process restart (an update) picks it up again in onTunnelUp.
+    private const val RETURN_FIRST_MS = 15 * 60_000L
+    private const val RETURN_MAX_MS = 8 * 60 * 60_000L
+    private const val RETURN_RELAPSE_MS = 30 * 60_000L
+
+    private const val PREFS = "kojiki_dns_failover"
+    private const val K_URL = "url"           // the chosen resolver's DoH url; absent = no plan
+    private const val K_NAME = "name"
+    private const val K_DUE = "due"           // wall-clock ms when it is tried again
+    private const val K_WAIT = "wait"         // the wait that produced K_DUE
+    private const val K_RETURNED = "returned" // wall-clock ms of the last return
+
+    private val appContext: Context by inject()
+    private var returnJob: Job? = null
+
+    private fun prefs() = appContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
+    // Called just before switching to the fallback. Returns the wait before the chosen resolver is
+    // tried again, or null when there is nothing to return to (the setting is not DoH).
+    private suspend fun rememberResolver(): Long? {
+        if (appConfig.getDnsType() != AppConfig.DnsType.DOH) return null
+        val chosen = dohRepo.getConnectedDoH() ?: return null
+        if (chosen.dohURL == FALLBACK_DOH_URL) return null
+        val p = prefs()
+        val now = System.currentTimeMillis()
+        val returned = p.getLong(K_RETURNED, 0L)
+        val relapse = returned != 0L && now - returned < RETURN_RELAPSE_MS
+        val wait = if (relapse) (p.getLong(K_WAIT, RETURN_FIRST_MS) * 2).coerceAtMost(RETURN_MAX_MS)
+                   else RETURN_FIRST_MS
+        p.edit()
+            .putString(K_URL, chosen.dohURL)
+            .putString(K_NAME, chosen.dohName)
+            .putLong(K_DUE, now + wait)
+            .putLong(K_WAIT, wait)
+            .apply()
+        alarm("plan: back to '${chosen.dohName}' in ${wait / 60_000} min" +
+            if (relapse) " (it failed again soon after the last return)" else "")
+        return wait
+    }
+
+    private fun scheduleReturn() {
+        val p = prefs()
+        if (p.getString(K_URL, null) == null) return
+        val left = (p.getLong(K_DUE, 0L) - System.currentTimeMillis()).coerceAtLeast(0L)
+        synchronized(this) {
+            returnJob?.cancel()
+            returnJob = scope.launch {
+                delay(left)
+                returnToChosen()
+            }
+        }
+    }
+
+    private suspend fun returnToChosen() {
+        try {
+            val p = prefs()
+            val url = p.getString(K_URL, null) ?: return
+            val name = p.getString(K_NAME, url)
+            val fallback = dohRepo.getAllDefaultDoHEndpoints().firstOrNull { it.dohURL == FALLBACK_DOH_URL }
+            val onFallback = appConfig.getDnsType() == AppConfig.DnsType.DOH &&
+                fallback != null && persistentState.connectedDnsName == fallback.dohName
+            if (!onFallback) {
+                // the setting was changed by hand since the failover: that choice wins
+                p.edit().remove(K_URL).remove(K_NAME).remove(K_DUE).apply()
+                alarm("plan dropped: the DNS setting was changed since the failover")
+                return
+            }
+            val chosen = dohRepo.getAllDefaultDoHEndpoints().firstOrNull { it.dohURL == url }
+            if (chosen == null) {
+                p.edit().remove(K_URL).remove(K_NAME).remove(K_DUE).apply()
+                alarm("plan dropped: '$name' is no longer in the DoH list")
+                notify("DNS still on ${fallback?.dohName}",
+                    "'$name' could not be found to switch back to; choose the resolver by hand.")
+                return
+            }
+            alarm("RETURN: back from fallback to '${chosen.dohName}'")
+            Logger.e(LOG_TAG_VPN, "$TAG: failover over; returning to '${chosen.dohName}'")
+            dohRepo.removeConnectionStatus()
+            chosen.isSelected = true
+            dohRepo.update(chosen)
+            runCatching { appConfig.handleDoHChanges(chosen) }
+            p.edit().remove(K_URL).remove(K_NAME).remove(K_DUE)
+                .putLong(K_RETURNED, System.currentTimeMillis()).apply()
+            synchronized(this) { lastRestartAt = SystemClock.elapsedRealtime() }
+            if (VpnController.hasTunnel()) {
+                VpnController.kojikiForceEngineRestart(
+                    "kojikiDnsWatchdog-return, at: ${SystemClock.elapsedRealtime()}"
+                )
+            }
+            notify(
+                "DNS back on ${chosen.dohName}",
+                "The failover to ${fallback?.dohName} was temporary; '${chosen.dohName}' is in use " +
+                    "again. If it wedges again soon, the next failover lasts longer."
+            )
+        } catch (e: Exception) {
+            Logger.e(LOG_TAG_VPN, "$TAG: return failed: ${e.message}", e)
         }
     }
 

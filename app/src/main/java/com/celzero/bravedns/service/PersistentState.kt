@@ -253,10 +253,9 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
      * batch does want one -- must be served. Refusing it would turn "the user turned a switch off"
      * into "half the batch mysteriously fails", which is exactly the friction the switch removes.
      *
-     * NOTE: this gate governs the DATA surface only (export / list / cancel / describe / import).
-     * The ACTING receivers -- SetAppRuleReceiver (SET_APP_RULE) and SetWgStateReceiver
-     * (SET_WG_STATE) -- deliberately do NOT use it: they change the device's network posture rather
-     * than move data, so they keep requiring the token unconditionally. See those files.
+     * NOTE: since 2026-11-07 (白い熊's decision) this gate governs the ACTING receivers too --
+     * SetAppRuleReceiver (SET_APP_RULE), SetWgStateReceiver (SET_WG_STATE) and KojikiGuardReceiver
+     * (STATUS / RECYCLE / VPN_STOP / VPN_START): one switch for every automation entry point.
      */
     fun refuseAutomation(candidate: String?): String? =
         refuseAutomation(sharedPreferences, candidate) // Krate's own store — the default prefs

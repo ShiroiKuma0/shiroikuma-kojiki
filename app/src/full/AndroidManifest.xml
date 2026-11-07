@@ -266,6 +266,19 @@
                 <action android:name="com.celzero.bravedns.intent.action.SET_WG_STATE" />
             </intent-filter>
         </receiver>
+        <!-- Fork (白い熊 考直): the guard intents for 自由作業盤's 生存管理 VPN/internet guard —
+             STATUS / RECYCLE / VPN_STOP / VPN_START, answered by a broadcast to the caller's
+             package. Same `token` as SetAppRuleReceiver. See KojikiGuardReceiver. -->
+        <receiver
+            android:name=".receiver.KojikiGuardReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.celzero.bravedns.intent.action.KOJIKI_STATUS" />
+                <action android:name="com.celzero.bravedns.intent.action.KOJIKI_RECYCLE" />
+                <action android:name="com.celzero.bravedns.intent.action.KOJIKI_VPN_STOP" />
+                <action android:name="com.celzero.bravedns.intent.action.KOJIKI_VPN_START" />
+            </intent-filter>
+        </receiver>
         <!-- Fork (白い熊 考直): the 保存復元 state-export automation contract — headless category-ZIP
              export + category listing for 自由作業盤's all-app backup run. Exported with NO
              android:permission (the caller cannot hold one); gated by the master switch + the app's

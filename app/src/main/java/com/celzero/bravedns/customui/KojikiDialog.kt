@@ -21,6 +21,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.text.InputType
 import android.view.Gravity
 import android.view.View
@@ -58,6 +59,11 @@ object KojikiDialog {
     class Action(
         val label: CharSequence,
         val leading: Boolean = false,
+        // the black-yellow pill: an unfilled, fully round accent frame — 3 dp + bold text for the
+        // block's main action ([main]), 1.25 dp + normal text otherwise. Off keeps the bare-text
+        // button every other dialog still uses. Before onClick, so a trailing lambda stays onClick.
+        val pill: Boolean = false,
+        val main: Boolean = false,
         val onClick: (() -> Unit)? = null
     )
 
@@ -188,6 +194,17 @@ object KojikiDialog {
             minWidth = 0
             minimumWidth = 0
             setPadding((14 * d).toInt(), (8 * d).toInt(), (14 * d).toInt(), (8 * d).toInt())
+            if (a.pill) {
+                typeface = if (a.main) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+                val shape = GradientDrawable().apply {
+                    cornerRadius = 100 * d
+                    setColor(backgroundOf(context))
+                    setStroke(((if (a.main) 3f else 1.25f) * d).toInt().coerceAtLeast(1), accent)
+                }
+                background = RippleDrawable(
+                    ColorStateList.valueOf(withAlpha(accent, 0.3f)), shape, null)
+                setPadding((22 * d).toInt(), (8 * d).toInt(), (22 * d).toInt(), (8 * d).toInt())
+            }
             setOnClickListener {
                 dialog.dismiss()
                 a.onClick?.invoke()

@@ -149,6 +149,7 @@ import com.celzero.firestack.intra.PreMark
 import com.google.common.collect.Sets
 import inet.ipaddr.HostName
 import inet.ipaddr.IPAddressString
+import com.celzero.bravedns.customui.KojikiThreadDump
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
@@ -276,6 +277,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         // office LAN away from it — leaves via the underlying interface as intended.
         private const val FORK_WG_OVERLAY4: String = "10.9.0.0"
         private const val FORK_WG_OVERLAY4_PREFIX: Int = 24
+        // Fork (白い熊 考直): how long STOP waits for the queued tun close before closing it itself.
+        private const val KOJIKI_STOP_BACKSTOP_MS: Long = 3_000L
+        // Fork (白い熊 考直): a service still alive this long after STOP gets its threads dumped.
+        private const val KOJIKI_SLOW_STOP_MS: Long = 5_000L
 
         // IPv6 vpn constants
         // Randomly generated unique local IPv6 unicast subnet prefix, as defined by RFC 4193
@@ -1212,6 +1217,15 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             }
         }
 
+        if (kojikiStopping) {
+            // Fork (白い熊 考直): a START reached the instance that is still stopping. Building the
+            // tunnel here is what brought the VPN back after STOP; instead the start is replayed
+            // from onDestroy, on a fresh service, once this one is gone.
+            kojikiStartAfterStop = true
+            KojikiNetDiag.onEvent("start while stopping: replayed once the service is gone")
+            return START_NOT_STICKY
+        }
+
         ui {
             // this should always be set before ConnectionMonitor is init-d
             // see restartVpn and updateTun which expect this to be the case
@@ -1492,6 +1506,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
 
     private suspend fun updateTun(tunnelOptions: AppConfig.TunnelOptions) {
         Logger.i(LOG_TAG_VPN, "update-tun with new pre-set tunnel options")
+        if (kojikiStopping) return // fork: see signalStopService
         if (!persistentState.getVpnEnabled()) {
             // when persistent-state "thinks" vpn is disabled, stop the service, especially when
             // we could be here via onStartCommand -> updateTun -> handleVpnAdapterChange while
@@ -1988,7 +2003,18 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
 
     fun signalStopService(reason: String, userInitiated: Boolean = true) {
         KojikiNetDiag.onEvent("vpn stop: $reason (user? $userInitiated)")
+        // Fork (白い熊 考直): the service is going away — say so now, not in onDestroy. Upstream
+        // clears "VPN wanted" only once the service is destroyed, and until then everything that
+        // restarts the VPN still believes it is wanted: a network change rebuilt a whole new engine
+        // in the stopping service (2026-11-07 08:27:37, three seconds after STOP), and every return
+        // to the home screen auto-started it again ("noTunnel" at 07:38:58, 07:39:08, 07:39:14,
+        // 07:40:07, each to the second on a resume). With the flag cleared here, upstream's own
+        // guards in restartVpn / updateTun / maybeAutoStartVpn hold; kojikiStopping covers a start
+        // command that re-sets the flag before the service is gone.
+        kojikiStopping = true
+        persistentState.setVpnEnabled(false)
         if (!userInitiated) notifyUserOnVpnFailure()
+        val adapter = vpnAdapter
         io(reason) {
             stopVpnAdapter()
             eventLogger.logHigh(
@@ -1996,9 +2022,49 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                 EventSource.SERVICE, userAction = userInitiated, details = "vpn destroyed"
             )
         }
+        kojikiStopBackstop(adapter, reason)
         stopSelf()
         Logger.i(LOG_TAG_VPN, "stopped vpn adapter & service: $reason, $userInitiated")
     }
+
+    // Fork (白い熊 考直): the queued close above runs in vpnScope, which onDestroy cancels right
+    // after stopSelf(). When the serializer is busy at that moment the close is cancelled before it
+    // runs, and the tun stays open with the Kotlin callbacks gone — every flow fails ("missing
+    // proxyid … from kt") and the phone has no network until the fd is reclaimed (~4 min,
+    // 2026-11-06). This closes it from outside vpnScope if it is still open after a few seconds.
+    //
+    // 2026-11-07: a STOP that took ~90 s, with the tun already closed — the service itself lived on
+    // (three more "noTunnel" stops from network changes) — and no way to see what held it. So if the
+    // service is still not destroyed KOJIKI_SLOW_STOP_MS after the request, every thread is dumped
+    // (Diagnostics → Thread dumps).
+    private fun kojikiStopBackstop(adapter: GoVpnAdapter?, reason: String) {
+        Thread({
+            try {
+                Thread.sleep(KOJIKI_STOP_BACKSTOP_MS)
+                if (adapter != null && adapter.kojikiTunConnected()) {
+                    KojikiNetDiag.onEvent("vpn stop: queued close did not run, closing tun ($reason)")
+                    Logger.w(LOG_TAG_VPN, "stop backstop: tun still open, closing ($reason)")
+                    runBlocking { adapter.closeTun() }
+                }
+                Thread.sleep(KOJIKI_SLOW_STOP_MS - KOJIKI_STOP_BACKSTOP_MS)
+                if (!kojikiDestroyed) {
+                    KojikiNetDiag.onEvent("vpn stop: service still running ${KOJIKI_SLOW_STOP_MS / 1000} s after stop ($reason)")
+                    KojikiThreadDump.auto("slow stop: service still running ${KOJIKI_SLOW_STOP_MS / 1000} s after stop ($reason)")
+                }
+            } catch (e: Exception) {
+                Logger.e(LOG_TAG_VPN, "stop backstop: ${e.message}", e)
+            }
+        }, "kojiki-stop").start()
+    }
+
+    // Fork (白い熊 考直): set at the top of onDestroy, read by the stop backstop above.
+    @Volatile private var kojikiDestroyed = false
+    // Fork (白い熊 考直): set by signalStopService; nothing may rebuild the tunnel after it.
+    @Volatile private var kojikiStopping = false
+    fun kojikiIsStopping(): Boolean = kojikiStopping
+
+    // Fork (白い熊 考直): a START that arrived while stopping, replayed by onDestroy.
+    @Volatile private var kojikiStartAfterStop = false
 
     private suspend fun stopVpnAdapter() =
         withContext(CoroutineName("stopVpn") + serializer) {
@@ -2150,6 +2216,11 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         why: String
     ) =
         withContext(CoroutineName(why) + serializer) {
+            if (kojikiStopping) {
+                // fork: a stop is under way; rebuilding now would bring the VPN back after STOP
+                KojikiNetDiag.onEvent("restart ignored while stopping: $why")
+                return@withContext
+            }
             if (!persistentState.getVpnEnabled()) {
                 // when persistent-state "thinks" vpn is disabled, stop the service, especially when
                 // we could be here via onStartCommand -> isNewVpn -> restartVpn while both,
@@ -3043,6 +3114,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     }
 
     override fun onDestroy() {
+        kojikiDestroyed = true
         // Dismiss the firewall bubble and tear down its observer.
         //
         // Lifecycle note: onDestroy() is called ONLY when the VPN is truly stopping
@@ -3114,6 +3186,11 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         // stopped the VPN, until the user manually swipes it away or the service is
         // re-created. REMOVE is the right semantics for "we're done, clean up."
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+
+        if (kojikiStartAfterStop) {
+            KojikiNetDiag.onEvent("vpn start: replaying the start that arrived while stopping")
+            VpnController.start(applicationContext)
+        }
     }
 
     private fun startPauseTimer() {
@@ -3743,6 +3820,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         withContext(CoroutineName(s) + Dispatchers.Main) { f() }
 
     override fun onQuery(origin: String, uidGostr: String, fqdn: String, qtype: Long): DNSOpts {
+        KojikiDnsWatchdog.onAsked() // fork: stall watch — counted before anything here can block
         return go2kt(dnsQueryDispatcher) {
             val d = TunDnsManager.DnsParams(origin, uidGostr, fqdn, qtype, isLockdown(), getUnderlyingSsid(), isIfaceCellular(""), isCaptivePortal())
             TunDnsManager.handleOnQuery(d)
@@ -3759,6 +3837,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     }
 
     override fun onResponse(summary: DNSSummary?) {
+        KojikiDnsWatchdog.onAnswered() // fork: stall watch
         TunDnsManager.handleOnResponse(summary) { region ->
             if (region != null && regionLiveData.value != region) {
                 regionLiveData.postValue(region)

@@ -50,6 +50,7 @@ import com.celzero.bravedns.customui.ColorPickerDialog
 import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
 import com.celzero.bravedns.customui.KojikiDiag
+import com.celzero.bravedns.customui.KojikiThreadDump
 import com.celzero.bravedns.customui.KojikiDialog
 import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
@@ -77,6 +78,9 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
 
     private val fontImportLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> onFontImported(uri) }
+
+    private val diagExportLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { tree -> onDiagExportDirChosen(tree) }
 
     // All-Files-Access state the automation switch row was last drawn with; the grant happens in
     // system settings, so re-check on resume and repaint if it changed.
@@ -320,7 +324,162 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addDiagView(KojikiDiag.Group.DNS, R.string.kojiki_diag_dns)
         addDiagToggle(R.string.kojiki_diag_wg, R.string.kojiki_diag_wg_desc, KojikiDiag.Group.WG)
         addDiagView(KojikiDiag.Group.WG, R.string.kojiki_diag_wg)
+        addDiagToggle(R.string.kojiki_diag_threads, R.string.kojiki_diag_threads_desc, KojikiDiag.Group.THREADS)
+        addValueRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2) {
+            KojikiThreadDump.now("on demand")
+            Toast.makeText(this, R.string.kojiki_diag_threads_done, Toast.LENGTH_SHORT).show()
+        }
+        addDiagView(KojikiDiag.Group.THREADS, R.string.kojiki_diag_threads)
+        addDiagStoredRows()
     }
+
+    // "Stored: …" under the switches, then Export and Purge (2026-11-03, after 白い熊 地図). The
+    // summary reads every trace's stamps, so it is filled in from a worker thread.
+    private fun addDiagStoredRows() {
+        val stored = AppCompatTextView(this).apply {
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            text = getString(R.string.kojiki_diag_stored_reading)
+            setTextColor(cfg.textColor)
+            alpha = 0.7f
+            setPadding(0, dp(10), dp(16), dp(4))
+            indent(this, 2)
+        }
+        b.kojikiUiHolder.addView(stored)
+        Thread({
+            val s = KojikiDiag.summarize()
+            runOnUiThread {
+                stored.text =
+                    if (s.stored.isEmpty()) getString(R.string.kojiki_diag_stored_none)
+                    else getString(R.string.kojiki_diag_stored, diagFiles(s.stored.size, s.bytes) + ", " + diagSpan(s.first, s.last))
+            }
+        }, "kojiki-diag-summary").start()
+        val last = KojikiDiag.exportTree(this)
+        addValueRow(
+            R.string.kojiki_diag_export,
+            getString(R.string.kojiki_diag_export_desc, last?.let { treeLabel(it) } ?: "/sdcard/tmp"),
+            indentLevel = 2
+        ) {
+            if (KojikiDiag.files().isEmpty()) {
+                Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
+                return@addValueRow
+            }
+            val tree = KojikiDiag.exportTree(this)
+            val initial =
+                if (tree != null) {
+                    android.provider.DocumentsContract.buildDocumentUriUsingTree(
+                        tree, android.provider.DocumentsContract.getTreeDocumentId(tree))
+                } else {
+                    android.provider.DocumentsContract.buildDocumentUri(
+                        "com.android.externalstorage.documents", "primary:tmp")
+                }
+            diagExportLauncher.launch(initial)
+        }
+        addValueRow(R.string.kojiki_diag_purge, getString(R.string.kojiki_diag_purge_desc), indentLevel = 2) {
+            confirmDiagPurge()
+        }
+    }
+
+    private fun onDiagExportDirChosen(tree: Uri?) {
+        tree ?: return
+        val c = applicationContext
+        // keep the grant, so the next export's picker can open on this directory
+        runCatching {
+            contentResolver.takePersistableUriPermission(
+                tree, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        }
+        KojikiDiag.setExportTree(c, tree)
+        val where = treeLabel(tree)
+        Thread({
+            val message =
+                try {
+                    val (sub, n) = KojikiDiag.export(c, tree)
+                    c.getString(R.string.kojiki_diag_export_done, n, "$where/$sub")
+                } catch (e: Exception) {
+                    c.getString(R.string.kojiki_diag_export_failed, e.message.toString())
+                }
+            runOnUiThread {
+                Toast.makeText(c, message, Toast.LENGTH_LONG).show()
+                if (!isDestroyed) recreate()
+            }
+        }, "kojiki-diag-export").start()
+    }
+
+    // The warning lists every file with its size and span, then each day's span, then the total —
+    // so what "forever" covers is in front of 白い熊 before anything goes.
+    private fun confirmDiagPurge() {
+        Thread({
+            val s = KojikiDiag.summarize()
+            runOnUiThread {
+                if (isDestroyed) return@runOnUiThread
+                if (s.stored.isEmpty()) {
+                    Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
+                    return@runOnUiThread
+                }
+                showDiagPurgeDialog(s)
+            }
+        }, "kojiki-diag-summary").start()
+    }
+
+    private fun showDiagPurgeDialog(s: KojikiDiag.Summary) {
+        val msg = StringBuilder()
+        for (f in s.stored) {
+            msg.append(f.file.name).append("  ").append(diagSize(f.bytes)).append("\n    ")
+                .append(diagSpan(f.first, f.last)).append("\n")
+        }
+        msg.append("\n")
+        val day = SimpleDateFormat("EEE yyyy-MM-dd", Locale.US)
+        val time = SimpleDateFormat("HH:mm", Locale.US)
+        for (d in s.days.values) {
+            msg.append(day.format(Date(d[0]))).append("  ").append(time.format(Date(d[0]))).append("–")
+                .append(time.format(Date(d[1]))).append("\n")
+        }
+        msg.append("\n").append(diagFiles(s.stored.size, s.bytes)).append(", ").append(diagSpan(s.first, s.last))
+            .append(".")
+        KojikiDialog.show(
+            this, getString(R.string.kojiki_diag_purge_title),
+            listOf(
+                KojikiDialog.Action(getString(android.R.string.cancel)),
+                KojikiDialog.Action(getString(R.string.kojiki_diag_purge_button)) {
+                    val c = applicationContext
+                    KojikiDiag.purge { n ->
+                        runOnUiThread {
+                            Toast.makeText(c, c.getString(R.string.kojiki_diag_purge_done, n), Toast.LENGTH_SHORT).show()
+                            if (!isDestroyed) recreate()
+                        }
+                    }
+                }
+            ),
+            0.78f
+        ) { box, _ ->
+            box.addView(TextView(this).apply {
+                text = msg.toString()
+                typeface = Typeface.MONOSPACE
+                textSize = 12f
+                setTextColor(KojikiDialog.textOf(this@KojikiUiActivity))
+            })
+        }
+    }
+
+    private fun diagSize(bytes: Long): String =
+        if (bytes < 1024 * 1024) String.format(Locale.US, "%.1f KB", bytes / 1024.0)
+        else String.format(Locale.US, "%.1f MB", bytes / 1048576.0)
+
+    private fun diagFiles(count: Int, bytes: Long): String =
+        String.format(Locale.US, "%d %s, %.1f MB", count, if (count == 1) "file" else "files", bytes / 1048576.0)
+
+    private fun diagSpan(first: Long, last: Long): String {
+        val f = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
+        return f.format(Date(first)) + " – " + f.format(Date(last))
+    }
+
+    // "/sdcard/tmp" for a tree on the phone's own storage, else the tree's document id.
+    private fun treeLabel(tree: Uri): String =
+        try {
+            val id = android.provider.DocumentsContract.getTreeDocumentId(tree)
+            if (id.startsWith("primary:")) "/sdcard/" + id.removePrefix("primary:") else id
+        } catch (_: Exception) {
+            tree.toString()
+        }
 
     private fun addDiagToggle(@StringRes labelRes: Int, @StringRes descRes: Int, g: KojikiDiag.Group) {
         addToggleRow(labelRes, KojikiDiag.isOn(g), 2, desc = getString(descRes)) {

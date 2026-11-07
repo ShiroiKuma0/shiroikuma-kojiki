@@ -36,6 +36,10 @@ import android.net.VpnService
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.app.Dialog
+import android.widget.ProgressBar
+import android.widget.TextView
+import com.celzero.bravedns.customui.KojikiDialog
 import android.provider.Settings
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -260,6 +264,8 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     private var canRethinkBlockItself: Boolean = false
 
     companion object {
+        // Fork (白い熊 考直): a STOP not over within this gets the progress dialog.
+        private const val KOJIKI_STOP_DIALOG_DELAY_MS = 400L
         private const val TAG = "HSFragment"
         private const val MAX_RULE_BADGE_CHARS = 3
 
@@ -2716,6 +2722,13 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     private fun handleVpnActivation() {
         if (handleAlwaysOnVpn()) return
 
+        // Fork (白い熊 考直): a stop still under way — show its progress again rather than race a
+        // start into the service that is still winding down
+        if (kojikiStopStartedAt != 0L && kojikiStoppingAlive()) {
+            showKojikiStopDialog()
+            return
+        }
+
         if (isVpnActivated) {
             stopVpnService()
         } else {
@@ -3151,6 +3164,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     override fun onDestroyView() {
+        kojikiStopDialog?.dismiss() // fork: the STOP progress dialog
         // Cancel any running jobs before the view is destroyed
         proxyStateListenerJob?.cancel()
         proxyStateListenerJob = null
@@ -3289,7 +3303,88 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
     }
 
     private fun stopVpnService() {
+        kojikiStoppedId = VpnController.kojikiServiceId()
         VpnController.stop("home", requireContext())
+        // Fork (白い熊 考直): a stop can take tens of seconds (2026-11-07) with nothing on screen, which
+        // invites a second press. A stop that is not over within KOJIKI_STOP_DIALOG_DELAY_MS gets a
+        // progress dialog; an instant one shows nothing.
+        kojikiStopStartedAt = SystemClock.elapsedRealtime()
+        b.root.postDelayed({
+            if (isAdded && kojikiStoppingAlive()) showKojikiStopDialog()
+        }, KOJIKI_STOP_DIALOG_DELAY_MS)
+    }
+
+    // ---- Fork (白い熊 考直): STOP progress dialog ----
+    private var kojikiStopStartedAt = 0L
+    private var kojikiStoppedId = 0
+
+    // the instance this screen stopped is still there (a new one started since does not count)
+    private fun kojikiStoppingAlive(): Boolean =
+        kojikiStoppedId != 0 && VpnController.kojikiServiceId() == kojikiStoppedId
+    private var kojikiStopDialog: Dialog? = null
+    private var kojikiStopTick: Runnable? = null
+
+    private fun showKojikiStopDialog() {
+        if (kojikiStopDialog?.isShowing == true) return
+        val ctx = context ?: return
+        val accent = KojikiDialog.accentOf(ctx)
+        val d = resources.displayMetrics.density
+        var status: TextView? = null
+        var detail: TextView? = null
+        val dialog = KojikiDialog.show(
+            ctx,
+            getString(R.string.kojiki_stop_title),
+            listOf(KojikiDialog.Action(getString(R.string.kojiki_stop_hide), pill = true, main = true))
+        ) { box, _ ->
+            val row = LinearLayout(ctx).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+            }
+            row.addView(
+                ProgressBar(ctx).apply {
+                    isIndeterminate = true
+                    indeterminateTintList = ColorStateList.valueOf(accent)
+                },
+                LinearLayout.LayoutParams((32 * d).toInt(), (32 * d).toInt())
+            )
+            status = TextView(ctx).apply {
+                setTextColor(KojikiDialog.textOf(ctx))
+                textSize = 15f
+                setPadding((14 * d).toInt(), 0, 0, 0)
+            }
+            row.addView(status, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            box.addView(row)
+            detail = KojikiDialog.helper(ctx, "").also { box.addView(it) }
+        }
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setOnDismissListener {
+            kojikiStopTick?.let { b.root.removeCallbacks(it) }
+            kojikiStopTick = null
+            kojikiStopDialog = null
+        }
+        kojikiStopDialog = dialog
+        val tick = object : Runnable {
+            override fun run() {
+                if (!isAdded) return
+                if (!kojikiStoppingAlive()) {
+                    kojikiStopStartedAt = 0L
+                    kojikiStoppedId = 0
+                    dialog.dismiss()
+                    return
+                }
+                val s = (SystemClock.elapsedRealtime() - kojikiStopStartedAt) / 1000
+                status?.text = getString(
+                    if (VpnController.hasTunnel()) R.string.kojiki_stop_closing
+                    else R.string.kojiki_stop_releasing
+                )
+                detail?.text = getString(
+                    if (s >= 5) R.string.kojiki_stop_slow else R.string.kojiki_stop_elapsed, s
+                )
+                b.root.postDelayed(this, 500)
+            }
+        }
+        kojikiStopTick = tick
+        tick.run()
     }
 
     private fun startVpnService() {
