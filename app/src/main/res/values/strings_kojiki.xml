@@ -18,6 +18,10 @@
     <string name="kojiki_ui_color_accent" translatable="false">Accent / icons</string>
     <string name="kojiki_ui_color_text" translatable="false">Text</string>
     <string name="kojiki_ui_switch" translatable="false">Toggle switches</string>
+    <string name="kojiki_ui_note_color" translatable="false">Explanations</string>
+    <string name="kojiki_diag_tag_trace" translatable="false">trace file</string>
+    <string name="kojiki_diag_tag_heap" translatable="false">written with the next leak</string>
+    <string name="kojiki_auto_token_copy" translatable="false">Tap to copy it.</string>
     <string name="kojiki_ui_font_family" translatable="false">Font family</string>
     <string name="kojiki_ui_font_weight" translatable="false">Weight</string>
     <string name="kojiki_ui_font_size" translatable="false">Size</string>

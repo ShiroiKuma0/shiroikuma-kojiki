@@ -16,6 +16,10 @@
 package com.celzero.bravedns.ui.activity
 
 import android.content.ClipData
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -144,10 +148,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         // --- Export / Import (moved here from Settings) — kxkb-style: heading + a name/description
         // row beneath it that opens the category bottom sheet ---
         addSectionHeader(R.string.settings_import_export_heading)
-        addValueRow(
+        addActionRow(
             R.string.settings_import_export_heading,
             getString(R.string.settings_import_export_desc),
-            indentLevel = 1
+            indentLevel = 1, main = true, opens = true
         ) { openExportImport() }
         // The 保存復元 automation contract lives HERE, under the existing export rows — a backup
         // feature belongs where backup lives, and every sister app puts it in the same place.
@@ -160,6 +164,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addColorRow(R.string.kojiki_ui_color_accent, cfg.accentColor) { cfg.accentColor = it; recreate() }
         addColorRow(R.string.kojiki_ui_color_text, cfg.textColor) { cfg.textColor = it; recreate() }
         addColorRow(R.string.kojiki_ui_switch, cfg.switchColor) { cfg.switchColor = it; recreate() }
+        addColorRow(R.string.kojiki_ui_note_color, cfg.noteColor) { cfg.noteColor = it; recreate() }
 
         // --- Global font (family / weight / italic / size; applies to all text not overridden below) ---
         addSectionHeader(R.string.kojiki_ui_section_font)
@@ -209,12 +214,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addSubLabel(R.string.kojiki_ui_snoop_tag_list)
         val snoopTags = SnoopTagStore.tags(this)
         if (snoopTags.isEmpty()) {
-            addValueRow(R.string.kojiki_ui_snoop_tag_none, "", indentLevel = 2) {}
+            addNote(getString(R.string.kojiki_ui_snoop_tag_none), 2)
         } else {
             val byTag = SnoopTagStore.domainsByTag(this)
             snoopTags.forEach { addTagManageRow(it, byTag[it.name].orEmpty()) }
         }
-        addValueRow(R.string.snoop_tag_new, "", indentLevel = 2) { SnoopTagUi.showNew(this) { recreate() } }
+        addActionRow(R.string.snoop_tag_new, null, indentLevel = 2, opens = true) {
+            SnoopTagUi.showNew(this) { recreate() }
+        }
 
         // --- Network (connection) log: app icon (preview) + row spacing + text size ---
         addIconSection(R.string.kojiki_ui_section_conn_log_icon,
@@ -285,7 +292,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             cfg.dividerThickness = it; recreate()
         }
 
-        addValueRow(R.string.kojiki_ui_reset, "") { cfg.resetToDefaults(); recreate() }
+        addActionRow(R.string.kojiki_ui_reset, null) { cfg.resetToDefaults(); recreate() }
 
         addDiagnosticsSection()
     }
@@ -295,19 +302,13 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     // is recorded, formatted or timed. Each trace switch is followed by a row that shows the trace.
     private fun addDiagnosticsSection() {
         addSectionHeader(R.string.kojiki_diag_section)
-        b.kojikiUiHolder.addView(AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
-            text = getString(R.string.kojiki_diag_intro, packageName)
-            setTextColor(cfg.textColor)
-            alpha = 0.7f
-            setPadding(0, dp(8), dp(16), dp(4))
-            indent(this, 1)
-        })
+        addNote(getString(R.string.kojiki_diag_intro, packageName), 1)
         addSubLabel(R.string.kojiki_diag_sub_app)
         addDiagToggle(R.string.kojiki_diag_leaks, R.string.kojiki_diag_leaks_desc, KojikiDiag.Group.LEAKS)
         addToggleRow(
             R.string.kojiki_diag_heap, KojikiDiag.isOn(KojikiDiag.Group.HEAP_DUMP), 2,
-            desc = getString(R.string.kojiki_diag_heap_desc)
+            desc = getString(R.string.kojiki_diag_heap_desc),
+            tag = KojikiDiag.HPROF, tagNote = getString(R.string.kojiki_diag_tag_heap)
         ) {
             KojikiDiag.set(this, KojikiDiag.Group.HEAP_DUMP, it)
             // a dump is taken only when a leak is found, so it needs the leak watch on
@@ -325,7 +326,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addDiagToggle(R.string.kojiki_diag_wg, R.string.kojiki_diag_wg_desc, KojikiDiag.Group.WG)
         addDiagView(KojikiDiag.Group.WG, R.string.kojiki_diag_wg)
         addDiagToggle(R.string.kojiki_diag_threads, R.string.kojiki_diag_threads_desc, KojikiDiag.Group.THREADS)
-        addValueRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2) {
+        addActionRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2) {
             KojikiThreadDump.now("on demand")
             Toast.makeText(this, R.string.kojiki_diag_threads_done, Toast.LENGTH_SHORT).show()
         }
@@ -336,15 +337,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     // "Stored: …" under the switches, then Export and Purge (2026-11-03, after 白い熊 地図). The
     // summary reads every trace's stamps, so it is filled in from a worker thread.
     private fun addDiagStoredRows() {
-        val stored = AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
-            text = getString(R.string.kojiki_diag_stored_reading)
-            setTextColor(cfg.textColor)
-            alpha = 0.7f
-            setPadding(0, dp(10), dp(16), dp(4))
-            indent(this, 2)
-        }
-        b.kojikiUiHolder.addView(stored)
+        val stored = addNote(getString(R.string.kojiki_diag_stored_reading), 2)
         Thread({
             val s = KojikiDiag.summarize()
             runOnUiThread {
@@ -354,14 +347,14 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
         }, "kojiki-diag-summary").start()
         val last = KojikiDiag.exportTree(this)
-        addValueRow(
+        addActionRow(
             R.string.kojiki_diag_export,
             getString(R.string.kojiki_diag_export_desc, last?.let { treeLabel(it) } ?: "/sdcard/tmp"),
-            indentLevel = 2
+            indentLevel = 2, opens = true
         ) {
             if (KojikiDiag.files().isEmpty()) {
                 Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
-                return@addValueRow
+                return@addActionRow
             }
             val tree = KojikiDiag.exportTree(this)
             val initial =
@@ -374,7 +367,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                 }
             diagExportLauncher.launch(initial)
         }
-        addValueRow(R.string.kojiki_diag_purge, getString(R.string.kojiki_diag_purge_desc), indentLevel = 2) {
+        addActionRow(R.string.kojiki_diag_purge, getString(R.string.kojiki_diag_purge_desc), indentLevel = 2) {
             confirmDiagPurge()
         }
     }
@@ -482,13 +475,16 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
 
     private fun addDiagToggle(@StringRes labelRes: Int, @StringRes descRes: Int, g: KojikiDiag.Group) {
-        addToggleRow(labelRes, KojikiDiag.isOn(g), 2, desc = getString(descRes)) {
+        addToggleRow(
+            labelRes, KojikiDiag.isOn(g), 2, desc = getString(descRes),
+            tag = g.file, tagNote = getString(R.string.kojiki_diag_tag_trace)
+        ) {
             KojikiDiag.set(this, g, it)
         }
     }
 
     private fun addDiagView(g: KojikiDiag.Group, @StringRes titleRes: Int) {
-        addValueRow(R.string.kojiki_diag_view, KojikiDiag.file(g)?.name.orEmpty(), indentLevel = 2) {
+        addActionRow(R.string.kojiki_diag_view, null, indentLevel = 2, opens = true) {
             showDiagTrace(g, getString(titleRes))
         }
     }
@@ -746,37 +742,32 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
     }
 
+    // A switch row. With an explanation it is the black-yellow explained item: bold accent label,
+    // an optional tag line (bold monospace tag · dim-gold qualifier, only where the item has a real
+    // identifier, e.g. its trace file), the description in dim gold, and a dim-gold rule down the
+    // left of the whole block. Minimal padding; the switch carries no 48 dp minimum.
     private fun addToggleRow(
         @StringRes labelRes: Int, current: Boolean, indentLevel: Int,
         desc: String? = null, descColor: Int? = null, onRowClick: (() -> Unit)? = null,
+        tag: String? = null, tagNote: String? = null,
         onChange: (Boolean) -> Unit
     ) {
-        val sw = androidx.appcompat.widget.SwitchCompat(this).apply { isChecked = current }
-        val label = AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
-            text = getString(labelRes)
-            setTextColor(cfg.textColor)
+        val sw = androidx.appcompat.widget.SwitchCompat(this).apply {
+            isChecked = current
+            minHeight = 0
+            minimumHeight = 0
         }
-        // Label alone, or label + a one-line description stacked under it (weighted, so the switch
-        // keeps its natural width on the right).
+        val explained = !desc.isNullOrEmpty()
         val labelBox = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            addView(label)
-            if (!desc.isNullOrEmpty()) {
-                addView(AppCompatTextView(this@KojikiUiActivity).apply {
-                    setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
-                    text = desc
-                    setTextColor(descColor ?: cfg.textColor)
-                    if (descColor == null) alpha = 0.7f
-                    setPadding(0, dp(3), dp(8), 0)
-                })
-            }
+            addView(itemLabel(getString(labelRes), explained))
+            if (!tag.isNullOrEmpty()) addView(tagLine(tag, tagNote))
+            if (explained) addView(noteText(desc!!, descColor))
         }
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, dp(10), dp(16), dp(6))
             addView(labelBox)
             addView(sw)
             if (onRowClick != null) {
@@ -786,8 +777,115 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
         }
         sw.setOnCheckedChangeListener { _, c -> onChange(c) }
-        indent(row, indentLevel)
-        b.kojikiUiHolder.addView(row)
+        addItem(row, indentLevel, ruled = explained, padV = 2)
+    }
+
+    // Something to press (black-yellow, settled 2026-11-07): a full-width outlined pill, never
+    // filled — 3 dp frame + bold for the section's main action, 1.25 dp otherwise — with › when it
+    // opens a sheet, picker or dialog, none when it acts in place. The explanation sits beneath the
+    // pill in dim gold, aligned with the label, and the rule spans pill + explanation.
+    private fun addActionRow(
+        @StringRes labelRes: Int, desc: String?, indentLevel: Int = 1,
+        main: Boolean = false, opens: Boolean = false, onClick: () -> Unit
+    ) {
+        val accent = cfg.accentColor
+        val pill = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(18), dp(9), dp(16), dp(9))
+            val frame = GradientDrawable().apply {
+                setColor(Color.TRANSPARENT)
+                setStroke(maxOf(1, (if (main) 3f else 1.25f).let { (it * resources.displayMetrics.density).toInt() }), accent)
+                cornerRadius = dp(50).toFloat()
+            }
+            background = RippleDrawable(ColorStateList.valueOf(KojikiDialog.withAlpha(accent, 0.3f)), frame, null)
+            isClickable = true
+            setOnClickListener { onClick() }
+            addView(AppCompatTextView(this@KojikiUiActivity).apply {
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+                text = getString(labelRes)
+                setTextColor(accent)
+                if (main) setTypeface(typeface, Typeface.BOLD)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            })
+            if (opens) {
+                addView(AppCompatTextView(this@KojikiUiActivity).apply {
+                    text = "\u203A"
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+                    includeFontPadding = false
+                    setTextColor(accent)
+                    if (main) setTypeface(typeface, Typeface.BOLD)
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).also { it.marginStart = dp(10) }
+                })
+            }
+        }
+        val block = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(pill, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+            if (!desc.isNullOrEmpty()) addView(noteText(desc).apply { setPadding(dp(18), dp(3), 0, 0) })
+        }
+        addItem(block, indentLevel, ruled = !desc.isNullOrEmpty(), padV = 3)
+    }
+
+    // Places a row: indented, minimal vertical padding, and — for an explained item — a 2 dp
+    // dim-gold rule down its whole left edge, 10 dp before the text.
+    private fun addItem(content: View, indentLevel: Int, ruled: Boolean, padV: Int) {
+        val wrap = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, dp(padV), dp(16), dp(padV))
+            if (ruled) {
+                addView(View(this@KojikiUiActivity).apply { setBackgroundColor(cfg.noteColor) },
+                    LinearLayout.LayoutParams(dp(2), ViewGroup.LayoutParams.MATCH_PARENT).also { it.marginEnd = dp(10) })
+            }
+            addView(content, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        }
+        indent(wrap, indentLevel)
+        b.kojikiUiHolder.addView(wrap)
+    }
+
+    // The label of an explained item is bold accent, so its bold tag line never outweighs it; a
+    // plain row keeps the ordinary text colour and weight.
+    private fun itemLabel(text: String, explained: Boolean) = AppCompatTextView(this).apply {
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+        this.text = text
+        if (explained) {
+            setTextColor(cfg.accentColor)
+            setTypeface(typeface, Typeface.BOLD)
+        } else {
+            setTextColor(cfg.textColor)
+        }
+    }
+
+    private fun tagLine(tag: String, note: String?) = AppCompatTextView(this).apply {
+        val sb = android.text.SpannableStringBuilder(tag)
+        sb.setSpan(android.text.style.StyleSpan(Typeface.BOLD), 0, tag.length, 0)
+        sb.setSpan(android.text.style.TypefaceSpan("monospace"), 0, tag.length, 0)
+        sb.setSpan(android.text.style.ForegroundColorSpan(cfg.accentColor), 0, tag.length, 0)
+        if (!note.isNullOrEmpty()) sb.append("  ·  ").append(note)
+        text = sb
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+        setTextColor(cfg.noteColor)
+        setPadding(0, dp(1), 0, 0)
+    }
+
+    // Explanations are never grey: dim gold, 13 sp (a warning keeps its own colour).
+    private fun noteText(text: String, color: Int? = null) = AppCompatTextView(this).apply {
+        this.text = text
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+        setTextColor(color ?: cfg.noteColor)
+        setPadding(0, dp(1), dp(8), 0)
+    }
+
+    // A loose note that belongs to no single item (a section intro, the Stored line): dim gold,
+    // no rule.
+    private fun addNote(text: String, indentLevel: Int): AppCompatTextView {
+        val note = noteText(text)
+        note.setPadding(0, dp(4), dp(16), dp(2))
+        indent(note, indentLevel)
+        b.kojikiUiHolder.addView(note)
+        return note
     }
 
     private fun weightLabel(v: Int): String =
@@ -801,7 +899,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             text = getString(labelRes)
             setTextColor(cfg.accentColor)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            typeface = Typeface.create("sans-serif", Typeface.BOLD)
             maxLines = 1
         }
         val underline = View(this).apply {
@@ -872,7 +970,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(8), dp(16), dp(8))
+            setPadding(0, dp(2), dp(16), dp(2))
             isClickable = true
             setOnClickListener { ColorPickerDialog.show(this@KojikiUiActivity, color, onPick) }
         }
@@ -898,7 +996,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(8), dp(16), dp(8))
+            setPadding(0, dp(2), dp(16), dp(2))
             isClickable = true
             setOnClickListener { SnoopTagUi.showEdit(this@KojikiUiActivity, tag) { recreate() } }
         }
@@ -934,7 +1032,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = selectableBackground()
-            setPadding(0, dp(8), dp(16), dp(8))
+            setPadding(0, dp(2), dp(16), dp(2))
             isClickable = true
             setOnClickListener { onClick() }
         }
@@ -966,7 +1064,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val offset = if (defaultable) 1 else 0
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(0, dp(8), dp(16), dp(8))
+            setPadding(0, dp(2), dp(16), dp(2))
         }
         val header = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         val label = AppCompatTextView(this).apply {
@@ -1118,49 +1216,15 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         if (persistentState.automationRequireToken) addTokenRow()
     }
 
-    /** Tap = copy the full token; "Regenerate" on the right = a fresh secret (revokes pasted copies). */
+    /** The token as a tag line, then a pill to copy it and one for a fresh secret (revokes pasted copies). */
     private fun addTokenRow() {
         val token = persistentState.getOrCreateAppRuleToken()
         val short =
             if (token.length > 20) "${token.take(8)}…${token.takeLast(8)}" else token
-        val labelBox = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        addActionRow(R.string.kojiki_auto_token, getString(R.string.kojiki_auto_token_copy) + "  " + short) {
+            copyToken()
         }
-        labelBox.addView(AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
-            text = getString(R.string.kojiki_auto_token)
-            setTextColor(cfg.textColor)
-        })
-        labelBox.addView(AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
-            text = short
-            typeface = Typeface.MONOSPACE
-            setTextColor(cfg.textColor)
-            alpha = 0.7f
-            setPadding(0, dp(3), dp(8), 0)
-        })
-        val regenerate = AppCompatTextView(this).apply {
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
-            text = getString(R.string.app_rule_token_regenerate)
-            setTextColor(cfg.accentColor)
-            background = selectableBackground()
-            isClickable = true
-            setPadding(dp(12), dp(8), dp(4), dp(8))
-            setOnClickListener { confirmRegenerateToken() }
-        }
-        val row = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            background = selectableBackground()
-            isClickable = true
-            setPadding(0, dp(8), dp(16), dp(8))
-            addView(labelBox)
-            addView(regenerate)
-            setOnClickListener { copyToken() }
-        }
-        indent(row, 1)
-        b.kojikiUiHolder.addView(row)
+        addActionRow(R.string.app_rule_token_regenerate, null) { confirmRegenerateToken() }
     }
 
     private fun copyToken() {

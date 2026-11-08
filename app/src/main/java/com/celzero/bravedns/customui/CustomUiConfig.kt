@@ -81,6 +81,9 @@ class CustomUiConfig(context: Context) {
     /** Material on/off switches (checked colour). */
     var switchColor: Int
         get() = int(KEY_SWITCH_COLOR, PALETTE_YELLOW); set(v) = putInt(KEY_SWITCH_COLOR, v)
+    /** Explanations under settings rows, and the thin rule beside them (black-yellow: dim gold). */
+    var noteColor: Int
+        get() = int(KEY_NOTE_COLOR, PALETTE_DIM_GOLD); set(v) = putInt(KEY_NOTE_COLOR, v)
 
     // --- Global font (applies to all text not overridden per-item) ---
     /** "" = system default; "@monospace"/"@serif"/"@sans" = built-in; else an imported file name. */
@@ -340,6 +343,7 @@ class CustomUiConfig(context: Context) {
         private const val KEY_ACCENT = "kojiki_accent_color"
         private const val KEY_TEXT = "kojiki_text_color"
         private const val KEY_SWITCH_COLOR = "kojiki_switch_color"
+        private const val KEY_NOTE_COLOR = "kojiki_note_color"
         private const val KEY_FONT_FAMILY = "kojiki_font_family"
         private const val KEY_FONT_WEIGHT = "kojiki_font_weight"
         private const val KEY_FONT_SIZE = "kojiki_font_size"
@@ -418,6 +422,7 @@ class CustomUiConfig(context: Context) {
 
         const val PALETTE_BLACK = 0xFF000000.toInt()
         const val PALETTE_YELLOW = 0xFFFFFF00.toInt()
+        const val PALETTE_DIM_GOLD = 0xFFC8C800.toInt()
         const val SNOOP_GREEN = 0xFF2B8E18.toInt()
         const val SNOOP_AMBER = 0xFFFFA000.toInt()
         const val LOG_RED = 0xFFFF1744.toInt()
