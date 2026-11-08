@@ -93,6 +93,8 @@ object KojikiDnsWatchdog : KoinComponent {
 
     private val failTimes = ArrayDeque<Long>()
     private val okTimes = ArrayDeque<Long>()
+    // names that drew an HTTP error status in the window, and when (see onDnsTransaction)
+    private val statusFailNames = HashMap<String, Long>()
     private var lastSuccessAt = 0L
     private var lastActionAt = 0L
     private var lastRestartAt = 0L
@@ -131,6 +133,7 @@ object KojikiDnsWatchdog : KoinComponent {
             resolvedSinceArm = false
             failTimes.clear()
             okTimes.clear()
+            statusFailNames.clear()
             firstUnansweredAt = 0L
             askedSinceAnswer = 0
             stallReported = false
@@ -228,13 +231,27 @@ object KojikiDnsWatchdog : KoinComponent {
                     resolvedSinceArm = true
                     prune(now)
                 }
+            // An HTTP error status counts once per name in the window. Quad9 answers 502 to every
+            // `*.dbl.nordspam.com` spam-check lookup a mail app sends, and the app retries each
+            // name several times: eight such answers for two names recycled the engine for
+            // nothing (2026-11-07 10:21, 2026-11-08 11:50 and 17:03, felt as a wedge). Not
+            // skipped outright: the July corpse wedge also surfaced as 502s, but across many names.
+            Transaction.Status.TRANSPORT_ERROR ->
+                if (!t.msg.contains("http-status:") || firstStatusFailFor(t.qName, now)) {
+                    onUpstreamFailure(now)
+                }
             Transaction.Status.SEND_FAIL,
-            Transaction.Status.TRANSPORT_ERROR,
             Transaction.Status.NO_RESPONSE,
             Transaction.Status.BAD_RESPONSE,
             Transaction.Status.INTERNAL_ERROR -> onUpstreamFailure(now)
             else -> {} // START / BAD_QUERY / CLIENT_ERROR: not upstream-health signals
         }
+    }
+
+    private fun firstStatusFailFor(name: String, now: Long): Boolean = synchronized(this) {
+        statusFailNames.entries.removeAll { now - it.value > WINDOW_MS }
+        if (statusFailNames.size >= WINDOW_CAP) return@synchronized true
+        statusFailNames.put(name, now) == null
     }
 
     private fun prune(now: Long) {
@@ -274,6 +291,7 @@ object KojikiDnsWatchdog : KoinComponent {
             if (now - lastActionAt < ACTION_COOLDOWN_MS) return
             failTimes.clear()
             okTimes.clear()
+            statusFailNames.clear()
             lastActionAt = now
             failover =
                 lastRestartAt != 0L &&
