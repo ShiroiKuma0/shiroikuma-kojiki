@@ -2,6 +2,22 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
 
+## 0.5.8+019
+
+**A spam-blocked name no longer restarts the engine, and the 白い熊 考直 UI page takes the black-yellow look.**
+
+### DNS watchdog: one blocked name is not a wedge
+Quad9 answers HTTP 502 for every lookup of a name on its spam blocklist. One app retrying such a name could reach the watchdog's failure threshold and restart the engine for nothing — three false restarts on 2026-11-07 and 2026-11-08. An HTTP error status now counts only the first time a name draws it in the 3-minute window; many different names failing still counts as a wedge and is cured as before. (Shipped first in 0.5.8+018.)
+
+### The 白い熊 考直 UI page
+- Every row you tap to do something is a full-width outlined pill, its explanation beneath it: **Export / Import…** is the main one (thick frame, bold); a › marks rows that open something (New tag, View trace, diagnostics Export); Reset, Dump threads now and Purge act in place.
+- The automation token row is two pills: one copies the token (its shortened value shown beneath), the other regenerates it.
+- Explained items have a bold yellow label, a dim-gold description in a smaller size and a thin dim-gold rule down their left edge. The diagnostics switches show their file in bold monospace (`dns.txt  ·  trace file`, `heap.hprof  ·  written with the next leak`).
+- The dim gold is a new colour setting, **Explanations** (default `#C8C800`), carried by the appearance export.
+- Minimal padding: switches no longer force a 48 dp row, and colour, slider, font and tag rows are tight. Sub-headings are bold.
+
+Built on the `v0.5.8` upstream tag, same engine as 0.5.8+016.
+
 ## 0.5.8+017
 
 **Every dialog button is a black-yellow pill.**
