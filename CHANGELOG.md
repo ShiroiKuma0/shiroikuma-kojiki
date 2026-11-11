@@ -1,6 +1,26 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping and orphaned-ALG patches.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG and IPv4-fallback patches.
+
+## 0.5.8+021
+
+**Apps no longer get their connections reset on a Wi-Fi without IPv6, and the VPN no longer switches itself off in silence.**
+
+### IPv6 on a network that has none
+With the IP version set to “IPv4 & IPv6” (the **Fixed** network policy selects it by itself), the tunnel offers IPv6 even on a Wi-Fi that has only IPv4. Apps that prefer IPv6 then connected to an address the engine could only reach over IPv6: the app's connection was accepted, the engine's own dial failed at once with “network is unreachable”, and the app saw its connection reset in the middle of the TLS handshake. Because it had already connected, it never tried the IPv4 address. Apps built on the system WebView showed it worst — a feed that failed completely on a clean start and only filled in after several refreshes — and other apps lost a few dozen connections an hour the same way.
+
+The engine now also takes the name's IPv4 addresses for such a connection and tries them once every IPv6 address has failed, which takes a few milliseconds. It does this while the app says a family is missing on the network, or for 10 minutes after an IPv6 dial was refused for want of a route. On a network that does have IPv6 nothing changes: the IPv6 addresses are still tried first. The added addresses pass through the firewall like any others, so IP rules apply to them.
+
+### A self-stop is no longer silent
+On 2026-11-09 the engine refused a link update after a three-second network loss, the VPN stopped itself, and it stayed off for six hours: the stop cleared “VPN wanted”, so the companion guard took it for a deliberate one. (Built as 0.5.8+020.)
+
+- A refused restart is first retried as a full engine rebuild — a fresh tunnel and a new engine, three attempts at 2, 4 and 6 seconds — before the VPN gives up.
+- The engine's own reason for refusing goes to the **VPN restarts** diagnostic trace.
+- Every stop is recorded with its time, reason, error and whether you asked for it. This is always on, not a diagnostics switch.
+- The guard intents' `KOJIKI_STATUS` answer carries `last_stop_user`, `last_stop_reason`, `last_stop_error` and `last_stop_at_ms`.
+- A stop nobody asked for broadcasts `KOJIKI_VPN_STOPPED_UNEXPECTEDLY` (extras `reason`, `error`, `at_ms`), and the failure notification names the time and the reason.
+
+Built on the `v0.5.8` upstream tag. The engine is the tag's (`d3d530ea3e`) with four fork patches; the IPv4 fallback is the new one.
 
 ## 0.5.8+019
 
