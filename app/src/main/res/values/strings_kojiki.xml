@@ -307,6 +307,10 @@
     <string name="kojiki_diag_view_empty" translatable="false">Nothing recorded yet.</string>
     <string name="kojiki_diag_clear" translatable="false">Clear</string>
     <string name="kojiki_diag_close" translatable="false">Close</string>
+    <string name="kojiki_vpn_stopped_notif" translatable="false">The VPN stopped by itself at %1$s (%2$s). Tap to open 白い熊 考直 and start it again.</string>
+    <string name="kojiki_ui_app_settings" translatable="false">App settings</string>
+    <string name="kojiki_ui_app_settings_desc" translatable="false">DNS, firewall, VPN and everything else 白い熊 考直 does.</string>
+    <string name="kojiki_ui_reset_confirm" translatable="false">Every colour, font and size on this page goes back to its default.</string>
     <string name="kojiki_diag_stored_reading" translatable="false">Stored: reading…</string>
     <string name="kojiki_diag_stored" translatable="false">Stored: %1$s</string>
     <string name="kojiki_diag_stored_none" translatable="false">Stored: nothing</string>

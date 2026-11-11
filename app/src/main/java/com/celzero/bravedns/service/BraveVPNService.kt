@@ -279,6 +279,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         private const val FORK_WG_OVERLAY4_PREFIX: Int = 24
         // Fork (白い熊 考直): how long STOP waits for the queued tun close before closing it itself.
         private const val KOJIKI_STOP_BACKSTOP_MS: Long = 3_000L
+        private const val KOJIKI_REBUILD_ATTEMPTS = 3
+        private const val KOJIKI_REBUILD_DELAY_MS: Long = 2_000L
         // Fork (白い熊 考直): a service still alive this long after STOP gets its threads dumped.
         private const val KOJIKI_SLOW_STOP_MS: Long = 5_000L
 
@@ -2013,7 +2015,9 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         // command that re-sets the flag before the service is gone.
         kojikiStopping = true
         persistentState.setVpnEnabled(false)
-        if (!userInitiated) notifyUserOnVpnFailure()
+        val error = if (userInitiated) null else kojikiRefusal()
+        KojikiStopRecord.record(this, reason, error, userInitiated)
+        if (!userInitiated) notifyUserOnVpnFailure(reason, error)
         val adapter = vpnAdapter
         io(reason) {
             stopVpnAdapter()
@@ -2086,6 +2090,49 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     fun kojikiForceEngineRestart(reason: String) {
         kojikiRecycleFlag.set(true)
         vpnRestartTrigger.value = reason
+    }
+
+    // Fork (白い熊 考直): why makeOrUpdateVpnAdapter last failed (an exception there), else the engine's
+    // own refusal (GoVpnAdapter.kojikiLastError).
+    @Volatile private var kojikiAdapterError: String? = null
+
+    private fun kojikiRefusal(): String =
+        kojikiAdapterError ?: vpnAdapter?.kojikiLastError ?: "no reason given"
+
+    // Fork (白い熊 考直): a restart the engine refused used to stop the VPN on the spot (upstream's
+    // "noTunRestart2"/"restartVpnError"), and nothing brought it back — 2026-11-09 17:08, after a
+    // three-second network loss, off for six hours. Instead the refusal is traced and the engine is
+    // rebuilt from scratch, the same way the first start builds it: the old adapter closed, a fresh
+    // tun fd, a new GoVpnAdapter. Only when every attempt fails does the caller stop the VPN.
+    // Runs on the serializer, so nothing else touches the tunnel meanwhile.
+    private suspend fun kojikiRecoverRestart(
+        ctx: Context, opts: AppConfig.TunnelOptions, why: String, refusal: String
+    ): Boolean {
+        KojikiNetDiag.onEvent("engine refused the restart ($why): $refusal")
+        for (attempt in 1..KOJIKI_REBUILD_ATTEMPTS) {
+            if (kojikiStopping || !persistentState.getVpnEnabled()) return false
+            delay(KOJIKI_REBUILD_DELAY_MS * attempt)
+            if (kojikiStopping || !persistentState.getVpnEnabled()) return false
+            try {
+                stopVpnAdapter()
+                val nws = Networks(underlyingNetworks, overlayNetworks)
+                val mtu = if (persistentState.useMaxMtu && !persistentState.routeRethinkInRethink) MAX_MTU else mtu()
+                val fd = establishVpn(nws, mtu)
+                if (fd == null) {
+                    KojikiNetDiag.onEvent("  rebuild $attempt/$KOJIKI_REBUILD_ATTEMPTS: no tun fd")
+                    continue
+                }
+                if (makeOrUpdateVpnAdapter(ctx, fd, mtu, mtu(), opts, builderRoutes)) {
+                    KojikiNetDiag.onEvent("  rebuild $attempt/$KOJIKI_REBUILD_ATTEMPTS: new engine up")
+                    return true
+                }
+                KojikiNetDiag.onEvent("  rebuild $attempt/$KOJIKI_REBUILD_ATTEMPTS refused: ${kojikiRefusal()}")
+            } catch (e: Exception) {
+                kojikiAdapterError = "rebuild: ${e.message}"
+                KojikiNetDiag.onEvent("  rebuild $attempt/$KOJIKI_REBUILD_ATTEMPTS failed: ${e.message}")
+            }
+        }
+        return false
     }
 
     private suspend fun restartVpnWithNewAppConfig(reason: String) {
@@ -2287,7 +2334,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                         nwMtu,
                         opts,
                         builderRoutes
-                    ) // builderRoutes set in establishVpn()
+                    ) || // builderRoutes set in establishVpn()
+                        kojikiRecoverRestart(ctx, opts, why, kojikiRefusal())
                 if (!ok) {
                     io("noTunnelRestart2") {
                         Logger.i(LOG_TAG_VPN, "----------------------RESTART-ERR2----------------------")
@@ -2308,6 +2356,11 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             } catch (e: Exception) {
                 Logger.i(LOG_TAG_VPN, "----------------------RESTART-ERR0----------------------")
                 Logger.e(LOG_TAG_VPN, "restart-vpn failed: ${e.message}", e)
+                if (kojikiRecoverRestart(ctx, opts, why, "exception: ${e.message}")) {
+                    notifyConnectionStateChangeIfNeeded()
+                    informVpnControllerForProtoChange(builderRoutes)
+                    return@withContext
+                }
                 io("restartVpnError") {
                     logAndToastIfNeeded("$why, restart-vpn failed: ${e.message}", Log.ERROR)
                     signalStopService("restartVpnError", userInitiated = false)
@@ -2376,6 +2429,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             // only for relaxed mode, the tunFd will be detached, earlier it was set to true
             // with a const FIRESTACK_MUST_DUP_TUNFD, see restartVpn() for more
             val firestackMustDupFd = restartPolicy != VpnBuilderPolicy.GoVpnAdapterBehaviour.PREFER_RESTART
+            kojikiAdapterError = null
+            vpnAdapter?.kojikiLastError = null
             try {
                 val fd = if (firestackMustDupFd) {
                     tunFd.fd.toLong()
@@ -2452,6 +2507,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                 }
             } catch (e: Exception) {
                 Logger.e(LOG_TAG_VPN, "err new vpn-adapter: ${e.message}", e)
+                kojikiAdapterError = "new engine: ${e.message}"
                 return@withContext noTun
             } finally {
                 try { // close the tunFd as GoVpnAdapter has its own copy
@@ -2987,7 +3043,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         return set
     }
 
-    private fun notifyUserOnVpnFailure() {
+    private fun notifyUserOnVpnFailure(reason: String, error: String?) {
         ui {
             val vibrationPattern = longArrayOf(1000) // Vibrate for one second.
             // Show revocation warning
@@ -3018,7 +3074,14 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentTitle(resources.getText(R.string.warning_title))
                 // fixme: should the string need to be changed based on failure type?
-                .setContentText(resources.getText(R.string.notification_content))
+                // Fork (白い熊 考直): say when and why, and keep it until it is looked at — the
+                // generic "VPN failed" text went unnoticed for six hours on 2026-11-09.
+                .setContentText(getString(R.string.kojiki_vpn_stopped_notif,
+                    java.text.SimpleDateFormat("HH:mm", java.util.Locale.ROOT).format(java.util.Date()), reason))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(
+                    getString(R.string.kojiki_vpn_stopped_notif,
+                        java.text.SimpleDateFormat("HH:mm", java.util.Locale.ROOT).format(java.util.Date()), reason) +
+                        (if (error.isNullOrEmpty()) "" else "\n" + error)))
                 .setContentIntent(pendingIntent)
                 // Open the main UI if possible.
                 .setAutoCancel(true)

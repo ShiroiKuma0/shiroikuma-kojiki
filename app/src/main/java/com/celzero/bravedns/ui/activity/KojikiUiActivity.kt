@@ -145,6 +145,17 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val holder = b.kojikiUiHolder
         holder.removeAllViews()
 
+        // The page's link to the app's own settings: first, and the one thick pill above the
+        // sections (black-yellow, settled 2026-11-07). CLEAR_TOP returns to the Settings screen this
+        // page was opened from instead of stacking a second one.
+        addActionRow(
+            R.string.kojiki_ui_app_settings, getString(R.string.kojiki_ui_app_settings_desc),
+            indentLevel = 0, main = true, opens = true
+        ) {
+            startActivity(Intent(this, MiscSettingsActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+        }
+
         // --- Export / Import (moved here from Settings) — kxkb-style: heading + a name/description
         // row beneath it that opens the category bottom sheet ---
         addSectionHeader(R.string.settings_import_export_heading)
@@ -292,7 +303,16 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             cfg.dividerThickness = it; recreate()
         }
 
-        addActionRow(R.string.kojiki_ui_reset, null) { cfg.resetToDefaults(); recreate() }
+        addActionRow(R.string.kojiki_ui_reset, null) {
+            // acts in place, so it asks first (no ›)
+            KojikiDialog.show(
+                this, getString(R.string.kojiki_ui_reset),
+                listOf(
+                    KojikiDialog.Action(getString(android.R.string.cancel)),
+                    KojikiDialog.Action(getString(R.string.kojiki_ui_reset)) { cfg.resetToDefaults(); recreate() }
+                )
+            ) { box, _ -> box.addView(noteText(getString(R.string.kojiki_ui_reset_confirm))) }
+        }
 
         addDiagnosticsSection()
     }
@@ -780,7 +800,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addItem(row, indentLevel, ruled = explained, padV = 2)
     }
 
-    // Something to press (black-yellow, settled 2026-11-07): a full-width outlined pill, never
+    // Something to press (black-yellow, settled 2026-11-07; 2026-11-09 the pill hugs its label —
+    // a short action stretched across the line read as a banner): an outlined pill, never
     // filled — 3 dp frame + bold for the section's main action, 1.25 dp otherwise — with › when it
     // opens a sheet, picker or dialog, none when it acts in place. The explanation sits beneath the
     // pill in dim gold, aligned with the label, and the rule spans pill + explanation.
@@ -806,7 +827,6 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                 text = getString(labelRes)
                 setTextColor(accent)
                 if (main) setTypeface(typeface, Typeface.BOLD)
-                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             })
             if (opens) {
                 addView(AppCompatTextView(this@KojikiUiActivity).apply {
@@ -823,7 +843,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         }
         val block = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            addView(pill, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+            addView(pill, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             if (!desc.isNullOrEmpty()) addView(noteText(desc).apply { setPadding(dp(18), dp(3), 0, 0) })
         }
         addItem(block, indentLevel, ruled = !desc.isNullOrEmpty(), padV = 3)
@@ -1015,8 +1035,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
             text = if (domains.isEmpty()) getString(R.string.kojiki_ui_snoop_tag_unassigned)
             else getString(R.string.kojiki_ui_snoop_tag_assigned, domains.size, domains.joinToString(", "))
-            setTextColor(cfg.textColor)
-            alpha = 0.6f
+            setTextColor(cfg.noteColor) // explanations are dim gold, never grey
         })
         val swatch = View(this).apply {
             layoutParams = LinearLayout.LayoutParams(dp(28), dp(28))
@@ -1045,9 +1064,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             box.addView(AppCompatTextView(this).apply {
                 setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
                 text = value
-                setTextColor(cfg.textColor)
-                alpha = 0.7f
-                setPadding(0, dp(3), 0, 0)
+                setTextColor(cfg.noteColor) // dim gold, never grey
+                setPadding(0, dp(1), 0, 0)
             })
         }
         indent(box, indentLevel)

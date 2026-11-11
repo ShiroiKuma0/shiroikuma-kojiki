@@ -25,6 +25,7 @@ import android.os.SystemClock
 import com.celzero.bravedns.BuildConfig
 import com.celzero.bravedns.service.KojikiDnsWatchdog
 import com.celzero.bravedns.service.KojikiNetDiag
+import com.celzero.bravedns.service.KojikiStopRecord
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.VpnController
 import com.celzero.bravedns.util.Logger
@@ -53,7 +54,9 @@ import org.koin.core.component.inject
  *
  * The answer is a broadcast with `reply_action`, sent only to `reply_package`, every extra a string:
  * request_id · op · ok · error · elapsed_ms · version · vpn_wanted · tunnel_up · stopping · network ·
- * dns_answer_age_s · dns_unanswered · dns_stall · resolver · resolver_fallback · wg. STATUS answers
+ * dns_answer_age_s · dns_unanswered · dns_stall · resolver · resolver_fallback · wg · last_stop_user ·
+ * last_stop_reason · last_stop_error · last_stop_at_ms (empty before the first stop; last_stop_user
+ * "false" with vpn_wanted "false" = kojiki stopped itself, see KojikiStopRecord). STATUS answers
  * at once; RECYCLE once the new engine is up, VPN_STOP once the service is really gone, VPN_START
  * once the tunnel is up — each within [WAIT_MS], else ok=false error=timeout.
  *
@@ -188,6 +191,11 @@ class KojikiGuardReceiver : BroadcastReceiver(), KoinComponent {
             .putExtra("resolver", persistentState.connectedDnsName)
             .putExtra("resolver_fallback", KojikiDnsWatchdog.onFallback().toString())
             .putExtra("wg", try { KojikiNetDiag.wgSummary() } catch (_: Exception) { "" })
+            // the last stop, so a stop 白い熊 did not ask for never reads as a deliberate one
+            .putExtra("last_stop_user", KojikiStopRecord.last(ctx)?.user?.toString().orEmpty())
+            .putExtra("last_stop_reason", KojikiStopRecord.last(ctx)?.reason.orEmpty())
+            .putExtra("last_stop_error", KojikiStopRecord.last(ctx)?.error.orEmpty())
+            .putExtra("last_stop_at_ms", KojikiStopRecord.last(ctx)?.atMs?.toString().orEmpty())
         ctx.sendBroadcast(out)
     }
 

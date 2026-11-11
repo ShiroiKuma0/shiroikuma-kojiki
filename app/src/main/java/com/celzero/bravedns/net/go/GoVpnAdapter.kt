@@ -2191,6 +2191,10 @@ class GoVpnAdapter : KoinComponent {
         }
     }
 
+    // Fork (白い熊 考直): why the engine last refused a link update or restart, for the VPN-restarts
+    // trace and the stop record — upstream logs it only at ERROR level, which logcat soon drops.
+    @Volatile var kojikiLastError: String? = null
+
     suspend fun updateLinkAndRoutes(
         tunFd: Long,
         mtu: Int,
@@ -2199,6 +2203,7 @@ class GoVpnAdapter : KoinComponent {
     ): Boolean {
         if (!tunnel.isConnected) {
             Logger.e(LOG_TAG_VPN, "$TAG updateLink: tunnel disconnected, returning")
+            kojikiLastError = "update link: tunnel not connected"
             logEvent(
                 Severity.CRITICAL,
                 "update link failed",
@@ -2218,6 +2223,7 @@ class GoVpnAdapter : KoinComponent {
             true
         } catch (e: Exception) {
             Logger.e(LOG_TAG_VPN, "$TAG err update tun: ${e.message}", e)
+            kojikiLastError = "update link: ${e.message}"
             logEvent(
                 Severity.HIGH,
                 "update link failed",
@@ -2230,6 +2236,7 @@ class GoVpnAdapter : KoinComponent {
     suspend fun restartTunnel(tunFd: Long, mtu: Int, nwMtu: Int, proto: Long): Boolean {
         if (!tunnel.isConnected) {
             Logger.e(LOG_TAG_VPN, "$TAG restartTunnel: tunnel is not connected, returning")
+            kojikiLastError = "restart tunnel: tunnel not connected"
             logEvent(
                 Severity.CRITICAL,
                 "restart tunnel failed",
@@ -2249,6 +2256,7 @@ class GoVpnAdapter : KoinComponent {
             return true
         } catch (e: Exception) {
             Logger.e(LOG_TAG_VPN, "$TAG error restarting tunnel: ${e.message}", e)
+            kojikiLastError = "restart tunnel: ${e.message}"
             logEvent(
                 Severity.HIGH,
                 "restart tunnel failed",
