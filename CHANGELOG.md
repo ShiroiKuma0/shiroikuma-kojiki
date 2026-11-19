@@ -2,6 +2,37 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG and IPv4-fallback patches.
 
+## 0.5.8+022
+
+**The Network and DNS logs are packed into tight two-line rows that are easier to scan.**
+
+### Two lines per entry
+A log entry used to take three or four lines with wide gaps, so a folded screen showed four or five of them. Each entry is now two lines:
+
+- **Network log** — line 1: time · domain · protocol · flag. Line 2: app · address with its port · data up/down · duration · hints.
+- **DNS log** — line 1: time · name asked · resolver · flag. Line 2: app · record type · answer · latency · hints.
+
+The text carries no font padding, the row padding at slider value 0 is 2 dp, and the expand chevron (and its column) is gone — tapping anywhere on the row opens the details, as before. The BLOCKED / ALLOWED tag no longer takes a line of its own; it leads line 2.
+
+### Easier to read at a glance
+- In a host name the registrable domain is bold and the subdomain dimmed — `supl.platform.` dim, `dbankcloud.cn` bold — so the owner of a name stands out in a long list.
+- The time is dim and uses equal-width digits, so it forms a straight column.
+- Line 2 is three sizes smaller and in the Explanations colour, except the app name.
+- A blocked entry is washed in the blocked colour (a maybe-blocked one in amber) in addition to its left bar, so a run of blocks reads as a band.
+- The protocol and resolver labels are thin outlined pills, and are hidden when they have nothing to say.
+- The separator's “Default” setting is a one-pixel hairline in the Explanations colour; an explicit width and colour are honoured as before.
+
+### The address shows its port
+The address is now written with its port (`80.158.109.4:7275`, `[2a00::1]:443`). Before, a port appeared only when the app could name it (“HTTPS”); any other port was nowhere on the row. A connection with no domain shows its address on line 1 instead of leaving the line empty.
+
+### The filtered list is styled too
+The Network list shown when the log is filtered to one app, and the app's own (Rethink) log, never received the fork's styling and rendered upstream's bare row. Both now use the same row as the main network log.
+
+### Log icon size
+The log app icon was seeded at 70 dp, which alone would force the new row tall. A stored log icon size above 36 dp is reset once to 28 dp; the slider still goes higher.
+
+Built on the `v0.5.8` upstream tag. The engine is unchanged from 0.5.8+021.
+
 ## 0.5.8+021
 
 **Apps no longer get their connections reset on a Wi-Fi without IPv6, and the VPN no longer switches itself off in silence.**
