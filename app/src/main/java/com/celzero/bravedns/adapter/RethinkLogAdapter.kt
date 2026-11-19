@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide
 import com.celzero.bravedns.R
 import com.celzero.bravedns.database.ConnectionTracker
 import com.celzero.bravedns.database.RethinkLog
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.databinding.ListItemConnTrackBinding
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.FirewallRuleset
@@ -119,6 +120,13 @@ class RethinkLogAdapter(private val context: Context) :
                 log.blockedByRule
             }
             displayFirewallRulesetHint(log.isBlocked, rule)
+
+            // 白い熊 考直 UI: same packed, styled row as the network log.
+            CustomUi.packConnLogRow(b, log.ipAddress, log.port)
+            CustomUi.applyConnLogRow(
+                context, b,
+                if (blocked) CustomUi.LogStatus.BLOCKED else CustomUi.LogStatus.ALLOWED
+            )
 
             b.connectionParentLayout.setOnClickListener { openBottomSheet(log) }
         }

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): the network-log row, packed into two tight lines (0.5.8+022).
+       line 1:  time · domain (or ip:port when there is no name) · protocol pill · flag
+       line 2:  [BLOCKED tag] app · ip:port · data up/down · duration · hints
+     Every id upstream's adapters bind is still here, with the same view type, so the three adapters
+     (ConnectionTrackerAdapter, ConnectionLogAdapter, RethinkLogAdapter) compile untouched; what goes
+     where is decided by CustomUi.packConnLogRow / applyConnLogRow at bind time. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
     android:background="?attr/background"
     android:orientation="vertical">
 
@@ -12,22 +17,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/connection_status_indicator"
-            android:layout_width="1.5dp"
+            android:layout_width="3dp"
             android:layout_height="match_parent"
-            android:background="?attr/colorError"
-            android:padding="5dp" />
+            android:background="?attr/colorError" />
 
         <ImageView
             android:id="@+id/connection_app_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:alpha="0.9"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             android:contentDescription="@string/apps_icon_content_desc"
             android:src="@drawable/default_app_icon" />
 
@@ -35,271 +40,167 @@
             android:id="@+id/connection_screen_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:weightSum="1">
-
-            <!-- Fork (白い熊 考直): BLOCKED / ALLOWED tag, shown only when enabled in the 白い熊 考直 UI. -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/connection_block_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:textSize="@dimen/mini_font_text_view"
-                android:visibility="gone"
-                tools:text="BLOCKED" />
+            android:paddingTop="2dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:id="@+id/connection_name_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_response_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:textColor="?attr/primaryLightColorText"
+                    android:textSize="@dimen/default_font_text_view"
+                    tools:text="12:44:28" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_domain"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.65"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:ellipsize="middle"
+                    android:includeFontPadding="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textSize="@dimen/large_font_text_view"
+                    tools:text="supl.platform.dbankcloud.cn" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/connection_app_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:ellipsize="start"
-                        android:fontFamily="sans-serif-light"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="2"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="10dp"
-                        android:scrollHorizontally="true"
-                        android:singleLine="false"
-                        android:textAppearance="@android:style/TextAppearance.Material.Body1"
-                        android:textColor="?attr/primaryLightColorText"
-                        android:textSize="@dimen/default_font_text_view" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/conn_latency_txt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
+                    android:background="@drawable/drawable_purple_gradient"
+                    android:includeFontPadding="false"
+                    android:paddingStart="6dp"
+                    android:paddingTop="1dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="1dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/mini_font_text_view"
+                    android:textStyle="bold"
+                    tools:text="TCP" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/conn_latency_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/drawable_purple_gradient"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:singleLine="true"
-                        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                        android:textSize="@dimen/mini_font_text_view"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_flag"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:orientation="vertical">
+                    android:ellipsize="none"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:minWidth="22dp"
+                    android:paddingStart="6dp"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    tools:text="" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/connection_flag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:alpha="0.9"
-                        android:ellipsize="none"
-                        android:gravity="center"
-                        android:maxWidth="32dp"
-                        android:maxHeight="16dp"
-                        android:minWidth="16dp"
-                        android:singleLine="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:textSize="26sp"
-                        tools:text="" />
-
-                </LinearLayout>
+                <!-- upstream's expand chevron: pure decoration (the whole row opens the details
+                     sheet), and it cost a column. Kept for the binding, never shown. -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow_down"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/connection_info_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="7dp"
-                android:weightSum="1">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <!-- BLOCKED / ALLOWED tag, shown only when enabled in the 白い熊 考直 UI. -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_block_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:includeFontPadding="false"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/mini_font_text_view"
+                    android:visibility="gone"
+                    tools:text="BLOCKED" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:maxWidth="180dp"
+                    android:singleLine="true"
+                    android:textColor="?attr/primaryLightColorText"
+                    android:textSize="@dimen/default_font_text_view"
+                    tools:text="GPS" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/connection_ip_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.65"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/connection_ip_address"
-                        style="@style/TextAppearance.AppCompat.Subhead"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:ellipsize="end"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="10dp"
-                        android:textColor="?attr/primaryTextColor"
-                        android:textSize="@dimen/large_font_text_view"
-                        android:typeface="monospace" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/connection_domain"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:alpha="0.7"
-                        android:ellipsize="end"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:fontFamily="sans-serif-light"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="10dp"
-                        android:textAppearance="@android:style/TextAppearance.Material.Body1"
-                        android:textColor="?attr/primaryLightColorText"
-                        android:textSize="@dimen/default_font_text_view" />
-                </LinearLayout>
-
+                    android:layout_weight="1"
+                    android:ellipsize="middle"
+                    android:fontFamily="monospace"
+                    android:includeFontPadding="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:textColor="?attr/primaryLightColorText"
+                    android:textSize="@dimen/default_font_text_view"
+                    tools:text="80.158.109.4:7275" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/connection_summary_ll"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.20"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/connection_response_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="sans-serif-condensed"
-                        android:singleLine="true"
-                        android:textColor="?attr/primaryTextColor"
-                        android:textSize="@dimen/default_font_text_view" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.15"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_keyboard_arrow_down" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/connection_summary_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:weightSum="1">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.65"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/connection_data_usage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:ellipsize="start"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="10dp"
-                        android:scrollHorizontally="true"
-                        android:singleLine="false"
-                        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
                         android:textColor="?attr/primaryLightColorText"
-                        android:textSize="@dimen/default_font_text_view" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
+                        android:textSize="@dimen/default_font_text_view"
+                        tools:text="271 B / 15.7 KB" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/connection_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:maxLines="1"
+                        android:includeFontPadding="false"
+                        android:paddingStart="8dp"
                         android:singleLine="true"
                         android:textColor="?attr/primaryLightColorText"
-                        android:textSize="@dimen/default_font_text_view" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:orientation="vertical">
+                        android:textSize="@dimen/default_font_text_view"
+                        tools:text="5 sec" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/connection_delay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:maxHeight="16dp"
-                        android:maxLines="1"
-                        android:minWidth="16dp"
+                        android:includeFontPadding="false"
+                        android:paddingStart="6dp"
                         android:singleLine="true"
                         android:textColor="?attr/primaryTextColor"
                         android:textSize="@dimen/default_font_text_view" />
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -308,6 +209,6 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/connection_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="?attr/divider" />
 </LinearLayout>

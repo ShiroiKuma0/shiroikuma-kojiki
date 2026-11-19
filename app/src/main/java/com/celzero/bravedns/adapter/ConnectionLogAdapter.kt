@@ -38,6 +38,7 @@ import com.celzero.bravedns.database.ConnectionTracker
 import com.celzero.bravedns.database.MergedConnectionLog
 import com.celzero.bravedns.database.toConnectionTracker
 import com.celzero.bravedns.database.toRethinkLog
+import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.databinding.ListItemConnTrackBinding
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.FirewallRuleset
@@ -192,6 +193,14 @@ class ConnectionLogAdapter(private val context: Context) :
             }
             displaySummaryDetails(blocked, log)
             displayFirewallRulesetHint(blocked, rule)
+
+            // 白い熊 考直 UI: the merged (filtered) list gets the same packed, styled row as the main
+            // network log — it used to skip this and render upstream's bare row.
+            CustomUi.packConnLogRow(b, log.ipAddress, log.port)
+            CustomUi.applyConnLogRow(
+                context, b,
+                if (blocked) CustomUi.LogStatus.BLOCKED else CustomUi.LogStatus.ALLOWED
+            )
 
             b.connectionParentLayout.setOnClickListener { openBottomSheet(log) }
         }

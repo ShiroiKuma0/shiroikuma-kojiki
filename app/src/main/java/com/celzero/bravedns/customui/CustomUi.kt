@@ -814,118 +814,181 @@ object CustomUi {
     /** Whether a log row was blocked / maybe-blocked / allowed — drives the status bar + text tag. */
     enum class LogStatus { BLOCKED, MAYBE_BLOCKED, ALLOWED }
 
-    /** Style a network-log (connection tracker) row from the adapter — race-free (bind time), like
-     *  applySnoopRow. The app name / ip / domain / time / data-usage follow the global text style (with
-     *  an optional per-log size override); the app icon gets the configured size + roundness; the
-     *  protocol badge keeps its colour but takes the global font; the left status bar + optional
-     *  BLOCKED/ALLOWED tag are driven by [status]. No-op off the Custom theme. */
+    /**
+     * Fork (白い熊 考直): arrange a network-log row's two lines. Runs at the end of every bind of the
+     * three adapters that share `list_item_conn_track`, Custom theme or not, because the layout
+     * depends on it: line 1 leads with the *name*, line 2 carries the address.
+     *
+     * - the address gains its port (`80.158.109.4:7275`, `[2a00::1]:443`) — upstream shows a port only
+     *   when it can name it ("HTTPS"), and an unnamed one was nowhere on the row;
+     * - a connection with no domain would leave line 1 empty, so the address moves up into the
+     *   name's place.
+     *
+     * Both adapters set these two views on every bind, so nothing here can go stale on a recycled row.
+     */
+    fun packConnLogRow(b: ListItemConnTrackBinding, ipAddress: String, port: Int) {
+        if (port > 0 && ipAddress.isNotEmpty() && b.connectionIpAddress.text?.toString() == ipAddress) {
+            b.connectionIpAddress.text =
+                if (ipAddress.contains(':')) "[$ipAddress]:$port" else "$ipAddress:$port"
+        }
+        if (b.connectionDomain.visibility != View.VISIBLE || b.connectionDomain.text.isNullOrBlank()) {
+            b.connectionDomain.text = b.connectionIpAddress.text
+            b.connectionDomain.visibility = View.VISIBLE
+            b.connectionIpAddress.text = ""
+        }
+    }
+
+    /** Style a network-log row at bind time (race-free, like applySnoopRow) — call after
+     *  [packConnLogRow]. Line 1 is the eye's anchor: a dim tabular time, then the name in the text
+     *  colour with its registrable domain in bold and the subdomain dimmed, an outlined protocol pill
+     *  and the flag. Line 2 is smaller and dim (the Explanations colour), except the app name. A
+     *  blocked row is washed in the blocked colour as well as carrying the left bar. No-op off the
+     *  Custom theme. */
     fun applyConnLogRow(context: Context, b: ListItemConnTrackBinding, status: LogStatus) {
         if (!customThemeActive) return
         val cfg = CustomUiConfig(context)
         val g = cfg.globalStyle()
         val row = rowStyle(g, cfg.connLogTextSize)
-        b.root.setBackgroundColor(cfg.backgroundColor)
-        styleText(context, b.connectionAppName, row, row)
-        styleText(context, b.connectionIpAddress, row, row)
+        val small = smallStyle(row, g)
+        val dim = small.copy(color = cfg.noteColor)
+        b.root.setBackgroundColor(logRowBackground(cfg, status))
         styleText(context, b.connectionDomain, row, row)
-        styleText(context, b.connectionResponseTime, row, row)
-        styleText(context, b.connectionDataUsage, row, row)
-        styleText(context, b.connectionDuration, row, row)
-        styleText(context, b.connectionDelay, row, row)
-        // protocol badge keeps its purple bg + own size/colour; only the font follows the global.
-        styleFontOnly(context, b.connLatencyTxt, fontOnlyStyle(g), g)
+        highlightHost(b.connectionDomain, cfg.noteColor)
+        styleText(context, b.connectionResponseTime, row.copy(color = cfg.noteColor), row)
+        tabularDigits(b.connectionResponseTime)
+        styleText(context, b.connectionAppName, small, small)
+        styleText(context, b.connectionIpAddress, dim, dim)
+        styleText(context, b.connectionDataUsage, dim, dim)
+        styleText(context, b.connectionDuration, dim, dim)
+        styleText(context, b.connectionDelay, small, small)
+        styleLogBadge(context, b.connLatencyTxt, cfg, g)
         applyIconSizeRoundness(context, b.connectionAppIcon, cfg.connLogIconSize, cfg.connLogIconRoundness)
-        // Inter-item spacing: -1 = "Default" (restore the as-shipped 5/10dp paddings + 10dp icon
-        // margin); >= 0 = explicit dp where 0 is truly tight. Always set definite values so view
-        // recycling can't leave a stale (collapsed) row when switching back to Default.
         val density = context.resources.displayMetrics.density
-        if (cfg.connLogRowPadding >= 0) {
-            val pad = (cfg.connLogRowPadding * density).toInt()
-            setVPaddingTop(b.connectionScreenLl, pad)
-            setVPaddingBottom(b.connectionSummaryLl, pad)
-            setVMargin(b.connectionAppIcon, pad)
-        } else {
-            setVPaddingTop(b.connectionScreenLl, (5 * density).toInt())
-            setVPaddingBottom(b.connectionSummaryLl, (10 * density).toInt())
-            setVMargin(b.connectionAppIcon, (10 * density).toInt())
-        }
-        // Line spacing: -1 = Default (large flag + roomy badge + 7dp between lines); >= 0 = explicit
-        // gap between lines + a compact flag/badge so the lines can actually pack tight (0 = touching).
-        if (cfg.connLogLineSpacing >= 0) {
-            val ls = (cfg.connLogLineSpacing * density).toInt()
-            setVPaddingBottom(b.connectionNameRow, ls)
-            setVPaddingBottom(b.connectionInfoRow, ls)
-            b.connectionFlag.setTextSize(TypedValue.COMPLEX_UNIT_SP, CONN_FLAG_SP_COMPACT.toFloat())
-            setVPaddingBoth(b.connLatencyTxt, ls)
-        } else {
-            setVPaddingBottom(b.connectionNameRow, 0)
-            setVPaddingBottom(b.connectionInfoRow, (LOG_INFO_ROW_BOTTOM_DP * density).toInt())
-            b.connectionFlag.setTextSize(TypedValue.COMPLEX_UNIT_SP, CONN_FLAG_SP_DEFAULT.toFloat())
-            setVPaddingBoth(b.connLatencyTxt, (LOG_BADGE_PAD_DP * density).toInt())
-        }
+        applyLogSpacing(b.connectionScreenLl, b.connectionNameRow, cfg.connLogRowPadding, cfg.connLogLineSpacing, density)
         applyLogStatus(context, b.connectionStatusIndicator, b.connectionBlockTag, status, cfg, g)
         applyLogDivider(context, b.connectionDivider, cfg.connLogDividerWidth, cfg.connLogDividerColor, density)
     }
 
-    /** Style a DNS-log row from the adapter — race-free (bind time), like applySnoopRow. The query /
-     *  app name / time / ips / latency follow the global text style (with an optional per-log size
-     *  override); the app icon gets the configured size + roundness; the DNS-type badge keeps its
-     *  colour but takes the global font; the left status bar + optional tag are driven by [status].
-     *  No-op off the Custom theme. */
+    /** Style a DNS-log row at bind time — the same two-line scheme as [applyConnLogRow]: time · name
+     *  asked · resolver pill · flag, then app · record type · answer · latency · hints. No-op off
+     *  the Custom theme. */
     fun applyDnsLogRow(context: Context, b: ListItemDnsLogBinding, status: LogStatus) {
         if (!customThemeActive) return
         val cfg = CustomUiConfig(context)
         val g = cfg.globalStyle()
         val row = rowStyle(g, cfg.dnsLogTextSize)
-        b.root.setBackgroundColor(cfg.backgroundColor)
+        val small = smallStyle(row, g)
+        val dim = small.copy(color = cfg.noteColor)
+        b.root.setBackgroundColor(logRowBackground(cfg, status))
         styleText(context, b.dnsQuery, row, row)
-        styleText(context, b.dnsAppName, row, row)
-        styleText(context, b.dnsQueryType, row, row)
-        styleText(context, b.dnsWallTime, row, row)
-        styleText(context, b.dnsIps, row, row)
-        styleText(context, b.dnsLatency, row, row)
-        // DNS-type badge keeps its purple bg + own size/colour; only the font follows the global.
-        styleFontOnly(context, b.dnsTypeName, fontOnlyStyle(g), g)
+        highlightHost(b.dnsQuery, cfg.noteColor)
+        styleText(context, b.dnsWallTime, row.copy(color = cfg.noteColor), row)
+        tabularDigits(b.dnsWallTime)
+        styleText(context, b.dnsAppName, small, small)
+        styleText(context, b.dnsQueryType, dim, dim)
+        styleText(context, b.dnsIps, dim, dim)
+        styleText(context, b.dnsLatency, dim, dim)
+        styleText(context, b.dnsUnicodeHint, small, small)
+        styleLogBadge(context, b.dnsTypeName, cfg, g)
         applyIconSizeRoundness(context, b.dnsAppIcon, cfg.dnsLogIconSize, cfg.dnsLogIconRoundness)
-        // Inter-item spacing: -1 = "Default" (restore the as-shipped paddings + icon/flag/favicon
-        // margins); >= 0 = explicit dp where 0 is truly tight. Always set definite values so view
-        // recycling can't leave a stale (collapsed) row when switching back to Default.
         val density = context.resources.displayMetrics.density
-        if (cfg.dnsLogRowPadding >= 0) {
-            val pad = (cfg.dnsLogRowPadding * density).toInt()
-            setVPaddingTop(b.dnsScreenLl, pad)
-            setVPaddingBottom(b.dnsSummaryLl, pad)
-            setVMargin(b.dnsAppIcon, pad)
-            setVMargin(b.dnsFlag, pad)
-            setVMargin(b.dnsFavIcon, pad)
-        } else {
-            setVPaddingTop(b.dnsScreenLl, (5 * density).toInt())
-            setVPaddingBottom(b.dnsSummaryLl, (10 * density).toInt())
-            setVMargin(b.dnsAppIcon, (3 * density).toInt())
-            setVMargin(b.dnsFlag, (10 * density).toInt())
-            setVMargin(b.dnsFavIcon, (10 * density).toInt())
-        }
-        // Line spacing: -1 = Default (large 32dp flag/favicon + roomy badge + 7dp between lines); >= 0 =
-        // explicit gap between lines + compact glyphs/badge so the lines can pack tight (0 = touching).
-        if (cfg.dnsLogLineSpacing >= 0) {
-            val ls = (cfg.dnsLogLineSpacing * density).toInt()
-            setVPaddingBottom(b.dnsTypeRow, ls)
-            setVPaddingBottom(b.dnsInfoRow, ls)
-            setVPaddingBoth(b.dnsTypeName, ls)
-            b.dnsFlag.setTextSize(TypedValue.COMPLEX_UNIT_SP, DNS_FLAG_SP_COMPACT.toFloat())
-            setGlyphSize(b.dnsFlag, (DNS_GLYPH_DP_COMPACT * density).toInt())
-            setGlyphSize(b.dnsFavIcon, (DNS_GLYPH_DP_COMPACT * density).toInt())
-        } else {
-            setVPaddingBottom(b.dnsTypeRow, 0)
-            setVPaddingBottom(b.dnsInfoRow, (LOG_INFO_ROW_BOTTOM_DP * density).toInt())
-            setVPaddingBoth(b.dnsTypeName, (LOG_BADGE_PAD_DP * density).toInt())
-            b.dnsFlag.setTextSize(TypedValue.COMPLEX_UNIT_SP, DNS_FLAG_SP_DEFAULT.toFloat())
-            setGlyphSize(b.dnsFlag, (DNS_GLYPH_DP_DEFAULT * density).toInt())
-            setGlyphSize(b.dnsFavIcon, (DNS_GLYPH_DP_DEFAULT * density).toInt())
-        }
+        applyLogSpacing(b.dnsScreenLl, b.dnsTypeRow, cfg.dnsLogRowPadding, cfg.dnsLogLineSpacing, density)
         applyLogStatus(context, b.dnsStatusIndicator, b.dnsBlockTag, status, cfg, g)
         applyLogDivider(context, b.dnsDivider, cfg.dnsLogDividerWidth, cfg.dnsLogDividerColor, density)
     }
+
+    // Line 2 of a log row: three sizes down from line 1, never below 10sp.
+    private fun smallStyle(row: CustomUiConfig.TextStyle, g: CustomUiConfig.TextStyle): CustomUiConfig.TextStyle {
+        val base = if (row.size > 0) row.size else g.size
+        return if (base > 0) row.copy(size = maxOf(LOG_SMALL_MIN_SP, base - LOG_SMALL_STEP_SP)) else row
+    }
+
+    // A blocked row is washed in its status colour so a run of blocks reads as a band down the list;
+    // an allowed row keeps the plain background.
+    private fun logRowBackground(cfg: CustomUiConfig, status: LogStatus): Int {
+        val (color, share) = when (status) {
+            LogStatus.BLOCKED -> cfg.logStatusBlockedColor to 0.16f
+            LogStatus.MAYBE_BLOCKED -> cfg.logStatusMaybeColor to 0.10f
+            LogStatus.ALLOWED -> return cfg.backgroundColor
+        }
+        if (color == 0) return cfg.backgroundColor
+        val bg = cfg.backgroundColor
+        fun mix(shift: Int) =
+            (((bg shr shift) and 0xFF) * (1 - share) + ((color shr shift) and 0xFF) * share).toInt()
+        return (0xFF shl 24) or (mix(16) shl 16) or (mix(8) shl 8) or mix(0)
+    }
+
+    // Row padding (above line 1 / below line 2) and the gap between the two lines. The sliders'
+    // 0 is the tightest that still keeps the text off the separator (the rows have no font padding);
+    // -1 = "Default", one step roomier.
+    private fun applyLogSpacing(box: View, line1: View, rowPadding: Int, lineSpacing: Int, density: Float) {
+        val pad = ((if (rowPadding >= 0) LOG_ROW_PAD_BASE_DP + rowPadding else LOG_ROW_PAD_DEFAULT_DP) * density).toInt()
+        if (box.paddingTop != pad || box.paddingBottom != pad) {
+            box.setPadding(box.paddingLeft, pad, box.paddingRight, pad)
+        }
+        val gap = ((if (lineSpacing >= 0) lineSpacing else LOG_LINE_GAP_DEFAULT_DP) * density).toInt()
+        setVPaddingBottom(line1, gap)
+    }
+
+    // Digits of equal width, so the time column lines up down the list in any font.
+    private fun tabularDigits(v: TextView) {
+        if (v.fontFeatureSettings != "tnum") v.fontFeatureSettings = "tnum"
+    }
+
+    // The protocol / resolver pill: unfilled, fully round, thin frame — the black-yellow pill, at
+    // label size. Hidden when it has nothing to say rather than drawn as an empty ring.
+    private class LogBadgeOutline : GradientDrawable()
+
+    private fun styleLogBadge(context: Context, v: TextView, cfg: CustomUiConfig, g: CustomUiConfig.TextStyle) {
+        if (v.text.isNullOrEmpty()) {
+            v.visibility = View.GONE
+            return
+        }
+        v.visibility = View.VISIBLE
+        styleFontOnly(context, v, fontOnlyStyle(g), g)
+        if (v.currentTextColor != g.color) v.setTextColor(g.color)
+        val d = context.resources.displayMetrics.density
+        val bg = v.background as? LogBadgeOutline ?: LogBadgeOutline().also {
+            it.shape = GradientDrawable.RECTANGLE
+            it.cornerRadius = 100 * d
+            it.setColor(0)
+            v.background = it
+            v.setPadding((6 * d).toInt(), (1 * d).toInt(), (6 * d).toInt(), (1 * d).toInt())
+        }
+        bg.setStroke(maxOf(1, (1.25f * d).toInt()), cfg.noteColor)
+    }
+
+    // Make the part of a host name that identifies its owner stand out: the registrable domain in
+    // bold, everything left of it dimmed — `supl.platform.` dim, `dbankcloud.cn` bold. Addresses and
+    // anything that is not a dotted name are left alone.
+    private fun highlightHost(v: TextView, dimColor: Int) {
+        val s = v.text?.toString() ?: return
+        val cut = registrableStart(s)
+        if (cut <= 0) return
+        val sp = SpannableStringBuilder(s)
+        sp.setSpan(ForegroundColorSpan(dimColor), 0, cut, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        sp.setSpan(StyleSpan(Typeface.BOLD), cut, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        v.text = sp
+    }
+
+    // Index where the registrable domain starts, or -1. No public-suffix list: two labels, or three
+    // when the last is a country code under a generic second level (`bbc.co.uk`, `nhk.or.jp`).
+    private fun registrableStart(host: String): Int {
+        if (host.isEmpty() || host.contains(':') || host.contains(' ') || host.none { it.isLetter() }) return -1
+        val h = host.trimEnd('.')
+        val labels = h.split('.')
+        if (labels.size < 3) return -1
+        val keep = if (labels.last().length == 2 && labels[labels.size - 2] in GENERIC_SECOND_LEVELS) 3 else 2
+        if (labels.size <= keep) return -1
+        return h.length - labels.takeLast(keep).sumOf { it.length } - (keep - 1)
+    }
+
+    private val GENERIC_SECOND_LEVELS = setOf("co", "com", "org", "net", "ac", "gov", "edu", "or", "ne", "go")
+    private const val LOG_SMALL_STEP_SP = 3
+    private const val LOG_SMALL_MIN_SP = 10
+    private const val LOG_ROW_PAD_BASE_DP = 2
+    private const val LOG_ROW_PAD_DEFAULT_DP = 4
+    private const val LOG_LINE_GAP_DEFAULT_DP = 1
 
     // Vertical-padding / vertical-margin setters used to collapse a log row's fixed spacing (so the
     // inter-item-spacing slider can reach a truly tight 0). Equality-guarded against relayout churn.
@@ -967,40 +1030,12 @@ object CustomUi {
             setHeight(divider, (width * density).toInt())
             divider.setBackgroundColor(color)
         } else {
-            // Default: the custom theme's as-shipped 1dp divider. Upstream dropped the hardcoded
-            // dividerBlack (#1C1C1C) on the v0.5.6 base when it moved dividers onto the Material 3
-            // ?attr/colorSurfaceVariant; use our own near-identical fork colour so a future rebase
-            // cannot take it away again.
-            setHeight(divider, (1 * density).toInt())
-            divider.setBackgroundColor(ContextCompat.getColor(context, R.color.kojikiSurfaceVariant))
+            // Default: a one-pixel hairline in the dim Explanations colour — visible on black,
+            // thinner than any whole-dp setting.
+            setHeight(divider, 1)
+            divider.setBackgroundColor(CustomUiConfig(context).noteColor)
         }
     }
-
-    // Force a (square) view's size — used to compact the DNS country-flag / favicon glyphs so a tight
-    // line spacing can actually shrink the row. Also pins the TextView min/max so android:minWidth etc.
-    // in the layout can't keep it large.
-    private fun setGlyphSize(v: View, px: Int) {
-        val lp = v.layoutParams
-        if (lp != null && (lp.width != px || lp.height != px)) {
-            lp.width = px
-            lp.height = px
-            v.layoutParams = lp
-        }
-        if (v is TextView) {
-            v.minWidth = px; v.minHeight = px; v.maxWidth = px; v.maxHeight = px
-        }
-    }
-
-    // Tall decorative elements in a log row, compacted when line spacing is explicit, restored at
-    // "Default". The default values mirror the row layouts (so Default = as-shipped).
-    private const val CONN_FLAG_SP_DEFAULT = 26
-    private const val CONN_FLAG_SP_COMPACT = 16
-    private const val DNS_FLAG_SP_DEFAULT = 25
-    private const val DNS_FLAG_SP_COMPACT = 16
-    private const val DNS_GLYPH_DP_DEFAULT = 32
-    private const val DNS_GLYPH_DP_COMPACT = 22
-    private const val LOG_INFO_ROW_BOTTOM_DP = 7 // row2 paddingBottom as shipped
-    private const val LOG_BADGE_PAD_DP = 5       // protocol/type badge padding as shipped
 
     // The left status bar + the optional BLOCKED/MAYBE/ALLOWED text tag, both keyed off the row's
     // status. Overrides the adapter's default bar (run after it at bind time, under the Custom theme).

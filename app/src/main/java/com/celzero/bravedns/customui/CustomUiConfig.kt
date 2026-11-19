@@ -40,6 +40,23 @@ class CustomUiConfig(context: Context) {
     init {
         seedDefaults()
         migratePureYellow()
+        migrateCompactLogRows()
+    }
+
+    /**
+     * One-shot (0.5.8+022): the log rows became two tight lines, about 40 dp tall. The app icon used
+     * to be seeded at 70 dp — fine in the old three-line row, but in the new one it alone would set
+     * the row height and undo the packing. Any stored log icon size above [LOG_ICON_COMPACT_MAX_DP]
+     * (or "layout's own") is brought down to [LOG_ICON_COMPACT_DP]; the slider still goes higher for
+     * whoever wants that back.
+     */
+    private fun migrateCompactLogRows() {
+        if (prefs.getBoolean(KEY_LOG_ROWS_COMPACT, false)) return
+        val e = prefs.edit()
+        for (k in listOf(KEY_CONN_LOG_ICON_SIZE, KEY_DNS_LOG_ICON_SIZE)) {
+            if (prefs.getInt(k, 0) > LOG_ICON_COMPACT_MAX_DP) e.putInt(k, LOG_ICON_COMPACT_DP)
+        }
+        e.putBoolean(KEY_LOG_ROWS_COMPACT, true).apply()
     }
 
     private fun int(key: String, def: Int) = prefs.getInt(key, def)
@@ -282,12 +299,12 @@ class CustomUiConfig(context: Context) {
             KEY_SNOOP_STATE_ALLOWED to PALETTE_YELLOW,
             KEY_SNOOP_STATE_BLOCKED to 0xFFFF0000.toInt(),
             "kojiki_snoop_pill_color" to PALETTE_YELLOW,
-            KEY_CONN_LOG_ICON_SIZE to 70,
+            KEY_CONN_LOG_ICON_SIZE to LOG_ICON_COMPACT_DP,
             KEY_CONN_LOG_TEXT to 16,
             KEY_CONN_LOG_ROW_PADDING to 0,
             KEY_CONN_LOG_LINE to 0,
             KEY_CONN_LOG_DIV_W to 1,
-            KEY_DNS_LOG_ICON_SIZE to 70,
+            KEY_DNS_LOG_ICON_SIZE to LOG_ICON_COMPACT_DP,
             KEY_DNS_LOG_TEXT to 15,
             KEY_DNS_LOG_ROW_PADDING to 0,
             KEY_DNS_LOG_LINE to 0,
@@ -370,6 +387,9 @@ class CustomUiConfig(context: Context) {
         private const val KEY_SNOOP_TAG_BORDER_W = "kojiki_snoop_tag_border_w"
         private const val KEY_CONN_LOG_ICON_SIZE = "kojiki_conn_log_icon_size"
         private const val KEY_CONN_LOG_ICON_ROUND = "kojiki_conn_log_icon_round"
+        private const val KEY_LOG_ROWS_COMPACT = "kojiki_log_rows_compact"
+        private const val LOG_ICON_COMPACT_DP = 28
+        private const val LOG_ICON_COMPACT_MAX_DP = 36
         private const val KEY_CONN_LOG_ROW_PADDING = "kojiki_conn_log_row_padding"
         private const val KEY_DNS_LOG_ICON_SIZE = "kojiki_dns_log_icon_size"
         private const val KEY_DNS_LOG_ICON_ROUND = "kojiki_dns_log_icon_round"
