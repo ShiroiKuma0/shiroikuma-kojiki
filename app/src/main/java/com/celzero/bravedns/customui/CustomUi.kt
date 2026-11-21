@@ -236,8 +236,8 @@ object CustomUi {
         activity.window.setBackgroundDrawable(ColorDrawable(cfg.backgroundColor))
         // Paint the system status + navigation bars the configured background (black by default), so
         // they don't inherit the parent true-black theme's tinted (brown/olive) bar colour.
-        activity.window.statusBarColor = cfg.backgroundColor
-        activity.window.navigationBarColor = cfg.backgroundColor
+        activity.window.statusBarColor = KojikiRoles.color(activity, "status_bar")
+        activity.window.navigationBarColor = KojikiRoles.color(activity, "navigation_bar")
 
         val content = activity.findViewById<View>(android.R.id.content) ?: return
         // The theme's ?attr/background colour — views painted with it (firewall rows, the home root,
@@ -268,6 +268,21 @@ object CustomUi {
      * its own window). Call it after the content is built AND after any dynamically-added children
      * (e.g. chips remade on a filter change). No-op off the Custom theme.
      */
+    /**
+     * [applyToDialogTree] now and again on every layout of [root] — for a sheet or a dialog whose
+     * rows arrive after it is shown. The listener holds [root] only; it dies with the view tree.
+     */
+    fun watchDialogTree(root: View) {
+        if (!customThemeActive) return
+        applyToDialogTree(root)
+        if (root in layoutListeners) return
+        val vto = root.viewTreeObserver
+        if (!vto.isAlive) return
+        layoutListeners.add(root)
+        val ref = java.lang.ref.WeakReference(root)
+        vto.addOnGlobalLayoutListener { ref.get()?.let { applyToDialogTree(it) } }
+    }
+
     fun applyToDialogTree(root: View) {
         if (!customThemeActive) return
         val ctx = root.context
@@ -279,6 +294,8 @@ object CustomUi {
         // Opt-out: leave this view (and its subtree) exactly as set by its owner — e.g. the
         // 白い熊 考直 UI preview widgets, which drive their own pill/status size.
         if (v.tag == NO_RESTYLE_TAG) return
+        // the leading icon of a row upstream left without one (KojikiRowIcons)
+        if (v is ViewGroup) KojikiRowIcons.apply(v)
         when (v) {
             // Material containers carry the tonal "surface tint" (= colorPrimary = yellow) that turns
             // elevated surfaces olive. Force their fill to the background colour and zero their
@@ -320,7 +337,7 @@ object CustomUi {
             is Toolbar -> setSolidBg(v, cfg.backgroundColor)
             // Material on/off switches (SwitchMaterial ⊂ SwitchCompat ⊂ TextView) — must precede the
             // TextView branch. Their style pins a blue tint, so recolour the thumb/track here.
-            is SwitchCompat -> applySwitchTint(v, cfg.switchColor)
+            is SwitchCompat -> KojikiPills.switch(v)
             // Extended FABs (WG create/qr/import speed-dial): invert — background-coloured fill with an
             // accent ring + accent text/icon, so the accent-on-accent content is readable.
             is ExtendedFloatingActionButton -> styleAccentFab(context, v, cfg)
@@ -340,6 +357,11 @@ object CustomUi {
             // Filter chips: selected = accent fill + on-accent text; unselected = background fill + accent
             // text + accent border (state-keyed, so it tracks selection without a re-walk).
             is Chip -> styleChip(context, v, cfg, global)
+            // radio buttons and check boxes: selection marks, tinted from their own roles
+            is android.widget.CompoundButton -> {
+                KojikiPills.mark(v)
+                styleText(context, v, global, global)
+            }
             is TextView -> when (v.id) {
                 // Firewall app-list rows (name / status / traffic) are styled by FirewallAppListAdapter
                 // at bind time — reliable + type-aware (user vs system). The tree-walk races with their
@@ -379,6 +401,8 @@ object CustomUi {
                 // Firewall row icon + wifi/data toggles are styled by FirewallAppListAdapter at bind time.
                 // The network/DNS-log app icons get their size/roundness from their adapters at bind time.
                 R.id.firewall_app_icon_iv, R.id.firewall_app_toggle_wifi, R.id.firewall_app_toggle_mobile_data,
+                // The Roaming toggle tints itself by state (KojikiToggleBadge.roaming).
+                R.id.firewall_app_toggle_roaming, R.id.ffa_toggle_all_roaming,
                 // The per-app note glyph carries state in its tint (accent = has a note, dimmed = "+"),
                 // set by KojikiAppNotes.styleGlyph at bind time — a flat accent tint here would erase it.
                 R.id.firewall_app_note_iv,
@@ -394,7 +418,8 @@ object CustomUi {
                     val smallVector = d != null &&
                             d.javaClass.simpleName.contains("Vector", ignoreCase = true) &&
                             v.width <= iconMaxPx && v.height <= iconMaxPx
-                    if (smallVector) v.setColorFilter(cfg.accentColor) else v.clearColorFilter()
+                    // an icon is coloured by what its row does (KojikiPills.roleForName)
+                    if (smallVector) v.setColorFilter(KojikiPills.iconColor(v)) else v.clearColorFilter()
                 }
             }
         }
@@ -444,18 +469,20 @@ object CustomUi {
     private fun styleMaterialButton(
         context: Context, v: MaterialButton, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
     ) {
-        if (!v.isCheckable) { styleActionButton(context, v, cfg, global); return }
-        val acc = cfg.accentColor
-        val onAcc = onColorFor(acc)
-        val st = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
-        v.backgroundTintList = ColorStateList(st, intArrayOf(acc, cfg.backgroundColor))
-        v.setTextColor(ColorStateList(st, intArrayOf(onAcc, acc)))
-        v.iconTint = ColorStateList(st, intArrayOf(onAcc, acc))
-        v.strokeColor = ColorStateList.valueOf(acc)
-        val sp = (1 * context.resources.displayMetrics.density).toInt()
-        if (v.strokeWidth != sp) v.strokeWidth = sp
-        val tf = typefaceFor(context, global.family, global.weight, global.italic)
-        if (v.typeface !== tf) v.typeface = tf
+        // A checkable button is a segment of a selector — a selection mark, whose fill may show the
+        // selected one. Every other button is an action: an outlined pill, never filled.
+        if (v.isCheckable) {
+            KojikiPills.segment(v)
+            val tf = typefaceFor(context, global.family, global.weight, global.italic)
+            if (v.typeface !== tf) v.typeface = tf
+            return
+        }
+        KojikiPills.button(v)
+        val sp = if (global.size > 0) global.size else 0
+        if (sp > 0) {
+            val px = sp * context.resources.displayMetrics.scaledDensity
+            if (kotlin.math.abs(v.textSize - px) > 0.5f) v.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
+        }
     }
 
     // A plain (non-checkable) MaterialButton — the sheets' Clear/Apply, the dialogs' actions. Material
@@ -475,53 +502,21 @@ object CustomUi {
     // stroke/radius are still set for the case where the helper *is* live, which keeps the black fill
     // aligned with the border box. Buttons whose background tint is transparent (text buttons) keep their
     // flat look; only their colours follow the accent, else every text link in the app would grow a box.
-    private fun styleActionButton(
-        context: Context, v: MaterialButton, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
-    ) {
-        val acc = cfg.accentColor
-        val d = context.resources.displayMetrics.density
-        val tf = typefaceFor(context, global.family, maxOf(global.weight, SEMIBOLD_WEIGHT), global.italic)
-        if (v.typeface !== tf) v.typeface = tf
-        if (v.currentTextColor != acc) v.setTextColor(acc)
-        v.iconTint = ColorStateList.valueOf(acc)
-        val sp = if (global.size > 0) global.size else 0
-        if (sp > 0) {
-            val px = sp * context.resources.displayMetrics.scaledDensity
-            if (kotlin.math.abs(v.textSize - px) > 0.5f) v.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
-        }
-        // Transparent tint = a text button; leave it flat (idempotent: once filled, it stays filled).
-        val tint = v.backgroundTintList
-        if (tint != null && (tint.defaultColor ushr 24) == 0) return
-        v.backgroundTintList = ColorStateList.valueOf(cfg.backgroundColor)
-        val sw = (3 * d).toInt()
-        val r = 8 * d
-        v.strokeColor = ColorStateList.valueOf(acc)
-        if (v.strokeWidth != sw) v.strokeWidth = sw
-        if (v.cornerRadius != r.toInt()) v.cornerRadius = r.toInt()
-        // Material's 6dp top/bottom insets would leave the border box taller than the fill; drop them so
-        // the two coincide (a no-op when the helper is dead, which is exactly when the fill is full-bleed).
-        if (v.insetTop != 0) v.insetTop = 0
-        if (v.insetBottom != 0) v.insetBottom = 0
-        if (v.elevation != 0f) v.elevation = 0f
-        val ring = v.foreground as? GradientDrawable
-            ?: GradientDrawable().also { v.foreground = it }
-        ring.shape = GradientDrawable.RECTANGLE
-        ring.cornerRadius = r
-        ring.setColor(0x00000000)
-        ring.setStroke(sw, acc)
-    }
 
     // Filter Chip: checked = accent fill + on-accent text/check; unchecked = background fill + accent text
     // + accent border. State-keyed colour lists, so selecting/deselecting flips the colours with no re-walk.
     private fun styleChip(
         context: Context, v: Chip, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
     ) {
-        val acc = cfg.accentColor
-        val onAcc = onColorFor(acc)
+        // A chip is a selection control: the fill marks the selected one.
+        val acc = KojikiRoles.color(context, "chip_selected_ground")
+        val onAcc = KojikiRoles.color(context, "chip_selected_label")
+        val frame = KojikiRoles.color(context, "chip_frame")
         val st = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
-        v.chipBackgroundColor = ColorStateList(st, intArrayOf(acc, cfg.backgroundColor))
-        v.setTextColor(ColorStateList(st, intArrayOf(onAcc, acc)))
-        v.chipStrokeColor = ColorStateList.valueOf(acc)
+        v.chipBackgroundColor =
+            ColorStateList(st, intArrayOf(acc, KojikiRoles.color(context, "chip_ground")))
+        v.setTextColor(ColorStateList(st, intArrayOf(onAcc, frame)))
+        v.chipStrokeColor = ColorStateList.valueOf(frame)
         val sw = 1 * context.resources.displayMetrics.density
         if (v.chipStrokeWidth != sw) v.chipStrokeWidth = sw
         v.checkedIconTint = ColorStateList.valueOf(onAcc)
@@ -533,29 +528,26 @@ object CustomUi {
     // content, so the accent-on-accent "+"/label is readable. A plain FAB has no stroke API, so its ring
     // is a foreground oval; the extended FAB uses its native stroke.
     private fun styleAccentFab(context: Context, v: View, cfg: CustomUiConfig) {
-        val acc = cfg.accentColor
-        val bg = cfg.backgroundColor
+        val ringColor = KojikiRoles.color(context, "fab_ring")
+        val glyph = KojikiRoles.color(context, "fab_glyph")
+        val bg = KojikiRoles.color(context, "fab_ground")
         val ringPx = (2 * context.resources.displayMetrics.density).toInt()
         when (v) {
             is ExtendedFloatingActionButton -> {
                 v.backgroundTintList = ColorStateList.valueOf(bg)
-                v.setTextColor(acc)
-                v.iconTint = ColorStateList.valueOf(acc)
-                v.strokeColor = ColorStateList.valueOf(acc)
+                v.setTextColor(glyph)
+                v.iconTint = ColorStateList.valueOf(glyph)
+                v.strokeColor = ColorStateList.valueOf(ringColor)
                 if (v.strokeWidth != ringPx) v.strokeWidth = ringPx
             }
             is FloatingActionButton -> {
                 v.backgroundTintList = ColorStateList.valueOf(bg)
-                v.setColorFilter(acc)
-                if (v.foreground !is GradientDrawable) {
-                    v.foreground = GradientDrawable().apply {
-                        shape = GradientDrawable.OVAL
-                        setColor(0x00000000)
-                        setStroke(ringPx, acc)
-                    }
-                } else {
-                    (v.foreground as GradientDrawable).setStroke(ringPx, acc)
-                }
+                v.setColorFilter(glyph)
+                val ring = v.foreground as? GradientDrawable
+                    ?: GradientDrawable().also { v.foreground = it }
+                ring.shape = GradientDrawable.OVAL
+                ring.setColor(0x00000000)
+                ring.setStroke(ringPx, ringColor)
             }
         }
     }
@@ -568,23 +560,24 @@ object CustomUi {
     private fun styleHomeButton(
         context: Context, v: TextView, cfg: CustomUiConfig, global: CustomUiConfig.TextStyle
     ) {
-        val acc = cfg.accentColor
+        // START / STOP is the home screen's main action: a main pill — 3 dp, bold, never filled.
+        val acc = KojikiRoles.color(context, "button_main_frame")
+        val label = KojikiRoles.color(context, "button_main_label")
         val d = context.resources.displayMetrics.density
-        val tf = typefaceFor(context, global.family, global.weight, global.italic)
+        val tf = typefaceFor(context, global.family, maxOf(global.weight, 700), global.italic)
         if (v.typeface !== tf) v.typeface = tf
-        if (v.currentTextColor != acc) v.setTextColor(acc)
-        TextViewCompat.setCompoundDrawableTintList(v, ColorStateList.valueOf(acc))
-        v.backgroundTintList = ColorStateList.valueOf(cfg.backgroundColor)
-        if (v.foreground !is GradientDrawable) {
-            v.foreground = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = 16 * d
-                setColor(0x00000000)
-                setStroke((1.5f * d).toInt(), acc)
-            }
-        } else {
-            (v.foreground as GradientDrawable).setStroke((1.5f * d).toInt(), acc)
+        if (v.currentTextColor != label) v.setTextColor(label)
+        TextViewCompat.setCompoundDrawableTintList(v, ColorStateList.valueOf(label))
+        v.backgroundTintList = ColorStateList.valueOf(KojikiRoles.color(context, "button_ground"))
+        if (v is MaterialButton) {
+            if (v.cornerRadius != (100 * d).toInt()) v.cornerRadius = (100 * d).toInt()
+            if (v.strokeWidth != 0) v.strokeWidth = 0
         }
+        val ring = v.foreground as? GradientDrawable ?: GradientDrawable().also { v.foreground = it }
+        ring.shape = GradientDrawable.RECTANGLE
+        ring.cornerRadius = 100 * d
+        ring.setColor(0x00000000)
+        ring.setStroke((3 * d).toInt(), acc)
     }
 
     // WG SIMPLE/ADVANCED toggle (WgMainActivity drives selection itself, restyling on every tap): selected
@@ -592,14 +585,16 @@ object CustomUi {
     // from the activity's select/unselect helpers when the Custom theme is active, so it survives taps
     // (the tree-walk skips these two buttons). Public so the activity can reach it.
     fun styleToggleButton(button: MaterialButton, selected: Boolean) {
-        val cfg = CustomUiConfig(button.context)
-        val acc = cfg.accentColor
-        val d = button.context.resources.displayMetrics.density
+        val c = button.context
+        val acc = KojikiRoles.color(c, "toggle_on_ground")
+        val on = KojikiRoles.color(c, "toggle_on_label")
+        val off = KojikiRoles.color(c, "button_label")
+        val d = c.resources.displayMetrics.density
         button.backgroundTintList =
-            ColorStateList.valueOf(if (selected) acc else cfg.backgroundColor)
-        button.setTextColor(if (selected) onColorFor(acc) else acc)
-        button.iconTint = ColorStateList.valueOf(if (selected) onColorFor(acc) else acc)
-        button.strokeColor = ColorStateList.valueOf(acc)
+            ColorStateList.valueOf(if (selected) acc else KojikiRoles.color(c, "toggle_off_ground"))
+        button.setTextColor(if (selected) on else off)
+        button.iconTint = ColorStateList.valueOf(if (selected) on else off)
+        button.strokeColor = ColorStateList.valueOf(KojikiRoles.color(c, "button_frame"))
         button.strokeWidth = (1 * d).toInt()
     }
 
@@ -1122,95 +1117,186 @@ object CustomUi {
     }
 
     /** A themed dropdown menu item. id is returned to the caller on selection. */
-    data class MenuItem(val id: Int, val title: String, val checked: Boolean = false)
+    /**
+     * One row of [showMenu]. A menu in which any row carries an [icon] is an **action menu**: every
+     * row is a full-width outlined pill with its icon inside at the left, coloured by [role] (what
+     * the row does), a › at the right when it [opens] something, and frame, icon and label in the
+     * warning red when it is [danger]. A menu with no icons at all is a pure **choice list** (a
+     * sort order, a filter): plain rows, the current one marked with a ✓.
+     */
+    data class MenuItem(
+        val id: Int,
+        val title: String,
+        val checked: Boolean = false,
+        val icon: Int = 0,
+        val role: String = "icon_view",
+        val opens: Boolean = false,
+        val danger: Boolean = false,
+        val dividerBefore: Boolean = false
+    )
 
-    /** Show a popup menu themed by the 白い熊 考直 UI: configurable accent border (colour + thickness),
-     *  surface fill, and item text colour + font. Off the Custom theme it falls back to the activity
-     *  theme's colours and no border. Replaces android.widget.PopupMenu so the border/colour/font can be
-     *  driven dynamically from config (a static menu style can't). */
+    /**
+     * Show a popup menu in the black-yellow menu look (see [MenuItem]). Off the Custom theme it
+     * keeps the activity theme's colours. The menu is shifted up by what is missing below its
+     * anchor, so it does not scroll while the screen has room.
+     */
     fun showMenu(anchor: View, items: List<MenuItem>, onSelect: (Int) -> Unit) {
         val ctx = anchor.context
         val cfg = CustomUiConfig(ctx)
         val active = customThemeActive
-        val density = ctx.resources.displayMetrics.density
+        val d = ctx.resources.displayMetrics.density
+        fun dp(v: Float) = (v * d + 0.5f).toInt()
         val global = cfg.globalStyle()
         val menuStyle = cfg.styleOf(CustomUiConfig.P_SNOOP_MENU, CustomUiConfig.PALETTE_YELLOW)
-        val textColor =
-            if (active) menuStyle.color else resolveThemeColor(ctx, android.R.attr.textColorPrimary)
+        val labelColor =
+            if (active) KojikiRoles.color(ctx, "menu_label")
+            else resolveThemeColor(ctx, android.R.attr.textColorPrimary)
+        val dangerColor = if (active) KojikiRoles.color(ctx, "menu_danger") else 0xFFFF0000.toInt()
         val bgColor =
-            if (active) cfg.surfaceColor else resolveThemeColor(ctx, android.R.attr.colorBackground)
+            if (active) KojikiRoles.color(ctx, "menu_ground")
+            else resolveThemeColor(ctx, android.R.attr.colorBackground)
+        val actions = items.any { it.icon != 0 }
 
-        val bg = GradientDrawable().apply {
-            cornerRadius = 10f * density
-            setColor(bgColor)
-            if (active && cfg.menuBorderWidth > 0) {
-                setStroke((cfg.menuBorderWidth * density).toInt(), cfg.menuBorderColor)
+        fun styleLabel(tv: TextView, color: Int) {
+            tv.setTextColor(color)
+            tv.textSize = 15f
+            if (active) {
+                val family = menuStyle.family.ifEmpty { global.family }
+                val weight = if (menuStyle.weight > 0) menuStyle.weight else global.weight
+                tv.typeface = typefaceFor(ctx, family, weight, menuStyle.italic)
+                val sp = if (menuStyle.size > 0) menuStyle.size else global.size
+                if (sp > 0) tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
             }
         }
 
-        val adapter = object : ArrayAdapter<MenuItem>(ctx, 0, items) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val tv = (convertView as? TextView) ?: TextView(ctx).apply {
-                    // LayoutParams are required: setText() reuses the view across the measure pass and
-                    // calls checkForRelayout(), which dereferences layoutParams.width (NPE if null).
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    val ph = (16 * density).toInt()
-                    val pv = (12 * density).toInt()
-                    setPadding(ph, pv, ph, pv)
+        val column = android.widget.LinearLayout(ctx).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(0, dp(5f), 0, dp(5f))
+        }
+        val scroll = android.widget.ScrollView(ctx).apply { addView(column) }
+        val popup = android.widget.PopupWindow(ctx)
+
+        for (item in items) {
+            if (item.dividerBefore) {
+                column.addView(
+                    View(ctx).apply {
+                        setBackgroundColor(
+                            if (active) KojikiRoles.color(ctx, "group_divider") else labelColor)
+                    },
+                    android.widget.LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, dp(1f).coerceAtLeast(1)).also {
+                        it.setMargins(dp(8f), dp(4f), dp(8f), dp(4f))
+                    })
+            }
+            val color = if (item.danger) dangerColor else labelColor
+            val row = android.widget.LinearLayout(ctx).apply {
+                orientation = android.widget.LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                isClickable = true
+                setOnClickListener {
+                    popup.dismiss()
+                    onSelect(item.id)
                 }
-                val item = items[position]
-                tv.text = if (item.checked) "✓  ${item.title}" else " ${item.title}"
-                tv.setTextColor(textColor)
-                if (active) {
-                    val family = menuStyle.family.ifEmpty { global.family }
-                    val weight = if (menuStyle.weight > 0) menuStyle.weight else global.weight
-                    tv.typeface = typefaceFor(ctx, family, weight, menuStyle.italic)
-                    val sp = if (menuStyle.size > 0) menuStyle.size else global.size
-                    if (sp > 0) tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp.toFloat())
+            }
+            if (actions) {
+                row.minimumHeight = dp(42f)
+                row.setPadding(dp(14f), dp(6f), dp(14f), dp(6f))
+                val frame = GradientDrawable().apply {
+                    cornerRadius = 100 * d
+                    setColor(0x00000000)
+                    setStroke(dp(1.25f).coerceAtLeast(1), color)
                 }
-                return tv
+                row.background =
+                    android.graphics.drawable.RippleDrawable(
+                        ColorStateList.valueOf(KojikiRoles.al(color, 0.3f)), frame, null)
+                // one icon column, so the labels share one left edge even where an icon is missing
+                row.addView(
+                    ImageView(ctx).apply {
+                        if (item.icon != 0) {
+                            setImageDrawable(
+                                androidx.appcompat.content.res.AppCompatResources
+                                    .getDrawable(ctx, item.icon)?.mutate())
+                            setColorFilter(
+                                if (item.danger) dangerColor
+                                else if (active) KojikiRoles.color(ctx, item.role) else labelColor)
+                        }
+                    },
+                    android.widget.LinearLayout.LayoutParams(dp(20f), dp(20f)).also {
+                        it.marginEnd = dp(12f)
+                    })
+                row.addView(
+                    TextView(ctx).apply {
+                        text = item.title
+                        styleLabel(this, color)
+                    },
+                    android.widget.LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+                if (item.opens) {
+                    row.addView(
+                        TextView(ctx).apply {
+                            text = "\u203A"
+                            setTextColor(color)
+                            textSize = 20f
+                            includeFontPadding = false
+                            setPadding(dp(10f), 0, 0, 0)
+                        })
+                }
+                column.addView(
+                    row,
+                    android.widget.LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).also {
+                        it.setMargins(dp(8f), dp(3f), dp(8f), dp(3f))
+                    })
+            } else {
+                row.setPadding(dp(16f), dp(10f), dp(16f), dp(10f))
+                row.addView(
+                    TextView(ctx).apply {
+                        text = if (item.checked) "\u2713" else ""
+                        styleLabel(this, color)
+                        minWidth = dp(24f)
+                    })
+                row.addView(
+                    TextView(ctx).apply {
+                        text = item.title
+                        styleLabel(this, color)
+                        if (item.checked) setTypeface(typeface, Typeface.BOLD)
+                    })
+                column.addView(row)
             }
         }
 
-        val lpw = ListPopupWindow(ctx)
-        lpw.anchorView = anchor
-        lpw.setBackgroundDrawable(bg)
-        lpw.isModal = true
-        lpw.setAdapter(adapter)
-        lpw.width = measureMenuWidth(ctx, adapter, density)
-        lpw.setOnItemClickListener { _, _, pos, _ ->
-            lpw.dismiss()
-            onSelect(items[pos].id)
-        }
-        lpw.show()
-    }
+        val screen = android.graphics.Rect()
+        anchor.getWindowVisibleDisplayFrame(screen)
+        val unspecified = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        column.measure(unspecified, unspecified)
+        val width =
+            (column.measuredWidth + dp(28f)).coerceIn(dp(200f), (screen.width() * 0.9f).toInt())
+        column.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), unspecified)
+        val wanted = column.measuredHeight
+        val height = minOf(wanted, screen.height() - dp(16f))
+        val at = IntArray(2)
+        anchor.getLocationOnScreen(at)
+        val below = screen.bottom - (at[1] + anchor.height) - dp(8f)
+        // a stock popup gets only the room below its anchor and scrolls with half the screen free
+        val shiftUp = if (height > below) -(height - below) else 0
 
-    private fun measureMenuWidth(context: Context, adapter: ArrayAdapter<MenuItem>, density: Float): Int {
-        var max = (160 * density).toInt()
-        val parent = FrameLayout(context)
-        val spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        var convert: View? = null
-        for (i in 0 until adapter.count) {
-            convert = adapter.getView(i, convert, parent)
-            convert.measure(spec, spec)
-            if (convert.measuredWidth > max) max = convert.measuredWidth
-        }
-        val cap = (context.resources.displayMetrics.widthPixels * 0.9f).toInt()
-        return minOf(max + (24 * density).toInt(), cap)
+        popup.contentView = scroll
+        popup.width = width
+        popup.height = height
+        popup.isFocusable = true
+        popup.isOutsideTouchable = true
+        popup.elevation = 8 * d
+        popup.setBackgroundDrawable(
+            GradientDrawable().apply {
+                cornerRadius = 12f * d
+                setColor(bgColor)
+                if (active && cfg.menuBorderWidth > 0) {
+                    setStroke((cfg.menuBorderWidth * d).toInt(), cfg.menuBorderColor)
+                }
+            })
+        popup.showAsDropDown(anchor, 0, shiftUp)
     }
 
     // Tint a Material on/off switch: checked = the configured switch colour, unchecked = grey.
-    private fun applySwitchTint(v: SwitchCompat, color: Int) {
-        val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
-        val offThumb = 0xFF9E9E9E.toInt()
-        val trackOn = (color and 0x00FFFFFF) or (0x66 shl 24)
-        val trackOff = 0x619E9E9E
-        v.thumbTintList = ColorStateList(states, intArrayOf(color, offThumb))
-        v.trackTintList = ColorStateList(states, intArrayOf(trackOn, trackOff))
-    }
 
     // Resolve a theme colour attribute (e.g. R.attr.background) to an int, following a colour reference.
     private fun resolveThemeColor(context: Context, attr: Int): Int {
@@ -1307,9 +1393,10 @@ object CustomUi {
         val d = v.resources.displayMetrics.density
         val radius = DIALOG_BOX_RADIUS_DP * d
         val stroke = maxOf(2, (DIALOG_BOX_STROKE_DP * d).toInt())
-        val border = if (cfg.cardBorderColor != 0) cfg.cardBorderColor else cfg.accentColor
+        val border = KojikiRoles.color(v.context, "dialog_frame")
+        val ground = KojikiRoles.color(v.context, "dialog_ground")
         if (v is MaterialCardView) {
-            v.setCardBackgroundColor(cfg.backgroundColor)
+            v.setCardBackgroundColor(ground)
             v.cardElevation = 0f
             v.maxCardElevation = 0f
             v.useCompatPadding = false
@@ -1320,7 +1407,7 @@ object CustomUi {
         }
         v.background = GradientDrawable().apply {
             cornerRadius = radius
-            setColor(cfg.backgroundColor)
+            setColor(ground)
         }
         v.foreground = GradientDrawable().apply {
             cornerRadius = radius
@@ -1383,7 +1470,7 @@ object CustomUi {
         // instead (see ExportImportBottomSheet). This just kills the Material grey/elevation behind it.
         sheet.background = GradientDrawable().apply {
             cornerRadii = floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f)
-            setColor(cfg.backgroundColor)
+            setColor(KojikiRoles.color(dialog.context, "sheet_ground"))
         }
         sheet.invalidate()
     }

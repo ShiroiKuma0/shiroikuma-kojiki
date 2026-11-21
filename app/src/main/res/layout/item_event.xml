@@ -62,7 +62,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-            android:textColor="@android:color/white"
+            android:textColor="@color/kj_lit_on_dark"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/event_type_chip"
             app:layout_constraintStart_toEndOf="@id/event_type_chip"

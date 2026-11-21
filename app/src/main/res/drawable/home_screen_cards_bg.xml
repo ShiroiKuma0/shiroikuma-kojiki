@@ -11,7 +11,7 @@
             <corners android:radius="20dp" />
             <stroke
                 android:width="0.1dp"
-                android:color="#1AFFFFFF" />
+                android:color="@color/kj_lit_card_frame" />
         </shape>
     </item>
 
@@ -21,7 +21,7 @@
             <corners android:radius="20dp" />
             <stroke
                 android:width="0.1dp"
-                android:color="#33FFFFFF" />
+                android:color="@color/kj_lit_card_frame_strong" />
         </shape>
     </item>
 

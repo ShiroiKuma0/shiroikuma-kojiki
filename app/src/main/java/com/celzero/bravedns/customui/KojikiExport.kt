@@ -46,6 +46,7 @@ import com.celzero.bravedns.data.AppConfig
 import com.celzero.bravedns.service.EncryptedFileManager
 import com.celzero.bravedns.service.FirewallManager
 import com.celzero.bravedns.service.KojikiPendingFw
+import com.celzero.bravedns.service.KojikiRoaming
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.SnoopTagStore
@@ -267,7 +268,7 @@ object KojikiExport : KoinComponent {
                     Cat.APP_GROUPS ->
                         withNonAppLabels(
                             exportPrefs(context.getSharedPreferences(PREFS_APP_GROUPS, Context.MODE_PRIVATE), emptySet()))
-                    Cat.FIREWALL_APPS -> exportFwApps()
+                    Cat.FIREWALL_APPS -> exportFwApps(context)
                     Cat.FIREWALL_DOMAINS -> gson.toJson(customDomainRepo.getAllCustomDomains())
                     Cat.FIREWALL_IPS -> gson.toJson(customIpRepo.getIpRules())
                     Cat.WIREGUARD -> exportWireGuard(context)
@@ -401,7 +402,7 @@ object KojikiExport : KoinComponent {
         return obj.toString(2)
     }
 
-    private suspend fun exportFwApps(): String {
+    private suspend fun exportFwApps(context: Context): String {
         val arr = JSONArray()
         for (a in appInfoRepo.getAppInfo()) {
             arr.put(
@@ -413,6 +414,7 @@ object KojikiExport : KoinComponent {
                     .put("screenOffAllowed", a.screenOffAllowed)
                     .put("backgroundAllowed", a.backgroundAllowed)
                     .put("isProxyExcluded", a.isProxyExcluded)
+                    .put("roamingBlocked", KojikiRoaming.isBlocked(context, a.packageName))
             )
         }
         return arr.toString(2)
@@ -670,6 +672,11 @@ object KojikiExport : KoinComponent {
             val o = arr.optJSONObject(i) ?: continue
             val pkg = o.optString("packageName")
             if (pkg.isBlank()) continue
+            // The Roaming toggle is keyed by package in its own store, so it needs no parking for
+            // a package not installed yet. Absent in an older archive: left as it is.
+            if (o.has("roamingBlocked")) {
+                KojikiRoaming.setBlocked(context, listOf(pkg), o.optBoolean("roamingBlocked"))
+            }
             val app = installed[pkg]
             if (app != null) {
                 app.firewallStatus = o.optInt("firewallStatus", app.firewallStatus)

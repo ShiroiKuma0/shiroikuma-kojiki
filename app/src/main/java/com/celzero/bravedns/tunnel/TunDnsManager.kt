@@ -10,6 +10,7 @@ import com.celzero.bravedns.rpnproxy.RpnProxyManager
 import com.celzero.bravedns.service.ConnectionMonitor
 import com.celzero.bravedns.service.DomainRulesManager
 import com.celzero.bravedns.service.FirewallManager
+import com.celzero.bravedns.service.KojikiRoaming
 import com.celzero.bravedns.service.FirewallRuleset
 import com.celzero.bravedns.service.IpRulesManager
 import com.celzero.bravedns.service.LogActivityAggregator
@@ -47,7 +48,7 @@ import java.time.Duration
 
 object TunDnsManager: KoinComponent {
     private const val TAG = "TunDnsManager"
-    data class DnsParams(val origin: String, val uidStr: String?, val fqdn: String, val qtype: Long, val isLockdown: Boolean, val ssid: String?, val isIfaceCellular: Boolean, val isCaptivePortal: Boolean = false)
+    data class DnsParams(val origin: String, val uidStr: String?, val fqdn: String, val qtype: Long, val isLockdown: Boolean, val ssid: String?, val isIfaceCellular: Boolean, val isCaptivePortal: Boolean = false, /* fork: the network in use counts as metered, as the firewall reckons it */ val isMetered: Boolean = false)
 
     data class UpstreamAnswerParams(
         val scope: CoroutineScope,
@@ -175,7 +176,7 @@ object TunDnsManager: KoinComponent {
         }
 
         if (appMode.isDnsFirewallMode()) {
-            result = getTransportIdForDnsFirewallMode(uid, d.fqdn, d.origin, rinr = rinr, d.isLockdown, d.isIfaceCellular, d.ssid)
+            result = getTransportIdForDnsFirewallMode(uid, d.fqdn, d.origin, rinr = rinr, d.isLockdown, d.isIfaceCellular, d.ssid, d.isMetered)
             logd("onQuery: getTransportIdForDnsFirewallMode for ${d.fqdn}, dnsx: $result")
             val r = checkUserAllowedDnsQtypes(result, uid, d.fqdn, d.qtype, d.isIfaceCellular, d.ssid)
             logd("onQuery: checkUserAllowedDnsQtypes (Dns+Firewall) for ${d.fqdn}")
@@ -262,7 +263,7 @@ object TunDnsManager: KoinComponent {
     // done for that particular query in onUpstreamAnswer based on the fqdn and uid, so that we can
     // avoid the possibility of dns leak for the trusted queries / app which is set to bypass
     // dns + firewall rule
-    private suspend fun getTransportIdForDnsFirewallMode(uid: Int, fqdn: String, origin: String?, rinr: Boolean, isLockdown: Boolean, isIfaceCellular: Boolean, ssid: String?): DNSOpts {
+    private suspend fun getTransportIdForDnsFirewallMode(uid: Int, fqdn: String, origin: String?, rinr: Boolean, isLockdown: Boolean, isIfaceCellular: Boolean, ssid: String?, isMetered: Boolean = false): DNSOpts {
         val tid = determineDnsTransportIdForDFMode(uid, fqdn, origin, isLockdown, isIfaceCellular, ssid)
         val forceBypassLocalBlocklists = VpnController.isAppPaused() && isLockdown
 
@@ -324,6 +325,14 @@ object TunDnsManager: KoinComponent {
                 isUidPresentInAnyDnsRequest = true
                 logv("$TAG; onQuery: uid present in dns request")
             }
+            // Fork (白い熊 考直): a roaming-blocked app gets no DNS either, exactly as an app
+            // blocked on both networks gets none below — and ahead of temp-allow and the
+            // bypasses, since the Roaming toggle holds under every status (KojikiRoaming).
+            if (KojikiRoaming.blocksNow(uid)) {
+                val opts = makeNsOpts(uid, Pair(Backend.BlockAll, ""), fqdn, false, isIfaceCellular, ssid)
+                logd("onQuery: makeNsOpts(roaming-blocked) for $fqdn")
+                return opts
+            }
             val isTempAllowed = FirewallManager.isTempAllowed(uid)
             logd("onQuery: FirewallManager.isTempAllowed for $fqdn")
             if (isTempAllowed) {
@@ -336,6 +345,15 @@ object TunDnsManager: KoinComponent {
             if (connectionStatus.blocked()) {
                 val opts = makeNsOpts(uid, Pair(Backend.BlockAll, ""), fqdn, false, isIfaceCellular, ssid)
                 logd("onQuery: makeNsOpts(conn-blocked) for $fqdn")
+                return opts
+            }
+            // Fork (白い熊 考直): an app blocked on the network in use gets no DNS on it either —
+            // upstream refuses lookups only when both networks are blocked, so an app blocked on
+            // mobile data alone still resolved names there (and leaked them to the resolver).
+            // Same test as TunFirewallManager.appBlocked, which also runs before the bypasses.
+            if ((connectionStatus.mobileData() && isMetered) || (connectionStatus.wifi() && !isMetered)) {
+                val opts = makeNsOpts(uid, Pair(Backend.BlockAll, ""), fqdn, false, isIfaceCellular, ssid)
+                logd("onQuery: makeNsOpts(conn-blocked-on-this-network) for $fqdn")
                 return opts
             }
 

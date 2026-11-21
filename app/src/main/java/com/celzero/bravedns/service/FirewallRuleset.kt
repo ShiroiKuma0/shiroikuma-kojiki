@@ -74,6 +74,13 @@ enum class FirewallRuleset(val id: String, val title: Int, val desc: Int, val ac
         R.string.firewall_rule_bypass_dns_firewall_desc,
         R.integer.allow
     ),
+    // Fork (白い熊 考直): the per-app Roaming toggle is off and data is roaming (KojikiRoaming).
+    RULE1R(
+        "Rule #1R",
+        R.string.kojiki_fw_rule_roaming,
+        R.string.kojiki_fw_rule_roaming_desc,
+        R.integer.stall
+    ),
     RULE2(
         "Rule #2",
         R.string.firewall_rule_block_ip,
@@ -249,6 +256,7 @@ enum class FirewallRuleset(val id: String, val title: Int, val desc: Int, val ac
                 RULE1F.id -> RULE1F
                 RULE1G.id -> RULE1G
                 RULE1H.id -> RULE1H
+                RULE1R.id -> RULE1R
                 RULE2.id -> RULE2
                 RULE2B.id -> RULE2B
                 RULE2C.id -> RULE2C
@@ -292,6 +300,7 @@ enum class FirewallRuleset(val id: String, val title: Int, val desc: Int, val ac
                 RULE1F.id -> R.drawable.ic_univ_metered
                 RULE1G.id -> R.drawable.ic_firewall_lockdown_off
                 RULE1H.id -> R.drawable.ic_bypass_dns_firewall_off
+                RULE1R.id -> R.drawable.ic_kojiki_roaming_off
                 RULE2.id -> R.drawable.ic_firewall_block_grey
                 RULE2B.id -> R.drawable.ic_bypass
                 RULE2C.id -> R.drawable.ic_bypass

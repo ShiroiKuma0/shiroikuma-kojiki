@@ -392,7 +392,7 @@
             android:layout_marginTop="14dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:rippleColor="#22000000"
+            app:rippleColor="@color/kj_lit_ripple"
             app:strokeColor="?attr/border"
             app:strokeWidth="1dp">
 

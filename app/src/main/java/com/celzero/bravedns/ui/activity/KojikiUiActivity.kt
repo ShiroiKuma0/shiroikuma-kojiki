@@ -55,7 +55,12 @@ import com.celzero.bravedns.customui.CustomUi
 import com.celzero.bravedns.customui.CustomUiConfig
 import com.celzero.bravedns.customui.KojikiDiag
 import com.celzero.bravedns.customui.KojikiThreadDump
+import com.celzero.bravedns.customui.KojikiArea
 import com.celzero.bravedns.customui.KojikiDialog
+import com.celzero.bravedns.customui.KojikiPageState
+import com.celzero.bravedns.customui.KojikiPills
+import com.celzero.bravedns.customui.KojikiRoles
+import com.celzero.bravedns.customui.KojikiSectionIndex
 import com.celzero.bravedns.customui.SnoopTagUi
 import com.celzero.bravedns.databinding.ActivityKojikiUiBinding
 import com.celzero.bravedns.service.PersistentState
@@ -141,16 +146,35 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         view.setPaddingRelative(start, view.paddingTop, view.paddingEnd, view.paddingBottom)
     }
 
+    /** One folding section of the page: [build] adds its rows to [target] when it is first opened. */
+    private class Section(
+        val key: String, val label: String, val icon: Int, val role: String, val build: () -> Unit
+    )
+
+    /** Where the row builders add their rows: the page itself, or the body of the section being built. */
+    private lateinit var target: LinearLayout
+
+    private class SectionViews(val header: View, val body: LinearLayout)
+    private val sectionViews = HashMap<String, SectionViews>()
+
+    /**
+     * The page (black-yellow, 2026-11-20): the link to the app's own settings, the chip index, then
+     * every section as a folding block — folded by default, order and fold state remembered
+     * ([KojikiPageState]) and carried in the Appearance export. A folded section's rows are not
+     * built until it is opened.
+     */
     private fun buildRows() {
         val holder = b.kojikiUiHolder
         holder.removeAllViews()
+        target = holder
+        sectionViews.clear()
 
         // The page's link to the app's own settings: first, and the one thick pill above the
         // sections (black-yellow, settled 2026-11-07). CLEAR_TOP returns to the Settings screen this
         // page was opened from instead of stacking a second one.
         addActionRow(
             R.string.kojiki_ui_app_settings, getString(R.string.kojiki_ui_app_settings_desc),
-            indentLevel = 0, main = true, opens = true
+            indentLevel = 0, main = true, opens = true, icon = R.drawable.ic_settings
         ) {
             startActivity(Intent(this, MiscSettingsActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
@@ -158,152 +182,352 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
 
         // --- Export / Import (moved here from Settings) — kxkb-style: heading + a name/description
         // row beneath it that opens the category bottom sheet ---
-        addSectionHeader(R.string.settings_import_export_heading)
+
+        val built = sections()
+        val byKey = built.associateBy { it.key }
+        val order = KojikiPageState.order(this, built.map { it.key })
+        val chip = KojikiRoles.color(this, "section_chip")
+        val index = KojikiSectionIndex.build(
+            this,
+            order.mapNotNull { k -> byKey[k]?.let { KojikiSectionIndex.Item(k, it.label) } },
+            chip, chip,
+            onJump = { jumpTo(it) },
+            onReordered = { KojikiPageState.setOrder(this, it); buildRows() }
+        )
+        index.setPadding(dp(18), dp(6), dp(16), dp(8))
+        holder.addView(index)
+        for (key in order) byKey[key]?.let { addSection(it) }
+    }
+
+    private fun sections(): List<Section> = listOf(
+        Section("export", getString(R.string.settings_import_export_heading), R.drawable.ic_backup_restore, "icon_share") {
+            addActionRow(
+                R.string.settings_import_export_heading,
+                getString(R.string.settings_import_export_desc),
+                indentLevel = 1, main = true, opens = true, icon = R.drawable.ic_backup_restore, role = "icon_share"
+            ) { openExportImport() }
+            // The 保存復元 automation contract lives HERE, under the existing export rows — a backup
+            // feature belongs where backup lives, and every sister app puts it in the same place.
+            addAutomationRows()
+
+            // --- Colours ---
+        },
+        Section("colors", getString(R.string.kojiki_ui_section_colors), R.drawable.ic_appearance, "icon_view") {
+            addColorRow(R.string.kojiki_ui_color_background, cfg.backgroundColor) { cfg.backgroundColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_color_surface, cfg.surfaceColor) { cfg.surfaceColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_color_accent, cfg.accentColor) { cfg.accentColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_color_text, cfg.textColor) { cfg.textColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_note_color, cfg.noteColor) { cfg.noteColor = it; recreate() }
+
+            // --- Global font (family / weight / italic / size; applies to all text not overridden below) ---
+        },
+        Section("font", getString(R.string.kojiki_ui_section_font), R.drawable.ic_translate, "icon_view") {
+            addFontControls(1,
+                { cfg.fontFamily }, { cfg.fontFamily = it },
+                { cfg.fontWeight }, { cfg.fontWeight = it },
+                { cfg.fontItalic }, { cfg.fontItalic = it },
+                { cfg.fontSize }, { cfg.fontSize = it },
+                withImport = true)
+            addSampleRow()
+
+            // --- Firewall list: per-item colour + full font (family / weight / italic) + size ---
+        },
+        Section("fw", getString(R.string.kojiki_ui_section_fw), R.drawable.ic_firewall_shield, "icon_view") {
+            addFontGroup(R.string.kojiki_ui_fw_name_user, CustomUiConfig.P_FW_NAME_USER)
+            addFontGroup(R.string.kojiki_ui_fw_name_system, CustomUiConfig.P_FW_NAME_SYSTEM)
+            // The package id that trails the app name. Unset, it tracks the app name (dimmed, a touch
+            // smaller) — so the swatch previews the dimmed user-app colour rather than plain yellow.
+            addFontGroup(R.string.kojiki_ui_fw_app_id, CustomUiConfig.P_FW_APP_ID,
+                CustomUi.dimmed(cfg.styleColor(CustomUiConfig.P_FW_NAME_USER, CustomUiConfig.PALETTE_YELLOW)))
+            addFontGroup(R.string.kojiki_ui_fw_status, CustomUiConfig.P_FW_STATUS)
+            addFontGroup(R.string.kojiki_ui_fw_traffic, CustomUiConfig.P_FW_TRAFFIC)
+            addSubLabel(R.string.kojiki_ui_fw_toggle)
+            addColorRow(R.string.kojiki_ui_fw_toggle_allowed, cfg.fwAllowedColor, indentLevel = 2) { cfg.fwAllowedColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_fw_toggle_denied, cfg.fwDeniedColor, indentLevel = 2) { cfg.fwDeniedColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_fw_toggle_excluded, cfg.fwExcludedColor, indentLevel = 2) { cfg.fwExcludedColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_fw_toggle_bypass_dns, cfg.fwBypassDnsColor, indentLevel = 2) { cfg.fwBypassDnsColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_fw_toggle_bypass_univ, cfg.fwBypassUnivColor, indentLevel = 2) { cfg.fwBypassUnivColor = it; recreate() }
+
+            // --- Icons (firewall app list) — with a live preview ---
+        },
+        Section("icon", getString(R.string.kojiki_ui_section_icon), R.drawable.ic_android_icon, "icon_contact") {
+            addIconSection(R.string.kojiki_ui_section_icon,
+                { cfg.iconSize }, { cfg.iconSize = it },
+                { cfg.iconRoundness }, { cfg.iconRoundness = it })
+
+            // --- Snooping panel: icon (preview) + severity pill + status text (live preview) ---
+        },
+        Section("snoop", getString(R.string.kojiki_ui_section_snoop_icon), R.drawable.ic_visibility, "icon_view") {
+            addIconSection(R.string.kojiki_ui_section_snoop_icon,
+                { cfg.snoopIconSize }, { cfg.snoopIconSize = it },
+                { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
+            addSnoopPillControls()
+
+            // --- Snooping tags: default chip style + manage created tags ---
+        },
+        Section("snoop_tags", getString(R.string.kojiki_ui_section_snoop_tags), R.drawable.ic_event_note, "icon_view") {
+            addColorRow(R.string.kojiki_ui_snoop_tag_text, cfg.snoopTagTextColor) { cfg.snoopTagTextColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_snoop_tag_border, cfg.snoopTagBorderColor) { cfg.snoopTagBorderColor = it; recreate() }
+            addSliderRow(R.string.kojiki_ui_snoop_tag_border_width, cfg.snoopTagBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+                cfg.snoopTagBorderWidth = it; recreate()
+            }
+            addSubLabel(R.string.kojiki_ui_snoop_tag_list)
+            val snoopTags = SnoopTagStore.tags(this)
+            if (snoopTags.isEmpty()) {
+                addNote(getString(R.string.kojiki_ui_snoop_tag_none), 2)
+            } else {
+                val byTag = SnoopTagStore.domainsByTag(this)
+                snoopTags.forEach { addTagManageRow(it, byTag[it.name].orEmpty()) }
+            }
+            addActionRow(R.string.snoop_tag_new, null, indentLevel = 2, opens = true, icon = R.drawable.ic_plus) {
+                SnoopTagUi.showNew(this) { recreate() }
+            }
+
+            // --- Network (connection) log: app icon (preview) + row spacing + text size ---
+        },
+        Section("conn_log", getString(R.string.kojiki_ui_section_conn_log_icon), R.drawable.ic_logs, "icon_message") {
+            addIconSection(R.string.kojiki_ui_section_conn_log_icon,
+                { cfg.connLogIconSize }, { cfg.connLogIconSize = it },
+                { cfg.connLogIconRoundness }, { cfg.connLogIconRoundness = it })
+            addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.connLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.connLogRowPadding = it; recreate()
+            }
+            addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.connLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.connLogLineSpacing = it; recreate()
+            }
+            addTextSizePreview(R.string.kojiki_ui_log_text_size,
+                { cfg.connLogTextSize }, { cfg.connLogTextSize = it })
+            addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.connLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.connLogDividerWidth = it; recreate()
+            }
+            addColorRow(R.string.kojiki_ui_log_divider_color, cfg.connLogDividerColor) { cfg.connLogDividerColor = it; recreate() }
+
+            // --- DNS log: app icon (preview) + row spacing + text size ---
+        },
+        Section("dns_log", getString(R.string.kojiki_ui_section_dns_log_icon), R.drawable.ic_dns_cache, "icon_message") {
+            addIconSection(R.string.kojiki_ui_section_dns_log_icon,
+                { cfg.dnsLogIconSize }, { cfg.dnsLogIconSize = it },
+                { cfg.dnsLogIconRoundness }, { cfg.dnsLogIconRoundness = it })
+            addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.dnsLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.dnsLogRowPadding = it; recreate()
+            }
+            addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.dnsLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.dnsLogLineSpacing = it; recreate()
+            }
+            addTextSizePreview(R.string.kojiki_ui_log_text_size,
+                { cfg.dnsLogTextSize }, { cfg.dnsLogTextSize = it })
+            addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.dnsLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
+                cfg.dnsLogDividerWidth = it; recreate()
+            }
+            addColorRow(R.string.kojiki_ui_log_divider_color, cfg.dnsLogDividerColor) { cfg.dnsLogDividerColor = it; recreate() }
+
+            // --- Log status indicator (blocked/allowed bar + text tag), shared by both log tabs ---
+        },
+        Section("log_status", getString(R.string.kojiki_ui_section_log_status), R.drawable.ic_filter, "icon_message") {
+            addSliderRow(R.string.kojiki_ui_log_status_width, cfg.logStatusBarWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+                cfg.logStatusBarWidth = it; recreate()
+            }
+            addColorRow(R.string.kojiki_ui_log_status_blocked, cfg.logStatusBlockedColor) { cfg.logStatusBlockedColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_log_status_maybe, cfg.logStatusMaybeColor) { cfg.logStatusMaybeColor = it; recreate() }
+            addColorRow(R.string.kojiki_ui_log_status_allowed, cfg.logStatusAllowedColor) { cfg.logStatusAllowedColor = it; recreate() }
+            addToggleRow(R.string.kojiki_ui_log_tag_show, cfg.logTagShow, 1) { cfg.logTagShow = it; recreate() }
+            addSliderRow(R.string.kojiki_ui_log_tag_size, cfg.logTagSize, CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel) {
+                cfg.logTagSize = it; recreate()
+            }
+
+            // --- Popup menus (snoop row actions / sort / filter): border + item text ---
+        },
+        Section("menu", getString(R.string.kojiki_ui_section_menu), R.drawable.ic_view_list, "icon_view") {
+            addColorRow(R.string.kojiki_ui_menu_border, cfg.menuBorderColor) { cfg.menuBorderColor = it; recreate() }
+            addSliderRow(R.string.kojiki_ui_menu_border_width, cfg.menuBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+                cfg.menuBorderWidth = it; recreate()
+            }
+            addFontGroup(R.string.kojiki_ui_menu_item, CustomUiConfig.P_SNOOP_MENU)
+
+            // --- Cards (border applied to every card, app-wide) ---
+            addRoleRows(KojikiArea.MENUS)
+        },
+        Section("cards", getString(R.string.kojiki_ui_section_cards), R.drawable.ic_element, "icon_view") {
+            addColorRow(R.string.kojiki_ui_card_border, cfg.cardBorderColor) { cfg.cardBorderColor = it; recreate() }
+            addSliderRow(R.string.kojiki_ui_card_border_width, cfg.cardBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
+                cfg.cardBorderWidth = it; recreate()
+            }
+
+            // --- List dividers (lines between firewall rows) ---
+        },
+        Section("dividers", getString(R.string.kojiki_ui_section_dividers), R.drawable.ic_minus, "icon_view") {
+            addColorRow(R.string.kojiki_ui_divider_color, cfg.dividerColor) { cfg.dividerColor = it; recreate() }
+            addSliderRow(R.string.kojiki_ui_divider_thickness, cfg.dividerThickness, CustomUiConfig.MAX_DIVIDER_DP, ::dpLabel) {
+                cfg.dividerThickness = it; recreate()
+            }
+            addRoleRows(KojikiArea.LINES)
+        },
+        Section("role_" + KojikiArea.ACCENT.key, KojikiArea.ACCENT.label, R.drawable.ic_star_filled, "icon_view") { addRoleRows(KojikiArea.ACCENT) },
+        Section("role_" + KojikiArea.TEXT.key, KojikiArea.TEXT.label, R.drawable.ic_edit_icon, "icon_view") { addRoleRows(KojikiArea.TEXT) },
+        Section("role_" + KojikiArea.SURFACES.key, KojikiArea.SURFACES.label, R.drawable.ic_element, "icon_view") { addRoleRows(KojikiArea.SURFACES) },
+        Section("role_" + KojikiArea.BARS.key, KojikiArea.BARS.label, R.drawable.ic_view_list, "icon_view") { addRoleRows(KojikiArea.BARS) },
+        Section("role_" + KojikiArea.BUTTONS.key, KojikiArea.BUTTONS.label, R.drawable.ic_tick_normal, "icon_view") { addRoleRows(KojikiArea.BUTTONS) },
+        Section("role_" + KojikiArea.DIALOGS.key, KojikiArea.DIALOGS.label, R.drawable.ic_info, "icon_view") { addRoleRows(KojikiArea.DIALOGS) },
+        Section("role_" + KojikiArea.SWITCHES.key, KojikiArea.SWITCHES.label, R.drawable.ic_check_circle, "icon_view") { addRoleRows(KojikiArea.SWITCHES) },
+        Section("role_" + KojikiArea.ICONS.key, KojikiArea.ICONS.label, R.drawable.ic_android_icon, "icon_view") { addRoleRows(KojikiArea.ICONS) },
+        Section("role_" + KojikiArea.CHIPS.key, KojikiArea.CHIPS.label, R.drawable.ic_filter, "icon_view") { addRoleRows(KojikiArea.CHIPS) },
+        Section("role_" + KojikiArea.STATUS.key, KojikiArea.STATUS.label, R.drawable.ic_shield_check, "icon_view") { addRoleRows(KojikiArea.STATUS) },
+        Section("role_" + KojikiArea.FIREWALL.key, KojikiArea.FIREWALL.label, R.drawable.ic_firewall_shield, "icon_view") { addRoleRows(KojikiArea.FIREWALL) },
+        Section("role_" + KojikiArea.HOME.key, KojikiArea.HOME.label, R.drawable.ic_home_black_24dp, "icon_view") { addRoleRows(KojikiArea.HOME) },
+        Section("role_" + KojikiArea.SERVERS.key, KojikiArea.SERVERS.label, R.drawable.ic_network, "icon_view") { addRoleRows(KojikiArea.SERVERS) },
+        Section("role_" + KojikiArea.TOUR.key, KojikiArea.TOUR.label, R.drawable.ic_whats_new, "icon_view") { addRoleRows(KojikiArea.TOUR) },
+        Section("diag", getString(R.string.kojiki_diag_section), R.drawable.ic_stack_trace, "icon_message") { addDiagnosticsSection() },
+        Section("maintenance", getString(R.string.kojiki_ui_section_maintenance), R.drawable.ic_refresh, "icon_delete") { addMaintenanceRows() },
+    )
+
+    /** The folding block of one section: the divider, the heading with its chevron, the body. */
+    private fun addSection(sec: Section) {
+        val holder = b.kojikiUiHolder
+        // the thin divider stays, folded or open
+        holder.addView(View(this).apply {
+            setBackgroundColor(KojikiRoles.color(this@KojikiUiActivity, "group_divider"))
+        }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1).also { it.topMargin = dp(6) })
+
+        val heading = KojikiRoles.color(this, "page_heading")
+        val label = AppCompatTextView(this).apply {
+            text = sec.label
+            setTextColor(heading)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            maxLines = 1
+        }
+        val underline = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(textWidth(label), dp(2)).also { it.topMargin = dp(2) }
+            setBackgroundColor(heading)
+        }
+        val chevron = AppCompatTextView(this).apply {
+            setTextColor(heading)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+            includeFontPadding = false
+        }
+        val header = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(36), dp(8), dp(16), dp(4))
+            background = selectableBackground()
+            isClickable = true
+            addView(LinearLayout(this@KojikiUiActivity).apply {
+                orientation = LinearLayout.VERTICAL
+                addView(label)
+                addView(underline)
+            }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+            addView(chevron)
+        }
+        rowIcon(header, sec.icon, sec.role)
+        val body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        holder.addView(header)
+        holder.addView(body)
+        sectionViews[sec.key] = SectionViews(header, body)
+
+        fun show(open: Boolean) {
+            chevron.text = if (open) "⌄" else "›"
+            body.visibility = if (open) View.VISIBLE else View.GONE
+            if (open && body.childCount == 0) {
+                target = body
+                try { sec.build() } finally { target = holder }
+            }
+        }
+        show(KojikiPageState.isOpen(this, sec.key))
+        header.setOnClickListener {
+            val open = body.visibility != View.VISIBLE
+            KojikiPageState.setOpen(this, sec.key, open)
+            show(open)
+        }
+    }
+
+    /** A tap on an index chip: unfold the section and scroll to it. */
+    private fun jumpTo(key: String) {
+        val v = sectionViews[key] ?: return
+        if (v.body.visibility != View.VISIBLE) v.header.performClick()
+        b.kojikiUiScroll.post { b.kojikiUiScroll.smoothScrollTo(0, v.header.top) }
+    }
+
+    /**
+     * The icon every row carries, coloured by what the row does: drawn in the row's indent, so no
+     * row builder has to make room for it.
+     */
+    private fun rowIcon(row: View, icon: Int, role: String = "icon_view") {
+        val d = KojikiPills.icon(this, icon, role) ?: return
+        val s = dp(18)
+        row.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            val x = v.paddingStart - dp(26)
+            val y = if (v.height < dp(44)) (v.height - s) / 2 else v.paddingTop + dp(4)
+            d.setBounds(x, y, x + s, y + s)
+            v.invalidate()
+        }
+        row.overlay.add(d)
+    }
+
+    /** A swatch row per colour role of [area]; a set role shows ↺, which puts it back to its default. */
+    private fun addRoleRows(area: KojikiArea) {
+        for (role in KojikiRoles.inArea(area)) {
+            val color = KojikiRoles.color(this, role.key)
+            val row = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                background = selectableBackground()
+                setPadding(0, dp(2), dp(16), dp(2))
+                isClickable = true
+                setOnClickListener {
+                    ColorPickerDialog.show(this@KojikiUiActivity, color) {
+                        KojikiRoles.set(this@KojikiUiActivity, role.key, it); recreate()
+                    }
+                }
+            }
+            row.addView(AppCompatTextView(this).apply {
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+                text = role.label
+                setTextColor(cfg.textColor)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            })
+            if (KojikiRoles.isSet(this, role.key)) {
+                row.addView(AppCompatTextView(this).apply {
+                    text = "↺"
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    setTextColor(cfg.accentColor)
+                    setPadding(dp(12), 0, dp(12), 0)
+                    isClickable = true
+                    setOnClickListener { KojikiRoles.reset(this@KojikiUiActivity, role.key); recreate() }
+                })
+            }
+            row.addView(View(this).apply {
+                layoutParams = LinearLayout.LayoutParams(dp(28), dp(28))
+                background = GradientDrawable().apply {
+                    setColor(color)
+                    setStroke(1, KojikiRoles.color(this@KojikiUiActivity, "group_divider"))
+                }
+            })
+            indent(row, 1)
+            rowIcon(row, R.drawable.ic_appearance)
+            target.addView(row)
+        }
+    }
+
+    private fun addMaintenanceRows() {
         addActionRow(
-            R.string.settings_import_export_heading,
-            getString(R.string.settings_import_export_desc),
-            indentLevel = 1, main = true, opens = true
-        ) { openExportImport() }
-        // The 保存復元 automation contract lives HERE, under the existing export rows — a backup
-        // feature belongs where backup lives, and every sister app puts it in the same place.
-        addAutomationRows()
-
-        // --- Colours ---
-        addSectionHeader(R.string.kojiki_ui_section_colors)
-        addColorRow(R.string.kojiki_ui_color_background, cfg.backgroundColor) { cfg.backgroundColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_color_surface, cfg.surfaceColor) { cfg.surfaceColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_color_accent, cfg.accentColor) { cfg.accentColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_color_text, cfg.textColor) { cfg.textColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_switch, cfg.switchColor) { cfg.switchColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_note_color, cfg.noteColor) { cfg.noteColor = it; recreate() }
-
-        // --- Global font (family / weight / italic / size; applies to all text not overridden below) ---
-        addSectionHeader(R.string.kojiki_ui_section_font)
-        addFontControls(1,
-            { cfg.fontFamily }, { cfg.fontFamily = it },
-            { cfg.fontWeight }, { cfg.fontWeight = it },
-            { cfg.fontItalic }, { cfg.fontItalic = it },
-            { cfg.fontSize }, { cfg.fontSize = it },
-            withImport = true)
-        addSampleRow()
-
-        // --- Firewall list: per-item colour + full font (family / weight / italic) + size ---
-        addSectionHeader(R.string.kojiki_ui_section_fw)
-        addFontGroup(R.string.kojiki_ui_fw_name_user, CustomUiConfig.P_FW_NAME_USER)
-        addFontGroup(R.string.kojiki_ui_fw_name_system, CustomUiConfig.P_FW_NAME_SYSTEM)
-        // The package id that trails the app name. Unset, it tracks the app name (dimmed, a touch
-        // smaller) — so the swatch previews the dimmed user-app colour rather than plain yellow.
-        addFontGroup(R.string.kojiki_ui_fw_app_id, CustomUiConfig.P_FW_APP_ID,
-            CustomUi.dimmed(cfg.styleColor(CustomUiConfig.P_FW_NAME_USER, CustomUiConfig.PALETTE_YELLOW)))
-        addFontGroup(R.string.kojiki_ui_fw_status, CustomUiConfig.P_FW_STATUS)
-        addFontGroup(R.string.kojiki_ui_fw_traffic, CustomUiConfig.P_FW_TRAFFIC)
-        addSubLabel(R.string.kojiki_ui_fw_toggle)
-        addColorRow(R.string.kojiki_ui_fw_toggle_allowed, cfg.fwAllowedColor, indentLevel = 2) { cfg.fwAllowedColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_fw_toggle_denied, cfg.fwDeniedColor, indentLevel = 2) { cfg.fwDeniedColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_fw_toggle_excluded, cfg.fwExcludedColor, indentLevel = 2) { cfg.fwExcludedColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_fw_toggle_bypass_dns, cfg.fwBypassDnsColor, indentLevel = 2) { cfg.fwBypassDnsColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_fw_toggle_bypass_univ, cfg.fwBypassUnivColor, indentLevel = 2) { cfg.fwBypassUnivColor = it; recreate() }
-
-        // --- Icons (firewall app list) — with a live preview ---
-        addIconSection(R.string.kojiki_ui_section_icon,
-            { cfg.iconSize }, { cfg.iconSize = it },
-            { cfg.iconRoundness }, { cfg.iconRoundness = it })
-
-        // --- Snooping panel: icon (preview) + severity pill + status text (live preview) ---
-        addIconSection(R.string.kojiki_ui_section_snoop_icon,
-            { cfg.snoopIconSize }, { cfg.snoopIconSize = it },
-            { cfg.snoopIconRoundness }, { cfg.snoopIconRoundness = it })
-        addSnoopPillControls()
-
-        // --- Snooping tags: default chip style + manage created tags ---
-        addSectionHeader(R.string.kojiki_ui_section_snoop_tags)
-        addColorRow(R.string.kojiki_ui_snoop_tag_text, cfg.snoopTagTextColor) { cfg.snoopTagTextColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_snoop_tag_border, cfg.snoopTagBorderColor) { cfg.snoopTagBorderColor = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_snoop_tag_border_width, cfg.snoopTagBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
-            cfg.snoopTagBorderWidth = it; recreate()
+            R.string.kojiki_ui_reset_order, getString(R.string.kojiki_ui_reset_order_desc),
+            icon = R.drawable.ic_refresh
+        ) { KojikiPageState.resetOrder(this); buildRows() }
+        addActionRow(
+            R.string.kojiki_ui_reset_colors, getString(R.string.kojiki_ui_reset_colors_desc),
+            icon = R.drawable.ic_delete, role = "icon_delete"
+        ) {
+            KojikiDialog.show(
+                this, getString(R.string.kojiki_ui_reset_colors),
+                listOf(
+                    KojikiDialog.Action(getString(android.R.string.cancel)),
+                    KojikiDialog.Action(getString(R.string.kojiki_ui_reset_colors)) {
+                        KojikiRoles.resetAll(this); recreate()
+                    }
+                )
+            ) { box, _ -> box.addView(noteText(getString(R.string.kojiki_ui_reset_colors_desc))) }
         }
-        addSubLabel(R.string.kojiki_ui_snoop_tag_list)
-        val snoopTags = SnoopTagStore.tags(this)
-        if (snoopTags.isEmpty()) {
-            addNote(getString(R.string.kojiki_ui_snoop_tag_none), 2)
-        } else {
-            val byTag = SnoopTagStore.domainsByTag(this)
-            snoopTags.forEach { addTagManageRow(it, byTag[it.name].orEmpty()) }
-        }
-        addActionRow(R.string.snoop_tag_new, null, indentLevel = 2, opens = true) {
-            SnoopTagUi.showNew(this) { recreate() }
-        }
-
-        // --- Network (connection) log: app icon (preview) + row spacing + text size ---
-        addIconSection(R.string.kojiki_ui_section_conn_log_icon,
-            { cfg.connLogIconSize }, { cfg.connLogIconSize = it },
-            { cfg.connLogIconRoundness }, { cfg.connLogIconRoundness = it })
-        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.connLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.connLogRowPadding = it; recreate()
-        }
-        addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.connLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.connLogLineSpacing = it; recreate()
-        }
-        addTextSizePreview(R.string.kojiki_ui_log_text_size,
-            { cfg.connLogTextSize }, { cfg.connLogTextSize = it })
-        addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.connLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.connLogDividerWidth = it; recreate()
-        }
-        addColorRow(R.string.kojiki_ui_log_divider_color, cfg.connLogDividerColor) { cfg.connLogDividerColor = it; recreate() }
-
-        // --- DNS log: app icon (preview) + row spacing + text size ---
-        addIconSection(R.string.kojiki_ui_section_dns_log_icon,
-            { cfg.dnsLogIconSize }, { cfg.dnsLogIconSize = it },
-            { cfg.dnsLogIconRoundness }, { cfg.dnsLogIconRoundness = it })
-        addSliderRow(R.string.kojiki_ui_log_row_padding, cfg.dnsLogRowPadding, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.dnsLogRowPadding = it; recreate()
-        }
-        addSliderRow(R.string.kojiki_ui_log_line_spacing, cfg.dnsLogLineSpacing, CustomUiConfig.MAX_ROW_PADDING_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.dnsLogLineSpacing = it; recreate()
-        }
-        addTextSizePreview(R.string.kojiki_ui_log_text_size,
-            { cfg.dnsLogTextSize }, { cfg.dnsLogTextSize = it })
-        addSliderRow(R.string.kojiki_ui_log_divider_width, cfg.dnsLogDividerWidth, CustomUiConfig.MAX_DIVIDER_DP, ::dpDefaultLabel, defaultable = true) {
-            cfg.dnsLogDividerWidth = it; recreate()
-        }
-        addColorRow(R.string.kojiki_ui_log_divider_color, cfg.dnsLogDividerColor) { cfg.dnsLogDividerColor = it; recreate() }
-
-        // --- Log status indicator (blocked/allowed bar + text tag), shared by both log tabs ---
-        addSectionHeader(R.string.kojiki_ui_section_log_status)
-        addSliderRow(R.string.kojiki_ui_log_status_width, cfg.logStatusBarWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
-            cfg.logStatusBarWidth = it; recreate()
-        }
-        addColorRow(R.string.kojiki_ui_log_status_blocked, cfg.logStatusBlockedColor) { cfg.logStatusBlockedColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_log_status_maybe, cfg.logStatusMaybeColor) { cfg.logStatusMaybeColor = it; recreate() }
-        addColorRow(R.string.kojiki_ui_log_status_allowed, cfg.logStatusAllowedColor) { cfg.logStatusAllowedColor = it; recreate() }
-        addToggleRow(R.string.kojiki_ui_log_tag_show, cfg.logTagShow, 1) { cfg.logTagShow = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_log_tag_size, cfg.logTagSize, CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel) {
-            cfg.logTagSize = it; recreate()
-        }
-
-        // --- Popup menus (snoop row actions / sort / filter): border + item text ---
-        addSectionHeader(R.string.kojiki_ui_section_menu)
-        addColorRow(R.string.kojiki_ui_menu_border, cfg.menuBorderColor) { cfg.menuBorderColor = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_menu_border_width, cfg.menuBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
-            cfg.menuBorderWidth = it; recreate()
-        }
-        addFontGroup(R.string.kojiki_ui_menu_item, CustomUiConfig.P_SNOOP_MENU)
-
-        // --- Cards (border applied to every card, app-wide) ---
-        addSectionHeader(R.string.kojiki_ui_section_cards)
-        addColorRow(R.string.kojiki_ui_card_border, cfg.cardBorderColor) { cfg.cardBorderColor = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_card_border_width, cfg.cardBorderWidth, CustomUiConfig.MAX_BORDER_DP, ::dpLabel) {
-            cfg.cardBorderWidth = it; recreate()
-        }
-
-        // --- List dividers (lines between firewall rows) ---
-        addSectionHeader(R.string.kojiki_ui_section_dividers)
-        addColorRow(R.string.kojiki_ui_divider_color, cfg.dividerColor) { cfg.dividerColor = it; recreate() }
-        addSliderRow(R.string.kojiki_ui_divider_thickness, cfg.dividerThickness, CustomUiConfig.MAX_DIVIDER_DP, ::dpLabel) {
-            cfg.dividerThickness = it; recreate()
-        }
-
-        addActionRow(R.string.kojiki_ui_reset, null) {
+        addActionRow(R.string.kojiki_ui_reset, null, icon = R.drawable.ic_delete, role = "icon_delete") {
             // acts in place, so it asks first (no ›)
             KojikiDialog.show(
                 this, getString(R.string.kojiki_ui_reset),
@@ -313,15 +537,18 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                 )
             ) { box, _ -> box.addView(noteText(getString(R.string.kojiki_ui_reset_confirm))) }
         }
+    }
 
-        addDiagnosticsSection()
+    /** Any change on this page may move a colour: the roles are resolved afresh for every screen. */
+    override fun recreate() {
+        KojikiRoles.changed()
+        super.recreate()
     }
 
     // ---- Diagnostics (2026-11-02) ----
     // Every fork diagnostic behind its own switch, all OFF by default (KojikiDiag): off means nothing
     // is recorded, formatted or timed. Each trace switch is followed by a row that shows the trace.
     private fun addDiagnosticsSection() {
-        addSectionHeader(R.string.kojiki_diag_section)
         addNote(getString(R.string.kojiki_diag_intro, packageName), 1)
         addSubLabel(R.string.kojiki_diag_sub_app)
         addDiagToggle(R.string.kojiki_diag_leaks, R.string.kojiki_diag_leaks_desc, KojikiDiag.Group.LEAKS)
@@ -346,7 +573,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addDiagToggle(R.string.kojiki_diag_wg, R.string.kojiki_diag_wg_desc, KojikiDiag.Group.WG)
         addDiagView(KojikiDiag.Group.WG, R.string.kojiki_diag_wg)
         addDiagToggle(R.string.kojiki_diag_threads, R.string.kojiki_diag_threads_desc, KojikiDiag.Group.THREADS)
-        addActionRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2) {
+        addActionRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2, icon = R.drawable.ic_stack_trace, role = "icon_message") {
             KojikiThreadDump.now("on demand")
             Toast.makeText(this, R.string.kojiki_diag_threads_done, Toast.LENGTH_SHORT).show()
         }
@@ -370,7 +597,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addActionRow(
             R.string.kojiki_diag_export,
             getString(R.string.kojiki_diag_export_desc, last?.let { treeLabel(it) } ?: "/sdcard/tmp"),
-            indentLevel = 2, opens = true
+            indentLevel = 2, opens = true, icon = R.drawable.ic_share, role = "icon_share"
         ) {
             if (KojikiDiag.files().isEmpty()) {
                 Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
@@ -387,7 +614,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                 }
             diagExportLauncher.launch(initial)
         }
-        addActionRow(R.string.kojiki_diag_purge, getString(R.string.kojiki_diag_purge_desc), indentLevel = 2) {
+        addActionRow(R.string.kojiki_diag_purge, getString(R.string.kojiki_diag_purge_desc), indentLevel = 2, icon = R.drawable.ic_delete, role = "icon_delete") {
             confirmDiagPurge()
         }
     }
@@ -504,7 +731,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     }
 
     private fun addDiagView(g: KojikiDiag.Group, @StringRes titleRes: Int) {
-        addActionRow(R.string.kojiki_diag_view, null, indentLevel = 2, opens = true) {
+        addActionRow(R.string.kojiki_diag_view, null, indentLevel = 2, opens = true, icon = R.drawable.ic_logs, role = "icon_message") {
             showDiagTrace(g, getString(titleRes))
         }
     }
@@ -536,7 +763,6 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         getSize: () -> Int, setSize: (Int) -> Unit,
         getRound: () -> Int, setRound: (Int) -> Unit
     ) {
-        addSectionHeader(headerRes)
 
         val previewDefaultDp = 40
         var liveSize = getSize()
@@ -569,7 +795,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             addView(preview)
         }
         indent(previewBox, 1)
-        b.kojikiUiHolder.addView(previewBox)
+        rowIcon(previewBox, R.drawable.ic_visibility)
+        target.addView(previewBox)
         applyPreview()
 
         addSliderRow(R.string.kojiki_ui_icon_size, getSize(), CustomUiConfig.MAX_ICON_SIZE_DP, ::dpLabel,
@@ -603,7 +830,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             addView(preview)
         }
         indent(box, 1)
-        b.kojikiUiHolder.addView(box)
+        rowIcon(box, R.drawable.ic_visibility)
+        target.addView(box)
         applyPreview()
         addSliderRow(labelRes, getSize(), CustomUiConfig.MAX_FONT_SIZE_SP, ::spLabel,
             onChange = { liveSize = it; applyPreview() }) { setSize(it); recreate() }
@@ -677,7 +905,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         box.addView(previewBadge, centeredWrap())
         box.addView(previewState, centeredWrap())
         indent(box, 1)
-        b.kojikiUiHolder.addView(box)
+        rowIcon(box, R.drawable.ic_visibility)
+        target.addView(box)
         applyPreview()
 
         addSubLabel(R.string.kojiki_ui_snoop_pill)
@@ -770,12 +999,15 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         @StringRes labelRes: Int, current: Boolean, indentLevel: Int,
         desc: String? = null, descColor: Int? = null, onRowClick: (() -> Unit)? = null,
         tag: String? = null, tagNote: String? = null,
+        icon: Int = R.drawable.ic_tick_normal, role: String = "icon_view",
         onChange: (Boolean) -> Unit
     ) {
         val sw = androidx.appcompat.widget.SwitchCompat(this).apply {
             isChecked = current
             minHeight = 0
             minimumHeight = 0
+            // the outlined switch: a 2 dp pill outline with a dot, never filled
+            KojikiPills.switch(this)
         }
         val explained = !desc.isNullOrEmpty()
         val labelBox = LinearLayout(this).apply {
@@ -797,7 +1029,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
         }
         sw.setOnCheckedChangeListener { _, c -> onChange(c) }
-        addItem(row, indentLevel, ruled = explained, padV = 2)
+        addItem(row, indentLevel, ruled = explained, padV = 2, icon = icon, role = role)
     }
 
     // Something to press (black-yellow, settled 2026-11-07; 2026-11-09 the pill hugs its label —
@@ -807,19 +1039,18 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
     // pill in dim gold, aligned with the label, and the rule spans pill + explanation.
     private fun addActionRow(
         @StringRes labelRes: Int, desc: String?, indentLevel: Int = 1,
-        main: Boolean = false, opens: Boolean = false, onClick: () -> Unit
+        main: Boolean = false, opens: Boolean = false,
+        icon: Int = R.drawable.ic_right_arrow_small, role: String = "icon_view",
+        onClick: () -> Unit
     ) {
-        val accent = cfg.accentColor
+        // a row that deletes or resets lends its red to frame and label — still unfilled
+        val danger = role == "icon_delete"
+        val accent = KojikiPills.labelColor(this, main, danger)
         val pill = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(18), dp(9), dp(16), dp(9))
-            val frame = GradientDrawable().apply {
-                setColor(Color.TRANSPARENT)
-                setStroke(maxOf(1, (if (main) 3f else 1.25f).let { (it * resources.displayMetrics.density).toInt() }), accent)
-                cornerRadius = dp(50).toFloat()
-            }
-            background = RippleDrawable(ColorStateList.valueOf(KojikiDialog.withAlpha(accent, 0.3f)), frame, null)
+            background = KojikiPills.pill(this@KojikiUiActivity, main, danger)
             isClickable = true
             setOnClickListener { onClick() }
             addView(AppCompatTextView(this@KojikiUiActivity).apply {
@@ -846,12 +1077,15 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             addView(pill, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             if (!desc.isNullOrEmpty()) addView(noteText(desc).apply { setPadding(dp(18), dp(3), 0, 0) })
         }
-        addItem(block, indentLevel, ruled = !desc.isNullOrEmpty(), padV = 3)
+        addItem(block, indentLevel, ruled = !desc.isNullOrEmpty(), padV = 3, icon = icon, role = role)
     }
 
     // Places a row: indented, minimal vertical padding, and — for an explained item — a 2 dp
     // dim-gold rule down its whole left edge, 10 dp before the text.
-    private fun addItem(content: View, indentLevel: Int, ruled: Boolean, padV: Int) {
+    private fun addItem(
+        content: View, indentLevel: Int, ruled: Boolean, padV: Int,
+        icon: Int = 0, role: String = "icon_view"
+    ) {
         val wrap = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             setPadding(0, dp(padV), dp(16), dp(padV))
@@ -862,7 +1096,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             addView(content, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         }
         indent(wrap, indentLevel)
-        b.kojikiUiHolder.addView(wrap)
+        if (icon != 0) rowIcon(wrap, icon, role)
+        target.addView(wrap)
     }
 
     // The label of an explained item is bold accent, so its bold tag line never outweighs it; a
@@ -904,7 +1139,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val note = noteText(text)
         note.setPadding(0, dp(4), dp(16), dp(2))
         indent(note, indentLevel)
-        b.kojikiUiHolder.addView(note)
+        target.addView(note)
         return note
     }
 
@@ -936,22 +1171,12 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             addView(underline)
         }
         indent(box, 1)
-        b.kojikiUiHolder.addView(box)
+        rowIcon(box, R.drawable.ic_visibility)
+        target.addView(box)
     }
 
     // Thin neutral full-width hairline separating one section from the next (kxkb-style page
     // rhythm) — edge to edge, subdued so it stays subordinate to the accent underlines.
-    private fun addSectionSpacer() {
-        val dark = androidx.core.graphics.ColorUtils.calculateLuminance(cfg.backgroundColor) < 0.5
-        val line = View(this).apply {
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(1)).also {
-                it.topMargin = dp(10)
-            }
-            setBackgroundColor(if (dark) 0x59FFFFFF else 0x59000000)
-        }
-        b.kojikiUiHolder.addView(line)
-    }
-
     // The exact width of a label's text, so an underline can be sized to the TEXT and not stretch
     // the box to full width (a MATCH_PARENT sibling would).
     private fun textWidth(label: AppCompatTextView): Int {
@@ -961,30 +1186,6 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
 
     // kxkb-style section header: 20 sp bold accent title with a 2 dp underline matching the text
     // width; sections separated by thin spacers.
-    private fun addSectionHeader(@StringRes labelRes: Int) {
-        if (b.kojikiUiHolder.childCount > 0) addSectionSpacer()
-        val label = AppCompatTextView(this).apply {
-            text = getString(labelRes)
-            setTextColor(cfg.accentColor)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
-            typeface = Typeface.create("sans-serif", Typeface.BOLD)
-            maxLines = 1
-        }
-        val underline = View(this).apply {
-            layoutParams = LinearLayout.LayoutParams(textWidth(label), dp(2)).also {
-                it.topMargin = dp(2)
-            }
-            setBackgroundColor(cfg.accentColor)
-        }
-        val box = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp(36), dp(8), dp(16), dp(2))
-            addView(label)
-            addView(underline)
-        }
-        b.kojikiUiHolder.addView(box)
-    }
-
     private fun addColorRow(@StringRes labelRes: Int, color: Int, indentLevel: Int = 1, onPick: (Int) -> Unit) {
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -1007,7 +1208,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         row.addView(label)
         row.addView(swatch)
         indent(row, indentLevel)
-        b.kojikiUiHolder.addView(row)
+        rowIcon(row, R.drawable.ic_appearance)
+        target.addView(row)
     }
 
     // A manage-able Snoop tag row: name + effective-colour swatch; tap → rename / recolour / delete.
@@ -1044,7 +1246,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         row.addView(textCol)
         row.addView(swatch)
         indent(row, 2)
-        b.kojikiUiHolder.addView(row)
+        rowIcon(row, R.drawable.ic_event_note)
+        target.addView(row)
     }
 
     private fun addValueRow(@StringRes labelRes: Int, value: String, indentLevel: Int = 1, onClick: () -> Unit) {
@@ -1069,7 +1272,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             })
         }
         indent(box, indentLevel)
-        b.kojikiUiHolder.addView(box)
+        rowIcon(box, R.drawable.ic_configure)
+        target.addView(box)
     }
 
     @Suppress("EmptyFunctionBlock")
@@ -1116,7 +1320,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         box.addView(header)
         box.addView(seek)
         indent(box, indentLevel)
-        b.kojikiUiHolder.addView(box)
+        rowIcon(box, R.drawable.ic_configure)
+        target.addView(box)
     }
 
     private fun addFontRow(
@@ -1137,7 +1342,8 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             setPadding(0, dp(4), dp(16), dp(8))
         }
         indent(sample, 1)
-        b.kojikiUiHolder.addView(sample)
+        rowIcon(sample, R.drawable.ic_visibility)
+        target.addView(sample)
     }
 
     private fun spLabel(v: Int): String =
@@ -1239,10 +1445,10 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val token = persistentState.getOrCreateAppRuleToken()
         val short =
             if (token.length > 20) "${token.take(8)}…${token.takeLast(8)}" else token
-        addActionRow(R.string.kojiki_auto_token, getString(R.string.kojiki_auto_token_copy) + "  " + short) {
+        addActionRow(R.string.kojiki_auto_token, getString(R.string.kojiki_auto_token_copy) + "  " + short, icon = R.drawable.ic_copy, role = "icon_share") {
             copyToken()
         }
-        addActionRow(R.string.app_rule_token_regenerate, null) { confirmRegenerateToken() }
+        addActionRow(R.string.app_rule_token_regenerate, null, icon = R.drawable.ic_refresh, role = "icon_delete") { confirmRegenerateToken() }
     }
 
     private fun copyToken() {

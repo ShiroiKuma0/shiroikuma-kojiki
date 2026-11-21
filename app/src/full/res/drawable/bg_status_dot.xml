@@ -5,5 +5,5 @@
     <size
         android:width="8dp"
         android:height="8dp" />
-    <solid android:color="#FF4081" />
+    <solid android:color="@color/kj_lit_status_dot" />
 </shape>

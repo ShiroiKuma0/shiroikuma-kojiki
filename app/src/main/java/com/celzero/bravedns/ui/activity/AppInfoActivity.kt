@@ -70,6 +70,7 @@ import com.celzero.bravedns.databinding.ViewInsightsRankRowBinding
 import com.celzero.bravedns.rpnproxy.RpnProxyManager
 import com.celzero.bravedns.service.EventLogger
 import com.celzero.bravedns.service.FirewallManager
+import com.celzero.bravedns.service.KojikiRoaming
 import com.celzero.bravedns.service.FirewallManager.updateFirewallStatus
 import com.celzero.bravedns.service.PersistentState
 import com.celzero.bravedns.service.ProxyManager
@@ -949,7 +950,15 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
         firewallStatus: FirewallManager.FirewallStatus,
         connectionStatus: FirewallManager.ConnectionStatus
     ) {
-        val statusText = getFirewallText(firewallStatus, connectionStatus)
+        val statusText =
+            if (KojikiToggleBadge.isBypass(firewallStatus) &&
+                connectionStatus != FirewallManager.ConnectionStatus.ALLOW) {
+                // a bypass with one network blocked says both
+                "${getFirewallText(firewallStatus, FirewallManager.ConnectionStatus.ALLOW)} · " +
+                    getFirewallText(FirewallManager.FirewallStatus.NONE, connectionStatus)
+            } else {
+                getFirewallText(firewallStatus, connectionStatus)
+            }
         val statusWithTime = if (::appInfo.isInitialized && appInfo.modifiedTs > 0) {
             val now = System.currentTimeMillis()
             val uptime = now - appInfo.modifiedTs
@@ -997,6 +1006,58 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
                 disableWhitelistExcludeUi()
             }
         }
+        // Fork (白い熊 考直): under a bypass the app's own toggle still blocks its network — that
+        // side is drawn struck instead of lit-with-badge.
+        if (KojikiToggleBadge.wifiOff(firewallStatus, connectionStatus)) {
+            setDrawable(R.drawable.ic_firewall_wifi_off, b.aadAppSettingsBlockWifi)
+        }
+        if (KojikiToggleBadge.dataOff(firewallStatus, connectionStatus)) {
+            setDrawable(R.drawable.ic_firewall_data_off, b.aadAppSettingsBlockMd)
+        }
+        updateRoamingUi()
+    }
+
+    /** Fork (白い熊 考直): the Roaming toggle, lit or struck — the same under every status. */
+    private fun updateRoamingUi() {
+        if (!::appInfo.isInitialized) return
+        io {
+            // read fresh: appInfo is the copy the screen was opened with
+            val dataOff = KojikiRoaming.dataBlocked(FirewallManager.connectionStatus(appInfo.uid).id)
+            uiCtx {
+                if (isFinishing || isDestroyed) return@uiCtx
+                kojikiDataOff = dataOff
+                setDrawable(
+                    KojikiToggleBadge.roaming(
+                        this, dataOff || KojikiRoaming.isBlocked(this, appInfo.packageName)),
+                    b.aadAppSettingsBlockRoaming)
+                b.aadAppSettingsBlockRoaming.alpha = if (dataOff) 0.45f else 1f
+            }
+        }
+    }
+
+    /** Mobile data is off for this app, so roaming is too (KojikiRoaming.dataBlocked). */
+    private var kojikiDataOff = false
+
+    private fun toggleRoaming() {
+        if (kojikiDataOff) {
+            showToastUiCentered(
+                this, getString(R.string.kojiki_roaming_needs_data), android.widget.Toast.LENGTH_SHORT)
+            return
+        }
+        val block = !KojikiRoaming.isBlocked(this, appInfo.packageName)
+        io {
+            // a rule binds to the uid, so every package of it moves together
+            val pkgs = FirewallManager.getPackageNamesByUid(appInfo.uid) + appInfo.packageName
+            KojikiRoaming.setBlocked(this, pkgs, block)
+            if (block && KojikiRoaming.onRoamingData) {
+                VpnController.closeConnectionsIfNeeded(appInfo.uid, "roaming-blocked")
+            }
+            uiCtx { if (!isFinishing && !isDestroyed) updateRoamingUi() }
+        }
+        logEvent(
+            "firewall rule change",
+            "Roaming ${if (block) "blocked" else "allowed"} for ${appInfo.appName} (${appInfo.uid})"
+        )
     }
 
     private fun setupClickListeners() {
@@ -1092,6 +1153,12 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
                 toggleMobileData(appInfo)
                 updateFirewallStatusUi(appStatus, connStatus)
             }
+        }
+
+        // Fork (白い熊 考直): the Roaming toggle — independent of the firewall status, so it
+        // neither reads nor changes it (KojikiRoaming).
+        b.aadAppSettingsBlockRoaming.setOnClickListener {
+            guardAppInfoInitialized("aadAppSettingsBlockRoaming") { toggleRoaming() }
         }
 
         b.aadAppSettingsBypassUniv.setOnClickListener {
@@ -1626,6 +1693,8 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
         io {
             val connStatus = FirewallManager.connectionStatus(appInfo.uid)
+            // Fork (白い熊 考直): a bypass survives the toggle (KojikiToggleBadge.keptStatus)
+            val kept = KojikiToggleBadge.keptStatus(FirewallManager.appStatus(appInfo.uid))
             uiCtx {
                 val cStat =
                     when (connStatus) {
@@ -1642,7 +1711,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
                             FirewallManager.ConnectionStatus.METERED
                         }
                     }
-                updateFirewallStatus(FirewallManager.FirewallStatus.NONE, cStat, connStatus)
+                updateFirewallStatus(kept, cStat, connStatus)
             }
         }
     }
@@ -1656,6 +1725,8 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
         io {
             val connStatus = FirewallManager.connectionStatus(appInfo.uid)
+            // Fork (白い熊 考直): a bypass survives the toggle (KojikiToggleBadge.keptStatus)
+            val kept = KojikiToggleBadge.keptStatus(FirewallManager.appStatus(appInfo.uid))
             uiCtx {
                 val cStat =
                     when (connStatus) {
@@ -1673,7 +1744,7 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
                         }
                     }
 
-                updateFirewallStatus(FirewallManager.FirewallStatus.NONE, cStat, connStatus)
+                updateFirewallStatus(kept, cStat, connStatus)
                 logEvent(
                     "firewall rule change",
                     "Toggled WIFI for ${appInfo.appName} (${appInfo.uid}), new conn status: $cStat"
@@ -1737,8 +1808,9 @@ class AppInfoActivity : BaseActivity(R.layout.activity_app_details) {
 
     private fun enableAppExcludedUi() {
         setDrawable(R.drawable.ic_bypass_dns_firewall_off, b.aadAppSettingsBypassDnsFirewall)
-        setDrawable(R.drawable.ic_firewall_wifi_on_grey, b.aadAppSettingsBlockWifi)
-        setDrawable(R.drawable.ic_firewall_data_on_grey, b.aadAppSettingsBlockMd)
+        // Fork (白い熊 考直): an excluded app's data passes too — lit, with the Exclude badge
+        setDrawable(KojikiToggleBadge.wifi(this, FirewallManager.FirewallStatus.EXCLUDE), b.aadAppSettingsBlockWifi)
+        setDrawable(KojikiToggleBadge.data(this, FirewallManager.FirewallStatus.EXCLUDE), b.aadAppSettingsBlockMd)
         setDrawable(R.drawable.ic_firewall_bypass_off, b.aadAppSettingsBypassUniv)
         setDrawable(R.drawable.ic_firewall_exclude_on, b.aadAppSettingsExclude)
         setDrawable(R.drawable.ic_firewall_lockdown_off, b.aadAppSettingsIsolate)

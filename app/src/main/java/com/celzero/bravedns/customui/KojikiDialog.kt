@@ -69,18 +69,21 @@ object KojikiDialog {
 
     private const val MAX_CONTENT_FRACTION = 0.55f
 
+    private val DANGER_LABEL =
+        Regex("\\b(delete|remove|purge|uninstall|revoke|discard|erase)\\b", RegexOption.IGNORE_CASE)
+
     // Public: anything building dialog-grade content of its own (KojikiSharedUid) needs the same two
     // colours, and they must not drift from what show() paints.
     fun accentOf(context: Context): Int =
-        if (CustomUi.customThemeActive) CustomUiConfig(context).accentColor
+        if (CustomUi.customThemeActive) KojikiRoles.color(context, "dialog_frame")
         else UIUtils.fetchColor(context, R.attr.accentGood)
 
     private fun backgroundOf(context: Context): Int =
-        if (CustomUi.customThemeActive) CustomUiConfig(context).backgroundColor
+        if (CustomUi.customThemeActive) KojikiRoles.color(context, "dialog_ground")
         else UIUtils.fetchColor(context, R.attr.background)
 
     fun textOf(context: Context): Int =
-        if (CustomUi.customThemeActive) CustomUiConfig(context).textColor
+        if (CustomUi.customThemeActive) KojikiRoles.color(context, "dialog_text")
         else UIUtils.fetchColor(context, R.attr.primaryTextColor)
 
     /**
@@ -118,7 +121,9 @@ object KojikiDialog {
                 TextView(context).apply {
                     text = title
                     textSize = 18f
-                    setTextColor(accent)
+                    setTextColor(
+                        if (CustomUi.customThemeActive) KojikiRoles.color(context, "dialog_title")
+                        else accent)
                     typeface = Typeface.DEFAULT_BOLD
                     setPadding(0, 0, 0, dp(10))
                 })
@@ -210,8 +215,11 @@ object KojikiDialog {
     fun stylePill(b: Button, main: Boolean) {
         val context = b.context
         val d = context.resources.displayMetrics.density
-        val accent = accentOf(context)
-        val bg = backgroundOf(context)
+        val custom = CustomUi.customThemeActive
+        // a main action that deletes lends its red to frame and label — still unfilled
+        val danger = custom && main && DANGER_LABEL.containsMatchIn(b.text?.toString().orEmpty())
+        val accent = if (custom) KojikiPills.frameColor(context, main, danger) else accentOf(context)
+        val bg = if (custom) KojikiRoles.color(context, "button_ground") else backgroundOf(context)
         val states = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf())
         val frame = ColorStateList(states, intArrayOf(withAlpha(accent, 0.38f), accent))
         val stroke = ((if (main) 3f else 1.25f) * d).toInt().coerceAtLeast(1)

@@ -47,7 +47,7 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_info_white"
-                        android:tint="@android:color/white"
+                        android:tint="@color/kj_lit_on_dark"
                         tools:ignore="UseAppTint" />
 
                 </FrameLayout>

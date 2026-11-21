@@ -72,7 +72,7 @@
                 android:paddingEnd="14dp"
                 android:paddingBottom="4dp"
                 android:text="@string/device_auth_error_http_code"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 android:fontFamily="monospace" />

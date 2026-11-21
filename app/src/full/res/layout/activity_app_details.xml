@@ -271,6 +271,23 @@
                                 android:textSize="@dimen/default_font_text_view"
                                 app:drawableTopCompat="@drawable/ic_firewall_data_on_grey" />
 
+                            <!-- Fork (白い熊 考直): the per-app Roaming toggle (KojikiRoaming) -->
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/aad_app_settings_block_roaming"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?attr/selectableItemBackground"
+                                android:drawablePadding="8dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:gravity="center"
+                                android:minHeight="72dp"
+                                android:padding="8dp"
+                                android:text="@string/kojiki_roaming"
+                                android:textColor="?attr/primaryTextColor"
+                                android:textSize="@dimen/default_font_text_view"
+                                app:drawableTopCompat="@drawable/ic_kojiki_roaming_on" />
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/aad_app_settings_isolate"
                                 android:layout_width="0dp"

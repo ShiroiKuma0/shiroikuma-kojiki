@@ -62,6 +62,10 @@ import com.celzero.bravedns.ui.bottomsheet.FirewallAppFilterBottomSheet
 import com.celzero.bravedns.util.Themes
 import com.celzero.bravedns.util.UIUtils
 import com.celzero.bravedns.service.FirewallManager
+import com.celzero.bravedns.service.KojikiRoaming
+import com.celzero.bravedns.service.VpnController
+import com.celzero.bravedns.customui.KojikiDialog
+import com.celzero.bravedns.customui.KojikiToggleBadge
 import com.celzero.bravedns.util.Utilities
 import com.celzero.bravedns.util.Utilities.isAtleastQ
 import com.celzero.bravedns.util.handleFrostEffectIfNeeded
@@ -438,6 +442,11 @@ class AppListActivity :
                 BlockType.UNMETER)
         }
 
+        // Fork (白い熊 考直): bulk Roaming — its own dialog, since it is not one of the firewall
+        // statuses the other toolbar buttons cycle through.
+        b.ffaToggleAllRoaming.setImageDrawable(KojikiToggleBadge.roaming(this, blocked = false))
+        b.ffaToggleAllRoaming.setOnClickListener { showKojikiRoamingBulkDialog() }
+
         b.ffaToggleAllMobileData.setOnClickListener {
             showBulkRulesUpdateDialog(
                 getBulkActionDialogTitle(BlockType.METER),
@@ -790,6 +799,70 @@ class AppListActivity :
         }
     }
 
+    /**
+     * Fork (白い熊 考直): allow or block roaming for every app the list shows (KojikiRoaming). Also
+     * carries the test switch — treating plain mobile data as roaming — which is the only way to
+     * see the rule work without leaving the country; it lives in memory and dies with the process.
+     */
+    private fun showKojikiRoamingBulkDialog() {
+        io {
+            val targets = appInfoViewModel.bulkTargets().filter { it.packageName != packageName }
+            val uids = targets.map { it.uid }.distinct()
+            val pkgs = HashSet<String>()
+            targets.forEach { pkgs.add(it.packageName) }
+            uids.forEach { pkgs.addAll(FirewallManager.getPackageNamesByUid(it)) }
+            uiCtx {
+                if (isFinishing || isDestroyed) return@uiCtx
+                fun apply(block: Boolean) {
+                    io {
+                        KojikiRoaming.setBlocked(this, pkgs, block)
+                        if (block && KojikiRoaming.onRoamingData) {
+                            uids.forEach {
+                                VpnController.closeConnectionsIfNeeded(it, "roaming-blocked")
+                            }
+                        }
+                        logEvent("Bulk roaming rule update performed, blocked: $block, apps: ${pkgs.size}")
+                        uiCtx { recyclerAdapter?.refreshGroupPills() }
+                    }
+                }
+                val simulating = KojikiRoaming.simulate
+                KojikiDialog.show(
+                    this,
+                    getString(R.string.kojiki_roaming_bulk_title, targets.size),
+                    listOf(
+                        KojikiDialog.Action(
+                            getString(
+                                if (simulating) R.string.kojiki_roaming_simulate_off
+                                else R.string.kojiki_roaming_simulate_on),
+                            leading = true) {
+                            KojikiRoaming.setSimulate(!simulating)
+                        },
+                        KojikiDialog.Action(getString(R.string.lbl_cancel)),
+                        KojikiDialog.Action(getString(R.string.kojiki_roaming_allow)) {
+                            apply(false)
+                        },
+                        KojikiDialog.Action(getString(R.string.kojiki_roaming_block)) {
+                            apply(true)
+                        })) { box, _ ->
+                    box.addView(
+                        android.widget.TextView(this).apply {
+                            text = getString(R.string.kojiki_roaming_bulk_msg)
+                            textSize = 15f
+                            setTextColor(KojikiDialog.textOf(this@AppListActivity))
+                        })
+                    box.addView(
+                        KojikiDialog.helper(
+                            this,
+                            getString(
+                                R.string.kojiki_roaming_bulk_state,
+                                getString(
+                                    if (KojikiRoaming.onRoamingData) R.string.kojiki_roaming_state_on
+                                    else R.string.kojiki_roaming_state_off))))
+                }
+            }
+        }
+    }
+
     private fun updateMeteredBulk() {
         val metered = isInitTag(b.ffaToggleAllMobileData)
         if (metered) {
@@ -1030,6 +1103,10 @@ class AppListActivity :
 
     private fun refreshDatabase() {
         io { refreshDatabase.refresh(RefreshDatabase.ACTION_REFRESH_INTERACTIVE) }
+    }
+
+    private suspend fun uiCtx(f: suspend () -> Unit) {
+        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) { f() }
     }
 
     private fun logEvent(details: String) {

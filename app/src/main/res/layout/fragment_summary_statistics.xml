@@ -138,7 +138,7 @@
                         android:minHeight="16dp"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/kj_lit_on_dark"
                         android:textSize="9sp"
                         android:textStyle="bold"
                         android:visibility="gone" />

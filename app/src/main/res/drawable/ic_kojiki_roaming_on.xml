@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): the per-app Roaming toggle, allowed — the mobile-data triangle with the
+     status bar's "R" in the corner the triangle leaves empty. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="?attr/accentGood"
+        android:pathData="M1,21H21V1" />
+    <path
+        android:fillColor="?attr/accentGood"
+        android:fillType="evenOdd"
+        android:pathData="M2,2H6a2.75,2.75 0 0 1 1.15,5.25L8.6,11H6.5L5.2,7.5H4V11H2ZM4,3.8V5.7H5.9a0.95,0.95 0 0 0 0,-1.9Z" />
+</vector>

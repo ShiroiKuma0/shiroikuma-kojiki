@@ -225,15 +225,15 @@ class SnoopEventAdapter(
         private fun showActions(anchor: View, event: SnoopEvent) {
             val items =
                 mutableListOf(
-                    CustomUi.MenuItem(MI_BLOCK_APP, activity.getString(R.string.snoop_action_block_app)),
-                    CustomUi.MenuItem(MI_BLOCK_ALL, activity.getString(R.string.snoop_action_block_all)),
-                    CustomUi.MenuItem(MI_TRUST_APP, activity.getString(R.string.snoop_action_trust_app)),
-                    CustomUi.MenuItem(MI_ADVANCED, activity.getString(R.string.snoop_action_advanced)),
-                    CustomUi.MenuItem(MI_TAGS, activity.getString(R.string.snoop_action_tags)),
-                    CustomUi.MenuItem(MI_DISMISS, activity.getString(R.string.snoop_action_dismiss))
+                    CustomUi.MenuItem(MI_BLOCK_APP, activity.getString(R.string.snoop_action_block_app), icon = R.drawable.ic_block, role = "icon_block"),
+                    CustomUi.MenuItem(MI_BLOCK_ALL, activity.getString(R.string.snoop_action_block_all), icon = R.drawable.ic_global_lockdown, role = "icon_block"),
+                    CustomUi.MenuItem(MI_TRUST_APP, activity.getString(R.string.snoop_action_trust_app), icon = R.drawable.ic_trust, role = "icon_connect"),
+                    CustomUi.MenuItem(MI_ADVANCED, activity.getString(R.string.snoop_action_advanced), icon = R.drawable.ic_advanced_settings, opens = true, dividerBefore = true),
+                    CustomUi.MenuItem(MI_TAGS, activity.getString(R.string.snoop_action_tags), icon = R.drawable.ic_event_note, opens = true),
+                    CustomUi.MenuItem(MI_DISMISS, activity.getString(R.string.snoop_action_dismiss), icon = R.drawable.ic_cross, danger = true, dividerBefore = true)
                 )
             if (canOpenApp(event.uid)) {
-                items.add(CustomUi.MenuItem(MI_OPEN_APP, activity.getString(R.string.snoop_action_open_app)))
+                items.add(CustomUi.MenuItem(MI_OPEN_APP, activity.getString(R.string.snoop_action_open_app), icon = R.drawable.ic_app_info, role = "icon_contact", opens = true))
             }
             CustomUi.showMenu(anchor, items) { id ->
                 when (id) {
@@ -294,8 +294,8 @@ class SnoopEventAdapter(
         private fun showTagChipMenu(anchor: View, event: SnoopEvent, tag: SnoopTagStore.Tag) {
             val items =
                 listOf(
-                    CustomUi.MenuItem(MI_TAG_EDIT, activity.getString(R.string.snoop_tag_edit)),
-                    CustomUi.MenuItem(MI_TAG_REMOVE_HERE, activity.getString(R.string.snoop_tag_remove_here))
+                    CustomUi.MenuItem(MI_TAG_EDIT, activity.getString(R.string.snoop_tag_edit), icon = R.drawable.ic_edit_icon, opens = true),
+                    CustomUi.MenuItem(MI_TAG_REMOVE_HERE, activity.getString(R.string.snoop_tag_remove_here), icon = R.drawable.ic_delete, danger = true)
                 )
             CustomUi.showMenu(anchor, items) { id ->
                 when (id) {

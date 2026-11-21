@@ -341,6 +341,6 @@
         android:iconTint="?attr/primaryTextColor"
         android:text="Select Apps For Proxy"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/kj_lit_on_dark"
         app:backgroundTint="?attr/accentGood" />
 </LinearLayout>

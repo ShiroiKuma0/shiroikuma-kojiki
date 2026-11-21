@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="#26FFFFFF" />
+    <solid android:color="@color/kj_lit_avatar_ground" />
     <stroke
         android:width="1.5dp"
-        android:color="#40FFFFFF" />
+        android:color="@color/kj_lit_avatar_frame" />
 </shape>

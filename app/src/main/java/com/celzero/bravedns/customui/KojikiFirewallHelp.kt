@@ -148,8 +148,9 @@ object KojikiFirewallHelp {
             "Both bypasses waive these two. Neither “not in use” nor “device locked” can block an " +
                 "app carrying either status.",
             "Choosing either bypass sets this app’s WiFi and mobile-data toggles to allowed. " +
-                "They stay lit, with the bypass’s badge on them. Tapping one ends the bypass and " +
-                "returns the app to ordinary rules, with that network blocked.",
+                "They stay lit, with the bypass’s badge on them. Tapping one blocks that network " +
+                "and keeps the bypass on the other: the toggle is drawn struck, and the app is " +
+                "bypassed on WiFi and blocked on mobile data, or the reverse.",
             "Under Android’s “block connections without VPN”, an excluded app would be left with " +
                 "no connectivity at all, so the exclude list is ignored and the app is tunnelled " +
                 "normally.")

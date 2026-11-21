@@ -664,7 +664,9 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         }
 
         // re-hydrate exclude-apps incase it has changed in the interim
-        excludedApps = FirewallManager.getExcludedApps()
+        // Fork (白い熊 考直): while data roams, an excluded app whose Roaming toggle is off stays
+        // inside the tunnel — the only place it can be blocked. See KojikiRoaming.
+        excludedApps = KojikiRoaming.filterExcluded(FirewallManager.getExcludedApps())
         if (appConfig.determineFirewallMode().isFirewallSinkMode()) {
             addAllowedApplication(builder, excludedApps)
         } else {
@@ -762,6 +764,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     override fun onCreate() {
         connTracer = ConnectionTracer(this)
         VpnController.onVpnCreated(this)
+        // Fork (白い熊 考直): see kojikiRoamingChanged
+        KojikiRoaming.onChange = { kojikiRoamingChanged() }
 
         // Temp-allow expiry scheduling is only relevant when VPN is active.
         FirewallManager.initTempAllowScheduler(this)
@@ -856,6 +860,10 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                                 }
                                 .map(AppInfo::packageName)
                                 .toSet()
+                        // Fork (白い熊 考直): compare like with like — the builder's list is
+                        // roaming-filtered, so an unfiltered one here would restart the VPN on
+                        // every app-list emission while roaming.
+                        latestExcludedApps = KojikiRoaming.filterExcluded(latestExcludedApps)
                     }
 
                     if (Sets.symmetricDifference(excludedApps, latestExcludedApps).isEmpty())
@@ -873,6 +881,25 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
                         e
                     )
                 }
+            }
+        }
+    }
+
+    /**
+     * Fork (白い熊 考直): roaming began or ended, or a Roaming toggle changed. The set of apps kept
+     * out of the tunnel depends on both (an excluded app with roaming off is tunnelled while data
+     * roams), and that set is fixed when the tun is built — so a change in it needs a restart.
+     */
+    private fun kojikiRoamingChanged() {
+        io("kojikiRoaming") {
+            try {
+                val latest = KojikiRoaming.filterExcluded(FirewallManager.getExcludedApps())
+                if (Sets.symmetricDifference(excludedApps, latest).isEmpty()) return@io
+                Logger.i(LOG_TAG_VPN, "roaming: excluded-apps list changed, restart vpn")
+                vpnRestartTrigger.value =
+                    "roaming: ${latest.size} excluded apps, at: ${elapsedRealtime()}"
+            } catch (e: Exception) {
+                Logger.e(LOG_TAG_VPN, "roaming: err checking excluded apps ${e.message}", e)
             }
         }
     }
@@ -3178,6 +3205,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
 
     override fun onDestroy() {
         kojikiDestroyed = true
+        KojikiRoaming.onChange = null
         // Dismiss the firewall bubble and tear down its observer.
         //
         // Lifecycle note: onDestroy() is called ONLY when the VPN is truly stopping
@@ -3885,7 +3913,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     override fun onQuery(origin: String, uidGostr: String, fqdn: String, qtype: Long): DNSOpts {
         KojikiDnsWatchdog.onAsked() // fork: stall watch — counted before anything here can block
         return go2kt(dnsQueryDispatcher) {
-            val d = TunDnsManager.DnsParams(origin, uidGostr, fqdn, qtype, isLockdown(), getUnderlyingSsid(), isIfaceCellular(""), isCaptivePortal())
+            val d = TunDnsManager.DnsParams(origin, uidGostr, fqdn, qtype, isLockdown(), getUnderlyingSsid(), isIfaceCellular(""), isCaptivePortal(), TunFirewallManager.kojikiMeteredNow(underlyingNetworks, isLockdown(), cm))
             TunDnsManager.handleOnQuery(d)
         }
     }

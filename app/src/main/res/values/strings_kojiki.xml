@@ -323,4 +323,27 @@
     <string name="kojiki_diag_purge_title" translatable="false">Delete all diagnostic data?</string>
     <string name="kojiki_diag_purge_button" translatable="false">Delete forever</string>
     <string name="kojiki_diag_purge_done" translatable="false">Deleted %1$d files</string>
+
+    <!-- Fork (白い熊 考直): the per-app Roaming control (KojikiRoaming) -->
+    <string name="kojiki_roaming" translatable="false">Roaming</string>
+    <string name="kojiki_fw_rule_roaming" translatable="false">App blocked while roaming</string>
+    <string name="kojiki_fw_rule_roaming_desc" translatable="false"><![CDATA[The <i>Roaming</i> toggle of this <i>app</i> is off and mobile data was roaming, so the connection was blocked. It holds under every firewall status, bypassed and excluded included.<br/><br/> To change go to <i>All Apps</i> tab.]]></string>
+    <string name="kojiki_roaming_needs_data" translatable="false">Mobile data is off for this app, so roaming is too. Allow mobile data first.</string>
+    <string name="kojiki_roaming_cd" translatable="false">Allow or block this app while roaming</string>
+    <string name="kojiki_roaming_bulk_title" translatable="false">Roaming — %1$d listed apps</string>
+    <string name="kojiki_roaming_bulk_msg" translatable="false">Allow or block roaming data for every app the list is showing. Roaming is mobile data abroad: an app whose mobile-data toggle is off has no roaming either, and its roaming toggle shows that. Roaming off holds under every status: a bypassed or excluded app with roaming off has no access while roaming.</string>
+    <string name="kojiki_roaming_bulk_state" translatable="false">Right now: %1$s.</string>
+    <string name="kojiki_roaming_state_on" translatable="false">data is roaming</string>
+    <string name="kojiki_roaming_state_off" translatable="false">data is not roaming</string>
+    <string name="kojiki_roaming_simulate_on" translatable="false">Test: treat mobile data as roaming</string>
+    <string name="kojiki_roaming_simulate_off" translatable="false">Stop the roaming test</string>
+    <string name="kojiki_roaming_allow" translatable="false">Allow</string>
+    <string name="kojiki_roaming_block" translatable="false">Block</string>
+
+    <!-- Fork (白い熊 考直): the UI page's Maintenance section (black-yellow, 2026-11-21) -->
+    <string name="kojiki_ui_section_maintenance" translatable="false">Maintenance</string>
+    <string name="kojiki_ui_reset_order" translatable="false">Reset section order</string>
+    <string name="kojiki_ui_reset_order_desc" translatable="false">Puts the sections of this page back in their built order. Which of them are open is kept.</string>
+    <string name="kojiki_ui_reset_colors" translatable="false">Reset all colours</string>
+    <string name="kojiki_ui_reset_colors_desc" translatable="false">Puts every colour role back to its default, so each follows the accent, text and background colours again. Fonts, sizes and the three primaries are kept.</string>
 </resources>

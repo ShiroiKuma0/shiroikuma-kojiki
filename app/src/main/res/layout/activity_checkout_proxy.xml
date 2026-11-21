@@ -145,7 +145,7 @@
                 android:backgroundTint="?attr/accentGood"
                 android:padding="16dp"
                 android:text="purchase"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="16sp" />
 
             <!-- Restore Purchase Button -->
@@ -226,7 +226,7 @@
                 android:backgroundTint="?attr/accentGood"
                 android:padding="16dp"
                 android:text="continue"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -314,7 +314,7 @@
                 android:backgroundTint="?attr/accentGood"
                 android:padding="16dp"
                 android:text="try again"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="16sp" />
 
         </LinearLayout>

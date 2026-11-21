@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): the per-app Roaming toggle, blocked — the same "R", the triangle struck
+     through. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="?attr/accentBad"
+        android:pathData="M21,1L12.35,9.65L21,18.3ZM1,21L9.65,12.35L18.3,21ZM10.64,9.36L23.14,21.86L21.86,23.14L9.36,10.64Z" />
+    <path
+        android:fillColor="?attr/accentBad"
+        android:fillType="evenOdd"
+        android:pathData="M2,2H6a2.75,2.75 0 0 1 1.15,5.25L8.6,11H6.5L5.2,7.5H4V11H2ZM4,3.8V5.7H5.9a0.95,0.95 0 0 0 0,-1.9Z" />
+</vector>

@@ -113,6 +113,14 @@ object TunFirewallManager : KoinComponent {
                 return FirewallRuleset.RULE9B
             }
 
+            // Fork (白い熊 考直): the per-app Roaming toggle. Ahead of everything else on purpose —
+            // it holds for a bypassed app, a temp-allowed one, and an excluded one (which
+            // KojikiRoaming.filterExcluded brings into the tunnel while data roams).
+            if (KojikiRoaming.blocksNow(uid)) {
+                logd("firewall($connId): roaming blocked, $uid")
+                return FirewallRuleset.RULE1R
+            }
+
             if (unknownAppBlocked(uid) && !skipUnknownAppRule) {
                 logd("firewall($connId): unknown app blocked, $uid")
                 return FirewallRuleset.RULE5
@@ -538,6 +546,21 @@ object TunFirewallManager : KoinComponent {
 
         return null
     }
+
+    /**
+     * Fork (白い熊 考直): whether the network in use counts as metered, reckoned exactly as the
+     * per-app WiFi / mobile-data rule reckons it — for the DNS path, which has no destination.
+     */
+    fun kojikiMeteredNow(
+        underlyingNetworks: ConnectionMonitor.UnderlyingNetworks?,
+        isLockdown: Boolean,
+        connectivityManager: ConnectivityManager
+    ): Boolean =
+        try {
+            isConnectionMetered("", underlyingNetworks, isLockdown, connectivityManager)
+        } catch (_: Exception) {
+            false
+        }
 
     private fun isConnectionMetered(
         dst: String,

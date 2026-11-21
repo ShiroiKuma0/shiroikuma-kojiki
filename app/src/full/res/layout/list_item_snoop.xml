@@ -115,7 +115,7 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:singleLine="true"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="@dimen/mini_font_text_view"
                 tools:text="HIGH" />
 

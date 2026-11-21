@@ -89,12 +89,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:gravity="center"
-                                                android:shadowColor="#FF000000"
+                                                android:shadowColor="@color/kj_lit_shadow"
                                                 android:shadowDx="1"
                                                 android:shadowDy="1"
                                                 android:shadowRadius="10"
                                                 android:textAllCaps="true"
-                                                android:textColor="@android:color/white"
+                                                android:textColor="@color/kj_lit_on_dark"
                                                 android:textSize="@dimen/small_font_text_view"
                                                 android:textStyle="bold"
                                                 tools:text="IN" />
@@ -120,12 +120,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:gravity="center"
-                                                android:shadowColor="#FF000000"
+                                                android:shadowColor="@color/kj_lit_shadow"
                                                 android:shadowDx="1"
                                                 android:shadowDy="1"
                                                 android:shadowRadius="10"
                                                 android:textAllCaps="true"
-                                                android:textColor="@android:color/white"
+                                                android:textColor="@color/kj_lit_on_dark"
                                                 android:textSize="@dimen/small_font_text_view"
                                                 android:textStyle="bold"
                                                 tools:text="SG" />
@@ -854,7 +854,7 @@
                                 android:paddingStart="28dp"
                                 android:paddingEnd="28dp"
                                 android:text="@string/server_selection_error_retry"
-                                android:textColor="@android:color/white"
+                                android:textColor="@color/kj_lit_on_dark"
                                 android:textSize="14sp"
                                 app:backgroundTint="?attr/accentBad"
                                 app:cornerRadius="24dp"
@@ -862,7 +862,7 @@
                                 app:icon="@drawable/ic_refresh"
                                 app:iconGravity="textStart"
                                 app:iconPadding="10dp"
-                                app:iconTint="@android:color/white" />
+                                app:iconTint="@color/kj_lit_on_dark" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/error_reset_btn"
@@ -924,7 +924,7 @@
         android:visibility="gone"
         app:backgroundTint="?attr/colorError"
         app:elevation="8dp"
-        app:tint="@android:color/white" />
+        app:tint="@color/kj_lit_on_dark" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_start_proxy"
@@ -941,7 +941,7 @@
         app:backgroundTint="?attr/accentGood"
         app:elevation="8dp"
         app:icon="@drawable/ic_vpn"
-        app:iconTint="@android:color/white" />
+        app:iconTint="@color/kj_lit_on_dark" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_indicator"
@@ -951,7 +951,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
         android:visibility="gone"
-        app:indicatorColor="@android:color/white"
+        app:indicatorColor="@color/kj_lit_on_dark"
         app:indicatorSize="64dp"
         app:trackColor="?attr/primaryLightColorText"
         app:trackThickness="3dp" />

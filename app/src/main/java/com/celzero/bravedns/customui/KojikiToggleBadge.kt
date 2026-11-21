@@ -50,6 +50,56 @@ object KojikiToggleBadge {
         status == FirewallManager.FirewallStatus.BYPASS_UNIVERSAL ||
             status == FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL
 
+    /**
+     * The status a WiFi / mobile-data toggle leaves behind. Upstream drops every status to NONE
+     * there, so a bypassed app could not be blocked on one network without losing its bypass. A
+     * bypass is **kept**: the firewall tests the app's own WiFi / data block before either bypass
+     * (`TunFirewallManager.appBlocked`), so "bypassed on WiFi, blocked on mobile data" is a state
+     * the engine has always honoured — only the toggles could not reach it. Exclude and Isolate
+     * still drop to NONE: neither can be combined with a per-network block.
+     */
+    fun keptStatus(status: FirewallManager.FirewallStatus): FirewallManager.FirewallStatus =
+        if (isBypass(status)) status else FirewallManager.FirewallStatus.NONE
+
+    /** Under a bypass, WiFi is blocked by the app's own toggle. */
+    fun wifiOff(status: FirewallManager.FirewallStatus, conn: FirewallManager.ConnectionStatus) =
+        isBypass(status) &&
+            (conn == FirewallManager.ConnectionStatus.UNMETERED ||
+                conn == FirewallManager.ConnectionStatus.BOTH)
+
+    /** Under a bypass, mobile data is blocked by the app's own toggle. */
+    fun dataOff(status: FirewallManager.FirewallStatus, conn: FirewallManager.ConnectionStatus) =
+        isBypass(status) &&
+            (conn == FirewallManager.ConnectionStatus.METERED ||
+                conn == FirewallManager.ConnectionStatus.BOTH)
+
+    /**
+     * Whether [status]'s toggles are drawn lit with a badge: the two bypasses, and Exclude — an
+     * excluded app's data passes just as freely (outside the tunnel), so greying its toggles said
+     * the opposite of the truth for it too.
+     */
+    fun isBadged(status: FirewallManager.FirewallStatus): Boolean =
+        isBypass(status) || status == FirewallManager.FirewallStatus.EXCLUDE
+
+    /**
+     * The Roaming toggle. It carries no badge: it is the one control that means the same under
+     * every status, so it is simply lit or struck through.
+     */
+    fun roaming(context: Context, blocked: Boolean): Drawable? {
+        val d =
+            AppCompatResources.getDrawable(
+                    context,
+                    if (blocked) R.drawable.ic_kojiki_roaming_off
+                    else R.drawable.ic_kojiki_roaming_on)
+                ?.mutate() ?: return null
+        if (CustomUi.customThemeActive) {
+            val cfg = CustomUiConfig(context)
+            val c = if (blocked) cfg.fwDeniedColor else cfg.fwAllowedColor
+            if (c != 0) d.setTint(c)
+        }
+        return d
+    }
+
     fun wifi(context: Context, status: FirewallManager.FirewallStatus): Drawable? =
         build(context, R.drawable.ic_firewall_wifi_on, status, Gravity.BOTTOM or Gravity.END)
 
@@ -68,6 +118,7 @@ object KojikiToggleBadge {
                 FirewallManager.FirewallStatus.BYPASS_UNIVERSAL -> R.drawable.ic_firewall_bypass_on
                 FirewallManager.FirewallStatus.BYPASS_DNS_FIREWALL ->
                     R.drawable.ic_bypass_dns_firewall_on
+                FirewallManager.FirewallStatus.EXCLUDE -> R.drawable.ic_firewall_exclude_on
                 else -> return base
             }
         val badge = AppCompatResources.getDrawable(context, badgeRes)?.mutate() ?: return base
@@ -76,8 +127,11 @@ object KojikiToggleBadge {
             val cfg = CustomUiConfig(context)
             val allowed = cfg.fwAllowedColor
             val own =
-                if (status == FirewallManager.FirewallStatus.BYPASS_UNIVERSAL) cfg.fwBypassUnivColor
-                else cfg.fwBypassDnsColor
+                when (status) {
+                    FirewallManager.FirewallStatus.BYPASS_UNIVERSAL -> cfg.fwBypassUnivColor
+                    FirewallManager.FirewallStatus.EXCLUDE -> cfg.fwExcludedColor
+                    else -> cfg.fwBypassDnsColor
+                }
             if (allowed != 0) base.setTint(allowed)
             val badgeColor = if (own != 0) own else allowed
             if (badgeColor != 0) badge.setTint(badgeColor)

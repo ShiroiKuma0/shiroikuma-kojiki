@@ -45,7 +45,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/country_ssid_icon"
                         android:src="@drawable/ic_settings"
-                        android:tint="@android:color/white"
+                        android:tint="@color/kj_lit_on_dark"
                         tools:ignore="UseAppTint" />
 
                 </FrameLayout>
@@ -352,7 +352,7 @@
                     android:text="@string/lbl_save"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/kj_lit_on_dark"
                     app:backgroundTint="?attr/accentGood"
                     app:cornerRadius="12dp"
                     app:elevation="0dp" />

@@ -65,6 +65,15 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         bottomSheet.layoutParams.height = bottomSheetHeight
         bottomSheet.requestLayout()
 
+        // Fork (白い熊 考直): a sheet lives in a window of its own, which the activity's restyling
+        // pass never walks — so every sheet is themed here, once for all of them: the flat
+        // panel, then pills, switches, role-coloured icons and fonts over its content, kept up
+        // as rows arrive.
+        if (com.celzero.bravedns.customui.CustomUi.customThemeActive) {
+            com.celzero.bravedns.customui.CustomUi.themeBottomSheet(sheetDialog)
+            com.celzero.bravedns.customui.CustomUi.watchDialogTree(bottomSheet)
+        }
+
         // Dialog windows do not consult the activity's onWindowStartingActionMode, so
         // selectable text inside sheets is disabled directly on affected installs.
         TextSelectionGuard.apply(bottomSheet)

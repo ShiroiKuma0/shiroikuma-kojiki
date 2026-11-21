@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork (白い熊 考直): view-tag keys of the black-yellow restyling (customui/KojikiPills). -->
+<resources>
+    <item name="kojiki_pill_kind" type="id" />
+    <item name="kojiki_style_generation" type="id" />
+    <item name="kojiki_row_icon" type="id" />
+</resources>

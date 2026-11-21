@@ -12,5 +12,5 @@
     android:maxLines="2"
     android:paddingHorizontal="56dp"
     android:paddingVertical="36dp"
-    android:textColor="@color/kojikiYellow"
+    android:textColor="@color/kj_primary"
     android:textSize="18sp" />

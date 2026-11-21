@@ -48,6 +48,8 @@ import com.celzero.bravedns.database.Severity
 import com.celzero.bravedns.databinding.ListItemFirewallAppBinding
 import com.celzero.bravedns.service.EventLogger
 import com.celzero.bravedns.service.FirewallManager
+import com.celzero.bravedns.service.KojikiRoaming
+import com.celzero.bravedns.service.VpnController
 import com.celzero.bravedns.service.FirewallManager.updateFirewallStatus
 import com.celzero.bravedns.service.ProxyManager
 import com.celzero.bravedns.service.ProxyManager.ID_NONE
@@ -180,11 +182,14 @@ class FirewallAppListAdapter(
                         // do not show the wi-fi and mobile data icons for RethinkDNS
                         b.firewallAppToggleWifi.visibility = View.GONE
                         b.firewallAppToggleMobileData.visibility = View.GONE
+                        b.firewallAppToggleRoaming.visibility = View.GONE
                     } else {
                         // show the wi-fi and mobile data icons for other apps
                         b.firewallAppToggleWifi.visibility = View.VISIBLE
                         b.firewallAppToggleMobileData.visibility = View.VISIBLE
+                        b.firewallAppToggleRoaming.visibility = View.VISIBLE
                         displayConnectionStatus(appStatus, connStatus)
+                        displayRoaming(appInfo)
                     }
                     displayDataUsage(appInfo)
                 }
@@ -334,6 +339,11 @@ class FirewallAppListAdapter(
             aStat: FirewallManager.FirewallStatus,
             cStat: FirewallManager.ConnectionStatus
         ): String {
+            // Fork (白い熊 考直): a bypass with one network blocked says both
+            if (KojikiToggleBadge.isBypass(aStat) && cStat != FirewallManager.ConnectionStatus.ALLOW) {
+                return getFirewallText(aStat, FirewallManager.ConnectionStatus.ALLOW) + " · " +
+                    getFirewallText(FirewallManager.FirewallStatus.NONE, cStat)
+            }
             return when (aStat) {
                 FirewallManager.FirewallStatus.NONE ->
                     when (cStat) {
@@ -363,12 +373,26 @@ class FirewallAppListAdapter(
         ) {
             // Fork (白い熊 考直): a bypassed app's toggles are allowed, not greyed — drawn lit with
             // the bypass's badge. The drawable tints its own layers, so no view filter goes over it.
-            if (KojikiToggleBadge.isBypass(firewallStatus)) {
-                b.firewallAppToggleWifi.setImageDrawable(KojikiToggleBadge.wifi(context, firewallStatus))
-                b.firewallAppToggleMobileData.setImageDrawable(
-                    KojikiToggleBadge.data(context, firewallStatus))
-                b.firewallAppToggleWifi.clearColorFilter()
-                b.firewallAppToggleMobileData.clearColorFilter()
+            if (KojikiToggleBadge.isBadged(firewallStatus)) {
+                // ... unless the app's own toggle blocks that network: a bypass does not lift it,
+                // so that side is drawn struck, like any blocked app's.
+                if (KojikiToggleBadge.wifiOff(firewallStatus, connStatus)) {
+                    showWifiDisabled()
+                    CustomUi.tintToggle(context, b.firewallAppToggleWifi, CustomUi.ToggleState.DENIED)
+                } else {
+                    b.firewallAppToggleWifi.setImageDrawable(
+                        KojikiToggleBadge.wifi(context, firewallStatus))
+                    b.firewallAppToggleWifi.clearColorFilter()
+                }
+                if (KojikiToggleBadge.dataOff(firewallStatus, connStatus)) {
+                    showMobileDataDisabled()
+                    CustomUi.tintToggle(
+                        context, b.firewallAppToggleMobileData, CustomUi.ToggleState.DENIED)
+                } else {
+                    b.firewallAppToggleMobileData.setImageDrawable(
+                        KojikiToggleBadge.data(context, firewallStatus))
+                    b.firewallAppToggleMobileData.clearColorFilter()
+                }
                 return
             }
             when (firewallStatus) {
@@ -413,6 +437,41 @@ class FirewallAppListAdapter(
             // (state is known here) and per-state (allowed / blocked / excluded / bypass-dns / bypass-univ).
             CustomUi.tintToggle(context, b.firewallAppToggleWifi, wifiToggleState(firewallStatus, connStatus))
             CustomUi.tintToggle(context, b.firewallAppToggleMobileData, dataToggleState(firewallStatus, connStatus))
+        }
+
+        /**
+         * Fork (白い熊 考直): the Roaming toggle — lit or struck through, the same under every
+         * firewall status, since it is the one rule no status lifts (KojikiRoaming). The drawable
+         * tints itself, so no view filter goes over it.
+         */
+        private fun displayRoaming(appInfo: AppInfo) {
+            b.firewallAppToggleRoaming.setImageDrawable(
+                KojikiToggleBadge.roaming(
+                    context,
+                    KojikiRoaming.dataBlocked(appInfo.connectionStatus) ||
+                        KojikiRoaming.isBlocked(context, appInfo.packageName)))
+            b.firewallAppToggleRoaming.clearColorFilter()
+            // struck because mobile data is: dimmed, to tell it from a roaming toggle set off
+            b.firewallAppToggleRoaming.alpha =
+                if (KojikiRoaming.dataBlocked(appInfo.connectionStatus)) 0.45f else 1f
+        }
+
+        private suspend fun toggleRoaming(appInfo: AppInfo) {
+            // a rule binds to the uid, so every package of it moves together
+            val pkgs = FirewallManager.getPackageNamesByUid(appInfo.uid).ifEmpty {
+                listOf(appInfo.packageName)
+            }
+            val block = !KojikiRoaming.isBlocked(context, appInfo.packageName)
+            KojikiRoaming.setBlocked(context, pkgs + appInfo.packageName, block)
+            if (block && KojikiRoaming.onRoamingData) {
+                VpnController.closeConnectionsIfNeeded(appInfo.uid, "roaming-blocked")
+            }
+            logEvent("UID: ${appInfo.uid}, App: ${appInfo.appName}, roaming blocked: $block")
+            uiCtx {
+                // the store is not the paged table, so nothing re-renders the rows for us — and
+                // a shared uid has other rows on screen
+                if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
+            }
         }
 
         private fun wifiToggleState(
@@ -510,6 +569,34 @@ class FirewallAppListAdapter(
                 }
             }
 
+            b.firewallAppToggleRoaming.setOnClickListener {
+                if (KojikiRoaming.dataBlocked(appInfo.connectionStatus)) {
+                    Utilities.showToastUiCentered(
+                        context,
+                        context.getString(R.string.kojiki_roaming_needs_data),
+                        android.widget.Toast.LENGTH_SHORT)
+                    return@setOnClickListener
+                }
+                enableAfterDelay(TimeUnit.SECONDS.toMillis(1L), b.firewallAppToggleRoaming)
+                io {
+                    val appNames = FirewallManager.getAppNamesByUid(appInfo.uid)
+                    uiCtx {
+                        if (appNames.count() > 1) {
+                            KojikiSharedUid.confirm(
+                                context,
+                                appInfo.appName,
+                                appInfo.uid,
+                                appNames,
+                                context.getString(R.string.lbl_proceed)) {
+                                io { toggleRoaming(appInfo) }
+                            }
+                            return@uiCtx
+                        }
+                        ioCtx { toggleRoaming(appInfo) }
+                    }
+                }
+            }
+
             b.firewallAppToggleMobileData.setOnClickListener {
                 enableAfterDelay(TimeUnit.SECONDS.toMillis(1L), b.firewallAppToggleMobileData)
                 io {
@@ -533,29 +620,31 @@ class FirewallAppListAdapter(
             if (appInfo.packageName == context.packageName) {
                 return
             }
+            // Fork (白い熊 考直): a bypass survives the toggle (KojikiToggleBadge.keptStatus)
+            val kept = KojikiToggleBadge.keptStatus(FirewallManager.appStatus(appInfo.uid))
             when (connStatus) {
                 FirewallManager.ConnectionStatus.METERED -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.ALLOW)
                 }
                 FirewallManager.ConnectionStatus.UNMETERED -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.BOTH)
                 }
                 FirewallManager.ConnectionStatus.BOTH -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.UNMETERED)
                 }
                 FirewallManager.ConnectionStatus.ALLOW -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.METERED)
                 }
             }
@@ -566,29 +655,31 @@ class FirewallAppListAdapter(
             appInfo: AppInfo,
             connStatus: FirewallManager.ConnectionStatus
         ) {
+            // Fork (白い熊 考直): a bypass survives the toggle (KojikiToggleBadge.keptStatus)
+            val kept = KojikiToggleBadge.keptStatus(FirewallManager.appStatus(appInfo.uid))
             when (connStatus) {
                 FirewallManager.ConnectionStatus.METERED -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.BOTH)
                 }
                 FirewallManager.ConnectionStatus.UNMETERED -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.ALLOW)
                 }
                 FirewallManager.ConnectionStatus.BOTH -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.METERED)
                 }
                 FirewallManager.ConnectionStatus.ALLOW -> {
                     updateFirewallStatus(
                         appInfo.uid,
-                        FirewallManager.FirewallStatus.NONE,
+                        kept,
                         FirewallManager.ConnectionStatus.UNMETERED)
                 }
             }

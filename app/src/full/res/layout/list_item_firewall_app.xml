@@ -228,14 +228,30 @@
             android:id="@+id/firewall_app_toggle_mobile_data"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_firewall_action_outlined"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/firewall_app_toggle_roaming"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_firewall_data_on" />
+
+        <!-- Fork (白い熊 考直): the per-app Roaming toggle (KojikiRoaming) — the one control that
+             holds under every firewall status, bypassed and excluded included. -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/firewall_app_toggle_roaming"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_firewall_action_outlined"
+            android:contentDescription="@string/kojiki_roaming_cd"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_firewall_data_on" />
+            app:srcCompat="@drawable/ic_kojiki_roaming_on" />
 
         <!-- Fork (白い熊 考直): the configurable row divider (CustomUi.applyFirewallRow themes its
              colour/thickness). Upstream moved this row from a LinearLayout to a card+ConstraintLayout,

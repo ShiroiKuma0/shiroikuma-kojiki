@@ -51,7 +51,7 @@
                 android:clickable="false"
                 android:gravity="center"
                 android:focusable="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/kj_lit_on_dark"
                 android:textSize="10sp"
                 app:chipCornerRadius="6dp"
                 app:chipMinHeight="24dp"

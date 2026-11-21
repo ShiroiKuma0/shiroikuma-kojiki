@@ -52,11 +52,21 @@ class RethinkDnsApplication : Application() {
         KojikiLeakWatch.install(this)
         com.celzero.bravedns.service.KojikiNetDiag.init()
         com.celzero.bravedns.service.KojikiNetDiag.onEvent("process start")
+        // Fork (白い熊 考直): the per-app Roaming control watches the underlying network from here.
+        com.celzero.bravedns.service.KojikiRoaming.init(this)
 
         startKoin {
             if (DEBUG) androidLogger()
             androidContext(this@RethinkDnsApplication)
             koin.loadModules(AppModules)
+        }
+
+        // Fork (白い熊 考直): lay the colour roles over the resources — under the Custom theme only,
+        // and before the first activity resolves a colour.
+        com.celzero.bravedns.customui.KojikiPalette.install(this) {
+            com.celzero.bravedns.util.Themes.isCustomTheme(
+                org.koin.java.KoinJavaComponent.get<com.celzero.bravedns.service.PersistentState>(
+                    com.celzero.bravedns.service.PersistentState::class.java).theme)
         }
 
         val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
