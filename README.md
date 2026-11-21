@@ -6,11 +6,11 @@
 
 **DNS + firewall + WireGuard VPN for Android — rebuilt in black and yellow, with eyes on every snoop.**
 
-A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, switchable diagnostics, and external automation intents — including a guard that lets a companion app check the internet and cure a wedged VPN.
+A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major additions**: self-healing DNS (a watchdog + a patched engine), connections that recover instead of dying when a DNS mapping ages out, per-app time-ordered logs, an on-device Snooping panel, a per-app Roaming toggle and bypasses that can be limited to one network, per-app notes and app groups, frozen apps that keep their rules, a fully configurable UI theme + global font, portable category-based Export/Import that can be driven from outside the app, honest WireGuard status, switchable diagnostics, and external automation intents — including a guard that lets a companion app check the internet and cure a wedged VPN.
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+022`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+030`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -81,8 +81,13 @@ A firewall rule cannot name an app: Android hands the network stack a **uid**, s
 
 ---
 
+## 🌍 Roaming, per app — and a bypass on one network only
+Every app has a third toggle beside WiFi and mobile data: **Roaming**. Off means no network and no DNS while the phone's data leaves over a roaming mobile network — under every status, bypassed and excluded apps included. An excluded app is taken back into the tunnel while data roams, and the VPN restarts by itself when roaming starts or ends. A bypass also survives the WiFi and data toggles now, so an app can be bypassed on WiFi and blocked on mobile data; DNS lookups are refused on the blocked network too.
+
+---
+
 ## 🎨 白い熊 考直 UI
-A **default “Custom” theme** with every colour user-configurable via full-ARGB pickers (background, accent, text) plus a **global font** — family, weight, and size — applied app-wide at runtime: dialogs, bottom sheets, toasts, the start button, log tables, everything. Ships seeded with 白い熊’s black `#000000` / pure-yellow `#FFFF00` look, matching the black-and-yellow launcher icon.
+A **default “Custom” theme** with every colour user-configurable via full-ARGB pickers (background, accent, text) plus a **global font** — family, weight, and size — applied app-wide at runtime: dialogs, bottom sheets, toasts, the start button, log tables, everything. Ships seeded with 白い熊’s black `#000000` / pure-yellow `#FFFF00` look, matching the black-and-yellow launcher icon. Every colour is a **role** — 144 of them in 16 areas, each with its own swatch — laid over the whole app at run time, so upstream’s screens follow them too. Buttons are outlined pills, switches outlined with a dot, menus rows of pills with icons coloured by what they do, and the UI page folds into sections with a draggable chip index.
 
 ---
 

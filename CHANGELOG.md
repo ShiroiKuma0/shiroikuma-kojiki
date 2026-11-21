@@ -2,6 +2,60 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG and IPv4-fallback patches.
 
+## 0.5.8+030
+
+**A third per-app toggle for roaming, a bypass that can be limited to one network, and a theme in which every colour of every item can be set.**
+
+### Roaming, per app
+- Every row of the apps view has a third toggle, right of the mobile-data one: **Roaming**. The app screen has the same button, and the bulk toolbar a glyph that sets it for every listed app.
+- Roaming off means the app has no network while the phone's data leaves over a roaming mobile network. It holds under **every** status: a bypassed app and an excluded app are refused too.
+- An excluded app runs outside the tunnel, where nothing can be blocked. While data roams, an excluded app with roaming off is therefore taken back into the tunnel and blocked there; the VPN restarts by itself when roaming starts or ends.
+- DNS lookups of a roaming-blocked app are refused as well.
+- Roaming is read off the network the traffic actually leaves by, so WiFi abroad blocks nothing.
+- Roaming is mobile data: when an app's mobile-data toggle is off, its Roaming toggle is drawn struck and dimmed, and a tap only says why. The app's own roaming choice is kept and returns when mobile data is allowed again.
+- The setting is stored by package name and travels in the per-app firewall export.
+- The bulk dialog has a test switch, “treat mobile data as roaming”, held in memory only, to try the rule without leaving the country.
+- The log names the rule: “Rule #1R”, the app's Roaming toggle is off.
+
+### A bypass on one network only
+- Tapping the WiFi or mobile-data toggle of a bypassed app used to end the bypass. It now blocks or allows only that network and keeps the bypass, so an app can be **bypassed on WiFi and blocked on mobile data**, or the reverse. Choose the bypass first, then tap the toggle.
+- The blocked side is drawn struck; the other stays lit with the bypass badge. The status line names both parts.
+- Exclude and Isolate are unchanged: a toggle still returns such an app to ordinary rules.
+- The firewall help dialog describes the new behaviour.
+
+### DNS follows the per-network block
+An app blocked on one network only still had its DNS lookups answered on that network; lookups were refused only when both networks were blocked. They are now refused on the blocked network too, with the same metered test the firewall uses.
+
+### Excluded apps read as allowed
+An excluded app's WiFi and mobile-data toggles were greyed, as if off. Its data passes freely, so they are now lit, with the Exclude badge.
+
+### Every colour is a role
+- The theme has **144 colour roles in 16 areas** — buttons, dialogs, switches and marks, menus, icons, chips and tags, bars and tabs, text, surfaces, status colours, firewall rule buttons, home screen, servers, tour and more. Each role has a swatch on the 白い熊 考直 UI page in the section of its area, a ↺ that returns it to its default, and travels in the Appearance export.
+- The defaults are the two primaries, yellow `#FFFF00` and black `#000000`; a role that is not set follows them.
+- The roles reach the whole app, not only the parts code repaints: they are laid over the app's colour resources at run time, so upstream's own layouts follow them without being edited. This needs Android 11; older Android shows the defaults.
+- **Reset all colours** and **Reset section order** are in a new Maintenance section.
+
+### Pills, switches, menus
+- Every button is an outlined pill: a 3 dp frame and bold text for the main action, 1.25 dp otherwise, red for an action that deletes. No filled buttons remain; icon-only buttons stay glyphs.
+- Every switch is an outlined pill with a solid dot, with a colour role each for on and off.
+- Popup menus are full-width pill rows with an icon coloured by what the row does, a › on rows that open something, red for rows that delete, and clear dividers between groups. A menu no longer scrolls while the screen has room.
+- Every bottom sheet is themed, not only the ones the fork had touched.
+- Small icons across the app are coloured by role, told from what they stand for.
+
+### The UI page folds
+- The 白い熊 考直 UI page is now a list of folding sections, all folded at first, with › and ⌄ on the headings.
+- A chip index at the top has one chip per section: a tap unfolds the section and scrolls to it, a long-press drags the chip, and the sections reorder to match.
+- Order and fold state are remembered and exported.
+- The first element is a pill that opens the app's own settings. Every row carries an icon.
+
+### Icons on rows that had none
+28 rows upstream left without an icon now carry one, coloured by what the row does: the ten universal firewall rules, the WireGuard and RPN tunnel switches, the proxy screens and dialogs, the Tasker sheet, the bug-report sheet and the rule rows of the Network-log and DNS-log sheets.
+
+### Fixes
+- The Roaming toggle of a blocked app is no longer repainted in the accent colour by the theme pass.
+
+Built on the `v0.5.8` upstream tag. The engine is unchanged from 0.5.8+021. Builds +023 to +029 were test builds of this work and are not published separately.
+
 ## 0.5.8+022
 
 **The Network and DNS logs are packed into tight two-line rows that are easier to scan.**
