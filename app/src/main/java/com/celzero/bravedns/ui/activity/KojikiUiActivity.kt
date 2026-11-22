@@ -451,16 +451,49 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
      * The icon every row carries, coloured by what the row does: drawn in the row's indent, so no
      * row builder has to make room for it.
      */
+    // The icon of a row, drawn in its overlay, in the gutter left of the content.
+    //
+    // It scales with the row's label (白い熊, 2026-11-22): as tall as the label's text line —
+    // 1.25 × its text size — and never under 18 dp. A fixed 18 dp icon was sized against an
+    // ordinary label and read as a footnote mark beside a large bold one. The size is read off
+    // the label at layout time, after the font pass has set it, and the gutter grows with the
+    // icon so the content never sits under it; the icon's left edge stays where it was.
     private fun rowIcon(row: View, icon: Int, role: String = "icon_view") {
         val d = KojikiPills.icon(this, icon, role) ?: return
-        val s = dp(18)
+        val minSize = dp(18)
+        val baseGutter = dp(26)
+        var origStart = -1
+        val rect = android.graphics.Rect()
         row.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
-            val x = v.paddingStart - dp(26)
-            val y = if (v.height < dp(44)) (v.height - s) / 2 else v.paddingTop + dp(4)
+            if (origStart < 0) origStart = v.paddingStart
+            val label = firstLabel(v)
+            val s = maxOf(minSize, ((label?.textSize ?: 0f) * 1.25f).toInt())
+            // room for the icon plus the 8 dp that separated an 18 dp icon from the content
+            val wantStart = origStart - baseGutter + s + dp(8)
+            if (wantStart > origStart && v.paddingStart != wantStart) {
+                v.post { v.setPaddingRelative(wantStart, v.paddingTop, v.paddingEnd, v.paddingBottom) }
+            }
+            val x = origStart - baseGutter
+            val y =
+                if (label != null && v is ViewGroup && label !== v) {
+                    // centred on the label's first line
+                    rect.set(0, 0, label.width, label.height)
+                    runCatching { v.offsetDescendantRectToMyCoords(label, rect) }
+                    rect.top + label.paddingTop + (label.lineHeight - s) / 2
+                } else {
+                    (v.height - s) / 2
+                }
             d.setBounds(x, y, x + s, y + s)
             v.invalidate()
         }
         row.overlay.add(d)
+    }
+
+    /** The first text view of [v], depth first: the row's label. */
+    private fun firstLabel(v: View): TextView? {
+        if (v is TextView && v !is android.widget.CompoundButton && v !is android.widget.Button) return v
+        if (v is ViewGroup) for (i in 0 until v.childCount) firstLabel(v.getChildAt(i))?.let { return it }
+        return null
     }
 
     /** A swatch row per colour role of [area]; a set role shows ↺, which puts it back to its default. */

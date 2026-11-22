@@ -20,7 +20,6 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.SparseArray
 import android.view.View
@@ -214,7 +213,16 @@ object KojikiPills {
             v.thumbIconDrawable = null
             v.trackDecorationDrawable = null
         }
-        v.thumbDrawable = InsetDrawable(dot, inset)
+        // The dot sits in a box of half the track's width and all of its height. A LayerDrawable
+        // with layer insets, NOT an InsetDrawable: SwitchCompat takes an InsetDrawable's insets
+        // for the thumb's optical insets and shrinks the TRACK by them on every side, which drew
+        // the 52 × 28 dp outline at about 30 × 13 dp with the dot as tall as the track (seen
+        // 2026-11-22). A layer inset is neither padding nor an optical inset.
+        val boxW = (26 * d).toInt()
+        val insetH = ((boxW - dotSize) / 2).coerceAtLeast(0)
+        v.thumbDrawable = android.graphics.drawable.LayerDrawable(arrayOf(dot)).apply {
+            setLayerInset(0, insetH, inset, insetH, inset)
+        }
         v.trackDrawable = track
         v.thumbTintList = colors
         v.trackTintList = colors
