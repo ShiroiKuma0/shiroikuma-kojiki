@@ -187,18 +187,18 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
     `listener.Flow`, so ip rules see them) appends up to 4 of the domain's v4 addresses to such a flow
     while `v6MayBeDown()` — `PtModeForce`, or a v6 egress dial refused for want of a route in the last
     10 min (`noteV6Dial` in `tcp.go`) — and `makeIPPorts` orders the flow's own family first, so v4 is
-    reached only after every v6 address failed. Marker string: `adding v4 fallback`. Not yet
-    filed upstream. Shipped from `0.5.8+021`.
+    reached only after every v6 address failed. Marker string: `adding v4 fallback`. Filed, with
+    its widening `b4814be0`, as **celzero/firestack#259**. Shipped from `0.5.8+021`.
   - *"tcp: refuse a blocked dns-over-tls flow at once instead of stalling it"* (`78380a5f`, 2026-11-21).
     `stall()` holds a blocked flow open 1–30 s. Android's resolver (private DNS "automatic") probes
     port 853 on the DNS addresses of the VPN network — the fork's Quad9 fallbacks included — and
     falls back to plain DNS only when that connection dies: on 0.5.8+030 every lookup took 1–6 s,
     each lined up with one such connection. A blocked flow to port 853 is now closed without a
-    stall. Marker string: `blocked dot`. Shipped from `0.5.8+031`. Not filed upstream.
+    stall. Marker string: `blocked dot`. Shipped from `0.5.8+031`. Filed as **celzero/firestack#260**.
   - *"alg: add the v4 fallback to every v6 alg flow, not only when v6 looks down"* (`b4814be0`,
     2026-11-21). An app bound to a v4-only WireGuard tunnel had every v6 flow reset on a network
     whose own v6 worked, so `v6MayBeDown()` never armed. Marker string: `v4 fallback %v for v6 flow`.
-    Shipped from `0.5.8+032`. Not filed upstream.
+    Shipped from `0.5.8+032`. Filed with the patch above as **celzero/firestack#259**.
   - *"dns64: answer with the question that was asked"* (`cc72988d`, 2026-11-22). Filed as
     **celzero/firestack#258**. `x64/dns64.go`
     `eval` builds the synthesized AAAA answer off the A answer it fetched itself, and left that
