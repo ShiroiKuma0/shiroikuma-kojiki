@@ -199,7 +199,8 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
     2026-11-21). An app bound to a v4-only WireGuard tunnel had every v6 flow reset on a network
     whose own v6 worked, so `v6MayBeDown()` never armed. Marker string: `v4 fallback %v for v6 flow`.
     Shipped from `0.5.8+032`. Not filed upstream.
-  - *"dns64: answer with the question that was asked"* (`cc72988d`, 2026-11-22). `x64/dns64.go`
+  - *"dns64: answer with the question that was asked"* (`cc72988d`, 2026-11-22). Filed as
+    **celzero/firestack#258**. `x64/dns64.go`
     `eval` builds the synthesized AAAA answer off the A answer it fetched itself, and left that
     answer's question section in place — stub resolvers drop it (dig: "Question section mismatch:
     got <host>/A/IN") and wait out their timeout. Found with the Diagnostics translation probe
