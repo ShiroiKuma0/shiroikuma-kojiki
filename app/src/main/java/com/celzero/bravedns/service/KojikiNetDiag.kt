@@ -82,6 +82,79 @@ object KojikiNetDiag {
 
     fun onEvent(what: String) {
         KojikiDiag.log(Group.VPN, what)
+        if (what.startsWith("network up/changed: netChanged? true") || what.startsWith("engine up")) {
+            logPrivateDns("after a network change")
+        }
+    }
+
+    // ---- Android's private DNS (DNS-over-TLS) against the tunnel's DNS addresses ----
+    //
+    // Found 2026-11-21: with private DNS on "automatic", Android opened a port-853 connection to
+    // one of the DNS addresses the tunnel advertises (the fork's Quad9 fallback, 2620:fe::fe) for
+    // every lookup. Kojiki blocks those (RULE14), so each lookup first had to wait for that
+    // connection to die. Why Android took the address for DoT-capable is not known; these two
+    // lines are there to find out: what Android itself reports per network, and how often and
+    // from which uid the attempts come.
+
+    private val dotBlocked = java.util.concurrent.ConcurrentHashMap<String, AtomicInteger>()
+    @Volatile private var dotWindowAt = 0L
+
+    /** A DoT connection to one of the tunnel's DNS addresses was blocked (TunFlowManager). */
+    fun onDotBlocked(uid: Int, dst: String) {
+        if (!KojikiDiag.isOn(Group.VPN)) return
+        dotBlocked.getOrPut("uid $uid → $dst") { AtomicInteger(0) }.incrementAndGet()
+        val now = android.os.SystemClock.elapsedRealtime()
+        val first: Boolean
+        synchronized(dotBlocked) {
+            if (dotWindowAt != 0L) return
+            dotWindowAt = now
+            first = true
+        }
+        if (first) scope.launch {
+            delay(60_000L)
+            val parts = dotBlocked.entries.map { "${it.key} ×${it.value.get()}" }.sorted()
+            dotBlocked.clear()
+            synchronized(dotBlocked) { dotWindowAt = 0L }
+            KojikiDiag.log(Group.VPN, "blocked DoT (port 853) to the tunnel's DNS in 60 s: " + parts.joinToString(", "))
+            logPrivateDns("while DoT attempts are coming")
+        }
+    }
+
+    /** What Android reports about private DNS, per network — the tunnel's own included. */
+    fun logPrivateDns(why: String) {
+        if (!KojikiDiag.isOn(Group.VPN)) return
+        scope.launch {
+            try {
+                val ctx = VpnController.kojikiContext() ?: return@launch
+                val cm = ctx.getSystemService(android.content.Context.CONNECTIVITY_SERVICE)
+                    as? android.net.ConnectivityManager ?: return@launch
+                val mode = android.provider.Settings.Global.getString(ctx.contentResolver, "private_dns_mode")
+                val sb = StringBuilder("private DNS ($why): setting=${mode ?: "default (automatic)"}")
+                @Suppress("DEPRECATION")
+                for (n in cm.allNetworks) {
+                    val caps = cm.getNetworkCapabilities(n) ?: continue
+                    val lp = cm.getLinkProperties(n) ?: continue
+                    val kind = when {
+                        caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_VPN) -> "vpn"
+                        caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+                        caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_CELLULAR) -> "mobile"
+                        else -> "other"
+                    }
+                    // hidden API; absent or refused on some builds, hence the reflection
+                    val validated = runCatching {
+                        lp.javaClass.getMethod("getValidatedPrivateDnsServers").invoke(lp)?.toString()
+                    }.getOrNull() ?: "n/a"
+                    sb.append("\n    ").append(kind).append(' ').append(lp.interfaceName)
+                        .append(": active=").append(lp.isPrivateDnsActive)
+                        .append(" name=").append(lp.privateDnsServerName)
+                        .append(" validated=").append(validated)
+                        .append(" dns=").append(lp.dnsServers.joinToString(",") { it.hostAddress.orEmpty() })
+                }
+                KojikiDiag.log(Group.VPN, sb.toString())
+            } catch (e: Exception) {
+                KojikiDiag.log(Group.VPN, "private DNS state unreadable: ${e.message}")
+            }
+        }
     }
 
     /** Called from BraveVPNService.flow for every new flow; must stay cheap when off. */

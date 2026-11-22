@@ -139,7 +139,35 @@ object KojikiDnsWatchdog : KoinComponent {
             stallReported = false
         }
         // a failover plan from before a process restart: re-arm its timer
-        if (returnJob?.isActive != true) runCatching { scheduleReturn() }
+        if (returnJob?.isActive != true) {
+            scope.launch {
+                runCatching { repairStrandedFallbackOnce() }
+                runCatching { scheduleReturn() }
+            }
+        }
+    }
+
+    // One-time repair (0.5.8+031). Up to +030 the return could never happen (see onFallbackNow):
+    // the plan was dropped and the phone stayed on Google — on 白い熊's phone since 2026-11-21
+    // 13:58, away from 'Quad9 Secure'. The dropped plan kept no record of what to go back to, so
+    // this names it: on the fallback with no plan → plan a return to Quad9 Secure, at once.
+    private const val K_REPAIRED = "repaired_031"
+    private const val REPAIR_DOH_NAME = "Quad9 Secure"
+
+    private suspend fun repairStrandedFallbackOnce() {
+        val p = prefs()
+        if (p.getBoolean(K_REPAIRED, false)) return
+        p.edit().putBoolean(K_REPAIRED, true).apply()
+        if (p.getString(K_URL, null) != null || !onFallbackNow()) return
+        val chosen = dohRepo.getAllDefaultDoHEndpoints()
+            .firstOrNull { it.dohName == REPAIR_DOH_NAME } ?: return
+        p.edit()
+            .putString(K_URL, chosen.dohURL)
+            .putString(K_NAME, chosen.dohName)
+            .putLong(K_DUE, System.currentTimeMillis())
+            .putLong(K_WAIT, RETURN_FIRST_MS)
+            .apply()
+        alarm("repair: stranded on the fallback by the pre-031 fault; back to '${chosen.dohName}' now")
     }
 
     // ---- stall: questions asked, nothing answered (2026-11-07) ----
@@ -211,7 +239,7 @@ object KojikiDnsWatchdog : KoinComponent {
             t.status != Transaction.Status.COMPLETE && t.status != Transaction.Status.START
         ) {
             val line = "FAIL status=${t.status} cached=${t.isCached} q=${t.qName} " +
-                "server=${t.serverName} msg=${t.msg.take(80)}"
+                "server=${t.serverName} msg=${traceMsg(t.msg)}"
             android.util.Log.e(TAG, "diag: $line")
             KojikiDiag.log(KojikiDiag.Group.DNS, line)
         }
@@ -322,7 +350,7 @@ object KojikiDnsWatchdog : KoinComponent {
                     dohRepo.getAllDefaultDoHEndpoints().firstOrNull {
                         it.dohURL == FALLBACK_DOH_URL
                     }
-                if (doh == null || persistentState.connectedDnsName == doh.dohName) {
+                if (doh == null || onFallbackNow()) {
                     // already on the fallback (or it's missing): recycle again instead
                     Logger.e(LOG_TAG_VPN, "$TAG: wedge persists on fallback; recycling again")
                     alarm("TRIGGER: wedge persists on fallback; recycling again")
@@ -339,7 +367,7 @@ object KojikiDnsWatchdog : KoinComponent {
                     )
                     return@launch
                 }
-                val prev = persistentState.connectedDnsName
+                val prev = connectedName()
                 val back = rememberResolver()
                 alarm("TRIGGER: failing over to fallback DoH")
                 Logger.e(LOG_TAG_VPN, "$TAG: wedge returned after restart; failing over " +
@@ -419,6 +447,23 @@ object KojikiDnsWatchdog : KoinComponent {
         return wait
     }
 
+    // Whether the resolver in use is the fallback, read off the selected DoH row. It used to be
+    // told from `persistentState.connectedDnsName == dohName` — but since upstream v0.5.8 that
+    // pref holds "<name>,<url>", so the comparison was never true: a second failover took itself
+    // for the first, and the return found "the setting was changed by hand" and dropped the plan,
+    // leaving the phone on Google for good (2026-11-21, 13:58 → 14:13).
+    private suspend fun onFallbackNow(): Boolean =
+        appConfig.getDnsType() == AppConfig.DnsType.DOH &&
+            dohRepo.getConnectedDoH()?.dohURL == FALLBACK_DOH_URL
+
+    // the resolver's name alone; the pref is "<name>,<url>" since v0.5.8
+    private fun connectedName(): String = persistentState.connectedDnsName.substringBefore(',')
+
+    // A failure line for the trace: the engine's message leads with the query id and the url,
+    // and the cause ("i/o timeout", "network is unreachable") comes last — so keep the tail too.
+    private fun traceMsg(msg: String): String =
+        if (msg.length <= 200) msg else msg.take(110) + " … " + msg.takeLast(86)
+
     private fun scheduleReturn() {
         val p = prefs()
         if (p.getString(K_URL, null) == null) return
@@ -438,9 +483,7 @@ object KojikiDnsWatchdog : KoinComponent {
             val url = p.getString(K_URL, null) ?: return
             val name = p.getString(K_NAME, url)
             val fallback = dohRepo.getAllDefaultDoHEndpoints().firstOrNull { it.dohURL == FALLBACK_DOH_URL }
-            val onFallback = appConfig.getDnsType() == AppConfig.DnsType.DOH &&
-                fallback != null && persistentState.connectedDnsName == fallback.dohName
-            if (!onFallback) {
+            if (fallback == null || !onFallbackNow()) {
                 // the setting was changed by hand since the failover: that choice wins
                 p.edit().remove(K_URL).remove(K_NAME).remove(K_DUE).apply()
                 alarm("plan dropped: the DNS setting was changed since the failover")

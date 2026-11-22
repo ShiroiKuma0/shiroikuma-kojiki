@@ -75,6 +75,8 @@ class KojikiGuardReceiver : BroadcastReceiver(), KoinComponent {
         const val ACTION_RECYCLE = "com.celzero.bravedns.intent.action.KOJIKI_RECYCLE"
         const val ACTION_VPN_STOP = "com.celzero.bravedns.intent.action.KOJIKI_VPN_STOP"
         const val ACTION_VPN_START = "com.celzero.bravedns.intent.action.KOJIKI_VPN_START"
+        // Diagnostics → Translation probe, startable without the screen (same gate; no reply)
+        const val ACTION_DIAG_PROBE = "com.celzero.bravedns.intent.action.KOJIKI_DIAG_PROBE"
         private const val TAG = "KojikiGuardReceiver"
 
         // a background broadcast may run 60 s under goAsync; the guard waits 20 s per step
@@ -83,6 +85,15 @@ class KojikiGuardReceiver : BroadcastReceiver(), KoinComponent {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == ACTION_DIAG_PROBE) {
+            val no = persistentState.refuseAutomation(intent.getStringExtra("token"))
+            com.celzero.bravedns.customui.KojikiDiag.log(
+                com.celzero.bravedns.customui.KojikiDiag.Group.ENGINE,
+                "probe asked for by intent: " + (no ?: "started"), force = true
+            )
+            if (no == null) com.celzero.bravedns.service.KojikiEngineDiag.startProbe()
+            return
+        }
         val op = when (intent.action) {
             ACTION_STATUS -> "status"
             ACTION_RECYCLE -> "recycle"

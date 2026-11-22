@@ -2479,7 +2479,9 @@ class GoVpnAdapter : KoinComponent {
             // there is no user level shown in UI, so if the user selects none, set the log level
             // to 8 (none)
             val goLogLevel = if (l1 == 7) 8 else l1
-            val consoleLogLevel = if (l2 == 7) 8 else l2
+            // fork: verbose while Diagnostics → Engine log (or its probe) is capturing
+            val consoleLogLevel =
+                com.celzero.bravedns.service.KojikiEngineDiag.consoleLevel(if (l2 == 7) 8 else l2)
             // depth to include the file trace, 9 - max, 0 - min
             val depth = if (includeFileTrace) 9 else 0
             Intra.logLevel(goLogLevel, consoleLogLevel, depth)

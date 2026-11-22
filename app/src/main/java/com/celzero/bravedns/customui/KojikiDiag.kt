@@ -53,6 +53,7 @@ object KojikiDiag {
         DNS("dns", "dns.txt"),             // KojikiDnsWatchdog — failed queries, recycles, failovers
         WG("wg", "wg.txt"),                // KojikiNetDiag — WireGuard handshake age / status / errors
         THREADS("threads", "threads.txt"), // KojikiThreadDump — every thread's stack on a stall
+        ENGINE("engine", "engine.txt"),    // KojikiEngineDiag — the engine's own DNS-related log lines
     }
 
     const val HPROF = "heap.hprof"

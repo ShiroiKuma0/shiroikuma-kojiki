@@ -294,6 +294,13 @@
     <string name="kojiki_diag_wg_desc" translatable="false">Each minute, per active tunnel: status, handshake age, bytes and the last error — written when something changes or a handshake is over 3 min old, plus a line every 15 min.</string>
     <string name="kojiki_diag_threads" translatable="false">Thread dumps</string>
     <string name="kojiki_diag_threads_desc" translatable="false">When kojiki stalls — DNS questions unanswered for 30 s, or the service still running 5 s after STOP — writes every thread’s stack, so the trace shows what is holding it. At most one a minute.</string>
+    <string name="kojiki_diag_engine" translatable="false">Engine log</string>
+    <string name="kojiki_diag_engine_desc" translatable="false">The network engine’s own lines about name resolution, address translation and the resolver’s connections. While on, the engine runs at its verbose log level, which costs some speed — switch it on only to catch something.</string>
+    <string name="kojiki_diag_goroutines_now" translatable="false">Dump engine threads now</string>
+    <string name="kojiki_diag_goroutines_now_desc" translatable="false">Writes the stack of every thread inside the engine to the engine log, whether the switch is on or not.</string>
+    <string name="kojiki_diag_probe" translatable="false">Translation probe (2 min)</string>
+    <string name="kojiki_diag_probe_desc" translatable="false">For two minutes: address translation on “auto”, the engine log captured, and the engine’s translation threads sampled every 4 s. Reproduces the lookup hang on hosts without an IPv6 address; lookups of such hosts can stall while it runs. Ends by itself.</string>
+    <string name="kojiki_diag_probe_started" translatable="false">Translation probe running for 2 minutes.</string>
     <string name="kojiki_diag_threads_now" translatable="false">Dump threads now</string>
     <string name="kojiki_diag_threads_now_desc" translatable="false">Writes one dump straight away, whether the switch is on or not.</string>
     <string name="kojiki_diag_threads_done" translatable="false">Thread dump written to threads.txt</string>

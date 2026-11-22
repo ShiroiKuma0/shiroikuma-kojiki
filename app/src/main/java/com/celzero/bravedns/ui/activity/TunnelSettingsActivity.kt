@@ -208,9 +208,9 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
         showNwPolicyDescription(persistentState.vpnBuilderPolicy)
         
         // If Fixed policy is selected, disable jumbo packets and IP version settings
+        // fork: the IP version row stays usable under Fixed (see saveNetworkPolicy)
         if (persistentState.vpnBuilderPolicy == POLICY_FIXED) {
             disableBandwidthBoosterUi()
-            b.settingsActivityIpRl.isEnabled = false
         }
     }
 
@@ -409,7 +409,7 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
         b.settingsActivityVpnLockdownDesc.setOnClickListener { UIUtils.openVpnProfile(this) }
 
         b.settingsActivityIpRl.setOnClickListener {
-            if (persistentState.vpnBuilderPolicy == POLICY_FIXED) return@setOnClickListener
+            // fork: not locked under the Fixed policy any more
 
             enableAfterDelay(TimeUnit.SECONDS.toMillis(1L), b.settingsActivityIpRl)
             showIpDialog()
@@ -803,12 +803,10 @@ class TunnelSettingsActivity : BaseActivity(R.layout.activity_tunnel_settings) {
             b.settingsUseMaxMtuSwitch.isChecked = true
             suggestSocketBufferSize()
 
-            // Set IP version to IPv4 & IPv6 (ALWAYSv46)
-            persistentState.internetProtocolType = InternetProtocol.ALWAYSv46.id
-
-            // Disable both settings (jumbo packets and IP version)
+            // Fork (白い熊 考直): upstream also set the IP version to "IPv4 & IPv6" here and locked
+            // its row. The fork leaves the IP version alone — IPv4 only is the default, and the
+            // choice stays 白い熊's under every policy (2026-11-22).
             disableBandwidthBoosterUi()
-            b.settingsActivityIpRl.isEnabled = false
 
             // Update UI
             displayInternetProtocolUi()

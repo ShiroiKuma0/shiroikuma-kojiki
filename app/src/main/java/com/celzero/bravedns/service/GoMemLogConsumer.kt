@@ -317,6 +317,8 @@ class GoMemLogConsumer(private val appContext: Context, private val scope: Corou
                 val payload = if (payloadLength > 0)
                     String(buffer, payloadStart, payloadLength, Charsets.UTF_8)
                 else ""
+                // fork: Diagnostics → Engine log keeps the engine's DNS-related lines (off = a no-op)
+                KojikiEngineDiag.onEngineLine(payload)
                 // Build the DB row (centralized formatting + uiLogLevel gate live in
                 // Logger.makeGoConsoleLog / Logger.makeGoRpnLog); RPN-related rows are
                 // collected separately and bulk-inserted into their own database, all

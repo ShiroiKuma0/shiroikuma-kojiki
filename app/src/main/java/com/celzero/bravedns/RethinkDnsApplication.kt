@@ -41,6 +41,33 @@ class RethinkDnsApplication : Application() {
         var DEBUG: Boolean = false
     }
 
+    /**
+     * Fork (白い熊 考直): once, put the IP version back on IPv4 (白い熊, 2026-11-22).
+     *
+     * Upstream's "Fixed" network policy set "IPv4 & IPv6" silently and locked the row, so the
+     * tunnel carried IPv6 on a phone whose networks gain nothing from it (home WiFi is v4-only,
+     * the WireGuard tunnels carry no v6, the browser used v4 for every connection) — and every
+     * fault of 2026-11-11 and 2026-11-21/22 lived on that IPv6 path. The policy no longer touches
+     * the IP version (TunnelSettingsActivity); this undoes what it had already stored. A choice
+     * made after this build is left alone.
+     */
+    private fun kojikiIpv4Once() {
+        try {
+            val prefs = getSharedPreferences("kojiki_migrations", MODE_PRIVATE)
+            if (prefs.getBoolean("ipv4_once_034", false)) return
+            prefs.edit().putBoolean("ipv4_once_034", true).apply()
+            val ps = org.koin.java.KoinJavaComponent.get<com.celzero.bravedns.service.PersistentState>(
+                com.celzero.bravedns.service.PersistentState::class.java)
+            val was = ps.internetProtocolType
+            if (was != com.celzero.bravedns.util.InternetProtocol.IPv4.id) {
+                ps.internetProtocolType = com.celzero.bravedns.util.InternetProtocol.IPv4.id
+                com.celzero.bravedns.service.KojikiNetDiag.onEvent("ip version: was $was, set to IPv4 (one-time, 0.5.8+034)")
+            }
+        } catch (_: Exception) {
+            // never in the way of the app starting
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         DEBUG =
@@ -68,6 +95,11 @@ class RethinkDnsApplication : Application() {
                 org.koin.java.KoinJavaComponent.get<com.celzero.bravedns.service.PersistentState>(
                     com.celzero.bravedns.service.PersistentState::class.java).theme)
         }
+
+        // Fork (白い熊 考直): Diagnostics → Engine log (needs Koin for the stored log level).
+        com.celzero.bravedns.service.KojikiEngineDiag.init()
+        // Fork (白い熊 考直): IPv4 only is the fork's IP version — see kojikiIpv4Once.
+        kojikiIpv4Once()
 
         val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

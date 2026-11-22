@@ -575,9 +575,19 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         addDiagToggle(R.string.kojiki_diag_threads, R.string.kojiki_diag_threads_desc, KojikiDiag.Group.THREADS)
         addActionRow(R.string.kojiki_diag_threads_now, getString(R.string.kojiki_diag_threads_now_desc), indentLevel = 2, icon = R.drawable.ic_stack_trace, role = "icon_message") {
             KojikiThreadDump.now("on demand")
-            Toast.makeText(this, R.string.kojiki_diag_threads_done, Toast.LENGTH_SHORT).show()
+            com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_diag_threads_done), Toast.LENGTH_SHORT)
         }
         addDiagView(KojikiDiag.Group.THREADS, R.string.kojiki_diag_threads)
+        addDiagToggle(R.string.kojiki_diag_engine, R.string.kojiki_diag_engine_desc, KojikiDiag.Group.ENGINE)
+        addActionRow(R.string.kojiki_diag_goroutines_now, getString(R.string.kojiki_diag_goroutines_now_desc), indentLevel = 2, icon = R.drawable.ic_stack_trace, role = "icon_message") {
+            com.celzero.bravedns.service.KojikiEngineDiag.dumpGoroutinesNow("on demand")
+            com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_diag_threads_done), Toast.LENGTH_SHORT)
+        }
+        addActionRow(R.string.kojiki_diag_probe, getString(R.string.kojiki_diag_probe_desc), indentLevel = 2, icon = R.drawable.ic_stack_trace, role = "icon_message") {
+            com.celzero.bravedns.service.KojikiEngineDiag.startProbe()
+            com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_diag_probe_started), Toast.LENGTH_LONG)
+        }
+        addDiagView(KojikiDiag.Group.ENGINE, R.string.kojiki_diag_engine)
         addDiagStoredRows()
     }
 
@@ -600,7 +610,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             indentLevel = 2, opens = true, icon = R.drawable.ic_share, role = "icon_share"
         ) {
             if (KojikiDiag.files().isEmpty()) {
-                Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
+                com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_diag_stored_none), Toast.LENGTH_SHORT)
                 return@addActionRow
             }
             val tree = KojikiDiag.exportTree(this)
@@ -638,7 +648,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                     c.getString(R.string.kojiki_diag_export_failed, e.message.toString())
                 }
             runOnUiThread {
-                Toast.makeText(c, message, Toast.LENGTH_LONG).show()
+                com.celzero.bravedns.util.Utilities.showToastUiCentered(c, message, Toast.LENGTH_LONG)
                 if (!isDestroyed) recreate()
             }
         }, "kojiki-diag-export").start()
@@ -652,7 +662,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             runOnUiThread {
                 if (isDestroyed) return@runOnUiThread
                 if (s.stored.isEmpty()) {
-                    Toast.makeText(this, R.string.kojiki_diag_stored_none, Toast.LENGTH_SHORT).show()
+                    com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_diag_stored_none), Toast.LENGTH_SHORT)
                     return@runOnUiThread
                 }
                 showDiagPurgeDialog(s)
@@ -683,7 +693,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
                     val c = applicationContext
                     KojikiDiag.purge { n ->
                         runOnUiThread {
-                            Toast.makeText(c, c.getString(R.string.kojiki_diag_purge_done, n), Toast.LENGTH_SHORT).show()
+                            com.celzero.bravedns.util.Utilities.showToastUiCentered(c, c.getString(R.string.kojiki_diag_purge_done, n), Toast.LENGTH_SHORT)
                             if (!isDestroyed) recreate()
                         }
                     }
@@ -1455,7 +1465,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         val token = persistentState.getOrCreateAppRuleToken()
         val cb = ContextCompat.getSystemService(this, ClipboardManager::class.java)
         cb?.setPrimaryClip(ClipData.newPlainText("automation_token", token))
-        Toast.makeText(this, R.string.kojiki_auto_token_copied, Toast.LENGTH_SHORT).show()
+        com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_auto_token_copied), Toast.LENGTH_SHORT)
     }
 
     private fun confirmRegenerateToken() {
@@ -1465,7 +1475,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             .setPositiveButton(R.string.app_rule_token_regenerate) { _, _ ->
                 persistentState.regenerateAppRuleToken()
                 buildRows()
-                Toast.makeText(this, R.string.kojiki_auto_token_regenerated, Toast.LENGTH_LONG).show()
+                com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_auto_token_regenerated), Toast.LENGTH_LONG)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -1509,7 +1519,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         if (uri == null) return
         val fileName = CustomUi.importFont(this, uri)
         if (fileName == null) {
-            Toast.makeText(this, R.string.kojiki_ui_font_invalid, Toast.LENGTH_LONG).show()
+            com.celzero.bravedns.util.Utilities.showToastUiCentered(this, getString(R.string.kojiki_ui_font_invalid), Toast.LENGTH_LONG)
             return
         }
         cfg.fontFamily = fileName

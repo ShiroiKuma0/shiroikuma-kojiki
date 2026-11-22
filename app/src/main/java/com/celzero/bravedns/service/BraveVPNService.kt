@@ -2210,7 +2210,9 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             }
         }
 
-        if (!persistentState.protocolTranslationType) {
+        // fork: Diagnostics → translation probe walks into the "auto" path on purpose
+        if (KojikiEngineDiag.probing()) {
+            Logger.i(LOG_TAG_VPN, "calculatePtMode: diagnostics probe, chosen PTMODEAUTO")
             return AppConfig.ProtoTranslationMode.PTMODEAUTO
         }
 
@@ -2251,6 +2253,16 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
 
         val selectedProto = appConfig.getInternetProtocol()
 
+        // upstream returned PTMODEAUTO here without looking at the network; the fork looks
+        // first, so that a network with native IPv4 gets no translation (see PTMODENONE below)
+        if (!persistentState.protocolTranslationType) {
+            val mode =
+                if (hasIpv4) AppConfig.ProtoTranslationMode.PTMODENONE
+                else AppConfig.ProtoTranslationMode.PTMODEAUTO
+            Logger.i(LOG_TAG_VPN, "calculatePtMode: translation off, hasIpv4=$hasIpv4, hasIpv6=$hasIpv6, chosen: $mode")
+            return mode
+        }
+
         val mode = when {
             // ipv4-only network but ipv6 traffic
             hasIpv4 && !hasIpv6 && selectedProto.isIPv6() -> AppConfig.ProtoTranslationMode.PTMODEFORCE46
@@ -2259,6 +2271,16 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             // auto / dual-stack mode but network has only one: force translation as needed
             (selectedProto.isIPv46() || selectedProto == InternetProtocol.ALWAYSv46) && (!hasIpv4 || !hasIpv6) ->
                 AppConfig.ProtoTranslationMode.PTMODEFORCE
+            // Fork (白い熊 考直): with native IPv4 underneath nothing needs translating, so no
+            // translation at all — not "auto". Under PTMODEAUTO the engine answers the AAAA
+            // query of every host that has no IPv6 address by synthesizing one (DNS64: a nested
+            // A lookup, then a NAT64-style address), and the first such lookup per host never
+            // answered: measured 2026-11-22 on dual-stack mobile data, 10–25 s without a reply
+            // for stackoverflow.com, amazon.com, x.com, twitter.com, duckduckgo.com (Quad9
+            // itself: 0.1 s; a second try: instant, from cache). Android's resolver waits for
+            // both the A and the AAAA answer, so every page with such a host stalled for tens
+            // of seconds. PTMODENONE returns the empty answer at once, as any resolver does.
+            hasIpv4 -> AppConfig.ProtoTranslationMode.PTMODENONE
             else -> AppConfig.ProtoTranslationMode.PTMODEAUTO
         }
 
@@ -2267,6 +2289,12 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             "calculatePtMode: useActive=${networks.useActive}, hasIpv4=$hasIpv4, hasIpv6=$hasIpv6, selectedProto=$selectedProto, chosen: $mode"
         )
         return mode
+    }
+
+    // Fork (白い熊 考直): for the Diagnostics translation probe, which changes what
+    // calculatePtMode returns for two minutes.
+    fun kojikiRefreshTunMode() {
+        io("kojikiRefreshTunMode") { setTunMode() }
     }
 
     private fun setTunMode() {
@@ -2721,6 +2749,11 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         val isSsidChanged = out.ssidChanged
         underlyingNetworks = networks
         underlyingNetworks?.vpnLockdown = isLockdown()
+
+        // fork: the translation mode depends on the network's address families (see
+        // calculatePtMode), so it is set again whenever the networks are (re)learnt — upstream
+        // only did so on a restart, which left a first start on its no-network default
+        io("kojikiPtMode") { setTunMode() }
 
         // always reset the system dns server ip of the active network with the tunnel
         setNetworkAndDefaultDnsIfNeeded(isRoutesChanged || isBoundNetworksChanged)

@@ -277,6 +277,7 @@
                 <action android:name="com.celzero.bravedns.intent.action.KOJIKI_RECYCLE" />
                 <action android:name="com.celzero.bravedns.intent.action.KOJIKI_VPN_STOP" />
                 <action android:name="com.celzero.bravedns.intent.action.KOJIKI_VPN_START" />
+                <action android:name="com.celzero.bravedns.intent.action.KOJIKI_DIAG_PROBE" />
             </intent-filter>
         </receiver>
         <!-- Fork (白い熊 考直): the 保存復元 state-export automation contract — headless category-ZIP

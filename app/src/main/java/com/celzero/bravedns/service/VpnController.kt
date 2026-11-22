@@ -187,6 +187,11 @@ object VpnController : KoinComponent {
         rvpn?.kojikiForceEngineRestart(reason)
     }
 
+    // Fork (白い熊 考直): set the tunnel mode again (translation mode included); KojikiEngineDiag.
+    fun kojikiRefreshTunMode() {
+        rvpn?.kojikiRefreshTunMode()
+    }
+
     fun kojikiContext(): Context? {
         return rvpn
     }

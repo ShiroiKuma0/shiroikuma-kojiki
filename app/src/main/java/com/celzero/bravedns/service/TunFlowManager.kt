@@ -432,6 +432,7 @@ object TunFlowManager : KoinComponent {
         // always block, since the vpn tunnel doesn't serve dns-over-tls
         if (trapVpnPrivateDns) {
             logd("flow: trap vpn private dns ($dstIp), returning Ipn.Block, $uid, $domains")
+            KojikiNetDiag.onDotBlocked(uid, dstIp) // fork: Diagnostics → VPN restarts
             cm.isBlocked = true
             cm.blockedByRule = FirewallRuleset.RULE14.id
             return persistAndConstructFlowResponse(ctx, cm, Backend.Block, connId, uid)

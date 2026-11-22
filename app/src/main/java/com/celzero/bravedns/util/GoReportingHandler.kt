@@ -81,6 +81,9 @@ class GoReportingHandler private constructor(private val scope: CoroutineScope, 
 
         if (msg.isEmpty()) return
 
+        // fork: Diagnostics → Engine log keeps the engine's DNS-related lines (off = a no-op)
+        com.celzero.bravedns.service.KojikiEngineDiag.onEngineLine(msg)
+
         scope.launch {
             val l = Logger.LoggerLevel.fromId(level) ?: Logger.LoggerLevel.NONE
             if (l.stacktrace()) {
