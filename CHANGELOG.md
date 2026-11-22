@@ -2,6 +2,22 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG, IPv4-fallback, DoT-refusal and DNS64-question patches.
 
+## 0.5.8+038
+
+**Switches at their real size, and row icons that follow the font.**
+
+### Switches
+- Every switch in the app was drawn at about 30 × 13 dp instead of 52 × 28 dp, with the dot as tall as the outline — since the outlined switch arrived in +026. The dot was centred with an inset, and Android's switch widget takes such an inset for an optical margin of the thumb and shrinks the track by it on all four sides. The dot is now placed in a way the widget leaves alone, so the outline has its full size and the dot sits inside it with the same gap all round.
+
+### Row icons on the 白い熊 考直 UI page
+- A row's icon is now sized by the row's label: 1.25 × the label's text size, never under 18 dp. It was a fixed 18 dp, which read as a footnote mark beside a large bold label.
+- The size is read when the row is laid out, after the font settings have been applied, so it follows the font size that is set.
+- The gutter grows with the icon — the icon's left edge stays put and the row's content moves right — and the icon is centred on the label's first line instead of on the whole row.
+- The icon of a section heading follows the heading's text size by the same rule.
+
+### Built on
+Upstream `v0.5.8`; engine unchanged from 0.5.8+036.
+
 ## 0.5.8+036
 
 **Lookups that took seconds, and pages that took tens of seconds, on mobile data with IPv6 — three faults found and fixed. IPv4 only becomes the fork's IP version, and the engine can now be watched from Diagnostics.**
