@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+030`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+036`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -114,7 +114,7 @@ Upstream caps the app's content at 600dp and centres it, which suits a tablet an
 ---
 
 ## 🩻 Diagnostics, off until you want them
-A **Diagnostics** section on the 白い熊 考直 UI page puts every fork diagnostic behind its own switch — all off by default, and off means nothing is recorded and nothing runs. Turn one on and it keeps a capped, timestamped trace you can read on the page or pull with adb: **screen leaks** (closed screens still held in memory, with a one-shot heap dump), **VPN restarts** (every engine start and stop with its reason, and how many connections still aim at addresses from before the restart), the **DNS watchdog**'s failures and actions, **WireGuard health** per tunnel, and **thread dumps** written whenever the app stalls, so the next mystery outage leaves evidence. Stored traces can be exported to a directory you pick or purged in one go. The first of them has already paid for itself: it found the theme code holding every screen ever opened in memory.
+A **Diagnostics** section on the 白い熊 考直 UI page puts every fork diagnostic behind its own switch — all off by default, and off means nothing is recorded and nothing runs. Turn one on and it keeps a capped, timestamped trace you can read on the page or pull with adb: **screen leaks** (closed screens still held in memory, with a one-shot heap dump), **VPN restarts** (every engine start and stop with its reason, and how many connections still aim at addresses from before the restart), the **DNS watchdog**'s failures and actions, **WireGuard health** per tunnel, and **thread dumps** written whenever the app stalls, so the next mystery outage leaves evidence. Stored traces can be exported to a directory you pick or purged in one go. The first of them has already paid for itself: it found the theme code holding every screen ever opened in memory. An **engine log** with a two-minute translation probe does the same for the network engine itself — it is how a wrong question section in the engine's made-up IPv6 answers was caught, a fault that made pages stall for tens of seconds.
 
 ---
 

@@ -1,6 +1,46 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG and IPv4-fallback patches.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG, IPv4-fallback, DoT-refusal and DNS64-question patches.
+
+## 0.5.8+036
+
+**Lookups that took seconds, and pages that took tens of seconds, on mobile data with IPv6 — three faults found and fixed. IPv4 only becomes the fork's IP version, and the engine can now be watched from Diagnostics.**
+
+Covers builds +031 to +036.
+
+### Hosts without an IPv6 address stalled every page
+- With the tunnel carrying IPv6, an app asks for a host's IPv4 and IPv6 address and Android waits for both answers. For a host that has **no** IPv6 address the engine does not pass on the empty answer: it makes one up (DNS64, meant for IPv6-only networks). That made-up answer went out in a fraction of a second but carried the wrong question section — the IPv4 question the engine had asked itself — so every resolver discarded it and waited out its full timeout. Measured: no usable answer in 10–25 s for the first lookup of `stackoverflow.com`, `amazon.com`, `x.com`, `twitter.com`, `duckduckgo.com`; several hosts of a `claude.ai` page are of this kind, which made that page take tens of seconds.
+- **Engine patch:** the made-up answer carries the question that was asked. First lookups of such hosts now answer in 0.07–0.5 s.
+- **No translation where none is needed:** on a network with native IPv4 the fork now tells the engine to translate nothing at all (upstream always used “auto”, even with its translation setting off), so the empty answer is returned at once. The mode is set again on every network event, not only on a restart.
+
+### Android's encrypted-DNS probes no longer cost seconds
+- With private DNS on “automatic”, Android probes port 853 on the DNS addresses of the VPN. The app blocks those connections, but the engine held every repeatedly blocked connection open for 1–30 s before closing it, and Android fell back to plain DNS only when the connection died: every lookup took 1–6 s.
+- **Engine patch:** a blocked connection to port 853 is refused at once. Lookups through the system resolver: 60–150 ms.
+
+### IPv6 connections of an app on a WireGuard tunnel
+- An app bound to a WireGuard tunnel that carries no IPv6 had every IPv6 connection reset, on a network whose own IPv6 worked — so the existing IPv4 fallback, which armed only when the network had no IPv6 route, never fired.
+- **Engine patch:** the host's IPv4 addresses now accompany every IPv6 connection made through the app's DNS, tried only after the IPv6 ones fail.
+
+### The temporary DNS failover returns again
+- Since the v0.5.8 base the failover to Google never came back: the watchdog asked “am I on the fallback?” by comparing a stored name that upstream had changed to “name,url”, so the comparison was never true, the return concluded that the setting had been changed by hand, and dropped its plan. The phone stayed on Google until someone noticed.
+- The test now reads the selected resolver itself. On its first start this build puts a phone stranded that way back on Quad9 Secure, once.
+- Failure lines in the DNS trace keep the end of the engine's message, where the cause is.
+
+### IPv4 only
+- IPv4 is the fork's IP version. Upstream's **Fixed** network policy switched the tunnel to “IPv4 & IPv6” silently and locked the IP-version row; it no longer touches the IP version, and the row stays usable under every policy.
+- A stored “IPv4 & IPv6” or “Auto” is set back to IPv4 once, on the first start of this build. A choice made afterwards is kept.
+
+### Diagnostics: the engine
+- **Engine log** — a new switch, off by default, with its own trace `engine.txt`: the engine's own lines about name resolution, address translation and the resolver's connections. While on, the engine runs at its verbose log level, which costs some speed.
+- **Dump engine threads now** — writes the stack of every thread inside the engine.
+- **Translation probe (2 min)** — forces translation to “auto”, captures the engine log and samples the engine threads in the translation path every 2 s; it ends by itself. It can also be started without the screen, by the intent `com.celzero.bravedns.intent.action.KOJIKI_DIAG_PROBE` to `KojikiGuardReceiver`, behind the same gate as the guard intents. This probe is what found the wrong question section.
+- **VPN restarts** now also records what Android reports about private DNS on each network (active, server name, validated servers, DNS servers), and the blocked port-853 connections to the VPN's DNS addresses, summed per minute by app id and address.
+
+### Smaller
+- Every flash message of the 白い熊 考直 UI page uses the themed black-and-yellow toast.
+
+### Built on
+Upstream `v0.5.8`; engine `d3d530ea3e` plus seven fork patches (branch `kojiki-doh-idle-058` of the fork's firestack).
 
 ## 0.5.8+030
 
