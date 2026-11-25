@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+038`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+048`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -37,6 +37,16 @@ A VPN that routes `0.0.0.0/0` swallows the local network too: with the phone and
 With advanced DNS filtering on, every answer gets a synthetic address so a connection can still be tied to the domain behind it. Stock forgets what that address means sooner than the app stops using it — and then drops the connection, before the firewall sees it, so nothing is logged and nothing explains it. Apps fail intermittently and work the instant the VPN is switched off. The fork re-resolves the domain instead: it consults the probable mapping stock computes and throws away, and the day of expired mappings stock keeps but never reads, then dials the current addresses. If there is genuinely nothing left to dial, the flow still reaches the firewall, so the block is attributed, logged, and decided by your rules rather than disappearing. Blocking is untouched — a blocklisted or rule-blocked domain stays blocked through the recovered path.
 
 A restart is the harsher version of the same problem: the engine keeps those mappings in memory only, so every update, crash or force-stop throws them all away while apps still hold the old addresses. Stock dials each one as if it were real and waits about 20 seconds for nothing — after one install the engine logged over a thousand such misses, several for each stuck connection, and most apps stayed offline for about five minutes. The fork turns such a connection down at once, so the app looks the name up again and is back within seconds.
+
+---
+
+## 📶 A VPN that stays up, and comes back
+Stock restarts the VPN whenever the network disappears and again when it returns, and every restart costs every app its connections. An access point that shuffles the phone between its radios does that several times a minute. The fork holds a loss for 15 seconds: a network that is back in time restarts nothing. After a reboot, or whenever the process is started again, the app checks for five minutes whether the VPN is wanted and missing, and starts it — and each step of that is written down under Diagnostics, so a VPN that stayed down has a reason on record.
+
+---
+
+## 🇯🇵 All of it in Japanese
+Upstream's Japanese translation covers less than half of the app. The fork translates the rest — 739 upstream strings — and every string of its own, colour roles, help dialog and notifications included, in one wording that prefers kanji terms to katakana: 規則, 遮断, 記録, 端末, 書き出し.
 
 ---
 

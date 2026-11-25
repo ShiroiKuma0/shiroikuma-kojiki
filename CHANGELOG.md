@@ -2,6 +2,39 @@
 
 Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG, IPv4-fallback, DoT-refusal and DNS64-question patches.
 
+## 0.5.8+048
+
+**The VPN survives a short network loss and comes back by itself after a reboot; the whole app speaks Japanese, in one wording; Split DNS is off by default.**
+
+Covers builds +039 to +048.
+
+### A short network loss keeps the VPN interface
+- Upstream restarts the VPN on every change between “a network” and “no network” — on the loss and again on the return — and Android then aborts every connection other apps hold. An access point that moved the phone between its radios four times in three minutes cost every connection four times.
+- A loss is now held for 15 s before the VPN is told. A network that is back in time is an ordinary network change and restarts nothing, unless its MTU or routes differ.
+- The retry after “no usable network” no longer sleeps 10–30 s on the one worker that handles network events. That sleep delivered “no network” late and made “the network is back” wait behind it.
+- Diagnostics → VPN restarts records the held loss, the return, and — when no network is usable — what each candidate network lacked: internet, validation, a captive portal, default routes.
+
+### The VPN comes back on every process start
+- After a reboot the VPN could stay down until the app was opened, and no line anywhere said which link of the boot chain had failed.
+- On every process start the app now checks at +2, 10, 30, 60, 120 and 300 s whether the VPN is wanted and missing, and starts it — under upstream's own conditions: not when it was stopped by hand, not with always-on set, not without VPN consent, and near boot only with “Auto-start on power-up” on.
+- Diagnostics → VPN restarts records the process start, the boot broadcast, every outcome of the boot worker, each start attempt with a refusal's reason, the service being created, and WireGuard's state 30 s and 90 s after the VPN is up.
+
+### Split DNS is off by default
+- Upstream turns “Split DNS (experimental)” on from Android 11. A bound app's lookups then go to the WireGuard profile's DNS through the tunnel, and a profile that carries only the VPN network delivers nothing there: on two fresh installs every name failed at once while literal addresses worked. A choice already stored is not touched.
+
+### A removed resolver leaves the WireGuard profile
+- A profile whose DNS line names 10.9.0.1 — a resolver that no longer exists — is rewritten to 9.9.9.9 once, on the first load of the profiles, before the engine sees them; only if the result parses, and written beside the file and moved over it. Recorded under Diagnostics → VPN restarts.
+
+### Japanese
+- **Every string the fork adds** has its Japanese: the 白い熊 考直 UI page, Diagnostics, Export / Import, automation, notes, groups, quick filters, sort, shared uids, roaming, the STOP dialog, the stopped-VPN notification.
+- Moved out of the code into translated strings: the names of the 144 colour roles and their 16 areas, the firewall-rule help dialog, and the DNS watchdog's notifications.
+- **The 739 upstream strings that upstream's Japanese translation lacked** are translated too — more than half of the app, the three firewall buttons among them.
+- **One wording, kanji before katakana**: 規則, 遮断, 遮断一覧, 記録, 端末, 書き出し / 読み込み, 中継, 版, 取り消し, 利用者, 既定, 独自; 全体, 回避, 除外, 隔離, 信頼. Upstream's older Japanese strings were brought to the same terms.
+- Four old English strings said “folder”; they say “directory”.
+
+### Built on
+Upstream `v0.5.8`; engine unchanged from 0.5.8+036.
+
 ## 0.5.8+038
 
 **Switches at their real size, and row icons that follow the font.**
