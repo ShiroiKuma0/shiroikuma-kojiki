@@ -526,7 +526,11 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
     var tcpKeepAlive by booleanPref("tcp_keep_alive").withDefault<Boolean>(false)
 
     // enable split dns, default on Android R and above, as we can identify app which is sending dns
-    var splitDns by booleanPref("split_dns").withDefault<Boolean>(isAtleastR())
+    // Fork (白い熊 考直): off by default (upstream: on from Android 11). With it on, a bound app's
+    // lookups go to the WireGuard profile's DNS through the tunnel, and a profile that carries
+    // only the VPN network (AllowedIPs = 10.9.0.0/24) delivers nothing there: every name failed
+    // at once on two fresh installs, 2026-11-25. A stored choice is not touched.
+    var splitDns by booleanPref("split_dns").withDefault<Boolean>(false)
 
     // use system dns for undelegatedDomains
     var useSystemDnsForUndelegatedDomains by booleanPref("use_system_dns_for_undelegated_domains").withDefault<Boolean>(false)
@@ -986,7 +990,7 @@ class PersistentState(context: Context) : SimpleKrate(context), KoinComponent {
         preventDnsLeaks = true
         proxyDns = true
         // android version dependent: split dns is default-on only on Android R and above
-        splitDns = isAtleastR()
+        splitDns = false // Fork (白い熊 考直): the fork's default, see the property
         // below Android R, split dns requires dns alg; keep both off (mirrors UI dependency)
         if (!isAtleastR()) enableDnsAlg = false
         blockFreeDns = ""
