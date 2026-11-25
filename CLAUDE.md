@@ -219,8 +219,13 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
     one: the first packets were dropped unseen and the new handshake came only after KeepaliveTimeout +
     RekeyTimeout = **15 s** (measured on the two Slaves, 2026-11-25: 15–26 s until the first ssh through the
     tunnel after a doze). With the patch the key's real age is seen and the handshake goes out before the
-    first packet. It does **not** make the tunnel talk during doze (no wake lock; timers still sleep with
-    the CPU). It affects every `time.Since` in the engine, not only WireGuard. **No marker string** —
+    first packet. **Measured on `0.5.8+049`, both Slaves, 2026-11-25 23:48–23:57** (screens off, light
+    doze IDLE, deep doze INACTIVE): dialled from the dozing phone the tunnel was up after ~1 s (the old
+    engine: 27 s), and the hub saw a fresh handshake from each Slave about every two minutes during the
+    doze, where `0.5.8+044` stayed silent for 446–641 s — so in **light** doze the tunnel does talk
+    (the earlier claim here, that it stays silent during doze, was wrong for that state). There is still
+    no wake lock: **deep doze** (state IDLE, after hours) and a session that really went stale (over 180 s
+    without a handshake) are **not yet measured**. It affects every `time.Since` in the engine, not only WireGuard. **No marker string** —
     verify by encoding: in arm64 `libgojni.so` the word `32000be0` (`ORRW $7, ZR, R0`) followed 12 bytes
     later by `b40001e2`, where the unpatched engine has `320003e0`. The patch names line numbers of Go
     1.27.1's `runtime/sys_linux_{386,amd64,arm,arm64}.s` — **regenerate it for every new Go version**.
