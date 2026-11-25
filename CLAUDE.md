@@ -165,7 +165,7 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
   cherry-picked onto it.
 - Base = celzero's **`origin/n2`** (firestack's default branch) at **`d3d530ea3e`** — **exactly the `v0.5.8`
   pin**, so as of 2026-10-30 the engine matches the tag rather than running ahead of it.
-- Plus **seven** fork patches (the first two cherry-picked clean onto the new base; the others were written on it):
+- Plus **eight** fork patches (the first two cherry-picked clean onto the new base; the others were written on it):
   - *"doh: keep pooled conns shorter-lived than server idle-timeouts; h2 PING health-checks"* — the DoH
     idle-pool fix filed upstream as **celzero/firestack#241**. See memory `[[kojiki-dns-wedge-and-watchdog]]`;
     the Kotlin-side companion is `service/KojikiDnsWatchdog.kt`.
@@ -210,6 +210,21 @@ records the AAR's upstream base, it does not describe what is in the AAR. What i
     got <host>/A/IN") and wait out their timeout. Found with the Diagnostics translation probe
     (Feature 23). Marker string: `question restored to the aaaa asked`. Shipped from `0.5.8+036`.
     Feature 21 keeps the fork off this path on networks with IPv4; the patch covers the rest.
+  - *"runtime: count the time the device was suspended (CLOCK_BOOTTIME)"* (`3c293b0a`, 2026-11-25; on
+    `kojiki-doh-idle-058`). Not a Go-source patch but a second **runtime overlay**
+    patch, `tools/runtime_boottime_linux.patch`, added to the `$(BUILD_OVERLAY)` rule of the Makefile: the
+    Go runtime's `nanotime1` asks for clock 7 (`CLOCK_BOOTTIME`) instead of 1 (`CLOCK_MONOTONIC`) on all four
+    ABIs — the patch the official WireGuard Android app carries. `CLOCK_MONOTONIC` stands still while the
+    phone is suspended, so after a doze wireguard-go took a session the hub had discarded (180 s) for a fresh
+    one: the first packets were dropped unseen and the new handshake came only after KeepaliveTimeout +
+    RekeyTimeout = **15 s** (measured on the two Slaves, 2026-11-25: 15–26 s until the first ssh through the
+    tunnel after a doze). With the patch the key's real age is seen and the handshake goes out before the
+    first packet. It does **not** make the tunnel talk during doze (no wake lock; timers still sleep with
+    the CPU). It affects every `time.Since` in the engine, not only WireGuard. **No marker string** —
+    verify by encoding: in arm64 `libgojni.so` the word `32000be0` (`ORRW $7, ZR, R0`) followed 12 bytes
+    later by `b40001e2`, where the unpatched engine has `320003e0`. The patch names line numbers of Go
+    1.27.1's `runtime/sys_linux_{386,amd64,arm,arm64}.s` — **regenerate it for every new Go version**.
+    Shipped from `0.5.8+049`.
 - Branch **`kojiki-doh-idle-058`** is pushed to the `fork` remote (`ShiroiKuma0/firestack`).
 - **Upstream has PARTLY adopted the DoH fix** — `IdleConnTimeout` is **30 s** since `c4a33649be` (its comment
   quotes our own Quad9 measurement). Keep our patch anyway: 30 s sits *exactly* on the shortest idle window
