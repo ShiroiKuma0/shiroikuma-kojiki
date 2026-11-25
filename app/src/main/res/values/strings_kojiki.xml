@@ -358,9 +358,9 @@
 
     <!-- Fork (白い熊 考直): the firewall-rule help dialog (KojikiFirewallHelp) and the DNS watchdog's
          notifications (KojikiDnsWatchdog). The three column heads repeat what the buttons say. -->
-    <string name="kojiki_fwh_col_bdf" translatable="false">Bypass\nDNS &amp; FW</string>
-    <string name="kojiki_fwh_col_bu" translatable="false">Bypass\nUniversal</string>
-    <string name="kojiki_fwh_col_ex" translatable="false">Exclude</string>
+    <string name="kojiki_fwh_col_bdf">Bypass\nDNS &amp; FW</string>
+    <string name="kojiki_fwh_col_bu">Bypass\nUniversal</string>
+    <string name="kojiki_fwh_col_ex">Exclude</string>
     <string name="kojiki_fwh_title">Firewall rules</string>
     <string name="kojiki_fwh_blurb_bdf">Stays inside the tunnel — it still resolves through %1$s and still follows any WireGuard or proxy binding — but the DNS blocklists and every universal firewall rule are waived for it. The rules you set on this app itself still apply.</string>
     <string name="kojiki_fwh_blurb_bu">Stays inside the tunnel and keeps full DNS filtering — a blocklisted domain is still blocked — but the universal firewall rules are waived. The narrower of the two bypasses: it lifts the global toggles off the app without opening the blocklists.</string>

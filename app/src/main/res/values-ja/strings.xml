@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="accessibility_service_description" translatable="true">白い熊 考直 は、ユーザー補助サービスを利用してバックグラウンドアプリケーションを検出し、ファイアウォール機能を提供します。白い熊 考直 は、いかなる情報も収集・販売することはありません。</string>
+    <string name="accessibility_service_description" translatable="true">白い熊 考直 は、ユーザー補助サービスを利用してバックグラウンドアプリを検出し、ファイアウォール機能を提供します。白い熊 考直 は、いかなる情報も収集・販売することはありません。</string>
     <string name="settings_title_desc" translatable="true">高度にカスタマイズ可能な DNS とファイアウォール</string>
-    <string name="about_title_desc" translatable="true">ネットワークセキュリティの脅威を検知してブロック</string>
+    <string name="about_title_desc" translatable="true">ネットワークセキュリティの脅威を検知して遮断</string>
     <string name="txt_home" translatable="true">ホーム</string>
     <string name="next" translatable="true">次へ</string>
     <string name="skip" translatable="true">スキップ</string>
     <string name="finish" translatable="true">完了</string>
-    <string name="lbl_cancel" translatable="true">キャンセル</string>
+    <string name="lbl_cancel" translatable="true">取り消し</string>
     <string name="lbl_allowed" translatable="true">許可済み</string>
     <string name="lbl_disabled" translatable="true">無効</string>
     <string name="lbl_domain" translatable="true">ドメイン</string>
     <string name="lbl_wildcard" translatable="true">ワイルドカード</string>
     <string name="lbl_action_required" translatable="true">アクションが必要</string>
-    <string name="lbl_rules" translatable="true">ルール</string>
+    <string name="lbl_rules" translatable="true">規則</string>
     <string name="lbl_configure" translatable="true">構成</string>
-    <string name="lbl_logs" translatable="true">ログ</string>
-    <string name="lbl_ip_rules" translatable="true">IP ルール</string>
-    <string name="lbl_domain_rules" translatable="true">ドメインルール</string>
+    <string name="lbl_logs" translatable="true">記録</string>
+    <string name="lbl_ip_rules" translatable="true">IP 規則</string>
+    <string name="lbl_domain_rules" translatable="true">ドメイン規則</string>
     <string name="slide_1_desc" translatable="true">白い熊 考直 は、Mozilla Builders MVP プログラムによって支援されているオープンソースソフトウェアです。</string>
     <string name="rdns_plus" translatable="false">RDNS Plus</string>
     <string name="allow" translatable="true">許可</string>
     <string name="untracked" translatable="true">未追跡</string>
     <string name="firewall_mode_notification_title" translatable="true">保護されています！ファイアウォールに接続しています。</string>
     <string name="hybrid_mode_notification_title" translatable="true">保護されています！ DNS とファイアウォールに接続しています。</string>
-    <string name="pause_mode_notification_title" translatable="true">一時停止しています！ブロックしたアプリはファイアウォールされます。</string>
+    <string name="pause_mode_notification_title" translatable="true">一時停止しています！遮断したアプリはファイアウォールされます。</string>
     <string name="status_protected" description="This is a large message in a reassuring color.  It indicates that DNS queries can't be surveilled or modified in transit." translatable="true">保護済み</string>
     <string name="status_app_error" translatable="true">アプリエラー</string>
     <string name="status_dns_error" translatable="true">DNS エラー</string>
@@ -43,28 +43,28 @@
     <string name="firewall_mode_info_explanation_new" translatable="true">ネットワークのアクティビティを監視し、すべてのアプリや IP アドレスをファイアウォールを適用します。</string>
     <string name="apps_info_title" translatable="true">アプリ</string>
     <string name="hybrid_mode_info_title" translatable="true">DNS + ファイアウォール</string>
-    <string name="dns_mode_info_explanation_new" translatable="true">DNS リクエストを監視、ブロック、暗号化します。</string>
+    <string name="dns_mode_info_explanation_new" translatable="true">DNS 要求を監視、遮断、暗号化します。</string>
     <string name="alert_permission_accessibility" translatable="true">権限 - ユーザー補助</string>
     <string name="brave_dns_connect_mode_change_dns" translatable="true">モードを選択してください。</string>
-    <string name="conn_track_clear_logs_title" translatable="true">すべてのネットワークログを削除しますか？</string>
-    <string name="dns_query_clear_logs_title" translatable="true">すべての DNS ログを削除しますか？</string>
-    <string name="dns_query_clear_logs_message" translatable="true">デバイス上の DNS ログを削除します。この操作は元に戻せません。続行してよろしいですか？</string>
+    <string name="conn_track_clear_logs_title" translatable="true">すべてのネットワーク記録を削除しますか？</string>
+    <string name="dns_query_clear_logs_title" translatable="true">すべての DNS 記録を削除しますか？</string>
+    <string name="dns_query_clear_logs_message" translatable="true">端末上の DNS 記録を削除します。この操作は元に戻せません。続行してよろしいですか？</string>
     <string name="bsct_app_info" translatable="true">アプリ情報</string>
-    <string name="bsct_block_ip" translatable="true">&lt;u&gt;この IP&lt;/u&gt; を &lt;u&gt;このアプリ&lt;/u&gt; に対してブロック・信頼</string>
+    <string name="bsct_block_ip" translatable="true">&lt;u&gt;この IP&lt;/u&gt; を &lt;u&gt;このアプリ&lt;/u&gt; に対して遮断・信頼</string>
     <string name="title_about" translatable="true">情報</string>
     <string name="title_settings" translatable="true">設定</string>
     <string name="title_statistics" translatable="true">統計</string>
     <string name="lbl_apply" translatable="true">適用</string>
     <string name="lbl_all" translatable="true">すべて</string>
-    <string name="lbl_blocked" translatable="true">ブロック済み</string>
+    <string name="lbl_blocked" translatable="true">遮断済み</string>
     <string name="slide_2_title" translatable="true">ようこそ</string>
     <string name="isolate" translatable="true">隔離</string>
     <string name="warning_title" description="Status indicator text shown in a warning notification." translatable="true">警告: 白い熊 考直 は無効化されています</string>
-    <string name="slide_2_desc" translatable="true">白い熊 考直 は、Android デバイスでネットワークアクティビティを監視し、インターネットの検閲を回避し、アプリをファイアウォールするための最も簡単な方法です。</string>
+    <string name="slide_2_desc" translatable="true">白い熊 考直 は、Android 端末でネットワークアクティビティを監視し、インターネットの検閲を回避し、アプリをファイアウォールするための最も簡単な方法です。</string>
     <string name="slide_1_title" translatable="true">フリーでオープンソース</string>
     <string name="notification_content" description="Indicates what will happen if the user taps the notification." translatable="true">タップして保護設定を変更</string>
-    <string name="block" translatable="true">ブロック</string>
-    <string name="universal_firewall_explanation" translatable="true">デバイスイベントに基づいてすべてのアプリにファイアウォールルールを適用します。例えば、デバイスがロックされているときや特定のアプリが使用されていないときにファイアウォールを適用します。</string>
+    <string name="block" translatable="true">遮断</string>
+    <string name="universal_firewall_explanation" translatable="true">端末イベントに基づいてすべてのアプリにファイアウォール規則を適用します。例えば、端末がロックされているときや特定のアプリが使用されていないときにファイアウォールを適用します。</string>
     <string name="exclude" translatable="true">除外</string>
     <string name="status_waiting" description="This text appears during the connection process if Intra needs user permission or the phone is offline." translatable="true">待機中</string>
     <string name="bypass_dns_firewall" translatable="true">DNS とファイアウォールを回避</string>
@@ -82,14 +82,14 @@
     <string name="notification_action_resume_vpn" translatable="true">再開</string>
     <string name="dns_mode_info_title" translatable="true">DNS</string>
     <string name="notification_action_dns_firewall_mode" translatable="true">DNS + ファイアウォール</string>
-    <string name="firewall_rules" translatable="true">ネットワークルール</string>
+    <string name="firewall_rules" translatable="true">ネットワーク規則</string>
     <string name="alert_firewall_accessibility_exception" translatable="true">ユーザー補助サービスの設定を開けませんでした。後でやり直してください！</string>
-    <string name="conn_track_clear_logs_message" translatable="true">ネットワークログのみを削除し、ファイアウォールルールは削除しません。この操作は元に戻せません。続行してよろしいですか？</string>
-    <string name="default_dns_name" translatable="true">RDNS デフォルト</string>
+    <string name="conn_track_clear_logs_message" translatable="true">ネットワーク記録のみを削除し、ファイアウォール規則は削除しません。この操作は元に戻せません。続行してよろしいですか？</string>
+    <string name="default_dns_name" translatable="true">RDNS 既定</string>
     <string name="custom_url_error_invalid_url" translatable="true">無効な URL</string>
     <string name="brave_dns_connect_mode_change_firewall" translatable="true">モードを選択してください。</string>
     <string name="always_on_dialog_heading" translatable="true">常時接続 VPN を無効にする</string>
-    <string name="always_on_dialog" translatable="true">このデバイスでは「常時接続VPN」が有効になっています。白い熊 考直を開始するには、設定にて「常時接続VPN」を無効にしてください。</string>
+    <string name="always_on_dialog" translatable="true">この端末では「常時接続VPN」が有効になっています。白い熊 考直を開始するには、設定にて「常時接続VPN」を無効にしてください。</string>
     <string name="always_on_dialog_positive_btn" translatable="true">設定を開く</string>
     <string name="always_on_dialog_stop_heading" translatable="true">常時接続 VPN</string>
     <string name="always_on_dialog_positive" translatable="true">停止</string>
@@ -99,42 +99,42 @@
     <string name="doh_custom_url_remove_dialog_title" translatable="true">DoHエンドポイントを削除しますか？</string>
     <string name="doh_custom_url_remove_success" translatable="true">エンドポイントを削除しました。</string>
     <string name="dns_crypt_custom_url_remove_dialog_title" translatable="true">DNSCryptリゾルバを削除しますか？</string>
-    <string name="dns_crypt_url_remove_dialog_message" translatable="true">保存された構成から DNSCrypt リゾルバーを削除します。</string>
-    <string name="dns_crypt_relay_remove_dialog_title" translatable="true">DNSCryptリレーを削除しますか?</string>
-    <string name="dns_crypt_relay_remove_dialog_message" translatable="true">保存された構成から DNSCrypt リレーを削除します。</string>
-    <string name="dns_crypt_relay_remove_success" translatable="true">DNSCrypt リレーが削除されました。</string>
+    <string name="dns_crypt_url_remove_dialog_message" translatable="true">保存された構成から DNSCrypt リゾルバを削除します。</string>
+    <string name="dns_crypt_relay_remove_dialog_title" translatable="true">DNSCrypt中継を削除しますか?</string>
+    <string name="dns_crypt_relay_remove_dialog_message" translatable="true">保存された構成から DNSCrypt 中継を削除します。</string>
+    <string name="dns_crypt_relay_remove_success" translatable="true">DNSCrypt 中継が削除されました。</string>
     <string name="dns_proxy_remove_success" translatable="true">DNS プロキシが削除されました。</string>
-    <string name="local_blocklist_download" translatable="true">ブロックリストをダウンロード</string>
-    <string name="local_blocklist_redownload_desc" translatable="true">デバイス上のブロックリストはすでに最新バージョンv%1$sです。</string>
+    <string name="local_blocklist_download" translatable="true">遮断一覧をダウンロード</string>
+    <string name="local_blocklist_redownload_desc" translatable="true">端末上の遮断一覧はすでに最新版v%1$sです。</string>
     <string name="blocklist_update_check_failure" translatable="true">何か問題が発生しました。後でもう一度試してみてください!</string>
     <string name="refresh_complete" translatable="true">アプリ一覧の再同期が完了しました。</string>
     <string name="configure_dns_connected_dns_crypt_status" translatable="true">DNSCrypt</string>
     <string name="configure_dns_connected_dns_proxy_status" translatable="true">DNSプロキシ</string>
     <string name="configure_dns_connection_name" translatable="true">%1$sに接続</string>
-    <string name="download_update_dialog_title" translatable="true">新しいアップデート!</string>
-    <string name="download_update_dialog_message_ok" translatable="true">すでに最新バージョンを使用しています。</string>
-    <string name="download_update_dialog_message_success" translatable="true">ブロックリストのダウンロードに成功しました。</string>
+    <string name="download_update_dialog_title" translatable="true">新しい更新!</string>
+    <string name="download_update_dialog_message_ok" translatable="true">すでに最新版を使用しています。</string>
+    <string name="download_update_dialog_message_success" translatable="true">遮断一覧のダウンロードに成功しました。</string>
     <string name="download_update_dialog_failure_title" translatable="true">何かの問題が発生しました!</string>
     <string name="search_firewall_network_log" translatable="true"><font size="12">アプリ、IP、ドメインの検索</font></string>
     <string name="search_firewall_all_apps" translatable="true"><font size="12">uid、名前でアプリを検索</font></string>
     <string name="search_dns_logs" translatable="true"><font size="12">ドメイン名または IP で検索</font></string>
     <string name="search_universal_ips" translatable="true"><font size="12">IPで検索</font></string>
     <string name="search_custom_domains" translatable="true"><font size="12">ドメイン名で検索</font></string>
-    <string name="search_rethinkplus_file_tag" translatable="true"><font size="12">ブロックリストの検索</font></string>
+    <string name="search_rethinkplus_file_tag" translatable="true"><font size="12">遮断一覧の検索</font></string>
     <string name="app_mode_dns" translatable="true">DNS</string>
     <string name="app_mode_firewall" translatable="true">ファイアウォール</string>
-    <string name="app_mode_dns_firewall" translatable="true">DNSとファイアウォール（デフォルト）</string>
+    <string name="app_mode_dns_firewall" translatable="true">DNSとファイアウォール（既定）</string>
     <string name="settings_vpn_heading" translatable="true">vpn</string>
     <string name="info_dialog_rethink_toast_msg" translatable="true">RDNS+ DNS over HTTPS URL としてコピー</string>
     <string name="app_mode_choose" translatable="true">モードの選択</string>
     <string name="connection_http3" translatable="true">HTTP3</string>
     <string name="relative_time_today" translatable="true">今日</string>
     <string name="relative_time_yesterday" translatable="true">昨日</string>
-    <string name="settings_ip_network_heading" translatable="true">IP バージョンの選択</string>
-    <string name="settings_ip_network_desc" translatable="true">インターネットプロトコルのバージョンを選択します。</string>
+    <string name="settings_ip_network_heading" translatable="true">IP 版の選択</string>
+    <string name="settings_ip_network_desc" translatable="true">インターネットプロトコルの版を選択します。</string>
     <string name="settings_lock_down_proxy_desc" translatable="true">VPNがDNSのみモードまたはロックダウンモードで実行されている場合、プロキシを設定できません。<u>VPN設定に移動</u></string>
     <string name="settings_proxy_header" translatable="true">proxy</string>
-    <string name="settings_socks5_heading" translatable="true">SOCKS5プロキシのセットアップ</string>
+    <string name="settings_socks5_heading" translatable="true">SOCKS5プロキシの設定</string>
     <string name="settings_https_heading" translatable="true">HTTP(S)プロキシを設定する</string>
     <string name="orbot" translatable="true">Orbot</string>
     <string name="orbot_socks5" translatable="true">TCP のみのプロキシ</string>
@@ -142,7 +142,7 @@
     <string name="orbot_http" translatable="true">HTTPプロキシ</string>
     <string name="orbot_http_desc" translatable="true">OrbotのHTTPプロキシを使用することを推奨しています。</string>
     <string name="orbot_both" translatable="true">TCP＋HTTPプロキシ</string>
-    <string name="orbot_none" translatable="true">なし（デフォルト）</string>
+    <string name="orbot_none" translatable="true">なし（既定）</string>
     <string name="orbot_none_desc" translatable="true">上記のどれでもない。</string>
     <string name="orbot_bs_status_1" translatable="true">%1$s 接続を Orbot に転送します。</string>
     <string name="orbot_status_arg_2" translatable="true">TCP</string>
@@ -160,7 +160,7 @@
     <string name="settings_custom_downloader_heading" translatable="true">アプリ内ダウンローダーを利用する</string>
     <string name="settings_import_export_heading" translatable="true">バックアップと復元</string>
     <string name="settings_theme_heading" translatable="true">外観設定</string>
-    <string name="settings_http_proxy_dialog_title" translatable="true">カスタム サーバー URL</string>
+    <string name="settings_http_proxy_dialog_title" translatable="true">独自 サーバー URL</string>
     <string name="settings_http_proxy_error_text2" translatable="true">無効なポート</string>
     <string name="settings_http_proxy_error_text3" translatable="true">ホスト名が空です</string>
     <string name="settings_http_proxy_error_text4" translatable="true">ホスト接続に失敗しました。もう一度やり直してください。</string>
@@ -168,13 +168,13 @@
     <string name="settings_dns_proxy_dialog_app" translatable="true">アプリ</string>
     <string name="settings_dns_proxy_dialog_hostname" translatable="true">ホスト名</string>
     <string name="settings_dns_proxy_dialog_port_number" translatable="true">ポート番号</string>
-    <string name="settings_dns_proxy_dialog_app_desc" translatable="false">選択したアプリはVPNから除外され、ユーザーに代わって接続をプロキシできるようになります。</string>
-    <string name="settings_socks5_dialog_hint_username" translatable="true">ユーザ名 (オプション)</string>
+    <string name="settings_dns_proxy_dialog_app_desc" translatable="false">選択したアプリはVPNから除外され、利用者に代わって接続をプロキシできるようになります。</string>
+    <string name="settings_socks5_dialog_hint_username" translatable="true">利用者名 (オプション)</string>
     <string name="settings_socks5_dialog_hint_password" translatable="true">パスワード(オプション)</string>
     <string name="settings_theme_dialog_title" translatable="true">外観設定</string>
     <string name="settings_theme_dialog_themes_2" translatable="true">ライト</string>
-    <string name="settings_ip_dialog_title" translatable="true">IP バージョンの選択</string>
-    <string name="settings_ip_dialog_ipv4" translatable="true">IPv4 (デフォルト)</string>
+    <string name="settings_ip_dialog_title" translatable="true">IP 版の選択</string>
+    <string name="settings_ip_dialog_ipv4" translatable="true">IPv4 (既定)</string>
     <string name="settings_ip_dialog_ipv6" translatable="true">IPv6(試験的)</string>
     <string name="settings_ip_dialog_ipv46" translatable="true">自動 (試験的)</string>
     <string name="settings_ip_text_ipv4" translatable="true">IPv4</string>
@@ -185,7 +185,7 @@
     <string name="settings_notification_desc2" translatable="true">DNS / DNS + ファイアウォール</string>
     <string name="settings_notification_desc3" translatable="true">なし</string>
     <string name="settings_notification_dialog_title" translatable="true">通知アクションの選択</string>
-    <string name="settings_notification_dialog_option_1" translatable="true">\n\n一時停止/停止（デフォルト）。\n\n2つのボタンを表示し、白い熊 考直の一時停止と停止を素早く行うことができます。</string>
+    <string name="settings_notification_dialog_option_1" translatable="true">\n\n一時停止/停止（既定）。\n\n2つのボタンを表示し、白い熊 考直の一時停止と停止を素早く行うことができます。</string>
     <string name="settings_notification_dialog_option_3" translatable="true">\n\nなし：\n\nボタンを表示しません。\n\n</string>
     <string name="settings_locale_heading" translatable="true">言語の変更</string>
     <string name="settings_locale_dialog_title" translatable="true">ご希望の言語を選択してください</string>
@@ -193,9 +193,9 @@
     <string name="settings_biometeric_heading" translatable="true">アプリロックを有効にする</string>
     <string name="settings_biometric_desc" translatable="true">画面ロックを使用してこのアプリを保護します</string>
     <string name="settings_pcap_heading" translatable="true">パケットキャプチャ</string>
-    <string name="settings_pcap_dialog_option_1" translatable="true">オフ(デフォルト)</string>
+    <string name="settings_pcap_dialog_option_1" translatable="true">オフ(既定)</string>
     <string name="settings_pcap_dialog_option_2" translatable="true">Logcat への出力</string>
-    <string name="apps_icon_content_desc" translatable="true">アプリケーションアイコン</string>
+    <string name="apps_icon_content_desc" translatable="true">アプリアイコン</string>
     <string name="firewall_status_excluded" translatable="true">dnsとファイアウォールから除外</string>
     <string name="firewall_status_unknown" translatable="true">不明</string>
     <string name="firewall_card_status_active" translatable="true">%1$s アプリ</string>
@@ -225,10 +225,10 @@
     <string name="vpn_profile_error" translatable="true">VPNプロファイルを起動できませんでした。</string>
     <string name="private_dns_error" translatable="true">プライベートDNS画面を起動できませんでした。</string>
     <string name="no_browser_error" translatable="true">ブラウザから Web ページを開くことができません。</string>
-    <string name="error_loading_log_file" translatable="true">ログファイルの読み込み中にエラーが発生しました</string>
+    <string name="error_loading_log_file" translatable="true">記録ファイルの読み込み中にエラーが発生しました</string>
     <string name="contributors_dialog_title" translatable="true">開発者</string>
     <string name="cd_custom_doh_url_name_default" translatable="true">DoH</string>
-    <string name="cd_custom_dns_proxy_title" translatable="true">カスタムDNSプロキシ</string>
+    <string name="cd_custom_dns_proxy_title" translatable="true">独自DNSプロキシ</string>
     <string name="cd_custom_dns_proxy_name_default" translatable="true">プロキシ</string>
     <string name="cd_dns_proxy_mode_internal" translatable="true">内部</string>
     <string name="cd_dns_proxy_mode_external" translatable="true">外部</string>
@@ -236,41 +236,41 @@
     <string name="cd_dns_crypt_name_default" translatable="true">DNSCrypt</string>
     <string name="cd_dns_crypt_name" translatable="true">DNSCrypt %1$s</string>
     <string name="cd_dns_crypt_relay_name" translatable="true">DNSRelay %1$s</string>
-    <string name="cd_dns_crypt_dialog_heading" translatable="true">DNSCrypt リゾルバまたはリレーを追加する</string>
+    <string name="cd_dns_crypt_dialog_heading" translatable="true">DNSCrypt リゾルバまたは中継を追加する</string>
     <string name="cd_dns_crypt_resolver_heading" translatable="true">リゾルバ</string>
-    <string name="cd_dns_crypt_relay_heading" translatable="true">リレー</string>
+    <string name="cd_dns_crypt_relay_heading" translatable="true">中継</string>
     <string name="cd_dns_crypt_dialog_name" translatable="true">名称</string>
     <string name="cd_dns_crypt_dialog_desc" translatable="true">説明 (オプション)</string>
     <string name="lbl_add" translatable="true">追加</string>
     <string name="cd_doh_dialog_resolver_url" translatable="true">リゾルバURL</string>
-    <string name="cd_dnscrypt_relay_heading" translatable="true">リレー</string>
+    <string name="cd_dnscrypt_relay_heading" translatable="true">中継</string>
     <string name="cd_dns_alg_heading" translatable="true">高度なDNSフィルタリング（試験的）</string>
-    <string name="cd_dns_alg_desc" translatable="true">アプリの接続時のみドメインルールを適用する</string>
+    <string name="cd_dns_alg_desc" translatable="true">アプリの接続時のみドメイン規則を適用する</string>
     <string name="ctbs_app_info_not_available_toast" translatable="true">アプリの設定ページが見つかりません</string>
     <string name="ctbs_app_other_apps" translatable="true">%1$s + %2$s 他のアプリ</string>
-    <string name="univ_firewall_rule_2" translatable="true">使用中でないアプリをブロックする</string>
+    <string name="univ_firewall_rule_2" translatable="true">使用中でないアプリを遮断する</string>
     <string name="ctbs_dialog_negative_btn" translatable="true">戻る</string>
-    <string name="dns_log_dialog_positive" translatable="true">ログの削除</string>
+    <string name="dns_log_dialog_positive" translatable="true">記録の削除</string>
     <string name="dns_btm_sheet_dialog_ips" translatable="true"><Data> %1$s %2$s &lt;br/&gt;</Data></string>
     <string name="dns_btm_sheet_chip" translatable="true">+%1$s その他のIP</string>
     <string name="dns_btm_sheet_chip_no_answer" translatable="true">回答なし</string>
     <string name="dns_btm_resolved_doh_no_server" translatable="true">解決済み%1$s</string>
     <string name="dns_btm_latency_ms" translatable="true">%1$sms</string>
-    <string name="dns_btm_record_type" translatable="true">クエリの種類: %1$s</string>
+    <string name="dns_btm_record_type" translatable="true">問い合わせの種類: %1$s</string>
     <string name="hs_download_positive_default" translatable="true">Ok</string>
     <string name="hs_download_positive_website" translatable="true">ウェブサイトを訪問</string>
     <string name="hs_download_negative_default" translatable="true">後で通知する</string>
-    <string name="univ_firewall_rule_5" translatable="true">DNS をバイパスする通信をブロックする</string>
-    <string name="univ_firewall_rule_6" translatable="true">新しくインストールしたアプリケーションを既定でブロックする</string>
-    <string name="univ_firewall_rule_7" translatable="true">IPv6でIPv4をブロックする(試験的)</string>
-    <string name="univ_firewall_rule_9" translatable="true">従量制 (モバイル) ネットワークでの通信をブロックする</string>
+    <string name="univ_firewall_rule_5" translatable="true">DNS を回避する通信を遮断する</string>
+    <string name="univ_firewall_rule_6" translatable="true">新しくインストールしたアプリを既定で遮断する</string>
+    <string name="univ_firewall_rule_7" translatable="true">IPv6でIPv4を遮断する(試験的)</string>
+    <string name="univ_firewall_rule_9" translatable="true">従量制 (モバイル) ネットワークでの通信を遮断する</string>
     <string name="univ_view_blocked_ip" translatable="true">IP とポートの規則</string>
     <string name="univ_ip_delete_dialog_positive" translatable="true">すべて削除</string>
     <string name="univ_delete_firewall_dialog_title" translatable="true">すべてのIP規則を削除しますか？</string>
     <string name="univ_accessibility_crash_dialog_positive" translatable="true">設定を開く</string>
     <string name="univ_ip_delete_individual_toast" translatable="true">%1$s は削除された。</string>
     <string name="univ_accessibility_dialog_negative" translatable="true">拒否</string>
-    <string name="dns_connected_rethink_plus" translatable="true">接続済み。%1$s ブロックリスト使用中</string>
+    <string name="dns_connected_rethink_plus" translatable="true">接続済み。%1$s 遮断一覧使用中</string>
     <string name="dns_connected_no_count" translatable="true">接続済み</string>
     <string name="dns_info_positive" translatable="true">Ok</string>
     <string name="dns_info_neutral" translatable="true">コピー</string>
@@ -281,33 +281,33 @@
     <string name="dns_proxy_app" translatable="true">アプリ</string>
     <string name="dns_proxy_port" translatable="true">ポート番号</string>
     <string name="fapps_filter_filter_heading" translatable="true">タイプ</string>
-    <string name="fapps_filter_categories_heading" translatable="true">カテゴリー</string>
+    <string name="fapps_filter_categories_heading" translatable="true">分類</string>
     <string name="fapps_info_exclude_msg" translatable="true">DNSとファイアウォールの両方から除外する。</string>
-    <string name="fapps_info_isolate_msg" translatable="true">信頼できるIP以外をブロックする。</string>
+    <string name="fapps_info_isolate_msg" translatable="true">信頼できるIP以外を遮断する。</string>
     <string name="brbs_backup_dialog_failure_positive" translatable="true">バックアップを再試行</string>
     <string name="brbs_backup_dialog_failure_message" translatable="true">バックアップできませんでした。もう一度試してください。</string>
-    <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">ブロック数が一番多いアプリケーション</string>
-    <string name="ssv_app_network_activity_heading" description="This label will appear on the stats screen as a header for allowed apps." translatable="true">アクセス数が一番多いアプリケーション</string>
+    <string name="ssv_app_blocked_heading" description="This label will appear on the stats screen as a header for blocked applications." translatable="true">遮断数が一番多いアプリ</string>
+    <string name="ssv_app_network_activity_heading" description="This label will appear on the stats screen as a header for allowed apps." translatable="true">アクセス数が一番多いアプリ</string>
     <string name="ssv_toast_start_rethink" description="This label will appear on the stats screen as toast to start 白い熊 考直 app" translatable="true">白い熊 考直を起動して始める</string>
     <string name="ssv_most_contacted_ips_heading" description="This label will appear on the stats screen as a header for most visited ips" translatable="true">アクセス数が一番多いIP</string>
-    <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">ブロック数が一番多いIP</string>
-    <string name="ssv_most_blocked_domain_heading" description="This label will appear on the stats screen as a header for most blocked domains" translatable="true">ブロック数が一番多いドメイン</string>
+    <string name="ssv_most_blocked_ips_heading" description="This label will appear on the stats screen as a header for most blocked ips" translatable="true">遮断数が一番多いIP</string>
+    <string name="ssv_most_blocked_domain_heading" description="This label will appear on the stats screen as a header for most blocked domains" translatable="true">遮断数が一番多いドメイン</string>
     <string name="ssv_most_contacted_domain_heading" description="This label will appear on the stats screen as a header for most visited domains" translatable="true">アクセス数が一番多いドメイン</string>
     <string name="lbbs_update_check" translatable="true">更新を確認</string>
     <string name="brbs_backup_dialog_failure_title" translatable="true">バックアップに失敗しました</string>
-    <string name="hsf_vpn_prepare_failure" translatable="true">VPN権限がないか、別のアプリケーションが常時接続 VPNに設定されています。</string>
+    <string name="hsf_vpn_prepare_failure" translatable="true">VPN権限がないか、別のアプリが常時接続 VPNに設定されています。</string>
     <string name="hs_biometeric_failed" translatable="true">生体認証に失敗しました</string>
-    <string name="univ_firewall_rule_1" translatable="true">デバイスがロック状態であるときはすべてのアプリをブロックする</string>
-    <string name="univ_firewall_rule_3" translatable="true">アプリの提供元が不明な場合はブロックする</string>
-    <string name="univ_firewall_rule_4" translatable="true">DNSとNTP以外のUDPをブロックする</string>
-    <string name="univ_firewall_rule_8" translatable="true">80番ポート(安全ではないHTTP)の通信をブロックする</string>
+    <string name="univ_firewall_rule_1" translatable="true">端末がロック状態であるときはすべてのアプリを遮断する</string>
+    <string name="univ_firewall_rule_3" translatable="true">アプリの提供元が不明な場合は遮断する</string>
+    <string name="univ_firewall_rule_4" translatable="true">DNSとNTP以外のUDPを遮断する</string>
+    <string name="univ_firewall_rule_8" translatable="true">80番ポート(安全ではないHTTP)の通信を遮断する</string>
     <string name="univ_ip_delete_toast_success" translatable="true">すべてのIP規則が削除された。</string>
-    <string name="univ_delete_firewall_dialog_message" translatable="true">これらの規則を削除すると、現在ブロックされているIPに全てのアプリケーションが接続できるようになります。</string>
+    <string name="univ_delete_firewall_dialog_message" translatable="true">これらの規則を削除すると、現在遮断されているIPに全てのアプリが接続できるようになります。</string>
     <string name="brbs_backup_title" translatable="true">バックアップ</string>
     <string name="brbs_backup_dialog_positive" translatable="true">バックアップ</string>
     <string name="brbs_restore_dialog_failure_title" translatable="true">復元に失敗しました</string>
     <string name="alert_firewall_accessibility_explanation" translatable="true">白い熊 考直 は、ユーザー補助サービスを使用して、どのアプリが使用中 (フォアグラウンド) で、どのアプリが使用されていない (バックグラウンド) かを追跡します。 \n \n白い熊 考直 は、いかなる方法でも、あなたの情報を収集したり、スパイ行為を行ったりすることはありません。</string>
-    <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;:アプリケーションのインターネットへの接続をブロックします。 \n&lt;u&gt;#2&lt;/u&gt;:アプリが特定のIPに接続できないようにします。 \n&lt;u&gt;#3&lt;/u&gt;:デバイスがロックされているときにすべての接続をブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#4&lt;/u&gt;:使用されていないアプリをブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#5&lt;/u&gt;:アプリケーションの提供元が不明なときに接続をブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#6&lt;/u&gt;:DNSを除くすべてのUDPトラフィックをブロックします(ユニバーサルファイアウォール)。 \n&lt;u&gt;#7&lt;/u&gt;:DNSをバイパスする接続をブロックします(ユニバーサルファイアウォール)。</string>
+    <string name="bsct_conn_rule_explanation" translatable="true">&lt;u&gt;#1&lt;/u&gt;:アプリのインターネットへの接続を遮断します。 \n&lt;u&gt;#2&lt;/u&gt;:アプリが特定のIPに接続できないようにします。 \n&lt;u&gt;#3&lt;/u&gt;:端末がロックされているときにすべての接続を遮断します(全体のファイアウォール)。 \n&lt;u&gt;#4&lt;/u&gt;:使用されていないアプリを遮断します(全体のファイアウォール)。 \n&lt;u&gt;#5&lt;/u&gt;:アプリの提供元が不明なときに接続を遮断します(全体のファイアウォール)。 \n&lt;u&gt;#6&lt;/u&gt;:DNSを除くすべてのUDP通信を遮断します(全体のファイアウォール)。 \n&lt;u&gt;#7&lt;/u&gt;:DNSを回避する接続を遮断します(全体のファイアウォール)。</string>
     <string name="orbot_stop_dialog_negative" translatable="true">Orbotを止める</string>
     <string name="orbot_install_dialog_message" translatable="true">Orbotは、Torの特徴と機能をAndroidにもたらします。</string>
     <string name="dns_proxy_remove_dialog_message" translatable="true">保存された構成から DNS プロキシを削除します。</string>
@@ -316,16 +316,16 @@
     <string name="private_dns_dialog_desc" translatable="true">白い熊 考直 の DNS 設定は、Android のプライベート DNS によって上書きされます。 \n \n白い熊 考直 の DNS を使用するには、Android の設定にアクセスし、「プライベート DNS」をオフにしてください。</string>
     <string name="private_dns_dialog_positive" translatable="true">設定を開く</string>
     <string name="univ_firewall_dialog_title" translatable="true">IPの規則を削除しますか?</string>
-    <string name="univ_firewall_dialog_message" translatable="true">この規則を削除すると、すべてのアプリケーションがこの IP に接続できるようになります。続行しますか?</string>
+    <string name="univ_firewall_dialog_message" translatable="true">この規則を削除すると、すべてのアプリがこの IP に接続できるようになります。続行しますか?</string>
     <string name="doh_custom_url_remove_dialog_message" translatable="true">保存された構成から DNS over Https エンドポイントを削除します。</string>
     <string name="dns_crypt_url_remove_success" translatable="true">DNSCryptリゾルバを削除しました。</string>
     <string name="dns_proxy_remove_dialog_title" translatable="true">DNSプロキシを削除しますか?</string>
     <string name="download_update_dialog_failure_message" translatable="true">サーバーがダウンしているか、接続が確立されていないかのどちらかです。しばらくしてから、再度お試しください。</string>
-    <string name="local_blocklist_download_desc" translatable="true">この機能のブロックリスト(60MB程度)をダウンロードしますか?</string>
-    <string name="blocklist_update_check_not_required" translatable="true">ブロックリストはすでに最新版になっています。</string>
+    <string name="local_blocklist_download_desc" translatable="true">この機能の遮断一覧(60MB程度)をダウンロードしますか?</string>
+    <string name="blocklist_update_check_not_required" translatable="true">遮断一覧はすでに最新版になっています。</string>
     <string name="configure_dns_connected_doh_status" translatable="true">DNS over HTTPS</string>
     <string name="configure_dns_crypt" translatable="true">DNSCrypt：%1$s リゾルバ</string>
-    <string name="download_update_dialog_message" translatable="true">アプリの新しいバージョンは、Webサイトからダウンロードできます。続行しますか?</string>
+    <string name="download_update_dialog_message" translatable="true">アプリの新しい版は、Webサイトからダウンロードできます。続行しますか?</string>
     <string name="download_update_dialog_trylater_message" translatable="true">現在、更新を実行できません。しばらくしてからもう一度お試しください。</string>
     <string name="http_proxy_dialog_heading" translatable="true">HTTP(S)プロキシを設定する</string>
     <string name="download_update_dialog_trylater_title" translatable="true">現在更新できません</string>
@@ -334,25 +334,25 @@
     <string name="info_dialog_url_copy_toast_msg" translatable="true">URL がコピーされました</string>
     <string name="app_mode_wireguard" translatable="true">VPN</string>
     <string name="settings_http_proxy_error_text1" translatable="true">ポート範囲は 1024 から 65535 である必要があります</string>
-    <string name="settings_dns_proxy_dialog_username" translatable="true">ユーザ名</string>
+    <string name="settings_dns_proxy_dialog_username" translatable="true">利用者名</string>
     <string name="settings_dns_proxy_dialog_password" translatable="true">パスワード</string>
-    <string name="settings_notification_desc1" translatable="true">一時停止／停止（デフォルト）</string>
-    <string name="settings_default_dns_desc" translatable="true">まれにユーザー優先DNSが確認できない場合、フォールバックDNSを使用します。</string>
-    <string name="settings_enable_logs_desc" translatable="true">DNS とファイアウォールのログをデバイスのローカルに保存します。</string>
+    <string name="settings_notification_desc1" translatable="true">一時停止／停止（既定）</string>
+    <string name="settings_default_dns_desc" translatable="true">まれに利用者優先DNSが確認できない場合、フォールバックDNSを使用します。</string>
+    <string name="settings_enable_logs_desc" translatable="true">DNS とファイアウォールの記録を端末のローカルに保存します。</string>
     <string name="settings_http_proxy_toast_success" translatable="true">HTTP プロキシが設定されています</string>
-    <string name="settings_allow_bypass_heading" translatable="true">バイパスを許可する</string>
-    <string name="settings_allow_bypass_desc" translatable="true">リクエストアプリが必要に応じて白い熊 考直ファイアウォールをバイパスできるようにします。ZoomやWhatsAppのような一部の音声/ビデオ会議アプリは、正しく機能するためにバイパスを必要とする場合があります。</string>
-    <string name="settings_lock_down_mode_desc" translatable="true">VPNがロックモードで動作している場合、バイパスを許可することはできません。<u>VPN設定</u> にアクセスしてください。</string>
+    <string name="settings_allow_bypass_heading" translatable="true">回避を許可する</string>
+    <string name="settings_allow_bypass_desc" translatable="true">要求アプリが必要に応じて白い熊 考直ファイアウォールを回避できるようにします。ZoomやWhatsAppのような一部の音声/ビデオ会議アプリは、正しく機能するために回避を必要とする場合があります。</string>
+    <string name="settings_lock_down_mode_desc" translatable="true">VPNがロックモードで動作している場合、回避を許可することはできません。<u>VPN設定</u> にアクセスしてください。</string>
     <string name="settings_protocol_translation_dns_inactive" translatable="true">DNS/DNS+ファイアウォールモードに切り替えると、この設定が有効になります</string>
-    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直は、デバイスのDNSリクエストを暗号化するローカルVPNのセットアップ、ネットワークモニターの実装、ファイアウォールルールの適用を許可する必要があります。 \n \n白い熊 考直は、いかなる情報も収集したり、スパイ行為を行ったりすることはありません。</string>
+    <string name="hsf_vpn_dialog_message" translatable="true">白い熊 考直は、端末のDNS要求を暗号化するローカルVPNの設定、ネットワークモニターの実装、ファイアウォール規則の適用を許可する必要があります。 \n \n白い熊 考直は、いかなる情報も収集したり、スパイ行為を行ったりすることはありません。</string>
     <string name="settings_dns_proxy_dialog_positive_btn" translatable="true">設定</string>
     <string name="settings_socks5_desc" translatable="true">接続を SOCKS5 エンドポイントに転送します。</string>
-    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直は、DNSクエリをOrbotに転送するように設定されています。必要に応じて変更してください。</string>
+    <string name="orbot_stop_dialog_dns_message" translatable="true">白い熊 考直は、DNS問い合わせをOrbotに転送するように設定されています。必要に応じて変更してください。</string>
     <string name="orbot_install_dialog_title" translatable="true">Orbotをインストールしますか？</string>
     <string name="orbot_app_issue" translatable="true">Orbotを起動できませんでした。インストールされていますか？</string>
     <string name="settings_socks5_dialog_hint_port" translatable="true">ポート</string>
     <string name="settings_theme_dialog_themes_1" translatable="true">システム設定</string>
-    <string name="settings_https_desc" translatable="true">この設定はあくまで推奨であり、アプリが無視する可能性があります。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方のルールを回避することができます。</string>
+    <string name="settings_https_desc" translatable="true">この設定はあくまで推奨であり、アプリが無視する可能性があります。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方の規則を回避することができます。</string>
     <string name="settings_socks_forwarding_default_desc" translatable="true">接続を SOCKS5 エンドポイントに転送します。</string>
     <string name="settings_socks5_dialog_hint_ip" translatable="true">IPアドレス</string>
     <string name="settings_theme_dialog_themes_3" translatable="true">ダーク</string>
@@ -365,18 +365,18 @@
     <string name="orbot_install_dialog_positive" translatable="true">インストール</string>
     <string name="pcap_failure_toast" translatable="true">pcap ファイルの作成中にエラーが発生しました。もう一度お試しください!</string>
     <string name="firewall_status_allow" translatable="true">許可</string>
-    <string name="firewall_status_block_metered" translatable="true">従量制課金 (モバイル) ネットワークでブロック</string>
-    <string name="firewall_status_whitelisted" translatable="true">ユニバーサルファイアウォールルールをバイパスします</string>
-    <string name="firewall_status_bypass_dns_firewall" translatable="true">DNSとファイアウォールルールをバイパスします</string>
-    <string name="firewall_status_blocked" translatable="true">ブロック</string>
+    <string name="firewall_status_block_metered" translatable="true">従量制課金 (モバイル) ネットワークで遮断</string>
+    <string name="firewall_status_whitelisted" translatable="true">全体のファイアウォール規則を回避します</string>
+    <string name="firewall_status_bypass_dns_firewall" translatable="true">DNSとファイアウォール規則を回避します</string>
+    <string name="firewall_status_blocked" translatable="true">遮断</string>
     <string name="ct_bs_app_info_error" translatable="true">アプリ情報が見つかりません</string>
     <string name="hs_biometeric_desc" translatable="true">白い熊 考直のロック解除に生体認証を利用する</string>
-    <string name="hs_biometeric_feature_not_supported" translatable="true">このデバイスでは、生体認証はサポートされていないか、または無効になっています</string>
+    <string name="hs_biometeric_feature_not_supported" translatable="true">この端末では、生体認証はサポートされていないか、または無効になっています</string>
     <string name="hs_biometeric_error" translatable="true">生体認証に失敗しました</string>
     <string name="firewall_card_text_inactive" translatable="true">ファイアウォールモードを有効にする。</string>
     <string name="dns_card_latency_inactive" translatable="true">DNS モードを有効にする。</string>
     <string name="orbot_bs_status_2" translatable="true">HTTP プロキシが設定されています (アプリはこれを無視する場合があります)。</string>
-    <string name="rules_card_domain_count" translatable="true">%1$s ドメイン ルール</string>
+    <string name="rules_card_domain_count" translatable="true">%1$s ドメイン 規則</string>
     <string name="apps_card_ips_count" translatable="true">%1$sIP とポートの規則</string>
     <string name="logs_card_network_count" translatable="true">%1$s 接続</string>
     <string name="settings_orbot_install_desc" translatable="true">Orbotをインストールするには、ここをタップしてください</string>
@@ -384,12 +384,12 @@
     <string name="settings_app_notification_a13_desc" translatable="true">アプリの通知権限を有効にする</string>
     <string name="settings_theme_desc" translatable="true">ダーク/ライトテーマ</string>
     <string name="settings_general_customize" translatable="true">カスタマイズ</string>
-    <string name="settings_orbot_heading" translatable="true">Orbotのセットアップ</string>
+    <string name="settings_orbot_heading" translatable="true">Orbotの設定</string>
     <string name="settings_socks5_disabled_error" translatable="true">%1$sに接続されています。続行するにはOFFにしてください。</string>
     <string name="settings_socks5_vpn_disabled_error" translatable="true">白い熊 考直を起動して始める。</string>
     <string name="settings_orbot_notification_action" translatable="true">Orbotを開く</string>
-    <string name="settings_autostart_bootup_desc" translatable="true">デバイスの電源投入時に、シャットダウン前に白い熊 考直が動作していた場合は、白い熊 考直が自動的に起動します。</string>
-    <string name="settings_network_all_networks_desc" translatable="true">有効にすると、白い熊 考直は利用可能なすべてのネットワークを使用してインターネットに接続します。そうでない場合は、Androidによって<i>アクティブ</i>と見なされるネットワークを使用します。</string>
+    <string name="settings_autostart_bootup_desc" translatable="true">端末の電源投入時に、シャットダウン前に白い熊 考直が動作していた場合は、白い熊 考直が自動的に起動します。</string>
+    <string name="settings_network_all_networks_desc" translatable="true">有効にすると、白い熊 考直は利用可能なすべてのネットワークを使用してインターネットに接続します。そうでない場合は、Androidによって<i>有効</i>と見なされるネットワークを使用します。</string>
     <string name="settings_custom_downloader_desc" translatable="true">無効の場合、Androidの組み込みの<i>ダウンロードマネージャー</i>が使用されます</string>
     <string name="settings_app_notification_a13_heading" translatable="true">アプリの通知</string>
     <string name="notification_screen_error" translatable="true">アプリの通知画面を起動できませんでした。</string>
@@ -397,9 +397,9 @@
     <string name="about_app" translatable="true">.app</string>
     <string name="about_app_translate" translatable="true">翻訳</string>
     <string name="collecting_logs_progress_text" translatable="true">キャプチャ中…</string>
-    <string name="cd_dns_crypt_dialog_title" translatable="true">DNSCrypt リゾルバまたはリレーを追加する</string>
+    <string name="cd_dns_crypt_dialog_title" translatable="true">DNSCrypt リゾルバまたは中継を追加する</string>
     <string name="cd_doh_dialog_heading" translatable="true">DNS over HTTPSの追加</string>
-    <string name="cd_custom_doh_dialog_title" translatable="true">カスタム サーバー URL</string>
+    <string name="cd_custom_doh_dialog_title" translatable="true">独自 サーバー URL</string>
     <string name="cd_dns_proxy_error_text_2" translatable="true">ポート範囲は 1024 から 65535 である必要があります</string>
     <string name="log_file_not_available" translatable="true">クラッシュレポートが見つかりません</string>
     <string name="cd_custom_doh_url_name" translatable="true">DoH %1$s</string>
@@ -407,9 +407,9 @@
     <string name="cd_dns_proxy_error_text_1" translatable="true">無効なIPアドレス</string>
     <string name="cd_doh_dialog_resolver_name" translatable="true">リゾルバ名</string>
     <string name="dns_btm_sheet_dialog_message" translatable="true"><Data> &lt;h3&gt;&lt;u&gt;&lt;font size=8&gt;%1$s&lt;/font&gt;&lt;/u&gt;: %2$s blocklist(s)&lt;/h3&gt;%3$s.&lt;br/&gt;&lt;br/&gt;</Data></string>
-    <string name="dns_crypt_relay_error_toast" translatable="true">リゾルバーが選択されていません</string>
-    <string name="univ_view_blocked_ip_desc" translatable="true">ブロックまたは信頼されたドメイン、IP / ポート ルールを変更します。</string>
-    <string name="fapps_info_dialog_message" translatable="true">アプリがインターネットに接続できないようにブロックします。インターネットへの接続を制限することで、不当なデータ利用を防ぐとともに、バッテリーの節約にもつながります。</string>
+    <string name="dns_crypt_relay_error_toast" translatable="true">リゾルバが選択されていません</string>
+    <string name="univ_view_blocked_ip_desc" translatable="true">遮断または信頼されたドメイン、IP / ポート 規則を変更します。</string>
+    <string name="fapps_info_dialog_message" translatable="true">アプリがインターネットに接続できないように遮断します。インターネットへの接続を制限することで、不当なデータ利用を防ぐとともに、バッテリーの節約にもつながります。</string>
     <string name="dns_connected" translatable="true">接続済み</string>
     <string name="dns_proxy_dialog_message" translatable="true">アプリ名: %1$s \n \nIP アドレス: %2$s \n \nポート番号: %3$s</string>
     <string name="dns_proxy_ip_address" translatable="true">IPアドレス</string>
@@ -418,33 +418,33 @@
     <string name="bsrf_clear_filter" translatable="true">削除</string>
     <string name="dc_local_block_enabled" translatable="true">有効化</string>
     <string name="lbbs_enabled" translatable="true">有効化</string>
-    <string name="lbbs_redownload" translatable="true">ブロックリストの再ダウンロード</string>
-    <string name="lbbs_search" translatable="true">ブロックリストに含まれているドメインの検索</string>
-    <string name="orbot_explanation" translatable="true">Orbotは無料のプロキシアプリで、他のアプリがより&lt;u&gt;安全に&lt;/u&gt;インターネットを利用できるようになります。 \nOrbotは&lt;u&gt;Tor&lt;/u&gt;を使ってインターネットトラフィックを暗号化し、&lt;u&gt;検閲を回避し&lt;/u&gt;個人の自由とプライバシーを脅かす&lt;u&gt;ネットワーク監視&lt;/u&gt;形態からユーザーを守るのに役立ちます。 \n&lt;u&gt;TCPプロキシ&lt;/u&gt;:白い熊 考直は、除外されたアプリを除くすべてのTCP接続のみをOrbotに転送する。 \n&lt;u&gt;HTTPプロキシ&lt;/u&gt;:白い熊 考直はHTTPプロキシを&lt;i&gt;設定&lt;/i&gt;するが、アプリがそれを使用することを強制されません。通常、ChromeやFirefoxのようなブラウザはそれを使用しています。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方のルールがバイパスされます。</string>
+    <string name="lbbs_redownload" translatable="true">遮断一覧の再ダウンロード</string>
+    <string name="lbbs_search" translatable="true">遮断一覧に含まれているドメインの検索</string>
+    <string name="orbot_explanation" translatable="true">Orbotは無料のプロキシアプリで、他のアプリがより&lt;u&gt;安全に&lt;/u&gt;インターネットを利用できるようになります。 \nOrbotは&lt;u&gt;Tor&lt;/u&gt;を使ってインターネット通信を暗号化し、&lt;u&gt;検閲を回避し&lt;/u&gt;個人の自由とプライバシーを脅かす&lt;u&gt;ネットワーク監視&lt;/u&gt;形態から利用者を守るのに役立ちます。 \n&lt;u&gt;TCPプロキシ&lt;/u&gt;:白い熊 考直は、除外されたアプリを除くすべてのTCP接続のみをOrbotに転送する。 \n&lt;u&gt;HTTPプロキシ&lt;/u&gt;:白い熊 考直はHTTPプロキシを&lt;i&gt;設定&lt;/i&gt;するが、アプリがそれを使用することを強制されません。通常、ChromeやFirefoxのようなブラウザはそれを使用しています。HTTP(S)プロキシを使用するアプリは、ファイアウォールとDNSの両方の規則が回避されます。</string>
     <string name="contributors_list" translatable="true"><![CDATA[現在の<i>Rethink Open Source Project</i>があるのは、開発に数え切れないほどの時間を費やして下さったボランティアの皆々様のおかげです。<br /> <br />🛡️ Androidアプリ <br /> <a href=https://github.com/BayLee4>BayLee4</a><br /> <a href=https://github.com/Ch4t4r>Ch4t4r</a><br /> <a href=https://github.com/HrBDev>HrBDev</a><br /> <a href=https://github.com/hussainmohd-a>hussainmohd-a</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/markwmuller>markwmuller</a><br /><a href=https://github.com/Uldiniad>Uldiniad</a><br /> <a href=https://github.com/Poussinou>Poussinou</a><br /> <a href=https://github.com/pjosingh>pjosingh</a><br /> <br />🚂 ネットワークエンジン <br /> <a href=https://github.com/alalamav>alalamav</a><br /> <a href=https://github.com/bemasc>bemasc</a><br /> <a href=https://github.com/dmcardle>dmcardle</a><br /> <a href=https://github.com/fortuna>fortuna</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/PeterDaveHello>PeterDaveHello</a><br /> <a href=https://github.com/santhosh-ponnusamy>santhosh-ponnusamy</a><br /> <a href=https://github.com/SeanBurford>SeanBurford</a><br /> <br />📚 リゾルバ <br /> <a href=https://github.com/ahmed-tasaly>ahmed-tasaly</a><br /> <a href=https://github.com/amithm7>amithm7</a><br /> <a href=https://github.com/arfshl>arfshl</a><br /> <a href=https://github.com/badmojr>badmojr</a><br /> <a href=https://github.com/bongochong>bongochong</a><br /> <a href=https://github.com/elliotwutingfeng>elliotwutingfeng</a><br /> <a href=https://github.com/georgyo>georgyo</a><br /> <a href=https://github.com/GiddyGoatGaming>GiddyGoatGaming</a><br /> <a href=https://github.com/Harish-Narayan>Harish-Narayan</a><br /> <a href=https://github.com/ignoramous>ignoramous</a><br /> <a href=https://github.com/JakeChampion>JakeChampion</a><br /> <a href=https://github.com/MasterKia>MasterKia</a><br /><a href=https://github.com/mtxadmin>mtxadmin</a><br /> <a href=https://github.com/neneeen>neneeen</a><br /> <ahref=https://github.com/PeterDaveHello>PeterDaveHello</a><br /> <a href=https://github.com/santhosh-ponnusamy>santhosh-ponnusamy</a><br /> <a href=https://github.com/shruuub>shruuub</a><br /> <a href=https://github.com/shuvashish76>shuvashish76</a><br /><br />⚜ コミュニティMods <br /> <a href=https://t.me/amithm7>amithm7</a><br /> <a href=https://t.me/ppatra>ppatra</a><br /> <a href=https://t.me/InFamous23>InFamous23</a><br /> <a href=https://t.me/TheTr1ckst3r>TheTr1ckst3r</a><br /> <a href=https://t.me/Ch4t4r>Ch4t4r</a><br /> <a href=https://t.me/Billi_ance>Billi_ance</a><br /> <a href=https://t.me/kaliangel>kaliangel</a><br /> <a href=https://github.com/PoneyClairDeLune>PoneyClairDeLune</a><br /> <br />📌 Geo-IP <br /> <a href=https://db-ip.com>db-ip.com</a><br /> <br />❇ 翻訳 <br /> <a href=https://weblate.org/en />Weblate</a><br /><br />🦆 アイコン <br /> <a href=https://github.com/celzero/rethink-app/issues/346>Icons</a><br /> <br />📦 サーバーの構築 <br /><a href=https://jitpack.io />JitPack</a><br /> <a href=https://github.com />GitHub</a><br />]]></string>
-    <string name="dc_check_update_desc" translatable="true"><i>3</i>日ごとにブロックリストの更新を確認する</string>
-    <string name="whats_new_version_update" translatable="false"><![CDATA[<b>スーパーチャージ!</a><br/><br/>1.<i>新機能</i>:高度なDNSフィルタリング。アプリケーションの接続時にのみドメインルールを適用します。<br/>2.<i>新機能</i>:アプリケーションごとにドメインを許可または拒否します。<br/>3.<i>新機能</i>:すべてのアプリケーションに対してドメインを許可または拒否します。<br/>4.<i>新機能</i>:アプリケーションごとにDNSとファイアウォールの両方のルールをバイパスします。<br/>5.<i>新機能</i>:パケットキャプチャ(PCAP)。<br/>6.<i>新機能</i>:DNSブースター。要求を結合し、応答をキャッシュします。<br/>7.<i>新機能</i>:ドメインおよびIPルールを編集します。<br/>8.その他のマイナーなUI変更とバグ修正。<br/>Modulated Modulatedこのアプリケーションの翻訳を支援します英語のみ)。<br/><a href=https://svc.rethinkdns.com/r/translate>]]></string>
-    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 のユーザー補助サービスが停止またはクラッシュしました。<i><b>設定に移動して 白い熊 考直 を強制終了</b></i>し、再度起動してください。<i>使用していないアプリをブロックする</i> 機能を使用してください。 \n \n白い熊 考直 は、ユーザー補助サービスを使用して、使用中 (フォアグラウンド) のアプリと使用していない (バックグラウンド) のアプリを追跡しています。</string>
-    <string name="firewall_rule_bypass_universal_ip_desc" translatable="true"><![CDATA[<i>宛先IP</i>がすべてのユニバーサルファイアウォールルールをバイパスするように設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>ユニバーサル</i>の<i>IPルール</i>に移動してください。]]></string>
-    <string name="firewall_rule_domain_blocked_univ_desc" translatable="true"><![CDATA[<i>ドメイン</i>がユニバーサルドメインルールでブロックされているため、この接続はブロックされました。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
-    <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[この接続が許可されたのは、<i>ドメイン</i>がユニバーサルドメインルールで信頼できるものとして設定されているためです。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
-    <string name="firewall_rule_block_app_univ_mobile_desc" translatable="true"><![CDATA[<i>従量制</i>（モバイル）ネットワークに接続しようとしたときに、ユーザーが設定したユニバーサルファイアウォール規則がこの<i>アプリ</i>をブロックしました。<br/><br/>変更するには、<i>ユニバーサル</i>タブに移動してください。]]></string>
-    <string name="firewall_rule_bypass_dns_firewall_desc" translatable="true"><![CDATA[この接続は、接続元の<i>アプリ</i>がdnsと<i>ファイアウォールのルールを回避</i>するように設定されているため、許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動してください。]]></string>
-    <string name="firewall_rule_exempt_app_bypass_univ_desc" translatable="true"><![CDATA[この接続は、接続元の<i>アプリ</i>がdnsと<i>ファイアウォールのルールを回避</i>するように設定されているため、許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動してください。]]></string>
-    <string name="hsf_start_dialog_message" translatable="true">安全で安全なAndroidへの第一歩:ネットワークアクティビティを即座に確認し、Webサイト、IP、および不正に動作するアプリケーションをブロックします。</string>
-    <string name="firewall_rule_block_app_unmetered_desc" translatable="true"><![CDATA[ユーザー設定のファイアウォール規則が<i>従量制</i>ネットワークに接続しようとしたため、この<i>アプリ</i>をブロックしました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
-    <string name="firewall_rule_block_app_mobile_desc" translatable="true"><![CDATA[ユーザー設定のファイアウォール規則が<i>従量制</i>ネットワークに接続しようとしたため、この<i>アプリ</i>をブロックしました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
-    <string name="firewall_rule_foreground_desc" translatable="true"><![CDATA[ソースアプリケーションが<i>フォアグラウンドにない</i>ため、この接続はファイアウォールで保護されました。<br/><br/>この動作を変更するには、<i>ユニバーサル</i>タブに移動します。]]></string>
-    <string name="firewall_rule_exempt_dns_proxied_desc" translatable="true"><![CDATA[このDNS接続はプロキシ処理され、ユーザー優先のDNSエンドポイントに転送されました。<br/><br/> 変更するには、<i>DNS漏洩の防止</i> を <i>DNSの設定</i> から無効にします。]]></string>
-    <string name="firewall_rule_dns_blocked_desc" translatable="true"><![CDATA[<i>ドメイン</i>がユーザー優先のDNSによってブロックされているため、この接続はブロックされました。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
-    <string name="firewall_rule_isolate_desc" translatable="true"><![CDATA[ユーザー設定のファイアウォール規則により、この<i>アプリ</i>が<i>バイパスされたIP</i>以外に接続したためブロックされました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
+    <string name="dc_check_update_desc" translatable="true"><i>3</i>日ごとに遮断一覧の更新を確認する</string>
+    <string name="whats_new_version_update" translatable="false"><![CDATA[<b>スーパーチャージ!</a><br/><br/>1.<i>新機能</i>:高度なDNSフィルタリング。アプリの接続時にのみドメイン規則を適用します。<br/>2.<i>新機能</i>:アプリごとにドメインを許可または拒否します。<br/>3.<i>新機能</i>:すべてのアプリに対してドメインを許可または拒否します。<br/>4.<i>新機能</i>:アプリごとにDNSとファイアウォールの両方の規則を回避します。<br/>5.<i>新機能</i>:パケットキャプチャ(PCAP)。<br/>6.<i>新機能</i>:DNSブースター。要求を結合し、応答をキャッシュします。<br/>7.<i>新機能</i>:ドメインおよびIP規則を編集します。<br/>8.その他のマイナーなUI変更とバグ修正。<br/>Modulated Modulatedこのアプリの翻訳を支援します英語のみ)。<br/><a href=https://svc.rethinkdns.com/r/translate>]]></string>
+    <string name="alert_firewall_accessibility_regrant_explanation" translatable="true">白い熊 考直 のユーザー補助サービスが停止またはクラッシュしました。<i><b>設定に移動して 白い熊 考直 を強制終了</b></i>し、再度起動してください。<i>使用していないアプリを遮断する</i> 機能を使用してください。 \n \n白い熊 考直 は、ユーザー補助サービスを使用して、使用中 (フォアグラウンド) のアプリと使用していない (バックグラウンド) のアプリを追跡しています。</string>
+    <string name="firewall_rule_bypass_universal_ip_desc" translatable="true"><![CDATA[<i>宛先IP</i>がすべての全体のファイアウォール規則を回避するように設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>全体</i>の<i>IP規則</i>に移動してください。]]></string>
+    <string name="firewall_rule_domain_blocked_univ_desc" translatable="true"><![CDATA[<i>ドメイン</i>が全体のドメイン規則で遮断されているため、この接続は遮断されました。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
+    <string name="firewall_rule_domain_trusted_univ_desc" translatable="true"><![CDATA[この接続が許可されたのは、<i>ドメイン</i>が全体のドメイン規則で信頼できるものとして設定されているためです。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
+    <string name="firewall_rule_block_app_univ_mobile_desc" translatable="true"><![CDATA[<i>従量制</i>（モバイル）ネットワークに接続しようとしたときに、利用者が設定した全体のファイアウォール規則がこの<i>アプリ</i>を遮断しました。<br/><br/>変更するには、<i>全体</i>タブに移動してください。]]></string>
+    <string name="firewall_rule_bypass_dns_firewall_desc" translatable="true"><![CDATA[この接続は、接続元の<i>アプリ</i>がdnsと<i>ファイアウォールの規則を回避</i>するように設定されているため、許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動してください。]]></string>
+    <string name="firewall_rule_exempt_app_bypass_univ_desc" translatable="true"><![CDATA[この接続は、接続元の<i>アプリ</i>がdnsと<i>ファイアウォールの規則を回避</i>するように設定されているため、許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動してください。]]></string>
+    <string name="hsf_start_dialog_message" translatable="true">安全で安全なAndroidへの第一歩:ネットワークアクティビティを即座に確認し、Webサイト、IP、および不正に動作するアプリを遮断します。</string>
+    <string name="firewall_rule_block_app_unmetered_desc" translatable="true"><![CDATA[利用者設定のファイアウォール規則が<i>従量制</i>ネットワークに接続しようとしたため、この<i>アプリ</i>を遮断しました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
+    <string name="firewall_rule_block_app_mobile_desc" translatable="true"><![CDATA[利用者設定のファイアウォール規則が<i>従量制</i>ネットワークに接続しようとしたため、この<i>アプリ</i>を遮断しました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
+    <string name="firewall_rule_foreground_desc" translatable="true"><![CDATA[ソースアプリが<i>フォアグラウンドにない</i>ため、この接続はファイアウォールで保護されました。<br/><br/>この動作を変更するには、<i>全体</i>タブに移動します。]]></string>
+    <string name="firewall_rule_exempt_dns_proxied_desc" translatable="true"><![CDATA[このDNS接続はプロキシ処理され、利用者優先のDNSエンドポイントに転送されました。<br/><br/> 変更するには、<i>DNS漏洩の防止</i> を <i>DNSの設定</i> から無効にします。]]></string>
+    <string name="firewall_rule_dns_blocked_desc" translatable="true"><![CDATA[<i>ドメイン</i>が利用者優先のDNSによって遮断されているため、この接続は遮断されました。<br/><br/>この動作を変更するには、<i>DNSの設定</i>タブに移動します。]]></string>
+    <string name="firewall_rule_isolate_desc" translatable="true"><![CDATA[利用者設定のファイアウォール規則により、この<i>アプリ</i>が<i>回避されたIP</i>以外に接続したため遮断されました。<br/><br/>変更するには、<i>すべてのアプリ</i>タブに移動してください。]]></string>
     <string name="firewall_rule_trusted_ip_desc" translatable="true"><![CDATA[<i>送信先IPアドレス</i>が信頼できるIPアドレスに設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動します。]]></string>
-    <string name="firewall_rule_device_lock_desc" translatable="true"><![CDATA[<i>デバイスがロックされていた</i>ため、この接続はファイアウォールで保護されていました。<br/><br/>この動作を変更するには、<i>ユニバーサル </i>タブに移動します。]]></string>
-    <string name="firewall_rule_unknown_desc" translatable="true"><![CDATA[<i>ソースアプリケーション</i>を判別できなかったため、この接続はファイアウォールで保護されました。<br/><br/>この動作を変更するには、<i>ユニバーサル</i>タブに移動してください。]]></string>
-    <string name="firewall_rule_block_dns_bypass_desc" translatable="true"><![CDATA[<i>ソースアプリケーション</i>がユーザー優先のDNSをバイパスしたため、この接続はブロックされました。<br/><br/>この動作を変更するには、<i>ユニバーサル</i>タブに移動してください。]]></string>
-    <string name="ci_dialog_desc" translatable="true">IPアドレス、IPサブネット(範囲)、ポートを許可(バイパス)またはブロックします。例: 10.10.10.10, 10.1.1.*、 10.2.2/24、 ffff::/104、 [::]:80、 [10.1.0.0/16]:80、 *.*:80</string>
-    <string name="show_logs_disabled_dns_message" translatable="true">DNS要求ログが無効になっています。再度有効にするには、<i>設定</i>に移動して<i>デバイス上のログを有効にする</i>をオンにしてください</string>
-    <string name="dc_dns_leaks_desc" translatable="true">有効にすると、白い熊 考直はポート53上のすべてのパケットをキャプチャし、ユーザー設定のDNSエンドポイントに転送します</string>
+    <string name="firewall_rule_device_lock_desc" translatable="true"><![CDATA[<i>端末がロックされていた</i>ため、この接続はファイアウォールで保護されていました。<br/><br/>この動作を変更するには、<i>全体 </i>タブに移動します。]]></string>
+    <string name="firewall_rule_unknown_desc" translatable="true"><![CDATA[<i>ソースアプリ</i>を判別できなかったため、この接続はファイアウォールで保護されました。<br/><br/>この動作を変更するには、<i>全体</i>タブに移動してください。]]></string>
+    <string name="firewall_rule_block_dns_bypass_desc" translatable="true"><![CDATA[<i>ソースアプリ</i>が利用者優先のDNSを回避したため、この接続は遮断されました。<br/><br/>この動作を変更するには、<i>全体</i>タブに移動してください。]]></string>
+    <string name="ci_dialog_desc" translatable="true">IPアドレス、IPサブネット(範囲)、ポートを許可(回避)または遮断します。例: 10.10.10.10, 10.1.1.*、 10.2.2/24、 ffff::/104、 [::]:80、 [10.1.0.0/16]:80、 *.*:80</string>
+    <string name="show_logs_disabled_dns_message" translatable="true">DNS要求記録が無効になっています。再度有効にするには、<i>設定</i>に移動して<i>端末上の記録を有効にする</i>をオンにしてください</string>
+    <string name="dc_dns_leaks_desc" translatable="true">有効にすると、白い熊 考直はポート53上のすべてのパケットをキャプチャし、利用者設定のDNSエンドポイントに転送します</string>
     <string name="pause_title_desc" translatable="true">昼寝中…</string>
     <string name="orbot_both_desc" translatable="true">上記すべてです。</string>
     <string name="orbot_bs_status_4" translatable="true">ワンクリックでTor-as-a-Proxy（Orbot）を設定できます。</string>
@@ -453,15 +453,15 @@
     <string name="settings_https_disabled_error" translatable="true">%1$sに接続されています。続行するにはOFFにしてください。</string>
     <string name="settings_orbot_notification_content" translatable="true">Tor-as-a-Proxy の起動失敗。 Orbotアプリを開き、手動で起動します。</string>
     <string name="settings_http_proxy_desc" translatable="true">%1$s に転送する</string>
-    <string name="firewall_status_block_unmetered" translatable="true">定額制 (wifi) ネットワークでブロック</string>
+    <string name="firewall_status_block_unmetered" translatable="true">定額制 (wifi) ネットワークで遮断</string>
     <string name="hsf_start_dialog_positive" translatable="true">開始</string>
     <string name="hsf_blocklist_chip_text_no_data" translatable="true">RDNS+を有効にする</string>
     <string name="about_bravedns_explantion" translatable="true">RethinkDNSは、アンドロイド端末上のアプリの動作を監視し、インターネット検閲を回避し、アプリをファイアウォールするための最も簡単な方法です。</string>
     <string name="about_bravedns_toreport_text" translatable="true">ヘルプ＆フィードバック</string>
-    <string name="about_bug_report_desc" translatable="true">メールクラッシュログ</string>
+    <string name="about_bug_report_desc" translatable="true">メールクラッシュ記録</string>
     <string name="about_bug_report" translatable="true">バグ報告</string>
     <string name="about_bug_report_dialog_positive_btn" translatable="true">メールを送信</string>
-    <string name="about_bug_no_log_dialog_message" translatable="true">クラッシュログを取得できませんでした。手動でバグを報告しますか？</string>
+    <string name="about_bug_no_log_dialog_message" translatable="true">クラッシュ記録を取得できませんでした。手動でバグを報告しますか？</string>
     <string name="about_web" translatable="true">リンク</string>
     <string name="about_github" translatable="true">GitHub で貢献する</string>
     <string name="about_faq" translatable="true">よくある質問を見る</string>
@@ -474,108 +474,108 @@
     <string name="about_mail_bugreport_share_title" translatable="true">メールプロバイダを選択する</string>
     <string name="coming_soon_toast" translatable="true">もうすぐです</string>
     <string name="pause_text" translatable="true">一時停止</string>
-    <string name="pause_desc" translatable="true">注: %1$s ブロックされたアプリは引き続きファイアウォールで保護されます。</string>
+    <string name="pause_desc" translatable="true">注: %1$s 遮断されたアプリは引き続きファイアウォールで保護されます。</string>
     <string name="other_dns_list_tab1" translatable="true">DoH</string>
     <string name="other_dns_list_tab2" translatable="true">Dnscrypt</string>
     <string name="other_dns_list_tab3" translatable="true">Dnsプロキシ</string>
-    <string name="firewall_rule_no_rule" translatable="true">ルールなし</string>
-    <string name="firewall_rule_block_app" translatable="true">アプリがブロックされました</string>
+    <string name="firewall_rule_no_rule" translatable="true">規則なし</string>
+    <string name="firewall_rule_block_app" translatable="true">アプリが遮断されました</string>
     <string name="firewall_rule_block_unmetered" translatable="true">定額制 (Wi-Fi)</string>
-    <string name="firewall_rule_univ_block_metered" translatable="true">従量制 (ユニバーサル)</string>
-    <string name="firewall_rule_bypass_dns_firewall" translatable="true">バイパスされたアプリ</string>
+    <string name="firewall_rule_univ_block_metered" translatable="true">従量制 (全体)</string>
+    <string name="firewall_rule_bypass_dns_firewall" translatable="true">回避されたアプリ</string>
     <string name="firewall_rule_block_app_new_install" translatable="true">新しいアプリ</string>
     <string name="firewall_rule_block_app_exception" translatable="true">エラー</string>
     <string name="firewall_rule_block_ip" translatable="true">IP/ポート(アプリ)</string>
-    <string name="firewall_rule_block_univ_ip" translatable="true">IP /ポート(ユニバーサル)</string>
-    <string name="firewall_rule_block_dns_bypass" translatable="true">バイパスされた DNS</string>
+    <string name="firewall_rule_block_univ_ip" translatable="true">IP /ポート(全体)</string>
+    <string name="firewall_rule_block_dns_bypass" translatable="true">回避された DNS</string>
     <string name="firewall_rule_block_http" translatable="true">安全でないHTTP</string>
     <string name="firewall_rule_trusted_domain" translatable="true">信頼できるドメイン (アプリ)</string>
     <string name="firewall_rule_no_rule_desc" translatable="true">この接続に一致するファイアウォール規則はありません。</string>
     <string name="firewall_rule_trusted_domain_desc" translatable="true"><![CDATA[<i>ドメイン</i>が信頼されたドメインとして設定されているため、この接続は許可されました。<br/><br/>変更するには、<i>アプリ固有のファイアウォール</i>画面に移動します。]]></string>
     <string name="new_app_bulk_notification_title" translatable="true">注意</string>
-    <string name="new_app_notification_content" translatable="true">白い熊 考直は最近インストールされたアプリ、%1$s をブロックしました。</string>
+    <string name="new_app_notification_content" translatable="true">白い熊 考直は最近インストールされたアプリ、%1$s を遮断しました。</string>
     <string name="notif_dialog_pause_dialog_title" translatable="true">アプリが一時停止しました！</string>
-    <string name="notif_dialog_pause_dialog_message" translatable="true">アプリケーションは一時停止状態です。再開してください</string>
+    <string name="notif_dialog_pause_dialog_message" translatable="true">アプリは一時停止状態です。再開してください</string>
     <string name="notif_dialog_pause_dialog_positive" translatable="true">再開</string>
-    <string name="notif_channel_desc_vpn_notification" translatable="true">白い熊 考直 がアクティブでバックグラウンドで実行されている場合に通知する</string>
+    <string name="notif_channel_desc_vpn_notification" translatable="true">白い熊 考直 が有効でバックグラウンドで実行されている場合に通知する</string>
     <string name="build__flavor_website" translatable="true">Webサイト</string>
     <string name="build__flavor_fdroid" translatable="true">fdroid</string>
-    <string name="cd_toast_deleted" translatable="true">カスタム リストからドメインを削除しました</string>
+    <string name="cd_toast_deleted" translatable="true">独自 一覧からドメインを削除しました</string>
     <string name="cd_dialog_title" translatable="true">ドメインを追加</string>
     <string name="cd_no_rule_initial" translatable="true">N</string>
-    <string name="cd_no_rule_txt" translatable="true">ルールなし</string>
+    <string name="cd_no_rule_txt" translatable="true">規則なし</string>
     <string name="ci_trust_initial" translatable="true">T</string>
     <string name="ci_no_rule_initial" translatable="true">N</string>
-    <string name="ci_block" translatable="true">ブロック</string>
+    <string name="ci_block" translatable="true">遮断</string>
     <string name="radio_sky_btn" translatable="true">⛅ Sky</string>
     <string name="dc_rethink_dns" translatable="false">白い熊 考直 DNS</string>
     <string name="dc_dns_proxy" translatable="false">DNSプロキシ</string>
     <string name="dc_doh" translatable="false">Dns over HTTPS</string>
     <string name="lbbs_configure" translatable="true">構成</string>
     <string name="lbbs_copy" translatable="true">RDNS+ URL としてコピー</string>
-    <string name="lbbs_download" translatable="true">ブロックリストの更新</string>
-    <string name="lbbs_heading" translatable="true">195以上の量があるブロックリストの設定</string>
+    <string name="lbbs_download" translatable="true">遮断一覧の更新</string>
+    <string name="lbbs_heading" translatable="true">195以上の量がある遮断一覧の設定</string>
     <string name="ssv_see_more" translatable="true">すべて表示</string>
-    <string name="new_app_notification_action_deny" translatable="true">ブロックを維持する</string>
+    <string name="new_app_notification_action_deny" translatable="true">遮断を維持する</string>
     <string name="settings_orbot_disabled_error" translatable="true">Tor-as-a-proxyの設定を続けるには、HTTP(S)とSOCKS5プロキシをオフにしてください。</string>
     <string name="firewall_rule_global_lockdown" translatable="true">ロックダウン</string>
     <string name="firewall_rule_trusted_ip" translatable="true">信頼できるIP</string>
-    <string name="firewall_rule_block_app_desc" translatable="true"><![CDATA[ユーザーが設定したファイアウォールルールがこの<i>アプリ</i> をブロックしています。<br/><br/> 変更するには、<i>「すべてのアプリ」</i> タブに移動します。]]></string>
+    <string name="firewall_rule_block_app_desc" translatable="true"><![CDATA[利用者が設定したファイアウォール規則がこの<i>アプリ</i> を遮断しています。<br/><br/> 変更するには、<i>「すべてのアプリ」</i> タブに移動します。]]></string>
     <string name="notif_dialog_pause_dialog_neutral" translatable="true">表示</string>
     <string name="firewall_rule_foreground" translatable="true">未使用のアプリ</string>
     <string name="firewall_rule_exempt_dns_proxied" translatable="true">DNSプロキシ</string>
     <string name="new_app_notification_action_toast_allow" translatable="true">アプリに許可されたネットワーク接続</string>
-    <string name="accessibility_notification_content" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。タップして再度有効にしてください。</string>
-    <string name="accessibility_failure_toast" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリをブロックしなくなりました。</string>
+    <string name="accessibility_notification_content" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリを遮断しなくなりました。タップして再度有効にしてください。</string>
+    <string name="accessibility_failure_toast" translatable="true">白い熊 考直のアクセシビリティサービスが停止またはクラッシュしました。よってバックグラウンドのアプリを遮断しなくなりました。</string>
     <string name="firewall_rule_block_metered" translatable="true">従量制（モバイル）</string>
-    <string name="firewall_rule_bypass_universal_ip" translatable="true">バイパスされたIP</string>
-    <string name="firewall_rule_device_lock" translatable="true">デバイスがロックされています</string>
-    <string name="firewall_rule_block_udp_ntp" translatable="true">UDP がブロックされました</string>
-    <string name="firewall_rule_exempt_app_bypass_univ" translatable="true">バイパスされたアプリ</string>
+    <string name="firewall_rule_bypass_universal_ip" translatable="true">回避されたIP</string>
+    <string name="firewall_rule_device_lock" translatable="true">端末がロックされています</string>
+    <string name="firewall_rule_block_udp_ntp" translatable="true">UDP が遮断されました</string>
+    <string name="firewall_rule_exempt_app_bypass_univ" translatable="true">回避されたアプリ</string>
     <string name="firewall_rule_block_domain" translatable="true">ドメイン (アプリ)</string>
-    <string name="firewall_rule_exempt_orbot_setup" translatable="true">Orbot セットアップ</string>
+    <string name="firewall_rule_exempt_orbot_setup" translatable="true">Orbot 設定</string>
     <string name="cd_remove_dialog_message" translatable="true">保存された設定からドメインを削除する。</string>
     <string name="notif_channel_desc_vpn_failure" translatable="true">白い熊 考直がAndroidまたは別のVPNアプリによって停止されたときに通知する</string>
     <string name="cd_toast_added" translatable="true">ドメインが正常に追加されました</string>
     <string name="ci_blocked_initial" translatable="true">B</string>
-    <string name="ci_no_rule_txt" translatable="true">ルールなし</string>
+    <string name="ci_no_rule_txt" translatable="true">規則なし</string>
     <string name="category_name_sys_apps" translatable="true">システムアプリ</string>
     <string name="category_name_others" translatable="true">その他</string>
     <string name="cd_remove_dialog_title" translatable="true">ドメインを削除しますか?</string>
     <string name="category_name_non_app_sys" translatable="true">システムサービス</string>
     <string name="category_name_installed" translatable="true">インストール済みのアプリ</string>
-    <string name="cd_no_rules_text" translatable="true">ドメインルールはありません。</string>
+    <string name="cd_no_rules_text" translatable="true">ドメイン規則はありません。</string>
     <string name="cd_blocked_initial" translatable="true">B</string>
-    <string name="ci_no_rule" translatable="true">ルールなし</string>
+    <string name="ci_no_rule" translatable="true">規則なし</string>
     <string name="ci_bypass_universal_initial" translatable="true">BU</string>
     <string name="ci_delete" translatable="true">消去</string>
-    <string name="rt_filter_hint" translatable="true"><u>すべての</u>ブロックリストを表示</string>
+    <string name="rt_filter_hint" translatable="true"><u>すべての</u>遮断一覧を表示</string>
     <string name="about_bug_no_log_dialog_positive_btn" translatable="true">メールを送信</string>
     <string name="radio_max_btn" translatable="true">🪂 Max</string>
-    <string name="hsf_packet_capture_chip_text" translatable="true">パケット キャプチャがアクティブ</string>
+    <string name="hsf_packet_capture_chip_text" translatable="true">パケット キャプチャが有効</string>
     <string name="hsf_packet_capture_chip_disabled_toast" translatable="true">パケット キャプチャが無効</string>
     <string name="hsf_whats_new_remove_text" translatable="true">閉じる..</string>
     <string name="dc_rethink_dns_radio" translatable="true">白い熊 考直</string>
     <string name="hsf_whats_new_chip_text" translatable="true">更新情報</string>
-    <string name="hsf_proxy_chip_text" translatable="true">プロキシがアクティブ</string>
-    <string name="dc_block_heading" translatable="true">ルール</string>
+    <string name="hsf_proxy_chip_text" translatable="true">プロキシが有効</string>
+    <string name="dc_block_heading" translatable="true">規則</string>
     <string name="dc_custom_dns_radio" translatable="true">その他のDNS</string>
     <string name="about_join_telegram" translatable="true">Telegram</string>
     <string name="about_bug_no_log_dialog_title" translatable="true">バグ報告</string>
     <string name="about_website" translatable="true">rethinkdns.comをご覧ください</string>
-    <string name="lbl_maybe_blocked" translatable="true">ブロックされている可能性があります</string>
+    <string name="lbl_maybe_blocked" translatable="true">遮断されている可能性があります</string>
     <string name="lbl_network" translatable="true">ネットワーク</string>
-    <string name="bsct_conn_block_desc" translatable="true">%1$s が %2$s によってブロックされました</string>
-    <string name="bsct_conn_block_desc_device" translatable="true">デバイスで%1$sがブロックされました</string>
+    <string name="bsct_conn_block_desc" translatable="true">%1$s が %2$s によって遮断されました</string>
+    <string name="bsct_conn_block_desc_device" translatable="true">端末で%1$sが遮断されました</string>
     <string name="dns_act_configure_tab" translatable="true">設定</string>
-    <string name="bsct_block_domain" translatable="true">&lt;u&gt;このアプリ&lt;/u&gt;の&lt;u&gt;ドメイン&lt;/u&gt;をブロック、信頼します</string>
-    <string name="bsct_block" translatable="true">&lt;u&gt;このアプリをブロック、バイパス、除外、隔離します&lt;/u&gt;</string>
+    <string name="bsct_block_domain" translatable="true">&lt;u&gt;このアプリ&lt;/u&gt;の&lt;u&gt;ドメイン&lt;/u&gt;を遮断、信頼します</string>
+    <string name="bsct_block" translatable="true">&lt;u&gt;このアプリを遮断、回避、除外、隔離します&lt;/u&gt;</string>
     <string name="bsct_conn_desc_allowed" translatable="true">%1$s %2$s で許可されます</string>
-    <string name="bsct_conn_desc_blocked" translatable="true">%1$s %2$s でブロック</string>
-    <string name="firewall_act_universal_tab" translatable="true">ユニバーサル</string>
+    <string name="bsct_conn_desc_blocked" translatable="true">%1$s %2$s で遮断</string>
+    <string name="firewall_act_universal_tab" translatable="true">全体</string>
     <string name="local_blocklist_redownload" translatable="true">最新情報!</string>
-    <string name="show_logs_disabled_network_message" translatable="true">接続ログが無効になっています。 再度有効にするには、<i>設定</i> に移動し、<i>デバイス上のログを有効にする</i> をオンにします。</string>
-    <string name="lbl_import" translatable="true">インポート</string>
+    <string name="show_logs_disabled_network_message" translatable="true">接続記録が無効になっています。 再度有効にするには、<i>設定</i> に移動し、<i>端末上の記録を有効にする</i> をオンにします。</string>
+    <string name="lbl_import" translatable="true">読み込み</string>
     <string name="lbl_allowed_ips" translatable="true">許可された IP</string>
     <string name="lbl_wireguard" translatable="true">WireGuard</string>
     <string name="lbl_hour" translatable="true">時間</string>
@@ -600,7 +600,7 @@
     <string name="lbl_applications" translatable="true">アプリ</string>
     <string name="lbl_very" translatable="true">とても</string>
     <string name="lbl_select_all" translatable="true">すべて選択</string>
-    <string name="download_update_dialog_message_ok_title" translatable="true">アップデート！</string>
+    <string name="download_update_dialog_message_ok_title" translatable="true">更新！</string>
     <string name="lbl_create" translatable="true">作成</string>
     <string name="status_protected_with_wg_private_dns" translatable="true">WireGuard とプライベート DNS で保護保護されています</string>
     <string name="lbl_listen_port" translatable="true">待ち受けポート</string>
@@ -624,33 +624,33 @@
     <string name="snoop_sort_severity">重要度順</string>
     <string name="snoop_sort_app">アプリ名順</string>
     <string name="snoop_sort_domain">ドメイン順</string>
-    <string name="snoop_filter_cd">フィルター</string>
+    <string name="snoop_filter_cd">フィルタ</string>
     <string name="snoop_filter_sev_all">重要度 ・ すべて</string>
     <string name="snoop_filter_sev_high">重要度 ・ 高</string>
     <string name="snoop_filter_sev_medium">重要度 ・ 中</string>
     <string name="snoop_filter_sev_low">重要度 ・ 低</string>
     <string name="snoop_filter_state_all">状態 ・ すべて</string>
-    <string name="snoop_filter_state_blocked">状態 ・ ブロック済み</string>
+    <string name="snoop_filter_state_blocked">状態 ・ 遮断済み</string>
     <string name="snoop_filter_state_allowed">状態 ・ 許可</string>
     <string name="snoop_clear_all">すべて消去</string>
-    <string name="snoop_empty">まだ監視・追跡は検出されていません。端末内ブロックリスト（プライバシー／トラッカー）を有効にすると精度が上がります。</string>
+    <string name="snoop_empty">まだ監視・追跡は検出されていません。端末内遮断一覧（プライバシー／トラッカー）を有効にすると精度が上がります。</string>
     <string name="snoop_sev_high">高</string>
     <string name="snoop_sev_medium">中</string>
     <string name="snoop_sev_low">低</string>
-    <string name="snoop_state_blocked">ブロック済み</string>
+    <string name="snoop_state_blocked">遮断済み</string>
     <string name="snoop_state_allowed">許可</string>
     <string name="snoop_meta">%1$s ・ %2$d回 ・ %3$s</string>
-    <string name="snoop_action_block_app">このアプリをブロック</string>
-    <string name="snoop_action_block_all">すべてのアプリでブロック</string>
+    <string name="snoop_action_block_app">このアプリを遮断</string>
+    <string name="snoop_action_block_all">すべてのアプリで遮断</string>
     <string name="snoop_action_trust_app">このアプリで信頼</string>
-    <string name="snoop_action_advanced">詳細ルール…</string>
+    <string name="snoop_action_advanced">詳細規則…</string>
     <string name="snoop_action_dismiss">非表示にする</string>
     <string name="snoop_action_open_app">アプリを開く</string>
-    <string name="snoop_toast_blocked">%1$s をブロックしています</string>
+    <string name="snoop_toast_blocked">%1$s を遮断しています</string>
     <string name="snoop_toast_trusted">%1$s を信頼しています</string>
     <string name="snoop_toast_dismissed">%1$s を非表示にしました</string>
     <string name="snoop_clear_confirm_title">監視・追跡の記録をすべて消去しますか？</string>
-    <string name="snoop_clear_confirm_msg">記録された監視・追跡履歴をすべて消去します。設定済みのドメインルールには影響しません。</string>
+    <string name="snoop_clear_confirm_msg">記録された監視・追跡履歴をすべて消去します。設定済みのドメイン規則には影響しません。</string>
     <string name="snoop_notif_channel">監視・追跡の通知</string>
     <string name="snoop_notif_channel_desc">新たに検出された重要度の高い監視・追跡の日次サマリー</string>
     <string name="snoop_notif_title">監視・追跡を検出</string>
