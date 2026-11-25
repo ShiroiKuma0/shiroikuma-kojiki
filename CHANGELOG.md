@@ -1,6 +1,22 @@
 # Changelog — 白い熊 考直
 
-Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG, IPv4-fallback, DoT-refusal and DNS64-question patches.
+Everything built on top of stock [RethinkDNS](https://github.com/celzero/rethink-app). Current base: the **`v0.5.8`** upstream tag with its pinned firestack engine (`d3d530ea3e`) plus the fork’s DoH idle-pool, ALG stale-mapping, orphaned-ALG, IPv4-fallback, DoT-refusal and DNS64-question patches, and a Go runtime that counts the time the phone slept.
+
+## 0.5.8+049
+
+**A WireGuard tunnel answers at once after the phone has dozed, instead of after 15–26 seconds.**
+
+Built on upstream `v0.5.8`; one engine change, no change in the app's own code.
+
+### WireGuard after a doze
+- While a phone dozes its CPU is suspended, and the engine's clock (`CLOCK_MONOTONIC`) stood still with it. After the sleep the engine therefore took its WireGuard session for a fresh one, while the other end — on real time — had discarded that session after 180 s. The first packets were encrypted with a key nobody held any more and were dropped unseen.
+- A new handshake went out only when WireGuard's “sent data, heard nothing” timer ran out: 10 s + 5 s. Measured on two phones, the first connection through the tunnel after a doze took 15–26 s; a local connect succeeded at once, then nothing came back.
+- The engine is now built with a second Go-runtime overlay patch (`tools/runtime_boottime_linux.patch`): the runtime reads `CLOCK_BOOTTIME`, which counts the time spent suspended, on all four ABIs — the patch the official WireGuard Android app carries. The engine sees the key's real age and shakes hands before the first packet.
+- Not changed: a dozing phone still sends no keepalives. That would need a wake lock, at a cost in battery, and a connection the phone starts itself does not need it.
+- The clock applies to the whole engine, not only to WireGuard: every interval it measures now includes the time the phone slept.
+
+### Engine
+- firestack `d3d530ea3e` plus the fork's patches, branch `kojiki-doh-idle-058` at `3c293b0a`.
 
 ## 0.5.8+048
 

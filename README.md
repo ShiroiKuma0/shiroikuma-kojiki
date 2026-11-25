@@ -10,7 +10,7 @@ A fork of [RethinkDNS](https://github.com/celzero/rethink-app) with **major addi
 
 Installs **side-by-side** with RethinkDNS (app id `shiroikuma.kojiki`).
 
-**📥 Latest release: [`0.5.8+048`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
+**📥 Latest release: [`0.5.8+049`](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-kojiki/releases)
 
 </div>
 
@@ -42,6 +42,11 @@ A restart is the harsher version of the same problem: the engine keeps those map
 
 ## 📶 A VPN that stays up, and comes back
 Stock restarts the VPN whenever the network disappears and again when it returns, and every restart costs every app its connections. An access point that shuffles the phone between its radios does that several times a minute. The fork holds a loss for 15 seconds: a network that is back in time restarts nothing. After a reboot, or whenever the process is started again, the app checks for five minutes whether the VPN is wanted and missing, and starts it — and each step of that is written down under Diagnostics, so a VPN that stayed down has a reason on record.
+
+---
+
+## 😴 WireGuard that wakes with the phone
+While a phone dozes, the stock engine's clock stands still. After the sleep it takes its WireGuard session for a fresh one, although the other end discarded it minutes ago — so the first packets vanish and the tunnel needs 15 seconds or more to answer. The fork builds the engine on a clock that counts the sleep, as the official WireGuard app does: the tunnel shakes hands before the first packet and answers at once.
 
 ---
 
