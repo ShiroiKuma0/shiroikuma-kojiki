@@ -34,6 +34,7 @@ class KojikiRole(
     val resId: Int,
     val area: KojikiArea,
     val label: String,
+    val labelRes: Int,
     val default: (KojikiRoles.Scope) -> Int
 )
 

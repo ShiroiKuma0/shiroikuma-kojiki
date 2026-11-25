@@ -2,149 +2,149 @@
 <!-- Fork (白い熊 考直): strings for the custom UI theme + 白い熊 考直 UI settings page. -->
 <resources>
     <!-- "Custom…" appended to the Appearance theme picker -->
-    <string name="settings_theme_dialog_themes_8" translatable="false">Custom…</string>
+    <string name="settings_theme_dialog_themes_8">Custom…</string>
 
     <!-- Customize-section row -->
     <string name="kojiki_ui_title" translatable="false">白い熊 考直 UI</string>
-    <string name="kojiki_ui_desc" translatable="false">Custom colours &amp; font (black / yellow)</string>
+    <string name="kojiki_ui_desc">Custom colours &amp; font (black / yellow)</string>
 
     <!-- Page -->
-    <string name="kojiki_ui_section_colors" translatable="false">Colours</string>
-    <string name="kojiki_ui_section_font" translatable="false">Font (global)</string>
-    <string name="kojiki_ui_section_fw" translatable="false">Firewall list</string>
-    <string name="kojiki_ui_section_icon" translatable="false">Icons (firewall list)</string>
-    <string name="kojiki_ui_color_background" translatable="false">Background</string>
-    <string name="kojiki_ui_color_surface" translatable="false">Surface / cards (front page)</string>
-    <string name="kojiki_ui_color_accent" translatable="false">Accent / icons</string>
-    <string name="kojiki_ui_color_text" translatable="false">Text</string>
-    <string name="kojiki_ui_switch" translatable="false">Toggle switches</string>
-    <string name="kojiki_ui_note_color" translatable="false">Explanations</string>
-    <string name="kojiki_diag_tag_trace" translatable="false">trace file</string>
-    <string name="kojiki_diag_tag_heap" translatable="false">written with the next leak</string>
-    <string name="kojiki_auto_token_copy" translatable="false">Tap to copy it.</string>
-    <string name="kojiki_ui_font_family" translatable="false">Font family</string>
-    <string name="kojiki_ui_font_weight" translatable="false">Weight</string>
-    <string name="kojiki_ui_font_size" translatable="false">Size</string>
-    <string name="kojiki_ui_font_import" translatable="false">Import font…</string>
-    <string name="kojiki_ui_font_system" translatable="false">System default</string>
+    <string name="kojiki_ui_section_colors">Colours</string>
+    <string name="kojiki_ui_section_font">Font (global)</string>
+    <string name="kojiki_ui_section_fw">Firewall list</string>
+    <string name="kojiki_ui_section_icon">Icons (firewall list)</string>
+    <string name="kojiki_ui_color_background">Background</string>
+    <string name="kojiki_ui_color_surface">Surface / cards (front page)</string>
+    <string name="kojiki_ui_color_accent">Accent / icons</string>
+    <string name="kojiki_ui_color_text">Text</string>
+    <string name="kojiki_ui_switch">Toggle switches</string>
+    <string name="kojiki_ui_note_color">Explanations</string>
+    <string name="kojiki_diag_tag_trace">trace file</string>
+    <string name="kojiki_diag_tag_heap">written with the next leak</string>
+    <string name="kojiki_auto_token_copy">Tap to copy it.</string>
+    <string name="kojiki_ui_font_family">Font family</string>
+    <string name="kojiki_ui_font_weight">Weight</string>
+    <string name="kojiki_ui_font_size">Size</string>
+    <string name="kojiki_ui_font_import">Import font…</string>
+    <string name="kojiki_ui_font_system">System default</string>
     <string name="kojiki_ui_font_sample" translatable="false">白い熊 考直 — Sample 0123</string>
-    <string name="kojiki_ui_size_default" translatable="false">Default</string>
+    <string name="kojiki_ui_size_default">Default</string>
     <string name="kojiki_ui_size_sp" translatable="false">%1$d sp</string>
     <string name="kojiki_ui_size_dp" translatable="false">%1$d dp</string>
     <string name="kojiki_ui_pct" translatable="false">%1$d%%</string>
     <!-- Firewall per-item -->
-    <string name="kojiki_ui_fw_name" translatable="false">App name</string>
-    <string name="kojiki_ui_fw_name_user" translatable="false">User apps</string>
-    <string name="kojiki_ui_fw_name_system" translatable="false">System apps</string>
-    <string name="kojiki_ui_fw_app_id" translatable="false">App id (package name)</string>
-    <string name="kojiki_ui_fw_status" translatable="false">Status (allowed / blocked)</string>
-    <string name="kojiki_ui_fw_traffic" translatable="false">Traffic</string>
-    <string name="kojiki_ui_item_colour" translatable="false">Colour</string>
-    <string name="kojiki_ui_item_size" translatable="false">Size</string>
-    <string name="kojiki_ui_item_font" translatable="false">Font</string>
-    <string name="kojiki_ui_item_weight" translatable="false">Weight</string>
-    <string name="kojiki_ui_item_italic" translatable="false">Italic</string>
-    <string name="kojiki_ui_fw_toggle" translatable="false">Wifi / data toggle icons</string>
-    <string name="kojiki_ui_fw_toggle_allowed" translatable="false">Allowed</string>
-    <string name="kojiki_ui_fw_toggle_denied" translatable="false">Blocked</string>
-    <string name="kojiki_ui_fw_toggle_excluded" translatable="false">Excluded</string>
-    <string name="kojiki_ui_fw_toggle_bypass_dns" translatable="false">Bypass DNS &amp; firewall</string>
-    <string name="kojiki_ui_fw_toggle_bypass_univ" translatable="false">Bypass universal</string>
-    <string name="kojiki_ui_icon_size" translatable="false">Icon size</string>
-    <string name="kojiki_ui_icon_roundness" translatable="false">Icon roundness</string>
-    <string name="kojiki_ui_section_snoop_icon" translatable="false">Snooping panel</string>
-    <string name="kojiki_ui_snoop_pill" translatable="false">Severity pill</string>
-    <string name="kojiki_ui_snoop_pill_color" translatable="false">Text colour</string>
-    <string name="kojiki_ui_snoop_pill_width" translatable="false">Width</string>
-    <string name="kojiki_ui_snoop_pill_roundness" translatable="false">Roundness</string>
-    <string name="kojiki_ui_snoop_pill_border" translatable="false">Border colour</string>
-    <string name="kojiki_ui_snoop_pill_border_width" translatable="false">Border width</string>
-    <string name="kojiki_ui_snoop_pill_size" translatable="false">Severity pill size</string>
-    <string name="kojiki_ui_snoop_row_padding" translatable="false">Inter-item spacing</string>
-    <string name="kojiki_ui_section_conn_log_icon" translatable="false">Network log</string>
-    <string name="kojiki_ui_section_dns_log_icon" translatable="false">DNS log</string>
-    <string name="kojiki_ui_log_row_padding" translatable="false">Inter-item spacing</string>
-    <string name="kojiki_ui_log_line_spacing" translatable="false">Line spacing</string>
-    <string name="kojiki_ui_log_divider_width" translatable="false">Divider thickness</string>
-    <string name="kojiki_ui_log_divider_color" translatable="false">Divider colour</string>
+    <string name="kojiki_ui_fw_name">App name</string>
+    <string name="kojiki_ui_fw_name_user">User apps</string>
+    <string name="kojiki_ui_fw_name_system">System apps</string>
+    <string name="kojiki_ui_fw_app_id">App id (package name)</string>
+    <string name="kojiki_ui_fw_status">Status (allowed / blocked)</string>
+    <string name="kojiki_ui_fw_traffic">Traffic</string>
+    <string name="kojiki_ui_item_colour">Colour</string>
+    <string name="kojiki_ui_item_size">Size</string>
+    <string name="kojiki_ui_item_font">Font</string>
+    <string name="kojiki_ui_item_weight">Weight</string>
+    <string name="kojiki_ui_item_italic">Italic</string>
+    <string name="kojiki_ui_fw_toggle">Wifi / data toggle icons</string>
+    <string name="kojiki_ui_fw_toggle_allowed">Allowed</string>
+    <string name="kojiki_ui_fw_toggle_denied">Blocked</string>
+    <string name="kojiki_ui_fw_toggle_excluded">Excluded</string>
+    <string name="kojiki_ui_fw_toggle_bypass_dns">Bypass DNS &amp; firewall</string>
+    <string name="kojiki_ui_fw_toggle_bypass_univ">Bypass universal</string>
+    <string name="kojiki_ui_icon_size">Icon size</string>
+    <string name="kojiki_ui_icon_roundness">Icon roundness</string>
+    <string name="kojiki_ui_section_snoop_icon">Snooping panel</string>
+    <string name="kojiki_ui_snoop_pill">Severity pill</string>
+    <string name="kojiki_ui_snoop_pill_color">Text colour</string>
+    <string name="kojiki_ui_snoop_pill_width">Width</string>
+    <string name="kojiki_ui_snoop_pill_roundness">Roundness</string>
+    <string name="kojiki_ui_snoop_pill_border">Border colour</string>
+    <string name="kojiki_ui_snoop_pill_border_width">Border width</string>
+    <string name="kojiki_ui_snoop_pill_size">Severity pill size</string>
+    <string name="kojiki_ui_snoop_row_padding">Inter-item spacing</string>
+    <string name="kojiki_ui_section_conn_log_icon">Network log</string>
+    <string name="kojiki_ui_section_dns_log_icon">DNS log</string>
+    <string name="kojiki_ui_log_row_padding">Inter-item spacing</string>
+    <string name="kojiki_ui_log_line_spacing">Line spacing</string>
+    <string name="kojiki_ui_log_divider_width">Divider thickness</string>
+    <string name="kojiki_ui_log_divider_color">Divider colour</string>
     <!-- Snooping-panel domain tags / categories -->
-    <string name="snoop_action_tags" translatable="false">Tags…</string>
-    <string name="snoop_tag_new" translatable="false">New tag…</string>
-    <string name="snoop_tag_edit" translatable="false">Edit tag…</string>
-    <string name="snoop_tag_name_hint" translatable="false">Tag name</string>
-    <string name="snoop_tag_color" translatable="false">Colour</string>
-    <string name="snoop_tag_clear_color" translatable="false">No colour</string>
-    <string name="snoop_tag_remove_here" translatable="false">Remove from this domain</string>
-    <string name="snoop_tag_delete" translatable="false">Delete tag everywhere</string>
+    <string name="snoop_action_tags">Tags…</string>
+    <string name="snoop_tag_new">New tag…</string>
+    <string name="snoop_tag_edit">Edit tag…</string>
+    <string name="snoop_tag_name_hint">Tag name</string>
+    <string name="snoop_tag_color">Colour</string>
+    <string name="snoop_tag_clear_color">No colour</string>
+    <string name="snoop_tag_remove_here">Remove from this domain</string>
+    <string name="snoop_tag_delete">Delete tag everywhere</string>
     <!-- 白い熊 考直 UI: Snooping tags management section -->
-    <string name="kojiki_ui_section_snoop_tags" translatable="false">Snooping tags</string>
-    <string name="kojiki_ui_snoop_tag_text" translatable="false">Default text colour</string>
-    <string name="kojiki_ui_snoop_tag_border" translatable="false">Default border colour</string>
-    <string name="kojiki_ui_snoop_tag_border_width" translatable="false">Default border thickness</string>
-    <string name="kojiki_ui_snoop_tag_list" translatable="false">Tags</string>
-    <string name="kojiki_ui_snoop_tag_none" translatable="false">No tags yet</string>
-    <string name="kojiki_ui_log_text_size" translatable="false">Text size</string>
+    <string name="kojiki_ui_section_snoop_tags">Snooping tags</string>
+    <string name="kojiki_ui_snoop_tag_text">Default text colour</string>
+    <string name="kojiki_ui_snoop_tag_border">Default border colour</string>
+    <string name="kojiki_ui_snoop_tag_border_width">Default border thickness</string>
+    <string name="kojiki_ui_snoop_tag_list">Tags</string>
+    <string name="kojiki_ui_snoop_tag_none">No tags yet</string>
+    <string name="kojiki_ui_log_text_size">Text size</string>
     <string name="kojiki_ui_log_text_sample" translatable="false">example.com · App</string>
-    <string name="kojiki_ui_section_log_status" translatable="false">Log status indicator</string>
-    <string name="kojiki_ui_log_status_width" translatable="false">Status bar thickness</string>
-    <string name="kojiki_ui_log_status_blocked" translatable="false">Blocked colour</string>
-    <string name="kojiki_ui_log_status_maybe" translatable="false">Maybe-blocked colour</string>
-    <string name="kojiki_ui_log_status_allowed" translatable="false">Allowed colour</string>
-    <string name="kojiki_ui_log_tag_show" translatable="false">Show BLOCKED / ALLOWED tag</string>
-    <string name="kojiki_ui_log_tag_size" translatable="false">Tag text size</string>
-    <string name="kojiki_ui_snoop_state" translatable="false">Status text (blocked / allowed)</string>
-    <string name="kojiki_ui_snoop_state_blocked" translatable="false">Status colour (blocked)</string>
-    <string name="kojiki_ui_snoop_state_allowed" translatable="false">Status colour (allowed)</string>
-    <string name="kojiki_ui_section_menu" translatable="false">Popup menus</string>
-    <string name="kojiki_ui_menu_border" translatable="false">Border colour</string>
-    <string name="kojiki_ui_menu_border_width" translatable="false">Border thickness</string>
-    <string name="kojiki_ui_menu_item" translatable="false">Menu item</string>
-    <string name="kojiki_ui_section_cards" translatable="false">Cards</string>
-    <string name="kojiki_ui_card_border" translatable="false">Border colour</string>
-    <string name="kojiki_ui_card_border_width" translatable="false">Border thickness</string>
-    <string name="kojiki_ui_section_dividers" translatable="false">List dividers</string>
-    <string name="kojiki_ui_divider_color" translatable="false">Line colour</string>
-    <string name="kojiki_ui_divider_thickness" translatable="false">Line thickness</string>
-    <string name="kojiki_ui_reset" translatable="false">Reset to black / yellow</string>
-    <string name="kojiki_ui_font_invalid" translatable="false">Could not import that font (need .ttf / .otf)</string>
+    <string name="kojiki_ui_section_log_status">Log status indicator</string>
+    <string name="kojiki_ui_log_status_width">Status bar thickness</string>
+    <string name="kojiki_ui_log_status_blocked">Blocked colour</string>
+    <string name="kojiki_ui_log_status_maybe">Maybe-blocked colour</string>
+    <string name="kojiki_ui_log_status_allowed">Allowed colour</string>
+    <string name="kojiki_ui_log_tag_show">Show BLOCKED / ALLOWED tag</string>
+    <string name="kojiki_ui_log_tag_size">Tag text size</string>
+    <string name="kojiki_ui_snoop_state">Status text (blocked / allowed)</string>
+    <string name="kojiki_ui_snoop_state_blocked">Status colour (blocked)</string>
+    <string name="kojiki_ui_snoop_state_allowed">Status colour (allowed)</string>
+    <string name="kojiki_ui_section_menu">Popup menus</string>
+    <string name="kojiki_ui_menu_border">Border colour</string>
+    <string name="kojiki_ui_menu_border_width">Border thickness</string>
+    <string name="kojiki_ui_menu_item">Menu item</string>
+    <string name="kojiki_ui_section_cards">Cards</string>
+    <string name="kojiki_ui_card_border">Border colour</string>
+    <string name="kojiki_ui_card_border_width">Border thickness</string>
+    <string name="kojiki_ui_section_dividers">List dividers</string>
+    <string name="kojiki_ui_divider_color">Line colour</string>
+    <string name="kojiki_ui_divider_thickness">Line thickness</string>
+    <string name="kojiki_ui_reset">Reset to black / yellow</string>
+    <string name="kojiki_ui_font_invalid">Could not import that font (need .ttf / .otf)</string>
 
     <!-- Granular export/import of the 白い熊 考直 settings (theme/font + imported fonts + Snoop tags),
          separate from RethinkDNS's own system backup/restore (hence "export/import", to avoid confusion);
-         saved into a user-chosen, persisted folder so the kojiki customisations survive a clean reinstall. -->
-    <string name="kojiki_ui_section_eximport" translatable="false">Export / import (白い熊 考直)</string>
-    <string name="kojiki_ui_eximport_dir" translatable="false">Folder</string>
-    <string name="kojiki_ui_eximport_dir_unset" translatable="false">(not set — tap to choose)</string>
-    <string name="kojiki_ui_eximport_last" translatable="false">Last exported: %1$s</string>
-    <string name="kojiki_ui_eximport_warn_none" translatable="false">⚠ Never exported here — your 白い熊 考直 customisations are NOT backed up</string>
-    <string name="kojiki_ui_eximport_warn_nodir" translatable="false">⚠ No folder set — choose one so your customisations get backed up</string>
-    <string name="kojiki_ui_export" translatable="false">Export 白い熊 考直 settings</string>
-    <string name="kojiki_ui_export_desc" translatable="false">Save colours, font, fonts &amp; Snoop tags to the folder</string>
-    <string name="kojiki_ui_import" translatable="false">Import 白い熊 考直 settings</string>
-    <string name="kojiki_ui_import_desc" translatable="false">Restore from a previously exported file</string>
-    <string name="kojiki_ui_export_ok" translatable="false">Exported %1$s</string>
-    <string name="kojiki_ui_export_fail" translatable="false">Export failed: %1$s</string>
-    <string name="kojiki_ui_import_ok" translatable="false">Imported %1$s</string>
-    <string name="kojiki_ui_import_fail" translatable="false">Import failed: %1$s</string>
+         saved into a user-chosen, persisted directory so the kojiki customisations survive a clean reinstall. -->
+    <string name="kojiki_ui_section_eximport">Export / import (白い熊 考直)</string>
+    <string name="kojiki_ui_eximport_dir">Directory</string>
+    <string name="kojiki_ui_eximport_dir_unset">(not set — tap to choose)</string>
+    <string name="kojiki_ui_eximport_last">Last exported: %1$s</string>
+    <string name="kojiki_ui_eximport_warn_none">⚠ Never exported here — your 白い熊 考直 customisations are NOT backed up</string>
+    <string name="kojiki_ui_eximport_warn_nodir">⚠ No directory set — choose one so your customisations get backed up</string>
+    <string name="kojiki_ui_export">Export 白い熊 考直 settings</string>
+    <string name="kojiki_ui_export_desc">Save colours, font, fonts &amp; Snoop tags to the directory</string>
+    <string name="kojiki_ui_import">Import 白い熊 考直 settings</string>
+    <string name="kojiki_ui_import_desc">Restore from a previously exported file</string>
+    <string name="kojiki_ui_export_ok">Exported %1$s</string>
+    <string name="kojiki_ui_export_fail">Export failed: %1$s</string>
+    <string name="kojiki_ui_import_ok">Imported %1$s</string>
+    <string name="kojiki_ui_import_fail">Import failed: %1$s</string>
 
     <!-- Per-tunnel WireGuard export (portable wg-quick .conf incl. private key; re-imports as a fresh,
          locally-encrypted, valid tunnel on any install/keystore). -->
-    <string name="wg_export_title" translatable="false">Export</string>
-    <string name="wg_export_warning" translatable="false">This file contains the tunnel private key in plain text. Save it somewhere safe and delete it once you have restored it. It can be re-imported on any install.</string>
-    <string name="wg_export_success" translatable="false">Tunnel exported</string>
-    <string name="wg_export_failure" translatable="false">Export failed</string>
+    <string name="wg_export_title">Export</string>
+    <string name="wg_export_warning">This file contains the tunnel private key in plain text. Save it somewhere safe and delete it once you have restored it. It can be re-imported on any install.</string>
+    <string name="wg_export_success">Tunnel exported</string>
+    <string name="wg_export_failure">Export failed</string>
 
     <!-- Weight options -->
-    <string name="kojiki_weight_default" translatable="false">Default</string>
-    <string name="kojiki_weight_thin" translatable="false">Thin</string>
-    <string name="kojiki_weight_light" translatable="false">Light</string>
-    <string name="kojiki_weight_regular" translatable="false">Regular</string>
-    <string name="kojiki_weight_medium" translatable="false">Medium</string>
-    <string name="kojiki_weight_semibold" translatable="false">Semibold</string>
-    <string name="kojiki_weight_bold" translatable="false">Bold</string>
-    <string name="kojiki_weight_black" translatable="false">Black</string>
+    <string name="kojiki_weight_default">Default</string>
+    <string name="kojiki_weight_thin">Thin</string>
+    <string name="kojiki_weight_light">Light</string>
+    <string name="kojiki_weight_regular">Regular</string>
+    <string name="kojiki_weight_medium">Medium</string>
+    <string name="kojiki_weight_semibold">Semibold</string>
+    <string name="kojiki_weight_bold">Bold</string>
+    <string name="kojiki_weight_black">Black</string>
 
     <!-- 白い熊 考直: unified export / import (replaces backup/restore) -->
-    <string name="kojiki_eim_title" translatable="false">Export / Import — 白い熊 考直</string>
+    <string name="kojiki_eim_title">Export / Import — 白い熊 考直</string>
     <string name="kojiki_eim_desc">Save or load every setting — colours, tags, firewall, WireGuard — as selectable categories.</string>
     <string name="kojiki_eim_export">Export</string>
     <string name="kojiki_eim_export_desc">Save the selected categories to a .zip file.</string>
@@ -173,7 +173,7 @@
     <string name="kojiki_eim_warn_nodir">No directory set yet — pick one to enable one-tap export.</string>
     <string name="kojiki_eim_warn_none">No export in this directory yet.</string>
     <string name="kojiki_eim_last">Last export: %1$s</string>
-    <string name="kojiki_eim_import_done_title" translatable="false">✓ Import — 100% success</string>
+    <string name="kojiki_eim_import_done_title">✓ Import — 100% success</string>
     <string name="kojiki_eim_importing">Importing…</string>
     <string name="kojiki_eim_exporting">Exporting…</string>
     <string name="kojiki_eim_import_done_body">Restored:\n\n%1$s\n\nRestart to apply everything.</string>
@@ -195,7 +195,7 @@
     <string name="kojiki_auto_token_regen_msg">A fresh secret replaces the current one. Every automation that carries the old token stops working until you paste the new one into it (自由作業盤 → 保存復元の設定).</string>
     <string name="kojiki_auto_token_regenerated">New token generated — update your pasted copies.</string>
     <string name="kojiki_auto_storage_title">Allow all-files access?</string>
-    <string name="kojiki_auto_storage_msg">The backup run tells this app which folder to write to — the one shared by every sister app. Writing there needs Android\'s “All files access”.\n\nWithout it, automated exports fall back to the export directory set above.</string>
+    <string name="kojiki_auto_storage_msg">The backup run tells this app which directory to write to — the one shared by every sister app. Writing there needs Android\'s “All files access”.\n\nWithout it, automated exports fall back to the export directory set above.</string>
     <string name="kojiki_auto_storage_open">Open settings</string>
     <string name="kojiki_auto_storage_skip">Not now</string>
 
@@ -268,7 +268,7 @@
     <string name="kojiki_shared_uid_bulk_more" translatable="false">%1$s +%2$d</string>
 
     <!-- About page: fork attribution shown above the Rethink sponsor message. -->
-    <string name="kojiki_about_based_on" translatable="false">白い熊 考直 is based on Rethink.</string>
+    <string name="kojiki_about_based_on">白い熊 考直 is based on Rethink.</string>
     <string name="kojiki_about_github_link" translatable="false">https://github.com/ShiroiKuma0/shiroikuma-kojiki</string>
 
     <!-- Fork (白い熊 考直): per-app time-ordered logs, reached from the app's own page. -->
@@ -278,79 +278,137 @@
     <string name="kojiki_app_log_uid_label">uid %1$s</string>
 
     <!-- Fork (白い熊 考直): Diagnostics (KojikiDiag) — every switch off by default; off costs nothing. -->
-    <string name="kojiki_diag_section" translatable="false">Diagnostics</string>
-    <string name="kojiki_diag_intro" translatable="false">Each switch records one thing to its own trace, all off by default. Off means nothing is recorded and nothing runs. Traces are capped at 512 KiB and also readable with adb under Android/data/%1$s/files/diag/, the app’s own data directory.</string>
-    <string name="kojiki_diag_sub_app" translatable="false">App</string>
-    <string name="kojiki_diag_sub_net" translatable="false">Tunnel &amp; network</string>
-    <string name="kojiki_diag_leaks" translatable="false">Screen leaks</string>
-    <string name="kojiki_diag_leaks_desc" translatable="false">15 s after a screen closes, forces a garbage collection and records every closed screen still held in memory.</string>
-    <string name="kojiki_diag_heap" translatable="false">Heap dump on next leak</string>
-    <string name="kojiki_diag_heap_desc" translatable="false">One-shot: the next leak found also writes heap.hprof (~60 MB) beside the trace, then this switch turns itself off. Needs Screen leaks on.</string>
-    <string name="kojiki_diag_vpn" translatable="false">VPN restarts</string>
-    <string name="kojiki_diag_vpn_desc" translatable="false">Every process start, boot broadcast and VPN start attempt, with WireGuard’s state after a start; every engine start, recycle and stop with its reason; network changes — a loss held for 15 s, a network that came back in time, and, when no network is usable, what each one lacked; and how many connections still aim at stand-in (ALG) addresses from before a restart: counted 60 s and 5 min after each start, the first five named.</string>
-    <string name="kojiki_diag_dns" translatable="false">DNS watchdog</string>
-    <string name="kojiki_diag_dns_desc" translatable="false">Every failed DNS query, and each recycle or failover the watchdog performs.</string>
-    <string name="kojiki_diag_wg" translatable="false">WireGuard health</string>
-    <string name="kojiki_diag_wg_desc" translatable="false">Each minute, per active tunnel: status, handshake age, bytes and the last error — written when something changes or a handshake is over 3 min old, plus a line every 15 min.</string>
-    <string name="kojiki_diag_threads" translatable="false">Thread dumps</string>
-    <string name="kojiki_diag_threads_desc" translatable="false">When kojiki stalls — DNS questions unanswered for 30 s, or the service still running 5 s after STOP — writes every thread’s stack, so the trace shows what is holding it. At most one a minute.</string>
-    <string name="kojiki_diag_engine" translatable="false">Engine log</string>
-    <string name="kojiki_diag_engine_desc" translatable="false">The network engine’s own lines about name resolution, address translation and the resolver’s connections. While on, the engine runs at its verbose log level, which costs some speed — switch it on only to catch something.</string>
-    <string name="kojiki_diag_goroutines_now" translatable="false">Dump engine threads now</string>
-    <string name="kojiki_diag_goroutines_now_desc" translatable="false">Writes the stack of every thread inside the engine to the engine log, whether the switch is on or not.</string>
-    <string name="kojiki_diag_probe" translatable="false">Translation probe (2 min)</string>
-    <string name="kojiki_diag_probe_desc" translatable="false">For two minutes: address translation on “auto”, the engine log captured, and the engine’s translation threads sampled every 4 s. Reproduces the lookup hang on hosts without an IPv6 address; lookups of such hosts can stall while it runs. Ends by itself.</string>
-    <string name="kojiki_diag_probe_started" translatable="false">Translation probe running for 2 minutes.</string>
-    <string name="kojiki_diag_threads_now" translatable="false">Dump threads now</string>
-    <string name="kojiki_diag_threads_now_desc" translatable="false">Writes one dump straight away, whether the switch is on or not.</string>
-    <string name="kojiki_diag_threads_done" translatable="false">Thread dump written to threads.txt</string>
-    <string name="kojiki_stop_title" translatable="false">Stopping the VPN</string>
-    <string name="kojiki_stop_hide" translatable="false">Hide</string>
-    <string name="kojiki_stop_closing" translatable="false">Closing the tunnel and its connections…</string>
-    <string name="kojiki_stop_releasing" translatable="false">Tunnel closed. Waiting for Android to release the VPN…</string>
-    <string name="kojiki_stop_elapsed" translatable="false">%1$d s</string>
-    <string name="kojiki_stop_slow" translatable="false">%1$d s — longer than usual. Pressing STOP again will not speed it up; with Diagnostics → Thread dumps on, what holds it is recorded.</string>
-    <string name="kojiki_diag_view" translatable="false">View trace</string>
-    <string name="kojiki_diag_view_empty" translatable="false">Nothing recorded yet.</string>
-    <string name="kojiki_diag_clear" translatable="false">Clear</string>
-    <string name="kojiki_diag_close" translatable="false">Close</string>
-    <string name="kojiki_vpn_stopped_notif" translatable="false">The VPN stopped by itself at %1$s (%2$s). Tap to open 白い熊 考直 and start it again.</string>
-    <string name="kojiki_ui_app_settings" translatable="false">App settings</string>
-    <string name="kojiki_ui_app_settings_desc" translatable="false">DNS, firewall, VPN and everything else 白い熊 考直 does.</string>
-    <string name="kojiki_ui_reset_confirm" translatable="false">Every colour, font and size on this page goes back to its default.</string>
-    <string name="kojiki_diag_stored_reading" translatable="false">Stored: reading…</string>
-    <string name="kojiki_diag_stored" translatable="false">Stored: %1$s</string>
-    <string name="kojiki_diag_stored_none" translatable="false">Stored: nothing</string>
-    <string name="kojiki_diag_export" translatable="false">Export diagnostic data</string>
-    <string name="kojiki_diag_export_desc" translatable="false">Copies every file into a new dated subdirectory of a directory you pick (last: %1$s).</string>
-    <string name="kojiki_diag_export_done" translatable="false">Exported %1$d files to %2$s</string>
-    <string name="kojiki_diag_export_failed" translatable="false">Export failed: %1$s</string>
-    <string name="kojiki_diag_purge" translatable="false">Purge diagnostic data</string>
-    <string name="kojiki_diag_purge_desc" translatable="false">Deletes every stored trace and heap dump, after a warning that lists them.</string>
-    <string name="kojiki_diag_purge_title" translatable="false">Delete all diagnostic data?</string>
-    <string name="kojiki_diag_purge_button" translatable="false">Delete forever</string>
-    <string name="kojiki_diag_purge_done" translatable="false">Deleted %1$d files</string>
+    <string name="kojiki_diag_section">Diagnostics</string>
+    <string name="kojiki_diag_intro">Each switch records one thing to its own trace, all off by default. Off means nothing is recorded and nothing runs. Traces are capped at 512 KiB and also readable with adb under Android/data/%1$s/files/diag/, the app’s own data directory.</string>
+    <string name="kojiki_diag_sub_app">App</string>
+    <string name="kojiki_diag_sub_net">Tunnel &amp; network</string>
+    <string name="kojiki_diag_leaks">Screen leaks</string>
+    <string name="kojiki_diag_leaks_desc">15 s after a screen closes, forces a garbage collection and records every closed screen still held in memory.</string>
+    <string name="kojiki_diag_heap">Heap dump on next leak</string>
+    <string name="kojiki_diag_heap_desc">One-shot: the next leak found also writes heap.hprof (~60 MB) beside the trace, then this switch turns itself off. Needs Screen leaks on.</string>
+    <string name="kojiki_diag_vpn">VPN restarts</string>
+    <string name="kojiki_diag_vpn_desc">Every process start, boot broadcast and VPN start attempt, with WireGuard’s state after a start; every engine start, recycle and stop with its reason; network changes — a loss held for 15 s, a network that came back in time, and, when no network is usable, what each one lacked; and how many connections still aim at stand-in (ALG) addresses from before a restart: counted 60 s and 5 min after each start, the first five named.</string>
+    <string name="kojiki_diag_dns">DNS watchdog</string>
+    <string name="kojiki_diag_dns_desc">Every failed DNS query, and each recycle or failover the watchdog performs.</string>
+    <string name="kojiki_diag_wg">WireGuard health</string>
+    <string name="kojiki_diag_wg_desc">Each minute, per active tunnel: status, handshake age, bytes and the last error — written when something changes or a handshake is over 3 min old, plus a line every 15 min.</string>
+    <string name="kojiki_diag_threads">Thread dumps</string>
+    <string name="kojiki_diag_threads_desc">When kojiki stalls — DNS questions unanswered for 30 s, or the service still running 5 s after STOP — writes every thread’s stack, so the trace shows what is holding it. At most one a minute.</string>
+    <string name="kojiki_diag_engine">Engine log</string>
+    <string name="kojiki_diag_engine_desc">The network engine’s own lines about name resolution, address translation and the resolver’s connections. While on, the engine runs at its verbose log level, which costs some speed — switch it on only to catch something.</string>
+    <string name="kojiki_diag_goroutines_now">Dump engine threads now</string>
+    <string name="kojiki_diag_goroutines_now_desc">Writes the stack of every thread inside the engine to the engine log, whether the switch is on or not.</string>
+    <string name="kojiki_diag_probe">Translation probe (2 min)</string>
+    <string name="kojiki_diag_probe_desc">For two minutes: address translation on “auto”, the engine log captured, and the engine’s translation threads sampled every 4 s. Reproduces the lookup hang on hosts without an IPv6 address; lookups of such hosts can stall while it runs. Ends by itself.</string>
+    <string name="kojiki_diag_probe_started">Translation probe running for 2 minutes.</string>
+    <string name="kojiki_diag_threads_now">Dump threads now</string>
+    <string name="kojiki_diag_threads_now_desc">Writes one dump straight away, whether the switch is on or not.</string>
+    <string name="kojiki_diag_threads_done">Thread dump written to threads.txt</string>
+    <string name="kojiki_stop_title">Stopping the VPN</string>
+    <string name="kojiki_stop_hide">Hide</string>
+    <string name="kojiki_stop_closing">Closing the tunnel and its connections…</string>
+    <string name="kojiki_stop_releasing">Tunnel closed. Waiting for Android to release the VPN…</string>
+    <string name="kojiki_stop_elapsed">%1$d s</string>
+    <string name="kojiki_stop_slow">%1$d s — longer than usual. Pressing STOP again will not speed it up; with Diagnostics → Thread dumps on, what holds it is recorded.</string>
+    <string name="kojiki_diag_view">View trace</string>
+    <string name="kojiki_diag_view_empty">Nothing recorded yet.</string>
+    <string name="kojiki_diag_clear">Clear</string>
+    <string name="kojiki_diag_close">Close</string>
+    <string name="kojiki_vpn_stopped_notif">The VPN stopped by itself at %1$s (%2$s). Tap to open 白い熊 考直 and start it again.</string>
+    <string name="kojiki_ui_app_settings">App settings</string>
+    <string name="kojiki_ui_app_settings_desc">DNS, firewall, VPN and everything else 白い熊 考直 does.</string>
+    <string name="kojiki_ui_reset_confirm">Every colour, font and size on this page goes back to its default.</string>
+    <string name="kojiki_diag_stored_reading">Stored: reading…</string>
+    <string name="kojiki_diag_stored">Stored: %1$s</string>
+    <string name="kojiki_diag_stored_none">Stored: nothing</string>
+    <string name="kojiki_diag_export">Export diagnostic data</string>
+    <string name="kojiki_diag_export_desc">Copies every file into a new dated subdirectory of a directory you pick (last: %1$s).</string>
+    <string name="kojiki_diag_export_done">Exported %1$d files to %2$s</string>
+    <string name="kojiki_diag_export_failed">Export failed: %1$s</string>
+    <string name="kojiki_diag_purge">Purge diagnostic data</string>
+    <string name="kojiki_diag_purge_desc">Deletes every stored trace and heap dump, after a warning that lists them.</string>
+    <string name="kojiki_diag_purge_title">Delete all diagnostic data?</string>
+    <string name="kojiki_diag_purge_button">Delete forever</string>
+    <string name="kojiki_diag_purge_done">Deleted %1$d files</string>
+    <string name="kojiki_diag_files_one">%1$d file, %2$s MB</string>
+    <string name="kojiki_diag_files_many">%1$d files, %2$s MB</string>
 
     <!-- Fork (白い熊 考直): the per-app Roaming control (KojikiRoaming) -->
-    <string name="kojiki_roaming" translatable="false">Roaming</string>
-    <string name="kojiki_fw_rule_roaming" translatable="false">App blocked while roaming</string>
-    <string name="kojiki_fw_rule_roaming_desc" translatable="false"><![CDATA[The <i>Roaming</i> toggle of this <i>app</i> is off and mobile data was roaming, so the connection was blocked. It holds under every firewall status, bypassed and excluded included.<br/><br/> To change go to <i>All Apps</i> tab.]]></string>
-    <string name="kojiki_roaming_needs_data" translatable="false">Mobile data is off for this app, so roaming is too. Allow mobile data first.</string>
-    <string name="kojiki_roaming_cd" translatable="false">Allow or block this app while roaming</string>
-    <string name="kojiki_roaming_bulk_title" translatable="false">Roaming — %1$d listed apps</string>
-    <string name="kojiki_roaming_bulk_msg" translatable="false">Allow or block roaming data for every app the list is showing. Roaming is mobile data abroad: an app whose mobile-data toggle is off has no roaming either, and its roaming toggle shows that. Roaming off holds under every status: a bypassed or excluded app with roaming off has no access while roaming.</string>
-    <string name="kojiki_roaming_bulk_state" translatable="false">Right now: %1$s.</string>
-    <string name="kojiki_roaming_state_on" translatable="false">data is roaming</string>
-    <string name="kojiki_roaming_state_off" translatable="false">data is not roaming</string>
-    <string name="kojiki_roaming_simulate_on" translatable="false">Test: treat mobile data as roaming</string>
-    <string name="kojiki_roaming_simulate_off" translatable="false">Stop the roaming test</string>
-    <string name="kojiki_roaming_allow" translatable="false">Allow</string>
-    <string name="kojiki_roaming_block" translatable="false">Block</string>
+    <string name="kojiki_roaming">Roaming</string>
+    <string name="kojiki_fw_rule_roaming">App blocked while roaming</string>
+    <string name="kojiki_fw_rule_roaming_desc"><![CDATA[The <i>Roaming</i> toggle of this <i>app</i> is off and mobile data was roaming, so the connection was blocked. It holds under every firewall status, bypassed and excluded included.<br/><br/> To change go to <i>All Apps</i> tab.]]></string>
+    <string name="kojiki_roaming_needs_data">Mobile data is off for this app, so roaming is too. Allow mobile data first.</string>
+    <string name="kojiki_roaming_cd">Allow or block this app while roaming</string>
+    <string name="kojiki_roaming_bulk_title">Roaming — %1$d listed apps</string>
+    <string name="kojiki_roaming_bulk_msg">Allow or block roaming data for every app the list is showing. Roaming is mobile data abroad: an app whose mobile-data toggle is off has no roaming either, and its roaming toggle shows that. Roaming off holds under every status: a bypassed or excluded app with roaming off has no access while roaming.</string>
+    <string name="kojiki_roaming_bulk_state">Right now: %1$s.</string>
+    <string name="kojiki_roaming_state_on">data is roaming</string>
+    <string name="kojiki_roaming_state_off">data is not roaming</string>
+    <string name="kojiki_roaming_simulate_on">Test: treat mobile data as roaming</string>
+    <string name="kojiki_roaming_simulate_off">Stop the roaming test</string>
+    <string name="kojiki_roaming_allow">Allow</string>
+    <string name="kojiki_roaming_block">Block</string>
 
     <!-- Fork (白い熊 考直): the UI page's Maintenance section (black-yellow, 2026-11-21) -->
-    <string name="kojiki_ui_section_maintenance" translatable="false">Maintenance</string>
-    <string name="kojiki_ui_reset_order" translatable="false">Reset section order</string>
-    <string name="kojiki_ui_reset_order_desc" translatable="false">Puts the sections of this page back in their built order. Which of them are open is kept.</string>
-    <string name="kojiki_ui_reset_colors" translatable="false">Reset all colours</string>
-    <string name="kojiki_ui_reset_colors_desc" translatable="false">Puts every colour role back to its default, so each follows the accent, text and background colours again. Fonts, sizes and the three primaries are kept.</string>
+    <string name="kojiki_ui_section_maintenance">Maintenance</string>
+    <string name="kojiki_ui_reset_order">Reset section order</string>
+    <string name="kojiki_ui_reset_order_desc">Puts the sections of this page back in their built order. Which of them are open is kept.</string>
+    <string name="kojiki_ui_reset_colors">Reset all colours</string>
+    <string name="kojiki_ui_reset_colors_desc">Puts every colour role back to its default, so each follows the accent, text and background colours again. Fonts, sizes and the three primaries are kept.</string>
+
+    <!-- Fork (白い熊 考直): the firewall-rule help dialog (KojikiFirewallHelp) and the DNS watchdog's
+         notifications (KojikiDnsWatchdog). The three column heads repeat what the buttons say. -->
+    <string name="kojiki_fwh_col_bdf" translatable="false">Bypass\nDNS &amp; FW</string>
+    <string name="kojiki_fwh_col_bu" translatable="false">Bypass\nUniversal</string>
+    <string name="kojiki_fwh_col_ex" translatable="false">Exclude</string>
+    <string name="kojiki_fwh_title">Firewall rules</string>
+    <string name="kojiki_fwh_blurb_bdf">Stays inside the tunnel — it still resolves through %1$s and still follows any WireGuard or proxy binding — but the DNS blocklists and every universal firewall rule are waived for it. The rules you set on this app itself still apply.</string>
+    <string name="kojiki_fwh_blurb_bu">Stays inside the tunnel and keeps full DNS filtering — a blocklisted domain is still blocked — but the universal firewall rules are waived. The narrower of the two bypasses: it lifts the global toggles off the app without opening the blocklists.</string>
+    <string name="kojiki_fwh_blurb_ex">Removes the app from the VPN at the Android level. Its traffic never reaches %1$s at all: the system resolver answers its DNS, so no blocklists, no logging, no rules, and no WireGuard or proxy routing.</string>
+    <string name="kojiki_fwh_rule_by_rule">Rule by rule</string>
+    <string name="kojiki_fwh_legend">✓ the rule still applies   ·   ✗ waived for this app   ·   – not applicable, the app is outside the tunnel</string>
+    <string name="kojiki_fwh_notes_title">Notes</string>
+    <string name="kojiki_fwh_note_1">The difference between the two bypasses. A Bypass Universal app still has its blocklisted domains blocked — unless a universal domain rule marks that domain Trust, the one universal rule that survives for it.</string>
+    <string name="kojiki_fwh_note_2">“Prevent DNS leaks” keeps trapping port 53 for a Bypass Universal app. Bypass DNS &amp; Firewall escapes it.</string>
+    <string name="kojiki_fwh_note_3">Both bypasses waive these two. Neither “not in use” nor “device locked” can block an app carrying either status.</string>
+    <string name="kojiki_fwh_note_4">Choosing either bypass sets this app’s WiFi and mobile-data toggles to allowed. They stay lit, with the bypass’s badge on them. Tapping one blocks that network and keeps the bypass on the other: the toggle is drawn struck, and the app is bypassed on WiFi and blocked on mobile data, or the reverse.</string>
+    <string name="kojiki_fwh_note_5">Under Android’s “block connections without VPN”, an excluded app would be left with no connectivity at all, so the exclude list is ignored and the app is tunnelled normally.</string>
+    <string name="kojiki_fwh_tail">Two rules run ahead of every status and cannot be bypassed by any of them: “block newly installed apps” (only while the app is still untracked) and “block unknown connections” (only for traffic with no app behind it).</string>
+    <string name="kojiki_fwh_sec_dns">DNS</string>
+    <string name="kojiki_fwh_sec_universal">Universal firewall toggles</string>
+    <string name="kojiki_fwh_sec_app">Rules set on this app</string>
+    <string name="kojiki_fwh_sec_tunnel">Tunnel</string>
+    <string name="kojiki_fwh_row_resolved">Resolved by %1$s</string>
+    <string name="kojiki_fwh_row_blocklists">DNS blocklists ¹</string>
+    <string name="kojiki_fwh_row_blocked_at_connect">Blocked DNS enforced at connect ¹</string>
+    <string name="kojiki_fwh_row_leaks">Prevent DNS leaks ²</string>
+    <string name="kojiki_fwh_row_disallow_bypass">Disallow DNS bypass</string>
+    <string name="kojiki_fwh_row_dns_logging">DNS logging + snoop tags</string>
+    <string name="kojiki_fwh_row_not_in_use">Block when app is not in use ³</string>
+    <string name="kojiki_fwh_row_locked">Block when device is locked ³</string>
+    <string name="kojiki_fwh_row_metered">Block metered connections</string>
+    <string name="kojiki_fwh_row_lockdown">Universal lockdown</string>
+    <string name="kojiki_fwh_row_http">Block insecure HTTP</string>
+    <string name="kojiki_fwh_row_udp">Block UDP other than DNS/NTP</string>
+    <string name="kojiki_fwh_row_univ_domain">Universal domain rules ¹</string>
+    <string name="kojiki_fwh_row_univ_ip">Universal IP rules</string>
+    <string name="kojiki_fwh_row_app_wifi">Block on WiFi / mobile data ⁴</string>
+    <string name="kojiki_fwh_row_app_domain">Domain rules (Trust / Block)</string>
+    <string name="kojiki_fwh_row_app_ip">IP rules (Trust / Block)</string>
+    <string name="kojiki_fwh_row_enters">Traffic enters the tunnel</string>
+    <string name="kojiki_fwh_row_conn_log">Connection logging</string>
+    <string name="kojiki_fwh_row_wg">WireGuard / proxy routing</string>
+    <string name="kojiki_fwh_row_android_lockdown">Honoured under Android lockdown ⁵</string>
+    <string name="kojiki_wd_stall_text">DNS questions went unanswered for %1$d s; the tunnel engine was restarted to clear it.</string>
+    <string name="kojiki_wd_restart_title">DNS wedged — tunnel restarted</string>
+    <string name="kojiki_wd_restart_text">Repeated DNS failures detected; the tunnel engine was restarted to clear them. If the wedge returns shortly, DNS will fail over to Google DoH.</string>
+    <string name="kojiki_wd_again_title">DNS wedged again — tunnel restarted</string>
+    <string name="kojiki_wd_again_text">DNS failures persist on the fallback resolver; the tunnel engine was restarted again.</string>
+    <string name="kojiki_wd_failover_title">DNS failed over to %1$s</string>
+    <string name="kojiki_wd_failover_text_temp">The tunnel restart did not cure the DNS wedge, so the resolver was switched from “%1$s” to “%2$s” and the tunnel was restarted. Temporary: “%1$s” is tried again in %3$d min.</string>
+    <string name="kojiki_wd_failover_text_manual">The tunnel restart did not cure the DNS wedge, so the resolver was switched from “%1$s” to “%2$s” and the tunnel was restarted. “%1$s” is not a DoH resolver, so switch back by hand.</string>
+    <string name="kojiki_wd_still_title">DNS still on %1$s</string>
+    <string name="kojiki_wd_still_text">“%1$s” could not be found to switch back to; choose the resolver by hand.</string>
+    <string name="kojiki_wd_back_title">DNS back on %1$s</string>
+    <string name="kojiki_wd_back_text">The failover to %1$s was temporary; “%2$s” is in use again. If it wedges again soon, the next failover lasts longer.</string>
 </resources>

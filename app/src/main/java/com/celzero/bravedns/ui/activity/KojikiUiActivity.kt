@@ -362,20 +362,20 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
             addRoleRows(KojikiArea.LINES)
         },
-        Section("role_" + KojikiArea.ACCENT.key, KojikiArea.ACCENT.label, R.drawable.ic_star_filled, "icon_view") { addRoleRows(KojikiArea.ACCENT) },
-        Section("role_" + KojikiArea.TEXT.key, KojikiArea.TEXT.label, R.drawable.ic_edit_icon, "icon_view") { addRoleRows(KojikiArea.TEXT) },
-        Section("role_" + KojikiArea.SURFACES.key, KojikiArea.SURFACES.label, R.drawable.ic_element, "icon_view") { addRoleRows(KojikiArea.SURFACES) },
-        Section("role_" + KojikiArea.BARS.key, KojikiArea.BARS.label, R.drawable.ic_view_list, "icon_view") { addRoleRows(KojikiArea.BARS) },
-        Section("role_" + KojikiArea.BUTTONS.key, KojikiArea.BUTTONS.label, R.drawable.ic_tick_normal, "icon_view") { addRoleRows(KojikiArea.BUTTONS) },
-        Section("role_" + KojikiArea.DIALOGS.key, KojikiArea.DIALOGS.label, R.drawable.ic_info, "icon_view") { addRoleRows(KojikiArea.DIALOGS) },
-        Section("role_" + KojikiArea.SWITCHES.key, KojikiArea.SWITCHES.label, R.drawable.ic_check_circle, "icon_view") { addRoleRows(KojikiArea.SWITCHES) },
-        Section("role_" + KojikiArea.ICONS.key, KojikiArea.ICONS.label, R.drawable.ic_android_icon, "icon_view") { addRoleRows(KojikiArea.ICONS) },
-        Section("role_" + KojikiArea.CHIPS.key, KojikiArea.CHIPS.label, R.drawable.ic_filter, "icon_view") { addRoleRows(KojikiArea.CHIPS) },
-        Section("role_" + KojikiArea.STATUS.key, KojikiArea.STATUS.label, R.drawable.ic_shield_check, "icon_view") { addRoleRows(KojikiArea.STATUS) },
-        Section("role_" + KojikiArea.FIREWALL.key, KojikiArea.FIREWALL.label, R.drawable.ic_firewall_shield, "icon_view") { addRoleRows(KojikiArea.FIREWALL) },
-        Section("role_" + KojikiArea.HOME.key, KojikiArea.HOME.label, R.drawable.ic_home_black_24dp, "icon_view") { addRoleRows(KojikiArea.HOME) },
-        Section("role_" + KojikiArea.SERVERS.key, KojikiArea.SERVERS.label, R.drawable.ic_network, "icon_view") { addRoleRows(KojikiArea.SERVERS) },
-        Section("role_" + KojikiArea.TOUR.key, KojikiArea.TOUR.label, R.drawable.ic_whats_new, "icon_view") { addRoleRows(KojikiArea.TOUR) },
+        Section("role_" + KojikiArea.ACCENT.key, getString(KojikiArea.ACCENT.labelRes), R.drawable.ic_star_filled, "icon_view") { addRoleRows(KojikiArea.ACCENT) },
+        Section("role_" + KojikiArea.TEXT.key, getString(KojikiArea.TEXT.labelRes), R.drawable.ic_edit_icon, "icon_view") { addRoleRows(KojikiArea.TEXT) },
+        Section("role_" + KojikiArea.SURFACES.key, getString(KojikiArea.SURFACES.labelRes), R.drawable.ic_element, "icon_view") { addRoleRows(KojikiArea.SURFACES) },
+        Section("role_" + KojikiArea.BARS.key, getString(KojikiArea.BARS.labelRes), R.drawable.ic_view_list, "icon_view") { addRoleRows(KojikiArea.BARS) },
+        Section("role_" + KojikiArea.BUTTONS.key, getString(KojikiArea.BUTTONS.labelRes), R.drawable.ic_tick_normal, "icon_view") { addRoleRows(KojikiArea.BUTTONS) },
+        Section("role_" + KojikiArea.DIALOGS.key, getString(KojikiArea.DIALOGS.labelRes), R.drawable.ic_info, "icon_view") { addRoleRows(KojikiArea.DIALOGS) },
+        Section("role_" + KojikiArea.SWITCHES.key, getString(KojikiArea.SWITCHES.labelRes), R.drawable.ic_check_circle, "icon_view") { addRoleRows(KojikiArea.SWITCHES) },
+        Section("role_" + KojikiArea.ICONS.key, getString(KojikiArea.ICONS.labelRes), R.drawable.ic_android_icon, "icon_view") { addRoleRows(KojikiArea.ICONS) },
+        Section("role_" + KojikiArea.CHIPS.key, getString(KojikiArea.CHIPS.labelRes), R.drawable.ic_filter, "icon_view") { addRoleRows(KojikiArea.CHIPS) },
+        Section("role_" + KojikiArea.STATUS.key, getString(KojikiArea.STATUS.labelRes), R.drawable.ic_shield_check, "icon_view") { addRoleRows(KojikiArea.STATUS) },
+        Section("role_" + KojikiArea.FIREWALL.key, getString(KojikiArea.FIREWALL.labelRes), R.drawable.ic_firewall_shield, "icon_view") { addRoleRows(KojikiArea.FIREWALL) },
+        Section("role_" + KojikiArea.HOME.key, getString(KojikiArea.HOME.labelRes), R.drawable.ic_home_black_24dp, "icon_view") { addRoleRows(KojikiArea.HOME) },
+        Section("role_" + KojikiArea.SERVERS.key, getString(KojikiArea.SERVERS.labelRes), R.drawable.ic_network, "icon_view") { addRoleRows(KojikiArea.SERVERS) },
+        Section("role_" + KojikiArea.TOUR.key, getString(KojikiArea.TOUR.labelRes), R.drawable.ic_whats_new, "icon_view") { addRoleRows(KojikiArea.TOUR) },
         Section("diag", getString(R.string.kojiki_diag_section), R.drawable.ic_stack_trace, "icon_message") { addDiagnosticsSection() },
         Section("maintenance", getString(R.string.kojiki_ui_section_maintenance), R.drawable.ic_refresh, "icon_delete") { addMaintenanceRows() },
     )
@@ -514,7 +514,7 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
             }
             row.addView(AppCompatTextView(this).apply {
                 setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
-                text = role.label
+                text = getString(role.labelRes)
                 setTextColor(cfg.textColor)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             })
@@ -748,7 +748,9 @@ class KojikiUiActivity : AppCompatActivity(R.layout.activity_kojiki_ui) {
         else String.format(Locale.US, "%.1f MB", bytes / 1048576.0)
 
     private fun diagFiles(count: Int, bytes: Long): String =
-        String.format(Locale.US, "%d %s, %.1f MB", count, if (count == 1) "file" else "files", bytes / 1048576.0)
+        getString(
+            if (count == 1) R.string.kojiki_diag_files_one else R.string.kojiki_diag_files_many,
+            count, String.format(Locale.US, "%.1f", bytes / 1048576.0))
 
     private fun diagSpan(first: Long, last: Long): String {
         val f = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)

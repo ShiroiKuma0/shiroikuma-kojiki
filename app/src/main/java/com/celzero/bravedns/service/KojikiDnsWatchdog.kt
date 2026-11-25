@@ -224,10 +224,7 @@ object KojikiDnsWatchdog : KoinComponent {
             lastRestartAt = now
         }
         if (!VpnController.hasTunnel()) return
-        doRestart(
-            "DNS questions went unanswered for ${stalledFor / 1000} s; the tunnel engine was " +
-                "restarted to clear it."
-        )
+        doRestart(str(R.string.kojiki_wd_stall_text, stalledFor / 1000))
     }
 
     // called from NetLogTracker.processDnsLog for every DNS response; must stay cheap
@@ -332,15 +329,14 @@ object KojikiDnsWatchdog : KoinComponent {
     }
 
     private fun doRestart(
-        why: String = "Repeated DNS failures detected; the tunnel engine was restarted to clear " +
-            "them. If the wedge returns shortly, DNS will fail over to Google DoH."
+        why: String = str(R.string.kojiki_wd_restart_text)
     ) {
         Logger.e(LOG_TAG_VPN, "$TAG: DoH failure streak; forcing full tunnel recycle")
         alarm("TRIGGER: forcing full tunnel recycle")
         VpnController.kojikiForceEngineRestart(
             "kojikiDnsWatchdog, at: ${SystemClock.elapsedRealtime()}"
         )
-        notify("DNS wedged — tunnel restarted", why)
+        notify(str(R.string.kojiki_wd_restart_title), why)
     }
 
     private fun doFailover() {
@@ -361,9 +357,8 @@ object KojikiDnsWatchdog : KoinComponent {
                         "kojikiDnsWatchdog-refailover, at: ${SystemClock.elapsedRealtime()}"
                     )
                     notify(
-                        "DNS wedged again — tunnel restarted",
-                        "DNS failures persist on the fallback resolver; the tunnel engine was " +
-                            "restarted again."
+                        str(R.string.kojiki_wd_again_title),
+                        str(R.string.kojiki_wd_again_text)
                     )
                     return@launch
                 }
@@ -386,11 +381,9 @@ object KojikiDnsWatchdog : KoinComponent {
                     "kojikiDnsWatchdog-failover, at: ${SystemClock.elapsedRealtime()}"
                 )
                 notify(
-                    "DNS failed over to ${doh.dohName}",
-                    "The tunnel restart did not cure the DNS wedge, so the resolver was switched " +
-                        "from '$prev' to '${doh.dohName}' and the tunnel was restarted." +
-                        if (back != null) " Temporary: '$prev' is tried again in ${back / 60_000} min."
-                        else " '$prev' is not a DoH resolver, so switch back by hand."
+                    str(R.string.kojiki_wd_failover_title, doh.dohName),
+                    if (back != null) str(R.string.kojiki_wd_failover_text_temp, prev, doh.dohName, back / 60_000)
+                    else str(R.string.kojiki_wd_failover_text_manual, prev, doh.dohName)
                 )
                 if (back != null) scheduleReturn()
             } catch (e: Exception) {
@@ -493,8 +486,8 @@ object KojikiDnsWatchdog : KoinComponent {
             if (chosen == null) {
                 p.edit().remove(K_URL).remove(K_NAME).remove(K_DUE).apply()
                 alarm("plan dropped: '$name' is no longer in the DoH list")
-                notify("DNS still on ${fallback?.dohName}",
-                    "'$name' could not be found to switch back to; choose the resolver by hand.")
+                notify(str(R.string.kojiki_wd_still_title, fallback?.dohName),
+                    str(R.string.kojiki_wd_still_text, name))
                 return
             }
             alarm("RETURN: back from fallback to '${chosen.dohName}'")
@@ -512,14 +505,22 @@ object KojikiDnsWatchdog : KoinComponent {
                 )
             }
             notify(
-                "DNS back on ${chosen.dohName}",
-                "The failover to ${fallback?.dohName} was temporary; '${chosen.dohName}' is in use " +
-                    "again. If it wedges again soon, the next failover lasts longer."
+                str(R.string.kojiki_wd_back_title, chosen.dohName),
+                str(R.string.kojiki_wd_back_text, fallback?.dohName, chosen.dohName)
             )
         } catch (e: Exception) {
             Logger.e(LOG_TAG_VPN, "$TAG: return failed: ${e.message}", e)
         }
     }
+
+    // A notification text in the phone's language; empty when the service is gone (and then
+    // notify() has no context to post with either).
+    private fun str(res: Int, vararg args: Any?): String =
+        try {
+            VpnController.kojikiContext()?.getString(res, *args) ?: ""
+        } catch (_: Exception) {
+            ""
+        }
 
     private fun notify(title: String, text: String) {
         try {

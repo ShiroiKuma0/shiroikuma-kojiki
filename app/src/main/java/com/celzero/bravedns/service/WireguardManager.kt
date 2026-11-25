@@ -108,6 +108,8 @@ object WireguardManager : KoinComponent {
         lastAddedConfigId = db.getLastAddedConfigId()
         val m = db.getWgConfigs().map { it.toImmutable() }
         mappings = CopyOnWriteArraySet(m)
+        // Fork (白い熊 考直): a profile that still names the hub's removed resolver — KojikiHubDns.
+        val kojikiFixHubDns = KojikiHubDns.pending(applicationContext)
         for (it in mappings) {
             val path = it.configPath
             // Convert any remaining encrypted files (e.g., after a downgrade/upgrade cycle)
@@ -124,7 +126,8 @@ object WireguardManager : KoinComponent {
                 continue
             }
             val config = try {
-                val bytes = WireguardConfigFileManager.read(File(path))
+                var bytes = WireguardConfigFileManager.read(File(path))
+                if (kojikiFixHubDns) bytes = KojikiHubDns.fix(it.name, File(path), bytes)
                 Config.parse(ByteArrayInputStream(bytes))
             } catch (e: Exception) {
                 Logger.e(LOG_TAG_PROXY, "Config parse failure for wg config: $path", e)
@@ -151,6 +154,7 @@ object WireguardManager : KoinComponent {
                 configs.add(c)
             }
         }
+        if (kojikiFixHubDns) KojikiHubDns.done(applicationContext)
         // Recovery path above (and any other non-disableConfig deactivation) can leave the
         // persisted proxy provider stuck at WIREGUARD with no config actually active; clear it
         // so the proxy card and related UI do not report a WireGuard that is not running.

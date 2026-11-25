@@ -44,9 +44,9 @@ import com.celzero.bravedns.R
  * the SET_APP_RULE intent all do) — those toggles are tested earlier, so a bypass stored next to a
  * block would still be blocked, which is exactly why no path stores one.
  *
- * Text lives here rather than in `strings.xml` — it is fork-only, English-only, and keeping it out
- * of upstream's translated resource file is one less rebase conflict. Button names still come from
- * resources so they track the rebrand.
+ * The text is in the fork's own `strings_kojiki.xml` (keys `kojiki_fwh_*`, Japanese beside it) —
+ * not in upstream's translated `strings.xml`, which would be one more rebase conflict. Button
+ * names come from upstream's resources so they track the rebrand.
  */
 object KojikiFirewallHelp {
 
@@ -73,7 +73,7 @@ object KojikiFirewallHelp {
         KojikiDialog.show(
             context,
             // neutral: the pressed button already names itself in the first heading below
-            title(),
+            title(context),
             listOf(KojikiDialog.Action(context.getString(R.string.dns_info_positive))),
             CONTENT_FRACTION) { box, _ ->
             // the pressed button leads; the other two follow, since the whole point is the contrast
@@ -84,14 +84,14 @@ object KojikiFirewallHelp {
             }
 
             box.addView(divider(context, 0.4f, 14))
-            box.addView(heading(context, RULE_BY_RULE, false))
-            box.addView(para(context, LEGEND))
+            box.addView(heading(context, context.getString(R.string.kojiki_fwh_rule_by_rule), false))
+            box.addView(para(context, context.getString(R.string.kojiki_fwh_legend)))
             box.addView(table(context))
 
-            box.addView(heading(context, NOTES_TITLE, false))
-            for ((i, n) in NOTES.withIndex()) box.addView(note(context, i + 1, n))
+            box.addView(heading(context, context.getString(R.string.kojiki_fwh_notes_title), false))
+            for ((i, n) in NOTES.withIndex()) box.addView(note(context, i + 1, context.getString(n)))
             box.addView(divider(context, 0.4f, 14))
-            box.addView(para(context, TAIL))
+            box.addView(para(context, context.getString(R.string.kojiki_fwh_tail)))
         }
     }
 
@@ -100,102 +100,64 @@ object KojikiFirewallHelp {
     private fun blurb(context: Context, r: Rule): String {
         val app = context.getString(R.string.app_name)
         return when (r) {
-            Rule.BYPASS_DNS_FIREWALL ->
-                "Stays inside the tunnel — it still resolves through $app and still follows any " +
-                    "WireGuard or proxy binding — but the DNS blocklists and every universal " +
-                    "firewall rule are waived for it. The rules you set on this app itself still " +
-                    "apply."
-            Rule.BYPASS_UNIVERSAL ->
-                "Stays inside the tunnel and keeps full DNS filtering — a blocklisted domain is " +
-                    "still blocked — but the universal firewall rules are waived. The narrower of " +
-                    "the two bypasses: it lifts the global toggles off the app without opening the " +
-                    "blocklists."
-            Rule.EXCLUDE ->
-                "Removes the app from the VPN at the Android level. Its traffic never reaches " +
-                    "$app at all: the system resolver answers its DNS, so no blocklists, no " +
-                    "logging, no rules, and no WireGuard or proxy routing."
+            Rule.BYPASS_DNS_FIREWALL -> context.getString(R.string.kojiki_fwh_blurb_bdf, app)
+            Rule.BYPASS_UNIVERSAL -> context.getString(R.string.kojiki_fwh_blurb_bu)
+            Rule.EXCLUDE -> context.getString(R.string.kojiki_fwh_blurb_ex, app)
         }
     }
-
-    private const val TITLE = "Firewall rules"
 
     /**
      * The dialog's own title, larger and underlined. Spanned rather than restyled: the title view
      * belongs to [KojikiDialog] and every fork dialog shares its 18sp, so the emphasis has to ride
      * on the text.
      */
-    private fun title(): CharSequence =
-        SpannableString(TITLE).apply {
+    private fun title(context: Context): CharSequence =
+        SpannableString(context.getString(R.string.kojiki_fwh_title)).apply {
             setSpan(RelativeSizeSpan(1.35f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-    private const val RULE_BY_RULE = "Rule by rule"
-
-    private const val LEGEND =
-        "✓ the rule still applies   ·   ✗ waived for this app   ·   – not applicable, the app is " +
-            "outside the tunnel"
-
-    private const val NOTES_TITLE = "Notes"
-
     private val NOTES =
         listOf(
-            "The difference between the two bypasses. A Bypass Universal app still has its " +
-                "blocklisted domains blocked — unless a universal domain rule marks that domain " +
-                "Trust, the one universal rule that survives for it.",
-            "“Prevent DNS leaks” keeps trapping port 53 for a Bypass Universal app. Bypass DNS & " +
-                "Firewall escapes it.",
-            "Both bypasses waive these two. Neither “not in use” nor “device locked” can block an " +
-                "app carrying either status.",
-            "Choosing either bypass sets this app’s WiFi and mobile-data toggles to allowed. " +
-                "They stay lit, with the bypass’s badge on them. Tapping one blocks that network " +
-                "and keeps the bypass on the other: the toggle is drawn struck, and the app is " +
-                "bypassed on WiFi and blocked on mobile data, or the reverse.",
-            "Under Android’s “block connections without VPN”, an excluded app would be left with " +
-                "no connectivity at all, so the exclude list is ignored and the app is tunnelled " +
-                "normally.")
-
-    private const val TAIL =
-        "Two rules run ahead of every status and cannot be bypassed by any of them: “block newly " +
-            "installed apps” (only while the app is still untracked) and “block unknown " +
-            "connections” (only for traffic with no app behind it)."
+            R.string.kojiki_fwh_note_1, R.string.kojiki_fwh_note_2, R.string.kojiki_fwh_note_3,
+            R.string.kojiki_fwh_note_4, R.string.kojiki_fwh_note_5)
 
     private fun sections(context: Context): List<Section> {
         val app = context.getString(R.string.app_name)
         return listOf(
             Section(
-                "DNS",
+                context.getString(R.string.kojiki_fwh_sec_dns),
                 listOf(
-                    Row("Resolved by $app", YES, YES, NO),
-                    Row("DNS blocklists ¹", NO, YES, NA),
-                    Row("Blocked DNS enforced at connect ¹", NO, YES, NA),
-                    Row("Prevent DNS leaks ²", NO, YES, NA),
-                    Row("Disallow DNS bypass", NO, NO, NA),
-                    Row("DNS logging + snoop tags", YES, YES, NO))),
+                    Row(context.getString(R.string.kojiki_fwh_row_resolved, app), YES, YES, NO),
+                    Row(context.getString(R.string.kojiki_fwh_row_blocklists), NO, YES, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_blocked_at_connect), NO, YES, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_leaks), NO, YES, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_disallow_bypass), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_dns_logging), YES, YES, NO))),
             Section(
-                "Universal firewall toggles",
+                context.getString(R.string.kojiki_fwh_sec_universal),
                 listOf(
-                    Row("Block when app is not in use ³", NO, NO, NA),
-                    Row("Block when device is locked ³", NO, NO, NA),
-                    Row("Block metered connections", NO, NO, NA),
-                    Row("Universal lockdown", NO, NO, NA),
-                    Row("Block insecure HTTP", NO, NO, NA),
-                    Row("Block UDP other than DNS/NTP", NO, NO, NA),
-                    Row("Universal domain rules ¹", NO, NO, NA),
-                    Row("Universal IP rules", NO, NO, NA))),
+                    Row(context.getString(R.string.kojiki_fwh_row_not_in_use), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_locked), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_metered), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_lockdown), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_http), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_udp), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_univ_domain), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_univ_ip), NO, NO, NA))),
             Section(
-                "Rules set on this app",
+                context.getString(R.string.kojiki_fwh_sec_app),
                 listOf(
-                    Row("Block on WiFi / mobile data ⁴", NO, NO, NA),
-                    Row("Domain rules (Trust / Block)", YES, YES, NA),
-                    Row("IP rules (Trust / Block)", YES, YES, NA))),
+                    Row(context.getString(R.string.kojiki_fwh_row_app_wifi), NO, NO, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_app_domain), YES, YES, NA),
+                    Row(context.getString(R.string.kojiki_fwh_row_app_ip), YES, YES, NA))),
             Section(
-                "Tunnel",
+                context.getString(R.string.kojiki_fwh_sec_tunnel),
                 listOf(
-                    Row("Traffic enters the tunnel", YES, YES, NO),
-                    Row("Connection logging", YES, YES, NO),
-                    Row("WireGuard / proxy routing", YES, YES, NO),
-                    Row("Honoured under Android lockdown ⁵", YES, YES, NO))))
+                    Row(context.getString(R.string.kojiki_fwh_row_enters), YES, YES, NO),
+                    Row(context.getString(R.string.kojiki_fwh_row_conn_log), YES, YES, NO),
+                    Row(context.getString(R.string.kojiki_fwh_row_wg), YES, YES, NO),
+                    Row(context.getString(R.string.kojiki_fwh_row_android_lockdown), YES, YES, NO))))
     }
 
     // ---- views -------------------------------------------------------------------------------
@@ -266,7 +228,7 @@ object KojikiFirewallHelp {
         val row = rowShell(context).apply { setPadding(0, dp(context, 4), 0, dp(context, 4)) }
         row.addView(labelCell(context, "", accent = true))
         val accent = KojikiDialog.accentOf(context)
-        for (h in listOf("Bypass\nDNS & FW", "Bypass\nUniversal", "Exclude")) {
+        for (h in listOf(R.string.kojiki_fwh_col_bdf, R.string.kojiki_fwh_col_bu, R.string.kojiki_fwh_col_ex).map { context.getString(it) }) {
             row.addView(
                 glyphCell(context, h, accent, 12f).apply { typeface = Typeface.DEFAULT_BOLD })
         }
