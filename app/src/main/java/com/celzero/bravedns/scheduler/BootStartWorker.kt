@@ -51,17 +51,20 @@ class BootStartWorker(context: Context, params: WorkerParameters) :
         // can restore a previously-running VPN.
         if (eventType != PACKAGE_REPLACED_EVENT && !persistentState.prefAutoStartBootUp) {
             Logger.i(LOG_TAG_VPN, "auto-start not enabled, skipping boot start, event $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): start-on-boot setting is off")
             return Result.success()
         }
 
         if (!VpnController.state().activationRequested) {
             Logger.i(LOG_TAG_VPN, "vpn not active before shutdown, skipping boot start, event $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): vpn was not wanted before the shutdown")
             return Result.success()
         }
 
         // If always-on is enabled the OS is expected to bring the VPN up on its own.
         if (VpnController.isAlwaysOn(applicationContext)) {
             Logger.i(LOG_TAG_VPN, "always-on vpn enabled, OS should take care, $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): always-on vpn is set, left to android")
             return Result.success()
         }
 
@@ -69,6 +72,7 @@ class BootStartWorker(context: Context, params: WorkerParameters) :
         // time (app update / process restart). Skip if the VPN is already active.
         if (VpnController.hasTunnel()) {
             Logger.i(LOG_TAG_VPN, "vpn already active, skipping boot start, event $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): vpn is already up")
             return Result.success()
         }
 
@@ -78,21 +82,25 @@ class BootStartWorker(context: Context, params: WorkerParameters) :
                 VpnService.prepare(applicationContext)
             } catch (_: NullPointerException) {
                 Logger.w(LOG_TAG_VPN, "device does not support system-wide VPN mode")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): no system-wide vpn on this device")
                 return Result.success()
             } catch (e: IllegalStateException) {
                 // VpnService.prepare() throws IllegalStateException("Unavailable in lockdown
                 // mode") when another VPN app is set as Always-on VPN with "Block connections
                 // without VPN" enabled. Skip auto-start in that case.
                 Logger.w(LOG_TAG_VPN, "vpn unavailable: in lockdown mode, skipping boot start", e)
+                com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): android refused the vpn (${e.message})")
                 return Result.success()
             }
 
         if (prepareVpnIntent != null) {
             Logger.i(LOG_TAG_VPN, "vpn not prepared, skipping boot start, event $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): android asks for the vpn consent again")
             return Result.success()
         }
 
         Logger.i(LOG_TAG_VPN, "attempting to auto-start VPN, event $eventType")
+            com.celzero.bravedns.service.KojikiBootStart.trace("boot worker ($eventType): starting the vpn")
         VpnController.start(applicationContext, autoAttempt = true)
         return Result.success()
     }

@@ -287,7 +287,7 @@
     <string name="kojiki_diag_heap" translatable="false">Heap dump on next leak</string>
     <string name="kojiki_diag_heap_desc" translatable="false">One-shot: the next leak found also writes heap.hprof (~60 MB) beside the trace, then this switch turns itself off. Needs Screen leaks on.</string>
     <string name="kojiki_diag_vpn" translatable="false">VPN restarts</string>
-    <string name="kojiki_diag_vpn_desc" translatable="false">Every engine start, recycle and stop with its reason, network changes, and how many connections still aim at stand-in (ALG) addresses from before a restart: counted 60 s and 5 min after each start, the first five named.</string>
+    <string name="kojiki_diag_vpn_desc" translatable="false">Every process start, boot broadcast and VPN start attempt, with WireGuard’s state after a start; every engine start, recycle and stop with its reason; network changes — a loss held for 15 s, a network that came back in time, and, when no network is usable, what each one lacked; and how many connections still aim at stand-in (ALG) addresses from before a restart: counted 60 s and 5 min after each start, the first five named.</string>
     <string name="kojiki_diag_dns" translatable="false">DNS watchdog</string>
     <string name="kojiki_diag_dns_desc" translatable="false">Every failed DNS query, and each recycle or failover the watchdog performs.</string>
     <string name="kojiki_diag_wg" translatable="false">WireGuard health</string>

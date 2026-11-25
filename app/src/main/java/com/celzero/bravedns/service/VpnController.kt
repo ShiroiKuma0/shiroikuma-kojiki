@@ -128,6 +128,7 @@ object VpnController : KoinComponent {
         // todo: see whether changing the persistent state is really necessary.
         if (b != null && autoAttempt) {
             Logger.i(LOG_TAG_VPN, "vpn service already running, no need to start")
+            KojikiNetDiag.onEvent("vpn start asked (auto): the service exists already, tunnel not up yet")
             return
         }
         try {
@@ -142,8 +143,11 @@ object VpnController : KoinComponent {
 
             onConnectionStateChanged(vpnState)
             Logger.i(LOG_TAG_VPN, "VPNController; Start(sync) executed")
+            KojikiNetDiag.onEvent("vpn start asked (auto? $autoAttempt): start command sent to the service")
         } catch (e: Exception) {
             Logger.w(LOG_TAG_VPN, "VPNController; Start(sync) failed, ${e.message}")
+            // fork: android may refuse a foreground-service start from the background
+            KojikiNetDiag.onEvent("vpn start asked (auto? $autoAttempt): REFUSED — ${e.javaClass.simpleName}: ${e.message}")
         }
     }
 

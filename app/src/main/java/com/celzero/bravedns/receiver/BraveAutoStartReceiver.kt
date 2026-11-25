@@ -35,6 +35,9 @@ class BraveAutoStartReceiver : BroadcastReceiver(), KoinComponent {
     val persistentState by inject<PersistentState>()
 
     override fun onReceive(context: Context, intent: Intent) {
+        // fork: Diagnostics → VPN restarts — whether the broadcast arrives at all (EMUI decides)
+        com.celzero.bravedns.service.KojikiBootStart.trace(
+            "broadcast ${intent.action} (${com.celzero.bravedns.service.KojikiBootStart.sinceBoot()}), start-on-boot setting: ${persistentState.prefAutoStartBootUp}")
         if (
             Intent.ACTION_REBOOT != intent.action &&
                 Intent.ACTION_BOOT_COMPLETED != intent.action &&

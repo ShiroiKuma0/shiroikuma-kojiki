@@ -78,7 +78,7 @@ class RethinkDnsApplication : Application() {
         KojikiDiag.init(this)
         KojikiLeakWatch.install(this)
         com.celzero.bravedns.service.KojikiNetDiag.init()
-        com.celzero.bravedns.service.KojikiNetDiag.onEvent("process start")
+        com.celzero.bravedns.service.KojikiNetDiag.onEvent("process start (${com.celzero.bravedns.service.KojikiBootStart.sinceBoot()})")
         // Fork (白い熊 考直): the per-app Roaming control watches the underlying network from here.
         com.celzero.bravedns.service.KojikiRoaming.init(this)
 
@@ -95,6 +95,9 @@ class RethinkDnsApplication : Application() {
                 org.koin.java.KoinJavaComponent.get<com.celzero.bravedns.service.PersistentState>(
                     com.celzero.bravedns.service.PersistentState::class.java).theme)
         }
+
+        // Fork (白い熊 考直): bring the VPN back when it was wanted and is missing (reboot above all).
+        com.celzero.bravedns.service.KojikiBootStart.onProcessStart(this)
 
         // Fork (白い熊 考直): Diagnostics → Engine log (needs Koin for the stored log level).
         com.celzero.bravedns.service.KojikiEngineDiag.init()

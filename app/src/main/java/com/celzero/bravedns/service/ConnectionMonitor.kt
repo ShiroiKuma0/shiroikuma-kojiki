@@ -60,6 +60,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import com.celzero.bravedns.customui.KojikiDiag
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -730,7 +731,7 @@ class ConnectionMonitor(private val context: Context, private val networkListene
                     .filter { it.isNotEmpty() }
             )
 
-            val hdl = NetworkRequestHandler(cm, networkListener, ips, ::sendNetworkChanges)
+            val hdl = NetworkRequestHandler(cm, networkListener, ips, ::sendNetworkChanges, scope, serializer)
             sendNetworkChanges()
             for (m in channel) {
                 hdl.handleMessage(m)
@@ -948,8 +949,14 @@ class ConnectionMonitor(private val context: Context, private val networkListene
         val cm: ConnectivityManager,
         val listener: NetworkListener,
         ipsAndUrl: IpsAndUrlToProbe,
-        val redrive: suspend () -> Unit
+        val redrive: suspend () -> Unit,
+        // fork: the retry after "no network" runs on its own job (see redoReachabilityIfNeeded)
+        val scope: CoroutineScope,
+        val dispatcher: CoroutineDispatcher
     ) {
+
+        // fork: the pending retry, replaced by a newer one and dropped once a network is found
+        private var kojikiRedoJob: kotlinx.coroutines.Job? = null
 
         // number of times the reachability check is performed due to failures
         private var reachabilityCount = 0L
@@ -1631,6 +1638,8 @@ class ConnectionMonitor(private val context: Context, private val networkListene
                 }
             }
 
+            kojikiTraceNoNetwork(nwProps, activeNetwork)
+
             redoReachabilityIfNeeded(trackedIpv4Networks, trackedIpv6Networks)
 
             trackedIpv4Networks = rearrangeNetworks(trackedIpv4Networks)
@@ -1684,6 +1693,39 @@ class ConnectionMonitor(private val context: Context, private val networkListene
          * @param opPrefs The operation preferences containing the message type and other settings
          *                for the reachability check. It's assumed to be immutable.
          */
+        // fork: Diagnostics → VPN restarts. When no network is usable, say what each candidate
+        // lacked — on 2026-11-25 a validated hotspot was counted as "no network" for 15 minutes
+        // and the trace could not say why.
+        private fun kojikiTraceNoNetwork(nwProps: Set<NetworkProperties>, activeNetwork: Network?) {
+            if (trackedIpv4Networks.isNotEmpty() || trackedIpv6Networks.isNotEmpty()) return
+            if (!KojikiDiag.isOn(KojikiDiag.Group.VPN)) return
+            try {
+                val active =
+                    when {
+                        activeNetwork == null -> "none"
+                        isVPN(activeNetwork) == true -> "the vpn (netid ${netId(activeNetwork.networkHandle)})"
+                        else -> "netid ${netId(activeNetwork.networkHandle)}"
+                    }
+                val sb = StringBuilder("  no usable network: ${nwProps.size} candidate(s), active network: $active, retry $reachabilityCount")
+                nwProps.forEach { prop ->
+                    val n = prop.network
+                    val lp = cm.getLinkProperties(n)
+                    var r4 = false
+                    var r6 = false
+                    lp?.routes?.forEach {
+                        if (it.isDefaultRoute && it.destination.address is Inet4Address) r4 = true
+                        if (it.isDefaultRoute && it.destination.address is Inet6Address) r6 = true
+                    }
+                    sb.append("\n    netid ${netId(n.networkHandle)} ${lp?.interfaceName ?: "?"} (${prop.networkType}): ")
+                    sb.append(
+                        if (lp == null) "no link properties"
+                        else "internet=${hasInternet(n)} validated=${isValidated(n)} captive=${isCaptivePortal(n)} default route v4=$r4 v6=$r6"
+                    )
+                }
+                KojikiNetDiag.onEvent(sb.toString())
+            } catch (_: Exception) {}
+        }
+
         private suspend fun redoReachabilityIfNeeded(
             ipv4: LinkedHashSet<NetworkProperties>,
             ipv6: LinkedHashSet<NetworkProperties>
@@ -1693,10 +1735,20 @@ class ConnectionMonitor(private val context: Context, private val networkListene
                 Logger.i(LOG_TAG_CONNECTION, "redo reachability, try: $reachabilityCount")
                 if (reachabilityCount > maxReachabilityCount) return
 
+                // fork: upstream slept here, on the one worker that handles every network
+                // event — so "no network" reached the VPN 10 s late (20 s, 30 s on the retries)
+                // and the event "the network is back" waited behind the sleep; the VPN was then
+                // restarted 11–14 s after a Wi-Fi had already rejoined (2026-11-25). The retry
+                // now waits on a job of its own and the result is reported at once.
                 val delay = TimeUnit.SECONDS.toMillis(10 * reachabilityCount)
-                delay(delay)
-                redrive()
+                kojikiRedoJob?.cancel()
+                kojikiRedoJob = scope.launch(CoroutineName("cmRedo") + dispatcher) {
+                    delay(delay)
+                    redrive()
+                }
             } else {
+                kojikiRedoJob?.cancel()
+                kojikiRedoJob = null
                 Logger.d(LOG_TAG_CONNECTION, "reset reachability count, prev: $reachabilityCount")
                 // reset the reachability count
                 reachabilityCount = 0

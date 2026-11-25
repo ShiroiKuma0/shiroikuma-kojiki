@@ -275,6 +275,8 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
         // does in addRoute4 for the tun's own 10.111.222.x, so longest-prefix match keeps the
         // overlay tunnelled while every other private LAN — 192.168/16 at home, a 10.x hotel or
         // office LAN away from it — leaves via the underlying interface as intended.
+        // fork: how long a network loss is held before the VPN acts on it (kojikiHoldNwLoss)
+        private const val KOJIKI_NW_HOLD_MS = 15_000L
         private const val FORK_WG_OVERLAY4: String = "10.9.0.0"
         private const val FORK_WG_OVERLAY4_PREFIX: Int = 24
         // Fork (白い熊 考直): how long STOP waits for the queued tun close before closing it itself.
@@ -764,6 +766,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
     override fun onCreate() {
         connTracer = ConnectionTracer(this)
         VpnController.onVpnCreated(this)
+        KojikiNetDiag.onEvent("vpn service created (${KojikiBootStart.sinceBoot()})")
         // Fork (白い熊 考直): see kojikiRoamingChanged
         KojikiRoaming.onChange = { kojikiRoamingChanged() }
 
@@ -1207,6 +1210,7 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val pid = Process.myPid()
+        KojikiNetDiag.onEvent("vpn service: start command (tunnel up? ${hasTunnel()})")
 
         Logger.i(
             LOG_TAG_VPN,
@@ -2624,7 +2628,11 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             // force restart if no networks before or after
             val forceRestart  = (prevSize == 0 && currSize > 0) || (prevSize > 0 && currSize == 0)
             if (currSize > 0) {
+                kojikiEndNwHold()
                 onNetworkConnected(networks, forceRestart)
+            } else if (prevSize > 0 && !kojikiStopping) {
+                // fork: see kojikiHoldNwLoss — the loss is acted on only if it lasts
+                kojikiHoldNwLoss(networks)
             } else {
                 onNetworkDisconnected(networks, forceRestart)
             }
@@ -2634,6 +2642,48 @@ class BraveVPNService : VpnService(), ConnectionMonitor.NetworkListener, Network
             // Intentionally leaves onNetworkConnected/onNetworkDisconnected untouched.
             handleIpProtocolMismatch(networks)
         }
+    }
+
+    // fork (0.5.8+039): a short network loss keeps the VPN interface.
+    //
+    // Upstream restarts the VPN (a new establish(), so a new tun) on every change between
+    // "a network" and "no network": once on the loss and once more when a network is back. Android
+    // aborts every socket other apps hold over the old interface. On 2026-11-25 an access point
+    // moved the phone between its radios four times in three minutes — 1.5 s without Wi-Fi each
+    // time — and each one cost every connection, ssh sessions over the WireGuard hub included.
+    //
+    // So a loss is held for KOJIKI_NW_HOLD_MS before the VPN is told. While it is held,
+    // `underlyingNetworks` keeps the networks from before the loss; a network that arrives in
+    // time is therefore an ordinary change of network to onNetworkConnected (new underlying
+    // network, DNS and proxies refreshed) and restarts only if the MTU or the routes differ —
+    // what upstream does when one network replaces another without a gap. A loss that lasts is
+    // handed to onNetworkDisconnected exactly as before, only later.
+    private var kojikiNwHoldJob: kotlinx.coroutines.Job? = null
+    private var kojikiNwHoldSince = 0L
+
+    private fun kojikiHoldNwLoss(lost: ConnectionMonitor.UnderlyingNetworks) {
+        if (kojikiNwHoldJob?.isActive == true) return // already held; onLost comes more than once
+        kojikiNwHoldSince = elapsedRealtime()
+        KojikiNetDiag.onEvent("network lost: held ${KOJIKI_NW_HOLD_MS / 1000} s before the vpn is told")
+        kojikiNwHoldJob = vpnScope.launch(CoroutineName("kojikiNwHold") + serializer) {
+            delay(KOJIKI_NW_HOLD_MS)
+            kojikiNwHoldJob = null
+            if (kojikiStopping) return@launch
+            val cur = underlyingNetworks
+            // the networks from before the loss are still the current ones: nothing came back
+            if (cur != null && (cur.ipv4Net.size + cur.ipv6Net.size) > 0 && cur.lastUpdated <= lost.lastUpdated) {
+                onNetworkDisconnected(lost, forceRestart = true)
+            }
+        }
+    }
+
+    private fun kojikiEndNwHold() {
+        val job = kojikiNwHoldJob ?: return
+        kojikiNwHoldJob = null
+        if (!job.isActive) return
+        job.cancel()
+        val ms = elapsedRealtime() - kojikiNwHoldSince
+        KojikiNetDiag.onEvent("network back after ${ms / 100 / 10.0} s: vpn interface kept unless mtu or routes differ")
     }
 
     override suspend fun onNetworkRegistrationFailed() = withContext(serializer) {
